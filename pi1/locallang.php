@@ -12,13 +12,16 @@ $LOCAL_LANG = Array (
 		'general_dateandtimeformat' => 'd-m-y h:m',
 		'general_view' => 'View',
 		'general_download' => 'Download',
+		'general_terdocnotinstalled' => 'Documentation extension not installed',
+		'general_terdochtmlnotinstalled' => 'No online viewer installed',
 		
-		'views_latest' => 'New and updated',
+		'views_new' => 'New and updated',
 		'views_categories' => 'Categories',
 		'views_popular' => 'Popular',
 		'views_search' => 'Search',
+		'views_fulllist' => 'Full list',
 	
-		'renderview_latest_introduction' => 'These extensions have been added or updated during the last %s days:',
+		'renderview_new_introduction' => 'These extensions have been added or updated during the last %s days:',
 		
 		'extension_extensionkey' => 'Extension key',
 		'extension_title' => 'Title',
@@ -53,6 +56,7 @@ $LOCAL_LANG = Array (
 		'extension_lastuploaddate' => 'Updated',
 		'extension_files' => 'Files',
 		'extension_filepreview' => 'Preview for file %s',
+		'extension_documentation' => 'Documentation',
 		
 		'extensionfiles_downloadcompressedt3x' => 'Download compressed extension .T3X file',
 		

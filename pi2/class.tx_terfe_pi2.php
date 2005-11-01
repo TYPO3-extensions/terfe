@@ -275,7 +275,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 									<h4>'.$this->pi_getLL('registerkeys_title','',1).'</h4>
 									<p>'.sprintf ($this->pi_getLL('registerkeys_keyisvalid','',1), '<em>'.$extensionKey.'</em>').'</p>
 									<br />
-									<form action="" method="post" name="tx_terfe_pi2_register">
+									<form action="'.$this->pi_linkTP_keepPIvars_url(array(),1).'" method="post" name="tx_terfe_pi2_register">
 										<table style="border: 0;">
 											<tr>
 												<th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('registerkeys_extensionkey', '', 1).':</th>
