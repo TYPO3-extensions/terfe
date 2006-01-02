@@ -9,6 +9,7 @@ $LOCAL_LANG = Array (
 	'default' => Array (
 		'tt_content.list_type_pi1' => 'TER Frontend',	
 		'tt_content.list_type_pi2' => 'TER Registration Key Management',	
+		'tt_content.list_type_pi3' => 'TER Review Framework',	
 	),
 	'de' => Array (
 	),

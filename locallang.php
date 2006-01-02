@@ -11,6 +11,8 @@ $LOCAL_LANG = Array (
 		'pi1_plus_wiz_description' => 'Frontend for the TYPO3 Extensoin Repository',	
 		'pi2_title' => 'TER Extension Key Management',	
 		'pi2_plus_wiz_description' => 'Plugin for registering and managing extension keys',	
+		'pi3_title' => 'TER Reviewing Framework',	
+		'pi3_plus_wiz_description' => 'Plugin for reviewing extensions',	
 	),
 	'dk' => Array (
 	),
