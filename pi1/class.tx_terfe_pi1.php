@@ -432,7 +432,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 			// Prepare the top menu items:
 		if (!$this->piVars['extView']) $this->piVars['extView'] = 'info';
-		$menuItems = array ('info', 'details', 'feedback');
+		$menuItems = array ('info', 'details', 'feedback','rating');
 
 			// Render the top menu		
 		$topMenu = '';
@@ -449,7 +449,15 @@ class tx_terfe_pi1 extends tslib_pibase {
 			break;
 			case 'feedback' :
 				$subContent = $this->renderSingleView_feedbackForm ($extRow);
-			break;
+				break;
+
+				// ADDED BY MICHAEL SCHARKOW, just using another class for all the rating stuff!
+			case 'rating':
+				require_once('class.tx_terfe_ratings.php');
+				$rating = new tx_terfe_ratings($extRow,$this);
+				$subContent = $rating->renderSingleView_rating();
+					
+			break;	
 			case 'info':
 			default:
 				$subContent = $this->renderSingleView_extensionInfo ($extRow);
@@ -578,6 +586,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		return $content;
 	}
 
+	
 	/**
 	 * Renders the feedback sub view of an extension single view
 	 *

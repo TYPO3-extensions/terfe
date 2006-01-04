@@ -1,5 +1,8 @@
 (add new changes on top of this file)
 
+07-01-02 Michael Scharkow  <michael@underused.org>
+	* Initial upload of rating framework (in p1)
+
 06-01-02 Michael Scharkow  <michael@underused.org>
 	* Initial upload of /pi3 (Reviewing framework)
 

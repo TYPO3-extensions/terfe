@@ -80,6 +80,22 @@ CREATE TABLE tx_terfe_reviewnotes (
   PRIMARY KEY (uid)
 );
 
+
+# Table structure for review ratings
+
+CREATE TABLE `tx_terfe_ratings` (
+  `uid` int(11) NOT NULL auto_increment,
+  `extensionkey` varchar(255) NOT NULL default '',
+  `version` varchar(255) NOT NULL default '',
+  `username` varchar(255) NOT NULL default '',
+  `rating` int(1) NOT NULL default '0',
+  `notes` text NOT NULL,
+  `tstamp` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`uid`)
+) TYPE = MYISAM ;
+
+
+
 #
 # Table structure for table 'tx_terfe_reviewemails'
 #
@@ -96,3 +112,4 @@ CREATE TABLE tx_terfe_reviewemails (
   subject tinytext NOT NULL,
   PRIMARY KEY (uid)
 );
+

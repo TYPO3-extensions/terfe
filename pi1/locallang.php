@@ -80,6 +80,7 @@ $LOCAL_LANG = Array (
 		'extensioninfo_views_bugs' => 'Bugs',
 		'extensioninfo_views_feedback' => 'Feedback',
 		'extensioninfo_views_edit' => 'Edit',
+		'extensioninfo_views_rating' => 'Ratings',
 		
 		'extensioninfo_documentation' => 'Documentation',
 		
