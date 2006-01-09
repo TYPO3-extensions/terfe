@@ -7,19 +7,23 @@
 
 $LOCAL_LANG = Array (
 	'default' => Array (
-		'general_extensionreview' => 'Extension Review',
+		'general_extensionreview' => 'Extension Security Review',
 
         'error_extnotfound' => 'Extension version not found.',
         'error_alreadyreviewed' => 'Extension version has already been reviewed.',
         'error_alreadyreviewedbyuser' => 'Extension version has already been reviewed by you.',
         'error_rejectwithoutcomplaints' => 'You cannot reject an extension without at least one complaint.',
         'error_passwithcomplaints' => 'You cannot accept an extension when there are complaints.',
+        'error_couldnotsave_db' => 'Could not save review to db.',
+        'error_couldnotsave_localdb' => 'Could not save review to local TER. This is not fatal!',
+        'error_couldnotsave_soap' => 'Could not save review in TER via SOAP.',
 
         
 		'views_unreviewed' => 'Unreviewed', 
 		'views_passed' => 'Passed',
 		'views_insecure' => 'Insecure', 
-		'views_pending' => 'My pending reviews', 
+		'views_pending' => 'Pending reviews', 
+		'views_mine' => 'My current reviews', 
 		'views_review' => 'Review', 
 		
 		'listview_unreviewed_introduction' => 'This is a list of all extensions which have not been reviewed yet:',
@@ -30,15 +34,17 @@ $LOCAL_LANG = Array (
 		'singleview_selectextensionversion_submit' => 'Select',
 		
 		'singleview_review_extensioninfo_sectionheading' => 'Extension details for %s',
-		'singleview_review_header' => 'Review information for this extension version',
+		'singleview_review_header' => 'Security review information for this extension version',
 		'singleview_review_reviewinfo_noreviewfound' => 'A review for this extension version does not exist yet.',
-		'singleview_review_startreview' => 'Start a review',
-		'singleview_review_submitreview' => 'Submit review',
+		'singleview_review_startreview' => 'Start a security review',
+		'singleview_review_submitreview' => 'Submit security review',
+		'singleview_review_deletereview' => 'Delete my security review',
 		'singleview_review_history' => 'Review history',
-		'singleview_review_notes' => 'Review notes',
-
-		'review_reviewers' => 'Involved reviewers',
+		
+		'review_notes' => 'Review notes',
+		'review_reviewer' => 'Reviewer',
 		'review_reviewstate' => 'Review state',		
+		'review_objections' => 'Objections',		
 		'review_reviewstate_-1' => 'Failed security check',
 		'review_reviewstate_0' => 'Unreviewed',
 		'review_reviewstate_1' => 'Passed basic security check',
@@ -46,7 +52,7 @@ $LOCAL_LANG = Array (
 		'review_reviewstate_setstate' => 'Set state',
 		'review_t3xfile' => '.T3X File',
 		'review_t3xfile_download' => 'Download',
-		'review_t3xfilemd5' => '.T3X File MD5 at review start',		
+		'review_t3xfilemd5' => '.T3X File MD5',		
 		'review_t3xfilemd5_doesnotmatch' => 'MD5 does not match the hash of the current .T3X file!',		
 		'review_t3xfilemd5_updatemd5' => 'Update review MD5 so it matches the file MD5',		
 	),

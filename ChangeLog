@@ -1,5 +1,9 @@
 (add new changes on top of this file)
 
+09-01-02 Michael Scharkow  <michael@underused.org>
+	* Update for pi3: Delete reviews, better list views, etc.
+	* TODO: E-Mail-Notification and review-editing (delete+new works!)
+	
 07-01-02 Michael Scharkow  <michael@underused.org>
 	* Initial upload of rating framework (in p1)
 
