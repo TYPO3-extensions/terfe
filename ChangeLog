@@ -1,15 +1,16 @@
-(add new changes on top of this file)
+09.01.2006 Robert Lemke	<robert@typo3.org>
+	~ Commit of merge between Michael's and my modifications
 
-09-01-02 Michael Scharkow  <michael@underused.org>
+09.01.2006 Michael Scharkow  <michael@underused.org>
 	* Update for pi3: Delete reviews, better list views, etc.
 	* TODO: E-Mail-Notification and review-editing (delete+new works!)
 	
-07-01-02 Michael Scharkow  <michael@underused.org>
+07.01.2006 Michael Scharkow  <michael@underused.org>
 	* Initial upload of rating framework (in p1)
 
-06-01-02 Michael Scharkow  <michael@underused.org>
+06.01.2006 Michael Scharkow  <michael@underused.org>
 	* Initial upload of /pi3 (Reviewing framework)
 
-05-08-12 Robert Lemke  <robert@typo3.org>
+08.12.2005 Robert Lemke  <robert@typo3.org>
 
-	* Initial release
+	* Initial upload

@@ -23,6 +23,8 @@ $LOCAL_LANG = Array (
 		'views_unsupported' => 'Unsupported',
 	
 		'listview_new_introduction' => 'These extensions have been added or updated during the last %s days:',
+
+		'listview_popular_introduction' => 'This list shows the 20 most popular extensions measured by all time download numbers.',
 		
 		'listview_fulllist_introduction' => 'This is a list of all extension versions which have at least roughly been checked for possible security issues. Although we have taken great care in reviewing these extensions we cannot guarantee that all of them are secure.', 
 		
@@ -35,6 +37,7 @@ $LOCAL_LANG = Array (
 		'extension_extensionkey' => 'Extension key',
 		'extension_title' => 'Title',
 		'extension_version' => 'Version',
+		'extension_downloads' => 'Downloads',
 		'extension_state' => 'State',
 		'extension_state_alpha' => 'Alpha',
 		'extension_state_beta' => 'Beta',

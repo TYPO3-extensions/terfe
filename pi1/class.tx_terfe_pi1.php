@@ -99,12 +99,12 @@ class tx_terfe_pi1 extends tslib_pibase {
 		}
 		
 		if ($this->piVars['showExt']) {
-			$subContent = $this->renderSingleView_extension ($this->piVars['showExt']);			
+			$subContent = $this->renderSingleView_extension ($this->piVars['showExt'], $this->piVars['version']);			
 		} else {
 			switch ($this->piVars['view']) {
 				case 'new':		$subContent = $this->renderListView_new(); break;
 				case 'categories': 		$subContent = $this->renderListView_categories(); break;
-				case 'popular': 		break;
+				case 'popular': 		$subContent = $this->renderListView_popular(); break;
 				case 'fulllist':		$subContent = $this->renderListView_fullList(); break;
 				case 'search':			$subContent = $this->renderListView_search(); break;
 				case 'unsupported':		$subContent = $this->renderListView_unsupported(); break;
@@ -132,7 +132,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-
 	protected function renderListView_new() {
 		global $TYPO3_DB, $TSFE;
 
@@ -188,7 +187,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-
 	protected function renderListView_categories() {
 		global $TYPO3_DB;
 
@@ -223,12 +221,61 @@ class tx_terfe_pi1 extends tslib_pibase {
 	}
 
 	/**
+	 * Renders a list of extensions sorted by popularity
+	 * 
+	 * @return	string		HTML output
+	 * @access	protected
+	 */
+	protected function renderListView_popular() {
+		global $TYPO3_DB;
+
+		$tableRows = array ();	
+
+				// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:		
+		if (t3lib_extMgm::isLoaded ('ter_doc')) {
+			$terDocAPIObj = tx_terdoc_api::getInstance();
+			$TSFE->page_cache_reg1 = $terDocAPIObj->createAndGetCacheUidForExtensionVersion ('_all','');
+		}
+
+		$res = $TYPO3_DB->exec_SELECTquery (
+			'DISTINCT extensionkey',
+			'tx_terfe_extensions',
+			'reviewstate > 0',
+			'',
+			'extensiondownloadcounter DESC',
+			'0,20'
+		);
+		if ($res) {
+			while ($extensionKeyRow = $TYPO3_DB->sql_fetch_assoc ($res)) {
+				$version = $this->db_getLatestVersionNumberOfExtension ($extensionKeyRow['extensionkey']);
+
+				$res2 = $TYPO3_DB->exec_SELECTquery (
+					'*',
+					'tx_terfe_extensions',
+					'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKeyRow['extensionkey'], 'tx_terfe_extensions').' AND '.
+					'version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_extensions')
+				);
+				if (!$res2) return 'Extension '.htmlspecialchars($extensionKeyRow['extensionkey']).' not found!';	
+				$extensionRow = $TYPO3_DB->sql_fetch_assoc ($res2);
+				$tableRows[] = $this->renderListView_detailledExtensionRow ($extensionRow);
+			}
+		}
+
+		$content.= '
+			<p>'.$this->pi_getLL('listview_popular_introduction','',1).'</p>
+			<table cellspacing="0" style="margin-top:10px;">
+			'.implode('', $tableRows).'
+			</table>
+		';
+		return $content;
+	}
+
+	/**
 	 * Renders a list of extensions based on a search
 	 * 
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-
 	protected function renderListView_search() {
 		global $TYPO3_DB, $TSFE;
 
@@ -257,7 +304,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @access	protected
 	 * @see renderListView_search
 	 */
-
 	protected function renderListView_searchResult() {
 		global $TYPO3_DB;
 
@@ -300,7 +346,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-
 	protected function renderListView_fullList() {
 		global $TYPO3_DB, $TSFE;
 
@@ -352,7 +397,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-
 	protected function renderListView_unsupported() {
 		global $TYPO3_DB, $TSFE;
 
@@ -366,7 +410,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			'title ASC',
 			''
 		);
-		$alreadyRenderedExtensionKeys = array();
+		$extensionVersionsToRender = array();
 
 		if ($res) {
 
@@ -377,10 +421,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 			}
 
 			while ($extensionRow = $TYPO3_DB->sql_fetch_assoc ($res)) {
-				if (!t3lib_div::inArray ($alreadyRenderedExtensionKeys, $extensionRow['extensionkey'])) {
-					$tableRows[] = $this->renderListView_shortExtensionRow ($extensionRow);
-					$alreadyRenderedExtensionKeys[] = $extensionRow['extensionkey'];
+				if (version_compare($extensionRow['version'], $extensionVersionsToRender[$extensionRow['extensionkey']]['version'], '>') ) {
+					$extensionVersionsToRender[$extensionRow['extensionkey']] = $extensionRow;
 				}
+			}
+
+			foreach ($extensionVersionsToRender as $extensionRow) {
+				$tableRows[] = $this->renderListView_shortExtensionRow ($extensionRow);
 			}
 		}
 
@@ -407,12 +454,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * Renders the single view for (the latest version of) an extension including several sub views.
 	 * 
 	 * @param	string		$extensionKey: The extension key of the extension to render
+	 * @param	string		$version: Version number of the extension or an empty string for displaying the most recent reviewed version
 	 * @return	string		HTML output
 	 */
-	protected function renderSingleView_extension ($extensionKey) {
+	protected function renderSingleView_extension ($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
 
-		$version = $this->db_getLatestVersionNumberOfExtension ($extensionKey);
+		if (!strlen($version)) $version = $this->db_getLatestVersionNumberOfExtension ($extensionKey);
 
 			// Fetch the extension record:
 		$res = $TYPO3_DB->exec_SELECTquery (
@@ -586,7 +634,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 		return $content;
 	}
 
-	
 	/**
 	 * Renders the feedback sub view of an extension single view
 	 *
@@ -673,11 +720,10 @@ class tx_terfe_pi1 extends tslib_pibase {
 		} 
 
 		$extRow = $this->db_prepareExtensionRowForOutput ($extRow);
-				
 		$tableRows = '
 			<tr>
 				<th class="th-main">'.$this->getIcon_extension ($extRow['extensionkey'], $extRow['version']).'</th>
-				<th class="th-main" colspan ="2">'.$this->pi_linkTP($extRow['title'], array('tx_terfe_pi1[view]' => 'search', 'tx_terfe_pi1[showExt]' => $extRow['extensionkey']),1).' - <em>'.$extRow['extensionkey'].'</em></th>
+				<th class="th-main" colspan ="2">'.$this->pi_linkTP($extRow['title'], array('tx_terfe_pi1[view]' => 'search', 'tx_terfe_pi1[showExt]' => $extRow['extensionkey'], 'tx_terfe_pi1[version]' => $extRow['version']),1).' - <em>'.$extRow['extensionkey'].'</em></th>
 				<th class="th-main" style="text-align:right;">'.$this->getIcon_state($extRow['state_raw']).'</th>
 			</tr>
 			<tr>
@@ -687,6 +733,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 						<tr><th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('extension_authorname','',1).':</th><td class="td-sub" nowrap="nowrap">'.$extRow['authorname'].'</td></tr>
 						<tr><th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('extension_category','',1).':</th><td class="td-sub" nowrap="nowrap">'.$extRow['category'].'</td></tr>
 						<tr><th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('extension_version','',1).':</th><td class="td-sub" nowrap="nowrap">'.$extRow['version'].'</td></tr>
+						<tr><th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('extension_downloads','',1).':</th><td class="td-sub" nowrap="nowrap">'.$extRow['versiondownloadcounter'].'</td></tr>
 						<tr><th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('extension_lastuploaddate','',1).':</th><td class="td-sub" nowrap="nowrap">'.$extRow['lastuploaddate'].'</td></tr>
 						<tr><th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('extension_uploadcomment','',1).':</th><td style="width:60%;" class="td-sub">'.$extRow['uploadcomment'].'</td></tr>
 						<tr><th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('extension_documentation','',1).':</th><td style="width:60%;" class="td-sub">'.$documentationLink.'</td></tr>
@@ -726,7 +773,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$tableRows = '
 			<tr>
 				<td class="td-sub">'.$this->getIcon_extension ($extRow['extensionkey'], $extRow['version']).'</td>
-				<td class="td-sub" nowrap="nowrap">'.$this->pi_linkTP_keepPIvars($extRow['title'], array('showExt' => $extRow['extensionkey']),1).'</td>
+				<td class="td-sub" nowrap="nowrap">'.$this->pi_linkTP_keepPIvars($extRow['title'], array('showExt' => $extRow['extensionkey'], 'version' => $extRow['version']),1).'</td>
 				<td class="td-sub">'.$extRow['extensionkey'].'</td>
 				<td class="td-sub">'.$extRow['version'].'</td>
 				<td class="td-sub" nowrap="nowrap">'.$documentationLink.'</td>
@@ -750,7 +797,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-
 	protected function getRenderedDependencies ($dependenciesArr) {
 		global $TYPO3_DB, $TSFE;
 				
@@ -831,7 +877,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-
 	protected function getRenderedReverseDependencies ($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
 				
@@ -879,7 +924,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @param	array		$extensionDetailsArr: Record of table tx_terfe_extensiondetails with unserialized files array
 	 * @return	string		HTML output
 	 * @access	protectec 
-	 * 
 	 */
 	protected function getRenderedListOfFiles ($extensionDetailsArr) {
 		$output = '&nbsp;';
@@ -912,7 +956,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			$t3xDownloadURL = substr ($this->getExtensionVersionPathAndBaseName($extensionDetailsArr['extensionkey'], $extensionDetailsArr['version']).'.t3x', strlen(PATH_site));
 
 			$filePreview = '';
-			if (is_array ($filesArr[urldecode($this->piVars['viewFile'])])) {
+			if (isset($this->piVars['viewFile']) && is_array ($filesArr[urldecode($this->piVars['viewFile'])])) {
 				$filePreview = $this->getRenderedFilePreview ($tempDir.basename($filesArr[urldecode($this->piVars['viewFile'])]['tempfilename']));
 			}			
 				
@@ -1013,7 +1057,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return	mixed		T3X Array or FALSE if operation was not successful
 	 * @access	protected
 	 */
-	
 	protected function getUnpackedT3XFile ($extensionKey, $version) {
 		$t3xFileRaw = @file_get_contents ($this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x'); 
 		if ($t3xFileRaw === FALSE) return FALSE;
@@ -1060,33 +1103,37 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$dbExtensionDependenciesArr = array();
 		
 		foreach ($extensions as $extension) {
-			foreach ($extension as $version) {
-				$extensionsRow = array (
-					  'extensionkey' => $extension['extensionKey'],
-					  'version' => $version['version'],
-					  'title' => $version->title,
-					  'description' => $version->description,
-					  'state' => $version->state,
-					  'reviewstate' => $version->reviewstate,
-					  'category' => $version->category,
-					  'lastuploaddate' => $version->lastuploaddate,
-					  'uploadcomment' => $version->uploadcomment,
-					  'dependencies' => $version->dependencies,
-					  'authorname' => $version->authorname,
-					  'authoremail' => $version->authoremail,
-					  'authorcompany' => $version->authorcompany,
-					  'ownerusername' => $version->ownerusername,
-					  't3xfilemd5' => $version->t3xfilemd5
-				);
-				$TYPO3_DB->exec_INSERTquery ('tx_terfe_extensions', $extensionsRow);
-					
-					// Cache dependency information:
-				$dependenciesArr = unserialize ((string)$version->dependencies);
-				if (is_array ($dependenciesArr) && $version->reviewstate > 0) {
-					foreach ($dependenciesArr as $dependencyArr) {
-						if (strlen($dependencyArr['extensionKey'])) {
-							$dependingExtensions = $dbExtensionDependenciesArr[$dependencyArr['extensionKey']];		
-							$dbExtensionDependenciesArr[$dependencyArr['extensionKey']] = (strlen($dependingExtensions) ? $dependingExtensions.',' : '') . $extension['extensionKey'].'('.$version['version'].')';
+			foreach ($extension as $tag => $value) {
+				if ($tag == 'version') {
+					$extensionsRow = array (
+						  'extensionkey' => $extension['extensionkey'],
+						  'version' => $value['version'],
+						  'title' => $value->title,
+						  'description' => $value->description,
+						  'state' => $value->state,
+						  'reviewstate' => $value->reviewstate,
+						  'category' => $value->category,
+						  'extensiondownloadcounter' => $extension->downloadcounter,
+						  'versiondownloadcounter' => $value->downloadcounter,
+						  'lastuploaddate' => $value->lastuploaddate,
+						  'uploadcomment' => $value->uploadcomment,
+						  'dependencies' => $value->dependencies,
+						  'authorname' => $value->authorname,
+						  'authoremail' => $value->authoremail,
+						  'authorcompany' => $value->authorcompany,
+						  'ownerusername' => $value->ownerusername,
+						  't3xfilemd5' => $value->t3xfilemd5
+					);
+					$TYPO3_DB->exec_INSERTquery ('tx_terfe_extensions', $extensionsRow);
+						
+						// Cache dependency information:
+					$dependenciesArr = unserialize ((string)$value->dependencies);
+					if (is_array ($dependenciesArr) && $value->reviewstate > 0) {
+						foreach ($dependenciesArr as $dependencyArr) {
+							if (strlen($dependencyArr['extensionKey'])) {
+								$dependingExtensions = $dbExtensionDependenciesArr[$dependencyArr['extensionKey']];		
+								$dbExtensionDependenciesArr[$dependencyArr['extensionKey']] = (strlen($dependingExtensions) ? $dependingExtensions.',' : '') . $extension['extensionKey'].'('.$value['version'].')';
+							}
 						}
 					}
 				}
@@ -1161,6 +1208,9 @@ class tx_terfe_pi1 extends tslib_pibase {
 					case 'lastuploaddate':
 						$extensionRow[$key] = date ($this->pi_getLL('general_dateandtimeformat'), $value);
 					break;					
+					case 'versiondownloadcounter':
+						$extensionRow[$key] = intval($extensionRow['extensiondownloadcounter']).' / '.intval($value);
+					break;					
 				}					
 			}
 		}
@@ -1204,7 +1254,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return		array	Extension details record
 	 * @access		protected
 	 */
-
 	protected function db_getExtensionDetails ($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
 		
@@ -1245,7 +1294,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @access		protected
 	 * @todo		Create clean up mechanism for temporary files of deleted extensions 
 	 */
-
 	protected function db_getAndUpdateExtensionDetails ($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
 
@@ -1317,7 +1365,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'version',
 			'tx_terfe_extensions',
-			'extensionkey="'.$TYPO3_DB->quoteStr($extensionKey, 'tx_terfe_extensions').'"'
+			'extensionkey="'.$TYPO3_DB->quoteStr($extensionKey, 'tx_terfe_extensions').'" AND reviewstate > 0'
 		);
 		$latestVersion = FALSE;
 		while ($row = $TYPO3_DB->sql_fetch_assoc($res)) {

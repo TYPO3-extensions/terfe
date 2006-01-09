@@ -11,6 +11,8 @@ CREATE TABLE tx_terfe_extensions (
   state varchar(15) DEFAULT '' NOT NULL,
   reviewstate int(11) DEFAULT '0' NOT NULL,
   category varchar(30) DEFAULT '' NOT NULL,
+  extensiondownloadcounter int(11) DEFAULT '0' NOT NULL,
+  versiondownloadcounter int(11) DEFAULT '0' NOT NULL,
   lastuploaddate int(11) DEFAULT '0' NOT NULL,
   uploadcomment varchar(255) DEFAULT '' NOT NULL,
   dependencies text NOT NULL,
