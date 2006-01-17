@@ -28,8 +28,26 @@
  *
  * @author	Robert Lemke <robert@typo3.org>
  */
+/**
+ * [CLASS/FUNCTION INDEX of SCRIPT]
+ *
+ *
+ *
+ *   88: class tx_terfe_pi2 extends tslib_pibase
+ *  109:     protected function init($conf)
+ *  132:     public function main($content,$conf)
+ *  195:     protected function renderView_introduction ()
+ *  213:     protected function renderView_registerKeys ()
+ *  368:     protected function renderView_manageKeys ()
+ *  523:     protected function renderTopNavigation ()
+ *  542:     protected function csConvHSC ($string)
+ *
+ * TOTAL FUNCTIONS: 7
+ * (This index is automatically created/updated by the extension "extdeveval")
+ *
+ */
 
-	// Error codes: 
+	// Error codes:
 
 define (TX_TER_ERROR_GENERAL_EXTREPDIRDOESNTEXIST, '100');
 define (TX_TER_ERROR_GENERAL_NOUSERORPASSWORD, '101');
@@ -49,9 +67,9 @@ define (TX_TER_ERROR_REGISTEREXTENSIONKEY_DBERRORWHILEINSERTINGKEY, '300');
 define (TX_TER_ERROR_GETEXTENSIONKEYS_DBERRORWHILEFETCHINGKEYS, '400');
 
 
-	// Result codes: 
+	// Result codes:
 define (TX_TER_RESULT_GENERAL_OK, '10000');
-	
+
 define (TX_TER_RESULT_EXTENSIONKEYALREADYEXISTS, '10500');
 define (TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST, '10501');
 define (TX_TER_RESULT_EXTENSIONKEYNOTVALID, '10502');
@@ -60,13 +78,20 @@ define (TX_TER_RESULT_EXTENSIONSUCCESSFULLYUPLOADED, '10504');
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
 
+/**
+ * Plugin Extension key management
+ *
+ * @author	Robert Lemke <robert@typo3.org>
+ * @package TYPO3
+ * @subpackage tx_terfe
+ */
 class tx_terfe_pi2 extends tslib_pibase {
 
 	public		$prefixId = 'tx_terfe_pi2';											// Same as class name
 	public		$scriptRelPath = 'pi2/class.tx_terfe_pi2.php';						// Path to this script relative to the extension dir.
 	public		$extKey = 'ter_fe';													// The extension key.
 	public		$pi_checkCHash = TRUE;												// Handle empty CHashes correctly
-	
+
 	protected 	$WSDLURI;
 	protected	$SOAPServiceURI;
 
@@ -76,14 +101,14 @@ class tx_terfe_pi2 extends tslib_pibase {
 
 	/**
 	 * Initializes the plugin, only called from main()
-	 * 
-	 * @param	array	$conf: The plugin configuration array
+	 *
+	 * @param	array		$conf: The plugin configuration array
 	 * @return	void
 	 * @access	protected
 	 */
 	protected function init($conf) {
 		global $TSFE;
-		
+
 		$this->conf=$conf;
 		$this->pi_setPiVarDefaults(); 			// Set default piVars from TS
 		$this->pi_initPIflexForm();				// Init FlexForm configuration for plugin
@@ -95,34 +120,34 @@ class tx_terfe_pi2 extends tslib_pibase {
 			$this->SOAPServiceURI = $staticConfArr['SOAPServiceURI'];
 		}
 	}
-	
+
 	/**
 	 * The plugin's main function
-	 * 
-	 * @param	string	$content: Content rendered so far (not used)
-	 * @param	array	$conf: The plugin configuration array
-	 * @return	string	The plugin's HTML output
+	 *
+	 * @param	string		$content: Content rendered so far (not used)
+	 * @param	array		$conf: The plugin configuration array
+	 * @return	string		The plugin's HTML output
 	 * @access	public
 	 */
 	public function main($content,$conf)	{
 		global $TSFE;
-				
+
 		$this->init($conf);
 		$userLoggedIn = is_array ($TSFE->fe_user->user);
-		$userIsAdmin = FALSE;	// TODO: Admin mode not implemented yet 
+		$userIsAdmin = FALSE;	// TODO: Admin mode not implemented yet
 
 			// Prepare the top menu items:
 		if (!$this->piVars['view']) $this->piVars['view'] = 'introduction';
 		$menuItems = array ('introduction');
-		if ($userLoggedIn) { 
-			$menuItems[] = 'register'; 
-			$menuItems[] = 'manage'; 
+		if ($userLoggedIn) {
+			$menuItems[] = 'register';
+			$menuItems[] = 'manage';
 		}
-		if ($userIsAdmin) { 
-			$menuItems[] = 'admin'; 
+		if ($userIsAdmin) {
+			$menuItems[] = 'admin';
 		}
 
-			// Render the top menu		
+			// Render the top menu
 		$topMenu = '';
 		foreach ($menuItems as $itemKey) {
 			$itemActive = ($this->piVars['view'] == $itemKey);
@@ -131,29 +156,29 @@ class tx_terfe_pi2 extends tslib_pibase {
 		}
 
 		switch ($this->piVars['view']) {
-			case 'register':				
+			case 'register':
 				$subContent = $userLoggedIn ? $this->renderView_registerKeys() : $this->pi_getLL('registerkeys_needlogin', '',1);
-			break;			
-			case 'manage': 
+			break;
+			case 'manage':
 				$subContent = $userLoggedIn ? $this->renderView_manageKeys() : $this->pi_getLL('managekeys_needlogin', '',1);
-			break;			
-			case 'admin': 
+			break;
+			case 'admin':
 				$subContent = $userLoggedIn ? $this->renderView_administrateKeys() : $this->pi_getLL('adminkeys_needlogin', '',1);
-			break;			
+			break;
 			case 'introduction':
 			default:
 				$subContent = $this->renderView_introduction();
 		}
-				
+
 			// Put everything together:
 		$content = '
 			<h2>'.$this->pi_getLL('general_extensionkeys', 1).'</h2>
-			<br />			
+			<br />
 			'.$topMenu.'<br />
 			<br />
 			'.$subContent.'
 		';
-				
+
 		return $this->pi_wrapInBaseClass($content);
 	}
 
@@ -163,26 +188,26 @@ class tx_terfe_pi2 extends tslib_pibase {
 
 	/**
 	 * Renders the introduction view
-	 * 
-	 * @return	string	HTML output
+	 *
+	 * @return	string		HTML output
 	 * @access	protected
 	 */
 	protected function renderView_introduction ()	{
 		global $TSFE;
-		
+
 		$output = '';
 		if (!is_array ($TSFE->fe_user->user)) {
 			$output .= '<strong>'.$this->pi_getLL('introduction_needlogin','',1) .'</strong><br /><br />';
 		}
 		$output .= $this->pi_getLL('introduction_explanation');
-		
-		return $output;		
+
+		return $output;
 	}
 
 	/**
 	 * Renders the view for registering extension keys
-	 * 
-	 * @return	string	HTML output
+	 *
+	 * @return	string		HTML output
 	 * @access	protected
 	 */
 	protected function renderView_registerKeys ()	{
@@ -199,12 +224,12 @@ class tx_terfe_pi2 extends tslib_pibase {
 				<li>'.$this->pi_getLL('registerkeys_rules_startandend','',1).'</li>
 				<li>'.$this->pi_getLL('registerkeys_rules_length','',1).'</li>
 			</ul>
-		';	
+		';
 
 
 		switch (t3lib_div::GPVar ('tx_terfe_pi2_cmd')) {
 
-			default:		
+			default:
 					$output = '
 						<h4>'.$this->pi_getLL('registerkeys_title','',1).'</h4>
 						<p>'.$this->pi_getLL('registerkeys_introduction','',1).'</p>
@@ -218,7 +243,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 						'.$rulesMessage.'
 					';
 			break;
-			
+
 			case 'registersubmit':
 					$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
 					$extensionKey = $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensionkey'), 'utf-8');
@@ -241,17 +266,17 @@ class tx_terfe_pi2 extends tslib_pibase {
 								);
 								$result = $soapClientObj->registerExtensionKey($accountDataArr, $extensionKeyDataArr);
 
-								$output .= ' 
+								$output .= '
 									<h4>'.$this->pi_getLL('registerkeys_success','',1).'</h4>
 									<p>'.$this->pi_getLL('registerkeys_success_explanation','',1).'</p>
 								';
 								break;
-								
+
 							} else {
-								$output .= ' 
+								$output .= '
 									<h4>'.$this->pi_getLL('general_error','',1).'</h4>
 									<p>'.sprintf($this->pi_getLL('registerkeys_result_unknown','',1), $result['resultCode']).'</p>
-								';							
+								';
 							}
 						} catch (SoapFault $exception) {
 							$output .=  '
@@ -259,19 +284,19 @@ class tx_terfe_pi2 extends tslib_pibase {
 								<p>SoapFault Exception (#'.$exception->faultcode.'): '.$exception->faultstring.'</p>
 							';
 						}
-					}					
+					}
 
 			case 'registercheck':
 					$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
 					$extensionKey = $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensionkey'), 'utf-8');
-			
+
 					$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => 1));
 					try {
 						$result = $soapClientObj->checkExtensionKey($accountDataArr, $extensionKey);
 
-						switch ((integer)$result['resultCode']) {												
+						switch ((integer)$result['resultCode']) {
 							case TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST :
-								$output .= ' 
+								$output .= '
 									<h4>'.$this->pi_getLL('registerkeys_title','',1).'</h4>
 									<p>'.sprintf ($this->pi_getLL('registerkeys_keyisvalid','',1), '<em>'.$extensionKey.'</em>').'</p>
 									<br />
@@ -289,7 +314,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 											</tr>
 											<tr>
 												<th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('registerkeys_extensiondescription', '', 1).':</th>
-												<td class="td-sub"><textarea name="tx_terfe_pi2_extensiondescription" rows="10" style="width:100%;"></textarea></td>				
+												<td class="td-sub"><textarea name="tx_terfe_pi2_extensiondescription" rows="10" style="width:100%;"></textarea></td>
 												<td><em>'.$this->pi_getLL('registerkeys_extensiondescription_hint', '', 1).'</em></td>
 											</tr>
 											<tr>
@@ -327,17 +352,17 @@ class tx_terfe_pi2 extends tslib_pibase {
 							<h4>'.$this->pi_getLL('general_error','',1).'</h4>
 							<p>SoapFault Exception (#'.$exception->faultcode.'): '.$exception->faultstring.'</p>
 						';
-					}					
+					}
 			break;
 		}
-		
-		return $output;		
+
+		return $output;
 	}
 
 	/**
 	 * Renders the view for managing extension keys
-	 * 
-	 * @return	string	HTML output
+	 *
+	 * @return	string		HTML output
 	 * @access	protected
 	 */
 	protected function renderView_manageKeys ()	{
@@ -355,7 +380,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 
 				// Handle submitted actions:
 			switch (t3lib_div::GPVar ('tx_terfe_pi2_cmd')) {
-	
+
 				case 'transferkey':
 					$targetUsername = t3lib_div::GPvar('tx_terfe_pi2_targetusername');
 					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
@@ -366,7 +391,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 						switch ($resultArr['resultCode']) {
 							case TX_TER_RESULT_GENERAL_OK : $actionMessages = '<p>'.$iconInfo.' <strong>'.sprintf ($this->pi_getLL('managekeys_action_transferkey_success','',1), $extensionKey, $targetUsername).'</strong></p><br />'; break;
 							case TX_TER_ERROR_GENERAL_USERNOTFOUND: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('managekeys_action_transferkey_usernotfound','',1), $extensionKey, $targetUsername).'</strong></p><br />'; break;
-							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break; 
+							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
 						}
 					}
 				break;
@@ -379,9 +404,9 @@ class tx_terfe_pi2 extends tslib_pibase {
 					if (is_array ($resultArr)) {
 						switch ($resultArr['resultCode']) {
 							case TX_TER_RESULT_GENERAL_OK : $actionMessages = '<p>'.$iconInfo.' <strong>'.sprintf ($this->pi_getLL('managekeys_action_changeuploadpassword_success','',1), $extensionKey).'</strong></p><br />'; break;
-							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break; 
+							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
 						}
-					}					
+					}
 				break;
 				case 'deletekey':
 					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
@@ -390,18 +415,18 @@ class tx_terfe_pi2 extends tslib_pibase {
 					if (is_array ($resultArr)) {
 						switch ($resultArr['resultCode']) {
 							case TX_TER_RESULT_GENERAL_OK : $actionMessages = '<p>'.$iconInfo.' <strong>'.sprintf ($this->pi_getLL('managekeys_action_deletekey_success','',1), $extensionKey).'</strong></p><br />'; break;
-							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break; 
+							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
 						}
-					}					
-				break;		
+					}
+				break;
 			}
-					
+
 				// Create list of extension keys:
-			$filterOptionsArr = array ('username' => $TSFE->fe_user->user['username']);	
+			$filterOptionsArr = array ('username' => $TSFE->fe_user->user['username']);
 			$resultArr = $soapClientObj->getExtensionKeys($accountDataArr, $filterOptionsArr);
 
 			if (is_array ($resultArr) && $resultArr['simpleResult']['resultCode'] == TX_TER_RESULT_GENERAL_OK) {
-				
+
 				$tableRows = array();
 				if (is_array ($resultArr['extensionKeyData'])) {
 					foreach ($resultArr['extensionKeyData'] as $extensionKeyArr) {
@@ -411,7 +436,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 							'extensionkey="'.$TYPO3_DB->quoteStr($extensionKeyArr['extensionkey'],'tx_terfe_extensions').'"'
 						);
 						if ($res) {
-							$numberOfVersions = $TYPO3_DB->sql_num_rows ($res);								
+							$numberOfVersions = $TYPO3_DB->sql_num_rows ($res);
 							$tableRows[] = '
 								<tr>
 									<td class="td-sub">'.$this->csConvHSC($extensionKeyArr['extensionkey']).'</td>
@@ -448,10 +473,10 @@ class tx_terfe_pi2 extends tslib_pibase {
 									</td>
 								</tr>
 							';
-						}								
+						}
 					}
 				}
-					
+
 				$output = '
 					<h4>'.$this->pi_getLL('managekeys_title','',1).'</h4>
 					<p>'.$this->pi_getLL('managekeys_introduction','',1).'</p>
@@ -473,14 +498,14 @@ class tx_terfe_pi2 extends tslib_pibase {
 				$output .=  '
 					<h4>'.$this->pi_getLL('general_error','',1).'</h4>
 					<p>'.sprintf($this->pi_getLL('general_errorcode','',1), $resultArr['simpleResult']['resultCode']).'</p>
-				';						
+				';
 			}
 		} catch (SoapFault $exception) {
 			$output .=  '
 				<h4>'.$this->pi_getLL('general_error','',1).'</h4>
 				<p>SoapFault Exception (#'.$exception->faultcode.'): '.$exception->faultstring.'</p>
 			';
-		}	
+		}
 
 		return $output;
 	}
@@ -491,15 +516,15 @@ class tx_terfe_pi2 extends tslib_pibase {
 
 	/**
 	 * Renders the view for registering extension keys
-	 * 
-	 * @return	string	HTML output
+	 *
+	 * @return	string		HTML output
 	 * @access	protected
 	 */
 	protected function renderTopNavigation ()	{
-		
+
 		$output = 'Register';
-		
-		return $output;		
+
+		return $output;
 	}
 
 
@@ -508,14 +533,14 @@ class tx_terfe_pi2 extends tslib_pibase {
 
 	/**
 	 * Converts the given string from utf-8 to the charset of the current frontend
-	 * page and processes the result with htmlspecialchars() 
-	 * 
-	 * @param	string	$string: The utf-8 string to convert
-	 * @return	string	The converted string
+	 * page and processes the result with htmlspecialchars()
+	 *
+	 * @param	string		$string: The utf-8 string to convert
+	 * @return	string		The converted string
 	 * @access	protected
 	 */
 	protected function csConvHSC ($string) {
-		return htmlspecialchars($GLOBALS['TSFE']->csConv($string, 'utf-8'));		
+		return htmlspecialchars($GLOBALS['TSFE']->csConv($string, 'utf-8'));
 	}
 }
 

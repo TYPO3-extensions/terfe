@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005 Robert Lemke (robert@typo3.org)
+*  (c) 2005-2006 Robert Lemke (robert@typo3.org)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,246 +22,214 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * Plugin "Review Frontent" for the 'ter_fe' extension.
+ * Plugin "Review Frontend" for the 'ter_fe' extension.
  *
  * $Id$
  *
  * @author	Robert Lemke <robert@typo3.org>
  * @author	Michael Scharkow <michael@underused.org>
  */
+/**
+ * [CLASS/FUNCTION INDEX of SCRIPT]
+ *
+ *
+ *
+ *  123: class tx_terfe_pi3 extends tx_terfe_pi1
+ *  145:     protected function init($conf)
+ *  178:     public function main($content,$conf)
+ *
+ *              SECTION: LIST VIEWS
+ *  229:     protected function renderListView($mode)
+ *  307:     protected function renderListView_shortExtensionRecord($extensionRecord)
+ *
+ *              SECTION: SINGLE VIEWS
+ *  350:     protected function renderSingleView()
+ *  392:     protected function renderSingleView_selectExtensionVersion()
+ *  416:     protected function renderSingleView_extensionInfo($extensionRecord)
+ *  493:     protected function renderSingleView_reviewInfo($extensionKey, $version)
+ *  579:     protected function renderSingleView_reviewNotes($extensionKey, $version)
+ *  628:     protected function renderSingleView_otherVersionsInfo($extensionKey, $currentVersion)
+ *  678:     protected function renderSingleView_otherExtensionsInfo($owner, $currentExtensionKey)
+ *  736:     protected function renderSingleView_files($extensionKey, $version)
+ *
+ *              SECTION: SUB RENDER FUNCTIONS
+ *  775:     protected function renderSub_mainTopMenu()
+ *  797:     protected function renderSub_subTopMenu()
+ *  818:     protected function renderSub_button($fieldsArr, $llKey)
+ *  842:     protected function renderSub_reviewRatingInfo($reviewRecord)
+ *  883:     protected function renderSub_reviewRatingForm($reviewRecord)
+ *  922:     protected function renderSub_errorWrap($message)
+ *
+ *              SECTION: COMMAND HANDLER FUNCTIONS
+ *  948:     protected function cmd_handle()
+ *  968:     protected function cmd_startReview()
+ *  979:     protected function cmd_leaveReviewTeam()
+ * 1002:     protected function cmd_joinReviewTeam()
+ * 1021:     protected function cmd_setReviewRating()
+ * 1038:     protected function cmd_removeReviewRating()
+ * 1053:     protected function cmd_addReviewNote()
+ *
+ *              SECTION: DATABASE RELATED FUNCTIONS
+ * 1079:     protected function db_getAllVersionNumbersOfExtension ($extensionKey)
+ * 1105:     protected function db_getReviewRecord ($extensionKey, $version)
+ * 1133:     protected function db_createReviewRecord ($extensionKey, $version, $reviewer)
+ * 1165:     protected function db_deleteReviewRecord($extensionKey, $version)
+ * 1208:     protected function db_updateReviewRecord($extensionKey, $version, $fieldsArr)
+ * 1241:     protected function db_getReviewRatingRecords ($extensionKey, $version)
+ * 1275:     protected function db_createReviewRatingRecord($extensionKey, $version, $rating, $reviewer)
+ * 1321:     protected function db_deleteReviewRatingRecords($extensionKey, $version, $reviewer=NULL)
+ * 1359:     protected function db_updateReviewRecord_t3xMD5($extensionKey, $version)
+ * 1394:     protected function db_addReviewNote ($extensionKey, $version, $note, $reviewer=NULL)
+ * 1416:     protected function db_getReviewNotes($extensionKey, $version)
+ *
+ *              SECTION: SOAP FUNCTIONS
+ * 1459:     protected function soap_setReviewState($extensionKey, $version, $reviewState)
+ * 1492:     protected function getReviewState($extensionKey, $version)
+ *
+ *              SECTION: ICON FUNCTIONS
+ * 1525:     protected function getIcon_reviewState($reviewState)
+ * 1543:     protected function getIcon_reviewStateBar($reviewState)
+ *
+ * TOTAL FUNCTIONS: 40
+ * (This index is automatically created/updated by the extension "extdeveval")
+ *
+ */
+
+define (TX_TERFE_REVIEWSTATE_UNREVIEWED, FALSE);
+define (TX_TERFE_REVIEWSTATE_INSECURE, -1);
+define (TX_TERFE_REVIEWSTATE_PENDING, 0);
+define (TX_TERFE_REVIEWSTATE_PASSED, 1);
+define (TX_TERFE_COLOR_UNREVIEWED, '#b6b6b6');
+define (TX_TERFE_COLOR_INSECURE, '#d12438');
+define (TX_TERFE_COLOR_PENDING, '#e9e718');
+define (TX_TERFE_COLOR_PASSED, '#3bb65c');
+define (TX_TERFE_MINVOTES, 2);														// Minimum number of votes neccessary to let an extension pass the security check
+
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
-
+require_once(t3lib_extMgm::extPath('ter_fe').'class.tx_terfe_common.php');
 if (t3lib_extMgm::isLoaded ('ter_doc')) {
-	require_once (t3lib_extMgm::extPath('ter_doc').'class.tx_terdoc_api.php');			
+	require_once (t3lib_extMgm::extPath('ter_doc').'class.tx_terdoc_api.php');
 }
 
-require_once (t3lib_extMgm::extPath('ter_fe').'pi1/class.tx_terfe_pi1.php'); 
-
+/**
+ * Plugin TER extension reviews
+ *
+ * @author		Robert Lemke <robert@typo3.org>
+ * @author		Michael Scharkow <michael@underused.org>
+ * @package 	TYPO3
+ * @subpackage	tx_terfe
+ */
 class tx_terfe_pi3 extends tx_terfe_pi1 {
 
 	public		$prefixId = 'tx_terfe_pi3';											// Same as class name
 	public		$scriptRelPath = 'pi3/class.tx_terfe_pi3.php';						// Path to this script relative to the extension dir.
 	public		$extKey = 'ter_fe';													// The extension key.
 	public		$pi_checkCHash = TRUE;												// Handle empty CHashes correctly
-	
-	protected	$repositoryDir = '';												// Full path to the extension repository files
-	protected	$baseDirT3XContentCache = '';										// Full path to T3X content cache
+
 	protected	$viewMode = '';														// View mode, one of the following: LATEST, CATEGORIES, FULLLIST
 	protected	$WSDLURI;
 	protected	$SOAPServiceURI;
-	
-	protected	$validStates = 'alpha,beta,stable,experimental,test,obsolete';		// List of valid development states
-	protected	$validReviewStates = array(-1,1);									// List of valid review states
-	protected	$validObjections = array('Cross-site scripting','SQL-injection','Not CGL-compliant','Changed MD5', 'other security flaws');
-	protected	$minReviews = 2;
-	protected	$maxReviews = 2;
-	
+
+	protected	$reviewer = array();												// User name and password of the currently logged in reviewer
+
 
 	/**
 	 * Initializes the plugin, only called from main()
-	 * 
-	 * @param	array	$conf: The plugin configuration array
+	 *
+	 * @param	array		$conf: The plugin configuration array
 	 * @return	void
 	 * @access	protected
+	 * @see		main()
 	 */
 	protected function init($conf) {
 		global $TSFE;
-		
+
 		$this->conf=$conf;
 		$this->pi_setPiVarDefaults();			// Set default piVars from TS
 		$this->pi_initPIflexForm();				// Init FlexForm configuration for plugin
 		$this->pi_loadLL();
-		
-		$this->repositoryDir = $this->cObj->stdWrap ($this->conf['repositoryDirectory'], ($this->conf['repositoryDirectory.']));
-		if (substr ($this->repositoryDir, -1, 1) != '/') $this->repositoryDir .= '/';
+
+		$this->commonObj = new tx_terfe_common($this);
+		$this->commonObj->repositoryDir = $this->conf['repositoryDirectory'];
+		if (substr ($this->commonObj->repositoryDir, -1, 1) != '/') $this->commonObj->repositoryDir .= '/';
+		$this->commonObj->init();
 
 		$staticConfArr = unserialize ($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe']);
 		if (is_array ($staticConfArr)) {
 			$this->WSDLURI = $staticConfArr['WSDLURI'];
 			$this->SOAPServiceURI = $staticConfArr['SOAPServiceURI'];
 		}
-		
-		$this->baseDirT3XContentCache = PATH_site.'typo3temp/tx_terfe/t3xcontentcache/';
+
+		$this->reviewer = array (
+			'username' => $TSFE->fe_user->user['username'],
+			'password' => $TSFE->fe_user->user['password']
+		);
 	}
-	
+
 	/**
 	 * The plugin's main function
-	 * 
-	 * @param	string	$content: Content rendered so far (not used)
-	 * @param	array	$conf: The plugin configuration array
-	 * @return	string	The plugin's HTML output
+	 *
+	 * @param	string		$content: Content rendered so far (not used)
+	 * @param	array		$conf: The plugin configuration array
+	 * @return	string		The plugin's HTML output
 	 * @access	public
 	 */
 	public function main($content,$conf)	{
 		global $TSFE;
-		
+
 		$this->init($conf);
+		if (!@is_dir ($this->commonObj->repositoryDir)) return 'TER_FE Error: Repository directory ('.$this->repositoryDir.') does not exist!';
+		$subContent = '';
 
-		if (!@is_dir ($this->repositoryDir)) return 'TER_FE Error: Repository directory ('.$this->repositoryDir.') does not exist!';			
-		if ($this->extensionIndex_wasModified ()) {
-			$this->extensionIndex_updateDB ();	
-		}
+		$subContent .= $this->cmd_handle();
 
-			// Prepare the top menu items:
-		$menuItems = array ('unreviewed','passed','insecure','pending','mine');
-
-			// Render the top menu		
-		$topMenu = '';
-		foreach ($menuItems as $itemKey) {
-			$itemActive = ($this->piVars['view'] == $itemKey);
-			$link = $this->pi_linkTP($this->pi_getLL('views_'.$itemKey,'',1), array('tx_terfe_pi3[view]' => $itemKey), 1);
-			$topMenu .='<span '.($itemActive ? 'class="submenu-button-active"' :'class="submenu-button"').'>'.$link.'</span>';
-		}
-
-
-		// if we are in single view mode
-		if ($this->piVars['extensionkey']) {
-			$this->extensionKey = $this->piVars['extensionkey'];
-			$this->piVars['version'] = trim($this->piVars['version']) ? trim($this->piVars['version']) : $this->db_getLatestVersionNumberOfExtension ($this->version);
-			$this->version = $this->piVars['version'];
-			$this->reviewer = $TSFE->fe_user->user;
-			$this->reviewable = $this->is_reviewable($this->extensionKey,$this->version);
-			
-			if ($this->reviewable == 1 && $this->piVars['cmd'] == 'startreview'){
-				if ($this->db_createReviewRecord($this->extensionKey, $this->version, $this->reviewer['username'])){
-					$this->reviewable = 2;
-				} else {
-					$this->errorMessage = $this->pi_getLL('error_noinitial');
-				}
-			}
-			
-			if ($this->reviewable == 2 && $this->piVars['cmd'] == 'savereview'){ 
-				   $this->reviewable = ($this->db_saveReviewRecord($this->currentReview['uid'],$this->piVars) ? False : 2);
-			}
-			 
-			if ($this->piVars['cmd'] == 'deletereview' && $this->currentReview['uid']){
-				$this->reviewable =	($this->db_deleteReview($this->currentReview['uid']) ? 1 : $this->reviewable);
-			}
-
-			$this->piVars['cmd'] = '';
-
-			$this->extensionInfo = $this->db_getExtensionRecord($this->extensionKey, $this->version);
-			$this->extensionReviews = $this->db_getReviewRecords ($this->extensionKey, $this->version);
-			$this->otherExtensionReviews = $this->db_getOtherReviewRecords ($this->extensionKey, $this->version);
-			
-			if (is_array($this->extensionInfo)){
-				$subContent = '<table>'.$this->renderSingleView_review_extensionInfo($this->db_prepareExtensionRowForOutput($this->extensionInfo)).'</table>';
-			}
-
-			if ($this->extensionReviews){
-				$subContent .= '<h3>'.$this->pi_getLL('singleview_review_header').'</h3>';
-				$subContent .= $this->renderSingleView_review_reviewInfo($this->extensionReviews);
-			}
-			
-			if ($this->reviewable == 2){
-				$subContent .= '<h3>'.$this->pi_getLL('singleview_review_startreview').'</h3>';
-				$subContent .= $this->renderReviewForm();
-				
-			}  
-			
-			if ($this->reviewable == 1){
-				$subContent .= '<h3>'.$this->pi_getLL('singleview_review_startreview').'</h3>';
-				$subContent .= $this->renderStartReviewButton();
-			}
-			
-			if ($this->reviewable != 1){
-				$subContent .= '<h3>'.$this->pi_getLL('singleview_review_deletereview').'</h3>';
-				$subContent .= $this->renderDeleteReview();
-			}
-			
-			if ($this->otherExtensionReviews){
-				$subContent .= '<h3>'.$this->pi_getLL('singleview_review_history').'</h3>';
-				$subContent .= $this->renderSingleView_review_reviewInfo($this->otherExtensionReviews);
-			}
-			
-	
-			// else we are in list mode	
-	
+		if (isset($this->piVars['extensionkey'])) {
+			$subContent .= $this->renderSingleView();
 		} else {
+			if (!strlen($this->piVars['view'])) $this->piVars['view'] = 'review';
 			switch ($this->piVars['view']) {
-				case 'unreviewed':	$subContent = $this->renderListView('unreviewed'); break;
-				case 'passed':		$subContent = $this->renderListView('passed'); break;
-				case 'insecure':	$subContent = $this->renderListView('insecure'); break;
-				case 'pending':		$subContent = $this->renderListView('pending'); break;
-				case 'mine':		$subContent = $this->renderListView_reviewList($this->db_getUsersReviewRecords($TSFE->fe_user->user['username'],1)); break;
-				default:		$subContent = $this->renderSingleView_selectExtensionVersion(); break;
-				//default: $subContent = $this->renderListView('unreviewed'); break;
-
+				case 'unreviewed':	$subContent .= $this->renderListView('unreviewed'); break;
+				case 'passed':		$subContent .= $this->renderListView('passed'); break;
+				case 'insecure':	$subContent .= $this->renderListView('insecure'); break;
+				case 'pending':		$subContent .= $this->renderListView('pending'); break;
+				default:			$subContent .= $this->renderSingleView_selectExtensionVersion(); break;
 			}
 		}
-		
+
 			// Put everything together:
 		$content = '
-			<h2>'.$this->pi_getLL('general_extensionreview', '', 1).'</h2>
-			<div id="topmenu">'.$topMenu.'</div>';
-		if ($this->errorMessage){
-			$content .= '<div class="error" style="padding: 1em;border: 2px solid red; text-align: center; margin: 1em;">'.$this->errorMessage.'</div>';
-		}
-			$content .= $subContent;
+			<h2>'.$this->pi_getLL('general_extensionreview', '', 1).'</h2>'.
+			$this->renderSub_mainTopMenu().
+			($this->errorMessage ? '<div class="error" style="padding: 1em;border: 2px solid red; text-align: center; margin: 1em;">'.$this->errorMessage.'</div>' : '').
+			$subContent.'
+			<br />
+		';
 
 		return $this->pi_wrapInBaseClass($content);
 	}
 
-	/**
-	 * Checks whether an extension version can be reviewed. Also sets $this->currentReview if it exists (for pending reviews).
-	 * 
-	 * @param	string		$extensionkey: Extension key
-	 * @param	string		$version: Extension version
-	 * @return	id			$reviewStage: 1 if review not yet started, 2 if already started
-	 * @access	protected
-	 */
-	protected function is_reviewable($extensionkey, $version){
-
-		$extensionInfo = $this->db_getExtensionRecord($extensionkey, $version);
-		// check for existing extension and review state
-		
-		if (!$extensionInfo){
-			$this->errorMessage = $this->pi_getLL('error_extnotfound');
-			return False;
-		}
 
 
-		
-		$reviewRow = $this->db_getReviewRecords($extensionkey, $version);
-		if (is_array($reviewRow)){
-			foreach ($reviewRow as $review){
-				if ($review['reviewer'] == $this->reviewer['username']){
-					// save current review for later; this is a hack!
-					$this->currentReview = $review;
-
-					if($review['reviewstate'] == 0){
-						return	2;
-					} else {
-						return False;
-					}
-						
-				}
-			}
-		} 
-		
-		if ($extensionInfo['reviewstate'] != 0){
-	 		  $this->errorMessage = $this->pi_getLL('error_alreadyreviewed');
-			return False;
-		}
-
-		return 1;
-	}
 
 
+	/*********************************************************
+	 *
+	 * LIST VIEWS
+	 *
+	 *********************************************************/
 
 	/**
-	 * Renders a list of extensions with a certain review status 
-	 * 
-	 * @param	string		$mode: "unreviewed", "passed" or "insecure"
+	 * Renders a list of extensions with a certain review status
+	 *
+	 * @param	string		$mode: "unreviewed", "passed", "insecure" or "pending"
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-
-	protected function renderListView($mode,$sorting='') {
+	protected function renderListView($mode) {
 		global $TYPO3_DB, $TSFE;
 
-		$tableRows = array ();	
+		$tableRows = array ();
 
 		switch ($mode) {
 			case 'unreviewed' : $reviewStateClause = 'reviewstate = 0 AND (state = "stable" OR state = "beta")'; break;
@@ -269,15 +237,13 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 			case 'insecure' :	$reviewStateClause = 'reviewstate < 0'; break;
 		}
 
-		if (!$sorting){$sorting = $this->piVars['sorting'];}
-
-		switch ($sorting){
-			case 'extkey': $sortby = 'extensionkey ASC'; break;
-			case 'state': $sortby = 'state DESC'; break;
-			case 'date': 
-			default: $sortby = 'lastuploaddate DESC'; break;
+		$sortingCriteria = $this->piVars['sorting'];
+		switch ($sortingCriteria){
+			case 'extkey': 	$sortByClause = 'extensionkey ASC'; break;
+			case 'state':	$sortByClause = 'state DESC'; break;
+			default: 		$sortByClause = 'lastuploaddate DESC';
 		}
-		
+
 		if ($mode == 'pending'){
 			$res = $TYPO3_DB->exec_SELECTquery (
 				'e.extensionkey,title,e.version,authorname,authoremail,ownerusername,state',
@@ -286,7 +252,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 				 e.version = tx_terfe_reviews.version)',
 				'e.reviewstate = 0',
 				'',
-				$sortby,
+				$sortByClause,
 				''
 			);
 		} else {
@@ -295,27 +261,22 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 				'tx_terfe_extensions',
 				$reviewStateClause,
 				'',
-				$sortby,
+				$sortByClause,
 				''
-				);
+			);
 		}
 		$alreadyRenderedExtensionKeys = array();
 
 		if ($res) {
+			if ($TYPO3_DB->sql_num_rows($res) == 0) return $this->pi_getLL('listview_noextensionsfound','',1);
 
-					// Set the magic "reg1" so we can clear the cache for this overview if a new extension is uploaded:		
-			if (t3lib_extMgm::isLoaded ('ter_doc')) {
-				$terDocAPIObj = tx_terdoc_api::getInstance();
-				$TSFE->page_cache_reg1 = $terDocAPIObj->createAndGetCacheUidForExtensionVersion ('_all','');
-			}
-
-			while ($extensionRow = $TYPO3_DB->sql_fetch_assoc ($res)) {
-				if (!t3lib_div::inArray ($alreadyRenderedExtensionKeys, $extensionRow['extensionkey'])) {
-
-					if ($mode="unreviewed" && $this->db_getLatestVersionNumberOfExtension($extensionRow['extensionkey']) == $extensionRow['version']){
-							$tableRows[] = $this->renderListView_shortExtensionRow ($extensionRow);
-					}
-					$alreadyRenderedExtensionKeys[] = $extensionRow['extensionkey'];
+			while ($extensionRecord = $TYPO3_DB->sql_fetch_assoc ($res)) {
+				if (!t3lib_div::inArray ($alreadyRenderedExtensionKeys, $extensionRecord['extensionkey'])) {
+					$latestVersionNumber = $this->commonObj->db_getLatestVersionNumberOfExtension($extensionRecord['extensionkey']);
+#					if ($mode != 'unreviewed' || $latestVersionNumber == $extensionRecord['version']){
+							$tableRows[] = $this->renderListView_shortExtensionRecord ($extensionRecord);
+#					}
+					$alreadyRenderedExtensionKeys[] = $extensionRecord['extensionkey'];
 				}
 			}
 		}
@@ -324,12 +285,12 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 			<p>'.$this->pi_getLL('listview_'.$mode.'_introduction','',1).'</p>
 			<table style="margin-top:10px;">
 				<th class="th-main">&nbsp;</th>
-				<th class="th-main">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_title')).'</th>
-				<th class="th-main">'.$this->pi_linkTP_keepPIvars(htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_extensionkey')),array('sorting'=>'extkey'),1).'</th>
-				<th class="th-main">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_version')).'</th>
-				<th class="th-main">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_documentation')).'</th>
-				<th class="th-main">'.$this->pi_linkTP_keepPIvars(htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_state')),array('sorting'=>'state')).'</th>
-				<th class="th-main">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_authorname')).'</th>
+				<th class="th-main">'.$this->commonObj->getLL('extension_title','',1).'</th>
+				<th class="th-main">'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_extensionkey','',1),array('sorting'=>'extkey'),1).'</th>
+				<th class="th-main">'.$this->commonObj->getLL('extension_version','',1).'</th>
+				<th class="th-main">'.$this->commonObj->getLL('extension_documentation','',1).'</th>
+				<th class="th-main">'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_state','',1),array('sorting'=>'state')).'</th>
+				<th class="th-main">'.$this->commonObj->getLL('extension_authorname','',1).'</th>
 			'.implode('', $tableRows).'
 			</table>
 		';
@@ -337,68 +298,100 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 	}
 
 	/**
-	 * Render a short extension info row for the full listing of extensions
+	 * Render a short extension info row for the review-specific listing of extensions
 	 *
-	 * @param	array		$extRow: Database record from tx_terfe_extensions
+	 * @param	array		$extensionRecord: Database record from tx_terfe_extensions
 	 * @return	string		Two HTML table rows wrapped in <tr>
+	 * @access	protected
 	 */
-	protected function renderListView_shortExtensionRow($extRow)	{
+	protected function renderListView_shortExtensionRecord($extensionRecord)	{
 		global $TSFE;
 
-		if (t3lib_extMgm::isLoaded ('ter_doc')) {			
+		if (t3lib_extMgm::isLoaded ('ter_doc')) {
 			$terDocAPIObj = tx_terdoc_api::getInstance();
-			$documentationLink = $terDocAPIObj->getDocumentationLink ($extRow['extensionkey'], $extRow['version']);
-		} else {		
+			$documentationLink = $terDocAPIObj->getDocumentationLink ($extensionRecord['extensionkey'], $extensionRecord['version']);
+		} else {
 			$documentationLink = '';
-		} 
+		}
 
-		$extRow = $this->db_prepareExtensionRowForOutput ($extRow);
-				
-		$tableRows = '
+		$extensionRecord = $this->commonObj->db_prepareextensionRecordForOutput ($extensionRecord);
+		$tableRow = '
 			<tr>
-				<td class="td-sub">'.$this->getIcon_extension ($extRow['extensionkey'], $extRow['version']).'</td>
-				<td class="td-sub" nowrap="nowrap">'.$this->pi_linkTP_keepPIvars($extRow['title'], array('view' => 'review', 'extensionkey' => $extRow['extensionkey'], 'version' => $extRow['version']),1).'</td>
-				<td class="td-sub">'.$extRow['extensionkey'].'</td>
-				<td class="td-sub">'.$extRow['version'].'</td>
+				<td class="td-sub">'.$this->commonObj->getIcon_extension ($extensionRecord['extensionkey'], $extensionRecord['version']).'</td>
+				<td class="td-sub" nowrap="nowrap">'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view' => 'review', 'extensionkey' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1).'</td>
+				<td class="td-sub">'.$extensionRecord['extensionkey'].'</td>
+				<td class="td-sub">'.$extensionRecord['version'].'</td>
 				<td class="td-sub" nowrap="nowrap">'.$documentationLink.'</td>
-				<td class="td-sub">'.$this->getIcon_state($extRow['state_raw']).'</td>
-				<td class="td-sub">'.$extRow['ownerusernameandname'].'</td>
+				<td class="td-sub">'.$this->commonObj->getIcon_state($extensionRecord['state_raw']).'</td>
+				<td class="td-sub">'.$extensionRecord['ownerusernameandname'].'</td>
 			</tr>
 		';
 
-		return $tableRows;
+		return $tableRow;
 	}
 
+
+
+
+
+	/*********************************************************
+	 *
+	 * SINGLE VIEWS
+	 *
+	 *********************************************************/
+
 	/**
-	 * Renders a link list of review records. May be substituted with renderListView if preferred
-	 * 
-	 * @param	array	$reviewRows: Array of review records
+	 * Renders the single view of an extension for the review. Sub functions render
+	 * the situation-specific parts.
+	 *
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
+	protected function renderSingleView() {
 
-	protected function renderListView_ReviewList($reviewRows){
-		if (is_array($reviewRows)){
-			$content = '<div class="reviewlist"><ul>';
-			foreach ($reviewRows as $extRow){
-				$content .= '<li>'.$this->pi_linkTP_keepPIvars($extRow['extensionkey'].' ('.$extRow['version'].')', 
-							array('view' => 'review', 'extensionkey' => $extRow['extensionkey'], 'version' => $extRow['version']),1).' </li>';
-			}
-			$content .= '</ul></div>';
-			return $content;
+		$extensionKey = $this->piVars['extensionkey'];
+		$version = (strlen($this->piVars['version']) ? $this->piVars['version'] : $this->commonObj->db_getLatestVersionNumberOfExtension($extensionKey));
+		if (!strlen($extensionKey) || !strlen($version)) return $this->renderSingleView_selectExtensionVersion();
+
+		$extensionRecord = $this->commonObj->db_getExtensionRecord($extensionKey, $version);
+		if ($extensionRecord === FALSE) return $this->renderSingleView_selectExtensionVersion();
+
+		if (!strlen($this->piVars['subview'])) $this->piVars['subview'] = 'overview';
+
+		$output = '<h3>'.htmlspecialchars(sprintf($this->pi_getLL('singleview_heading'), $this->piVars['extensionkey'])).'</h3><br />'.$this->renderSub_subTopMenu();
+
+		switch ($this->piVars['subview']) {
+			case 'files' :
+				$output .= '
+					<table>
+						'.$this->renderSingleView_files($extensionKey, $version).'
+					</table>
+				';
+			break;
+			default:
+				$output .= '
+					<table>
+						'.$this->renderSingleView_extensionInfo($extensionRecord).'
+						'.$this->renderSingleView_reviewInfo($extensionKey, $version).'
+						'.$this->renderSingleView_reviewNotes($extensionKey, $version).'
+						'.$this->renderSingleView_otherVersionsInfo($extensionKey, $version).'
+						'.$this->renderSingleView_otherExtensionsInfo($extensionRecord['ownerusername'], $extensionKey).'
+					</table>
+				';
 		}
-	}
 
+		return $output;
+	}
 
 	/**
 	 * Renders a form for selecting the extension key and version number for a review.
-	 * 
+	 *
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
 	protected function renderSingleView_selectExtensionVersion() {
 		global $TSFE;
-		
+
 		$output = '
 			<p>'.$this->pi_getLL('singleview_selectextensionversion_pleaseselect','',1).'</p>
 			<br />
@@ -409,338 +402,683 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 				<input type="submit" value="'.$this->pi_getLL('singleview_selectextensionversion_submit','',1).'" />
 			</form>
 		';
-		
-		return $output;		
-	}
 
-	/**
-	 * Renders the main view for a review of an extension
-	 * 
-	 * @return	array	Extension Information Row
-	 * @access	protected
-	 */
-	protected function db_getExtensionRecord($extensionKey,$version) {
-		global $TYPO3_DB;
-			// Fetch the extension record:
-		$res = $TYPO3_DB->exec_SELECTquery (
-			'*',
-			'tx_terfe_extensions',
-			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_extensions').' AND '.
-			'version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_extensions')
-		);
-		if (!$res) return False;
-		
-		if ($resRow = $TYPO3_DB->sql_fetch_assoc ($res)){
-			return $resRow;
-		} else {
-			return False;
-		}
+		return $output;
 	}
 
 	/**
 	 * Renders a section with extension details for the review view.
-	 * 
-	 * @param	array		$extRow: Row of the extension record
-	 * @return	string		HTML output
+	 *
+	 * @param	array		$extensionRecord: (raw) row of the extension record
+	 * @return	string		HTML output: Table rows, ready for insertion into a table
+	 * @access	protected
 	 */
-	protected function renderSingleView_review_extensionInfo($extRow) {
+	protected function renderSingleView_extensionInfo($extensionRecord) {
 		global $TSFE;
 
-		if (t3lib_extMgm::isLoaded ('ter_doc')) {			
+		if (t3lib_extMgm::isLoaded ('ter_doc')) {
 			if (t3lib_extMgm::isLoaded ('ter_doc_html')) {
 				$terDocAPIObj = tx_terdoc_api::getInstance();
-				$documentationLink = $terDocAPIObj->getDocumentationLink ($extRow['extensionkey'], $extRow['version']);
-
-					// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:		
-				$terDocAPIObj = tx_terdoc_api::getInstance();
-				$TSFE->page_cache_reg1 = $terDocAPIObj->createAndGetCacheUidForExtensionVersion ($extRow['extensionkey'], $extRow['version']);
-				
+				$documentationLink = $terDocAPIObj->getDocumentationLink ($extensionRecord['extensionkey'], $extensionRecord['version']);
 			} else {
-				$documentationLink = $terDocAPIObj->getDocumentationLink ($extRow['extensionkey'], $extRow['version']);
+				$documentationLink = $terDocAPIObj->getDocumentationLink ($extensionRecord['extensionkey'], $extensionRecord['version']);
 			}
-		} 
-
-			// Prepare options for version selectorbox:
-		$optionValuesArr = $this->db_getAllVersionNumbersOfExtension ($extRow['extensionkey']);
-		$versionOptions = '';
-		foreach ($optionValuesArr as $optionValue) {	
-			$versionOptions .= '<option value="'.$optionValue.'" '.($optionValue == $extRow['version'] ? 'selected="selected"' : '').'>'.$optionValue.'</option>'.chr(10);
 		}
 
+			// Prepare options for version selectorbox:
+		$optionValuesArr = $this->db_getAllVersionNumbersOfExtension ($extensionRecord['extensionkey']);
+		$versionOptions = '';
+		foreach ($optionValuesArr as $optionValue) {
+			$versionOptions .= '<option value="'.$optionValue.'" '.($optionValue == $extensionRecord['version'] ? 'selected="selected"' : '').'>'.$optionValue.'</option>'.chr(10);
+		}
+
+
 			// Build the output
+		$extensionRecord = $this->commonObj->db_prepareextensionRecordForOutput($extensionRecord);
 		$content ='
 				<tr>
-					<th class="th-sub" colspan="3">'.sprintf ($this->pi_getLL('singleview_review_extensioninfo_sectionheading','',1), $extRow['title']).'</th>
+					<th class="th-sub" colspan="3">'.sprintf ($this->pi_getLL('singleview_review_extensioninfo_sectionheading','',1), $extensionRecord['title']).'</th>
 				</tr>
 				<tr>
-					<th class="th-sub" nowrap="nowrap">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_extensionkey')).':</th>
-					<td class="td-sub" style="width:90%;"><em>'.$extRow['extensionkey'].'</em></td>
+					<th class="th-sub" nowrap="nowrap">'.$this->commonObj->getLL('extension_extensionkey','',1).':</th>
+					<td class="td-sub" style="width:90%;"><em>'.$extensionRecord['extensionkey'].'</em></td>
 					<td class="td-sub" rowspan="4">
 						<table>
-							<tr><th nowrap="nowrap" class="th-sub">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_state')).':</th><td>'.$this->getIcon_state($extRow['state_raw']).'</td></tr>
+							<tr><th nowrap="nowrap" class="th-sub">'.$this->commonObj->getLL('extension_state','',1).':</th><td>'.$this->commonObj->getIcon_state($extensionRecord['state_raw']).'</td></tr>
 							<tr>
-								<th nowrap="nowrap" class="th-sub">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_version')).':</th>
+								<th nowrap="nowrap" class="th-sub">'.$this->commonObj->getLL('extension_version','',1).':</th>
 								<td>
 									<form name="versionselector" action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST">
 										<select name="tx_terfe_pi3[version]" onChange="versionselector.submit()">'.$versionOptions.'</select>
-									</form>									
+									</form>
 								</td>
 							</tr>
-							<tr><th nowrap="nowrap" class="th-sub">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_category')).':</th><td>'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_category_'.$extRow['category'])).'</td></tr>
-							<tr><th nowrap="nowrap" class="th-sub">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_lastuploaddate')).':</th><td>'.$extRow['lastuploaddate'].'</td></tr>
+							<tr><th nowrap="nowrap" class="th-sub">'.$this->commonObj->getLL('extension_category','',1).':</th><td class="td-sub">'.$this->commonObj->getLL('extension_category_'.$extensionRecord['category'],'',1).'</td></tr>
+							<tr><th nowrap="nowrap" class="th-sub">'.$this->commonObj->getLL('extension_lastuploaddate','',1).':</th><td class="td-sub">'.$extensionRecord['lastuploaddate'].'</td></tr>
 						</table>
 					</td>
 				</tr>
 				<tr>
-					<th class="th-sub" nowrap="nowrap">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_description')).':</th>
-					<td class="td-sub">'.$extRow['description'].'</td>
+					<th class="th-sub" nowrap="nowrap">'.$this->commonObj->getLL('extension_description','',1).':</th>
+					<td class="td-sub">'.$extensionRecord['description'].'</td>
 				</tr>
 				<tr>
-					<th class="th-sub" nowrap="nowrap">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_ownerusername')).':</th>
-					<td class="td-sub">'.$extRow['ownerusernameandname'].'</td>
+					<th class="th-sub" nowrap="nowrap">'.$this->commonObj->getLL('extension_ownerusername','',1).':</th>
+					<td class="td-sub">'.$extensionRecord['ownerusernameandname'].'</td>
 				</tr>
 				<tr>
-					<th class="th-sub" nowrap="nowrap">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_documentation')).':</th>
+					<th class="th-sub" nowrap="nowrap">'.$this->commonObj->getLL('extension_documentation','',1).':</th>
 					<td class="td-sub" valign="top">'.$documentationLink.'</td>
 				</tr>
 				<tr>
-					<th class="th-sub" nowrap="nowrap">'.htmlspecialchars($TSFE->sL('LLL:EXT:ter_fe/pi1/locallang.php:extension_dependencies')).':</th>
-					<td class="td-sub" valign="top">'.$this->getRenderedDependencies ($extRow['dependencies']).'</td>
-					<td class="td-sub" valign="top">'.$this->getRenderedReverseDependencies ($extRow['extensionkey'], $extRow['version']).'</td>
+					<th class="th-sub" nowrap="nowrap">'.$this->commonObj->getLL('extension_dependencies','',1).':</th>
+					<td class="td-sub" valign="top">'.$this->commonObj->getRenderedDependencies ($extensionRecord['dependencies']).'</td>
+					<td class="td-sub" valign="top">'.$this->commonObj->getRenderedReverseDependencies ($extensionRecord['extensionkey'], $extensionRecord['version']).'</td>
 				</tr>
 		';
-		
+
 		return $content;
-	
+
 	}
 
-	
 	/**
-	 * Renders a section with information about reviews for the given extension
-	 * 
-	 * @param	array		$reviewRows: Review data records
-	 * @return	string		HTML output
+	 * Renders a section with information about the review of the specified
+	 * extension version and buttons for solving review related tasks.
+	 *
+	 * @param	string		$extensionKey: The extension key of the extension to show review information for
+	 * @param	string		$version: Version number of the extension
+	 * @return	string		HTML output - Table rows, ready for insertion into a table.
+	 * @access	protected
 	 */
-	protected function renderSingleView_review_reviewInfo($reviewRows) {
-		
-		if (is_array($reviewRows)) {
-			$content =  '<table><tr><th>'.$this->pi_getLL('review_reviewstate').
-				'</th><th>Version</th><th>'.$this->pi_getLL('review_objections').
-				'</th><th>'.$this->pi_getLL('review_notes').'</th><th>'.$this->pi_getLL('review_reviewer').'</th><th>'.$this->pi_getLL('review_t3xfilemd5').'</tr>';
-			$odd_or_even = 1;
-			foreach ($reviewRows as $review){
-				$odd_or_even = 1 - $odd_or_even;
-				$content .= $this->renderReviewRow($review,$odd_or_even);
+	protected function renderSingleView_reviewInfo($extensionKey, $version) {
+		global $TSFE;
+
+		$reviewRecord = $this->db_getReviewRecord($extensionKey, $version);
+		$reviewState = is_array($reviewRecord) ? $this->getReviewState($extensionKey, $version) : FALSE;
+
+		$joinLeaveButton = '';
+		$reviewTeam = '';
+		$reviewersArr = t3lib_div::trimExplode (',', $reviewRecord['reviewers']);
+		if (is_array($reviewersArr)) {
+			foreach ($reviewersArr as $username) {
+				if (strlen($username)) {
+					$reviewTeam .= (strlen($reviewTeam) ? ', ' : '') . $this->commonObj->csConvHSC ($username .' ('.$this->commonObj->db_getFullnameByUsername($username).')');
+				}
 			}
-			$content .= '</table>';
-		} else {
-			$content = $this->pi_getLL('error_noreviews');
 		}
-		return $content;
-	}
-	
-	/**
-	 * Renders one table row for a review record
-	 * 
-	 * @param	array		$reviewRow: Review data record
-	 * @param	boolean		$even: True if we are in an even row (hack for zebra tables)
-	 * @return	string		HTML output
-	 */
-	function renderReviewRow($reviewRow,$even){
 
-		// Substitute these values with some color graphics or css-styled stuff
-		if (intval($reviewRow['reviewstate']) >= 1){
-			$reviewRow['status'] = 'PASSED';
-		} else if (intval($reviewRow['reviewstate']) == -1){
-			$reviewRow['status'] = 'REJECTED';
-		} else {
-			$reviewRow['status'] = "PENDING";
-		}	
+			// Switch based on review state:
+		switch (TRUE) {
+			case ($reviewState === TX_TERFE_REVIEWSTATE_UNREVIEWED) :
+				$buttonFieldsArr  = array (
+					'cmd' => 'startreview',
+					'extensionkey' => $extensionKey,
+					'version' => $version
+				);
+				$reviewStateOutput = '
+					<td class="td-sub">'.$this->pi_getLL('singleview_review_reviewinfo_reviewstate_'.($reviewState === FALSE ? 'FALSE' : $reviewState),'',1).'</td>
+					<td class="td-sub" style="text-align:center;">'.$this->renderSub_button($buttonFieldsArr, 'singleview_review_startreview').'</td>
+				';
+			break;
+			case ($reviewState === TX_TERFE_REVIEWSTATE_PENDING) :
+			case ($reviewState === TX_TERFE_REVIEWSTATE_INSECURE) :
+			case ($reviewState === TX_TERFE_REVIEWSTATE_PASSED) :
 
-		
-		$template = '<tr '.($even ? 'class="even"' : '') .'><td>###STATUS###</td><td>###VERSION###</td><td>###OBJECTIONS###</td><td>###NOTES###</td><td>###REVIEWER###</td><td>###T3XFILEMD5###</tr>';
-		$markerArray = $reviewRow;
-		$output = $this->cObj->substituteMarkerArray($template,$markerArray,'###|###',1);
+				$userAlreadyReviewsThisExtension = t3lib_div::inList($reviewRecord['reviewers'], $this->reviewer['username']);
+				$reviewRatingRecords = $this->db_getReviewRatingRecords($extensionKey, $version);
+
+				if ($reviewRatingRecords === FALSE || !isset($reviewRatingRecords[$this->reviewer['username']])) {
+					$buttonFieldsArr  = array (
+						'cmd' => $userAlreadyReviewsThisExtension ? 'leavereviewteam' : 'joinreviewteam',
+						'extensionkey' => $extensionKey,
+						'version' => $version
+					);
+					$joinLeaveButton = $this->renderSub_button($buttonFieldsArr, 'singleview_review_'.$buttonFieldsArr['cmd']);
+				}
+
+				$reviewStateOutput = '
+					<td class="td-sub">
+						'.$this->pi_getLL('singleview_review_reviewinfo_reviewstate_'.($reviewState === FALSE ? 'FALSE' : $reviewState),'',1).'
+						'.$this->pi_getLL('singleview_review_reviewinfo_'.($userAlreadyReviewsThisExtension ? 'youarereviewing' : 'youarenotreviewing'),'',1).'
+					</td>
+					<td class="td-sub">&nbsp;</td>
+				';
+			break;
+		}
+
+			// Put everything together:
+		$output = '
+			<tr>
+				<th class="th-sub" colspan="3">'.$this->getIcon_reviewState($reviewState).$this->pi_getLL('singleview_review_reviewinfo_sectionheading','',1).'</th>
+			</tr>
+			<tr>
+				<th class="th-sub">'.$this->commonObj->getLL('extension_reviewstate','',1).':</th>
+				'.$reviewStateOutput.'
+			</tr>
+			<tr>
+				<th class="th-sub">'.$this->pi_getLL('review_reviewers','',1).':</th>
+				<td class="td-sub">'.$reviewTeam.'&nbsp;</td>
+				<td class="td-sub" style="text-align:center;">'.$joinLeaveButton.'&nbsp;</td>
+			</tr>
+			<tr>
+				<th class="th-sub">'.$this->pi_getLL('review_rating','',1).':</th>
+				'.$this->renderSub_reviewRatingInfo($reviewRecord).'
+			</tr>
+		';
 		return $output;
 	}
 
-
-	protected function renderStartReviewButton(){
-		$content = '	<form action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST">
-						<input type="hidden" value="startreview" name="tx_terfe_pi3[cmd]"/>
-						<input type="hidden" value="'.$this->extensionKey.'" name="tx_terfe_pi3[extensionkey]"/>
-						<input type="hidden" value="'.$this->version.'" name="tx_terfe_pi3[version]"/>
-						<input type="submit" value="'.$this->pi_getLL('singleview_review_startreview').'"/></form>';
-
-		return $content;
-	}
-		
-	
-	/**
-	 * Renders a section with a review form and a delete form
-	 * 
-	 * @return	string		HTML output
-	 */
-
-	protected function renderReviewForm() {
-			
-			$content .= '	<form action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST">
-							<fieldset><legend>Finish Security Review</legend>
-							<p>
-							<label for="reviewstate">Status</label>
-							<input type="radio" value="1" id="reviewstate" name="tx_terfe_pi3[reviewstate]"/>Accepted
-							<input type="radio" value="-1" id="reviewstate" name="tx_terfe_pi3[reviewstate]"/>Rejected
-							</p></p>
-							<label for="objections">Objections</label>';
-			
-			foreach ($this->validObjections as $complaint){
-				$content .= '<input type="checkbox" value="'.$complaint.'"';
-				if ($this->piVars['objections'] && in_array($complaint,$this->piVars['objections'])){
-					$content .= 'checked="checked" ';
-				}
-				$content .= 'name="tx_terfe_pi3[objections][]" id="objections"/>'.$complaint;
-			}
-			
-			$content .='	</p><p>
-							<label for="notes">'.$this->pi_getLL('singleview_review_notes').'
-							<textarea cols="60" rows="3" id="notes" name="tx_terfe_pi3[notes]">'.
-							htmlspecialchars(trim($this->piVars['notes'])).
-							'</textarea></p><p>
-							<label for="forcestate">Immediately set review state in TER</label>
-							<input type="checkbox" id="forcestate" name="tx_terfe_pi3[forcestate]" value="1"'.
-							( $this->piVars['forcestate'] ? 'checked="checked"' : '').'
-							/>
-							<input type="hidden" value="savereview" name="tx_terfe_pi3[cmd]"/>
-							<input type="hidden" value="'.$this->extensionKey.'" name="tx_terfe_pi3[extensionkey]"/>
-							<input type="hidden" value="'.$this->version.'" name="tx_terfe_pi3[version]"/>
-							<input type="submit" value="'.$this->pi_getLL('singleview_review_submitreview').'"/>
-							</fieldset></form>';
-
-		return	 $content;
-	
-	}
-
-	// Render the delete form
-	// 
-	function renderDeleteReview(){
-		return '	<form action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST">
-							<input type="checkbox" value="deletereview" name="tx_terfe_pi3[cmd]"/>
-							<input type="hidden" value="'.$this->extensionKey.'" name="tx_terfe_pi3[extensionkey]"/>
-							<input type="hidden" value="'.$this->version.'" name="tx_terfe_pi3[version]"/>
-							<input type="submit" value="'.$this->pi_getLL('singleview_review_deletereview').'"/>
-							</form>';
-	}
 	/**
 	 * Renders a section with review notes for the review of the given extension
 	 *
-	 * NOT USED AT THE MOMENT
-	 * 
-	 * @param	array		$extRow: Row of the extension record
-	 * @return	string		HTML output
+	 * @param	string		$extensionKey: The extension key of the extension to show review notes for
+	 * @param	string		$version: Version number of the extension
+	 * @return	string		HTML output - Table rows, ready for insertion into a table.
+	 * @access	protected
 	 */
-	protected function renderSingleView_review_reviewNotes($extRow) {
+	protected function renderSingleView_reviewNotes($extensionKey, $version) {
 		global $TSFE;
 
 		$output = '';
-		$reviewRow = $this->db_getReviewRecord ($extRow['extensionkey'], $extRow['version']);
-		if (is_array($reviewRow)) {			
-			$reviewNotes = $this->db_getReviewNotes($reviewRow['uid']);
-			$reviewRow = $this->db_prepareReviewRowForOutput($reviewRow);
+		$reviewRow = $this->db_getReviewRecord ($extensionKey, $version);
+		if (is_array($reviewRow)) {
+			$reviewNotes = $this->db_getReviewNotes($extensionKey, $version);
 
 			if (is_array ($reviewNotes)) {
-				
-					// Build the output:
 				$output ='
 					<tr>
 						<th class="th-sub" colspan="3">'.$this->pi_getLL('singleview_review_reviewnotes_notesandhistory','',1).'</th>
+					</tr>
+					<tr>
+						<th class="th-sub">&nbsp;</th>
+						<td class="td-sub" colspan="2">
+							<form action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST" style="display:inline;">
+								<textarea name="tx_terfe_pi3[reviewnote]" style="margin:4px;" cols="76" rows="10" wrap="virtual"></textarea>
+								<input type="submit" value="'.$this->pi_getLL('singleview_review_reviewnotes_addnote','',1).'"/>
+								<input type="hidden" name="tx_terfe_pi3[cmd]" value="addreviewnote" />
+								<input type="hidden" name="tx_terfe_pi3[extensionkey]" value="'.htmlspecialchars($extensionKey).'" />
+								<input type="hidden" name="tx_terfe_pi3[version]" value="'.htmlspecialchars($version).'" />
+							</form>
+						</td>
 					</tr>
 				';
 				foreach ($reviewNotes as $reviewNote) {
 					$output .= '
 						<tr>
-							<td class="td-sub" colspan="3"><strong>'.$reviewNote['reviewer'].' '.$reviewNote['tstamp'].'</strong>: '.$reviewNote['note'].'</td>
+							<th class="th-sub">&nbsp;</th>
+							<td class="td-sub" colspan="2">
+								<strong>'.$reviewNote['reviewer'].' <em>'.date ($this->commonObj->getLL('general_dateandtimeformat'), $reviewNote['tstamp']).'</em>:</strong><br />
+								'.htmlspecialchars($reviewNote['note']).'</td>
 						</tr>
 					';
 				}
 			}
 		}
-		
 		return $output;
-	
-	}
-
-
-
-
-
-
-	/**
-	 * Converts charsets and htmlspecialchars certain field of the given
-	 * record from table tx_terfe_extensions so it can be displayed directly
-	 * at the frontend.
-	 * 
-	 * @param	array		$extensionRow: One record from table tx_terfe_extensions
-	 * @return	array		The modified record
-	 * @access protected
-	 */
-	protected function db_prepareExtensionRowForOutput ($extensionRow) {
-		if (is_array ($extensionRow)) {
-			foreach ($extensionRow as $key => $value) {
-				switch ($key) {
-					case 'reviewstate':
-						$extensionRow['reviewstate_raw'] = $value;
-						$extensionRow[$key] = $this->pi_getLL('extension_reviewstate_'.$extensionRow[$key],'',1);
-					break;
-				}					
-			}
-			$extensionRow = parent::db_prepareExtensionRowForOutput ($extensionRow);												
-		}
-		return $extensionRow;
 	}
 
 	/**
-	 * Converts charsets and htmlspecialchars certain field of the given
-	 * record from table tx_terfe_reviews so it can be displayed directly
-	 * at the frontend.
+	 * Renders a section with information about other versions of the specified extension
 	 *
-	 * NOT USED AT THE MOMENT
-	 * 
-	 * @param	array		$reviewRow: One record from table tx_terfe_reviews
-	 * @return	array		The modified record
-	 * @access protected
+	 * @param	string		$extensionKey: The extension key of the extension to show review information for
+	 * @param	string		$currentVersion: Version number of the extension version not to include
+	 * @return	string		HTML output - Table rows, ready for insertion into a table.
+	 * @access	protected
 	 */
-	protected function db_prepareReviewRowForOutput ($reviewRow) {
-		if (is_array ($reviewRow)) {
-			foreach ($reviewRow as $key => $value) {
-				switch ($key) {
-					case 'reviewer':
-						$reviewersArr = t3lib_div::trimExplode (',', $value);
-						if (is_array ($reviewersArr)) {
-							$reviewRow[$key] = '';
-							$reviewRow['reviewerswithname'] = '';
-							foreach ($reviewersArr as $reviewerUsername) {
-								$reviewRow[$key] .= $this->csConvHSC ($reviewerUsername).' ';
-								$reviewRow['reviewerswithname'] .= $this->csConvHSC ($reviewerUsername .' ('.$this->db_getFullNameByUsername($reviewerUsername).') ');
-							}
-						}
-					break;
-				}					
+	protected function renderSingleView_otherVersionsInfo($extensionKey, $currentVersion) {
+		global $TSFE;
+
+		$versionsArr = $this->db_getAllVersionNumbersOfExtension($extensionKey);
+		if ($versionsArr === FALSE || count($versionsArr) < 2) return '';
+
+		$otherVersionsOutput = '';
+
+		foreach ($versionsArr as $version) {
+			$reviewRecord = $this->db_getReviewRecord($extensionKey, $version);
+			$reviewState = is_array($reviewRecord) ? $this->getReviewState($extensionKey, $version) : FALSE;
+
+			if ($version != $currentVersion) {
+				$otherVersionsOutput .= '
+					<tr>
+						<td class="td-sub">
+							'.$this->getIcon_reviewStateBar($reviewState).'
+							'.$this->pi_linkTP_keePPIvars($version, array('view' => 'review', 'extensionkey' => $extensionKey, 'version' => $version), 0, 1).'
+						</td>
+						<td class="td-sub">'.$this->pi_getLL('singleview_review_reviewinfo_reviewstate_'.($reviewState === FALSE ? 'FALSE' : $reviewState),'',1).'</td>
+					</tr>
+				';
 			}
 		}
-		return $reviewRow;
+
+			// Put everything together:
+		$output = '
+			<tr>
+				<th class="th-sub" colspan="3">'.$this->pi_getLL('singleview_review_otherversionsinfo_sectionheading','',1).'</th>
+			</tr>
+			<tr>
+				<th class="th-sub">&nbsp;</th>
+				<td class="td-sub" colspan="2">
+					<table>
+						'.$otherVersionsOutput.'
+					</table>
+				</td>
+			</tr>
+		';
+		return $output;
 	}
-	
+
+	/**
+	 * Renders a section with information about other extensions by the same owner
+	 *
+	 * @param	string		$owner: User name of the extension author
+	 * @param	string		$currentExtensionKey: The extension key of the extension not to include
+	 * @return	string		HTML output - Table rows, ready for insertion into a table.
+	 * @access	protected
+	 */
+	protected function renderSingleView_otherExtensionsInfo($owner, $currentExtensionKey) {
+		global $TSFE;
+
+		$extensionKeysArr = $this->commonObj->db_getExtensionKeysByOwner($owner);
+		if ($extensionKeysArr === FALSE || count($extensionKeysArr) < 2) return '';
+
+		$otherExtensionsOutput = '';
+
+		foreach ($extensionKeysArr as $extensionKey) {
+
+			if ($extensionKey != $currentExtensionKey) {
+				$versionsArr = $this->db_getAllVersionNumbersOfExtension($extensionKey);
+				$otherExtensionsOutput .= '
+					<tr>
+						<td class="td-sub">
+				';
+				if (is_array($versionsArr)) {
+					foreach ($versionsArr as $version) {
+						$reviewRecord = $this->db_getReviewRecord($extensionKey, $version);
+						$reviewState = is_array($reviewRecord) ? $this->getReviewState($extensionKey, $version) : FALSE;
+						$otherExtensionsOutput .= $this->getIcon_reviewStateBar($reviewState).' ';
+					}
+				}
+				$otherExtensionsOutput .= '
+						</td>
+						<td class="td-sub">
+							'.$this->pi_linkTP_keePPIvars($extensionKey, array('view' => 'review', 'extensionkey' => $extensionKey, 'version' => $version), 0, 1).'
+						</td>
+					</tr>
+				';
+			}
+		}
+
+			// Put everything together:
+		$output = '
+			<tr>
+				<th class="th-sub" colspan="3">'.$this->pi_getLL('singleview_review_otherextensionsinfo_sectionheading','',1).'</th>
+			</tr>
+			<tr>
+				<th class="th-sub">&nbsp;</th>
+				<td class="td-sub" colspan="2">
+					<table>
+						'.$otherExtensionsOutput.'
+					</table>
+				</td>
+			</tr>
+		';
+		return $output;
+	}
+
+	/**
+	 * Renders a section with the list of files of the given extension
+	 *
+	 * @param	string		$extensionKey: The extension key of the extension to list the files of
+	 * @param	string		$version: Version number of the extension
+	 * @return	string		HTML output - Table rows, ready for insertion into a table.
+	 * @access	protected
+	 */
+	protected function renderSingleView_files($extensionKey, $version) {
+		global $TSFE;
+
+		$extDetailsRow = $this->commonObj->db_getExtensionDetails ($extensionKey, $version);
+
+			// Build the output
+		$content ='
+				<tr>
+					<th class="th-sub" colspan="3">'.sprintf ($this->pi_getLL('singleview_files_sectionheading','',1), $extensionRecord['title']).'</th>
+				</tr>
+				<tr>
+					<td class="td-sub" colspan="3">
+						'.$this->commonObj->getRenderedListOfFiles ($extDetailsRow).'
+					</td>
+				</tr>
+		';
+
+		return $content;
+
+	}
+
+
+
+
+
+	/*********************************************************
+	 *
+	 * SUB RENDER FUNCTIONS
+	 *
+	 *********************************************************/
+
+	/**
+	 * Renders the main top menu which allows the user to select from one of
+	 * the list views.
+	 *
+	 * @return	string		HTML output (the top menu)
+	 * @access	protected
+	 * @see		main()
+	 */
+	protected function renderSub_mainTopMenu() {
+		$menuItemsAndStates = array ('review' => NULL, 'unreviewed' => TX_TERFE_REVIEWSTATE_UNREVIEWED, 'pending' => TX_TERFE_REVIEWSTATE_PENDING, 'passed' => TX_TERFE_REVIEWSTATE_PASSED, 'insecure' => TX_TERFE_REVIEWSTATE_INSECURE);
+
+		$topMenu = '<br />';
+		foreach ($menuItemsAndStates as $itemKey => $state) {
+			$itemActive = ($this->piVars['view'] == $itemKey);
+			$link = $this->pi_linkTP($this->pi_getLL('views_'.$itemKey,'',1), array('tx_terfe_pi3[view]' => $itemKey), 1);
+			$topMenu .='<span class="submenu-button'.($itemActive ? '-active' :'').'">'.($state !== NULL ? $this->getIcon_reviewStateBar($state) : '').' '.$link.'</span>';
+		}
+		$topMenu .= '<br /><br />';
+
+		return $topMenu;
+	}
+
+	/**
+	 * Renders the sub top menu which allows the user to select from one certain
+	 * sub views in the single view of an extension.
+	 *
+	 * @return	string		HTML output (the top menu)
+	 * @access	protected
+	 * @see		renderSingleView()
+	 */
+	protected function renderSub_subTopMenu() {
+		$menuItems = array ('overview', 'files');
+
+		$subTopMenu = '';
+		foreach ($menuItems as $itemKey) {
+			$itemActive = ($this->piVars['subview'] == $itemKey);
+			$link = $this->pi_linkTP_keepPIvars($this->pi_getLL('subviews_'.$itemKey,'',1), array('view' => 'review', 'subview' => $itemKey, 'extensionkey' => $this->piVars['extensionkey'], 'version' => $this->piVars['version']), 0, 1);
+			$subTopMenu .='<span class="submenu-button'.($itemActive ? '-active' :'').'">'.$link.'</span> ';
+		}
+		$subTopMenu .= '<br /><br />';
+		return $subTopMenu;
+	}
+
+	/**
+	 * Renders an HTML form for a button
+	 *
+	 * @param	array		$fieldsArr: Associative array with field keys => values. Will be rendered as hidden input fields.
+	 * @param	string		$llKey: Locallang key which is used for the button label
+	 * @return	string		HTML output (form)
+	 * @access	protected
+	 */
+	protected function renderSub_button($fieldsArr, $llKey){
+		$output = '
+			<form action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST" style="display:inline;">
+		';
+		foreach ($fieldsArr as $key => $value) {
+			$output .= '
+				<input type="hidden" name="tx_terfe_pi3['.htmlspecialchars($key).']" value="'.htmlspecialchars($value).'" />
+			';
+		}
+		$output .= '
+				<input type="submit" value="'.$this->pi_getLL($llKey).'"/>
+			</form>
+		';
+		return $output;
+	}
+
+	/**
+	 * Renders information about the ratings which have or have not been submitted during the
+	 * review specified by the review record.
+	 *
+	 * @param	array		$reviewRecord: The review record of the review we render the information for
+	 * @return	string		HTML output
+	 * @access	protected
+	 */
+	protected function renderSub_reviewRatingInfo($reviewRecord) {
+
+		$listOfRatings = '';
+		$reviewRatingRecords = $this->db_getReviewRatingRecords ($reviewRecord['extensionkey'], $reviewRecord['version']);
+		switch (TRUE) {
+			case count ($reviewRatingRecords) == 0 : $votesCountKey = 'none'; break;
+			case count ($reviewRatingRecords) == 1 : $votesCountKey = '1'; break;
+			case count ($reviewRatingRecords) > 1 : $votesCountKey = 'n'; break;
+		}
+
+		if (is_array ($reviewRatingRecords)) {
+			$listOfRatings = '<table>';
+			foreach ($reviewRatingRecords as $username => $reviewRatingRecord) {
+				$rating = $reviewRatingRecord['rating'];
+				$listOfRatings .= '
+					<tr>
+						<td class="td-sub">'.htmlspecialchars($username).'</td>
+						<td class="td-sub"><span style="background-color:'.($rating == -1 ? TX_TERFE_COLOR_INSECURE : TX_TERFE_COLOR_PASSED).';">&nbsp;&nbsp;</span> '.$this->pi_getLL('review_rating_'.($rating == -1 ? 'insecure' : 'passed').'','',1).'</td>
+					</tr>
+				';
+			}
+			$listOfRatings .= '</table>';
+		}
+
+		$output = '
+			<td class="td-sub">
+				'.$this->pi_getLL('singleview_review_reviewinfo_rating_'.$votesCountKey,'',1).'
+				'.$listOfRatings.'
+			</td>
+			<td class="td-sub" style="text-align:center;">'.$this->renderSub_reviewRatingForm($reviewRecord).'</td>
+		';
+		return $output;
+	}
+
+	/**
+	 * Renders an HTML form which sets or removes a review rating
+	 *
+	 * @param	array		$reviewRecord: The review record of the review to render the form for
+	 * @return	string		HTML output (form)
+	 * @access	protected
+	 */
+	protected function renderSub_reviewRatingForm($reviewRecord) {
+		if (!t3lib_div::inList($reviewRecord['reviewers'], $this->reviewer['username'])) return '&nbsp';
+		$reviewRatingRecords = $this->db_getReviewRatingRecords($reviewRecord['extensionkey'], $reviewRecord['version']);
+		$reviewerSubmittedRating = ($reviewRatingRecords === FALSE || isset($reviewRatingRecords[$this->reviewer['username']]));
+
+		if ($reviewerSubmittedRating) {
+			$command = 'removereviewrating';
+			$rating = $reviewRatingRecords[$this->reviewer['username']]['rating'];
+			$ratingOptions = '
+				'.$this->pi_getLL('singleview_review_yourated','',1).'
+				<span style="background-color:'.($rating == -1 ? TX_TERFE_COLOR_INSECURE : TX_TERFE_COLOR_PASSED).';">&nbsp;&nbsp;</span> '.$this->pi_getLL('review_rating_'.($rating == -1 ? 'insecure' : 'passed').'','',1).'
+			';
+		} else {
+			$command = 'setreviewrating';
+			$ratingOptions = '
+				<input type="radio" name="tx_terfe_pi3[reviewrating]" value="-1" /><span style="background-color:'.TX_TERFE_COLOR_INSECURE.';">&nbsp;&nbsp;</span> '.$this->pi_getLL('review_rating_insecure','',1).'
+				<input type="radio" name="tx_terfe_pi3[reviewrating]" value="1" /><span style="background-color:'.TX_TERFE_COLOR_PASSED.';">&nbsp;&nbsp;</span> '.$this->pi_getLL('review_rating_passed','',1).'<br />
+			';
+		}
+
+		$output = '
+			<form action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST" style="display:inline;">
+				'.$ratingOptions.'<br />
+				<input type="submit" value="'.$this->pi_getLL('singleview_review_'.$command).'"/>
+				<input type="hidden" name="tx_terfe_pi3[cmd]" value="'.$command.'" />
+				<input type="hidden" name="tx_terfe_pi3[extensionkey]" value="'.htmlspecialchars($reviewRecord['extensionkey']).'" />
+				<input type="hidden" name="tx_terfe_pi3[version]" value="'.htmlspecialchars($reviewRecord['version']).'" />
+			</form>
+		';
+		return $output;
+	}
+
+	/**
+	 * Wraps the given string with HTML code used for displaying error messages.
+	 *
+	 * @param	string		$message: The message to display
+	 * @return	string		The message wrapped by additional HTML code
+	 * @access	protected
+	 */
+	protected function renderSub_errorWrap($message) {
+		$output = '
+			<p>
+				<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/warning.gif" width="16" height="16" alt="" title="" style="vertical-align: middle; padding-right:6px;" />
+				<strong><span style="color:red;">'.$message.'</span></strong>
+			</p>
+		';
+		return $output;
+	}
+
+
+
+
+
+	/*********************************************************
+	 *
+	 * COMMAND HANDLER FUNCTIONS
+	 *
+	 *********************************************************/
+
+	/**
+	 * Checks piVars for a command and handles it if neccessary.
+	 *
+	 * @return	string		An empty string or a message, depending on the command.
+	 * @access	protected
+	 */
+	protected function cmd_handle() {
+		switch ($this->piVars['cmd']) {
+			case 'startreview':			$output = $this->cmd_startReview(); break;
+			case 'leavereviewteam':		$output = $this->cmd_leaveReviewTeam(); break;
+			case 'joinreviewteam':		$output = $this->cmd_joinReviewTeam(); break;
+			case 'setreviewrating':		$output = $this->cmd_setReviewRating(); break;
+			case 'removereviewrating':	$output = $this->cmd_removeReviewRating(); break;
+			case 'addreviewnote':		$output = $this->cmd_addReviewNote(); break;
+			default:
+				$output = '';
+		}
+		return $output;
+	}
+
+	/**
+	 * Starts a review
+	 *
+	 * @return	string		An empty string or a message, depending on the result of the command
+	 * @access	protected
+	 */
+	protected function cmd_startReview() {
+		$result = $this->db_createReviewRecord($this->piVars['extensionkey'], $this->piVars['version'], $this->reviewer['username']);
+		return $result === FALSE ? $this->renderSub_errorWrap($this->pi_getLL('error_startreview_general','',1)) : '';
+	}
+
+	/**
+	 * Removes a user from the review team for a certain extension version
+	 *
+	 * @return	string		An empty string or a message, depending on the result of the command
+	 * @access	protected
+	 */
+	protected function cmd_leaveReviewTeam() {
+		$reviewRecord = $this->db_getReviewRecord($this->piVars['extensionkey'], $this->piVars['version']);
+		if ($reviewRecord === FALSE) return $this->renderSub_errorWrap($this->pi_getLL('error_reviewrecordnotfound','',1));
+
+		if (!t3lib_div::inList($reviewRecord['reviewers'], $this->reviewer['username'])) return $this->renderSub_errorWrap($this->pi_getLL('error_cantleavenomember','',1));
+
+		$reviewRecord['reviewers'] = t3lib_div::rmFromList($this->reviewer['username'], $reviewRecord['reviewers']);
+		$this->db_addReviewNote($this->piVars['extensionkey'], $this->piVars['version'], $this->reviewer['username'].' leaves the review team.');
+		if (strlen($reviewRecord['reviewers'])) {
+			$this->db_updateReviewRecord($this->piVars['extensionkey'], $this->piVars['version'], array('reviewers' => $reviewRecord['reviewers']));
+		} else {
+			$this->db_deleteReviewRecord($this->piVars['extensionkey'], $this->piVars['version']);
+		}
+
+		return '';
+	}
+
+	/**
+	 * Adds a user to the review team for a certain extension version
+	 *
+	 * @return	string		An empty string or a message, depending on the result of the command
+	 * @access	protected
+	 */
+	protected function cmd_joinReviewTeam() {
+		$reviewRecord = $this->db_getReviewRecord($this->piVars['extensionkey'], $this->piVars['version']);
+		if ($reviewRecord === FALSE) return $this->renderSub_errorWrap($this->pi_getLL('error_reviewrecordnotfound','',1));
+
+		if (t3lib_div::inList($reviewRecord['reviewers'], $this->reviewer['username'])) return $this->renderSub_errorWrap($this->pi_getLL('error_cantjoinalreadymember','',1));
+
+		$reviewRecord['reviewers'] .= ','.$this->reviewer['username'];
+		$this->db_updateReviewRecord($this->piVars['extensionkey'], $this->piVars['version'], array('reviewers' => $reviewRecord['reviewers']));
+		$this->db_addReviewNote($this->piVars['extensionkey'], $this->piVars['version'], $this->reviewer['username'].' joins the review team.');
+
+		return '';
+	}
+
+	/**
+	 * Sets the rating of the current reviewer for the review of an extension version
+	 *
+	 * @return	string		An empty string or a message, depending on the result of the command
+	 * @access	protected
+	 */
+	protected function cmd_setReviewRating() {
+		$reviewRecord = $this->db_getReviewRecord($this->piVars['extensionkey'], $this->piVars['version']);
+		if ($reviewRecord === FALSE) return $this->renderSub_errorWrap($this->pi_getLL('error_reviewrecordnotfound','',1));
+
+		if (!t3lib_div::inList($reviewRecord['reviewers'], $this->reviewer['username'])) return $this->renderSub_errorWrap($this->pi_getLL('error_cantsetreviewratingnomember','',1));
+		if (!strlen($this->piVars['reviewrating'])) return $this->renderSub_errorWrap($this->pi_getLL('error_cantsetreviewratingnorating','',1));
+
+		$this->db_createReviewRatingRecord($this->piVars['extensionkey'], $this->piVars['version'], $this->piVars['reviewrating'], $this->reviewer['username']);
+		$this->db_addReviewNote($this->piVars['extensionkey'], $this->piVars['version'], $this->reviewer['username'].' sets his rating to '.$this->piVars['reviewrating'].'.');
+	}
+
+	/**
+	 * Removes the rating of the current reviewer for the review of an extension version
+	 *
+	 * @return	string		An empty string or a message, depending on the result of the command
+	 * @access	protected
+	 */
+	protected function cmd_removeReviewRating() {
+		$reviewRecord = $this->db_getReviewRecord($this->piVars['extensionkey'], $this->piVars['version']);
+		if ($reviewRecord === FALSE) return $this->renderSub_errorWrap($this->pi_getLL('error_reviewrecordnotfound','',1));
+
+		if (!t3lib_div::inList($reviewRecord['reviewers'], $this->reviewer['username'])) return $this->renderSub_errorWrap($this->pi_getLL('error_cantsetreviewratingnomember','',1));
+		$this->db_deleteReviewRatingRecords($this->piVars['extensionkey'], $this->piVars['version'], $this->reviewer['username']);
+		$this->db_addReviewNote($this->piVars['extensionkey'], $this->piVars['version'], $this->reviewer['username'].' revokes his rating.');
+	}
+
+	/**
+	 * Adds a note to the review of an extension version
+	 *
+	 * @return	string		An empty string or a message, depending on the result of the command
+	 * @access	protected
+	 */
+	protected function cmd_addReviewNote() {
+		$reviewRecord = $this->db_getReviewRecord($this->piVars['extensionkey'], $this->piVars['version']);
+		if ($reviewRecord === FALSE) return $this->renderSub_errorWrap($this->pi_getLL('error_reviewrecordnotfound','',1));
+
+		if (!t3lib_div::inList($reviewRecord['reviewers'], $this->reviewer['username'])) return $this->renderSub_errorWrap($this->pi_getLL('error_cantaddnotenomember','',1));
+		$this->db_addReviewNote($this->piVars['extensionkey'], $this->piVars['version'], $this->piVars['reviewnote']);
+	}
+
+
+
+
+
+	/*********************************************************
+	 *
+	 * DATABASE RELATED FUNCTIONS
+	 *
+	 *********************************************************/
+
 	/**
 	 * Delivers all version numbers found for the given extension key.
 	 * If no upload was found at all, FALSE will be returned.
 	 *
 	 * @param	string		$extKey: Extension key
 	 * @return	mixed		The version numbers as an array or FALSE
-	 * @access	public 
+	 * @access	public
 	 */
 	protected function db_getAllVersionNumbersOfExtension ($extensionKey) {
 		global $TYPO3_DB;
-		
+
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'version',
 			'tx_terfe_extensions',
@@ -748,108 +1086,36 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 		);
 		$versionNumbers = FALSE;
 		while ($row = $TYPO3_DB->sql_fetch_assoc($res)) {
-			$versionNumbers[] = $row['version'];	
+			$versionNumbers[] = $row['version'];
 		}
-		
-		return $versionNumbers;	
-	}
-	
-	/**
-	 * Returns the all review records for the given extension except the given version. An additional
-	 * field "_currentt3xfilemd5" will contain the current MD5 hash of the actual
-	 * t3x file.
-	 * 
-	 * @param		string	$extensionKey: Extension key of the extension
-	 * @param		string	$version: Version number of the extension
-	 * @return		mixed	Review record or FALSE
-	 * @access		protected
-	 */
 
-	protected function db_getOtherReviewRecords ($extensionKey, $version) {
-		global $TYPO3_DB, $TSFE;
-		
-		$table = 'tx_terfe_reviews';
-		$res = $TYPO3_DB->exec_SELECTquery (
-			'*',
-			$table,
-			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, $table).' AND version != '.$TYPO3_DB->fullQuoteStr($version, $table),
-			'',
-			'version DESC'
-		);
-		
-		if ($res) {
-			while ($row =  $TYPO3_DB->sql_fetch_assoc ($res)) {
-				$review[] =  $row;
-			}
-			return $review;
-		}
-		return FALSE;
+		return $versionNumbers;
 	}
 
 	/**
-	 * Returns the all pending review records for current FE user. An additional
+	 * Returns the review record for the given extension version. An additional
 	 * field "_currentt3xfilemd5" will contain the current MD5 hash of the actual
 	 * t3x file.
-	 * 
-	 * @param		string	$username: Username of reviewer
-	 * 
-	 * @return		mixed	Review record or FALSE
-	 * @access		protected
+	 *
+	 * @param	string		$extensionKey: Extension key of the extension
+	 * @param	string		$version: Version number of the extension
+	 * @return	mixed		Review record or FALSE
+	 * @access	protected
 	 */
-
-	protected function db_getUsersReviewRecords ($username,$pending = 0) {
+	protected function db_getReviewRecord ($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
-		
-		$table = 'tx_terfe_reviews';
-		$res = $TYPO3_DB->exec_SELECTquery (
-			'*',
-			$table,
-			'reviewer = '.$TYPO3_DB->fullQuoteStr($username,$table).($pending ? ' AND reviewstate = 0': ''),
-			'',
-			'tstamp ASC'
-		);
-		
-		if ($res) {
-			while ($row =  $TYPO3_DB->sql_fetch_assoc ($res)) {
-				$review[] =  $row;
-			}
-			return $review;
-		}
-		return False;
-	}
 
-	
-	/**
-	 * Returns the review records for the given extension version. An additional
-	 * field "_currentt3xfilemd5" will contain the current MD5 hash of the actual
-	 * t3x file.
-	 * 
-	 * @param		string	$extensionKey: Extension key of the extension
-	 * @param		string	$version: Version number of the extension
-	 * @return		mixed	Review record or FALSE
-	 * @access		protected
-	 */
-
-	protected function db_getReviewRecords ($extensionKey, $version,$reviewstate=0) {
-		global $TYPO3_DB, $TSFE;
-		
 		$table = 'tx_terfe_reviews';
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'*',
 			$table,
 			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, $table) .
-			' AND version='.$TYPO3_DB->fullQuoteStr($version, $table).
-			($reviewstate ? ' AND reviewstate='.intval($reviewstate) : ''),
-				'',
-				'tstamp DESC'
-				
+			' AND version='.$TYPO3_DB->fullQuoteStr($version, $table)
 		);
-		
+
 		if ($res) {
-			while ($row =  $TYPO3_DB->sql_fetch_assoc ($res)) {
-				$review[] =  $row;
-			}
-			return $review;
+			$row =  $TYPO3_DB->sql_fetch_assoc ($res);
+			if (is_array ($row)) return $row;
 		}
 		return FALSE;
 	}
@@ -857,238 +1123,251 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 	/**
 	 * Creates a new review record for the given extension version. If the extension
 	 * version does not exist or a review record already exists, FALSE is returned
-	 * 
-	 * NOT USED AT THE MOMENT
-	 * 
-	 * @param		string	$extensionKey: Extension key of the extension
-	 * @param		string	$version: Version number of the extension
-	 * @param		string	$reviewer: User name of the initial reviewer
-	 * @return		boolean	TRUE or FALSE
-	 * @access		protected
+	 *
+	 * @param	string		$extensionKey: Extension key of the extension
+	 * @param	string		$version: Version number of the extension
+	 * @param	string		$reviewer: User name of the initial reviewer
+	 * @return	boolean		TRUE or FALSE
+	 * @access	protected
 	 */
-
 	protected function db_createReviewRecord ($extensionKey, $version, $reviewer) {
-		global $TYPO3_DB, $TSFE;
+		global $TYPO3_DB;
 
-		$t3xPathAndFileName = $this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x';
+		$res = $this->db_getReviewRecord ($extensionKey, $version);
+		if ($res !== FALSE) return FALSE;
+
+		$t3xPathAndFileName = $this->commonObj->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x';
 		$t3xFileMD5 = @md5_file ($t3xPathAndFileName);
 		$reviewRow = array (
 			'extensionkey' => $extensionKey,
 			'version' => $version,
-			'reviewer' => $reviewer,
+			'reviewers' => $reviewer,
 			'tstamp' => time(),
 			't3xfilemd5' => $t3xFileMD5
 		);
-		
+
 		$res = $TYPO3_DB->exec_INSERTquery ('tx_terfe_reviews', $reviewRow);
-		return $res ? True : False;
+
+		$this->db_addReviewNote($extensionKey, $version, 'Started a new review.');
+
+		return $res ? TRUE : FALSE;
 	}
 
 	/**
-	 * Saves a new review record for the current extension version. If the extension
-	 * version does not exist or saving fails, FALSE is returned
-	 * 
-	 * @param		int	$uid:		The uid of the review record
-	 * @param		array	$data:	The Review data array
-	 * @return		boolean	TRUE or FALSE
-	 * @access		protected
+	 * Deletes a review record for a given extension version. Also makes sure that the
+	 * review state in the main repository is set correctly.
+	 *
+	 * @param	string		$extensionKey: Extension key the review is related to
+	 * @param	string		$version: Version number of the extension
+	 * @return	boolean		TRUE or FALSE if operation was not successful.
+	 * @access	protected
 	 */
-	
-	protected function db_saveReviewRecord($uid,$data){
+	protected function db_deleteReviewRecord($extensionKey, $version){
 		global $TYPO3_DB;
-		
-		// check for valid FE user
-		if (!$this->reviewer){
-			$this->errorMessage = 'Not logged in as valid reviewer';
-			return False;
-		}
 
+		$this->db_deleteReviewRatingRecords($extensionKey, $version);
 
-		// check for valid input
-		if (!$data['reviewstate'] || !in_array($data['reviewstate'],$this->validReviewStates)) {
-			$this->errorMessage = 'No valid status submitted!';
-			return False;
-		}
+		$res = $this->soap_setReviewState($extensionKey, $version, 0);
+		if ($res !== TRUE) return FALSE;
 
-		if ($data['reviewstate'] == -1 && !$data['objections']){
-			$this->errorMessage = $this->pi_getLL('error_rejectwithoutcomplaints');
-			return False;
-		}
-		
-		if ($data['reviewstate'] >= 1 && $data['objections']){
-			$this->errorMessage = $this->pi_getLL('error_passwithcomplaints');
-			return False;
-		}
-		
-
-		if ($data['forcestate'] || $data['reviewstate'] == -1){			
-			if (!$this->soap_setReviewState($this->extensionKey, $this->version, intval($data['reviewstate']))){
-					$this->errorMessage = 'Could not save review state!';
-					return False;
-			} else { $updated_soap = True;
-			}
-		}
-	 
-		
-		$objections = array();
-		if (is_array($data['objections'])){
-			foreach ($data['objections'] as $objection){
-				if (in_array($objection,$this->validObjections)){
-					$objections[] = $objection;
-				}
-			}
-		}
-
-		$t3xPathAndFileName = $this->getExtensionVersionPathAndBaseName($this->extensionKey, $this->version).'.t3x';
-		$t3xFileMD5 = @md5_file ($t3xPathAndFileName);
-
-		if ($t3xFileMD5 != $this->currentReview['t3xfilemd5']){
-			$this->errorMessage = $this->pi_getLL('review_t3xfilemd5_doesnotmatch');
-			return False;
-		}	
-		
-		$reviewRow = array (
-			'reviewstate' => intval($data['reviewstate']),
-			'notes' => strip_tags($data['notes']),
-			'objections' => implode(', ',$objections),
-			'tstamp' => time(),
-			't3xfilemd5' => $t3xFileMD5
+		$res = $TYPO3_DB->exec_UPDATEquery(
+			'tx_terfe_extensions',
+			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_extensions') .
+				' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_extensions'),
+			array('reviewstate' => 0)
 		);
+		if (!$res) return FALSE;
 
-		$res = $TYPO3_DB->exec_UPDATEquery (
-			'tx_terfe_reviews',
-			'uid = '.intval($uid),
-			$reviewRow
-		);		
-
-		
-		if (!$res){
-			$this->errorMessage =  $this->pi_getLL('error_couldnotsave_db');
-			return False;
-		} 
-
-		$reviewRecords = $this->db_getReviewRecords($this->extensionKey, $this->version,1);
-		
-		
-		if ($data['forcestate'] || $data['reviewstate'] == -1 || sizeof($reviewRecords) >= $this->minReviews){
-			$rstate = array('reviewstate' => intval($data['reviewstate']));
-
-			//set state via SOAP
-			if (!$updated_soap && !$this->soap_setReviewState($this->extensionKey, $this->version, $rstate)){
-				$this->errorMessage = $this->pi_getLL('error_couldnotsave_soap');
-				return False;
-			}
-			
-			//update the database (so we get instant results), to be overriden with next TER sync
-			$res = $TYPO3_DB->exec_UPDATEquery(
-				'tx_terfe_extensions', 
-				'extensionkey='.$TYPO3_DB->fullQuoteStr($this->extensionKey, 'tx_terfe_extensions') .
-				' AND version='.$TYPO3_DB->fullQuoteStr($this->version, 'tx_terfe_extensions'),
-				$rstate
-				);
-			if (!$res){	
-				$this->errorMessage = $this->pi_getLL('error_couldnotsave_localdb');
-			}
-			
-			// FIXME send E-Mail to author 
-			// 
-		}
-		
-		return True;		
-		
-	} 
-	
-	/**
-	 * Deletes a review record for a given uid
-	 * 
-	 * @param		int	$uid: UID of the review record
-	 * @return		boolean	TRUE or FALSE
-	 * @access		protected
-	 */
-
-
-
-	function db_deleteReview($uid){
-		global $TYPO3_DB;
 		$res = $TYPO3_DB->exec_DELETEquery(
 			'tx_terfe_reviews',
-			'uid='.intval($uid));
+			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_reviews') .
+				' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_reviews')
+		);
+		if (!$res) return FALSE;
 
-		if (!$res){
-			return False;
+		$res = $TYPO3_DB->exec_DELETEquery(
+			'tx_terfe_reviewnotes',
+			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_reviews') .
+				' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_reviews')
+		);
+		if (!$res) return FALSE;
+
+		return TRUE;
+	}
+
+	/**
+	 * Updates a review record for a given extension version. Also makes sure that the
+	 * review state in the main repository is set correctly.
+	 *
+	 * @param	string		$extensionKey: Extension key the review is related to
+	 * @param	string		$version: Version number of the extension
+	 * @param	array		$fieldsArr: An associative array of keys and values for the fields to be updated. Currently only "reviewers" is allowed!
+	 * @return	boolean		TRUE or FALSE if operation was not successful.
+	 * @access	protected
+	 */
+	protected function db_updateReviewRecord($extensionKey, $version, $fieldsArr){
+		global $TYPO3_DB;
+
+		$oldReviewRecord = $this->db_getReviewRecord ($extensionKey, $version);
+		if ($oldReviewRecord === FALSE) return FALSE;
+
+		$newReviewRow = array (
+			'reviewers' => $fieldsArr['reviewers'],
+			'tstamp' => time(),
+		);
+		$res = $TYPO3_DB->exec_UPDATEquery (
+			'tx_terfe_reviews',
+			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_extensions') .
+				' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_extensions'),
+			$newReviewRow
+		);
+		if ($res) return FALSE;
+
+		if (!strlen($newReviewRecord['reviewers'])) {
+			if (!$this->db_deleteReviewRecord($extensionKey, $version)) return FALSE;
 		}
 
-		$reviewstate = $this->getReviewState($this->db_getReviewRecords($this->extensionKey, $this->version));
-		
-		if ($reviewstate !== $this->extensionInfo['reviewstate']){
-			$rstate = array('reviewstate' => $reviewstate);
+		return TRUE;
+	}
 
-			//set state via SOAP
-			if (!$updated_soap && !$this->soap_setReviewState($this->extensionKey, $this->version, $rstate)){
-				$this->errorMessage = $this->pi_getLL('error_couldnotsave_soap');
-				return False;
+	/**
+	 * Returns all review rating records for the given extension version.
+	 *
+	 * @param	string		$extensionKey: Extension key of the extension
+	 * @param	string		$version: Version number of the extension
+	 * @return	mixed		Review rating records or FALSE
+	 * @access	protected
+	 */
+	protected function db_getReviewRatingRecords ($extensionKey, $version) {
+		global $TYPO3_DB, $TSFE;
+
+		$table = 'tx_terfe_reviewratings';
+		$res = $TYPO3_DB->exec_SELECTquery (
+			'*',
+			$table,
+			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, $table) .
+			' AND version='.$TYPO3_DB->fullQuoteStr($version, $table)
+		);
+
+		if ($res) {
+			$reviewRatingRecords = array();
+			while ($row = $TYPO3_DB->sql_fetch_assoc ($res)) {
+				$row['rating'] = strlen($row['rating']) ? (integer)$row['rating'] : FALSE;
+				$reviewRatingRecords[$row['reviewer']] = $row;
 			}
+			return $reviewRatingRecords;
+		}
+		return FALSE;
+	}
+
+	/**
+	 * Creates a new review rating record for the review of the given extension version.
+	 * If a review rating record for that extension version by the current reviewer already
+	 * exists or another error occurred FALSE is returned
+	 *
+	 * @param	string		$extensionKey: Extension key of the extension
+	 * @param	string		$version: Version number of the extension
+	 * @param	integer		$rating: Rating (reviewstate) to set. Must be either TX_TERFE_REVIEWSTATE_INSECURE or TX_TERFE_REVIEWSTATE_PASSED
+	 * @param	string		$reviewer: User name of the reviewer
+	 * @return	boolean		TRUE or FALSE
+	 * @access	protected
+	 */
+	protected function db_createReviewRatingRecord($extensionKey, $version, $rating, $reviewer) {
+		global $TYPO3_DB;
+
+		$res = $this->db_getReviewRecord ($extensionKey, $version);
+		if ($res === FALSE) return FALSE;
+
+		$reviewRatingRecords = $this->db_getReviewRatingRecords ($extensionKey, $version);
+		if ($reviewRatingRecords === FALSE || isset($reviewRatingRecords[$reviewer])) return FALSE;
+		if ($rating != TX_TERFE_REVIEWSTATE_INSECURE && $rating != TX_TERFE_REVIEWSTATE_PASSED) return FALSE;
+
+		$reviewRatingRow = array (
+			'extensionkey' => $extensionKey,
+			'version' => $version,
+			'rating' => $rating,
+			'reviewer' => $reviewer,
+			'tstamp' => time(),
+		);
+		$res = $TYPO3_DB->exec_INSERTquery ('tx_terfe_reviewratings', $reviewRatingRow);
+		if ($res === FALSE) return FALSE;
+
+		if (count($reviewRatingRecords) + 1 >= TX_TERFE_MINVOTES || $rating == TX_TERFE_REVIEWSTATE_INSECURE) {
 			$res = $TYPO3_DB->exec_UPDATEquery(
-				'tx_terfe_extensions', 
-				'extensionkey='.$TYPO3_DB->fullQuoteStr($this->extensionKey, 'tx_terfe_extensions') .
-				' AND version='.$TYPO3_DB->fullQuoteStr($this->version, 'tx_terfe_extensions'),
-				$rstate
-				);
+				'tx_terfe_extensions',
+				'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_extensions') .
+					' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_extensions'),
+				array('reviewstate' => $rating)
+			);
+			if (!$res) return FALSE;
 
-			if (!$res){	
-				$this->errorMessage = $this->pi_getLL('error_couldnotsave_localdb');
-			}
-
+			$res = $this->soap_setReviewState($extensionKey, $version, $rating);
+			if ($res !== TRUE) return FALSE;
 		}
-		
-		return True;
-		
+		return TRUE;
 	}
 
+	/**
+	 * Deletes all review rating records for a given extension version or only those submitted by
+	 * the specified reviewer. Also makes sure that the review state in the main repository is set
+	 * correctly.
+	 *
+	 * @param	string		$extensionKey: Extension key the review is related to
+	 * @param	string		$version: Version number of the extension
+	 * @param	string		$reviewer: If set, only ratings submitted by this reviewer will be deleted
+	 * @return	boolean		TRUE or FALSE if operation was not successful.
+	 * @access	protected
+	 */
+	protected function db_deleteReviewRatingRecords($extensionKey, $version, $reviewer=NULL) {
+		global $TYPO3_DB;
 
-	function getReviewState($reviewRecords){
-		if (!is_array($reviewRecords)){
-			return False;
-		}
-		
-		$realstate = 0;
-		foreach ($reviewRecords as $review){
-			if ($review['state'] == -1){
-				return -1;
-			} else {
-				$realstate = $realstate + intval($review['state']);
-			}
-		}
-		if ($realstate > 1){
-			return 1;
-		} else {
-			return 0;
-		}
+		$reviewRatingRecords = $this->db_getReviewRatingRecords ($extensionKey, $version);
+		if ($reviewRatingRecords === FALSE) return FALSE;
+
+		$res = $this->soap_setReviewState($extensionKey, $version, 0);
+		if ($res !== TRUE) return FALSE;
+
+		$res = $TYPO3_DB->exec_UPDATEquery(
+			'tx_terfe_extensions',
+			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_extensions') .
+				' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_extensions'),
+			array('reviewstate' => 0)
+		);
+		if (!$res) return FALSE;
+
+		$addWhere = isset ($reviewer) ? ' AND reviewer='.$TYPO3_DB->fullQuoteStr($reviewer, 'tx_terfe_reviewratings') : '';
+
+		$res = $TYPO3_DB->exec_DELETEquery(
+			'tx_terfe_reviewratings',
+			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_reviews') .
+				' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_reviews') . $addWhere
+		);
+		if (!$res) return FALSE;
+
+		return TRUE;
 	}
-			
 
 	/**
 	 * Updates the MD5 of a .T3X file stored in a review so it reflects the current MD5
 	 * of the actual file.
-	 * 
-	 * @param		string	$extensionKey: Extension key of the extension
-	 * @param		string	$version: Version number of the extension
-	 * @return		boolean	TRUE or FALSE
-	 * @access		protected
+	 *
+	 * @param	string		$extensionKey: Extension key of the extension
+	 * @param	string		$version: Version number of the extension
+	 * @return	boolean		TRUE or FALSE
+	 * @access	protected
 	 */
-
-	protected function db_updateReviewRecord_t3xMD5 ($extensionKey, $version) {
+	protected function db_updateReviewRecord_t3xMD5($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
-	
-		$currentReviewRow = $this->db_getReviewRecords($extensionKey, $version);
-		if ($currentReviewRow === FALSE) return FALSE;
+
+		$reviewRecord = $this->db_getReviewRecord($extensionKey, $version);
+		if ($reviewRecord === FALSE) return FALSE;
 
 		$t3xPathAndFileName = $this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x';
 		$t3xFileMD5 = @md5_file ($t3xPathAndFileName);
 		$reviewRow = array (
 			't3xfilemd5' => $t3xFileMD5
 		);
-		
+
 		$res = $TYPO3_DB->exec_UPDATEquery (
 			'tx_terfe_reviews',
 			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_reviews') .
@@ -1096,98 +1375,191 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 			$reviewRow
 		);
 
-		$this->db_addReviewNote ($currentReviewRow['uid'], 'Updated .T3X file MD5 (new MD5: '.$t3xFileMD5.')');
-				
+		$this->db_addReviewNote ($extensionKey, $version, 'Updated .T3X file MD5 (new MD5: '.$t3xFileMD5.')');
+
 		return $res ? TRUE : FALSE;
-	}
-
-	/**
-	 * Stores the new review state in the review record and sets it in the TER by issuing
-	 * a command via SOAP
-	 * 
-	 * @param		string	$extensionKey: Extension key of the extension
-	 * @param		string	$version: Version number of the extension
-	 * @param		integer	$reviewState: The new review state
-	 * @return		boolean	TRUE or FALSE
-	 * @access		protected
-	 */
-	protected function soap_setReviewState ($extensionKey, $version, $reviewState) {
-		if ($this->conf['noSoap']){return True;}
-
-		global $TYPO3_DB;
-	
-		$soapClientObj = new SoapClient ($this->WSDLURI, array ('exceptions' => TRUE));
-		
-		try {
-			$accountDataArr = array (
-				'username' => $this->reviewer['username'],
-				'password' => $this->reviewer['password']
-			);
-			$reviewStateDataArr = array (
-				'extensionKey' => $extensionKey,
-				'version' => $version,
-				'reviewState' => $reviewState,			
-			);
-			$soapClientObj->setReviewState($accountDataArr, $reviewStateDataArr);
-		} catch (SoapFault $exception) {
-			return FALSE;
-		}
-
-		return True;
 	}
 
 	/**
 	 * Adds a note to a review. If the reviewer's username is not specified,
 	 * the username of the currently logged in FE user will be taken instead.
-	 * 
-	 * @param		integer	$reviewUid: UID of the review record
-	 * @param		string	$note: The note (tags will be stripped)
-	 * @param		string	$reviewer: (optional) User name of the reviewer
-	 * @return		boolean	TRUE or FALSE
-	 * @access		protected
+	 *
+	 * @param	integer		$reviewUid: UID of the review record
+	 * @param	string		$note: The note
+	 * @param	string		$reviewer: (optional) User name of the reviewer
+	 * @param	[type]		$reviewer: ...
+	 * @return	boolean		TRUE or FALSE
+	 * @access	protected
 	 */
-	protected function db_addReviewNote ($reviewUid, $note, $reviewer=NULL) {
+	protected function db_addReviewNote ($extensionKey, $version, $note, $reviewer=NULL) {
 		global $TYPO3_DB, $TSFE;
 
 		$noteRow = array (
-			'reviewuid' => intval($reviewUid),
+			'extensionkey' => $extensionKey,
+			'version' => $version,
 			'tstamp' => time(),
-			'note' => strip_tags ($note),
-			'reviewer' => ($reviewer === NULL ? $TSFE->fe_user->user['username'] : $reviewer)
+			'note' => $note,
+			'reviewer' => ($reviewer === NULL ? $this->reviewer['username'] : $reviewer)
 		);
-		$res = $TYPO3_DB->exec_INSERTquery ('tx_terfe_reviewnotes', $noteRow);		
+		$res = $TYPO3_DB->exec_INSERTquery ('tx_terfe_reviewnotes', $noteRow);
 		return $res ? TRUE : FALSE;
 	}
 
 	/**
 	 * Returns all notes of a review.
-	 * 
-	 * @param		integer	$reviewUid: UID of the review record
-	 * @return		mixed: Array of review notes or FALSE if an error occurred
-	 * @access		protected
+	 *
+	 * @param	string		$extensionKey: Extension key of the extension
+	 * @param	string		$version: Version number of the extension
+	 * @return	mixed:		Array of review notes or FALSE if an error occurred
+	 * @access	protected
 	 */
-	protected function db_getReviewNotes ($reviewUid) {
+	protected function db_getReviewNotes($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
 
 		$table = 'tx_terfe_reviewnotes';
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'*',
 			$table,
-			'reviewuid='.$TYPO3_DB->fullQuoteStr($reviewUid, $table),
+			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_reviewnotes') .
+				' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_reviewnotes'),
 			'',
 			'tstamp DESC'
 		);
-		
+
 		if ($res) {
-			$reviewNotesArr = array();	
+			$reviewNotesArr = array();
 			while ($row = $TYPO3_DB->sql_fetch_assoc ($res)) {
-				$reviewNotesArr[$row['tstamp']] = $row;
+				$reviewNotesArr[] = $row;
 			}
-			return $reviewNotesArr;			
+			return $reviewNotesArr;
 		}
 		return FALSE;
 	}
 
+
+
+
+
+	/*********************************************************
+	 *
+	 * SOAP FUNCTIONS
+	 *
+	 *********************************************************/
+
+	/**
+	 * Stores the new review state in the review record and sets it in the TER by issuing
+	 * a command via SOAP
+	 *
+	 * @param	string		$extensionKey: Extension key of the extension
+	 * @param	string		$version: Version number of the extension
+	 * @param	integer		$reviewState: The new review state
+	 * @return	boolean		TRUE or FALSE
+	 * @access	protected
+	 */
+	protected function soap_setReviewState($extensionKey, $version, $reviewState) {
+		global $TYPO3_DB;
+
+		if ($this->conf['noSoap']) return TRUE;
+
+		$soapClientObj = new SoapClient ($this->WSDLURI, array ('exceptions' => TRUE));
+		try {
+			$accountDataArr = array (
+				'username' => $this->reviewer['username'],
+				'password' => $this->reviewer['password']
+			);
+			$reviewStateDataArr = array (
+				'extensionKey' => (string)$extensionKey,
+				'version' => (string)$version,
+				'reviewState' => (integer)$reviewState,
+			);
+			$soapClientObj->setReviewState($accountDataArr, $reviewStateDataArr);
+		} catch (SoapFault $exception) {
+			$this->db_addReviewNote($extensionKey, $version, 'Setting the review state via SOAP FAILED! ('.$exception->description.')');
+			return FALSE;
+		}
+		$this->db_addReviewNote($extensionKey, $version, 'Successfully updated review state via SOAP (reviewstate = '.$reviewState.').');
+		return TRUE;
+	}
+
+	/**
+	 * Calculates and returns the current review state of the specified extension version
+	 *
+	 * @param	string		$extensionKey: Extension key of the extension
+	 * @param	string		$version: Version number of the extension
+	 * @return	mixed		The review state (one of TX_TERFE_REVIEWSTATE*).
+	 * @access	protected
+	 */
+	protected function getReviewState($extensionKey, $version){
+
+		$reviewRatingRecords = $this->db_getReviewRatingRecords($extensionKey, $version);
+		if ($reviewRatingRecords === FALSE ) return TX_TERFE_REVIEWSTATE_UNREVIEWED;
+
+		$positiveRatingsCount = 0;
+		foreach ($reviewRatingRecords as $reviewRatingRecord) {
+			if ($reviewRatingRecord['rating'] === TX_TERFE_REVIEWSTATE_INSECURE) return TX_TERFE_REVIEWSTATE_INSECURE;
+			$positiveRatingsCount ++;
+		}
+
+		if ($positiveRatingsCount >= TX_TERFE_MINVOTES) return TX_TERFE_REVIEWSTATE_PASSED;
+
+		return 	TX_TERFE_REVIEWSTATE_PENDING;
+	}
+
+
+
+
+
+	/*********************************************************
+	 *
+	 * ICON FUNCTIONS
+	 *
+	 *********************************************************/
+
+	/**
+	 * Returns the proper review state image for the state given
+	 *
+	 * @param	integer		$reviewState: The state (one of TX_TERFE_REVIEWSTATE_*)
+	 * @return	string		HTML image tag
+	 * @access	protected
+	 */
+	protected function getIcon_reviewState($reviewState) {
+		switch (TRUE) {
+			case ($reviewState === TX_TERFE_REVIEWSTATE_INSECURE) :		$file = 'redled.gif'; break;
+			case ($reviewState === TX_TERFE_REVIEWSTATE_PENDING) :		$file = 'yellowled.gif'; break;
+			case ($reviewState === TX_TERFE_REVIEWSTATE_PASSED) :		$file = 'greenled.gif'; break;
+			case ($reviewState === TX_TERFE_REVIEWSTATE_UNREVIEWED) :	$file = 'greyled.gif'; break;
+			default : $file = 'greyled.gif';
+		}
+		return '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/'.$file.'" width="16" height="16" alt="" title="" style="vertical-align: middle; padding-right:6px;" />';
+	}
+
+	/**
+	 * Returns a vertical bar of the color matching the given review state
+	 *
+	 * @param	integer		$reviewState: The state (one of TX_TERFE_REVIEWSTATE_*)
+	 * @return	string		HTML code
+	 * @access	protected
+	 */
+	protected function getIcon_reviewStateBar($reviewState) {
+		switch (TRUE) {
+			case ($reviewState === TX_TERFE_REVIEWSTATE_INSECURE) :		$color = TX_TERFE_COLOR_INSECURE; break;
+			case ($reviewState === TX_TERFE_REVIEWSTATE_PENDING) :		$color = TX_TERFE_COLOR_PENDING; break;
+			case ($reviewState === TX_TERFE_REVIEWSTATE_PASSED) :		$color = TX_TERFE_COLOR_PASSED; break;
+			case ($reviewState === TX_TERFE_REVIEWSTATE_UNREVIEWED) :	$color = TX_TERFE_COLOR_UNREVIEWED; break;
+			default : $file = 'greyled.gif';
+		}
+		return '<span style="background-color:'.$color.';">&nbsp;&nbsp;</span>';
+	}
+
+
+
+
+
+	/*********************************************************
+	 *
+	 * MISCELLANEOUS
+	 *
+	 *********************************************************/
 
 }
 

@@ -1,3 +1,8 @@
+17.01.2006 Robert Lemke <robert@typo3.org>
+	~ Changed a lot ... 
+	~ Converted locallang to XML
+	+ Extracted many functions from tx_terfe_pi1 and created a new common library "tx_terfe_common"	
+
 09.01.2006 Robert Lemke	<robert@typo3.org>
 	~ Commit of merge between Michael's and my modifications
 

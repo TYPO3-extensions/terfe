@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <description>Extension review plugin</description>
+        <type>module</type>
+        <csh_table></csh_table>
+        <fileId>EXT:ter_fe/pi3/locallang.xml</fileId>
+        <labelContext type="array">
+            <label index="general_extensionreview"></label>
+            <label index="error_extnotfound"></label>
+            <label index="error_alreadyreviewed"></label>
+            <label index="error_alreadyreviewedbyuser"></label>
+            <label index="error_rejectwithoutcomplaints"></label>
+            <label index="error_passwithcomplaints"></label>
+            <label index="error_couldnotsave_db"></label>
+            <label index="error_couldnotsave_localdb"></label>
+            <label index="error_couldnotsave_soap"></label>
+            <label index="views_unreviewed"></label>
+            <label index="views_passed"></label>
+            <label index="views_insecure"></label>
+            <label index="views_pending"></label>
+            <label index="views_mine"></label>
+            <label index="views_review"></label>
+            <label index="subviews_overview"></label>
+            <label index="subviews_tools"></label>
+            <label index="listview_unreviewed_introduction"></label>
+            <label index="listview_passedreview_introduction"></label>
+            <label index="listview_insecure_introduction"></label>
+            <label index="singleview_selectextensionversion_pleaseselect"></label>
+            <label index="singleview_selectextensionversion_submit"></label>
+            <label index="singleview_review_extensioninfo_sectionheading"></label>
+            <label index="singleview_review_header"></label>
+            <label index="singleview_review_reviewinfo_noreviewfound"></label>
+            <label index="singleview_review_startreview"></label>
+            <label index="singleview_review_submitreview"></label>
+            <label index="singleview_review_deletereview"></label>
+            <label index="singleview_review_history"></label>
+            <label index="review_notes"></label>
+            <label index="review_reviewer"></label>
+            <label index="review_reviewstate"></label>
+            <label index="review_objections"></label>
+            <label index="review_reviewstate_-1"></label>
+            <label index="review_reviewstate_0"></label>
+            <label index="review_reviewstate_1"></label>
+            <label index="review_reviewstate_2"></label>
+            <label index="review_reviewstate_setstate"></label>
+            <label index="review_t3xfile"></label>
+            <label index="review_t3xfile_download"></label>
+            <label index="review_t3xfilemd5"></label>
+            <label index="review_t3xfilemd5_doesnotmatch"></label>
+            <label index="review_t3xfilemd5_updatemd5"></label>
+        </labelContext>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="general_extensionreview">Extension Security Review</label>
+            <label index="error_extnotfound">Extension version not found.</label>
+            <label index="error_reviewrecordnotfound">The review record for this extension version was not found.</label>
+            <label index="error_alreadyreviewed">Extension version has already been reviewed.</label>
+            <label index="error_alreadyreviewedbyuser">Extension version has already been reviewed by you.</label>
+            <label index="error_cantleavenomember">You can't leave the review team because you're no member anyway!</label>
+            <label index="error_cantjoinalreadymember">You can't join the review team because you're already a member of it!</label>
+            <label index="error_cantsetreviewratingnomember">You can't rate an extension if you're not a member of its review team!</label>
+            <label index="error_cantsetreviewratingnorating">You have to choose either "insecure" or "passed" in order to rate an extension!</label>
+            <label index="error_cantaddnotenomember">You can't add a note to this review because you're no member of its review team!</label>
+            <label index="error_couldnotsave_db">Could not save review to db.</label>
+            <label index="error_couldnotsave_localdb">Could not save review to local TER. This is not fatal!</label>
+            <label index="error_couldnotsave_soap">Could not save review in TER via SOAP.</label>
+            <label index="error_startreview_general">Could not start a new review. Either the extension does not exist anymore or a review has been started already.</label>
+            <label index="views_unreviewed">Unreviewed</label>
+            <label index="views_passed">Passed</label>
+            <label index="views_insecure">Insecure</label>
+            <label index="views_pending">Pending</label>
+            <label index="views_review">Review</label>
+            <label index="subviews_overview">Overview</label>
+            <label index="subviews_files">Files</label>
+            <label index="listview_unreviewed_introduction">This is a list of all extensions which have not been reviewed yet:</label>
+            <label index="listview_pending_introduction">For the following extensions a review has been started already:</label>
+            <label index="listview_passed_introduction">This is a list of all extensions which successfully passed a review:</label>
+            <label index="listview_insecure_introduction">These extension versions have already been reviewed and did not pass the security check:</label>
+            <label index="listview_noextensionsfound">Currently there are no extensions which fall under this category.</label>
+            <label index="singleview_heading">Review of the extension %s</label>
+            <label index="singleview_selectextensionversion_pleaseselect">Please enter an extension key and a version number or select an extension version in one of the list views:</label>
+            <label index="singleview_selectextensionversion_submit">Select</label>
+            <label index="singleview_review_extensioninfo_sectionheading">Extension details for %s</label>
+            <label index="singleview_review_reviewinfo_sectionheading">Review details</label>
+            <label index="singleview_review_reviewinfo_reviewstate_FALSE">No review started yet.</label>
+            <label index="singleview_review_reviewinfo_reviewstate_-1">Review finished: it's insecure!</label>
+            <label index="singleview_review_reviewinfo_reviewstate_0">Review in progress.</label>
+            <label index="singleview_review_reviewinfo_reviewstate_1">Review finished: it passed the check.</label>            
+            <label index="singleview_review_reviewinfo_youarereviewing">You are reviewing this extension.</label>
+            <label index="singleview_review_reviewinfo_youarenotreviewing">You are not yet reviewing this extension.</label>
+            <label index="singleview_review_reviewinfo_rating_none">No ratings have been submitted yet during the review of this extension version.</label>
+            <label index="singleview_review_reviewinfo_rating_1">The following rating has been submitted after a review of this extension version:</label>
+            <label index="singleview_review_reviewinfo_rating_n">The following ratings have been submitted after a review of this extension version:</label>
+            <label index="singleview_review_reviewnotes_notesandhistory">Review notes and history</label>
+            <label index="singleview_review_reviewnotes_addnote">Add this note</label>
+            <label index="singleview_review_otherversionsinfo_sectionheading">Other versions of this extension</label>
+            <label index="singleview_review_otherextensionsinfo_sectionheading">Other extensions by the same author</label>
+            <label index="singleview_review_startreview">Start review</label>
+            <label index="singleview_review_joinreviewteam">Join review</label>
+            <label index="singleview_review_leavereviewteam">Leave review</label>
+            <label index="singleview_review_yourated">You rated</label>
+            <label index="singleview_review_setreviewrating">Submit my rating</label>
+            <label index="singleview_review_removereviewrating">Revoke my rating</label>
+            <label index="singleview_files_sectionheading">Files</label>
+            <label index="review_reviewers">Review team</label>
+            <label index="review_rating">Review rating</label>
+			<label index="review_rating_insecure">Insecure</label>
+			<label index="review_rating_passed">Passed</label>
+            <label index="review_t3xfile">.T3X File</label>
+            <label index="review_t3xfile_download">Download</label>
+            <label index="review_t3xfilemd5">.T3X File MD5</label>
+            <label index="review_t3xfilemd5_doesnotmatch">MD5 does not match the hash of the current .T3X file!</label>
+            <label index="review_t3xfilemd5_updatemd5">Update review MD5 so it matches the file MD5</label>            
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </data>
+    <orig_hash type="array">
+        <languageKey index="default" type="array">
+            <label index="general_extensionreview" type="integer">118880595</label>
+            <label index="error_extnotfound" type="integer">134754539</label>
+            <label index="error_alreadyreviewed" type="integer">245600999</label>
+            <label index="error_alreadyreviewedbyuser" type="integer">91607440</label>
+            <label index="error_rejectwithoutcomplaints" type="integer">23531418</label>
+            <label index="error_passwithcomplaints" type="integer">74904156</label>
+            <label index="error_couldnotsave_db" type="integer">144794139</label>
+            <label index="error_couldnotsave_localdb" type="integer">6931973</label>
+            <label index="error_couldnotsave_soap" type="integer">50415092</label>
+            <label index="views_unreviewed" type="integer">146308015</label>
+            <label index="views_passed" type="integer">168625704</label>
+            <label index="views_insecure" type="integer">140509493</label>
+            <label index="views_pending" type="integer">89742497</label>
+            <label index="views_mine" type="integer">173455630</label>
+            <label index="views_review" type="integer">72867157</label>
+            <label index="listview_unreviewed_introduction" type="integer">58910672</label>
+            <label index="listview_passedreview_introduction" type="integer">254531852</label>
+            <label index="listview_insecure_introduction" type="integer">35526294</label>
+            <label index="singleview_selectextensionversion_pleaseselect" type="integer">89772232</label>
+            <label index="singleview_selectextensionversion_submit" type="integer">235284002</label>
+            <label index="singleview_review_extensioninfo_sectionheading" type="integer">165048116</label>
+            <label index="singleview_review_header" type="integer">120381935</label>
+            <label index="singleview_review_reviewinfo_noreviewfound" type="integer">193462775</label>
+            <label index="singleview_review_startreview" type="integer">233461634</label>
+            <label index="singleview_review_submitreview" type="integer">78212619</label>
+            <label index="singleview_review_deletereview" type="integer">155572667</label>
+            <label index="singleview_review_history" type="integer">142766996</label>
+            <label index="review_notes" type="integer">33375778</label>
+            <label index="review_reviewer" type="integer">149261528</label>
+            <label index="review_reviewstate" type="integer">116878544</label>
+            <label index="review_objections" type="integer">108066031</label>
+            <label index="review_reviewstate_-1" type="integer">219724447</label>
+            <label index="review_reviewstate_0" type="integer">146308015</label>
+            <label index="review_reviewstate_1" type="integer">181990960</label>
+            <label index="review_reviewstate_2" type="integer">74977973</label>
+            <label index="review_reviewstate_setstate" type="integer">179011618</label>
+            <label index="review_t3xfile" type="integer">170633997</label>
+            <label index="review_t3xfile_download" type="integer">134327076</label>
+            <label index="review_t3xfilemd5" type="integer">33189330</label>
+            <label index="review_t3xfilemd5_doesnotmatch" type="integer">61608786</label>
+            <label index="review_t3xfilemd5_updatemd5" type="integer">157558479</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </orig_hash>
+    <orig_text type="array">
+        <languageKey index="default" type="array">
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </orig_text>
+</T3locallang>

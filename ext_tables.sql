@@ -1,4 +1,3 @@
-
 #
 # Table structure for table 'tx_terfe_extensions'
 #
@@ -59,44 +58,43 @@ CREATE TABLE tx_terfe_extensiondependencies (
 #
 CREATE TABLE tx_terfe_reviews ( 
   uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
-  reviewer text NOT NULL,
+  reviewers text NOT NULL,
   extensionkey varchar(30) DEFAULT '' NOT NULL,
   version varchar(11) DEFAULT '' NOT NULL,
   t3xfilemd5 varchar(32) DEFAULT '' NOT NULL,
-  reviewstate int(11) DEFAULT '0' NOT NULL,
-  objections varchar(255) NOT NULL default '',
-  notes text NOT NULL,
   tstamp int(11) NOT NULL default '0',
+  lastmodified int(11) NOT NULL default '0',
   PRIMARY KEY (uid),
 );
+
+#
+# Table structure for table 'tx_terfe_reviewratings'
+#
+CREATE TABLE tx_terfe_reviewratings (
+  uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+  extensionkey varchar(30) DEFAULT '' NOT NULL,
+  version varchar(11) DEFAULT '' NOT NULL,
+  tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+  reviewer text NOT NULL,
+  rating int(11) DEFAULT '0' NOT NULL,
+  PRIMARY KEY (uid)
+  KEY extkey (extensionkey)
+  KEY extversion (version)  
+);
+
 
 #
 # Table structure for table 'tx_terfe_reviewnotes'
 #
 CREATE TABLE tx_terfe_reviewnotes (
   uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
-  reviewuid int(11) unsigned DEFAULT '0' NOT NULL,
+  extensionkey varchar(30) DEFAULT '' NOT NULL,
+  version varchar(11) DEFAULT '' NOT NULL,
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   note text NOT NULL,
   reviewer varchar(30) DEFAULT '' NOT NULL,
   PRIMARY KEY (uid)
 );
-
-
-# Table structure for review ratings
-
-CREATE TABLE `tx_terfe_ratings` (
-  `uid` int(11) NOT NULL auto_increment,
-  `extensionkey` varchar(255) NOT NULL default '',
-  `version` varchar(255) NOT NULL default '',
-  `username` varchar(255) NOT NULL default '',
-  `rating` int(1) NOT NULL default '0',
-  `notes` text NOT NULL,
-  `tstamp` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`uid`)
-) TYPE = MYISAM ;
-
-
 
 #
 # Table structure for table 'tx_terfe_reviewemails'
@@ -115,3 +113,16 @@ CREATE TABLE tx_terfe_reviewemails (
   PRIMARY KEY (uid)
 );
 
+
+# Table structure for ratings
+
+CREATE TABLE tx_terfe_ratings (
+  uid int(11) NOT NULL auto_increment,
+  extensionkey varchar(255) NOT NULL default '',
+  version varchar(255) NOT NULL default '',
+  username varchar(255) NOT NULL default '',
+  rating int(1) NOT NULL default '0',
+  notes text NOT NULL,
+  tstamp int(11) NOT NULL default '0',
+  PRIMARY KEY (uid)
+);

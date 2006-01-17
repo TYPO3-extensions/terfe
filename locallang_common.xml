@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <description>Shared labels for all FE plugins</description>
+        <type>module</type>
+        <csh_table></csh_table>
+        <fileId>EXT:ter_fe/locallang_common.xml</fileId>
+        <labelContext type="array">
+            <label index="general_dateandtimeformat"></label>
+            <label index="general_view">View</label>            
+            <label index="general_back"></label>
+            <label index="general_terdocnotinstalled"></label>
+            <label index="general_terdochtmlnotinstalled"></label>
+            <label index="extension_state"></label>
+            <label index="extension_state_alpha"></label>
+            <label index="extension_state_beta"></label>
+            <label index="extension_state_stable"></label>
+            <label index="extension_state_test"></label>
+            <label index="extension_state_experimental"></label>
+            <label index="extension_state_obsolete"></label>
+            <label index="extension_reviewstate"></label>
+            <label index="extension_reviewstate_0"></label>
+            <label index="extension_reviewstate_1"></label>
+            <label index="extension_extensionkey"></label>
+            <label index="extension_title"></label>
+            <label index="extension_version"></label>
+            <label index="extension_downloads"></label>
+            <label index="extension_dependencies"></label>
+            <label index="extension_dependencies_kind_depends"></label>
+            <label index="extension_dependencies_kind_conflicts"></label>
+            <label index="extension_dependencies_kind_suggests"></label>
+            <label index="extension_dependencies_kind_recommends"></label>
+            <label index="extension_dependencies_kind_replaces"></label>
+            <label index="extension_dependencies_someextensionsarenotavailable"></label>
+            <label index="extension_reversedependencies"></label>
+            <label index="extension_reversedependencies_intro"></label>
+            <label index="extension_authorname"></label>
+            <label index="extension_category"></label>
+            <label index="extension_category_be"></label>
+            <label index="extension_category_module"></label>
+            <label index="extension_category_fe"></label>
+            <label index="extension_category_plugin"></label>
+            <label index="extension_category_misc"></label>
+            <label index="extension_category_services"></label>
+            <label index="extension_category_templates"></label>
+            <label index="extension_category_example"></label>
+            <label index="extension_category_doc"></label>
+            <label index="extension_description"></label>
+            <label index="extension_ownerusername"></label>
+            <label index="extension_uploadcomment"></label>
+            <label index="extension_lastuploaddate"></label>
+            <label index="extension_files"></label>
+            <label index="extension_filepreview"></label>
+            <label index="extension_documentation"></label>
+        </labelContext>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="general_dateandtimeformat">d-m-y h:m</label>
+            <label index="general_back">Back</label>
+            <label index="general_view">View</label>
+            <label index="general_terdocnotinstalled">Documentation extension not installed</label>
+            <label index="general_terdochtmlnotinstalled">No online viewer installed</label>
+            <label index="general_download">Download</label>            
+            <label index="extension_state">State</label>
+            <label index="extension_state_alpha">Alpha</label>
+            <label index="extension_state_beta">Beta</label>
+            <label index="extension_state_stable">Stable</label>
+            <label index="extension_state_test">Test</label>
+            <label index="extension_state_experimental">Experimental</label>
+            <label index="extension_state_obsolete">Obsolete</label>
+            <label index="extension_reviewstate">Review state</label>
+            <label index="extension_reviewstate_-1">Failed a security check!</label>
+            <label index="extension_reviewstate_0">Not reviewed!</label>
+            <label index="extension_reviewstate_1">Passed a basic security check</label>
+            <label index="extension_extensionkey">Extension key</label>
+            <label index="extension_title">Title</label>
+            <label index="extension_version">Version</label>
+            <label index="extension_downloads">Downloads</label>
+            <label index="extension_dependencies">Dependencies</label>
+            <label index="extension_dependencies_kind_depends">depends on</label>
+            <label index="extension_dependencies_kind_conflicts">conflicts with</label>
+            <label index="extension_dependencies_kind_suggests">suggests</label>
+            <label index="extension_dependencies_kind_recommends">recommends</label>
+            <label index="extension_dependencies_kind_replaces">replaces</label>
+            <label index="extension_dependencies_someextensionsarenotavailable">Warning: Some of the extensions (or versions) are not available in the official repository!</label>
+            <label index="extension_reversedependencies">Reverse dependencies</label>
+            <label index="extension_reversedependencies_intro">The following extension versions depend on this extension:</label>
+            <label index="extension_authorname">Author</label>
+            <label index="extension_category">Category</label>
+            <label index="extension_category_be">Backend</label>
+            <label index="extension_category_module">Backend Modules</label>
+            <label index="extension_category_fe">Frontend</label>
+            <label index="extension_category_plugin">Frontend Plugins</label>
+            <label index="extension_category_misc">Miscellaneous</label>
+            <label index="extension_category_services">Services</label>
+            <label index="extension_category_templates">Templates</label>
+            <label index="extension_category_example">Examples</label>
+            <label index="extension_category_doc">Documentation</label>
+            <label index="extension_description">Description</label>
+            <label index="extension_ownerusername">Owner</label>
+            <label index="extension_uploadcomment">Upload comment</label>
+            <label index="extension_lastuploaddate">Updated</label>
+            <label index="extension_files">Files</label>
+            <label index="extension_filepreview">Preview for file %s</label>
+            <label index="extension_documentation">Documentation</label>
+            <label index="extensionfiles_downloadcompressedt3x">Download compressed extension .T3X file</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </data>
+    <orig_hash type="array">
+        <languageKey index="default" type="array">
+            <label index="general_dateandtimeformat" type="integer">112044971</label>
+            <label index="general_back" type="integer">5603241</label>
+            <label index="general_terdocnotinstalled" type="integer">248914914</label>
+            <label index="general_terdochtmlnotinstalled" type="integer">163317059</label>
+            <label index="extension_state" type="integer">74066497</label>
+            <label index="extension_state_alpha" type="integer">101917333</label>
+            <label index="extension_state_beta" type="integer">12090726</label>
+            <label index="extension_state_stable" type="integer">262385651</label>
+            <label index="extension_state_test" type="integer">13354593</label>
+            <label index="extension_state_experimental" type="integer">117749078</label>
+            <label index="extension_state_obsolete" type="integer">247663651</label>
+            <label index="extension_reviewstate" type="integer">116878544</label>
+            <label index="extension_reviewstate_0" type="integer">170007562</label>
+            <label index="extension_reviewstate_1" type="integer">268096502</label>
+            <label index="extension_extensionkey" type="integer">260594172</label>
+            <label index="extension_title" type="integer">192455458</label>
+            <label index="extension_version" type="integer">55274711</label>
+            <label index="extension_downloads" type="integer">203473758</label>
+            <label index="extension_dependencies" type="integer">144110826</label>
+            <label index="extension_dependencies_kind_depends" type="integer">207298908</label>
+            <label index="extension_dependencies_kind_conflicts" type="integer">181628956</label>
+            <label index="extension_dependencies_kind_suggests" type="integer">235139759</label>
+            <label index="extension_dependencies_kind_recommends" type="integer">54124527</label>
+            <label index="extension_dependencies_kind_replaces" type="integer">152856667</label>
+            <label index="extension_dependencies_someextensionsarenotavailable" type="integer">136711287</label>
+            <label index="extension_reversedependencies" type="integer">162663092</label>
+            <label index="extension_reversedependencies_intro" type="integer">119046875</label>
+            <label index="extension_authorname" type="integer">173111111</label>
+            <label index="extension_category" type="integer">61717939</label>
+            <label index="extension_category_be" type="integer">48506818</label>
+            <label index="extension_category_module" type="integer">39991288</label>
+            <label index="extension_category_fe" type="integer">228047462</label>
+            <label index="extension_category_plugin" type="integer">41676017</label>
+            <label index="extension_category_misc" type="integer">59226864</label>
+            <label index="extension_category_services" type="integer">160604400</label>
+            <label index="extension_category_templates" type="integer">132093617</label>
+            <label index="extension_category_example" type="integer">267895036</label>
+            <label index="extension_category_doc" type="integer">95866758</label>
+            <label index="extension_description" type="integer">190479069</label>
+            <label index="extension_ownerusername" type="integer">191842862</label>
+            <label index="extension_uploadcomment" type="integer">54925795</label>
+            <label index="extension_lastuploaddate" type="integer">267428791</label>
+            <label index="extension_files" type="integer">153041452</label>
+            <label index="extension_filepreview" type="integer">82800306</label>
+            <label index="extension_documentation" type="integer">95866758</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </orig_hash>
+    <orig_text type="array">
+        <languageKey index="default" type="array">
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </orig_text>
+</T3locallang>
