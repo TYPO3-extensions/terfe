@@ -22,8 +22,6 @@
             <label index="registerkeys_extensiontitle_hint"></label>
             <label index="registerkeys_extensiondescription"></label>
             <label index="registerkeys_extensiondescription_hint"></label>
-            <label index="registerkeys_extensionuploadpassword"></label>
-            <label index="registerkeys_extensionuploadpassword_hint"></label>
             <label index="registerkeys_checkvalidity"></label>
             <label index="registerkeys_doregister"></label>
             <label index="registerkeys_extensionkeynotvalid"></label>
@@ -52,8 +50,6 @@
             <label index="managekeys_action_transferkey_usernotfound"></label>
             <label index="managekeys_action_deletekey"></label>
             <label index="managekeys_action_deletekey_success"></label>
-            <label index="managekeys_action_changeuploadpassword"></label>
-            <label index="managekeys_action_changeuploadpassword_success"></label>
             <label index="managekeys_uploads"></label>
             <label index="adminkeys_needlogin"></label>
             <label index="adminkeys_needadminrights"></label>
@@ -79,8 +75,6 @@
             <label index="registerkeys_extensiontitle_hint">(required) name your extension with a title</label>
             <label index="registerkeys_extensiondescription">Description</label>
             <label index="registerkeys_extensiondescription_hint">Please make a short and clear statement about what this extension is about</label>
-            <label index="registerkeys_extensionuploadpassword">Upload password</label>
-            <label index="registerkeys_extensionuploadpassword_hint">The upload password is used when you want to update the repository with new versions of your extension. No password = no upload possible</label>
             <label index="registerkeys_checkvalidity">check validity</label>
             <label index="registerkeys_doregister">register key</label>
             <label index="registerkeys_extensionkeynotvalid">Extension key not valid</label>
@@ -99,9 +93,8 @@
             <label index="registerkeys_rules_length">An extension key must have minimum 3, maximum 30 characters (not counting underscores)</label>
             <label index="managekeys_needlogin">You have to be logged in in order to manage extension keys.</label>
             <label index="managekeys_title">Manage your extension keys</label>
-            <label index="managekeys_introduction">Here you can transfer an extension key to a different TYPO3.org user, change your upload password or delete non-used extension keys. Please note that you can only delete a key if you never uploaded a version to the repository which uses that key.</label>
+            <label index="managekeys_introduction">Here you can transfer an extension key to a different TYPO3.org user or delete non-used extension keys. Please note that you can only delete a key if you never uploaded a version to the repository which uses that key.</label>
             <label index="managekeys_transfer">Transfer to user</label>
-            <label index="managekeys_changepassword">Change password</label>
             <label index="managekeys_delete">Delete</label>
             <label index="managekeys_deleteareyousure">Are you sure you want to delete the extension key &quot;%s&quot; ?</label>
             <label index="managekeys_action_transferkey">Transfer key to other user</label>
@@ -109,8 +102,6 @@
             <label index="managekeys_action_transferkey_usernotfound">Your key &quot;%s&quot; could not be transferred because user &quot;%s&quot; does not exist!</label>
             <label index="managekeys_action_deletekey">Delete this key</label>
             <label index="managekeys_action_deletekey_success">The extension key &quot;%s&quot; has been successfully deleted.</label>
-            <label index="managekeys_action_changeuploadpassword">Change upload password</label>
-            <label index="managekeys_action_changeuploadpassword_success">The upload password of your key &quot;%s&quot; has been updated.</label>
             <label index="managekeys_uploads">Upl.</label>
             <label index="adminkeys_needlogin">You have to be logged in in order to administrate extension keys.</label>
             <label index="adminkeys_needadminrights">You need administrative rights in in order to administrate extension keys.</label>
@@ -267,8 +258,6 @@
             <label index="registerkeys_extensiontitle_hint" type="integer">252399373</label>
             <label index="registerkeys_extensiondescription" type="integer">190479069</label>
             <label index="registerkeys_extensiondescription_hint" type="integer">58203584</label>
-            <label index="registerkeys_extensionuploadpassword" type="integer">205548839</label>
-            <label index="registerkeys_extensionuploadpassword_hint" type="integer">243477362</label>
             <label index="registerkeys_checkvalidity" type="integer">230787153</label>
             <label index="registerkeys_doregister" type="integer">11954897</label>
             <label index="registerkeys_extensionkeynotvalid" type="integer">160095203</label>
@@ -297,8 +286,6 @@
             <label index="managekeys_action_transferkey_usernotfound" type="integer">220991059</label>
             <label index="managekeys_action_deletekey" type="integer">195228678</label>
             <label index="managekeys_action_deletekey_success" type="integer">125878874</label>
-            <label index="managekeys_action_changeuploadpassword" type="integer">227414396</label>
-            <label index="managekeys_action_changeuploadpassword_success" type="integer">84782222</label>
             <label index="managekeys_uploads" type="integer">158949079</label>
             <label index="adminkeys_needlogin" type="integer">119967979</label>
             <label index="adminkeys_needadminrights" type="integer">9340014</label>

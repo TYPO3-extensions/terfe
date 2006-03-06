@@ -51,12 +51,14 @@
             <label index="views_popular">Popular</label>
             <label index="views_search">Search</label>
             <label index="views_fulllist">Full list</label>
-            <label index="views_unsupported">Unsupported</label>
+            <label index="views_unsupported">Unreviewed</label>
+            <label index="views_reviewed">Reviewed</label>
             <label index="listview_new_introduction">These extensions have been added or updated during the last %s days:</label>
-            <label index="listview_popular_introduction">This list shows the 20 most popular extensions measured by all time download numbers.</label>
-            <label index="listview_fulllist_introduction">This is a list of all extension versions which have at least roughly been checked for possible security issues. Although we have taken great care in reviewing these extensions we cannot guarantee that all of them are secure.</label>
+            <label index="listview_popular_introduction">This list shows the 10 most popular extensions measured by all time download numbers.</label>
+            <label index="listview_fulllist_introduction">This is a list of all available extensions:</label>
             <label index="listview_unsupported_introduction">The following list contains all extensions which have been uploaded recently and have not been reviewed yet or will never be imported into the official repository.</label>
             <label index="listview_unsupported_introduction_warning">WARNING! These extensions have not been checked for security issues. It is not recommended using any of them in a production enviroment!</label>
+            <label index="listview_reviewed_introduction">This is a list of all extension versions which have at least roughly been checked for possible security issues. Although we have taken great care in reviewing these extensions we cannot guarantee that all of them are really secure.</label>
             <label index="listview_search_searchbutton">Search</label>
             <label index="listview_search_noresult">Sorry, your search had no results.</label>
             <label index="extensioninfo_views_info">Info</label>

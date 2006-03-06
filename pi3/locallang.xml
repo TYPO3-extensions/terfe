@@ -74,7 +74,7 @@
             <label index="views_review">Review</label>
             <label index="subviews_overview">Overview</label>
             <label index="subviews_files">Files</label>
-            <label index="listview_unreviewed_introduction">This is a list of all extensions which have not been reviewed yet:</label>
+            <label index="listview_unreviewed_introduction">This is a list of the most recent versions of all extensions which have not been reviewed yet:</label>
             <label index="listview_pending_introduction">For the following extensions a review has been started already:</label>
             <label index="listview_passed_introduction">This is a list of all extensions which successfully passed a review:</label>
             <label index="listview_insecure_introduction">These extension versions have already been reviewed and did not pass the security check:</label>

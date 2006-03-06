@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005 Robert Lemke (robert@typo3.org)
+*  (c) 2005, 2006 Robert Lemke (robert@typo3.org)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -54,8 +54,6 @@ define (TX_TER_ERROR_GENERAL_NOUSERORPASSWORD, '101');
 define (TX_TER_ERROR_GENERAL_USERNOTFOUND, '102');
 define (TX_TER_ERROR_GENERAL_WRONGPASSWORD, '103');
 
-define (TX_TER_ERROR_UPLOADEXTENSION_NOUPLOADPASSWORD, '200');
-define (TX_TER_ERROR_UPLOADEXTENSION_WRONGUPLOADPASSWORD, '201');
 define (TX_TER_ERROR_UPLOADEXTENSION_EXTENSIONDOESNTEXIST, '202');
 define (TX_TER_ERROR_UPLOADEXTENSION_EXTENSIONCONTAINSNOFILES, '203');
 define (TX_TER_ERROR_UPLOADEXTENSION_WRITEERRORWHILEWRITINGFILES, '204');
@@ -77,6 +75,7 @@ define (TX_TER_RESULT_EXTENSIONKEYSUCCESSFULLYREGISTERED, '10503');
 define (TX_TER_RESULT_EXTENSIONSUCCESSFULLYUPLOADED, '10504');
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
+require_once(t3lib_extMgm::extPath('ter_fe').'class.tx_terfe_common.php');
 
 /**
  * Plugin Extension key management
@@ -119,6 +118,11 @@ class tx_terfe_pi2 extends tslib_pibase {
 			$this->WSDLURI = $staticConfArr['WSDLURI'];
 			$this->SOAPServiceURI = $staticConfArr['SOAPServiceURI'];
 		}
+
+		$this->commonObj = new tx_terfe_common($this);
+		$this->commonObj->repositoryDir = $this->conf['repositoryDirectory'];
+		if (substr ($this->commonObj->repositoryDir, -1, 1) != '/') $this->commonObj->repositoryDir .= '/';
+		$this->commonObj->init();
 	}
 
 	/**
@@ -133,6 +137,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 		global $TSFE;
 
 		$this->init($conf);
+		if (!@is_dir ($this->commonObj->repositoryDir)) return 'TER_FE Error: Repository directory ('.$this->commonObj->repositoryDir.') does not exist!';
 		$userLoggedIn = is_array ($TSFE->fe_user->user);
 		$userIsAdmin = FALSE;	// TODO: Admin mode not implemented yet
 
@@ -174,7 +179,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 		$content = '
 			<h2>'.$this->pi_getLL('general_extensionkeys', 1).'</h2>
 			<br />
-			'.$topMenu.'<br />
+			'.$this->commonObj->getTopMenu($menuItems).'<br />
 			<br />
 			'.$subContent.'
 		';
@@ -262,7 +267,6 @@ class tx_terfe_pi2 extends tslib_pibase {
 									'extensionKey' => $extensionKey,
 									'title' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensionkey'), 'utf-8'),
 									'description' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensiondescription'), 'utf-8'),
-									'uploadPassword' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensionuploadpassword'), 'utf-8')
 								);
 								$result = $soapClientObj->registerExtensionKey($accountDataArr, $extensionKeyDataArr);
 
@@ -316,11 +320,6 @@ class tx_terfe_pi2 extends tslib_pibase {
 												<th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('registerkeys_extensiondescription', '', 1).':</th>
 												<td class="td-sub"><textarea name="tx_terfe_pi2_extensiondescription" rows="10" style="width:100%;"></textarea></td>
 												<td><em>'.$this->pi_getLL('registerkeys_extensiondescription_hint', '', 1).'</em></td>
-											</tr>
-											<tr>
-												<th class="th-sub" nowrap="nowrap">'.$this->pi_getLL('registerkeys_extensionuploadpassword', '', 1).':</th>
-												<td class="td-sub"><input type="password" name="tx_terfe_pi2_extensionuploadpassword" size="30" /></td>
-												<td><em>'.$this->pi_getLL('registerkeys_extensionuploadpassword_hint', '', 1).'</em></td>
 											</tr>
 											<tr>
 												<td>&nbsp;</td>
@@ -395,19 +394,6 @@ class tx_terfe_pi2 extends tslib_pibase {
 						}
 					}
 				break;
-				case 'changepassword':
-					$uploadPassword = t3lib_div::GPvar('tx_terfe_pi2_uploadpassword');
-					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
-
-					$resultArr = $soapClientObj->modifyExtensionKey($accountDataArr, array('extensionKey' => $extensionKey, 'uploadPassword' => $uploadPassword));
-
-					if (is_array ($resultArr)) {
-						switch ($resultArr['resultCode']) {
-							case TX_TER_RESULT_GENERAL_OK : $actionMessages = '<p>'.$iconInfo.' <strong>'.sprintf ($this->pi_getLL('managekeys_action_changeuploadpassword_success','',1), $extensionKey).'</strong></p><br />'; break;
-							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
-						}
-					}
-				break;
 				case 'deletekey':
 					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
 
@@ -424,7 +410,6 @@ class tx_terfe_pi2 extends tslib_pibase {
 				// Create list of extension keys:
 			$filterOptionsArr = array ('username' => $TSFE->fe_user->user['username']);
 			$resultArr = $soapClientObj->getExtensionKeys($accountDataArr, $filterOptionsArr);
-
 			if (is_array ($resultArr) && $resultArr['simpleResult']['resultCode'] == TX_TER_RESULT_GENERAL_OK) {
 
 				$tableRows = array();
@@ -439,25 +424,16 @@ class tx_terfe_pi2 extends tslib_pibase {
 							$numberOfVersions = $TYPO3_DB->sql_num_rows ($res);
 							$tableRows[] = '
 								<tr>
-									<td class="td-sub">'.$this->csConvHSC($extensionKeyArr['extensionkey']).'</td>
-									<td class="td-sub">'.$this->csConvHSC($extensionKeyArr['title']).'</td>
+									<td class="td-sub"><span title="'.$this->csConvHSC($extensionKeyArr['title']).'">'.$this->csConvHSC($extensionKeyArr['extensionkey']).'</span></td>
 									<td class="td-sub">
 										'.($numberOfVersions > 0 ? $numberOfVersions : '<em>'.$this->pi_getLL('general_none','',1).'</em>').'
 									</td>
 									<td class="td-sub" nowrap="nowrap">
 										<form action="'.$this->pi_linkTP_keepPIvars_url(array(),1).'" method="post" name="tx_terfe_pi2_register">
-											<input name="tx_terfe_pi2_targetusername" type="text" size="15" />
+											<input name="tx_terfe_pi2_targetusername" type="text" size="10" />
 											<input type="image" src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/transferkey.gif" alt="'.$this->pi_getLL('managekeys_action_transferkey','',1).'" title="'.$this->pi_getLL('managekeys_action_transferkey','',1).'" onFocus="blur()" />
 											<input name="tx_terfe_pi2_extensionkey" type="hidden" value="'.$extensionKeyArr['extensionkey'].'" />
 											<input name="tx_terfe_pi2_cmd" type="hidden" value="transferkey" />
-										</form>
-									</td>
-									<td class="td-sub" nowrap="nowrap">
-										<form action="'.$this->pi_linkTP_keepPIvars_url(array(),1).'" method="post" name="tx_terfe_pi2_register">
-											<input name="tx_terfe_pi2_newpassword" type="password" size="15" value="'.$this->pi_getLL('managekeys_newpassword','',1).'" />
-											<input type="image" src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/changepassword.gif" alt="'.$this->pi_getLL('managekeys_action_changeuploadpassword','',1).'" title="'.$this->pi_getLL('managekeys_action_changeuploadpassword','',1).'" onFocus="blur()"/>
-											<input name="tx_terfe_pi2_extensionkey" type="hidden" value="'.$extensionKeyArr['extensionkey'].'" />
-											<input name="tx_terfe_pi2_cmd" type="hidden" value="changepassword" />
 										</form>
 									</td>
 									<td class="td-sub" nowrap="nowrap">
@@ -485,10 +461,8 @@ class tx_terfe_pi2 extends tslib_pibase {
 					<table>
 						<tr>
 							<th class="th-sub">'.$this->pi_getLL('registerkeys_extensionkey','',1).'</th>
-							<th class="th-sub">'.$this->pi_getLL('registerkeys_extensiontitle','',1).'</th>
 							<th class="th-sub">'.$this->pi_getLL('managekeys_uploads','',1).'</th>
 							<th class="th-sub">'.$this->pi_getLL('managekeys_transfer','',1).'</th>
-							<th class="th-sub">'.$this->pi_getLL('managekeys_changepassword','',1).'</th>
 							<th class="th-sub">'.$this->pi_getLL('managekeys_delete','',1).'</th>
 						</tr>
 						'.implode (chr(10),$tableRows).'

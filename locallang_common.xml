@@ -56,7 +56,7 @@
     </meta>
     <data type="array">
         <languageKey index="default" type="array">
-            <label index="general_dateandtimeformat">d-m-y h:m</label>
+			  <label index="general_dateandtimeformat">%d.%m.%Y - %H:%M</label>
             <label index="general_back">Back</label>
             <label index="general_view">View</label>
             <label index="general_terdocnotinstalled">Documentation extension not installed</label>

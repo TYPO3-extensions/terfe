@@ -185,7 +185,7 @@ class tx_terfe_common {
 						$extensionRecord[$key] = unserialize ($value);
 					break;
 					case 'lastuploaddate':
-						$extensionRecord[$key] = date ($this->getLL('general_dateandtimeformat'), $value);
+						$extensionRecord[$key] = strftime($this->getLL('general_dateandtimeformat'), $value);
 					break;
 					case 'versiondownloadcounter':
 						$extensionRecord[$key] = intval($extensionRecord['extensiondownloadcounter']).' / '.intval($value);
@@ -271,25 +271,25 @@ class tx_terfe_common {
 	 * following the format major.minor.dev (eg. 4.2.1) will be returned.
 	 *
 	 * @param	string		$extKey: Extension key
+	 * @param	boolean		$ignoreReviewState: If set to TRUE, even unreviewed extension versions will be taken into account
 	 * @return	mixed		The version number as a string or FALSE
 	 * @access	public
 	 */
-	public function db_getLatestVersionNumberOfExtension ($extensionKey) {
+	public function db_getLatestVersionNumberOfExtension ($extensionKey, $ignoreReviewState=FALSE) {
 		global $TYPO3_DB;
 
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'version',
 			'tx_terfe_extensions',
-			'extensionkey="'.$TYPO3_DB->quoteStr($extensionKey, 'tx_terfe_extensions').'" AND reviewstate > 0'
+			'extensionkey="'.$TYPO3_DB->quoteStr($extensionKey, 'tx_terfe_extensions').'"' . ($ignoreReviewState ? '' : ' AND reviewstate > 0')
 		);
-		$latestVersion = FALSE;
+		$latestVersion = '0';
 		while ($row = $TYPO3_DB->sql_fetch_assoc($res)) {
 			if (version_compare($row['version'], $latestVersion, '>')) {
 				$latestVersion = $row['version'];
 			}
-		}
-
-		return $latestVersion;
+		}		
+		return $latestVersion == '0' ? FALSE : $latestVersion;
 	}
 
 	/**
@@ -395,6 +395,55 @@ class tx_terfe_common {
 	 * RENDER FUNCTIONS
 	 *
 	 *********************************************************/
+
+	/**
+	 * Renders the top tab menu which allows for selection of the different views.
+	 *
+	 * @param	array		$menuItems: Array of key values for the menu items
+	 * @return	string	HTML output, enclosed in a DIV
+	 * @access	public
+	 */
+	public function getTopMenu($menuItems) {
+
+			// Render the top menu
+		$counter = 0;
+		foreach ($menuItems as $itemKey) {
+			$activeItemsArr[$counter] = $this->pObj->piVars['view'] == $itemKey;
+			$counter ++;
+		}
+
+		$counter = 0;
+		$topMenuItems = '';
+		foreach ($menuItems as $itemKey) {
+			$this->pObj->pi_linkTP('', array($this->pObj->prefixId.'[view]' => $itemKey), 1);
+			$link = '<a href="'.$this->pObj->cObj->lastTypoLinkUrl.'" '.($activeItemsArr[$counter] ? 'class="active"' : '').'>'.$this->pObj->pi_getLL('views_'.$itemKey,'',1).'</a>';
+
+			if ($activeItemsArr[$counter]) {
+				if ($counter > 0) {
+					$topMenuItems .= '<div><img src="fileadmin/templates/images/terfe-tabnav-act-left.gif" alt="" /></div>';
+				}
+				$topMenuItems .= $link.'
+					<div><img src="fileadmin/templates/images/terfe-tabnav-act-right.gif" alt="" /></div>
+				';
+			} else {
+				if ($counter > 0 && !$activeItemsArr[$counter-1]) {
+					$topMenuItems .= '<div><img src="fileadmin/templates/images/terfe-tabnav-right.gif" alt="" /></div>';
+				}
+				$topMenuItems .= $link;
+			}
+ 
+			$counter ++;
+		}
+
+		$topMenu = '
+			<div class="terfe-tabnav">
+				<div><img src="fileadmin/templates/images/terfe-tabnav-'.($activeItemsArr[0] ? 'act-' : '').'start.gif" alt="" /></div>
+				'.$topMenuItems.'
+				<div><img src="fileadmin/templates/images/terfe-tabnav-end.gif" alt="" /></div>
+			</div>
+		';
+		return $topMenu;
+	}
 
 	/**
 	 * Renders dependency information for frontend output from the given
@@ -545,7 +594,8 @@ class tx_terfe_common {
 			$tableRows = array ();
 			foreach ($filesArr as $fileName => $fileArr) {
 
-				if (t3lib_div::inList ('php,txt,tml,htm,xml,sql,asc,log,jpg,gif,png,css', strtolower (substr ($fileName, -3, 3)))) {
+				$downloadLink = $this->pObj->pi_linkTP_keepPIvars ($this->getLL('general_download','',1), array('downloadFile' => urlencode($fileName)), 1);
+				if (t3lib_div::inList ('php,txt,tmpl,htm,xml,sql,asc,log,jpg,gif,png,css', strtolower (substr ($fileName, -3, 3)))) {
 					$viewLink = $this->pObj->pi_linkTP_keepPIvars ($this->getLL('general_view','',1), array('viewFile' => urlencode($fileName)), 1);
 				} else {
 					$viewLink = '';
@@ -555,8 +605,8 @@ class tx_terfe_common {
 						<td nowrap="nowrap">'.$this->csConvHSC ($fileName).'</td>
 						<td nowrap="nowrap">'.t3lib_div::formatSize($fileArr['size']).'</td>
 						<td nowrap="nowrap">'.$viewLink.'</td>
-						<td nowrap="nowrap">'.date($this->getLL('general_dateandtimeformat'), $fileArr['mtime']).'</td>
-						<td nowrap="nowrap"><a href="'.$tempDir.$fileArr['tempfilename'].'">'.$this->getLL('general_download','',1).'</a></td>
+						<td nowrap="nowrap">'.strftime($this->getLL('general_dateandtimeformat'), $fileArr['mtime']).'</td>
+						<td nowrap="nowrap">'.$downloadLink.'</td>
 					</tr>
 				';
 			}
@@ -564,6 +614,13 @@ class tx_terfe_common {
 			$t3xDownloadURL = substr ($this->getExtensionVersionPathAndBaseName($extensionDetailsArr['extensionkey'], $extensionDetailsArr['version']).'.t3x', strlen(PATH_site));
 
 			$filePreview = '';
+			if (isset($this->pObj->piVars['downloadFile']) && is_array ($filesArr[urldecode($this->pObj->piVars['downloadFile'])])) {
+				$filename = basename(urldecode($this->pObj->piVars['downloadFile']));				
+				$this->transferFile ($tempDir.basename($filesArr[urldecode($this->pObj->piVars['downloadFile'])]['tempfilename']), $filename);
+				unset ($this->pObj->piVars['downloadFile']);
+				return '';
+			}
+			
 			if (isset($this->pObj->piVars['viewFile']) && is_array ($filesArr[urldecode($this->pObj->piVars['viewFile'])])) {
 				$filePreview = $this->getRenderedFilePreview ($tempDir.basename($filesArr[urldecode($this->pObj->piVars['viewFile'])]['tempfilename']));
 			}
@@ -593,7 +650,7 @@ class tx_terfe_common {
 	public function getRenderedFilePreview ($pathAndFileName) {
 		$output = '<strong>'.htmlspecialchars(sprintf ($this->getLL('extension_filepreview',''), basename($pathAndFileName))).':</strong><br />';
 
-		if (t3lib_div::inList ('php,txt,xml,sql,log,css,tml,htm,asc', strtolower (substr ($pathAndFileName, -3, 3)))) {
+		if (t3lib_div::inList ('php,txt,xml,sql,log,css,tmpl,htm,asc', strtolower (substr ($pathAndFileName, -3, 3)))) {
 			ob_start();
 			highlight_file(PATH_site.$pathAndFileName);
 			$output .= ob_get_contents();
@@ -609,10 +666,6 @@ class tx_terfe_common {
 		return $output;
 	}
 
-
-
-
-
 	/**
 	 * Returns the image tag for an icon of an extension.
 	 *
@@ -624,11 +677,10 @@ class tx_terfe_common {
 	public function getIcon_extension($extensionKey, $version)	{
 		$iconFileName = $this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.gif';
 		if (@is_file($iconFileName)) {
-			$iconTag = '<img src="'.t3lib_div::getIndpEnv('TYPO3_REQUEST_DIR').substr($iconFileName, strlen(PATH_site)).'" alt="'.htmlspecialchars($extensionKey).'" />';
+			$iconTag = '<img src="'.t3lib_div::getIndpEnv('TYPO3_SITE_URL').substr($iconFileName, strlen(PATH_site)).'" alt="'.htmlspecialchars($extensionKey).'" />';
 		} else {
 			$iconTag = '';
 		}
-
 		return $iconTag;
 	}
 
@@ -641,9 +693,9 @@ class tx_terfe_common {
 	 */
 	public function getIcon_state ($state)	{
 		if (t3lib_div::inList ($this->validStates, $state)) {
-			return '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/state_'.$state.'.gif" width="109" height="17" alt="'.$this->getLL('extension_state_'.$state,'',1).'" title="'.$this->getLL('extension_state_'.$state,'',1).'" />';
+			return '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/state_'.$state.'.gif" width="109" height="21" alt="'.$this->getLL('extension_state_'.$state,'',1).'" title="'.$this->getLL('extension_state_'.$state,'',1).'" />';
 		} else {
-			return '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/state_na.gif" width="109" height="17" alt="" title="" />';
+			return '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/state_na.gif" width="109" height="21" alt="" title="" />';
 		}
 	}
 
@@ -698,6 +750,30 @@ class tx_terfe_common {
 
 		return unserialize ($dataUncompressed);
 	}
+	
+	/**
+	 * Transfers a file to the client browser.
+	 * NOTE: This function must be called *before* any HTTP headers have been sent!
+	 * 
+	 * @param	string		$fullPath: Full absolute path including filename which leads to the file to be transfered
+	 * @param	string		$visibleFilename: File name which is visible for the user while downloading. If not set, the real file name will be used
+	 * @return	boolean		TRUE if successful, FALSE if file did not exist.	 * 
+	 * @access 	protected
+	 */
+	protected function transferFile ($fullPath, $visibleFilename=NULL) {		
+
+		if (!@file_exists($fullPath)) return FALSE;		
+
+		$filename = basename($fullPath);
+		if (!isset($visibleFilename)) $visibleFilename = $filename;
+
+		header('Content-Disposition: attachment; filename='.$visibleFilename.'');
+		header('Content-type: x-application/octet-stream');
+		header('Content-Transfer-Encoding: binary');
+		header('Content-length:'.filesize($fullPath).'');
+		readfile($fullPath);
+		return TRUE;
+	}
 
 
 
@@ -731,7 +807,11 @@ class tx_terfe_common {
 
 			// Transfer data from extensions.xml.gz to database:
 		$extensions = simplexml_load_string (@implode ('', @gzfile($this->repositoryDir.'extensions.xml.gz')));
-		if ($extensions === FALSE) return;
+		if ($extensions === FALSE) {
+			$debugArr = @gzfile($this->repositoryDir.'extensions.xml.gz');
+			@unlink (PATH_site.'typo3temp/tx_terfe/tx_terfe_updatedbextensionindex.lock');
+			return;
+		}
 
 		$TYPO3_DB->exec_DELETEquery ('tx_terfe_extensions', '1');
 		$TYPO3_DB->exec_DELETEquery ('tx_terfe_extensiondependencies', '1');
@@ -797,7 +877,7 @@ class tx_terfe_common {
 	 */
 	protected function extensionIndex_wasModified () {
 		$oldMD5Hash = @file_get_contents (PATH_site.'typo3temp/tx_terfe/tx_terfe_extensionsmd5.txt');
-		$currentMD5Hash = @md5_file($this->repositoryDir.'extensions.xml.gz');
+		$currentMD5Hash = md5_file($this->repositoryDir.'extensions.xml.gz');
 		return ($oldMD5Hash != $currentMD5Hash);
 	}
 

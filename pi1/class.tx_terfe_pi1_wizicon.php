@@ -45,7 +45,7 @@ class tx_terfe_pi1_wizicon {
 		return $wizardItems;
 	}
 	function includeLocalLang()	{
-		include(t3lib_extMgm::extPath('ter_fe').'locallang,xml');
+#		include(t3lib_extMgm::extPath('ter_fe').'locallang.xml');
 		return $LOCAL_LANG;
 	}
 }

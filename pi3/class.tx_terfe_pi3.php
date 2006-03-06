@@ -133,6 +133,9 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 
 	protected	$reviewer = array();												// User name and password of the currently logged in reviewer
 
+	protected	$notificationEmail_recipient = 'robert@typo3.org,hirdes@elios.de,rg@rupertgermann.de';
+	protected	$notificationEmail_sender = 'noreply@typo3.org';
+	protected	$notificationEmail_replyTo = 'typo3-project-security@lists.netfielders.de';
 
 	/**
 	 * Initializes the plugin, only called from main()
@@ -232,52 +235,80 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 		$tableRows = array ();
 
 		switch ($mode) {
-			case 'unreviewed' : $reviewStateClause = 'reviewstate = 0 AND (state = "stable" OR state = "beta")'; break;
-			case 'passed' :		$reviewStateClause = 'reviewstate >= 1'; break;
-			case 'insecure' :	$reviewStateClause = 'reviewstate < 0'; break;
+			case 'unreviewed' : 
+				$res = $TYPO3_DB->exec_SELECTquery (
+					'ext.extensionkey,ext.title,ext.version,ext.authorname,ext.authoremail,ext.ownerusername,ext.state',
+					'tx_terfe_extensions as ext LEFT JOIN tx_terfe_reviews AS rev ON (
+						ext.extensionkey = rev.extensionkey AND
+						ext.version = rev.version
+					) ',
+					'ext.reviewstate = 0 AND 
+						(ext.state = "stable" OR ext.state = "beta") AND
+						rev.uid IS NULL
+					',
+					'',
+					'ext.extensiondownloadcounter DESC',
+					''
+				);
+			break;
+			case 'pending':
+				$res = $TYPO3_DB->exec_SELECTquery (
+					'ext.extensionkey,ext.title,ext.version,ext.authorname,ext.authoremail,ext.ownerusername,ext.state,rev.reviewers',
+					'tx_terfe_extensions as ext JOIN tx_terfe_reviews AS rev ON (
+						ext.extensionkey = rev.extensionkey AND
+					ext.version = rev.version)',
+					'ext.reviewstate = 0',
+					'',
+					'tstamp ASC',
+					''
+				);
+			break;
+			case 'passed' :
+				$res = $TYPO3_DB->exec_SELECTquery (
+					'ext.extensionkey,title,ext.version,authorname,authoremail,ownerusername,state',
+					'tx_terfe_extensions as ext JOIN tx_terfe_reviews AS rev ON (
+						ext.extensionkey = rev.extensionkey AND
+					ext.version = rev.version)',
+					'ext.reviewstate >= 1',
+					'',
+					'lastmodified DESC',
+					''
+				);
+			break;
+			case 'insecure' :	
+				$res = $TYPO3_DB->exec_SELECTquery (
+					'ext.extensionkey,title,ext.version,authorname,authoremail,ownerusername,state',
+					'tx_terfe_extensions as ext JOIN tx_terfe_reviews AS rev ON (
+						ext.extensionkey = rev.extensionkey AND
+					ext.version = rev.version)',
+					'ext.reviewstate < 0',
+					'',
+					'lastmodified DESC',
+					''
+				);
+			break;			
 		}
 
-		$sortingCriteria = $this->piVars['sorting'];
-		switch ($sortingCriteria){
-			case 'extkey': 	$sortByClause = 'extensionkey ASC'; break;
-			case 'state':	$sortByClause = 'state DESC'; break;
-			default: 		$sortByClause = 'lastuploaddate DESC';
-		}
-
-		if ($mode == 'pending'){
-			$res = $TYPO3_DB->exec_SELECTquery (
-				'e.extensionkey,title,e.version,authorname,authoremail,ownerusername,state',
-				'tx_terfe_extensions as e JOIN tx_terfe_reviews ON (
-		         e.extensionkey = tx_terfe_reviews.extensionkey AND
-				 e.version = tx_terfe_reviews.version)',
-				'e.reviewstate = 0',
-				'',
-				$sortByClause,
-				''
-			);
-		} else {
-			$res = $TYPO3_DB->exec_SELECTquery (
-				'extensionkey,title,version,authorname,authoremail,ownerusername,state',
-				'tx_terfe_extensions',
-				$reviewStateClause,
-				'',
-				$sortByClause,
-				''
-			);
-		}
-		$alreadyRenderedExtensionKeys = array();
+		$extensionRecordsToRender = array();
 
 		if ($res) {
 			if ($TYPO3_DB->sql_num_rows($res) == 0) return $this->pi_getLL('listview_noextensionsfound','',1);
-
 			while ($extensionRecord = $TYPO3_DB->sql_fetch_assoc ($res)) {
-				if (!t3lib_div::inArray ($alreadyRenderedExtensionKeys, $extensionRecord['extensionkey'])) {
-					$latestVersionNumber = $this->commonObj->db_getLatestVersionNumberOfExtension($extensionRecord['extensionkey']);
-#					if ($mode != 'unreviewed' || $latestVersionNumber == $extensionRecord['version']){
-							$tableRows[] = $this->renderListView_shortExtensionRecord ($extensionRecord);
-#					}
-					$alreadyRenderedExtensionKeys[] = $extensionRecord['extensionkey'];
+				if (version_compare($extensionRecord['version'], $extensionRecordsToRender[$extensionRecord['extensionkey']]['version'], '>')) {
+					$extensionRecordsToRender[$extensionRecord['extensionkey']] = $extensionRecord;
 				}
+			}
+		}
+
+		foreach ($extensionRecordsToRender as $extensionRecord) {
+			if ($mode == 'unreviewed') {
+				$latestVersion = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionRecord['extensionkey'], TRUE);
+				if ($extensionRecord['version'] == $latestVersion) {
+					$tableRows[] = $this->renderListView_shortExtensionRecord ($extensionRecord);
+				}
+			} else {
+				$disabled = t3lib_div::inList($extensionRecord['reviewers'], $this->reviewer['username']);
+				$tableRows[] = $this->renderListView_shortExtensionRecord ($extensionRecord, $disabled);
 			}
 		}
 
@@ -286,10 +317,8 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 			<table style="margin-top:10px;">
 				<th class="th-main">&nbsp;</th>
 				<th class="th-main">'.$this->commonObj->getLL('extension_title','',1).'</th>
-				<th class="th-main">'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_extensionkey','',1),array('sorting'=>'extkey'),1).'</th>
+				<th class="th-main">'.$this->commonObj->getLL('extension_extensionkey','',1).'</th>
 				<th class="th-main">'.$this->commonObj->getLL('extension_version','',1).'</th>
-				<th class="th-main">'.$this->commonObj->getLL('extension_documentation','',1).'</th>
-				<th class="th-main">'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_state','',1),array('sorting'=>'state')).'</th>
 				<th class="th-main">'.$this->commonObj->getLL('extension_authorname','',1).'</th>
 			'.implode('', $tableRows).'
 			</table>
@@ -301,10 +330,11 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 	 * Render a short extension info row for the review-specific listing of extensions
 	 *
 	 * @param	array		$extensionRecord: Database record from tx_terfe_extensions
+	 * @param	boolean	$disabled: If set to TRUE, the row will be rendered in a disabled style
 	 * @return	string		Two HTML table rows wrapped in <tr>
 	 * @access	protected
 	 */
-	protected function renderListView_shortExtensionRecord($extensionRecord)	{
+	protected function renderListView_shortExtensionRecord($extensionRecord, $disabled=FALSE)	{
 		global $TSFE;
 
 		if (t3lib_extMgm::isLoaded ('ter_doc')) {
@@ -315,15 +345,15 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 		}
 
 		$extensionRecord = $this->commonObj->db_prepareextensionRecordForOutput ($extensionRecord);
+		$cssClass = $disabled ? 'td-sub-disabled' : 'td-sub';
+
 		$tableRow = '
 			<tr>
-				<td class="td-sub">'.$this->commonObj->getIcon_extension ($extensionRecord['extensionkey'], $extensionRecord['version']).'</td>
-				<td class="td-sub" nowrap="nowrap">'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view' => 'review', 'extensionkey' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1).'</td>
-				<td class="td-sub">'.$extensionRecord['extensionkey'].'</td>
-				<td class="td-sub">'.$extensionRecord['version'].'</td>
-				<td class="td-sub" nowrap="nowrap">'.$documentationLink.'</td>
-				<td class="td-sub">'.$this->commonObj->getIcon_state($extensionRecord['state_raw']).'</td>
-				<td class="td-sub">'.$extensionRecord['ownerusernameandname'].'</td>
+				<td class="'.$cssClass.'">'.$this->commonObj->getIcon_extension ($extensionRecord['extensionkey'], $extensionRecord['version']).'</td>
+				<td class="'.$cssClass.'">'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view' => 'review', 'extensionkey' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1).'</td>
+				<td class="'.$cssClass.'">'.$extensionRecord['extensionkey'].'</td>
+				<td class="'.$cssClass.'">'.$extensionRecord['version'].'</td>
+				<td class="'.$cssClass.'">'.$extensionRecord['ownerusernameandname'].'</td>
 			</tr>
 		';
 
@@ -350,7 +380,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 	protected function renderSingleView() {
 
 		$extensionKey = $this->piVars['extensionkey'];
-		$version = (strlen($this->piVars['version']) ? $this->piVars['version'] : $this->commonObj->db_getLatestVersionNumberOfExtension($extensionKey));
+		$version = (strlen(trim($this->piVars['version'])) ? $this->piVars['version'] : $this->commonObj->db_getLatestVersionNumberOfExtension($extensionKey,TRUE));
 		if (!strlen($extensionKey) || !strlen($version)) return $this->renderSingleView_selectExtensionVersion();
 
 		$extensionRecord = $this->commonObj->db_getExtensionRecord($extensionKey, $version);
@@ -540,6 +570,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 					<td class="td-sub">
 						'.$this->pi_getLL('singleview_review_reviewinfo_reviewstate_'.($reviewState === FALSE ? 'FALSE' : $reviewState),'',1).'
 						'.$this->pi_getLL('singleview_review_reviewinfo_'.($userAlreadyReviewsThisExtension ? 'youarereviewing' : 'youarenotreviewing'),'',1).'
+'.$this->debugOutput.'
 					</td>
 					<td class="td-sub">&nbsp;</td>
 				';
@@ -607,8 +638,8 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 						<tr>
 							<th class="th-sub">&nbsp;</th>
 							<td class="td-sub" colspan="2">
-								<strong>'.$reviewNote['reviewer'].' <em>'.date ($this->commonObj->getLL('general_dateandtimeformat'), $reviewNote['tstamp']).'</em>:</strong><br />
-								'.htmlspecialchars($reviewNote['note']).'</td>
+								<strong>'.$reviewNote['reviewer'].' <em>'.strftime ($this->commonObj->getLL('general_dateandtimeformat'), $reviewNote['tstamp']).'</em>:</strong><br />
+								'.nl2br(htmlspecialchars(str_replace("\t", '&nbsp;&nbsp;&nbsp;', $reviewNote['note']))).'</td>
 						</tr>
 					';
 				}
@@ -642,7 +673,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 					<tr>
 						<td class="td-sub">
 							'.$this->getIcon_reviewStateBar($reviewState).'
-							'.$this->pi_linkTP_keePPIvars($version, array('view' => 'review', 'extensionkey' => $extensionKey, 'version' => $version), 0, 1).'
+							'.$this->pi_linkTP_keepPIvars($version, array('view' => 'review', 'extensionkey' => $extensionKey, 'version' => $version), 0, 1).'
 						</td>
 						<td class="td-sub">'.$this->pi_getLL('singleview_review_reviewinfo_reviewstate_'.($reviewState === FALSE ? 'FALSE' : $reviewState),'',1).'</td>
 					</tr>
@@ -967,6 +998,11 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 	 */
 	protected function cmd_startReview() {
 		$result = $this->db_createReviewRecord($this->piVars['extensionkey'], $this->piVars['version'], $this->reviewer['username']);
+		$subjectAndMessage = '[TER2][review] '.$this->piVars['extensionkey'].' ('.$this->piVars['version'].') : new review started
+			'.$this->reviewer['username'].' has started a new security review for extension '.$this->piVars['extensionkey'].' ('.$this->piVars['version'].')
+		';
+		$this->cObj->sendNotifyEmail($subjectAndMessage, $this->notificationEmail_recipient, $this->notificationEmail_sender, $this->notificationEmail_replyTo, 'TER2 Security review framework');
+
 		return $result === FALSE ? $this->renderSub_errorWrap($this->pi_getLL('error_startreview_general','',1)) : '';
 	}
 
@@ -1362,7 +1398,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 		$reviewRecord = $this->db_getReviewRecord($extensionKey, $version);
 		if ($reviewRecord === FALSE) return FALSE;
 
-		$t3xPathAndFileName = $this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x';
+		$t3xPathAndFileName = $this->commonObj->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x';
 		$t3xFileMD5 = @md5_file ($t3xPathAndFileName);
 		$reviewRow = array (
 			't3xfilemd5' => $t3xFileMD5
@@ -1474,10 +1510,18 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 			);
 			$soapClientObj->setReviewState($accountDataArr, $reviewStateDataArr);
 		} catch (SoapFault $exception) {
-			$this->db_addReviewNote($extensionKey, $version, 'Setting the review state via SOAP FAILED! ('.$exception->description.')');
+			$this->db_addReviewNote($extensionKey, $version, 'Setting the review state via SOAP FAILED! ('.$exception->faultstring.')');
 			return FALSE;
 		}
 		$this->db_addReviewNote($extensionKey, $version, 'Successfully updated review state via SOAP (reviewstate = '.$reviewState.').');
+
+			// Send a notification email:
+		$subjectAndMessage = '[TER2][review] '.$extensionKey.' ('.$version.') review state changed to '.$reviewState.'.
+The review state for the extension '.$extensionKey.' ('.$version.') has been set to '.$reviewState.'. Reviewer: '.$this->reviewer['username'].'
+';
+		$this->cObj->sendNotifyEmail($subjectAndMessage, $this->notificationEmail_recipient, $this->notificationEmail_sender, $this->notificationEmail_replyTo, 'TER2 Security review framework');
+
+
 		return TRUE;
 	}
 
@@ -1490,6 +1534,18 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 	 * @access	protected
 	 */
 	protected function getReviewState($extensionKey, $version){
+
+			// Check if the t3x md5 has changed in the meantime!
+		$reviewRecord = $this->db_getReviewRecord($extensionKey, $version);
+		$t3xPathAndFileName = $this->commonObj->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x';
+		$t3xFileMD5 = @md5_file ($t3xPathAndFileName);
+
+		if ($t3xFileMD5 != $reviewRecord['t3xfilemd5']) {
+#			$this->db_addReviewNote($extensionKey, $version, 'MD5 sum of this extension version has changed! Resetting review ratings ...');
+			$this->db_addReviewNote($extensionKey, $version, 'MD5 sum of this extension version has changed! Because that might have happened during the launch of TER2, I just set update the MD5 in the database.');
+#			$this->db_deleteReviewRatingRecords($extensionKey, $version);
+			$this->db_updateReviewRecord_t3xMD5($extensionKey, $version);
+		}
 
 		$reviewRatingRecords = $this->db_getReviewRatingRecords($extensionKey, $version);
 		if ($reviewRatingRecords === FALSE ) return TX_TERFE_REVIEWSTATE_UNREVIEWED;
@@ -1544,7 +1600,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 		switch (TRUE) {
 			case ($reviewState === TX_TERFE_REVIEWSTATE_INSECURE) :		$color = TX_TERFE_COLOR_INSECURE; break;
 			case ($reviewState === TX_TERFE_REVIEWSTATE_PENDING) :		$color = TX_TERFE_COLOR_PENDING; break;
-			case ($reviewState === TX_TERFE_REVIEWSTATE_PASSED) :		$color = TX_TERFE_COLOR_PASSED; break;
+			case ($reviewState === TX_TERFE_REVIEWSTATE_PASSED) :			$color = TX_TERFE_COLOR_PASSED; break;
 			case ($reviewState === TX_TERFE_REVIEWSTATE_UNREVIEWED) :	$color = TX_TERFE_COLOR_UNREVIEWED; break;
 			default : $file = 'greyled.gif';
 		}
