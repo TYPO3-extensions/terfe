@@ -444,9 +444,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 */
 	protected function renderSingleView_extension ($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
-
-		if (!strlen($version)) $version = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKey);
-
+		if (!$version) {
+			$version = $this->piVars['version'] = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKey,$this->tooFewReviewsMode);
+		}
+		// we always prefer reviewed exts, but if none exist, try unreviewed as well
+		if (!$version){
+			$version = $this->piVars['version'] =$this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKey,1);
+		}
 			// Fetch the extension record:
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'*',
@@ -454,8 +458,8 @@ class tx_terfe_pi1 extends tslib_pibase {
 			'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_extensions').' AND '.
 			'version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_extensions')
 		);
-		if (!$res) return 'Extension '.htmlspecialchars($extensionKey).' not found!';
 		$extensionRecord = $this->commonObj->db_prepareExtensionRecordForOutput ($TYPO3_DB->sql_fetch_assoc ($res));
+		if (!$extensionRecord || $extensionRecord['reviewstate']== -1) return 'Extension '.htmlspecialchars($extensionKey).' not found!';
 
 				// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:
 		if (t3lib_extMgm::isLoaded ('ter_doc')) {
