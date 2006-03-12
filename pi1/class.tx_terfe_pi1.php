@@ -375,19 +375,20 @@ class tx_terfe_pi1 extends tslib_pibase {
 			);
 
 		$sorting = $this->piVars['sorting'];
+	
 		$sortingConditions = array (
 			'by_title' => '',
 			'by_extkey' => 'extensionkey ASC,',
 			'by_state' => 'state DESC,',
-			'by_update' => 'lastupdate DESC,'
+			'by_update' => 'lastuploaddate DESC,'
 		);
 
 		$tableRows = array ();
 
 		$res = $TYPO3_DB->exec_SELECTquery (
-			'extensionkey,title,version',
+			'extensionkey,title,version,state,lastuploaddate',
 			'tx_terfe_extensions',
-			'state <> "obsolete" '. $selectConditions[$mode],
+			'state in ("experimental","alpha","beta","stable") '. $selectConditions[$mode],
 			'',
 			$sortingConditions[$sorting].'title ASC',
 			''
@@ -420,12 +421,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$content = $introArr[$mode];
 
 		$content .= '
-				<table cellspacing="0" cellpadding="0">
-				<th class="th-main">&nbsp;</th>
-				<th class="th-main">'.$this->commonObj->getLL('extension_title','',1).'</th>
-				<th class="th-main">'.$this->commonObj->getLL('extension_extensionkey','',1).'</th>
-				<th class="th-main">'.$this->commonObj->getLL('extension_version','',1).'</th>
-				<th class="th-main">'.$this->commonObj->getLL('extension_documentation','',1).'</th>
+				<table class="compactlist">
+				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_title','',1),array('sorting'=>'by_title'),1).'</th>
+				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_extensionkey','',1),array('sorting'=>'by_extkey'),1).'</th>
+				<th>'.$this->commonObj->getLL('extension_version','',1).'</th>
+				<th>'.$this->commonObj->getLL('extension_documentation','',1).'</th>
+				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_state','',1),array('sorting'=>'by_state'),1).'</th>
+				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_lastuploaddate','',1),array('sorting'=>'by_update'),1).'</th>
 			'.implode('', $tableRows).'
 			</table>
 		';
@@ -483,12 +485,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 				break;
 
 				// ADDED BY MICHAEL SCHARKOW, just using another class for all the rating stuff!
-			case 'rating':
+/*		case 'rating':
 				require_once('class.tx_terfe_ratings.php');
 				$rating = new tx_terfe_ratings($extensionRecord,$this);
 				$subContent = $rating->renderSingleView_rating();
 
-			break;
+				break;
+ */
 			case 'info':
 			default:
 				$subContent = $this->renderSingleView_extensionInfo ($extensionRecord);
@@ -705,9 +708,10 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$tableRows = '
 			<tr>
 				<th class="th-main-left">
-					'.$this->commonObj->getIcon_extension ($extensionRecord['extensionkey'], $extensionRecord['version']).'
-					'.$this->pi_linkTP(t3lib_div::fixed_lgd_cs($extensionRecord['title'],45), array('tx_terfe_pi1[view]' => 'search', 'tx_terfe_pi1[showExt]' => $extensionRecord['extensionkey'], 'tx_terfe_pi1[version]' => $extensionRecord['version']),1).'
-				</th>
+					'.$this->commonObj->getIcon_extension ($extensionRecord['extensionkey'], $extensionRecord['version']).
+$this->pi_linkTP_keepPIvars(t3lib_div::fixed_lgd_cs($extensionRecord['title'],45), array('view'=>'view','showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1,1)
+	//				'.$this->pi_linkTP(t3lib_div::fixed_lgd_cs($extensionRecord['title'],45), array('tx_terfe_pi1[view]' => 'search', 'tx_terfe_pi1[showExt]' => $extensionRecord['extensionkey'], 'tx_terfe_pi1[version]' => $extensionRecord['version']),1).'
+				.'</th>
 				<th class="th-main-right">'.$this->commonObj->getIcon_state($extensionRecord['state_raw']).'</th>
 			</tr>
 			<tr>
@@ -752,14 +756,16 @@ class tx_terfe_pi1 extends tslib_pibase {
 		}
 
 		$extensionRecord = $this->commonObj->db_prepareExtensionRecordForOutput ($extensionRecord);
-
+		$rowClass = $this->oddRow ? 'class="even"' : '';
+		$this->oddRow = 1-$this->oddRow;
 		$tableRows = '
-			<tr>
-				<td class="td-sub">'.$this->commonObj->getIcon_extension ($extensionRecord['extensionkey'], $extensionRecord['version']).'</td>
-				<td class="td-sub">'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1).'</td>
-				<td class="td-sub">'.$extensionRecord['extensionkey'].'</td>
-				<td class="td-sub">'.$extensionRecord['version'].'</td>
-				<td class="td-sub">'.$documentationLink.'</td>
+			<tr '.$rowClass.'>
+			<td>'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view'=>'view','showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1,1).'</td>
+				<td>'.$extensionRecord['extensionkey'].'</td>
+				<td>'.$extensionRecord['version'].'</td>
+				<td>'.$documentationLink.'</td>
+				<td class="'.strtolower($extensionRecord['state']).'">'.$extensionRecord['state'].'</td>
+				<td>'.$extensionRecord['lastuploaddate'].'</td>
 			</tr>
 		';
 

@@ -1,3 +1,10 @@
+12.03.2006 Michael Scharkow <michael@underused.org>
+	* refactoring of pi1, compact lists use a common function now
+	* added state and last update in compact lists
+	* zebra table rows for CSS, less classes in table view (check CSS!)
+	* added sorting by common criteria
+	* changed links, so that single view is consistently prefixed with /view
+
 05.03.2006 Robert Lemke <robert@typo3.org>
 	+ File downloads are now passed through a function which sends correct HTTP headers and nicer file names.
 

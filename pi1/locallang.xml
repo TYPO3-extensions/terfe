@@ -14,7 +14,8 @@
             <label index="views_popular"></label>
             <label index="views_search"></label>
             <label index="views_fulllist"></label>
-            <label index="views_unsupported"></label>
+            <label index="views_reviewed"></label>
+            <label index="views_unreviewed"></label>
             <label index="listview_new_introduction"></label>
             <label index="listview_popular_introduction"></label>
             <label index="listview_fulllist_introduction"></label>
@@ -51,8 +52,8 @@
             <label index="views_popular">Popular</label>
             <label index="views_search">Search</label>
             <label index="views_fulllist">Full list</label>
-            <label index="views_unsupported">Unreviewed</label>
             <label index="views_reviewed">Reviewed</label>
+            <label index="views_unreviewed">Unreviewed</label>
             <label index="listview_new_introduction">These extensions have been added or updated during the last %s days:</label>
             <label index="listview_popular_introduction">This list shows the 10 most popular extensions measured by all time download numbers.</label>
             <label index="listview_fulllist_introduction">This is a list of all available extensions:</label>
