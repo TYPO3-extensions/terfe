@@ -1,3 +1,10 @@
+13.03.2006 Michael Scharkow <michael@underused.org>
+	* more refactoring
+	* complete overhaul of all output (thanks to Ingo Renner and Joey Hasenau)
+	* info and detail view merged
+	* stdSelection for all queries (no obsolete, testing and documentation)
+	* added simple upload comment changelog in single view
+	
 12.03.2006 Michael Scharkow <michael@underused.org>
 	* refactoring of pi1, compact lists use a common function now
 	* added state and last update in compact lists

@@ -185,6 +185,7 @@ class tx_terfe_common {
 						$extensionRecord[$key] = unserialize ($value);
 					break;
 					case 'lastuploaddate':
+						$extensionRecord['lastuploaddate_raw'] = $value;
 						$extensionRecord[$key] = strftime($this->getLL('general_dateandtimeformat'), $value);
 					break;
 					case 'versiondownloadcounter':
@@ -498,28 +499,23 @@ class tx_terfe_common {
 						// Render the depencies information:
 					$colorStyle = $extensionIsAvailable ? '' : 'color:red;';
 					if (!$extensionIsAvailable) $someExtensionsAreNotAvailable = TRUE;
-					$tableRows[] = '
-						<tr>
-							<td class="td-sub" style="'.$colorStyle.'">'.$this->getLL('extension_dependencies_kind_'.$dependencyArr['kind'],'',1).'</td>
-							<td class="td-sub" style="'.$colorStyle.'">'.$this->csConvHSC ($dependencyArr['extensionKey']).'</td>
-							<td class="td-sub" style="'.$colorStyle.'">'.$dependencyArr['versionRange'].'</td>
-						</tr>
+					$tableRows[] = '	
+						<li>'.$this->getLL('extension_dependencies_kind_'.$dependencyArr['kind'],'',1).' '.$this->csConvHSC ($dependencyArr['extensionKey']).' '
+						.$dependencyArr['versionRange'].'</li>
 					';
 				}
 			}
 
 			if ($someExtensionsAreNotAvailable) {
 				$tableRows[] = '
-					<tr>
-						<td class="td-sub" style="color:red" colspan="3">'.$this->getLL('extension_dependencies_someextensionsarenotavailable','',1).'</td>
-					</tr>
+						<li style="color:red">'.$this->getLL('extension_dependencies_someextensionsarenotavailable','',1).'</li>
 				';
 			}
 
 			$output = '
-				<table>
+				<ul>
 					'.implode ('', $tableRows).'
-				</table>
+				</ul>
 			';
 		}
 		return $output;
@@ -559,15 +555,15 @@ class tx_terfe_common {
 			}
 
 			foreach ($dependingExtensionKeysArr as $key => $versionsArr) {
-				$tableRows[] = '<tr><td class="td-sub">'.$this->csConvHSC($key).'</td><td class="td-sub">'.implode (', ', $versionsArr).'</td></tr>';
+				$tableRows[] = '<li>'.$this->csConvHSC($key).' '.implode (', ', $versionsArr).'</li>';
 			}
 
 			if (count ($tableRows)) {
-				$output = '
-					'.$this->getLL('extension_reversedependencies_intro','',1).'
-					<table>
+				$output = 
+					'<p>'.$this->getLL('extension_reversedependencies_intro','',1).'</p>
+					<ul>
 						'.implode ('', $tableRows).'
-					</table>
+					</ul>
 				';
 			}
 		}
@@ -602,11 +598,11 @@ class tx_terfe_common {
 				}
 				$tableRows[] = '
 					<tr>
-						<td nowrap="nowrap">'.$this->csConvHSC ($fileName).'</td>
-						<td nowrap="nowrap">'.t3lib_div::formatSize($fileArr['size']).'</td>
-						<td nowrap="nowrap">'.$viewLink.'</td>
-						<td nowrap="nowrap">'.strftime($this->getLL('general_dateandtimeformat'), $fileArr['mtime']).'</td>
-						<td nowrap="nowrap">'.$downloadLink.'</td>
+						<td class="filename">'.$this->csConvHSC ($fileName).'</td>
+						<td>'.t3lib_div::formatSize($fileArr['size']).'</td>
+						<td>'.$viewLink.'</td>
+						<td">'.strftime($this->getLL('general_dateandtimeformat'), $fileArr['mtime']).'</td>
+						<td">'.$downloadLink.'</td>
 					</tr>
 				';
 			}
@@ -626,13 +622,13 @@ class tx_terfe_common {
 			}
 
 			$output ='
-				<table>
+				<table class="filelist">
+				<tr><th>Filename</th><th>Size</th><th>View</th><th>Date</th><th>Download</th></tr>
 					'.implode ('', $tableRows).'
 				</table>
-				<br /><br />
-				<p><a href="'.$t3xDownloadURL.'">'.$this->getLL('extensionfiles_downloadcompressedt3x','',1).'</a></p>
-				<br />
-				'.$filePreview.'
+				</li>
+				<li>
+				'.$filePreview.'</li>
 			';
 
 		}

@@ -21,6 +21,7 @@
             <label index="extension_reviewstate"></label>
             <label index="extension_reviewstate_0"></label>
             <label index="extension_reviewstate_1"></label>
+            <label index="extension_rating"></label>
             <label index="extension_extensionkey"></label>
             <label index="extension_title"></label>
             <label index="extension_version"></label>
@@ -49,6 +50,8 @@
             <label index="extension_ownerusername"></label>
             <label index="extension_uploadcomment"></label>
             <label index="extension_lastuploaddate"></label>
+            <label index="extension_history"></label>
+            <label index="extension_download_extension"></label>
             <label index="extension_files"></label>
             <label index="extension_filepreview"></label>
             <label index="extension_documentation"></label>
@@ -73,6 +76,7 @@
             <label index="extension_reviewstate_-1">Failed a security check!</label>
             <label index="extension_reviewstate_0">Not reviewed!</label>
             <label index="extension_reviewstate_1">Passed a basic security check</label>
+            <label index="extension_rating">Rating</label>
             <label index="extension_extensionkey">Extension key</label>
             <label index="extension_title">Title</label>
             <label index="extension_version">Version</label>
@@ -101,6 +105,8 @@
             <label index="extension_ownerusername">Owner</label>
             <label index="extension_uploadcomment">Upload comment</label>
             <label index="extension_lastuploaddate">Updated</label>
+            <label index="extension_history">Version history</label>
+            <label index="extension_download_extension">Download extension</label>
             <label index="extension_files">Files</label>
             <label index="extension_filepreview">Preview for file %s</label>
             <label index="extension_documentation">Manual</label>
