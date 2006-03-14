@@ -425,13 +425,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$content = $introArr[$mode];
 
 		$content .= '
-				<table class="ext-compactlist">
+				<table class="ext-compactlist"><tr>
 				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_title','',1),array('sorting'=>'by_title'),1).'</th>
 				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_extensionkey','',1),array('sorting'=>'by_extkey'),1).'</th>
 				<th>'.$this->commonObj->getLL('extension_documentation','',1).'</th>
 				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_state','',1),array('sorting'=>'by_state'),1).'</th>
 				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_lastuploaddate','',1),array('sorting'=>'by_update'),1).'</th>
-			'.implode('', $tableRows).'
+			</tr>'.implode('', $tableRows).'
 			</table>
 		';
 		return $content;
@@ -507,9 +507,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$content ='
 			<h3>'.$extensionRecord['title'].'</h3><br />
 			<p>'.$topMenu.'</p><br />
-			'.$subContent.'<br />
-			<p class="text-button">'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('general_back','',1), array('showExt'=>'','extview'=>''),1).'</p>
-		';
+			'.$subContent;
 
 		return $content;
 	}
@@ -602,7 +600,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			'extension_reversedependencies' => $this->commonObj->getRenderedReverseDependencies ($extensionRecord['extensionkey'], $extensionRecord['version']),
 			'extension_files' => $this->commonObj->getRenderedListOfFiles ($extDetailsRow),
 			'extension_history' => $this->getUploadHistory ($extensionRecord['extensionkey'], $extensionRecord['lastuploaddate_raw']),
-			'extension_download_extension' => '<a href="'.$t3xDownloadURL.'">'.$this->commonObj->getLL('extensionfiles_downloadcompressedt3x','',1).'</a></p>'
+			'extension_download_extension' => '<p><a href="'.$t3xDownloadURL.'">'.$this->commonObj->getLL('extensionfiles_downloadcompressedt3x','',1).'</a></p>'
 
 		);
 
@@ -625,14 +623,12 @@ class tx_terfe_pi1 extends tslib_pibase {
 					<dl class="deps">'.$detailRows[3].'</dl>
 					</dd>
 					<dd class="bottom">
-					<dl class="description">'.$detailRows[4].'
-					</li>
-
-
-					<li class="files">
-			'.$detailsArr['extension_files'].'
+					<dl class="description">'.$detailRows[4].'</dl>
+					</dd>
+					</dl>
 			</li>
-			';
+					<li class="files">
+			'.$detailsArr['extension_files'].'</li>';
 
 		return $content;
 	}
@@ -734,13 +730,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 			<dl class="ext-header">
 				<dt>Icon</dt>
 				<dd>'.$this->commonObj->getIcon_extension ($extensionRecord['extensionkey'], $extensionRecord['version']).'</dd>
-				<dt class="ext-name"><dt>'.$this->commonObj->getLL('extension_title','',1).'</dt>
-				<dd>'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view'=>'view','showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1,1).'</dd>
+				<dt>'.$this->commonObj->getLL('extension_title','',1).'</dt>
+				<dd class="ext-name">'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view'=>'view','showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1,1).'</dd>
 				<dt>'.$this->commonObj->getLL('extension_extensionkey','',1).'</dt>
 				<dd>( '.$extensionRecord['extensionkey'].' )</dd>
 				<dt>'.$this->commonObj->getLL('extension_state','',1).'</dt>
 				<dd class="'.strtolower($extensionRecord['state_raw']).'_'.$extensionRecord['reviewstate_label'].' state">
-				<dt><span>'.$extensionRecord['state_raw'].', '.$extensionRecord['reviewstate'].'</dd>
+				<span>'.$extensionRecord['state_raw'].', '.$extensionRecord['reviewstate'].'</span></dd>
 				</dl>
 			<dl class="ext-info">
 				<dt class="hidden">Extension Details</dt>
@@ -753,8 +749,8 @@ class tx_terfe_pi1 extends tslib_pibase {
 						<dl><dt>'.$this->commonObj->getLL('extension_rating','',1).'</dt><dd>'.$extensionRecord['rating'].'</dd></dl>
 					</dd>
 					<dd class="right">
-						<dl><dt>'.$this->commonObj->getLL('extension_lastuploaddate','',1).'</dt><dd>'.$extensionRecord['lastuploaddate'].'</dd></dl>
-						<dl class="changelog"><dt>'.$this->commonObj->getLL('extension_uploadcomment','',1).'</dt><dd>'.$extensionRecord['uploadcomment'].'</dd></dl>
+						<dl><dt>'.$this->commonObj->getLL('extension_lastuploaddate','',1).'</dt><dd class="updated">'.$extensionRecord['lastuploaddate'].'</dd></dl>
+						<dl class="changelog"><dt>'.$this->commonObj->getLL('extension_uploadcomment','',1).'</dt><dd class="changelog">'.$extensionRecord['uploadcomment'].'</dd></dl>
 					</dd>
 					<dd class="bottom">
 						<dl class="description"><dt>'.$this->commonObj->getLL('extension_description','',1).'</dt><dd>'.$extensionRecord['description'].'</dd></dl>
@@ -821,7 +817,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			$output = '<ul>';
 			while ($result = $TYPO3_DB->sql_fetch_assoc($res)){
 				if ($result['uploadcomment']){
-					$output .= '<li>'.$result['version'].': '.nl2br(htmlspecialchars($result['uploadcomment'])).'</li>';
+					$output .= '<li>'.$result['version'].': '.htmlspecialchars($result['uploadcomment']).'</li>';
 				}
 			}
 			return $output.'</ul>';

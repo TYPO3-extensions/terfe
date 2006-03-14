@@ -601,8 +601,8 @@ class tx_terfe_common {
 						<td class="filename">'.$this->csConvHSC ($fileName).'</td>
 						<td>'.t3lib_div::formatSize($fileArr['size']).'</td>
 						<td>'.$viewLink.'</td>
-						<td">'.strftime($this->getLL('general_dateandtimeformat'), $fileArr['mtime']).'</td>
-						<td">'.$downloadLink.'</td>
+						<td>'.strftime($this->getLL('general_dateandtimeformat'), $fileArr['mtime']).'</td>
+						<td>'.$downloadLink.'</td>
 					</tr>
 				';
 			}
@@ -628,8 +628,7 @@ class tx_terfe_common {
 				</table>
 				</li>
 				<li>
-				'.$filePreview.'</li>
-			';
+				'.$filePreview;
 
 		}
 		return $output;
