@@ -125,15 +125,15 @@ class tx_terfe_pi1 extends tslib_pibase {
 				case 'new':		$subContent = $this->renderListView_new(); break;
 				case 'categories': 		$subContent = $this->renderListView_categories(); break;
 				case 'popular': 		$subContent = $this->renderListView_popular(); break;
-				case 'fulllist':		$subContent = $this->renderListView_fullList(); break;
+				case 'fulllist':		$subContent = $this->renderListView_compactList('full'); break;
 				case 'search':			$subContent = $this->renderListView_search(); break;
-				case 'unsupported':		$subContent = $this->renderListView_unsupported(); break;
-				case 'reviewed':		$subContent = $this->renderListView_reviewed(); break;
+				case 'unreviewed':		$subContent = $this->renderListView_compactList('unreviewed'); break;
+				case 'reviewed':		$subContent = $this->renderListView_compactList('reviewed'); break;
 			}
 		}
 
 			// Put everything together:
-		$content = $this->commonObj->getTopMenu(array ('new',  'popular', 'fulllist', 'search', ($this->tooFewReviewsMode ? 'reviewed' : 'unsupported'))).'<br />'.$subContent;
+		$content = $this->commonObj->getTopMenu(array ('new',  'popular', 'fulllist', 'search', ($this->tooFewReviewsMode ? 'reviewed' : 'unreviewed'))).'<br />'.$subContent;
 
 		return $this->pi_wrapInBaseClass($content);
 	}
@@ -389,7 +389,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$tableRows = array ();
 
 		$res = $TYPO3_DB->exec_SELECTquery (
-			'extensionkey,title,version',
+			'extensionkey,title,version,state,lastuploaddate',
 			'tx_terfe_extensions',
 			$this->standardSelectionClause.$selectConditions[$mode],
 			'',
