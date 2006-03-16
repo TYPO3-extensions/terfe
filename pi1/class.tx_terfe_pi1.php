@@ -373,9 +373,9 @@ class tx_terfe_pi1 extends tslib_pibase {
 		global $TYPO3_DB, $TSFE;
 
 		$selectConditions = array (
-			'full' => ($this->tooFewReviewsMode ? 'reviewstate >= 0' : 'reviewstate > 0'),
-			'reviewed' => 'reviewstate > 0',
-			'unreviewed' => 'reviewstate = 0'
+			'full' => ($this->tooFewReviewsMode ? ' AND reviewstate >= 0' : 'reviewstate > 0'),
+			'reviewed' => ' AND reviewstate > 0',
+			'unreviewed' => ' AND reviewstate = 0'
 			);
 
 		$sorting = $this->piVars['sorting'];
@@ -391,7 +391,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'extensionkey,title,version,state,lastuploaddate',
 			'tx_terfe_extensions',
-			$this->standardSelectionClause.$selectConditions[$mode],
+			$this->standardSelectionClause . $selectConditions[$mode],
 			'',
 			$sortingConditions[$sorting].'title ASC, lastuploaddate DESC',
 			''
@@ -718,12 +718,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		}
 		$extensionRecord = $this->commonObj->db_prepareExtensionRecordForOutput ($extensionRecord);
 		$extensionRecord['reviewstate_label'] = $extensionRecord['reviewstate_raw'] ? 'reviewed' : 'unreviewed';
-
-		//dummy content
-		$extensionRecord['rating'] = 'none yet';
-		$extensionRecord['versiondownloadcounter'] = '12333/32111';
 		
-		$documentationLink = 'not available';
 		$tableRows = '
 			<li>
 				<dl class="ext-header">

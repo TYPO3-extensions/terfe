@@ -1,4 +1,7 @@
 16.03.2006 Robert Lemke <robert@typo3.org>
+	* Removed dummy content from renderListView_detailledExtensionRecord(). That was very confusing because in the list view the documentation link was always "not available" and downloadcounter "12333/32111" - because it was hardcoded. Please make sure to clean up before you commit.
+
+16.03.2006 Robert Lemke <robert@typo3.org>
 	* Only a few cosmetic changes after the review of Michaels code
 
 13.03.2006 Michael Scharkow <michael@underused.org>

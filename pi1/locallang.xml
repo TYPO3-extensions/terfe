@@ -70,15 +70,15 @@
             <label index="extensioninfo_views_rating">Ratings</label>
             <label index="extensioninfo_feedback_feedbacktotheauthor">Feedback to the author</label>
             <label index="extensioninfo_feedback_introduction">
-			Use this form to give feedback including bug reports to the author (%s) of this extension. 
-			Remember that kind words are a special kind of fuel for the people donation time and talent 
-			to an Open Source project like TYPO3. So be kind, constructive, encouraging, but honest at 
-			the same time.
-		</label>
+				Use this form to give feedback including bug reports to the author (%s) of this extension. 
+				Remember that kind words are a special kind of fuel for the people donation time and talent 
+				to an Open Source project like TYPO3. So be kind, constructive, encouraging, but honest at 
+				the same time.
+			</label>
             <label index="extensioninfo_feedback_moreintroduction">
-			Please don't try to flatter the author for the sole purpose of getting some support for 
-			free. That is not the point here.
-		</label>
+				Please don't try to flatter the author for the sole purpose of getting some support for 
+				free. That is not the point here.
+			</label>
             <label index="extensioninfo_feedback_yourname">Your name</label>
             <label index="extensioninfo_feedback_youremailaddress">Your email address</label>
             <label index="extensioninfo_feedback_yourcomment">Your comment</label>
