@@ -53,6 +53,11 @@
             <label index="extension_history"></label>
             <label index="extension_download_extension"></label>
             <label index="extension_files"></label>
+            <label index="extension_files_filename"></label>
+            <label index="extension_files_preview"></label>
+            <label index="extension_files_date"></label>
+            <label index="extension_files_download"></label>
+            <label index="extension_files_filesize"></label>
             <label index="extension_filepreview"></label>
             <label index="extension_documentation"></label>
         </labelContext>
@@ -108,6 +113,11 @@
             <label index="extension_history">Version history</label>
             <label index="extension_download_extension">Download extension</label>
             <label index="extension_files">Files</label>
+            <label index="extension_files_filename">Filename</label>
+            <label index="extension_files_preview">View</label>
+            <label index="extension_files_date">Date</label>
+            <label index="extension_files_download">Download</label>
+            <label index="extension_files_filesize">Size</label>
             <label index="extension_filepreview">Preview for file %s</label>
             <label index="extension_documentation">Manual</label>
             <label index="extensionfiles_downloadcompressedt3x">Download compressed extension .T3X file</label>

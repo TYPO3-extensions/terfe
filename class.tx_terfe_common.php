@@ -33,40 +33,42 @@
  *
  *
  *
- *   81: class tx_terfe_common
- *   96:     public function __construct($pObj)
- *  107:     public function init()
+ *   83: class tx_terfe_common
+ *   98:     public function __construct($pObj)
+ *  109:     public function init()
  *
  *              SECTION: DATABASE RELATED FUNCTIONS
- *  134:     public function db_getExtensionRecord($extensionKey, $version)
- *  159:     public function db_prepareExtensionRecordForOutput($extensionRecord)
- *  213:     public function db_getExtensionDetails ($extensionKey, $version)
- *  249:     public function db_getExtensionKeysByOwner($owner)
- *  277:     public function db_getLatestVersionNumberOfExtension ($extensionKey)
- *  310:     protected function db_getAndUpdateExtensionDetails ($extensionKey, $version)
- *  372:     public function db_getFullNameByUsername ($username)
+ *  136:     public function db_getExtensionRecord($extensionKey, $version)
+ *  161:     public function db_prepareExtensionRecordForOutput($extensionRecord)
+ *  216:     public function db_getExtensionDetails ($extensionKey, $version)
+ *  252:     public function db_getExtensionKeysByOwner($owner)
+ *  281:     public function db_getLatestVersionNumberOfExtension ($extensionKey, $ignoreReviewState=FALSE)
+ *  313:     protected function db_getAndUpdateExtensionDetails ($extensionKey, $version)
+ *  375:     public function db_getFullNameByUsername ($username)
  *
  *              SECTION: RENDER FUNCTIONS
- *  407:     public function getRenderedDependencies($dependenciesArr)
- *  488:     public function getRenderedReverseDependencies ($extensionKey, $version)
- *  536:     public function getRenderedListOfFiles($extensionDetailsArr)
- *  593:     public function getRenderedFilePreview ($pathAndFileName)
- *  624:     public function getIcon_extension($extensionKey, $version)
- *  642:     public function getIcon_state ($state)
+ *  409:     public function getTopMenu($menuItems)
+ *  459:     public function getRenderedDependencies($dependenciesArr)
+ *  535:     public function getRenderedReverseDependencies ($extensionKey, $version)
+ *  583:     public function getRenderedListOfFiles($extensionDetailsArr)
+ *  648:     public function getRenderedFilePreview ($pathAndFileName)
+ *  675:     public function getIcon_extension($extensionKey, $version)
+ *  692:     public function getIcon_state ($state)
  *
  *              SECTION: FILE-RELATED FUNCTIONS
- *  669:     public function getExtensionVersionPathAndBaseName ($extensionKey, $version)
- *  688:     protected function getUnpackedT3XFile ($extensionKey, $version)
+ *  719:     public function getExtensionVersionPathAndBaseName ($extensionKey, $version)
+ *  738:     protected function getUnpackedT3XFile ($extensionKey, $version)
+ *  761:     protected function transferFile ($fullPath, $visibleFilename=NULL)
  *
  *              SECTION: EXTENSION INDEX RELATED FUNCTIONS
- *  719:     protected function extensionIndex_updateDB()
- *  798:     protected function extensionIndex_wasModified ()
+ *  793:     protected function extensionIndex_updateDB()
+ *  876:     protected function extensionIndex_wasModified ()
  *
  *              SECTION: VARIOUS HELPER FUNCTIONS
- *  824:     public function getLL($key, $alternativeLabel='', $passThroughHtmlspecialchars=FALSE)
- *  838:     public function csConvHSC ($string)
+ *  902:     public function getLL($key, $alternativeLabel='', $passThroughHtmlspecialchars=FALSE)
+ *  916:     public function csConvHSC ($string)
  *
- * TOTAL FUNCTIONS: 21
+ * TOTAL FUNCTIONS: 23
  * (This index is automatically created/updated by the extension "extdeveval")
  *
  */
@@ -289,7 +291,7 @@ class tx_terfe_common {
 			if (version_compare($row['version'], $latestVersion, '>')) {
 				$latestVersion = $row['version'];
 			}
-		}		
+		}
 		return $latestVersion == '0' ? FALSE : $latestVersion;
 	}
 
@@ -401,7 +403,7 @@ class tx_terfe_common {
 	 * Renders the top tab menu which allows for selection of the different views.
 	 *
 	 * @param	array		$menuItems: Array of key values for the menu items
-	 * @return	string	HTML output, enclosed in a DIV
+	 * @return	string		HTML output, enclosed in a DIV
 	 * @access	public
 	 */
 	public function getTopMenu($menuItems) {
@@ -432,7 +434,7 @@ class tx_terfe_common {
 				}
 				$topMenuItems .= $link;
 			}
- 
+
 			$counter ++;
 		}
 
@@ -461,7 +463,7 @@ class tx_terfe_common {
 		if (is_array ($dependenciesArr)) {
 			$alwaysAvailableExtensions = 'php,typo3,cms,lang';
 			$someExtensionsAreNotAvailable = FALSE;
-			$tableRows = array ();
+			$listRows = array ();
 			foreach ($dependenciesArr as $dependencyArr) {
 
 				if (strlen ($dependencyArr['extensionKey'])) {
@@ -499,7 +501,7 @@ class tx_terfe_common {
 						// Render the depencies information:
 					$colorStyle = $extensionIsAvailable ? '' : 'color:red;';
 					if (!$extensionIsAvailable) $someExtensionsAreNotAvailable = TRUE;
-					$tableRows[] = '	
+					$listRows[] = '
 						<li>'.$this->getLL('extension_dependencies_kind_'.$dependencyArr['kind'],'',1).' '.$this->csConvHSC ($dependencyArr['extensionKey']).' '
 						.$dependencyArr['versionRange'].'</li>
 					';
@@ -507,14 +509,14 @@ class tx_terfe_common {
 			}
 
 			if ($someExtensionsAreNotAvailable) {
-				$tableRows[] = '
+				$listRows[] = '
 						<li style="color:red">'.$this->getLL('extension_dependencies_someextensionsarenotavailable','',1).'</li>
 				';
 			}
 
 			$output = '
 				<ul>
-					'.implode ('', $tableRows).'
+					'.implode ('', $listRows).'
 				</ul>
 			';
 		}
@@ -542,7 +544,7 @@ class tx_terfe_common {
 		);
 		if ($res) {
 			$dependingExtensionKeysArr = array();
-			$tableRows = array();
+			$listRows = array();
 
 			$row = $TYPO3_DB->sql_fetch_assoc ($res);
 			$extensionsArr = explode (',', $row['dependingextensions']);
@@ -555,14 +557,14 @@ class tx_terfe_common {
 			}
 
 			foreach ($dependingExtensionKeysArr as $key => $versionsArr) {
-				$tableRows[] = '<li>'.$this->csConvHSC($key).' '.implode (', ', $versionsArr).'</li>';
+				$listRows[] = '<li>'.$this->csConvHSC($key).' '.implode (', ', $versionsArr).'</li>';
 			}
 
-			if (count ($tableRows)) {
-				$output = 
+			if (count ($listRows)) {
+				$output =
 					'<p>'.$this->getLL('extension_reversedependencies_intro','',1).'</p>
 					<ul>
-						'.implode ('', $tableRows).'
+						'.implode ('', $listRows).'
 					</ul>
 				';
 			}
@@ -611,24 +613,25 @@ class tx_terfe_common {
 
 			$filePreview = '';
 			if (isset($this->pObj->piVars['downloadFile']) && is_array ($filesArr[urldecode($this->pObj->piVars['downloadFile'])])) {
-				$filename = basename(urldecode($this->pObj->piVars['downloadFile']));				
+				$filename = basename(urldecode($this->pObj->piVars['downloadFile']));
 				$this->transferFile ($tempDir.basename($filesArr[urldecode($this->pObj->piVars['downloadFile'])]['tempfilename']), $filename);
 				unset ($this->pObj->piVars['downloadFile']);
 				return '';
 			}
-			
+
 			if (isset($this->pObj->piVars['viewFile']) && is_array ($filesArr[urldecode($this->pObj->piVars['viewFile'])])) {
 				$filePreview = $this->getRenderedFilePreview ($tempDir.basename($filesArr[urldecode($this->pObj->piVars['viewFile'])]['tempfilename']));
 			}
 
 			$output ='
 				<table class="filelist">
-				<tr><th>Filename</th><th>Size</th><th>View</th><th>Date</th><th>Download</th></tr>
+				<tr><th>'.$this->getLL('extension_files_filename','',1).'
+				</th><th>'.$this->getLL('extension_files_filesize','',1).'
+				</th><th>'.$this->getLL('extension_files_preview','',1).'
+				</th><th>'.$this->getLL('extension_files_date','',1).'
+				</th><th>'.$this->getLL('extension_files_download','',1).'</th></tr>
 					'.implode ('', $tableRows).'
-				</table>
-				</li>
-				<li>
-				'.$filePreview;
+				</table>'.$filePreview;
 
 		}
 		return $output;
@@ -745,19 +748,19 @@ class tx_terfe_common {
 
 		return unserialize ($dataUncompressed);
 	}
-	
+
 	/**
 	 * Transfers a file to the client browser.
 	 * NOTE: This function must be called *before* any HTTP headers have been sent!
-	 * 
+	 *
 	 * @param	string		$fullPath: Full absolute path including filename which leads to the file to be transfered
 	 * @param	string		$visibleFilename: File name which is visible for the user while downloading. If not set, the real file name will be used
-	 * @return	boolean		TRUE if successful, FALSE if file did not exist.	 * 
-	 * @access 	protected
+	 * @return	boolean		TRUE if successful, FALSE if file did not exist.	 *
+	 * @access	protected
 	 */
-	protected function transferFile ($fullPath, $visibleFilename=NULL) {		
+	protected function transferFile ($fullPath, $visibleFilename=NULL) {
 
-		if (!@file_exists($fullPath)) return FALSE;		
+		if (!@file_exists($fullPath)) return FALSE;
 
 		$filename = basename($fullPath);
 		if (!isset($visibleFilename)) $visibleFilename = $filename;

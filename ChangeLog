@@ -1,3 +1,7 @@
+22.03.2006 Michael Scharkow <michael@underused.org>
+	* Fixed small issues (locallang, docstrings, variable names)
+	* Added stylesheet file and icons in res/ (copy to fileadmin, please!)
+
 16.03.2006 Robert Lemke <robert@typo3.org>
 	* Removed dummy content from renderListView_detailledExtensionRecord(). That was very confusing because in the list view the documentation link was always "not available" and downloadcounter "12333/32111" - because it was hardcoded. Please make sure to clean up before you commit.
 
