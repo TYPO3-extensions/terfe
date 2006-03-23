@@ -34,21 +34,21 @@
  *
  *
  *   72: class tx_terfe_pi1 extends tslib_pibase
- *   93:     protected function init($conf)
- *  115:     public function main($content,$conf)
- *  150:     protected function renderListView_new()
- *  205:     protected function renderListView_categories()
- *  244:     protected function renderListView_popular()
- *  299:     protected function renderListView_search()
- *  327:     protected function renderListView_searchResult()
- *  372:     protected function renderListView_compactList($mode)
- *  447:     protected function renderSingleView_extension ($extensionKey, $version)
- *  520:     protected function renderSingleView_extensionDetails ($extensionRecord)
- *  581:     protected function renderSingleView_feedbackForm ($extensionRecord)
- *  649:     protected function renderListView_detailledExtensionRecord($extensionRecord)
- *  704:     protected function renderListView_shortExtensionRecord($extensionRecord)
- *  738:     protected function getUploadHistory($extensionKey, $lastuploaddate)
- *  767:     protected function renderTopMenu()
+ *   91:     protected function init($conf)
+ *  113:     public function main($content,$conf)
+ *  164:     protected function renderListView_new()
+ *  219:     protected function renderListView_categories()
+ *  258:     protected function renderListView_popular()
+ *  308:     protected function renderListView_search()
+ *  336:     protected function renderListView_searchResult()
+ *  378:     protected function renderListView_fullList()
+ *  429:     protected function renderListView_unsupported()
+ *  489:     protected function renderSingleView_extension ($extensionKey, $version)
+ *  560:     protected function renderSingleView_extensionInfo($extensionRecord)
+ *  621:     protected function renderSingleView_extensionDetails ($extensionRecord)
+ *  673:     protected function renderSingleView_feedbackForm ($extensionRecord)
+ *  741:     protected function renderListView_detailledExtensionRecord($extensionRecord)
+ *  790:     protected function renderListView_shortExtensionRecord($extensionRecord)
  *
  * TOTAL FUNCTIONS: 15
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -113,9 +113,19 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @access	public
 	 */
 	public function main($content,$conf)	{
+		global $TSFE; 
+		
 		$this->init($conf);
 
 		if (!@is_dir ($this->commonObj->repositoryDir)) return 'TER_FE Error: Repository directory ('.$this->commonObj->repositoryDir.') does not exist!';
+
+				// Set the magic "reg1" so we can clear the cache for this page if a manual was changed.
+				// The default is "_all" which means that the cache is cleared if any manual changes. 
+				// Single views usually override this setting so their cache is only flushed when one specific manual changes.  
+		if (t3lib_extMgm::isLoaded ('ter_doc')) {
+			$terDocAPIObj = tx_terdoc_api::getInstance();
+			$TSFE->page_cache_reg1 = $terDocAPIObj->createAndGetCacheUidForExtensionVersion('_all','');
+		}
 
 		if ($this->piVars['showExt']) {
 			$subContent = $this->renderSingleView_extension ($this->piVars['showExt'], $this->piVars['version']);
@@ -152,12 +162,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 		$numberOfDays = 20;
 		$tableRows = array ();
-
-				// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:
-		if (t3lib_extMgm::isLoaded ('ter_doc')) {
-			$terDocAPIObj = tx_terdoc_api::getInstance();
-			$TSFE->page_cache_reg1 = $terDocAPIObj->createAndGetCacheUidForExtensionVersion('_all','');
-		}
 
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'*',
@@ -201,6 +205,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 *
 	 * @return	string		HTML output
 	 * @access	protected
+	 * @todo	To be implemented
 	 */
 	protected function renderListView_categories() {
 		global $TYPO3_DB;
@@ -222,7 +227,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 				if (!t3lib_div::inArray ($alreadyRenderedExtensionKeys, $extensionRecord['extensionkey'])) {
 					$tableRows[] = $this->renderListView_detailledExtensionRecord ($extensionRecord);
 					$alreadyRenderedExtensionKeys[] = $extensionRecord['extensionkey'];
-				}
+	}
 			}
 		}
 
@@ -242,9 +247,10 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @access	protected
 	 */
 	protected function renderListView_popular() {
-		global $TYPO3_DB;
+		global $TYPO3_DB, $TSFE;
 
-		$tableRows = array ();
+		$numberOfExtensions = 20;
+		$tableRows = array ();	
 
 				// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:
 		if (t3lib_extMgm::isLoaded ('ter_doc')) {
@@ -263,7 +269,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		);
 		if ($res) {
 			$counter = 0;
-			while ($counter < 20 AND $extensionKeyRow = $TYPO3_DB->sql_fetch_assoc ($res)) {
+			while ($counter < $numberOfExtensions AND $extensionKeyRow = $TYPO3_DB->sql_fetch_assoc ($res)) {
 				$version = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKeyRow['extensionkey'], $this->tooFewReviewsMode);
 
 				$res2 = $TYPO3_DB->exec_SELECTquery (
@@ -277,12 +283,12 @@ class tx_terfe_pi1 extends tslib_pibase {
 				if ($extensionRecord['category'] != 'doc') {
 					$tableRows[] = $this->renderListView_detailledExtensionRecord ($extensionRecord);
 					$counter ++;
-				}
-			}
+				}				
+			}			
 		}
 
 		$content.= '
-			<p>'.$this->pi_getLL('listview_popular_introduction','',1).'</p>
+			<p>'.htmlspecialchars(sprintf($this->pi_getLL('listview_popular_introduction'), $numberOfExtensions)).'</p>
 			<ol class="extensions">
 			'.implode('', $tableRows).'
 			</ol>
@@ -484,7 +490,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 				$subContent = $this->renderSingleView_feedbackForm ($extensionRecord);
 				break;
 
-/*			case 'rating':
+/*			case 'rating':			
 				require_once('class.tx_terfe_ratings.php');
 				$rating = new tx_terfe_ratings($extensionRecord,$this);
 				$subContent = $rating->renderSingleView_rating();
@@ -657,7 +663,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		}
 		$extensionRecord = $this->commonObj->db_prepareExtensionRecordForOutput ($extensionRecord);
 		$extensionRecord['reviewstate_label'] = $extensionRecord['reviewstate_raw'] ? 'reviewed' : 'unreviewed';
-
+		
 		$tableRows = '
 			<li>
 				<dl class="ext-header">
@@ -702,7 +708,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @return	string		Two HTML table rows wrapped in <tr>
 	 */
 	protected function renderListView_shortExtensionRecord($extensionRecord)	{
-		global $TSFE;
 
 		if (t3lib_extMgm::isLoaded ('ter_doc')) {
 			$terDocAPIObj = tx_terdoc_api::getInstance();
@@ -731,7 +736,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * Returns a list of recent version numbers and upload comments, max 5 items
 	 *
 	 * @param	string		$extensionKey: Extension Key
-	 * @param	int		$lastuploaddate: Timestamp of last upload date
+	 * @param	int			$lastuploaddate: Timestamp of last upload date 
 	 * @return	mixed		List of upload comments in reverse order or FALSE if an error ocurred
 	 * @access	protected
 	 */
@@ -761,7 +766,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 	/**
 	 * Renders the top tab menu which allows for selection of the different views.
 	 *
-	 * @return	string		HTML output, enclosed in a DIV
+	 * @return	string	HTML output, enclosed in a DIV
 	 * @access	protected
 	 */
 	protected function renderTopMenu() {
@@ -795,7 +800,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 				}
 				$topMenuItems .= $link;
 			}
-
+ 
 			$counter ++;
 		}
 

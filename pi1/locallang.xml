@@ -55,7 +55,7 @@
             <label index="views_reviewed">Reviewed</label>
             <label index="views_unreviewed">Unreviewed</label>
             <label index="listview_new_introduction">These extensions have been added or updated during the last %s days:</label>
-            <label index="listview_popular_introduction">This list shows the 10 most popular extensions measured by all time download numbers.</label>
+            <label index="listview_popular_introduction">This list shows the %s most popular extensions measured by all time download numbers.</label>
             <label index="listview_fulllist_introduction">This is a list of all available extensions:</label>
             <label index="listview_unsupported_introduction">The following list contains all extensions which have been uploaded recently and have not been reviewed yet or will never be imported into the official repository.</label>
             <label index="listview_unsupported_introduction_warning">WARNING! These extensions have not been checked for security issues. It is not recommended using any of them in a production enviroment!</label>
