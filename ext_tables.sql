@@ -113,16 +113,31 @@ CREATE TABLE tx_terfe_reviewemails (
   PRIMARY KEY (uid)
 );
 
-
+#
 # Table structure for ratings
-
+#
 CREATE TABLE tx_terfe_ratings (
-  uid int(11) NOT NULL auto_increment,
+  uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+  tstamp int(11) NOT NULL default '0',
   extensionkey varchar(255) NOT NULL default '',
   version varchar(255) NOT NULL default '',
   username varchar(255) NOT NULL default '',
-  rating int(1) NOT NULL default '0',
-  notes text NOT NULL,
-  tstamp int(11) NOT NULL default '0',
-  PRIMARY KEY (uid)
+  funcrating int(1) NOT NULL default '0',
+  docrating int(1) NOT NULL default '0',
+  coderating int(1) NOT NULL default '0',
+  overall float NOT NULL default '0',
+  notes text NOT NULL, 
+  PRIMARY KEY  (uid)
+);
+
+#
+# Table structure for cached ratings
+#
+CREATE TABLE tx_terfe_ratingscache (
+  extensionkey varchar(255) NOT NULL default '',
+  uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+  version varchar(255) NOT NULL default '',
+  rating float NOT NULL default '0',
+  votes int(11) NOT NULL default '0',
+  PRIMARY KEY  (uid)
 );

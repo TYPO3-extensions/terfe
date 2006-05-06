@@ -192,7 +192,11 @@ class tx_terfe_common {
 					break;
 					case 'versiondownloadcounter':
 						$extensionRecord[$key] = intval($extensionRecord['extensiondownloadcounter']).' / '.intval($value);
+                                        case 'rating':
+						$extensionRecord[$key] = round($extensionRecord[$key],2);
 					break;
+					break;
+
 				}
 			}
 		}
