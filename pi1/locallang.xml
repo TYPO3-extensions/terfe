@@ -88,6 +88,16 @@
             <label index="extensioninfo_feedback_emailsent_details">The feedback was sent to %s.</label>
             <label index="extensioninfo_feedback_invalidemailaddress">ERROR: You did not enter a valid email address (%s)</label>
             <label index="extensioninfo_feedback_invalidcaptcha">ERROR: You did not enter the correct numbers / letters</label>
+            <label index="extensioninfo_ratings_username">Username</label>
+            <label index="extensioninfo_ratings_version">Version</label>
+            <label index="extensioninfo_ratings_funcrating">Functionality</label>
+            <label index="extensioninfo_ratings_docrating">Documentation</label>
+            <label index="extensioninfo_ratings_coderating">Code/Compatibility</label>
+            <label index="extensioninfo_ratings_overallrating">Overall</label>
+            <label index="extensioninfo_ratings_notes">Notes</label>
+            <label index="extensioninfo_ratings_addnotes">Add notes for your rating</label>
+            <label index="extensioninfo_ratings_ratethis">Rate this extension</label>
+            <label index="extensioninfo_ratings_errornotsaved">Could not save rating!</label>
         </languageKey>
         <languageKey index="dk" type="array">
         </languageKey>
