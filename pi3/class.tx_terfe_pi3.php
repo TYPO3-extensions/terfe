@@ -133,7 +133,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 
 	protected	$reviewer = array();												// User name and password of the currently logged in reviewer
 
-	protected	$notificationEmail_recipient = 'robert@typo3.org,hirdes@elios.de,rg@rupertgermann.de';
+	protected	$notificationEmail_recipient = 'robert@typo3.org,hirdes@elios.de,rg@rupertgermann.de'';
 	protected	$notificationEmail_sender = 'noreply@typo3.org';
 	protected	$notificationEmail_replyTo = 'typo3-project-security@lists.netfielders.de';
 
@@ -1091,7 +1091,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 		if ($reviewRecord === FALSE) return $this->renderSub_errorWrap($this->pi_getLL('error_reviewrecordnotfound','',1));
 
 		if (!t3lib_div::inList($reviewRecord['reviewers'], $this->reviewer['username'])) return $this->renderSub_errorWrap($this->pi_getLL('error_cantaddnotenomember','',1));
-		$this->db_addReviewNote($this->piVars['extensionkey'], $this->piVars['version'], $this->piVars['reviewnote']);
+		$this->db_addReviewNote($this->piVars['extensionkey'], $this->piVars['version'], 'Note: '.$this->piVars['reviewnote']);
 	}
 
 
@@ -1305,10 +1305,11 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 	 * @param	string		$version: Version number of the extension
 	 * @param	integer		$rating: Rating (reviewstate) to set. Must be either TX_TERFE_REVIEWSTATE_INSECURE or TX_TERFE_REVIEWSTATE_PASSED
 	 * @param	string		$reviewer: User name of the reviewer
+	 * @param	boolean		$recursive: If set, older versions will also be set to insecure if the current version is
 	 * @return	boolean		TRUE or FALSE
 	 * @access	protected
 	 */
-	protected function db_createReviewRatingRecord($extensionKey, $version, $rating, $reviewer) {
+	protected function db_createReviewRatingRecord($extensionKey, $version, $rating, $reviewer,$recursive=TRUE) {
 		global $TYPO3_DB;
 
 		$res = $this->db_getReviewRecord ($extensionKey, $version);
@@ -1339,6 +1340,24 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 
 			$res = $this->soap_setReviewState($extensionKey, $version, $rating);
 			if ($res !== TRUE) return FALSE;
+			// Reject older versions as well
+			// 
+			if ($rating == TX_TERFE_REVIEWSTATE_INSECURE && $recursive){
+				$versionsArr = $this->db_getAllVersionNumbersOfExtension($extensionKey);
+				if (is_array($versionsArr)) {
+					foreach ($versionsArr as $otherversion) {
+						if ($version > $otherversion) {
+							$extensionRecord = $this->commonObj->db_getExtensionRecord($extensionKey, $otherversion);
+							if (!$extensionRecord['reviewstate']){
+								$this->db_createReviewRecord ($extensionKey, $otherversion, $this->reviewer['username']); 
+								$this->db_addReviewNote ($extensionKey, $otherversion, 'Status set by inheritance from version '.$version);
+								$this->db_createReviewRatingRecord($extensionKey, $otherversion, TX_TERFE_REVIEWSTATE_INSECURE,$this->reviewer['username'],0);
+							}
+						}
+					}
+				}
+			}
+
 		}
 		return TRUE;
 	}
