@@ -17,23 +17,41 @@
 		}
 		 
 		/**
-		* [Describe function...]
+		* Checks if rating cache is up to date, processes incoming rating data and saves rating
 		*
-		* @return [type]  ...
+		* @return boolean  False if saving did not work
 		*/
-		function renderSingleView_rating() {
+		function process_rating () {
 			global $TSFE;
 			$ratingsArr = t3lib_div::_POST('rating');
-
+			$real_rating = $this->comp_weightedRating($this->extensionKey, $this->version);
+			// if ratings cache is outdated update it
+			 
+			 
+			if ($real_rating != $this->extRow['rating']) {
+				$this->db_cache_rating($this->extensionKey, $this->version);
+				$TSFE->clearPageCacheContent();
+				 
+			}
+			 
 			if ($ratingsArr && $this->canBeRated()) {
 				$res = $this->db_saveRating($ratingsArr, t3lib_div::_POST('notes'), $this->username);
 				if ($res) {
 					$TSFE->clearPageCacheContent();
 				} else {
-					$output .= '<em>'.$this->backRef->pi_getLL('extensioninfo_ratings_errornotsaved','').'</em>';
+					return FALSE;
 				}
 				 
 			}
+		}
+		 
+		/**
+		* Renders the single view for ratings, with 
+		*
+		* @return string The rendered output
+		*/
+		function renderSingleView_rating() {
+			global $TSFE;
 			 
 			// Rendering rating history
 			$history = $this->render_ratingList($this->db_getRatings($this->extensionKey));
@@ -50,22 +68,21 @@
 		}
 		 
 		/**
-		* [Describe function...]
+		* Displays a table with rating records
 		*
-		* @param [type]  $ratings: ...
-		* @return [type]  ...
+		* @param array  $ratings: Array with rating records
+		* @return string Rating list
 		*/
 		function render_ratingList($ratings) {
 			if (is_array($ratings[0])) {
 				$output .= '<table class="ext-compactlist review-hist">
 					<thead><tr>
-					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_version','').'</th>
-					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_username','').'</th>
-					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_funcrating','').'</th>
-					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_docrating','').'</th>
-					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_coderating','').'</th>
-					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_overallrating','').'</th>
-					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_notes','').'</th>
+					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_username', '').'</th>
+					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_func_short', '').'</th>
+					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_doc_short', '').'</th>
+					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_code_short', '').'</th>
+					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_overallrating', '').'</th>
+					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_notes', '').'</th>
 					</tr></thead>';
 				foreach ($ratings as $rating) {
 					if ($rating['version'] > $this->version) {
@@ -74,16 +91,15 @@
 					else if ($rating['version'] == $this->version) {
 						$output .= '<tr class="current">';
 					} else {
-						$output .= '<tr>';
+						$output .= '<tr class="old">';
 					}
 					$output .= '
-						<td>'.$rating['version'].'</td>
 						<td>'.$rating['username'].'</td>
-						<td>'.$this->render_starWrap($rating['funcrating']).'</td>
-						<td>'.$this->render_starWrap($rating['docrating']).'</td>
-						<td>'.$this->render_starWrap($rating['coderating']).'</td>
+						<td>'.$rating['funcrating'].'</td>
+						<td>'.$rating['docrating'].'</td>
+						<td>'.$rating['coderating'].'</td>
 						<td>'.$this->render_starWrap($rating['overall']).'</td>
-						<td>'.htmlspecialchars($rating['notes']). '</td></tr>';
+						<td>'.nl2br(htmlspecialchars(substr($rating['notes'],0,250))). '</td></tr>';
 				}
 				$output .= '</table>';
 				return $output;
@@ -92,9 +108,9 @@
 			}
 		}
 		/**
-		* [Describe function...]
+		* Renders a rating form
 		*
-		* @return [type]  ...
+		* @return string  Rating form HTML
 		*/
 		private function render_ratingForm() {
 			$valuerows = array();
@@ -106,22 +122,22 @@
 			$output .= '<fieldset><legend>Rate this extension</legend>';
 			$output .= '<div>';
 			 
-			$output .= '<label for="funcrating">'.$this->backRef->pi_getLL('extensioninfo_ratings_funcrating','').'</label><select name="rating[funcrating]" id="funcrating"><option value=""></option>';
+			$output .= '<label for="funcrating">'.$this->backRef->pi_getLL('extensioninfo_ratings_funcrating', '').'</label><select name="rating[funcrating]" id="funcrating"><option value=""></option>';
 			$output .= implode('', array_reverse($valuerows));
 			$output .= '</select>';
 			 
-			$output .= '<label for="docrating">'.$this->backRef->pi_getLL('extensioninfo_ratings_docrating','').'</label><select name="rating[docrating]" id="docrating"><option value=""></option>';
+			$output .= '<label for="docrating">'.$this->backRef->pi_getLL('extensioninfo_ratings_docrating', '').'</label><select name="rating[docrating]" id="docrating"><option value=""></option>';
 			$output .= implode('', array_reverse($valuerows));
 			$output .= '</select>';
 			 
-			$output .= '<label for="coderating">'.$this->backRef->pi_getLL('extensioninfo_ratings_coderating','').'</label><select name="rating[coderating]" id="coderating"><option value="" ></option>';
+			$output .= '<label for="coderating">'.$this->backRef->pi_getLL('extensioninfo_ratings_coderating', '').'</label><select name="rating[coderating]" id="coderating"><option value="" ></option>';
 			$output .= implode('', array_reverse($valuerows));
 			$output .= '</select>';
 			 
 			 
 			$output .= '</div><div>';
 			 
-			$output .= '<label for="notes">'.$this->backRef->pi_getLL('extensioninfo_ratings_addnotes','').'</label><br/><textarea name="notes" id="notes" cols="50" rows="5"></textarea>';
+			$output .= '<label for="notes">'.$this->backRef->pi_getLL('extensioninfo_ratings_addnotes', '').'</label><br/><textarea name="notes" id="notes" cols="50" rows="4"></textarea>';
 			$output .= '<input type="hidden" name="no_cache" value="1"/>';
 			$output .= '<input type="submit" name="submit" value="Submit rating"/></div>';
 			$output .= '</fieldset></form>';
@@ -130,10 +146,10 @@
 			 
 		}
 		/**
-		* [Describe function...]
+		* Renders a rating wrapped in css-stylable span
 		*
-		* @param [type]  $int: ...
-		* @return [type]  ...
+		* @param int  $int: The rating value
+		* @return string HTML output
 		*/
 		public static function render_starWrap($num) {
 			if (!$num) {
@@ -144,16 +160,16 @@
 		}
 		 
 		/**
-		* [Describe function...]
+		* Computes the weighted rating for an extension version
 		*
-		* @param [type]  $ratings: ...
-		* @param [type]  $allRating: ...
-		* @return [type]  ...
+		* @param string  $extensionKey: extension key
+		* @param string	 $version: extension version
+		* @return array  Array with [0] rating and [1] number of votes
 		*/
 		private function comp_weightedRating($extensionKey, $version) {
 			$versionRating = $this->db_getAvgRating($this->extensionKey, $this->version);
 			$allRating = $this->db_getAvgRating($this->extensionKey, $this->version, 1);
-			
+			 
 			$counter = 0;
 			if (is_array($versionRating) && $versionRating['num'] >= $this->minNumRatings) {
 				$version = $versionRating['avg'];
@@ -172,11 +188,10 @@
 		}
 		 
 		/**
-		* [Describe function...]
+		* Computes rating average from 3 dimensions
 		*
-		* @param [type]  $ratings: ...
-		* @return [type]  ...
-		* @access private
+		* @param array  $ratings: rating record
+		* @return float	Rating average
 		*/
 		private function comp_overallAvg($ratings) {
 			$ratingsArr = array ($ratings['funcrating'], $ratings['docrating'] , $ratings['coderating']);
@@ -185,7 +200,7 @@
 			foreach ($ratingsArr as $rating) {
 				if ($rating) {
 					$sum = $sum + $rating;
-					 $counter++;
+					$counter++;
 				}
 			}
 			if (!$counter) {
@@ -217,12 +232,12 @@
 		 
 		 
 		/**
-		* [Describe function...]
+		* Saves submitted rating data to db
 		*
-		* @param [type]  $rating: ...
-		* @param [type]  $notes: ...
-		* @param [type]  $username: ...
-		* @return [type]  ...
+		* @param array  $rating: Rating form data
+		* @param string  $notes: Rating notes
+		* @param string  $username: Username
+		* @return boolean	True if saving worked, else False
 		*/
 		private function db_saveRating($ratingsArr, $notes, $username) {
 			 
@@ -245,57 +260,68 @@
 				'docrating' => intval($ratingsArr['docrating']),
 				'coderating' => intval($ratingsArr['coderating']),
 				'overall' => floatval($overall),
-				'notes' => $TYPO3_DB->quoteStr($notes, $table),
+				'notes' => $notes,
 				'username' => $TYPO3_DB->quoteStr($username, $table),
 				'tstamp' => time()
 			);
 			 
 			$res = $TYPO3_DB->exec_INSERTquery($table, $insertArr);
-			
-			if (!$res){
+			 
+			if (!$res) {
 				return FALSE;
 			}
-			
-			$cachable_ratings = $this->comp_weightedRating($this->extensionkey, $this->version);
-				
-			
-			if ($cachable_ratings){
-
-				$cachedRatingArr = array (
-					'extensionkey' => $TYPO3_DB->quoteStr($this->extensionKey, $table),
-					'version' => $TYPO3_DB->quoteStr($this->version, $table),
-					'rating' => floatval($cachable_ratings[0]),
-					'votes' => intval($cachable_ratings[1])
-					);
-				$cachingTable = 'tx_terfe_ratingscache';
-
-				$res2 = $TYPO3_DB->exec_DELETEquery(
-					$cachingTable,
-					'extensionkey =' . $TYPO3_DB->fullQuoteStr($this->extensionKey, 'tx_terfe_ratingscache').
-					' AND version = ' . $TYPO3_DB->fullQuoteStr($this->version, 'tx_terfe_ratingscache')
-				);
-				
-				$res3 = $TYPO3_DB->exec_INSERTquery(
-					$cachingTable,
-					$cachedRatingArr
-					);
-				
-				return $res3? TRUE: FALSE;
-			
-			
-			} else {
-				return $res? TRUE : FALSE;
-			}
-			
+			$this->db_cache_rating($this->extensionKey, $this->version);
+			return TRUE;
+			 
 		}
 		 
 		/**
-		* [Describe function...]
+		* Saves average rating to the db for caching
 		*
-		* @param [type]  $extensionkey: ...
-		* @param [type]  $version: ...
-		* @param [type]  $username: ...
-		* @return [type]  ...
+		* @param string  $extensionKey: extension key
+		* @param string	 $version: extension version (optional)
+		* @return boolean False if saving failed
+		*/
+		private function db_cache_rating($extensionKey, $version) {
+			$cachable_ratings = $this->comp_weightedRating($extensionKey, $version);
+			 
+			if ($cachable_ratings) {
+				 
+				global $TYPO3_DB;
+				$table = 'tx_terfe_ratings';
+				 
+				$cachedRatingArr = array (
+				'extensionkey' => $TYPO3_DB->quoteStr($extensionKey, $table),
+					'version' => $TYPO3_DB->quoteStr($version, $table),
+					'rating' => floatval($cachable_ratings[0]),
+					'votes' => intval($cachable_ratings[1])
+				);
+				$cachingTable = 'tx_terfe_ratingscache';
+				 
+				$res2 = $TYPO3_DB->exec_DELETEquery(
+				$cachingTable,
+					'extensionkey =' . $TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_ratingscache'). ' AND version = ' . $TYPO3_DB->fullQuoteStr($version, 'tx_terfe_ratingscache')
+				);
+				$res3 = $TYPO3_DB->exec_INSERTquery(
+				$cachingTable,
+					$cachedRatingArr );
+				 
+				return $res3? TRUE:
+				 FALSE;
+				 
+				 
+			} else {
+				return FALSE;
+			}
+		}
+		 
+		/**
+		* Retrieves rating records from the db,
+		*
+		* @param string  $extensionKey: extension key
+		* @param string	 $version: extension version (optional)
+		* @param string  $username: Username (optional)
+		* @return array  Rating record
 		*/
 		private function db_getRatings($extensionkey, $version = '', $username = '') {
 			 
@@ -319,12 +345,12 @@
 		}
 		 
 		/**
-		* [Describe function...]
+		* Gets Average rating and number of votes from the db
 		*
-		* @param [type]  $extensionkey: ...
-		* @param [type]  $version: ...
-		* @param [type]  $previous: ...
-		* @return [type]  ...
+		* @param string  $extensionKey: extension key
+		* @param string	 $version: extension version (optional)
+		* @param boolean  $previous: Include previous version ratings
+		* @return array  Array containing avg and number of votes
 		*/
 		private function db_getAvgRating($extensionkey, $version, $previous = FALSE) {
 			 

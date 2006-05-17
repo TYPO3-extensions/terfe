@@ -332,12 +332,12 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$tableRows = array ();
 
 		$res = $TYPO3_DB->exec_SELECTquery (
-			'*',
-			'tx_terfe_extensions',
-			$TYPO3_DB->searchQuery (explode (' ', $this->piVars['sword']), array('extensionkey','title','description'), 'tx_terfe_extensions').' AND '.$this->standardSelectionClause.($this->tooFewReviewsMode ? 'AND reviewstate >= 0' : 'AND reviewstate > 0'),
+			'e.*,rating,votes',
+			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
+			$TYPO3_DB->searchQuery (explode (' ', $this->piVars['sword']), array('extensionkey','title','authorname','description'), 'e').' AND '.$this->standardSelectionClause.($this->tooFewReviewsMode ? 'AND reviewstate >= 0' : 'AND reviewstate > 0'),
 			'',
 			'extensiondownloadcounter DESC,lastuploaddate DESC',
-			'0,30'
+			''
 		);
 		if ($res) {
 			$alreadyRenderedExtensionKeys = array();
@@ -460,6 +460,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		);
 		if (!$res) return 'DB error while looking up extension '.htmlspecialchars($extensionKey).'!';
 		$extensionRecord = $TYPO3_DB->sql_fetch_assoc ($res);
+
 		if (!$extensionRecord || $extensionRecord['reviewstate']== -1) return 'Extension '.htmlspecialchars($extensionKey).' not found!';
 
 				// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:
@@ -490,6 +491,8 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 			case 'rating':
 				$rating = new tx_terfe_ratings($extensionRecord,&$this);
+				$rating->process_rating();
+				$subContent = '<ul class="extensions">'.$this->renderListView_detailledExtensionRecord ($extensionRecord);
 				$subContent .= $rating->renderSingleView_rating();
 
 			break;
@@ -497,7 +500,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			default:
 				$subContent .= $this->renderSingleView_extensionDetails ($extensionRecord);
 		}
-		$subConten .= '</ul>';
+		$subContent .= '</ul>';
 	
 	
 
@@ -684,7 +687,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 					</dd>
 					<dd class="right">
 						<dl><dt>'.$this->commonObj->getLL('extension_lastuploaddate','',1).'</dt><dd class="updated">'.$extensionRecord['lastuploaddate'].'</dd></dl>
-						<dl class="changelog"><dt>'.$this->commonObj->getLL('extension_uploadcomment','',1).'</dt><dd class="changelog">'.$extensionRecord['uploadcomment'].'</dd></dl>
+						<dl class="changelog"><dt>'.$this->commonObj->getLL('extension_uploadcomment','',1).'</dt><dd class="changelog">'.$extensionRecord['uploadcomment'].'<br/><br/><br/></dd></dl>
 					</dd>
 					<dd class="bottom">
 						<dl class="description"><dt>'.$this->commonObj->getLL('extension_description','',1).'</dt><dd>'.$extensionRecord['description'].'</dd></dl>

@@ -1,3 +1,9 @@
+15.05.2006 Michael Scharkow <michael@underused.org>
+	* Finished ratings, with changes from public beta
+	* ATTN: Please remove reference to my server in common class icon
+	function (although it should never occur on typo3.org
+	* Fixed a lot of small bugs
+
 22.03.2006 Michael Scharkow <michael@underused.org>
 	* Fixed small issues (locallang, docstrings, variable names)
 	* Added stylesheet file and icons in res/ (copy to fileadmin, please!)
