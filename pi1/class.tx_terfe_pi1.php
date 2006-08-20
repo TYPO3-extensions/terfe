@@ -682,12 +682,12 @@ class tx_terfe_pi1 extends tslib_pibase {
 						<dl><dt>'.$this->commonObj->getLL('extension_documentation','',1).'</dt><dd>'.$documentationLink.'</dd></dl>
 						<dl><dt>'.$this->commonObj->getLL('extension_downloads','',1).'</dt><dd>'.$extensionRecord['versiondownloadcounter'].'</dd></dl>
 						<dl><dt>'.$this->commonObj->getLL('extension_rating','',1).'</dt><dd>'.
-						($extensionRecord['rating'] ?  $extensionRecord['rating'].' ('.$extensionRecord['votes'].' votes)' : 'none' ).'</dd></dl>
+						($extensionRecord['rating'] ?  $extensionRecord['rating'].' '.$this->pi_linkTP_keepPIvars('('.$extensionRecord['votes'].' votes)', array('view'=>'view','showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version'], 'extView' => 'rating'),1,1) : 'none' ).'</dd></dl>
 						
 					</dd>
 					<dd class="right">
 						<dl><dt>'.$this->commonObj->getLL('extension_lastuploaddate','',1).'</dt><dd class="updated">'.$extensionRecord['lastuploaddate'].'</dd></dl>
-						<dl class="changelog"><dt>'.$this->commonObj->getLL('extension_uploadcomment','',1).'</dt><dd class="changelog">'.$extensionRecord['uploadcomment'].'<br/><br/><br/></dd></dl>
+						<dl class="changelog"><dt>'.$this->commonObj->getLL('extension_uploadcomment','',1).'</dt><dd class="changelog">'.$extensionRecord['uploadcomment'].'</dd></dl>
 					</dd>
 					<dd class="bottom">
 						<dl class="description"><dt>'.$this->commonObj->getLL('extension_description','',1).'</dt><dd>'.$extensionRecord['description'].'</dd></dl>
@@ -724,7 +724,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 				<td>'.$extensionRecord['extensionkey'].'</td>
 				<td>'.$documentationLink.'</td>
 				<td class="'.strtolower($extensionRecord['state']).'">'.$extensionRecord['state'].'</td>
-				<td>'.( $extensionRecord['rating'] ?  $extensionRecord['rating'].' ('.$extensionRecord['votes'].' votes)' : 'none' ). '</td>
+				<td>'.( $extensionRecord['rating'] ?  $extensionRecord['rating'] : 'none' ). '</td>
 				<td>'.$extensionRecord['lastuploaddate'].'</td>
 			</tr>
 		';

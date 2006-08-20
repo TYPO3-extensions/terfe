@@ -75,6 +75,7 @@
 		*/
 		function render_ratingList($ratings) {
 			if (is_array($ratings[0])) {
+				$ratings = array_slice($ratings,0,29); //only 30 ratings are displayed
 				$output .= '<table class="ext-compactlist review-hist">
 					<thead><tr>
 					<th>'.$this->backRef->pi_getLL('extensioninfo_ratings_username', '').'</th>
@@ -118,7 +119,7 @@
 				$valuerows[] = '<option value="'.$i.'">'.$this->ratingItems[$i].'</option>';
 			}
 			 
-			$output = '<form action="'.t3lib_div::linkThisScript().'" method="POST" class="rating">';
+			$output = '<form action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST" class="rating">';
 			$output .= '<fieldset><legend>Rate this extension</legend>';
 			$output .= '<div>';
 			 
@@ -169,10 +170,10 @@
 		private function comp_weightedRating($extensionKey, $version) {
 			$versionRating = $this->db_getAvgRating($this->extensionKey, $this->version);
 			$allRating = $this->db_getAvgRating($this->extensionKey, $this->version, 1);
-			 
+		
 			$counter = 0;
 			if (is_array($versionRating) && $versionRating['num'] >= $this->minNumRatings) {
-				$version = $versionRating['avg'];
+				$ver = $versionRating['avg'];
 				$counter++;
 			}
 			 
@@ -182,7 +183,8 @@
 			} else {
 				return FALSE;
 			}
-			$realRating = ($version + $all)/$counter;
+
+			$realRating = ($ver + $all)/$counter;
 			$realNumber = $allRating['num'];
 			return array ($realRating, $realNumber);
 		}
@@ -215,11 +217,11 @@
 		* @return boolean  True if extension can be rated
 		*/
 		private function canBeRated() {
-			if (!$this->username) {
+		if (!$this->username) {
 				return FALSE;
 			}
 			 
-			if ($this->extRow['authorname'] == $this->username) {
+			if ($this->extRow['ownerusername'] == $this->username) {
 				return FALSE;
 			}
 			if ($ratings = $this->db_getRatings($this->extensionKey, $this->version, $this->username)) {
@@ -284,7 +286,6 @@
 		*/
 		private function db_cache_rating($extensionKey, $version) {
 			$cachable_ratings = $this->comp_weightedRating($extensionKey, $version);
-			 
 			if ($cachable_ratings) {
 				 
 				global $TYPO3_DB;
