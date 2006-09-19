@@ -30,6 +30,10 @@ span.submenu-button-active, span.submenu-button a {padding-right:1ex;}
 }
 
 
+#main-column .tx-terfe-pi1 .extensions  {
+	margin-left: -15px;
+	font-size: 1em;
+}
 
 /* Default definition */
 #main-column .extensions li {
