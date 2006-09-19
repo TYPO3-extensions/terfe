@@ -490,7 +490,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 				break;
 
 			case 'rating':
-				$rating = new tx_terfe_ratings($extensionRecord,&$this);
+				$rating = new tx_terfe_ratings($extensionRecord, $this);
 				$rating->process_rating();
 				$subContent = '<ul class="extensions">'.$this->renderListView_detailledExtensionRecord ($extensionRecord);
 				$subContent .= $rating->renderSingleView_rating();

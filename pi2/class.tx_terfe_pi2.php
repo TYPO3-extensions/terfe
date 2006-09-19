@@ -47,23 +47,42 @@
  *
  */
 
-	// Error codes:
-
 define (TX_TER_ERROR_GENERAL_EXTREPDIRDOESNTEXIST, '100');
 define (TX_TER_ERROR_GENERAL_NOUSERORPASSWORD, '101');
 define (TX_TER_ERROR_GENERAL_USERNOTFOUND, '102');
 define (TX_TER_ERROR_GENERAL_WRONGPASSWORD, '103');
+define (TX_TER_ERROR_GENERAL_DATABASEERROR, '104');
 
 define (TX_TER_ERROR_UPLOADEXTENSION_EXTENSIONDOESNTEXIST, '202');
 define (TX_TER_ERROR_UPLOADEXTENSION_EXTENSIONCONTAINSNOFILES, '203');
 define (TX_TER_ERROR_UPLOADEXTENSION_WRITEERRORWHILEWRITINGFILES, '204');
 define (TX_TER_ERROR_UPLOADEXTENSION_EXTENSIONTOOBIG, '205');
 define (TX_TER_ERROR_UPLOADEXTENSION_EXISTINGEXTENSIONRECORDNOTFOUND, '206');
+define (TX_TER_ERROR_UPLOADEXTENSION_FILEMD5DOESNOTMATCH, '207');
+define (TX_TER_ERROR_UPLOADEXTENSION_ACCESSDENIED, '208');
 
 define (TX_TER_ERROR_REGISTEREXTENSIONKEY_DBERRORWHILEINSERTINGKEY, '300');
 
-define (TX_TER_ERROR_GETEXTENSIONKEYS_DBERRORWHILEFETCHINGKEYS, '400');
+define (TX_TER_ERROR_DELETEEXTENSIONKEY_ACCESSDENIED, '500');
+define (TX_TER_ERROR_DELETEEXTENSIONKEY_KEYDOESNOTEXIST, '501');
+define (TX_TER_ERROR_DELETEEXTENSIONKEY_CANTDELETEBECAUSEVERSIONSEXIST, '502');
 
+define (TX_TER_ERROR_MODIFYEXTENSIONKEY_ACCESSDENIED, '600');
+define (TX_TER_ERROR_MODIFYEXTENSIONKEY_SETTINGTOTHISOWNERISNOTPOSSIBLE, '601');
+define (TX_TER_ERROR_MODIFYEXTENSIONKEY_KEYDOESNOTEXIST, '602');
+
+define (TX_TER_ERROR_SETREVIEWSTATE_NOUSERGROUPDEFINED, '700');
+define (TX_TER_ERROR_SETREVIEWSTATE_ACCESSDENIED, '701');
+define (TX_TER_ERROR_SETREVIEWSTATE_EXTENSIONVERSIONDOESNOTEXIST, '702');
+
+define (TX_TER_ERROR_INCREASEEXTENSIONDOWNLOADCOUNTER_NOUSERGROUPDEFINED, '800');
+define (TX_TER_ERROR_INCREASEEXTENSIONDOWNLOADCOUNTER_ACCESSDENIED, '801');
+define (TX_TER_ERROR_INCREASEEXTENSIONDOWNLOADCOUNTER_EXTENSIONVERSIONDOESNOTEXIST, '802');
+define (TX_TER_ERROR_INCREASEEXTENSIONDOWNLOADCOUNTER_INCREMENTORNOTPOSITIVEINTEGER, '803');
+define (TX_TER_ERROR_INCREASEEXTENSIONDOWNLOADCOUNTER_EXTENSIONKEYDOESNOTEXIST, '804');
+
+define (TX_TER_ERROR_DELETEEXTENSION_ACCESS_DENIED, '900');
+define (TX_TER_ERROR_DELETEEXTENSION_EXTENSIONDOESNTEXIST, '901');
 
 	// Result codes:
 define (TX_TER_RESULT_GENERAL_OK, '10000');
@@ -73,6 +92,9 @@ define (TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST, '10501');
 define (TX_TER_RESULT_EXTENSIONKEYNOTVALID, '10502');
 define (TX_TER_RESULT_EXTENSIONKEYSUCCESSFULLYREGISTERED, '10503');
 define (TX_TER_RESULT_EXTENSIONSUCCESSFULLYUPLOADED, '10504');
+define (TX_TER_RESULT_EXTENSIONSUCCESSFULLYDELETED, '10505');
+
+
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
 require_once(t3lib_extMgm::extPath('ter_fe').'class.tx_terfe_common.php');
@@ -132,6 +154,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 	 * @param	array		$conf: The plugin configuration array
 	 * @return	string		The plugin's HTML output
 	 * @access	public
+	 * @todo	Known problem: Currently I check if user is admin by look comparing the user with a usergroup defined for ter_fe. It would be better to ask the TER via SOAP if the current user is admin, because then we don't have to configure that on two sides.
 	 */
 	public function main($content,$conf)	{
 		global $TSFE;
@@ -139,7 +162,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 		$this->init($conf);
 		if (!@is_dir ($this->commonObj->repositoryDir)) return 'TER_FE Error: Repository directory ('.$this->commonObj->repositoryDir.') does not exist!';
 		$userLoggedIn = is_array ($TSFE->fe_user->user);
-		$userIsAdmin = FALSE;	// TODO: Admin mode not implemented yet
+		$userIsAdmin = (intval($conf['adminFEUserGroup']) && t3lib_div::inList($TSFE->fe_user->user['usergroup'], $conf['adminFEUserGroup']));
 
 			// Prepare the top menu items:
 		if (!$this->piVars['view']) $this->piVars['view'] = 'introduction';
@@ -168,7 +191,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 				$subContent = $userLoggedIn ? $this->renderView_manageKeys() : $this->pi_getLL('managekeys_needlogin', '',1);
 			break;
 			case 'admin':
-				$subContent = $userLoggedIn ? $this->renderView_administrateKeys() : $this->pi_getLL('adminkeys_needlogin', '',1);
+				$subContent = ($userLoggedIn && $userIsAdmin) ? $this->renderView_administration() : '';
 			break;
 			case 'introduction':
 			default:
@@ -183,7 +206,6 @@ class tx_terfe_pi2 extends tslib_pibase {
 			<br />
 			'.$subContent.'
 		';
-
 		return $this->pi_wrapInBaseClass($content);
 	}
 
@@ -484,6 +506,188 @@ class tx_terfe_pi2 extends tslib_pibase {
 		return $output;
 	}
 
+	/**
+	 * Renders the view for administrators
+	 *
+	 * @return	string		HTML output
+	 * @access	protected
+	 */
+	protected function renderView_administration ()	{
+		global $TSFE, $TYPO3_DB;
+
+		$output = '';
+		$actionMessages = '';
+
+		$iconInfo = '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/info.gif" width="16" height="16" alt="" title="" style="vertical-align:middle;" />';
+		$iconError = '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/error.gif" width="16" height="16" alt="" title="" style="vertical-align:middle;" />';
+
+		try {
+			$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => 1));
+			$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
+
+				// Handle submitted actions:
+			switch (t3lib_div::GPVar ('tx_terfe_pi2_cmd')) {
+
+				case 'deleteextensionversion':
+					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
+					$version = t3lib_div::GPvar('tx_terfe_pi2_version');
+					
+					$resultArr = $soapClientObj->deleteExtension($accountDataArr, $extensionKey, $version);
+					if (is_array ($resultArr)) {
+						switch ($resultArr['resultCode']) {
+							case TX_TER_RESULT_EXTENSIONSUCCESSFULLYDELETED : 
+								$actionMessages = '<p>'.$iconInfo.' <strong>'.sprintf ($this->pi_getLL('admin_action_deleteextension_success','',1), $extensionKey, $version).'</strong></p><br />';
+								$res = $TYPO3_DB->exec_DELETEquery (
+									'tx_terfe_extensions',
+									'extensionkey='.$TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_extensions').' AND version='.$TYPO3_DB->fullQuoteStr($version, 'tx_terfe_extensions')
+								);
+							break;
+							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
+						}
+					}
+				break;
+				case 'transferkey':
+					$targetUsername = t3lib_div::GPvar('tx_terfe_pi2_targetusername');
+					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
+
+					$resultArr = $soapClientObj->modifyExtensionKey($accountDataArr, array('extensionKey' => $extensionKey, 'ownerUsername' => $targetUsername));
+
+					if (is_array ($resultArr)) {
+						switch ($resultArr['resultCode']) {
+							case TX_TER_RESULT_GENERAL_OK : $actionMessages = '<p>'.$iconInfo.' <strong>'.sprintf ($this->pi_getLL('managekeys_action_transferkey_success','',1), $extensionKey, $targetUsername).'</strong></p><br />'; break;
+							case TX_TER_ERROR_GENERAL_USERNOTFOUND: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('managekeys_action_transferkey_usernotfound','',1), $extensionKey, $targetUsername).'</strong></p><br />'; break;
+							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
+						}
+					}
+				break;
+				case 'deletekey':
+					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
+
+					$resultArr = $soapClientObj->deleteExtensionKey($accountDataArr, $extensionKey);
+					if (is_array ($resultArr)) {
+						switch ($resultArr['resultCode']) {
+							case TX_TER_RESULT_GENERAL_OK : $actionMessages = '<p>'.$iconInfo.' <strong>'.sprintf ($this->pi_getLL('managekeys_action_deletekey_success','',1), $extensionKey).'</strong></p><br />'; break;
+							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
+						}
+					}
+				break;
+			}
+			
+				// Render search form:
+			$searchForm = '
+				<form action="'.$this->pi_getPageLink($TSFE->id).'" method="get">
+					<input type="hidden" name="tx_terfe_pi2_cmd" value="search" />
+					<input type="hidden" name="no_cache" value="1" />
+					<input type="hidden" name="tx_terfe_pi2[view]" value="admin" />
+					<input type="text" name="tx_terfe_pi2_extensionkey" size="20" />
+					<input type="submit" value="'.$this->pi_getLL('admin_search_searchbutton','',1).'" />
+				</form>
+				<br />
+			';	
+		
+				// Create list of extensions:
+			$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
+			if (strlen($extensionKey)) {
+				$filterOptionsArr = array ('extensionKey' => $extensionKey);
+				$resultArr = $soapClientObj->getExtensionKeys($accountDataArr, $filterOptionsArr);
+				if (is_array ($resultArr) && $resultArr['simpleResult']['resultCode'] == TX_TER_RESULT_GENERAL_OK) {
+	
+					$tableRows = array();
+					if (is_array ($resultArr['extensionKeyData'])) {
+						foreach ($resultArr['extensionKeyData'] as $extensionKeyArr) {
+							$res = $TYPO3_DB->exec_SELECTquery (
+								'version',
+								'tx_terfe_extensions',
+								'extensionkey="'.$TYPO3_DB->quoteStr($extensionKeyArr['extensionkey'],'tx_terfe_extensions').'"'
+							);
+							if ($res) {
+								$numberOfVersions = $TYPO3_DB->sql_num_rows ($res);
+								$tableRows[] = '
+									<tr>
+										<td class="td-sub"><span title="'.$this->csConvHSC($extensionKeyArr['title']).'">'.$this->csConvHSC($extensionKeyArr['extensionkey']).'</span></td>
+										<td class="td-sub">'.$this->csConvHSC($extensionKeyArr['ownerusername']).'</td>
+										<td class="td-sub" nowrap="nowrap">
+											<form action="'.$this->pi_linkTP_keepPIvars_url(array(),1).'" method="post" name="tx_terfe_pi2">
+												<input name="tx_terfe_pi2_targetusername" type="text" size="10" />
+												<input type="image" src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/transferkey.gif" alt="'.$this->pi_getLL('managekeys_action_transferkey','',1).'" title="'.$this->pi_getLL('managekeys_action_transferkey','',1).'" onFocus="blur()" />
+												<input name="tx_terfe_pi2_extensionkey" type="hidden" value="'.$extensionKeyArr['extensionkey'].'" />
+												<input name="tx_terfe_pi2_version" type="hidden" value="'.$row['version'].'" />
+												<input name="tx_terfe_pi2_cmd" type="hidden" value="transferkey" />
+											</form>
+										</td>
+										<td class="td-sub" nowrap="nowrap">
+											'. ($numberOfVersions == 0 ?
+													'<form action="'.$this->pi_linkTP_keepPIvars_url(array(),1).'" method="post" name="tx_terfe_pi2" onSubmit="return confirm(\''.sprintf($this->pi_getLL('managekeys_deleteareyousure','',1), $extensionKeyArr['extensionkey']).'\');">
+														<input type="image" src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/delete.gif" alt="'.$this->pi_getLL('managekeys_action_deletekey','',1).'" title="'.$this->pi_getLL('managekeys_action_deletekey','',1).'" onFocus="blur()" />
+														<input name="tx_terfe_pi2_extensionkey" type="hidden" value="'.$extensionKeyArr['extensionkey'].'" />
+														<input name="tx_terfe_pi2_cmd" type="hidden" value="deletekey" />
+													</form>'
+												:
+													'&nbsp;'
+												).'
+										</td>
+									</tr>
+								';
+								if ($numberOfVersions>0) {
+									while ($row = $TYPO3_DB->sql_fetch_assoc($res)) {
+										$tableRows[] = '
+											<tr>
+												<td class="td-sub">&nbsp;</td>
+												<td class="td-sub">'.htmlspecialchars($row['version']).'</td>
+												<td class="td-sub" nowrap="nowrap">&nbsp;</td>
+												<td class="td-sub" nowrap="nowrap">
+													<form action="'.$this->pi_linkTP_keepPIvars_url(array(),1).'" method="post" name="tx_terfe_pi2" onSubmit="return confirm(\''.sprintf($this->pi_getLL('admin_deleteextensionareyousure','',1), $extensionKeyArr['extensionkey'], $row['version']).'\');">
+														<input type="image" src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/delete.gif" alt="'.$this->pi_getLL('admin_action_deleteextension','',1).'" title="'.$this->pi_getLL('admin_action_deleteextension','',1).'" onFocus="blur()" />
+														<input name="tx_terfe_pi2_extensionkey" type="hidden" value="'.$extensionKeyArr['extensionkey'].'" />
+														<input name="tx_terfe_pi2_version" type="hidden" value="'.$row['version'].'" />
+														<input name="tx_terfe_pi2_cmd" type="hidden" value="deleteextensionversion" />
+													</form>
+												</td>
+											</tr>
+										';
+									}
+								}
+							}
+						}
+					}
+	
+				} else {
+					$output .=  '
+						<h4>'.$this->pi_getLL('general_error','',1).'</h4>
+						<p>'.sprintf($this->pi_getLL('general_errorcode','',1), $resultArr['simpleResult']['resultCode']).'</p>
+					';
+				}
+			}
+			$output .= '
+				<h4>'.$this->pi_getLL('admin_title','',1).'</h4>
+				<p>'.$this->pi_getLL('admin_introduction','',1).'</p>
+				<br />
+				'.$actionMessages.'
+				'.$searchForm.'
+			';
+			if (count($tableRows)) {
+				$output .= '
+					<table>
+						<tr>
+							<th class="th-sub">'.$this->pi_getLL('registerkeys_extensionkey','',1).'</th>
+							<th class="th-sub">'.$this->pi_getLL('admin_version','',1).' / '.$this->pi_getLL('admin_owner','',1).'</th>
+							<th class="th-sub">'.$this->pi_getLL('managekeys_transfer','',1).'</th>
+							<th class="th-sub">'.$this->pi_getLL('managekeys_delete','',1).'</th>
+						</tr>
+						'.implode (chr(10),$tableRows).'
+					</table>
+				';
+			}
+		} catch (SoapFault $exception) {
+			$output .=  '
+				<h4>'.$this->pi_getLL('general_error','',1).'</h4>
+				<p>SoapFault Exception (#'.$exception->faultcode.'): '.$exception->faultstring.'</p>
+			';
+		}
+
+		return $output;
+	}
+	
 
 
 

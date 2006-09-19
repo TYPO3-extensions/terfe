@@ -2,6 +2,11 @@ plugin.tx_terfe_pi1 {
 	repositoryDirectory = 
 }
 
+plugin.tx_terfe_pi2{
+	repositoryDirectory =
+	adminFEUserGroup =
+}
+
 plugin.tx_terfe_pi3 {
 	repositoryDirectory = 
 }

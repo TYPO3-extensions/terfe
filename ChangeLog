@@ -1,3 +1,6 @@
+01.09.2005 Robert Lemke <robert@typo3.org>
+	+ Added extension and extension key management for administrators to ter_fe_pi2. A fe_usergroup for administrators has to be created, and specified in plugin.tx_terfe_pi2.adminFEUserGroup
+
 15.05.2006 Michael Scharkow <michael@underused.org>
 	* Finished ratings, with changes from public beta
 	* ATTN: Please remove reference to my server in common class icon

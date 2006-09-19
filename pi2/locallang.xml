@@ -66,7 +66,7 @@
             <label index="views_introduction">Introduction</label>
             <label index="views_register">Register keys</label>
             <label index="views_manage">Manage keys</label>
-            <label index="views_admin">Administrate keys</label>
+            <label index="views_admin">Administration</label>
             <label index="registerkeys_title">Register a new extension key</label>
             <label index="registerkeys_introduction">Please enter a keyname you want to register. It will be validated and checked. If the extension key is not already registered, you'll have the chance to do it immediately hereafter.</label>
             <label index="registerkeys_needlogin">You have to be logged in in order to register extension keys.</label>
@@ -103,8 +103,16 @@
             <label index="managekeys_action_deletekey">Delete this key</label>
             <label index="managekeys_action_deletekey_success">The extension key &quot;%s&quot; has been successfully deleted.</label>
             <label index="managekeys_uploads">Upl.</label>
+            <label index="admin_title">Administrate extensions and extension keys</label>
+            <label index="admin_introduction">This section allows you to administrate *any* extension key or extension version. Just search for an extension key in the search form below (user '%' as wildcard). Be careful!</label>
             <label index="adminkeys_needlogin">You have to be logged in in order to administrate extension keys.</label>
             <label index="adminkeys_needadminrights">You need administrative rights in in order to administrate extension keys.</label>
+            <label index="admin_action_deleteextension_success">The extension "%s" version "%s" has been successfully deleted.</label>
+            <label index="admin_search_searchbutton">Search</label>
+            <label index="admin_version">Version</label>
+            <label index="admin_owner">Owner</label>
+            <label index="admin_action_deleteextension">Delete extension</label>
+            <label index="admin_deleteextensionareyousure">Are you sure that you want to delete extension "%s" version "%s"?</label>
             <label index="introduction_needlogin">Please note: You need to be logged in in order to register or manage extension keys.</label>
             <label index="introduction_explanation">
 			&lt;p&gt;An extension key is a string which uniquely identifies your extension worldwide. Having a unique extension key ensures that you can name modules, plugins, PHP-classes, database tables and fields with a prefix that others do not use. It garantees global portability and compatibility. Registration is free and encouraged by the TYPO3 community for all extensions you make.&lt;/p&gt;

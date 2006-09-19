@@ -879,7 +879,7 @@ class tx_terfe_common {
 	 */
 	protected function extensionIndex_wasModified () {
 		$oldMD5Hash = @file_get_contents (PATH_site.'typo3temp/tx_terfe/tx_terfe_extensionsmd5.txt');
-		$currentMD5Hash = md5_file($this->repositoryDir.'extensions.xml.gz');
+		$currentMD5Hash = @md5_file($this->repositoryDir.'extensions.xml.gz');
 		return ($oldMD5Hash != $currentMD5Hash);
 	}
 
