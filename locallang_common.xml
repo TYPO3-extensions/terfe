@@ -85,7 +85,7 @@
             <label index="extension_extensionkey">Extension key</label>
             <label index="extension_title">Title</label>
             <label index="extension_version">Version</label>
-            <label index="extension_downloads">Downloads</label>
+            <label index="extension_downloads">Downloads (total / this version)</label>
             <label index="extension_dependencies">Dependencies</label>
             <label index="extension_dependencies_kind_depends">depends on</label>
             <label index="extension_dependencies_kind_conflicts">conflicts with</label>
