@@ -1,3 +1,6 @@
+Version 1.0.2 15.12.2006 Robert Lemke <robert@typo3.org>
+	+ Added feature "Render Problems" link which explains why documents were not rendered. (See extension ter_doc_renderproblems)
+	
 Version 1.0.1, 14.12.2006 Robert Lemke <robert@typo3.org>
 	# Fixed download counter display
 
