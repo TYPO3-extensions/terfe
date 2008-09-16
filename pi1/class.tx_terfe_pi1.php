@@ -255,7 +255,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'DISTINCT extensionkey',
 			'tx_terfe_extensions',
-			$this->standardSelectionClause,
+			'',
 			'',
 			'extensiondownloadcounter DESC',
 			'60'
@@ -273,7 +273,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 				);
 				if (!$res2) return 'Extension '.htmlspecialchars($extensionKeyRow['extensionkey']).' not found!';
 				$extensionRecord = $TYPO3_DB->sql_fetch_assoc ($res2);
-				if ($extensionRecord['category'] != 'doc') {
+				if ($extensionRecord['category'] != 'doc' && $extensionRecord['state'] != 'obsolete') {
 					$tableRows[] = $this->renderListView_detailledExtensionRecord ($extensionRecord);
 					$counter ++;
 				}
@@ -331,7 +331,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'e.*,rating,votes',
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
-			$TYPO3_DB->searchQuery (explode (' ', $this->piVars['sword']), array('extensionkey','title','authorname','description'), 'e').' AND '.$this->standardSelectionClause,
+			$TYPO3_DB->searchQuery (explode (' ', $this->piVars['sword']), array('extensionkey','title','authorname','description'), 'e'),
 			'',
 			'extensiondownloadcounter DESC,lastuploaddate DESC',
 			''
@@ -429,10 +429,14 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * @param	string		$version: Version number of the extension or an empty string for displaying the most recent version
 	 * @return	string		HTML output
 	 */
-	protected function renderSingleView_extension ($extensionKey, $version = '') {
+	protected function renderSingleView_extension ($extensionKey, $version = 'current') {
 		global $TYPO3_DB, $TSFE;
 
-		if (!strlen($version) || $version == 'current') $version = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKey, $this->tooFewReviewsMode);
+		if (!strlen($version) || $version == 'current') {
+			$version = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKey, $this->tooFewReviewsMode);
+		} else {
+			$this->no_cache=1;
+		}
 
 			// Fetch the extension record:
 		$res = $TYPO3_DB->exec_SELECTquery (
@@ -443,7 +447,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 		);
 		if (!$res) return 'DB error while looking up extension '.htmlspecialchars($extensionKey).'!';
 		$extensionRecord = $TYPO3_DB->sql_fetch_assoc ($res);
-
 		if (!$extensionRecord || $extensionRecord['reviewstate']== -1) return 'Extension '.htmlspecialchars($extensionKey).' not found!';
 
 				// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:
@@ -637,12 +640,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 		if (t3lib_extMgm::isLoaded ('ter_doc')) {
 			$terDocAPIObj = tx_terdoc_api::getInstance();
-			$documentationLink = $terDocAPIObj->getDocumentationLink ($extensionRecord['extensionkey'], $extensionRecord['version']);
+			$documentationLink = $terDocAPIObj->getDocumentationLink ($extensionRecord['extensionkey'], 'current');
 		} else {
 			$documentationLink = $this->commonObj->getLL('general_terdocnotinstalled','',1);
 		}
 		$extensionRecord = $this->commonObj->db_prepareExtensionRecordForOutput ($extensionRecord);
 		$extensionRecord['reviewstate_label'] = $extensionRecord['reviewstate_raw'] ? 'reviewed' : 'unreviewed';
+
 		$tableRows = '
 			<li>
 				<dl class="ext-header">
@@ -678,7 +682,6 @@ class tx_terfe_pi1 extends tslib_pibase {
 				</dl>
 			</li>
 		';
-
 		return $tableRows;
 	}
 

@@ -1,3 +1,9 @@
+Version 1.0.5 16.09.2008 Robert Lemke <robert@typo3.org>
+	* Checked in the most recent version from typo3.org into Forge
+	- Removed the reviewed / unreviewed list view for extensions from the menu
+	- The extension version number is not shown in the URL anymore
+	- Obsolete extensions are now marked as such (again)
+
 Version 1.0.4 20.03.2007 Robert Lemke <robert@typo3.org>
     + Improved the caching of extension files for the ter_fe details view: Files are now only unpacked again if the md5 sum of the T3X file (not the extensions.xml.gz) changed.
     + Changed the tx_terfe / contentcache file structure: now the files of each extension reside in their own subdirectory.
@@ -9,7 +15,7 @@ Version 1.0.3 16.12.2006 Robert Lemke <robert@typo3.org>
 
 Version 1.0.2 15.12.2006 Robert Lemke <robert@typo3.org>
 	+ Added feature "Render Problems" link which explains why documents were not rendered. (See extension ter_doc_renderproblems)
-	
+
 Version 1.0.1, 14.12.2006 Robert Lemke <robert@typo3.org>
 	# Fixed download counter display
 
@@ -38,7 +44,7 @@ Version 1.0.1, 14.12.2006 Robert Lemke <robert@typo3.org>
 	* info and detail view merged
 	* stdSelection for all queries (no obsolete, testing and documentation)
 	* added simple upload comment changelog in single view
-	
+
 12.03.2006 Michael Scharkow <michael@underused.org>
 	* refactoring of pi1, compact lists use a common function now
 	* added state and last update in compact lists
@@ -50,9 +56,9 @@ Version 1.0.1, 14.12.2006 Robert Lemke <robert@typo3.org>
 	+ File downloads are now passed through a function which sends correct HTTP headers and nicer file names.
 
 17.01.2006 Robert Lemke <robert@typo3.org>
-	~ Changed a lot ... 
+	~ Changed a lot ...
 	~ Converted locallang to XML
-	+ Extracted many functions from tx_terfe_pi1 and created a new common library "tx_terfe_common"	
+	+ Extracted many functions from tx_terfe_pi1 and created a new common library "tx_terfe_common"
 
 09.01.2006 Robert Lemke	<robert@typo3.org>
 	~ Commit of merge between Michael's and my modifications
@@ -60,7 +66,7 @@ Version 1.0.1, 14.12.2006 Robert Lemke <robert@typo3.org>
 09.01.2006 Michael Scharkow  <michael@underused.org>
 	* Update for pi3: Delete reviews, better list views, etc.
 	* TODO: E-Mail-Notification and review-editing (delete+new works!)
-	
+
 07.01.2006 Michael Scharkow  <michael@underused.org>
 	* Initial upload of rating framework (in p1)
 
