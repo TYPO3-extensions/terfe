@@ -27,7 +27,7 @@
  * $Id$
  *
  * @author	Robert Lemke <robert@typo3.org>
- * @author	Michael Scharkow <michael@underused.org	
+ * @author	Michael Scharkow <michael@underused.org
  */
 /**
  * [CLASS/FUNCTION INDEX of SCRIPT]
@@ -42,7 +42,7 @@
  *  244:     protected function renderListView_popular()
  *  299:     protected function renderListView_search()
  *  327:     protected function renderListView_searchResult()
- *  372:     protected function renderListView_compactList($mode)
+ *  372:     protected function renderListView_compactList()
  *  447:     protected function renderSingleView_extension ($extensionKey, $version)
  *  520:     protected function renderSingleView_extensionDetails ($extensionRecord)
  *  581:     protected function renderSingleView_feedbackForm ($extensionRecord)
@@ -127,15 +127,13 @@ class tx_terfe_pi1 extends tslib_pibase {
 				case 'new':				$subContent = $this->renderListView_new(); break;
 				case 'categories': 		$subContent = $this->renderListView_categories(); break;
 				case 'popular': 		$subContent = $this->renderListView_popular(); break;
-				case 'fulllist':		$subContent = $this->renderListView_compactList('full'); break;
+				case 'fulllist':		$subContent = $this->renderListView_compactList(); break;
 				case 'search':			$subContent = $this->renderListView_search(); break;
-				case 'unreviewed':		$subContent = $this->renderListView_compactList('unreviewed'); break;
-				case 'reviewed':		$subContent = $this->renderListView_compactList('reviewed'); break;
 			}
 		}
 
 			// Put everything together:
-		$content = $this->commonObj->getTopMenu(array ('new',  'popular', 'fulllist', 'search', ($this->tooFewReviewsMode ? 'reviewed' : 'unreviewed'))).'<br />'.$subContent;
+		$content = $this->commonObj->getTopMenu(array ('new',  'popular', 'fulllist', 'search')) . '<br />'.$subContent;
 
 		return $this->pi_wrapInBaseClass($content);
 	}
@@ -164,7 +162,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'e.*,rating,votes',
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
-			$this->standardSelectionClause.' AND lastuploaddate > '.(time()-($numberOfDays*24*3600)).' '.($this->tooFewReviewsMode ? 'AND reviewstate >= 0' : 'AND reviewstate > 0'),
+			$this->standardSelectionClause.' AND lastuploaddate > '.(time()-($numberOfDays*24*3600)),
 			'',
 			'lastuploaddate DESC',
 			'30'
@@ -213,7 +211,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'*',
 			'tx_terfe_extensions',
-			$this->standardSelectionClause.' AND lastuploaddate > '.(time()-($numberOfDays*24*3600)). ' '.($this->tooFewReviewsMode ? 'AND reviewstate >= 0' : 'AND reviewstate > 0'),
+			$this->standardSelectionClause.' AND lastuploaddate > '.(time()-($numberOfDays*24*3600)),
 			'',
 			'lastuploaddate DESC',
 			''
@@ -257,8 +255,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'DISTINCT extensionkey',
 			'tx_terfe_extensions',
-			$this->standardSelectionClause.
-				'AND '.($this->tooFewReviewsMode ? 'reviewstate >= 0' : 'reviewstate > 0'),
+			$this->standardSelectionClause,
 			'',
 			'extensiondownloadcounter DESC',
 			'60'
@@ -334,7 +331,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'e.*,rating,votes',
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
-			$TYPO3_DB->searchQuery (explode (' ', $this->piVars['sword']), array('extensionkey','title','authorname','description'), 'e').' AND '.$this->standardSelectionClause.($this->tooFewReviewsMode ? 'AND reviewstate >= 0' : 'AND reviewstate > 0'),
+			$TYPO3_DB->searchQuery (explode (' ', $this->piVars['sword']), array('extensionkey','title','authorname','description'), 'e').' AND '.$this->standardSelectionClause,
 			'',
 			'extensiondownloadcounter DESC,lastuploaddate DESC',
 			''
@@ -364,19 +361,12 @@ class tx_terfe_pi1 extends tslib_pibase {
 	/**
 	 * Renders a compact table list of extensions
 	 *
-	 * @param	string		$mode: Display mode (full, reviewed or unreviewed)
 	 * @param	string		$category: category
 	 * @return	string		HTML output
 	 * @access	protected
 	 */
-	protected function renderListView_compactList($mode) {
+	protected function renderListView_compactList() {
 		global $TYPO3_DB, $TSFE;
-
-		$selectConditions = array (
-			'full' => ($this->tooFewReviewsMode ? ' AND reviewstate >= 0' : 'reviewstate > 0'),
-			'reviewed' => ' AND reviewstate > 0',
-			'unreviewed' => ' AND reviewstate = 0'
-			);
 
 		$sorting = $this->piVars['sorting'];
 		$sortingConditions = array (
@@ -392,7 +382,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'e.extensionkey,title,e.version,state,lastuploaddate,rating,votes',
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
-			$this->standardSelectionClause . $selectConditions[$mode],
+			$this->standardSelectionClause,
 			'',
 			$sortingConditions[$sorting].'title ASC, lastuploaddate DESC',
 			''
@@ -415,14 +405,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			}
 		}
 
-		$introArr = array (
-			'unreviewed' => '<p>'.$this->pi_getLL('listview_unsupported_introduction','',1).'</p>
-							<p class="warning">'.$this->pi_getLL('listview_unsupported_introduction_warning','',1).'</p>',
-			'full' => '<p>'.$this->pi_getLL('listview_fulllist_introduction','',1).'</p>',
-			'reviewed' => '<p>'.$this->pi_getLL('listview_reviewed_introduction','',1).'</p>',
-		);
-
-		$content = $introArr[$mode];
+		$content = '<p>'.$this->pi_getLL('listview_fulllist_introduction','',1).'</p>';
 
 		$content.= '
 				<table class="ext-compactlist"><tr>
@@ -443,10 +426,10 @@ class tx_terfe_pi1 extends tslib_pibase {
 	 * Renders the single view for (the latest version of) an extension including several sub views.
 	 *
 	 * @param	string		$extensionKey: The extension key of the extension to render
-	 * @param	string		$version: Version number of the extension or an empty string for displaying the most recent reviewed version
+	 * @param	string		$version: Version number of the extension or an empty string for displaying the most recent version
 	 * @return	string		HTML output
 	 */
-	protected function renderSingleView_extension ($extensionKey, $version) {
+	protected function renderSingleView_extension ($extensionKey, $version = '') {
 		global $TYPO3_DB, $TSFE;
 
 		if (!strlen($version) || $version == 'current') $version = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKey, $this->tooFewReviewsMode);
@@ -482,7 +465,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		}
 
 		$subContent = '<ul class="extensions">'.$this->renderListView_detailledExtensionRecord ($extensionRecord);
-		
+
 			// Render content of the currently selected view:
 		switch ($this->piVars['extView']) {
 			case 'feedback' :
@@ -501,8 +484,8 @@ class tx_terfe_pi1 extends tslib_pibase {
 				$subContent .= $this->renderSingleView_extensionDetails ($extensionRecord);
 		}
 		$subContent .= '</ul>';
-	
-	
+
+
 
 			// Put everything together:
 		$content ='
@@ -683,7 +666,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 						<dl><dt>'.$this->commonObj->getLL('extension_downloads','',1).'</dt><dd>'.$extensionRecord['versiondownloadcounter'].'</dd></dl>
 						<dl><dt>'.$this->commonObj->getLL('extension_rating','',1).'</dt><dd>'.
 						($extensionRecord['rating'] ?  $extensionRecord['rating'].' '.$this->pi_linkTP_keepPIvars('('.$extensionRecord['votes'].' votes)', array('view'=>'view','showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version'], 'extView' => 'rating'),1,1) : 'none' ).'</dd></dl>
-						
+
 					</dd>
 					<dd class="right">
 						<dl><dt>'.$this->commonObj->getLL('extension_lastuploaddate','',1).'</dt><dd class="updated">'.$extensionRecord['lastuploaddate'].'</dd></dl>
@@ -772,7 +755,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 	protected function renderTopMenu() {
 
 			// Prepare the top menu items:
-		$menuItems = array ('new',  'popular', 'fulllist', 'search', 'unreviewed'); # FIXME: disabled: categories
+		$menuItems = array ('new',  'popular', 'fulllist', 'search'); # FIXME: disabled: categories
 
 			// Render the top menu
 		$counter = 0;
