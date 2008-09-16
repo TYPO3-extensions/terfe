@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <description>FE plugin for extension key management</description>
+        <type>module</type>
+        <csh_table></csh_table>
+        <fileId>EXT:ter_fe/pi2/locallang.xml</fileId>
+        <labelContext type="array">
+            <label index="general_extensionkeys"></label>
+            <label index="general_error"></label>
+            <label index="general_errorcode"></label>
+            <label index="general_none"></label>
+            <label index="views_introduction"></label>
+            <label index="views_register"></label>
+            <label index="views_manage"></label>
+            <label index="views_admin"></label>
+            <label index="registerkeys_title"></label>
+            <label index="registerkeys_introduction"></label>
+            <label index="registerkeys_needlogin"></label>
+            <label index="registerkeys_extensionkey"></label>
+            <label index="registerkeys_extensiontitle"></label>
+            <label index="registerkeys_extensiontitle_hint"></label>
+            <label index="registerkeys_extensiondescription"></label>
+            <label index="registerkeys_extensiondescription_hint"></label>
+            <label index="registerkeys_checkvalidity"></label>
+            <label index="registerkeys_doregister"></label>
+            <label index="registerkeys_extensionkeynotvalid"></label>
+            <label index="registerkeys_titlemissing"></label>
+            <label index="registerkeys_success"></label>
+            <label index="registerkeys_success_explanation"></label>
+            <label index="registerkeys_result_unknown"></label>
+            <label index="registerkeys_result_10500"></label>
+            <label index="registerkeys_result_10502"></label>
+            <label index="registerkeys_keyisvalid"></label>
+            <label index="registerkeys_rules_heading"></label>
+            <label index="registerkeys_rules_explanation"></label>
+            <label index="registerkeys_rules_allowedcharacters"></label>
+            <label index="registerkeys_rules_prefixes"></label>
+            <label index="registerkeys_rules_startandend"></label>
+            <label index="registerkeys_rules_length"></label>
+            <label index="managekeys_needlogin"></label>
+            <label index="managekeys_title"></label>
+            <label index="managekeys_introduction"></label>
+            <label index="managekeys_transfer"></label>
+            <label index="managekeys_changepassword"></label>
+            <label index="managekeys_delete"></label>
+            <label index="managekeys_deleteareyousure"></label>
+            <label index="managekeys_action_transferkey"></label>
+            <label index="managekeys_action_transferkey_success"></label>
+            <label index="managekeys_action_transferkey_usernotfound"></label>
+            <label index="managekeys_action_deletekey"></label>
+            <label index="managekeys_action_deletekey_success"></label>
+            <label index="managekeys_uploads"></label>
+            <label index="adminkeys_needlogin"></label>
+            <label index="adminkeys_needadminrights"></label>
+            <label index="introduction_needlogin"></label>
+            <label index="introduction_explanation"></label>
+        </labelContext>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="general_extensionkeys">Extension Keys</label>
+            <label index="general_error">An error occurred!</label>
+            <label index="general_errorcode">Sorry, an error occurred (result code: %s). If the problem persists, please report this error to the webmaster.</label>
+            <label index="general_none">none</label>
+            <label index="views_introduction">Introduction</label>
+            <label index="views_register">Register keys</label>
+            <label index="views_manage">Manage keys</label>
+            <label index="views_admin">Administration</label>
+            <label index="registerkeys_title">Register a new extension key</label>
+            <label index="registerkeys_introduction">Please enter a keyname you want to register. It will be validated and checked. If the extension key is not already registered, you'll have the chance to do it immediately hereafter.</label>
+            <label index="registerkeys_needlogin">You have to be logged in in order to register extension keys.</label>
+            <label index="registerkeys_extensionkey">Extension key</label>
+            <label index="registerkeys_extensiontitle">Title</label>
+            <label index="registerkeys_extensiontitle_hint">(required) name your extension with a title</label>
+            <label index="registerkeys_extensiondescription">Description</label>
+            <label index="registerkeys_extensiondescription_hint">Please make a short and clear statement about what this extension is about</label>
+            <label index="registerkeys_checkvalidity">check validity</label>
+            <label index="registerkeys_doregister">register key</label>
+            <label index="registerkeys_extensionkeynotvalid">Extension key not valid</label>
+            <label index="registerkeys_titlemissing">Please enter a title for your extension key!</label>
+            <label index="registerkeys_success">Registration successful!</label>
+            <label index="registerkeys_success_explanation">You have successfully registered a new extension key.</label>
+            <label index="registerkeys_result_unknown">An unhandled error occurred (result code: %s). Please try again. If the problem persists, please report this code to the webmaster.</label>
+            <label index="registerkeys_result_10500">Sorry, the extension key you have chosen already exists. Just try another one.</label>
+            <label index="registerkeys_result_10502">Sorry, the extension key you have chosen does not follow the format rules for extension keys. Please make sure that your key follows the rules below and try again.</label>
+            <label index="registerkeys_keyisvalid">The key &quot;%s&quot; was not registered, so you can have it ... If you wish to go on, please enter the remaining information into this form:</label>
+            <label index="registerkeys_rules_heading">Extension key format rules</label>
+            <label index="registerkeys_rules_explanation">Please make sure that the extension key you register follows the following rules:</label>
+            <label index="registerkeys_rules_allowedcharacters">Allowed characters are: a-z (lowercase), 0-9 and '_' (underscore)</label>
+            <label index="registerkeys_rules_prefixes">The key must not being with one of the following prefixes: tx,u,user_,pages,tt_,sys_,ts_language_,csh_</label>
+            <label index="registerkeys_rules_startandend">Extension keys cannot start or end with 0-9 and '_' (underscore)</label>
+            <label index="registerkeys_rules_length">An extension key must have minimum 3, maximum 30 characters (not counting underscores)</label>
+            <label index="managekeys_needlogin">You have to be logged in in order to manage extension keys.</label>
+            <label index="managekeys_title">Manage your extension keys</label>
+            <label index="managekeys_introduction">Here you can transfer an extension key to a different TYPO3.org user or delete non-used extension keys. Please note that you can only delete a key if you never uploaded a version to the repository which uses that key.</label>
+            <label index="managekeys_transfer">Transfer to user</label>
+            <label index="managekeys_delete">Delete</label>
+            <label index="managekeys_deleteareyousure">Are you sure you want to delete the extension key &quot;%s&quot; ?</label>
+            <label index="managekeys_action_transferkey">Transfer key to other user</label>
+            <label index="managekeys_action_transferkey_success">Your key &quot;%s&quot; has been successfully transferred to user &quot;%s&quot;.</label>
+            <label index="managekeys_action_transferkey_usernotfound">Your key &quot;%s&quot; could not be transferred because user &quot;%s&quot; does not exist!</label>
+            <label index="managekeys_action_deletekey">Delete this key</label>
+            <label index="managekeys_action_deletekey_success">The extension key &quot;%s&quot; has been successfully deleted.</label>
+            <label index="managekeys_uploads">Upl.</label>
+            <label index="admin_title">Administrate extensions and extension keys</label>
+            <label index="admin_introduction">This section allows you to administrate *any* extension key or extension version. Just search for an extension key in the search form below (user '%' as wildcard). Be careful!</label>
+            <label index="adminkeys_needlogin">You have to be logged in in order to administrate extension keys.</label>
+            <label index="adminkeys_needadminrights">You need administrative rights in in order to administrate extension keys.</label>
+            <label index="admin_action_deleteextension_success">The extension "%s" version "%s" has been successfully deleted.</label>
+            <label index="admin_search_searchbutton">Search</label>
+            <label index="admin_version">Version</label>
+            <label index="admin_owner">Owner</label>
+            <label index="admin_action_deleteextension">Delete extension</label>
+            <label index="admin_deleteextensionareyousure">Are you sure that you want to delete extension "%s" version "%s"?</label>
+            <label index="introduction_needlogin">Please note: You need to be logged in in order to register or manage extension keys.</label>
+            <label index="introduction_explanation">
+			&lt;p&gt;An extension key is a string which uniquely identifies your extension worldwide. Having a unique extension key ensures that you can name modules, plugins, PHP-classes, database tables and fields with a prefix that others do not use. It garantees global portability and compatibility. Registration is free and encouraged by the TYPO3 community for all extensions you make.&lt;/p&gt;
+			&lt;br /&gt;
+			&lt;p&gt;&lt;strong&gt;Good keys&lt;/strong&gt; are those which reflect what the extension is about. Examples:&lt;/p&gt;
+			&lt;br /&gt;
+			&lt;ul&gt;
+			    &lt;li&gt;A booking system called &quot;Hotel Manager&quot; for hotels. Example key: &quot;hotelmgr&quot;&lt;/li&gt;
+			    &lt;li&gt;A skin for TYPO3 with aliens in the background image, named &quot;Black is Back&quot;. Example key: &quot;skinb2b&quot;&lt;/li&gt;
+			&lt;/ul&gt;
+			&lt;br /&gt;
+			&lt;p&gt;&lt;strong&gt;Notice:&lt;/strong&gt; Using &quot;_&quot; (underscores) in your keys is discouraged since it will make the namespace more complex for you to manage. If possible, please avoid underscores!&lt;/p&gt;
+			&lt;br /&gt;
+			&lt;p&gt;&lt;strong&gt;Bad keys&lt;/strong&gt; are strings which convey no information. Examples:&lt;/p&gt;
+			&lt;br /&gt;
+			&lt;ul&gt;
+			    &lt;li&gt;A message board named &quot;Michaels Super Board&quot;. Example key: &quot;mc_superboard&quot;&lt;/li&gt;
+			    &lt;li&gt;A plugin (poll system) in a series of plugins made by you or your company which is named &quot;Direct People Technology&quot;. Example key: &quot;dpt_pollsystem&quot;&lt;/li&gt;
+			    &lt;li&gt;&quot;asdf&quot; - the typical default &quot;whatever&quot;-string. If you want to test the Extension Repository, please use at least a key like &quot;test_asdf&quot;...&lt;/li&gt;
+			    &lt;li&gt;&quot;d_d_o&quot; - is too much of an abbreviation to tells us anything.&lt;/li&gt;
+			    &lt;li&gt;&quot;my_super_module_for_typo3&quot; - this begs the question how it can be anything near &quot;super&quot; when you couldn't come up with a good extension key...&lt;/li&gt;
+			    &lt;li&gt;&quot;i_always_use_underscores&quot; - Is bad because it uses underscores (see notice above). For your own sake.&lt;/li&gt;
+			    &lt;li&gt;&quot;ilove_very_long_extensionskeys&quot; - You will love long extension keys only until you see all your classnames, tables, fields etc. prefixed with it. Keep them SHORT!&lt;/li&gt;
+			    &lt;li&gt;&quot;iLoveUpperCASE&quot; - Uppercase is NOT allowed.&lt;/li&gt;
+			&lt;/ul&gt;
+			&lt;br /&gt;
+			&lt;p&gt;Some of these &quot;bad examples&quot; are allowed but they don't communicate anything useful for the extension.&lt;/p&gt;
+			&lt;h4&gt;Guidelines for good keys:&lt;/h4&gt;
+			&lt;br /&gt;
+			&lt;ol&gt;
+				&lt;li&gt;It should make sense.&lt;/li&gt;
+			  	&lt;li&gt;It should not have to be changed. When the extension key has been picked, it's not so easy to change it.&lt;/li&gt;
+			   	&lt;li&gt;Avoid underscores if you can (stick to a-z0-9) - that will provide you with the least confusing naming of your modules, tables, classes.&lt;/li&gt;
+			   	&lt;li&gt;Keep it short, less than 10 characters.&lt;/li&gt;
+			   	&lt;li&gt;All in lowercase.&lt;/li&gt;
+			   	&lt;li&gt;Although the primary purpose of the an extension key is to be unique rather than convey information, you might look up which keys others has registered for which kind of extensions - that might help you settle for a good key!&lt;/li&gt;
+			   	&lt;li&gt;Want to test this? Just enter any string prefixed &quot;test_&quot;...&lt;/li&gt;
+			&lt;/ol&gt;			
+			&lt;br /&gt;
+			&lt;p&gt;Anyways, all technical limitations are validated when you submit a string, so just go ahead now...&lt;/p&gt;
+			&lt;h4&gt;Terms of use:&lt;/h4&gt;
+			&lt;p&gt;By registering an extension key you accept that all content uploaded to TER (TYPO3 Extension Repository) matches these terms:&lt;/p&gt;
+			&lt;br /&gt;
+			&lt;ul&gt;
+				&lt;li&gt;Published under the GPL license or GPL compatible&lt;/li&gt;
+				&lt;li&gt;You hold the copyright of the code or do not infringe the rights of others (meaning that work from others must be under GPL or GPL compatible already!)&lt;/li&gt;
+			&lt;/ul&gt;
+			&lt;br /&gt;
+			&lt;p&gt;Any extensions found to break these terms will be removed without further notice by the webmaster team.&lt;/p&gt;
+			&lt;p&gt;The webmasters of TYPO3.org refuse to accept any responsibility for the content of extensions found in the repository since that responsibility is on the owner of the associated extension key who is in control of the uploaded content.&lt;/p&gt;
+		</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </data>
+    <orig_hash type="array">
+        <languageKey index="default" type="array">
+            <label index="general_extensionkeys" type="integer">89078115</label>
+            <label index="general_error" type="integer">164527627</label>
+            <label index="general_errorcode" type="integer">121838195</label>
+            <label index="general_none" type="integer">53789860</label>
+            <label index="views_introduction" type="integer">12031893</label>
+            <label index="views_register" type="integer">6985406</label>
+            <label index="views_manage" type="integer">19263589</label>
+            <label index="views_admin" type="integer">137671463</label>
+            <label index="registerkeys_title" type="integer">97541042</label>
+            <label index="registerkeys_introduction" type="integer">253114056</label>
+            <label index="registerkeys_needlogin" type="integer">159818994</label>
+            <label index="registerkeys_extensionkey" type="integer">260594172</label>
+            <label index="registerkeys_extensiontitle" type="integer">192455458</label>
+            <label index="registerkeys_extensiontitle_hint" type="integer">252399373</label>
+            <label index="registerkeys_extensiondescription" type="integer">190479069</label>
+            <label index="registerkeys_extensiondescription_hint" type="integer">58203584</label>
+            <label index="registerkeys_checkvalidity" type="integer">230787153</label>
+            <label index="registerkeys_doregister" type="integer">11954897</label>
+            <label index="registerkeys_extensionkeynotvalid" type="integer">160095203</label>
+            <label index="registerkeys_titlemissing" type="integer">152453899</label>
+            <label index="registerkeys_success" type="integer">53894135</label>
+            <label index="registerkeys_success_explanation" type="integer">82018964</label>
+            <label index="registerkeys_result_unknown" type="integer">221242320</label>
+            <label index="registerkeys_result_10500" type="integer">48237315</label>
+            <label index="registerkeys_result_10502" type="integer">74943500</label>
+            <label index="registerkeys_keyisvalid" type="integer">217586271</label>
+            <label index="registerkeys_rules_heading" type="integer">131982018</label>
+            <label index="registerkeys_rules_explanation" type="integer">31942071</label>
+            <label index="registerkeys_rules_allowedcharacters" type="integer">182195017</label>
+            <label index="registerkeys_rules_prefixes" type="integer">109607998</label>
+            <label index="registerkeys_rules_startandend" type="integer">60518144</label>
+            <label index="registerkeys_rules_length" type="integer">27713786</label>
+            <label index="managekeys_needlogin" type="integer">44880400</label>
+            <label index="managekeys_title" type="integer">267298585</label>
+            <label index="managekeys_introduction" type="integer">227256192</label>
+            <label index="managekeys_transfer" type="integer">91855769</label>
+            <label index="managekeys_changepassword" type="integer">11770970</label>
+            <label index="managekeys_delete" type="integer">254438473</label>
+            <label index="managekeys_deleteareyousure" type="integer">257320600</label>
+            <label index="managekeys_action_transferkey" type="integer">54376513</label>
+            <label index="managekeys_action_transferkey_success" type="integer">15199105</label>
+            <label index="managekeys_action_transferkey_usernotfound" type="integer">220991059</label>
+            <label index="managekeys_action_deletekey" type="integer">195228678</label>
+            <label index="managekeys_action_deletekey_success" type="integer">125878874</label>
+            <label index="managekeys_uploads" type="integer">158949079</label>
+            <label index="adminkeys_needlogin" type="integer">119967979</label>
+            <label index="adminkeys_needadminrights" type="integer">9340014</label>
+            <label index="introduction_needlogin" type="integer">155229174</label>
+            <label index="introduction_explanation" type="integer">113023164</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </orig_hash>
+    <orig_text type="array">
+        <languageKey index="default" type="array">
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </orig_text>
+</T3locallang>
