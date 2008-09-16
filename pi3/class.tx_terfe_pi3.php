@@ -133,7 +133,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 
 	protected	$reviewer = array();												// User name and password of the currently logged in reviewer
 
-	protected	$notificationEmail_recipient = 'robert@typo3.org,hirdes@elios.de,rg@rupert-germann.de';
+	protected	$notificationEmail_recipient = 'robert@typo3.org';
 	protected	$notificationEmail_sender = 'noreply@typo3.org';
 	protected	$notificationEmail_replyTo = 'typo3-project-security@lists.netfielders.de';
 

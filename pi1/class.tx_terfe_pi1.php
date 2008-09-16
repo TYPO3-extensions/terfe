@@ -82,7 +82,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 	protected	$viewMode = '';																// View mode, one of the following: LATEST, CATEGORIES, FULLLIST
 
 	protected	$feedbackMailsCCAddress = '';			// Email address(es) which also receive the feedback emails
-	protected	$standardSelectionClause = 'state <> "obsolete" AND category <> "doc" '; 	// Standard selection criteria for listing of extensions
+	protected	$standardSelectionClause = 'state <> "obsolete" '; 	// Standard selection criteria for listing of extensions
 	protected	$tooFewReviewsMode = TRUE;	// If set, by default unreviewed extensions appear in all modes but "unsupported". This is for the time when we yet don't have enough reviews
 
 	/**
@@ -124,7 +124,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		} else {
 			if (!$this->piVars['view']) $this->piVars['view'] = 'new';
 			switch ($this->piVars['view']) {
-				case 'new':		$subContent = $this->renderListView_new(); break;
+				case 'new':				$subContent = $this->renderListView_new(); break;
 				case 'categories': 		$subContent = $this->renderListView_categories(); break;
 				case 'popular': 		$subContent = $this->renderListView_popular(); break;
 				case 'fulllist':		$subContent = $this->renderListView_compactList('full'); break;
@@ -449,7 +449,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 	protected function renderSingleView_extension ($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
 
-		if (!strlen($version)) $version = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKey);
+		if (!strlen($version) || $version == 'current') $version = $this->commonObj->db_getLatestVersionNumberOfExtension ($extensionKey, $this->tooFewReviewsMode);
 
 			// Fetch the extension record:
 		$res = $TYPO3_DB->exec_SELECTquery (

@@ -162,8 +162,10 @@ class tx_terfe_common {
 		if (is_array ($extensionRecord)) {
 			foreach ($extensionRecord as $key => $value) {
 				switch ($key) {
-					case 'extensionkey':
 					case 'title':
+						$extensionRecord[$key] = strlen($value) > 0 ? $value : $this->pObj->pi_getLL('extensioninfo_general_untitled','',1);
+					break;
+					case 'extensionkey':
 					case 'description':
 					case 'authorname':
 					case 'authoremail':
@@ -317,27 +319,46 @@ class tx_terfe_common {
 	protected function db_getAndUpdateExtensionDetails ($extensionKey, $version) {
 		global $TYPO3_DB, $TSFE;
 
+		$baseDir = $this->baseDirT3XContentCache;
+		$firstLetter = strtolower (substr ($extensionKey, 0, 1));
+		$secondLetter = strtolower (substr ($extensionKey, 1, 1));
+		$t3xFileHash = $this->getT3XFileHash ($extensionKey, $version);
+		$table = 'tx_terfe_extensiondetails';
+		$res = $TYPO3_DB->exec_SELECTquery(
+			'extensionkey,version,files,t3xfilemd5',
+			$table,
+			'extensionkey=' . $TYPO3_DB->fullQuoteStr ($extensionKey, $table) . ' AND version=' . $TYPO3_DB->fullQuoteStr($version, $table)
+		);
+		if ($res && $TYPO3_DB->sql_num_rows($res) > 0) {
+			$detailsRow = $TYPO3_DB->sql_fetch_assoc($res);
+			if ($detailsRow['t3xfilemd5'] == $t3xFileHash) {
+				$filesT3xFileHash = file_get_contents($baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey.'/'.$extensionKey.'-'.$version.'.t3xmd5');
+				if ($filesT3xFileHash == $t3xFileHash) {
+					$detailsRow['files'] = unserialize($detailsRow['files']);
+					return $detailsRow;
+				}
+			}
+		}
+
 		$t3xArr = $this->getUnpackedT3XFile ($extensionKey, $version);
 		if (!is_array ($t3xArr)) return FALSE;
 
 		$filesArr = array ();
 		if (is_array ($t3xArr['FILES'])) {
-			$baseDir = $this->baseDirT3XContentCache;
-			$firstLetter = strtolower (substr ($extensionKey, 0, 1));
-			$secondLetter = strtolower (substr ($extensionKey, 1, 1));
 
 				// Create directories if neccessary and delete possible old data from this extension version:
-			@mkdir ($baseDir.$firstLetter);
-			@mkdir ($baseDir.$firstLetter.'/'.$secondLetter);
+			@mkdir ($baseDir.$firstLetter,0770);
+			@mkdir ($baseDir.$firstLetter.'/'.$secondLetter,0770);
+			@mkdir ($baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey,0770);
 
-			foreach (glob($baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey.'-'.$version.'*') as $fileName) {
+			foreach (glob($baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey.'/'.$extensionKey.'-'.$version.'*') as $fileName) {
 		   		@unlink ($fileName);
 			}
 
 				// Now write the files to the temporary directory:
 			foreach ($t3xArr['FILES'] as $fileName => $fileInfoArr) {
 				$cleanFileName = $extensionKey.'-'.$version.'-'.preg_replace ('/[^\w]/', '__', $fileName);
-				$tempFileName = $baseDir.$firstLetter.'/'.$secondLetter.'/'.$cleanFileName;
+				$tempFileName = $baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey.'/'.$cleanFileName;
 
 				t3lib_div::writeFile ($tempFileName, $fileInfoArr['content']);
 
@@ -347,13 +368,15 @@ class tx_terfe_common {
 					'tempfilename' => $cleanFileName
 				);
 			}
+			
+			file_put_contents($baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey.'/'.$extensionKey.'-'.$version.'.t3xmd5', $t3xFileHash);
 		}
 
 		$detailsRow = array (
 			'extensionkey' => $extensionKey,
 			'version' => $version,
 			'files' => serialize ($filesArr),
-			't3xfilemd5' => @md5_file ($this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x')
+			't3xfilemd5' => $t3xFileHash
 		);
 
 			// Update db record:
@@ -590,7 +613,7 @@ class tx_terfe_common {
 
 		$firstLetter = strtolower (substr ($extensionDetailsArr['extensionkey'], 0, 1));
 		$secondLetter = strtolower (substr ($extensionDetailsArr['extensionkey'], 1, 1));
-		$tempDir = substr ($this->baseDirT3XContentCache, strlen(PATH_site)).$firstLetter.'/'.$secondLetter.'/';
+		$tempDir = substr ($this->baseDirT3XContentCache, strlen(PATH_site)).$firstLetter.'/'.$secondLetter.'/'.$extensionDetailsArr['extensionkey'].'/';
 
 		if (is_array ($filesArr)) {
 			$tableRows = array ();
@@ -754,6 +777,18 @@ class tx_terfe_common {
 	}
 
 	/**
+	 * Returns the MD5 hash of the T3X file for the specified extension key and version
+	 *
+	 * @param   string		$extensionKey: Extension key
+	 * @param   string		$version: Version number
+	 * @return  mixed		The result of md5_file
+	 * @access  protected
+	 */
+	protected function getT3XFileHash ($extensionKey, $version) {
+		return @md5_file ($this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x');
+	}
+
+	/**
 	 * Transfers a file to the client browser.
 	 * NOTE: This function must be called *before* any HTTP headers have been sent!
 	 *
@@ -774,6 +809,8 @@ class tx_terfe_common {
 		header('Content-Transfer-Encoding: binary');
 		header('Content-length:'.filesize($fullPath).'');
 		readfile($fullPath);
+		ob_flush();
+		die();
 		return TRUE;
 	}
 

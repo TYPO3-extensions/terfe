@@ -88,6 +88,7 @@
             <label index="extensioninfo_feedback_emailsent_details">The feedback was sent to %s.</label>
             <label index="extensioninfo_feedback_invalidemailaddress">ERROR: You did not enter a valid email address (%s)</label>
             <label index="extensioninfo_feedback_invalidcaptcha">ERROR: You did not enter the correct numbers / letters</label>
+            <label index="extensioninfo_general_untitled">Untitled</label>
             <label index="extensioninfo_ratings_username">Username</label>
             <label index="extensioninfo_ratings_version">Version</label>
             <label index="extensioninfo_ratings_funcrating">Functionality</label>

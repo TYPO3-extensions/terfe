@@ -120,9 +120,7 @@
 			&lt;p&gt;&lt;strong&gt;Good keys&lt;/strong&gt; are those which reflect what the extension is about. Examples:&lt;/p&gt;
 			&lt;br /&gt;
 			&lt;ul&gt;
-				&lt;li&gt;A message board named &quot;Michaels Super Board&quot;. Example key: &quot;mc_superboard&quot;&lt;/li&gt;
 			    &lt;li&gt;A booking system called &quot;Hotel Manager&quot; for hotels. Example key: &quot;hotelmgr&quot;&lt;/li&gt;
-			    &lt;li&gt;A plugin (poll system) in a series of plugins made by you or your company which is named &quot;Direct People Technology&quot;. Example key: &quot;dpt_pollsystem&quot;&lt;/li&gt;
 			    &lt;li&gt;A skin for TYPO3 with aliens in the background image, named &quot;Black is Back&quot;. Example key: &quot;skinb2b&quot;&lt;/li&gt;
 			&lt;/ul&gt;
 			&lt;br /&gt;
@@ -131,7 +129,9 @@
 			&lt;p&gt;&lt;strong&gt;Bad keys&lt;/strong&gt; are strings which convey no information. Examples:&lt;/p&gt;
 			&lt;br /&gt;
 			&lt;ul&gt;
-				&lt;li&gt;&quot;asdf&quot; - the typical default &quot;whatever&quot;-string. If you want to test the Extension Repository, please use at least a key like &quot;test_asdf&quot;...&lt;/li&gt;
+			    &lt;li&gt;A message board named &quot;Michaels Super Board&quot;. Example key: &quot;mc_superboard&quot;&lt;/li&gt;
+			    &lt;li&gt;A plugin (poll system) in a series of plugins made by you or your company which is named &quot;Direct People Technology&quot;. Example key: &quot;dpt_pollsystem&quot;&lt;/li&gt;
+			    &lt;li&gt;&quot;asdf&quot; - the typical default &quot;whatever&quot;-string. If you want to test the Extension Repository, please use at least a key like &quot;test_asdf&quot;...&lt;/li&gt;
 			    &lt;li&gt;&quot;d_d_o&quot; - is too much of an abbreviation to tells us anything.&lt;/li&gt;
 			    &lt;li&gt;&quot;my_super_module_for_typo3&quot; - this begs the question how it can be anything near &quot;super&quot; when you couldn't come up with a good extension key...&lt;/li&gt;
 			    &lt;li&gt;&quot;i_always_use_underscores&quot; - Is bad because it uses underscores (see notice above). For your own sake.&lt;/li&gt;
