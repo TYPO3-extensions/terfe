@@ -1,0 +1,4 @@
+# cat=basic//; type=string; label=WSDL URI:The official WSDL URI for the TER SOAP service
+WSDLURI = http://typo3.org/wsdl/tx_ter_wsdl.php
+# cat=basic//; type=string; label=TER SOAP Service URI
+SOAPServiceURI = http://repositories.typo3.org/ter/soap
