@@ -1,0 +1,63 @@
+Version 1.0.2 15.12.2006 Robert Lemke <robert@typo3.org>
+	+ Added feature "Render Problems" link which explains why documents were not rendered. (See extension ter_doc_renderproblems)
+	
+Version 1.0.1, 14.12.2006 Robert Lemke <robert@typo3.org>
+	# Fixed download counter display
+
+01.09.2005 Robert Lemke <robert@typo3.org>
+	+ Added extension and extension key management for administrators to ter_fe_pi2. A fe_usergroup for administrators has to be created, and specified in plugin.tx_terfe_pi2.adminFEUserGroup
+
+15.05.2006 Michael Scharkow <michael@underused.org>
+	* Finished ratings, with changes from public beta
+	* ATTN: Please remove reference to my server in common class icon
+	function (although it should never occur on typo3.org
+	* Fixed a lot of small bugs
+
+22.03.2006 Michael Scharkow <michael@underused.org>
+	* Fixed small issues (locallang, docstrings, variable names)
+	* Added stylesheet file and icons in res/ (copy to fileadmin, please!)
+
+16.03.2006 Robert Lemke <robert@typo3.org>
+	* Removed dummy content from renderListView_detailledExtensionRecord(). That was very confusing because in the list view the documentation link was always "not available" and downloadcounter "12333/32111" - because it was hardcoded. Please make sure to clean up before you commit.
+
+16.03.2006 Robert Lemke <robert@typo3.org>
+	* Only a few cosmetic changes after the review of Michaels code
+
+13.03.2006 Michael Scharkow <michael@underused.org>
+	* more refactoring
+	* complete overhaul of all output (thanks to Ingo Renner and Joey Hasenau)
+	* info and detail view merged
+	* stdSelection for all queries (no obsolete, testing and documentation)
+	* added simple upload comment changelog in single view
+	
+12.03.2006 Michael Scharkow <michael@underused.org>
+	* refactoring of pi1, compact lists use a common function now
+	* added state and last update in compact lists
+	* zebra table rows for CSS, less classes in table view (check CSS!)
+	* added sorting by common criteria
+	* changed links, so that single view is consistently prefixed with /view
+
+05.03.2006 Robert Lemke <robert@typo3.org>
+	+ File downloads are now passed through a function which sends correct HTTP headers and nicer file names.
+
+17.01.2006 Robert Lemke <robert@typo3.org>
+	~ Changed a lot ... 
+	~ Converted locallang to XML
+	+ Extracted many functions from tx_terfe_pi1 and created a new common library "tx_terfe_common"	
+
+09.01.2006 Robert Lemke	<robert@typo3.org>
+	~ Commit of merge between Michael's and my modifications
+
+09.01.2006 Michael Scharkow  <michael@underused.org>
+	* Update for pi3: Delete reviews, better list views, etc.
+	* TODO: E-Mail-Notification and review-editing (delete+new works!)
+	
+07.01.2006 Michael Scharkow  <michael@underused.org>
+	* Initial upload of rating framework (in p1)
+
+06.01.2006 Michael Scharkow  <michael@underused.org>
+	* Initial upload of /pi3 (Reviewing framework)
+
+08.12.2005 Robert Lemke  <robert@typo3.org>
+
+	* Initial upload

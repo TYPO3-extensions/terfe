@@ -1,0 +1,618 @@
+/*the real stuff*/
+
+
+* {
+	margin:0;
+	padding:0;
+	border:0;
+}
+
+
+
+input, textarea, fieldset, select {
+border: 1px solid #aaa;
+}
+
+span.submenu-button-active, span.submenu-button a {padding-right:1ex;}
+
+
+.tx-terfe-pi1 dt {
+	font-weight:bold;
+	color:#030;
+}
+
+
+.tx-terfe-pi1 .hidden {
+	display:block;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
+
+
+#main-column .tx-terfe-pi1 .extensions  {
+	margin-left: -15px;
+	font-size: 1em;
+}
+
+/* Default definition */
+#main-column .extensions li {
+background: none;
+margin: 5px 0;
+display:inline-block;
+}
+
+/* Overriding for all browsers except IE */
+html > body .extensions li { display:block; }
+
+.extensions li {
+ position: relative;
+	margin-bottom:0.8em;
+}
+
+
+.tx-terfe-pi1 .ext-header {
+	position:relative;
+	display:block;
+	padding:0.2em 0.5em;
+	background:#ffd5a6;
+}
+
+
+.tx-terfe-pi1 .ext-header dt {
+	position:absolute;
+	top:-100px;
+	left:0;
+	visibility:hidden;
+}
+
+
+.tx-terfe-pi1 .ext-header dd {
+	position:relative;
+	display:inline;
+	vertical-align:bottom;
+}
+
+
+.tx-terfe-pi1 .ext-header dd.ext-name {
+	position:relative;
+	font-weight:bold;
+	color:#be0027;
+}
+
+
+.tx-terfe-pi1 .ext-header dd.state {
+	position:absolute;
+	right:0;
+	top:0;
+	display:block;
+	width:109px;
+	height:21px;
+}
+
+
+.tx-terfe-pi1 .ext-header dd.state span {
+	position:relative;
+	display:block;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+	line-height:30px;
+}
+
+
+.tx-terfe-pi1 .ext-header dd img {
+	position:relative;
+	vertical-align:bottom;
+}
+
+
+.tx-terfe-pi1 .ext-info {
+	display:block;
+	width:100%;
+	background:#CADFC2;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.left {
+	position:relative;
+	display:block;
+	float:left;
+	width:67%;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.left dl {
+	position:relative;
+	float:left;
+	width:49.99%;
+	min-width:50%;
+	background:#fff;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.right {
+	position:relative;
+	display:block;
+	float:right;
+	width:33%;
+}
+
+
+.tx-terfe-pi1 .ext-info dd dl {
+	display:block;
+	border-top:1px solid #fff;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.bottom {
+	display:block;
+	width:100%;
+	clear:both;
+}
+
+
+.tx-terfe-pi1 .ext-info dd dl dt,
+.tx-terfe-pi1 .ext-info dd dl dd {
+	display:block;
+	line-height:1.2em;
+	padding:0.2em 0.5em;
+}
+
+
+.tx-terfe-pi1 .ext-info dd dl dt {
+	background:#ACCD9F;
+}
+
+
+.tx-terfe-pi1 .ext-info dd dl dd {
+	background:#CADFC2;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.left dl dt {
+	white-space:nowrap;
+	border-right:1px solid #fff;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.left dl dd {
+	white-space:nowrap;
+	border-right:1px solid #fff;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.right dl dt {
+	position:relative;
+	white-space:nowrap;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.right dl dd.updated {
+	position:relative;
+	white-space:nowrap;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.right dl.changelog dd {
+	height:4.2em;
+	overflow:auto;
+}
+
+
+.tx-terfe-pi1 .ext-info dd.bottom dl dd {
+	height:3.6em;
+	overflow:auto;
+}
+
+.tx-terfe-pi1 .ext-header img{
+height: 16px;
+width: 16px;
+}
+
+.tx-terfe-pi1 .deps dd{
+min-height: 8em;
+}
+
+.tx-terfe-pi1 .deps p {
+white-space: normal;
+}
+
+.tx-terfe-pi1 .files {
+clear:both;
+margin-top:1em;
+}
+
+.tx-terfe-pi1 table.filelist {
+border: 0;
+border-collapse: collapse;
+width: 100%;
+background:#CADFC2;
+text-align: center;
+margin: 0.5em 0;
+}
+
+.tx-terfe-pi1 table.filelist th {
+	background:#ACCD9F;
+}
+
+.tx-terfe-pi1 table.filelist td.filename {
+text-align: left;
+}
+
+.tx-terfe-pi1 table.ext-compactlist {
+margin: 0.5em 0;
+border-collapse: collapse;
+border: 1px solid #ACCD9F;
+}
+
+.tx-terfe-pi1 table.ext-compactlist th {
+background:#ACCD9F;
+padding: 0 0.5em;
+text-align: left;
+}
+
+.tx-terfe-pi1 table.ext-compactlist td {
+vertical-align: top;
+padding: 0.2em 0.5em;
+}
+
+.tx-terfe-pi1 table.ext-compactlist .even {
+background:#CADFC2;
+}
+
+.tx-terfe-pi1 pre {
+margin: 1em 0;
+border: 1px solid #CADFC2;
+background-color: #f9f9f9;
+padding: 0.5em;
+overflow:auto;
+width: 99%;
+}
+
+/* State icons */
+
+.alpha_reviewed, .alpha_unreviewed {
+background:url(/typo3conf/ext/ter_fe/res/icons/state_alpha.gif) no-repeat left;
+}
+
+.experimental_unreviewed, .experimental_reviewed  {
+background:url(/typo3conf/ext/ter_fe/res/icons/state_experimental.gif) no-repeat left;
+}
+
+.beta_unreviewed {
+background:url(/typo3conf/ext/ter_fe/res/icons/state_beta.gif) no-repeat left;
+}
+
+.beta_reviewed {
+background:url(/typo3conf/ext/ter_fe/res/icons/state_beta_reviewed.gif) no-repeat left;
+}
+
+.stable_unreviewed {
+background:url(/typo3conf/ext/ter_fe/res/icons/state_stable.gif) no-repeat left;
+}
+
+.stable_reviewed {
+background:url(/typo3conf/ext/ter_fe/res/icons/state_stable_reviewed.gif) no-repeat left;
+}
+
+
+/* Rating form */
+
+form.rating fieldset {
+border: 1px solid #aaa;
+padding: 2px;
+margin: 1em 0;
+}
+
+form.rating div {
+float: left;
+padding: 1em;
+}
+
+form.rating div label {
+float: left;
+width: 12em;
+clear: both;
+}
+
+form.rating div select,
+form.rating div textarea,
+form.rating div input {
+min-width: 8em;
+border: 1px solid #aaa;
+padding: 2px;
+margin: 1em 0;
+float: left;
+clear:both;
+}
+
+table.review-hist {
+width:100%;
+}
+
+
+/* Rating icons */
+span.ext_rating{
+display:block;
+width: 100px;
+		padding: 20px 0 0 0;
+		overflow: hidden;
+		background-repeat: no-repeat;
+		height: 0px !important;
+		height /**/:20px;
+}
+
+span.stars10 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/1.png);}
+span.stars20 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/2.png);}
+span.stars30 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/3.png);}
+span.stars40 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/4.png);}
+span.stars50 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/5.png);}
+
+span.stars15 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/1.5.png);}
+span.stars25 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/2.5.png);}
+span.stars35 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/3.5.png);}
+span.stars45 {background: url(/typo3conf/ext/ter_fe/res/icons/stars/4.5.png);}
+
+
+
+
+
+
+
+
+/*-------------------- terfe-tabnav --------------------*/
+
+div.terfe-tabnav {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 11px;
+	line-height: 19px;
+	height: 24px;
+	background: url(/fileadmin/templates/images/terfe-tabnav-bg.gif) repeat-x;
+	width: 100%;
+}
+
+div.terfe-tabnav a {
+	text-decoration: none;
+	color: #000;
+	height: 24px;
+	background: url(/fileadmin/templates/images/terfe-tabnav-linkbg.gif) repeat-x;
+	padding: 3px 10px 0px 10px;
+	margin: 0;
+	display: block;
+	float: left;
+}
+
+div.terfe-tabnav a:visited {
+	color: #000;
+}
+
+div.terfe-tabnav a.active {
+	font-weight: bold;
+	background: url(/fileadmin/templates/images/terfe-tabnav-act-linkbg.gif) repeat-x;
+}
+
+div.terfe-tabnav div {
+	float: left;
+}
+
+/*-------------------- extension repository --------------------*/
+
+
+
+
+
+span.submenu-button-active, span.submenu-button a {padding-right:1ex;}
+
+div.tx-terfe-pi1 table {
+	width: 523px;
+	margin: 10px 0 10px 0;
+}
+
+div.tx-terfe-pi1 table th,
+div.tx-terfe-pi1 table td {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 10px;
+	text-align: left;
+	vertical-align: top;
+}
+
+th.th-main,
+th.th-main-left,
+th.th-main-right {
+	background-color: #CADFC2;
+	margin: 0;
+	padding: 0;
+	border-bottom: solid 4px white;
+}
+
+.tx-terfe-pi1 th.th-main-left {
+	width: 414px;
+}
+
+.tx-terfe-pi1 th.th-main-left img {
+	margin: 2px 5px 0 2px;
+	vertical-align: middle;
+}
+
+.tx-terfe-pi1 th.th-main-right {
+	text-align: right;
+	width: 109px;
+}
+
+.td-main-left {
+	width: 325px;
+	margin: 0;
+	border-bottom: solid 2px #FFF;
+}
+
+.tx-terfe-pi1 table.table-sub {
+	width: 321px;
+	margin: 0;
+	padding: 0;
+}
+
+.th-sub {
+	background-color: #ACCD9F;
+	border-bottom: solid 1px #bcd7b0;
+	border-right: solid 1px #bcd7b0;
+	padding: 2px 3px 3px 5px;
+	text-align: left;
+}
+
+.td-sub {
+	background-color: #CADFC2;
+	border-bottom: solid 1px #bcd7b0;
+	padding: 2px 3px 3px 9px;
+}
+
+.td-sub-disabled {
+	background-color: #b9ccb1;
+	border-bottom: solid 1px #bcd7b0;
+	padding: 2px 3px 3px 9px;
+}
+
+.td-main-right {
+	width: 198px;
+	margin: 0;
+	padding: 0 0 5px 8px;
+	border-bottom: solid 2px #CADFC2;
+}
+
+.td-main-right p {
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+	line-height: 16px;
+	margin: 0;
+	padding: 0;
+	width:100px;
+	float:right;
+}
+
+.tx-terfe-pi1 .extensions {
+	position:relative;
+	display:block;
+	list-style-type:none;
+	background: none;
+	padding: 0;
+
+}
+
+/*-------------------- extension documentation --------------------*/
+
+table.tx-terdochtml-navigation {width:100%;}
+td.tx-terdochtml-navigation-left {
+	width:30%;
+	text-align:left;
+}
+td.tx-terdochtml-navigation-center {text-align:center;}
+td.tx-terdochtml-navigation-right {
+	width: 30%;
+	text-align:right;
+}
+
+.tx-terdoc-pi1 h2 {
+	font-size: 25px;
+	color: #FF8700;
+	margin: 26px 0 26px 0;
+	font-weight: normal;
+}
+
+#main-column .tx-terdoc-pi1 ul {
+	font-size: 13px;
+	line-height: 18px;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#main-column .tx-terdoc-pi1 ul li {
+	background: none;
+	padding: 0;
+}
+
+#main-column .tx-terdoc-pi1 ul li.level-1 {
+	font-weight: bold;
+	padding: 0;
+	margin: 0;
+}
+
+#main-column .tx-terdoc-pi1 ul li.level-2 {
+	font-weight: bold;
+	padding: 0;
+	margin: 0 0 0 20px;
+}
+
+#main-column .tx-terdoc-pi1 ul li.level-3 {
+	font-weight: normal;
+	padding: 0;
+	margin: 0 0 0 20px;
+}
+
+#main-column .itemizedlist ul {
+		margin:0;
+		padding:0;
+		padding-left:20px;
+}
+
+#main-column .itemizedlist ul li {
+		margin:0;
+		padding:0;
+	list-style-type:none;
+	line-height:14px;
+	background: url('/fileadmin/templates/images/background-li.gif') no-repeat 4px 8px;
+		padding-left:15px;
+}
+
+#main-column .itemizedlist ul li p {
+	margin:0;
+	padding:0;
+	line-height:14px;
+	 margin: 0.4em 0;
+}
+
+/*-------------------- extension documentation from docbook --------------------*/
+
+.informaltable {
+	background:#ff9f33;
+	border-color:#ff8700;
+	border-style:solid;
+	border-width:3px 1px 1px 1px;
+	padding-bottom:3px;
+	width:680px !important;
+}
+
+.informaltable table {
+	width:680px !important;
+	background:#fff;
+	border:1px solid #cacaca;
+	border-collapse:collapse;
+}
+
+.informaltable table td,
+.informaltable table th {
+	background:#fff;
+	vertical-align:top;
+	padding:.25em;
+}
+
+.informaltable table th {
+	background:#ff9f33;
+	color:#fff;
+	text-align:left;
+	border:1px solid #ff9f33;
+	border-bottom:1px solid #eaeaea;
+	padding:0.0625em .5em;
+}
+
+.informaltable th p {
+	padding:0;
+	margin:0;
+}
+
+.informaltable td p {
+	margin-top:0;
+	margin-bottom:1em;
+}
+
+
