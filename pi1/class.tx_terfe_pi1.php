@@ -653,7 +653,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 					<dt>Icon</dt>
 					<dd>'.$this->commonObj->getIcon_extension ($extensionRecord['extensionkey'], $extensionRecord['version']).'</dd>
 					<dt>'.$this->commonObj->getLL('extension_title','',1).'</dt>
-					<dd class="ext-name">'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view'=>'view','showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']),1,1).'</dd>
+					<dd class="ext-name">'.$this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view'=>'view','showExt' => $extensionRecord['extensionkey'], 'version' => 'current'),1,1).'</dd>
 					<dt>'.$this->commonObj->getLL('extension_extensionkey','',1).'</dt>
 					<dd>( '.$extensionRecord['extensionkey'].' )</dd>
 					<dt>'.$this->commonObj->getLL('extension_state','',1).'</dt>
