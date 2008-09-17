@@ -640,7 +640,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 		if (t3lib_extMgm::isLoaded ('ter_doc')) {
 			$terDocAPIObj = tx_terdoc_api::getInstance();
-			$documentationLink = $terDocAPIObj->getDocumentationLink ($extensionRecord['extensionkey'], 'current');
+			$documentationLink = $terDocAPIObj->getDocumentationLink ($extensionRecord['extensionkey'], $extensionRecord['version']);
 		} else {
 			$documentationLink = $this->commonObj->getLL('general_terdocnotinstalled','',1);
 		}
