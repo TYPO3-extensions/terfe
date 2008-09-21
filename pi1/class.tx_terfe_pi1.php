@@ -379,14 +379,23 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 		$tableRows = array ();
 
+		// get char from piVars
+		$char = intval($this->piVars['char']);
+		if ($char == 0) {
+			$char = 96; // 0-9
+		}
+		$charWhere = $char == 96 ? ' AND ASCII(LOWER(SUBSTRING(LTRIM(title),1,1))) < 97' : ' AND ASCII(LOWER(SUBSTRING(LTRIM(title),1,1)))=' . $char;
+		
+		
 		$res = $TYPO3_DB->exec_SELECTquery (
-			'e.extensionkey,title,e.version,state,lastuploaddate,rating,votes',
+			'ASCII(LOWER(SUBSTRING(LTRIM(title),1,1))) firstchar,e.extensionkey,title,e.version,state,lastuploaddate,rating,votes',
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
-			$this->standardSelectionClause,
+			$this->standardSelectionClause . ' AND title != "[REMOVED]" AND title != ""' . $charWhere,
 			'',
-			$sortingConditions[$sorting].'title ASC, lastuploaddate DESC',
+			$sortingConditions[$sorting].'firstchar ASC, lastuploaddate DESC',
 			''
 		);
+		
 		$alreadyRenderedExtensionKeys = array();
 
 		if ($res) {
@@ -405,8 +414,21 @@ class tx_terfe_pi1 extends tslib_pibase {
 			}
 		}
 
-		$content = '<p>'.$this->pi_getLL('listview_fulllist_introduction','',1).'</p>';
-
+		$content .= '<p>'.$this->pi_getLL('listview_fulllist_introduction','',1).'</p>';
+		
+		// char menu
+		$content .= '<p class="terfe-charmenu">';
+		for($i = 96; $i<123; $i++) {
+			if ($i == $char) {
+				$style = 'padding:0 3px;font-size:150%;font-weight:bold;';	
+			} else {
+				$style = 'padding:0 3px;';
+			}
+			$c = $i == 96 ? '[0-9]' : strtoupper(chr($i));
+			$content .= '<span style="' . $style . '">' . $this->pi_linkTP_keepPIvars($c, array('char' => $i),1) . '</span>';
+		}
+		$content .= '</p>';
+		
 		$content.= '
 				<table class="ext-compactlist"><tr>
 				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_title','',1),array('sorting'=>'by_title'),1).'</th>
