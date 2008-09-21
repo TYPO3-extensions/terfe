@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <description>Labels of TER Frontend</description>
+        <type>module</type>
+        <csh_table></csh_table>
+        <fileId>EXT:ter_fe/pi1/locallang.xml</fileId>
+        <labelContext type="array">
+            <label index="general_extensionrepository"></label>
+            <label index="general_view"></label>
+            <label index="general_download"></label>
+            <label index="views_new"></label>
+            <label index="views_categories"></label>
+            <label index="views_popular"></label>
+            <label index="views_search"></label>
+            <label index="views_fulllist"></label>
+            <label index="views_reviewed"></label>
+            <label index="views_unreviewed"></label>
+            <label index="listview_new_introduction"></label>
+            <label index="listview_popular_introduction"></label>
+            <label index="listview_fulllist_introduction"></label>
+            <label index="listview_unsupported_introduction"></label>
+            <label index="listview_unsupported_introduction_warning"></label>
+            <label index="listview_search_searchbutton"></label>
+            <label index="listview_search_noresult"></label>
+            <label index="extensionfiles_downloadcompressedt3x"></label>
+            <label index="extensioninfo_views_info"></label>
+            <label index="extensioninfo_views_details"></label>
+            <label index="extensioninfo_views_bugs"></label>
+            <label index="extensioninfo_views_feedback"></label>
+            <label index="extensioninfo_views_edit"></label>
+            <label index="extensioninfo_views_rating"></label>
+            <label index="extensioninfo_feedback_feedbacktotheauthor"></label>
+            <label index="extensioninfo_feedback_introduction"></label>
+            <label index="extensioninfo_feedback_moreintroduction"></label>
+            <label index="extensioninfo_feedback_yourname"></label>
+            <label index="extensioninfo_feedback_youremailaddress"></label>
+            <label index="extensioninfo_feedback_yourcomment"></label>
+            <label index="extensioninfo_feedback_captchainstruction"></label>
+            <label index="extensioninfo_feedback_sendfeedback"></label>
+            <label index="extensioninfo_feedback_emailsent"></label>
+            <label index="extensioninfo_feedback_emailsent_details"></label>
+            <label index="extensioninfo_feedback_invalidemailaddress"></label>
+            <label index="extensioninfo_feedback_invalidcaptcha"></label>
+        </labelContext>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="general_extensionrepository">Extension Repository</label>
+            <label index="views_new">New and updated</label>
+            <label index="views_categories">Categories</label>
+            <label index="views_popular">Popular</label>
+            <label index="views_search">Search</label>
+            <label index="views_fulllist">Full list</label>
+            <label index="views_reviewed">Reviewed</label>
+            <label index="views_unreviewed">Unreviewed</label>
+            <label index="listview_new_introduction">These extensions have been added or updated during the last %s days:</label>
+            <label index="listview_popular_introduction">This list shows the 10 most popular extensions measured by all time download numbers.</label>
+            <label index="listview_fulllist_introduction">This is a list of all available extensions:</label>
+            <label index="listview_unsupported_introduction">The following list contains all extensions which have been uploaded recently and have not been reviewed yet or will never be imported into the official repository.</label>
+            <label index="listview_unsupported_introduction_warning">WARNING! These extensions have not been checked for security issues. It is not recommended using any of them in a production enviroment!</label>
+            <label index="listview_reviewed_introduction">This is a list of all extension versions which have at least roughly been checked for possible security issues. Although we have taken great care in reviewing these extensions we cannot guarantee that all of them are really secure.</label>
+            <label index="listview_search_searchbutton">Search</label>
+            <label index="listview_search_noresult">Sorry, your search had no results.</label>
+            <label index="extensioninfo_views_info">Info</label>
+            <label index="extensioninfo_views_details">Details</label>
+            <label index="extensioninfo_views_bugs">Bugs</label>
+            <label index="extensioninfo_views_feedback">Feedback</label>
+            <label index="extensioninfo_views_edit">Edit</label>
+            <label index="extensioninfo_views_rating">Ratings</label>
+            <label index="extensioninfo_feedback_feedbacktotheauthor">Feedback to the author</label>
+            <label index="extensioninfo_feedback_introduction">
+				Use this form to give feedback including bug reports to the author (%s) of this extension. 
+				Remember that kind words are a special kind of fuel for the people donation time and talent 
+				to an Open Source project like TYPO3. So be kind, constructive, encouraging, but honest at 
+				the same time.
+			</label>
+            <label index="extensioninfo_feedback_moreintroduction">
+				Please don't try to flatter the author for the sole purpose of getting some support for 
+				free. That is not the point here.
+			</label>
+            <label index="extensioninfo_feedback_yourname">Your name</label>
+            <label index="extensioninfo_feedback_youremailaddress">Your email address</label>
+            <label index="extensioninfo_feedback_yourcomment">Your comment</label>
+            <label index="extensioninfo_feedback_captchainstruction">Please enter the following numbers / letters an submit the form</label>
+            <label index="extensioninfo_feedback_sendfeedback">Send feedback</label>
+            <label index="extensioninfo_feedback_emailsent">Email sent</label>
+            <label index="extensioninfo_feedback_emailsent_details">The feedback was sent to %s.</label>
+            <label index="extensioninfo_feedback_invalidemailaddress">ERROR: You did not enter a valid email address (%s)</label>
+            <label index="extensioninfo_feedback_invalidcaptcha">ERROR: You did not enter the correct numbers / letters</label>
+            <label index="extensioninfo_general_untitled">Untitled</label>
+            <label index="extensioninfo_ratings_username">Username</label>
+            <label index="extensioninfo_ratings_version">Version</label>
+            <label index="extensioninfo_ratings_funcrating">Functionality</label>
+            <label index="extensioninfo_ratings_docrating">Documentation</label>
+            <label index="extensioninfo_ratings_coderating">Code/Compatibility</label>
+            <label index="extensioninfo_ratings_overallrating">Overall</label>
+            <label index="extensioninfo_ratings_func_short">Func</label>
+            <label index="extensioninfo_ratings_doc_short">Docs</label>
+            <label index="extensioninfo_ratings_code_short">Code</label>
+            <label index="extensioninfo_ratings_notes">Notes</label>
+            <label index="extensioninfo_ratings_addnotes">Add notes for your rating (max. 240 chars)</label>
+            <label index="extensioninfo_ratings_ratethis">Rate this extension</label>
+            <label index="extensioninfo_ratings_errornotsaved">Could not save rating!</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </data>
+    <orig_hash type="array">
+        <languageKey index="default" type="array">
+            <label index="general_extensionrepository" type="integer">153034744</label>
+            <label index="general_view" type="integer">70589694</label>
+            <label index="general_download" type="integer">134327076</label>
+            <label index="views_new" type="integer">4286481</label>
+            <label index="views_categories" type="integer">183613834</label>
+            <label index="views_popular" type="integer">46930243</label>
+            <label index="views_search" type="integer">20138052</label>
+            <label index="views_fulllist" type="integer">15728448</label>
+            <label index="views_unsupported" type="integer">188776637</label>
+            <label index="listview_new_introduction" type="integer">85578774</label>
+            <label index="listview_popular_introduction" type="integer">78732651</label>
+            <label index="listview_fulllist_introduction" type="integer">119703274</label>
+            <label index="listview_unsupported_introduction" type="integer">48354810</label>
+            <label index="listview_unsupported_introduction_warning" type="integer">46809299</label>
+            <label index="listview_search_searchbutton" type="integer">20138052</label>
+            <label index="listview_search_noresult" type="integer">63213562</label>
+            <label index="extensionfiles_downloadcompressedt3x" type="integer">265496528</label>
+            <label index="extensioninfo_views_info" type="integer">67476226</label>
+            <label index="extensioninfo_views_details" type="integer">65812061</label>
+            <label index="extensioninfo_views_bugs" type="integer">11970284</label>
+            <label index="extensioninfo_views_feedback" type="integer">199904300</label>
+            <label index="extensioninfo_views_edit" type="integer">131916066</label>
+            <label index="extensioninfo_views_rating" type="integer">244174131</label>
+            <label index="extensioninfo_feedback_feedbacktotheauthor" type="integer">234329454</label>
+            <label index="extensioninfo_feedback_introduction" type="integer">13598510</label>
+            <label index="extensioninfo_feedback_moreintroduction" type="integer">229954500</label>
+            <label index="extensioninfo_feedback_yourname" type="integer">35776261</label>
+            <label index="extensioninfo_feedback_youremailaddress" type="integer">26761284</label>
+            <label index="extensioninfo_feedback_yourcomment" type="integer">251031613</label>
+            <label index="extensioninfo_feedback_captchainstruction" type="integer">103857241</label>
+            <label index="extensioninfo_feedback_sendfeedback" type="integer">13759163</label>
+            <label index="extensioninfo_feedback_emailsent" type="integer">217728403</label>
+            <label index="extensioninfo_feedback_emailsent_details" type="integer">173161727</label>
+            <label index="extensioninfo_feedback_invalidemailaddress" type="integer">60427703</label>
+            <label index="extensioninfo_feedback_invalidcaptcha" type="integer">214217886</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </orig_hash>
+    <orig_text type="array">
+        <languageKey index="default" type="array">
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+    </orig_text>
+</T3locallang>
