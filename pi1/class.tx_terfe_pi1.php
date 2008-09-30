@@ -380,11 +380,11 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$tableRows = array ();
 
 		// get char from piVars
-		$char = intval($this->piVars['char']);
-		if ($char == 0) {
-			$char = 96; // 0-9
+		$char = $this->piVars['char'];
+		if ($char == '') {
+			$char = '0'; // 0-9
 		}
-		$charWhere = $char == 96 ? ' AND ASCII(LOWER(SUBSTRING(LTRIM(title),1,1))) < 97' : ' AND ASCII(LOWER(SUBSTRING(LTRIM(title),1,1)))=' . $char;
+		$charWhere = $char == '0' ? ' AND ASCII(LOWER(SUBSTRING(LTRIM(title),1,1))) < 97' : ' AND ASCII(LOWER(SUBSTRING(LTRIM(title),1,1)))=' . ord($char);
 		
 		
 		$res = $TYPO3_DB->exec_SELECTquery (
@@ -392,7 +392,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
 			$this->standardSelectionClause . ' AND title != "[REMOVED]" AND title != ""' . $charWhere,
 			'',
-			$sortingConditions[$sorting].'firstchar ASC, lastuploaddate DESC',
+			$sortingConditions[$sorting].'title ASC, lastuploaddate DESC',
 			''
 		);
 		
@@ -419,13 +419,16 @@ class tx_terfe_pi1 extends tslib_pibase {
 		// char menu
 		$content .= '<p class="terfe-charmenu">';
 		for($i = 96; $i<123; $i++) {
-			if ($i == $char) {
+			$c = $i == 96 ? '[0-9]' : strtoupper(chr($i));
+			$piVar = $i == 96 ? '0' : chr($i);
+			
+			if ($char == $piVar) {  // ACT
 				$style = 'padding:0 3px;font-size:150%;font-weight:bold;';	
 			} else {
 				$style = 'padding:0 3px;';
 			}
-			$c = $i == 96 ? '[0-9]' : strtoupper(chr($i));
-			$content .= '<span style="' . $style . '">' . $this->pi_linkTP_keepPIvars($c, array('char' => $i),1) . '</span>';
+			
+			$content .= '<span style="' . $style . '">' . $this->pi_linkTP_keepPIvars($c, array('char' => $piVar),1) . '</span>';
 		}
 		$content .= '</p>';
 		
