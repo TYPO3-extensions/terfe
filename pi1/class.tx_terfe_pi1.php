@@ -255,7 +255,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'DISTINCT extensionkey',
 			'tx_terfe_extensions',
-			'',
+			'reviewstate > -1',
 			'',
 			'extensiondownloadcounter DESC',
 			'60'
@@ -331,7 +331,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'e.*,rating,votes',
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
-			$TYPO3_DB->searchQuery (explode (' ', $this->piVars['sword']), array('extensionkey','title','authorname','description'), 'e'),
+			$TYPO3_DB->searchQuery (explode (' ', $this->piVars['sword']) . ' AND reviewstate > -1', array('extensionkey','title','authorname','description'), 'e'),
 			'',
 			'extensiondownloadcounter DESC,lastuploaddate DESC',
 			''
