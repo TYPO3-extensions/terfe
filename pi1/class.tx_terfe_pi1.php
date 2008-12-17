@@ -82,7 +82,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 	protected	$viewMode = '';																// View mode, one of the following: LATEST, CATEGORIES, FULLLIST
 
 	protected	$feedbackMailsCCAddress = '';			// Email address(es) which also receive the feedback emails
-	protected	$standardSelectionClause = 'state <> "obsolete" '; 	// Standard selection criteria for listing of extensions
+	protected	$standardSelectionClause = 'state <> "obsolete" AND reviewstate > -1'; 	// Standard selection criteria for listing of extensions, reviewstate<0 are insecure extensions
 	protected	$tooFewReviewsMode = TRUE;	// If set, by default unreviewed extensions appear in all modes but "unsupported". This is for the time when we yet don't have enough reviews
 
 	/**
