@@ -609,7 +609,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 				if (t3lib_div::validEmail($this->piVars['DATA']['sender_email'])) {
 					if ($captchaString == $this->piVars['DATA']['captcha']) {
-						$message = 'TER feedback - '.$extensionRecord['extension_key'].chr(10).trim($this->piVars['DATA']['comment']);
+						$message = 'TER feedback - '.$extensionRecord['extensionkey'].chr(10).trim($this->piVars['DATA']['comment']);
 						$this->cObj->sendNotifyEmail($message, $extensionRecord['authoremail'], $this->feedbackMailsCCAddress, $this->piVars['DATA']['sender_email'], $this->piVars['DATA']['sender_name']);
 
 						$content ='
