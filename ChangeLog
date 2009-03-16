@@ -1,3 +1,7 @@
+16.03.2009 Steffen Kamper <info@sk-typo3.de>
+	* Fixed bug 10363: TER not showing filellist - changed TEXT to LONGTEXT for files
+	* Fixed bug with wrong field name in db_getExtensionDetails
+
 12.02.2009 Steffen Kamper <info@sk-typo3.de>
 	* fixed bug with feedback mail (typo in extensionkey) thx to Bernhard Kraft
 
