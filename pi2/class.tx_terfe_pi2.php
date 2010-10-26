@@ -532,11 +532,11 @@ class tx_terfe_pi2 extends tslib_pibase {
 				case 'deleteextensionversion':
 					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
 					$version = t3lib_div::GPvar('tx_terfe_pi2_version');
-					
+
 					$resultArr = $soapClientObj->deleteExtension($accountDataArr, $extensionKey, $version);
 					if (is_array ($resultArr)) {
 						switch ($resultArr['resultCode']) {
-							case TX_TER_RESULT_EXTENSIONSUCCESSFULLYDELETED : 
+							case TX_TER_RESULT_EXTENSIONSUCCESSFULLYDELETED :
 								$actionMessages = '<p>'.$iconInfo.' <strong>'.sprintf ($this->pi_getLL('admin_action_deleteextension_success','',1), $extensionKey, $version).'</strong></p><br />';
 								$res = $TYPO3_DB->exec_DELETEquery (
 									'tx_terfe_extensions',
@@ -573,7 +573,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 					}
 				break;
 			}
-			
+
 				// Render search form:
 			$searchForm = '
 				<form action="'.$this->pi_getPageLink($TSFE->id).'" method="get">
@@ -584,15 +584,15 @@ class tx_terfe_pi2 extends tslib_pibase {
 					<input type="submit" value="'.$this->pi_getLL('admin_search_searchbutton','',1).'" />
 				</form>
 				<br />
-			';	
-		
+			';
+
 				// Create list of extensions:
 			$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
 			if (strlen($extensionKey)) {
 				$filterOptionsArr = array ('extensionKey' => $extensionKey);
 				$resultArr = $soapClientObj->getExtensionKeys($accountDataArr, $filterOptionsArr);
 				if (is_array ($resultArr) && $resultArr['simpleResult']['resultCode'] == TX_TER_RESULT_GENERAL_OK) {
-	
+
 					$tableRows = array();
 					if (is_array ($resultArr['extensionKeyData'])) {
 						foreach ($resultArr['extensionKeyData'] as $extensionKeyArr) {
@@ -612,7 +612,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 												<input name="tx_terfe_pi2_targetusername" type="text" size="10" />
 												<input type="image" src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/transferkey.gif" alt="'.$this->pi_getLL('managekeys_action_transferkey','',1).'" title="'.$this->pi_getLL('managekeys_action_transferkey','',1).'" onFocus="blur()" />
 												<input name="tx_terfe_pi2_extensionkey" type="hidden" value="'.$extensionKeyArr['extensionkey'].'" />
-												<input name="tx_terfe_pi2_version" type="hidden" value="'.$row['version'].'" />
+												<input name="tx_terfe_pi2_version" type="hidden" value="'.$extensionKeyArr['version'].'" />
 												<input name="tx_terfe_pi2_cmd" type="hidden" value="transferkey" />
 											</form>
 										</td>
@@ -651,7 +651,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 							}
 						}
 					}
-	
+
 				} else {
 					$output .=  '
 						<h4>'.$this->pi_getLL('general_error','',1).'</h4>
@@ -688,7 +688,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 
 		return $output;
 	}
-	
+
 
 
 

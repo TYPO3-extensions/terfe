@@ -235,14 +235,14 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 		$tableRows = array ();
 
 		switch ($mode) {
-			case 'unreviewed' : 
+			case 'unreviewed' :
 				$res = $TYPO3_DB->exec_SELECTquery (
 					'ext.extensionkey,ext.title,ext.version,ext.authorname,ext.authoremail,ext.ownerusername,ext.state',
 					'tx_terfe_extensions as ext LEFT JOIN tx_terfe_reviews AS rev ON (
 						ext.extensionkey = rev.extensionkey AND
 						ext.version = rev.version
 					) ',
-					'ext.reviewstate = 0 AND 
+					'ext.reviewstate = 0 AND
 						(ext.state = "stable" OR ext.state = "beta") AND
 						rev.uid IS NULL
 					',
@@ -275,7 +275,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 					''
 				);
 			break;
-			case 'insecure' :	
+			case 'insecure' :
 				$res = $TYPO3_DB->exec_SELECTquery (
 					'ext.extensionkey,title,ext.version,authorname,authoremail,ownerusername,state',
 					'tx_terfe_extensions as ext JOIN tx_terfe_reviews AS rev ON (
@@ -286,7 +286,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 					'lastmodified DESC',
 					''
 				);
-			break;			
+			break;
 		}
 
 		$extensionRecordsToRender = array();
@@ -772,7 +772,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 			// Build the output
 		$content ='
 				<tr>
-					<th class="th-sub" colspan="3">'.sprintf ($this->pi_getLL('singleview_files_sectionheading','',1), $extensionRecord['title']).'</th>
+					<th class="th-sub" colspan="3">'.sprintf ($this->pi_getLL('singleview_files_sectionheading','',1), $extDetailsRow['title']).'</th>
 				</tr>
 				<tr>
 					<td class="td-sub" colspan="3">
@@ -1259,7 +1259,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 		);
 		if ($res) return FALSE;
 
-		if (!strlen($newReviewRecord['reviewers'])) {
+		if (!strlen($newReviewRow['reviewers'])) {
 			if (!$this->db_deleteReviewRecord($extensionKey, $version)) return FALSE;
 		}
 
@@ -1341,7 +1341,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 			$res = $this->soap_setReviewState($extensionKey, $version, $rating);
 			if ($res !== TRUE) return FALSE;
 			// Reject older versions as well
-			// 
+			//
 			if ($rating == TX_TERFE_REVIEWSTATE_INSECURE && $recursive){
 				$versionsArr = $this->db_getAllVersionNumbersOfExtension($extensionKey);
 				if (is_array($versionsArr)) {
@@ -1349,7 +1349,7 @@ class tx_terfe_pi3 extends tx_terfe_pi1 {
 						if ($version > $otherversion) {
 							$extensionRecord = $this->commonObj->db_getExtensionRecord($extensionKey, $otherversion);
 							if (!$extensionRecord['reviewstate']){
-								$this->db_createReviewRecord ($extensionKey, $otherversion, $this->reviewer['username']); 
+								$this->db_createReviewRecord ($extensionKey, $otherversion, $this->reviewer['username']);
 								$this->db_addReviewNote ($extensionKey, $otherversion, 'Status set by inheritance from version '.$version);
 								$this->db_createReviewRatingRecord($extensionKey, $otherversion, TX_TERFE_REVIEWSTATE_INSECURE,$this->reviewer['username'],0);
 							}

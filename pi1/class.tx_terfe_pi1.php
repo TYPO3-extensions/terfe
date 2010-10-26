@@ -249,7 +249,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 				// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:
 		if (t3lib_extMgm::isLoaded ('ter_doc')) {
 			$terDocAPIObj = tx_terdoc_api::getInstance();
-			$TSFE->page_cache_reg1 = $terDocAPIObj->createAndGetCacheUidForExtensionVersion ('_all','');
+			$GLOBALS['TSFE']->page_cache_reg1 = $terDocAPIObj->createAndGetCacheUidForExtensionVersion ('_all','');
 		}
 
 		$res = $TYPO3_DB->exec_SELECTquery (
@@ -385,8 +385,8 @@ class tx_terfe_pi1 extends tslib_pibase {
 			$char = '0'; // 0-9
 		}
 		$charWhere = $char == '0' ? ' AND ASCII(LOWER(SUBSTRING(LTRIM(title),1,1))) < 97' : ' AND ASCII(LOWER(SUBSTRING(LTRIM(title),1,1)))=' . ord($char);
-		
-		
+
+
 		$res = $TYPO3_DB->exec_SELECTquery (
 			'ASCII(LOWER(SUBSTRING(LTRIM(title),1,1))) firstchar,e.extensionkey,title,e.version,state,lastuploaddate,rating,votes',
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
@@ -395,7 +395,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			$sortingConditions[$sorting].'title ASC, lastuploaddate DESC',
 			''
 		);
-		
+
 		$alreadyRenderedExtensionKeys = array();
 
 		if ($res) {
@@ -415,23 +415,23 @@ class tx_terfe_pi1 extends tslib_pibase {
 		}
 
 		$content .= '<p>'.$this->pi_getLL('listview_fulllist_introduction','',1).'</p>';
-		
+
 		// char menu
 		$content .= '<p class="terfe-charmenu">';
 		for($i = 96; $i<123; $i++) {
 			$c = $i == 96 ? '[0-9]' : strtoupper(chr($i));
 			$piVar = $i == 96 ? '0' : chr($i);
-			
+
 			if ($char == $piVar) {  // ACT
-				$style = 'padding:0 3px;font-size:150%;font-weight:bold;';	
+				$style = 'padding:0 3px;font-size:150%;font-weight:bold;';
 			} else {
 				$style = 'padding:0 3px;';
 			}
-			
+
 			$content .= '<span style="' . $style . '">' . $this->pi_linkTP_keepPIvars($c, array('char' => $piVar),1) . '</span>';
 		}
 		$content .= '</p>';
-		
+
 		$content.= '
 				<table class="ext-compactlist"><tr>
 				<th>'.$this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_title','',1),array('sorting'=>'by_title'),1).'</th>

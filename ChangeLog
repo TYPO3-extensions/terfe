@@ -1,5 +1,6 @@
-26.10.2010 Steffen Kamper <steffen@typo3.org
->
+26.10.2010 Steffen Kamper <steffen@typo3.org>
+
+	* Resolve code errors (forge #10470)
 	* Sync svn with version on typo3.org (forge #10469), raised version to 1.0.8
 
 12.02.2009 Steffen Kamper <info@sk-typo3.de>
