@@ -222,13 +222,13 @@ class tx_terfe_pi2 extends tslib_pibase {
 		switch ($this->piVars['view']) {
 			case 'register':
 				$subContent = $userLoggedIn ? $this->renderView_registerKeys() : $this->pi_getLL('registerkeys_needlogin', '',1);
-			break;
+				break;
 			case 'manage':
 				$subContent = $userLoggedIn ? $this->renderView_manageKeys() : $this->pi_getLL('managekeys_needlogin', '',1);
-			break;
+				break;
 			case 'admin':
 				$subContent = ($userLoggedIn && $userIsAdmin) ? $this->renderView_administration() : '';
-			break;
+				break;
 			case 'introduction':
 			default:
 				$subContent = $this->renderView_introduction();
@@ -292,21 +292,6 @@ class tx_terfe_pi2 extends tslib_pibase {
 
 		switch (t3lib_div::GPVar ('tx_terfe_pi2_cmd')) {
 
-			default:
-					$output = '
-						<h4>'.$this->pi_getLL('registerkeys_title','',1).'</h4>
-						<p>'.$this->pi_getLL('registerkeys_introduction','',1).'</p>
-						<br />
-						<form action="'.$this->pi_linkTP_keepPIvars_url(array(),1).'" method="post" name="tx_terfe_pi2_register">
-							<label>'.$this->pi_getLL('registerkeys_extensionkey', '', 1).':</label>
-							<input name="tx_terfe_pi2_extensionkey" type="text" size="20" />
-							<input type="submit" value="'.$this->pi_getLL('registerkeys_checkvalidity','',1).'" />
-							<input name="tx_terfe_pi2_cmd" type="hidden" value="registercheck" />
-						</form>
-						'.$rulesMessage.'
-					';
-			break;
-
 			case 'registersubmit':
 					$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
 					$extensionKey = $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensionkey'), 'utf-8');
@@ -317,7 +302,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 							<p>'.$this->pi_getLL('registerkeys_titlemissing','',1).'</p>
 						';
 					} else {
-						$soapClientObj = new SoapClient ($this->WSDLURI, array ('exceptions' => TRUE));
+						$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => TRUE));
 						try {
 							$result = $soapClientObj->checkExtensionKey($accountDataArr, $extensionKey);
 							if (strcmp(TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST, $result['resultCode']) == 0) {
@@ -332,8 +317,6 @@ class tx_terfe_pi2 extends tslib_pibase {
 									<h4>'.$this->pi_getLL('registerkeys_success','',1).'</h4>
 									<p>'.$this->pi_getLL('registerkeys_success_explanation','',1).'</p>
 								';
-								break;
-
 							} else {
 								$output .= '
 									<h4>'.$this->pi_getLL('general_error','',1).'</h4>
@@ -347,6 +330,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 							';
 						}
 					}
+					break;
 
 			case 'registercheck':
 					$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
@@ -389,7 +373,8 @@ class tx_terfe_pi2 extends tslib_pibase {
 										<input name="tx_terfe_pi2_extensionkey" type="hidden" value="'.$extensionKey.'" />
 									</form>
 								';
-							break;
+								break;
+
 							default:
 								$output .= '
 									<h4>'.$this->pi_getLL('registerkeys_extensionkeynotvalid','',1).'</h4>
@@ -402,7 +387,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 										<input name="tx_terfe_pi2_cmd" type="hidden" value="registercheck" />
 									</form>
 								'.$rulesMessage;
-							break;
+								break;
 						}
 					} catch (SoapFault $exception) {
 						$output .=  '
@@ -410,7 +395,22 @@ class tx_terfe_pi2 extends tslib_pibase {
 							<p>SoapFault Exception (#'.$exception->faultcode.'): '.$exception->faultstring.'</p>
 						';
 					}
-			break;
+					break;
+
+			default:
+					$output = '
+						<h4>'.$this->pi_getLL('registerkeys_title','',1).'</h4>
+						<p>'.$this->pi_getLL('registerkeys_introduction','',1).'</p>
+						<br />
+						<form action="'.$this->pi_linkTP_keepPIvars_url(array(),1).'" method="post" name="tx_terfe_pi2_register">
+							<label>'.$this->pi_getLL('registerkeys_extensionkey', '', 1).':</label>
+							<input name="tx_terfe_pi2_extensionkey" type="text" size="20" />
+							<input type="submit" value="'.$this->pi_getLL('registerkeys_checkvalidity','',1).'" />
+							<input name="tx_terfe_pi2_cmd" type="hidden" value="registercheck" />
+						</form>
+						'.$rulesMessage.'
+					';
+					break;
 		}
 
 		return $output;
@@ -452,7 +452,8 @@ class tx_terfe_pi2 extends tslib_pibase {
 							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
 						}
 					}
-				break;
+					break;
+
 				case 'deletekey':
 					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
 
@@ -463,7 +464,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
 						}
 					}
-				break;
+					break;
 			}
 
 				// Create list of extension keys:
@@ -582,7 +583,8 @@ class tx_terfe_pi2 extends tslib_pibase {
 							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
 						}
 					}
-				break;
+					break;
+
 				case 'transferkey':
 					$targetUsername = t3lib_div::GPvar('tx_terfe_pi2_targetusername');
 					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
@@ -596,7 +598,8 @@ class tx_terfe_pi2 extends tslib_pibase {
 							default: $actionMessages = '<p>'.$iconError.' <strong>'.sprintf ($this->pi_getLL('general_errorcode','',1), $resultArr['resultCode']).'</strong></p><br />'; break;
 						}
 					}
-				break;
+					break;
+
 				case 'deletekey':
 					$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
 
