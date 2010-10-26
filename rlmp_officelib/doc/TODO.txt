@@ -1,0 +1,19 @@
+rlmp_officelib TODO
+===================
+
+-	FEATURE: Create PHP 5.0 style object functions like __construct() etc. and iterators ...
+-	BUG: Check for PHP 5.0 compatibility: is_array () and isset () may cause errors
+
+-	FEATURE: Implement date / time formats / -styles
+-	FEATURE: Conditional styles support for paragraphs and in general
+-	FEATURE: Implement sequences (3.7.37 XML spec): They are used for global numbering!
+
+GENERAL TWEAKS
+
+-	the createIterator method could be implemented with a cleaner factory method approach
+-	Iterator should generally follow the SPL way of methods and be replaced with SPL at some point
+-	Parsing the XML should possibly better done with SAX for memory reasons
+
+KNOWN ISSUES
+
+-	Does probably not support Asian documents

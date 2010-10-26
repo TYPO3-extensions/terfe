@@ -1,0 +1,3 @@
+2005-09-21	Robert Lemke <robert@typo3.org>
+	#	Fixed two PHP5-related bugs: class.tx_rlmpofficelib_officedocument.php md5 error in line 255, class.tx_rlmpofficelib_oowriterdocument.php array_merge error in line 170
+	+	Created this Changelog file
