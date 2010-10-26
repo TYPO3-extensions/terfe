@@ -320,7 +320,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 						$soapClientObj = new SoapClient ($this->WSDLURI, array ('exceptions' => TRUE));
 						try {
 							$result = $soapClientObj->checkExtensionKey($accountDataArr, $extensionKey);
-							if ((integer)$result['resultCode'] == TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST) {
+							if (strcmp(TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST, $result['resultCode']) == 0) {
 								$extensionKeyDataArr = array(
 									'extensionKey' => $extensionKey,
 									'title' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensionkey'), 'utf-8'),
@@ -356,7 +356,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 					try {
 						$result = $soapClientObj->checkExtensionKey($accountDataArr, $extensionKey);
 
-						switch ((integer)$result['resultCode']) {
+						switch ($result['resultCode']) {
 							case TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST :
 								$output .= '
 									<h4>'.$this->pi_getLL('registerkeys_title','',1).'</h4>
