@@ -1,0 +1,2 @@
+# cat=basic//; type=string; label=Commandline for zip application: Enter the full command line for your zip application, using the placeholders ###ARCHIVENAME### and ###DIRECTORY###. The command should compress all files in the directory recursively (Note: Use forward slashes '/' for windows paths!)
+zipCommand = cd ###DIRECTORY###; zip -qq -r -X ###ARCHIVENAME### *
