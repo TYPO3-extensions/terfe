@@ -398,6 +398,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 		try {
 			$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => 1));
 			$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
+			
 
 				// Handle submitted actions:
 			switch (t3lib_div::GPVar ('tx_terfe_pi2_cmd')) {

@@ -1,6 +1,6 @@
-16.03.2009 Steffen Kamper <info@sk-typo3.de>
-	* Fixed bug 10363: TER not showing filellist - changed TEXT to LONGTEXT for files
-	* Fixed bug with wrong field name in db_getExtensionDetails
+26.10.2010 Steffen Kamper <steffen@typo3.org
+>
+	* Sync svn with version on typo3.org (forge #10469), raised version to 1.0.8
 
 12.02.2009 Steffen Kamper <info@sk-typo3.de>
 	* fixed bug with feedback mail (typo in extensionkey) thx to Bernhard Kraft

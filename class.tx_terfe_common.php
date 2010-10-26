@@ -236,7 +236,7 @@ class tx_terfe_common {
 			$t3xPathAndFileName = $this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x';
 			$t3xMD5Hash = @md5_file ($t3xPathAndFileName);
 
-			if (is_array ($row) && $t3xMD5Hash == $row['t3xfilemd5']) {
+			if (is_array ($row) && $t3xMD5Hash == $row['t3xmd5hash']) {
 				$row['files'] = unserialize ($row['files']);
 				return $row;
 			} else {

@@ -34,7 +34,7 @@ CREATE TABLE tx_terfe_extensiondetails (
   uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
   extensionkey varchar(30) DEFAULT '' NOT NULL,
   version varchar(11) DEFAULT '' NOT NULL,
-  files longtext NOT NULL,
+  files text NOT NULL,
   t3xfilemd5 varchar(32) DEFAULT '' NOT NULL,
 
   PRIMARY KEY (uid),
