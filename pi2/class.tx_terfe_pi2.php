@@ -308,7 +308,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 							if (strcmp(TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST, $result['resultCode']) == 0) {
 								$extensionKeyDataArr = array(
 									'extensionKey' => $extensionKey,
-									'title' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensionkey'), 'utf-8'),
+									'title' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensiontitle'), 'utf-8'),
 									'description' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensiondescription'), 'utf-8'),
 								);
 								$result = $soapClientObj->registerExtensionKey($accountDataArr, $extensionKeyDataArr);
