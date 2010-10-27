@@ -305,6 +305,10 @@ class tx_terfe_pi2 extends tslib_pibase {
 						$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => TRUE));
 						try {
 							$result = $soapClientObj->checkExtensionKey($accountDataArr, $extensionKey);
+								// remove cookies
+							$soapClientObj->__setCookie('SaneID');
+							$soapClientObj->__setCookie('fe_typo_user');
+
 							if (strcmp(TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST, $result['resultCode']) == 0) {
 								$extensionKeyDataArr = array(
 									'extensionKey' => $extensionKey,
