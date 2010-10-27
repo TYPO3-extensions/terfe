@@ -755,21 +755,31 @@ class tx_terfe_pi2 extends tslib_pibase {
 	/**
 	 * Instantiate a new SoapClient
 	 *
-	 * @return SoapClient
+	 * @return  SoapClient
+	 * @see  http://forge.typo3.org/issues/10459
 	 */
 	protected function getSoapClient() {
 		static $client;
 
-		if ($client instanceof SoapClient) {
-			unset($client);
+			// workarround for issue #10459
+		if (TRUE) {
+			$client = NULL;
 		}
-		$client = new SoapClient(
-			$this->WSDLURI,
-			array(
-				'trace' => 1,
-				'exceptions' => 1
-			)
-		);
+
+		if (is_object($client) &&  $client instanceof SoapClient) {
+				// unset cookies for stateless communication
+			$client->__setCookie('SaneID');
+			$client->__setCookie('fe_typo_user');
+		} else {
+			$client = new SoapClient(
+				$this->WSDLURI,
+				array(
+					'trace' => 1,
+					'exceptions' => 1
+				)
+			);
+		}
+
 		return $client;
 	}
 
