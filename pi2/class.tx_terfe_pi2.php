@@ -302,7 +302,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 							<p>'.$this->pi_getLL('registerkeys_titlemissing','',1).'</p>
 						';
 					} else {
-						$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => TRUE));
+						$soapClientObj = $this->getSoapClient();
 						try {
 							$result = $soapClientObj->checkExtensionKey($accountDataArr, $extensionKey);
 								// remove cookies
@@ -315,6 +315,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 									'title' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensiontitle'), 'utf-8'),
 									'description' => $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensiondescription'), 'utf-8'),
 								);
+								$soapClientObj = $this->getSoapClient();
 								$result = $soapClientObj->registerExtensionKey($accountDataArr, $extensionKeyDataArr);
 
 								$output .= '
@@ -340,7 +341,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 					$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
 					$extensionKey = $TSFE->csConv(t3lib_div::GPVar('tx_terfe_pi2_extensionkey'), 'utf-8');
 
-					$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => 1));
+					$soapClientObj = $this->getSoapClient();
 					try {
 						$result = $soapClientObj->checkExtensionKey($accountDataArr, $extensionKey);
 
@@ -436,7 +437,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 		$iconError = '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/error.gif" width="16" height="16" alt="" title="" style="vertical-align:middle;" />';
 
 		try {
-			$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => 1));
+			$soapClientObj = $this->getSoapClient();
 			$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
 
 
@@ -473,6 +474,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 
 				// Create list of extension keys:
 			$filterOptionsArr = array ('username' => $TSFE->fe_user->user['username']);
+			$soapClientObj = $this->getSoapClient();
 			$resultArr = $soapClientObj->getExtensionKeys($accountDataArr, $filterOptionsArr);
 			if (is_array ($resultArr) && $resultArr['simpleResult']['resultCode'] == TX_TER_RESULT_GENERAL_OK) {
 
@@ -564,7 +566,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 		$iconError = '<img src="'.t3lib_extMgm::siteRelPath('ter_fe').'res/error.gif" width="16" height="16" alt="" title="" style="vertical-align:middle;" />';
 
 		try {
-			$soapClientObj = new SoapClient ($this->WSDLURI, array ('trace' => 1, 'exceptions' => 1));
+			$soapClientObj = $this->getSoapClient();
 			$accountDataArr = array('username' => $TSFE->fe_user->user['username'], 'password' => $TSFE->fe_user->user['password']);
 
 				// Handle submitted actions:
@@ -633,6 +635,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 			$extensionKey = t3lib_div::GPvar('tx_terfe_pi2_extensionkey');
 			if (strlen($extensionKey)) {
 				$filterOptionsArr = array ('extensionKey' => $extensionKey);
+				$soapClientObj = $this->getSoapClient();
 				$resultArr = $soapClientObj->getExtensionKeys($accountDataArr, $filterOptionsArr);
 				if (is_array ($resultArr) && $resultArr['simpleResult']['resultCode'] == TX_TER_RESULT_GENERAL_OK) {
 
@@ -749,7 +752,26 @@ class tx_terfe_pi2 extends tslib_pibase {
 		return $output;
 	}
 
+	/**
+	 * Instantiate a new SoapClient
+	 *
+	 * @return SoapClient
+	 */
+	protected function getSoapClient() {
+		static $client;
 
+		if ($client instanceof SoapClient) {
+			unset($client);
+		}
+		$client = new SoapClient(
+			$this->WSDLURI,
+			array(
+				'trace' => 1,
+				'exceptions' => 1
+			)
+		);
+		return $client;
+	}
 
 
 
