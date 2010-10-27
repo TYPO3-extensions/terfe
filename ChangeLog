@@ -1,3 +1,7 @@
+28.10.2010 Steffen Kamper <marcus#exp2010@t3sec.info>
+
+	* Bugfix #10489: Extension uses file resources stored only in typo3.org fileadmin
+
 27.10.2010 Steffen Kamper <steffen@typo3.org>
 
 	* cleanup of pi2
@@ -21,8 +25,8 @@ Version 1.0.5 16.09.2008 Robert Lemke <robert@typo3.org>
 	- Obsolete extensions are now marked as such (again)
 
 Version 1.0.4 20.03.2007 Robert Lemke <robert@typo3.org>
-    + Improved the caching of extension files for the ter_fe details view: Files are now only unpacked again if the md5 sum of the T3X file (not the extensions.xml.gz) changed.
-    + Changed the tx_terfe / contentcache file structure: now the files of each extension reside in their own subdirectory.
+		+ Improved the caching of extension files for the ter_fe details view: Files are now only unpacked again if the md5 sum of the T3X file (not the extensions.xml.gz) changed.
+		+ Changed the tx_terfe / contentcache file structure: now the files of each extension reside in their own subdirectory.
 
 Version 1.0.3 16.12.2006 Robert Lemke <robert@typo3.org>
 	# Fixed bug 0004086: extension rating shows 0 (zero) instead of "-" or nothing

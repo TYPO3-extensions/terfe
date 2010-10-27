@@ -353,7 +353,7 @@ class tx_terfe_pi1 extends tslib_pibase {
 			} else {
 				$output = $this->pi_getLL('listview_search_noresult','',1);
 			}
-		 }
+		}
 
 		return $output;
 	}
@@ -629,14 +629,14 @@ class tx_terfe_pi1 extends tslib_pibase {
 						<p><strong>'.$this->pi_getLL('extensioninfo_feedback_yourname','',1).':</strong></p>
 						'.($TSFE->loginUser ?
 							'<input type="hidden" name="'.$this->prefixId.'[DATA][sender_name]" value="'.htmlspecialchars($TSFE->fe_user->user['name'].' ('.$TSFE->fe_user->user['username']).')" />
-							 <p>'.htmlspecialchars($TSFE->fe_user->user['name'].' ('.$GLOBALS['TSFE']->fe_user->user['username'].')').'</p>' :
+							<p>'.htmlspecialchars($TSFE->fe_user->user['name'].' ('.$GLOBALS['TSFE']->fe_user->user['username'].')').'</p>' :
 							'<input type="text" name="'.$this->prefixId.'[DATA][sender_name]" style="width: 400px;" /><br />').
 						'<br />
 
 						<p><strong>'.$this->pi_getLL('extensioninfo_feedback_youremailaddress','',1).':</strong></p>
 						'.($TSFE->loginUser ?
 							'<input type="hidden" name="'.$this->prefixId.'[DATA][sender_email]" value="'.htmlspecialchars($TSFE->fe_user->user['email']).'" />
-							 <p>'.htmlspecialchars($TSFE->fe_user->user['email']).'</p>' :
+							<p>'.htmlspecialchars($TSFE->fe_user->user['email']).'</p>' :
 							'<input type="text" name="'.$this->prefixId.'[DATA][sender_email]" style="width: 400px;"><br />').
 						'<br />
 
@@ -800,14 +800,14 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 			if ($activeItemsArr[$counter]) {
 				if ($counter > 0) {
-					$topMenuItems .= '<div><img src="fileadmin/templates/images/terfe-tabnav-act-left.gif" alt="" /></div>';
+					$topMenuItems .= '<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-act-left.gif" alt="" /></div>';
 				}
 				$topMenuItems .= $link.'
-					<div><img src="fileadmin/templates/images/terfe-tabnav-act-right.gif" alt="" /></div>
+					<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-act-right.gif" alt="" /></div>
 				';
 			} else {
 				if ($counter > 0 && !$activeItemsArr[$counter-1]) {
-					$topMenuItems .= '<div><img src="fileadmin/templates/images/terfe-tabnav-right.gif" alt="" /></div>';
+					$topMenuItems .= '<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-right.gif" alt="" /></div>';
 				}
 				$topMenuItems .= $link;
 			}
@@ -817,9 +817,9 @@ class tx_terfe_pi1 extends tslib_pibase {
 
 		$topMenu = '
 			<div class="terfe-tabnav">
-				<div><img src="fileadmin/templates/images/terfe-tabnav-'.($activeItemsArr[0] ? 'act-' : '').'start.gif" alt="" /></div>
+				<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-'.($activeItemsArr[0] ? 'act-' : '').'start.gif" alt="" /></div>
 				'.$topMenuItems.'
-				<div><img src="fileadmin/templates/images/terfe-tabnav-end.gif" alt="" /></div>
+				<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-end.gif" alt="" /></div>
 			</div>
 		';
 		return $topMenu;

@@ -352,7 +352,7 @@ class tx_terfe_common {
 			@mkdir ($baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey,0770);
 
 			foreach (glob($baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey.'/'.$extensionKey.'-'.$version.'*') as $fileName) {
-		   		@unlink ($fileName);
+					 @unlink ($fileName);
 			}
 
 				// Now write the files to the temporary directory:
@@ -368,7 +368,7 @@ class tx_terfe_common {
 					'tempfilename' => $cleanFileName
 				);
 			}
-			
+
 			file_put_contents($baseDir.$firstLetter.'/'.$secondLetter.'/'.$extensionKey.'/'.$extensionKey.'-'.$version.'.t3xmd5', $t3xFileHash);
 		}
 
@@ -450,14 +450,14 @@ class tx_terfe_common {
 
 			if ($activeItemsArr[$counter]) {
 				if ($counter > 0) {
-					$topMenuItems .= '<div><img src="fileadmin/templates/images/terfe-tabnav-act-left.gif" alt="" /></div>';
+					$topMenuItems .= '<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-act-left.gif" alt="" /></div>';
 				}
 				$topMenuItems .= $link.'
-					<div><img src="fileadmin/templates/images/terfe-tabnav-act-right.gif" alt="" /></div>
+					<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-act-right.gif" alt="" /></div>
 				';
 			} else {
 				if ($counter > 0 && !$activeItemsArr[$counter-1]) {
-					$topMenuItems .= '<div><img src="fileadmin/templates/images/terfe-tabnav-right.gif" alt="" /></div>';
+					$topMenuItems .= '<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-right.gif" alt="" /></div>';
 				}
 				$topMenuItems .= $link;
 			}
@@ -467,9 +467,9 @@ class tx_terfe_common {
 
 		$topMenu = '
 			<div class="terfe-tabnav">
-				<div><img src="fileadmin/templates/images/terfe-tabnav-'.($activeItemsArr[0] ? 'act-' : '').'start.gif" alt="" /></div>
+				<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-'.($activeItemsArr[0] ? 'act-' : '').'start.gif" alt="" /></div>
 				'.$topMenuItems.'
-				<div><img src="fileadmin/templates/images/terfe-tabnav-end.gif" alt="" /></div>
+				<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-end.gif" alt="" /></div>
 			</div>
 		';
 		return $topMenu;
@@ -860,23 +860,23 @@ class tx_terfe_common {
 			foreach ($extension as $tag => $value) {
 				if ($tag == 'version') {
 					$extensionsRow = array (
-						  'extensionkey' => $extension['extensionkey'],
-						  'version' => $value['version'],
-						  'title' => $value->title,
-						  'description' => $value->description,
-						  'state' => $value->state,
-						  'reviewstate' => $value->reviewstate,
-						  'category' => $value->category,
-						  'extensiondownloadcounter' => $extension->downloadcounter,
-						  'versiondownloadcounter' => $value->downloadcounter,
-						  'lastuploaddate' => $value->lastuploaddate,
-						  'uploadcomment' => $value->uploadcomment,
-						  'dependencies' => $value->dependencies,
-						  'authorname' => $value->authorname,
-						  'authoremail' => $value->authoremail,
-						  'authorcompany' => $value->authorcompany,
-						  'ownerusername' => $value->ownerusername,
-						  't3xfilemd5' => $value->t3xfilemd5
+							'extensionkey' => $extension['extensionkey'],
+							'version' => $value['version'],
+							'title' => $value->title,
+							'description' => $value->description,
+							'state' => $value->state,
+							'reviewstate' => $value->reviewstate,
+							'category' => $value->category,
+							'extensiondownloadcounter' => $extension->downloadcounter,
+							'versiondownloadcounter' => $value->downloadcounter,
+							'lastuploaddate' => $value->lastuploaddate,
+							'uploadcomment' => $value->uploadcomment,
+							'dependencies' => $value->dependencies,
+							'authorname' => $value->authorname,
+							'authoremail' => $value->authoremail,
+							'authorcompany' => $value->authorcompany,
+							'ownerusername' => $value->ownerusername,
+							't3xfilemd5' => $value->t3xfilemd5
 					);
 					$TYPO3_DB->exec_INSERTquery ('tx_terfe_extensions', $extensionsRow);
 
