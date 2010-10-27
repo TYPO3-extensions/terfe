@@ -1,5 +1,6 @@
 27.10.2010 Steffen Kamper <steffen@typo3.org>
 
+	* cleanup of pi2
 	* TYPO3 TER (soap server) unable to handle multiple requests within one tcp connection (forge #10481)
 
 26.10.2010 Steffen Kamper <steffen@typo3.org>
