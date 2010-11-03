@@ -586,7 +586,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 					$extensionKey = t3lib_div::_GP('tx_terfe_pi2_extensionkey');
 					$version = t3lib_div::_GP('tx_terfe_pi2_version');
 
-					$resultArr = $soapClientObj->deleteExtension($$this->accountData, $extensionKey, $version);
+					$resultArr = $soapClientObj->deleteExtension($this->accountData, $extensionKey, $version);
 					if (is_array($resultArr)) {
 						switch ($resultArr['resultCode']) {
 							case TX_TER_RESULT_EXTENSIONSUCCESSFULLYDELETED :
@@ -607,7 +607,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 					$targetUsername = t3lib_div::_GP('tx_terfe_pi2_targetusername');
 					$extensionKey = t3lib_div::_GP('tx_terfe_pi2_extensionkey');
 
-					$resultArr = $soapClientObj->modifyExtensionKey($$this->accountData, array('extensionKey' => $extensionKey, 'ownerUsername' => $targetUsername));
+					$resultArr = $soapClientObj->modifyExtensionKey($this->accountData, array('extensionKey' => $extensionKey, 'ownerUsername' => $targetUsername));
 
 					if (is_array($resultArr)) {
 						switch ($resultArr['resultCode']) {
@@ -627,7 +627,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 				case 'deletekey':
 					$extensionKey = t3lib_div::_GP('tx_terfe_pi2_extensionkey');
 
-					$resultArr = $soapClientObj->deleteExtensionKey($$this->accountData, $extensionKey);
+					$resultArr = $soapClientObj->deleteExtensionKey($this->accountData, $extensionKey);
 					if (is_array($resultArr)) {
 						switch ($resultArr['resultCode']) {
 							case TX_TER_RESULT_GENERAL_OK :
@@ -658,7 +658,7 @@ class tx_terfe_pi2 extends tslib_pibase {
 			if (strlen($extensionKey)) {
 				$filterOptionsArr = array('extensionKey' => $extensionKey);
 				$soapClientObj = $this->getSoapClient();
-				$resultArr = $soapClientObj->getExtensionKeys($$this->accountData, $filterOptionsArr);
+				$resultArr = $soapClientObj->getExtensionKeys($this->accountData, $filterOptionsArr);
 				if (is_array($resultArr) && $resultArr['simpleResult']['resultCode'] == TX_TER_RESULT_GENERAL_OK) {
 
 					$tableRows = array();
