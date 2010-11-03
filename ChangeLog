@@ -1,5 +1,5 @@
 03.11.2010 Marcus Krause <marcus#exp2010@t3sec.info>
-	* Bugfix #1063: Typo in variable names
+	* Bugfix #10613: Typo in variable names
 
 28.10.2010 Marcus Krause <marcus#exp2010@t3sec.info>
 	* Bugfix #10489: Extension uses file resources stored only in typo3.org fileadmin
