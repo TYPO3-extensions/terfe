@@ -1,3 +1,55 @@
-plugin.tx_docondemand_pi1 {
-	
+plugin.tx_docondemand_upload {
+	form = TEXT
+	form.value(
+
+	  ###STATUS###
+
+	  <form enctype="multipart/form-data" method="POST">
+		  <input type="hidden" name="MAX_FILE_SIZE" value="500000">
+		  <input name="tx_docondemand_upload" type="file"><br>
+		  <input type="submit" name="tx_docondemand_upload[do_upload]" value="Upload!">
+	  </form>
+	)
+
+	checkMime = 0
+	mimeInclude = image/gif,image/jpeg,application/x-zip-compressed
+	mimeExclude = application/octet-stream
+
+	maxsize = 5000000
+	path = fileadmin/docs/
+	fileMode = 0755
+
+	message {
+		 #File already exists on server
+		 exist = TEXT
+		 exist.value = <p>Upload failed! The file already exists.</p>
+
+		 #File too big
+		 toobig = TEXT
+		 toobig.value = <p>Upload failed! The file is too big.</p>
+
+		 #Mime type not allowed
+		 mimenotallowed = TEXT
+		 mimenotallowed.value = <p>Upload failed! This mime type is not allowed.</p>
+
+		 #File extension not allowed
+		 extensionnotallowed = TEXT
+		 extensionnotallowed.value = <p>Upload failed! This file extension is not allowed.</p>
+
+		 #Upload was succesfull
+		 uploadsuccesfull = TEXT
+		 uploadsuccesfull.value = <p>File was succesfully uploaded!</p>
+
+		 #File was only partially uploaded
+		 partial = TEXT
+		 partial.value = <p>Upload failed! The file was only partially uploaded.</p>
+
+		 #No file was uploaded
+		 nofile = TEXT
+		 nofile.value = <p>Upload failed! File not found.</p>
+
+		 #Unknown error
+		 unknown = TEXT
+		 unknown.value = <p>Upload failed! Error unknown.</p>
+	}
 }
