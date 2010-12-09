@@ -605,7 +605,7 @@ class tx_terdoc_renderdocuments {
 			return FALSE;
 		}
 
-		list ($md5Hash, $compressionFlag, $dataRaw) = split (':', $t3xFileRaw, 3);
+		list ($md5Hash, $compressionFlag, $dataRaw) = preg_split('/:/is', $t3xFileRaw, 3);
 		unset ($t3xFileRaw);
 		
 		$dataUncompressed = gzuncompress ($dataRaw);
