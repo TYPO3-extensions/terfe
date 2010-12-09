@@ -1,0 +1,44 @@
+Index: class.tx_terdoc_renderdocuments.php
+===================================================================
+--- class.tx_terdoc_renderdocuments.php	(revision 41012)
++++ class.tx_terdoc_renderdocuments.php	(working copy)
+@@ -261,6 +261,13 @@
+ 		}
+ 		
+ 		foreach ($extensions as $extension) {
++
++			// prevent the script to loop to many times in a development context
++			// Otherwise will process more than 20000 extensions
++			if(!isset($loop)) $loop = 0;
++			$loop ++;
++			if ($loop == 10) break;
++
+ 			foreach ($extension as $version) {
+ 				if (strlen($version['version'])) {
+ 					$documentDir = $this->getDocumentDirOfExtensionVersion ($extension['extensionkey'], $version['version']);				
+@@ -599,7 +606,24 @@
+ 	protected function t3x_extractFileFromT3X ($extensionKey, $version, $sourceName, &$errorCodes, $targetFullPath=NULL) {
+ 		$this->log ('   * Extracting "'.$sourceName.'" from extension '.$extensionKey.' ('.$version.')');
+ 
+-		$t3xFileRaw = @file_get_contents ($this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x'); 
++		$t3xFileRaw = @file_get_contents ($this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x');
++
++		// special case for development context
++		// -> download the t3x archive when not already present on the harddrive.
++		//    put the t3x archive in fileadmin/ter/
++		$t3x = $this->getExtensionVersionPathAndBaseName($extensionKey, $version).'.t3x';
++		if (!file_exists($t3x)) {
++			$parts = explode('/', $t3x);
++			$t3xName = array_pop($parts);
++			mkdir(implode('/', $parts), 0777, TRUE);
++
++			$t3xOnline = 'http://typo3.org' . str_replace($GLOBALS['_SERVER']['PWD'], '', $t3x);
++
++			$this->log('   * Downloading online archive of ' . $t3xName);
++			$data = file_get_contents($t3xOnline);
++			file_put_contents($t3x, $data);
++		}
++
+ 		if ($t3xFileRaw === FALSE) {
+ 			$errorCodes[] = self::ERRORCODE_ERRORWHILEREADINGT3XFILE;
+ 			return FALSE;
