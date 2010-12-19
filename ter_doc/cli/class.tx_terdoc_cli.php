@@ -22,6 +22,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Documentation renderer for the ter_doc extension
  *
@@ -32,12 +33,10 @@
 
 if (!defined('TYPO3_cliMode'))  die('You cannot run this script directly!');
 
-
 /**
  * CLI class that handles TER documentation
  *
  */
-
 class tx_terdoc_cli extends t3lib_cli {
 
 
@@ -54,7 +53,7 @@ class tx_terdoc_cli extends t3lib_cli {
 		$this->cli_options = array();
 		// Setting help texts:
 		$this->cli_help['name'] = 'handles TER documentation';
-		$this->cli_help['synopsis'] = '';
+		unset($this->cli_help['synopsis']);
 		$this->cli_help['description'] = "Class that handles TER documentation";
 		$this->cli_help['examples'] = "/var/www/typo3/cli_dispatch.phpsh ter_doc";
 		$this->cli_help['options'] = "download";
@@ -65,12 +64,11 @@ class tx_terdoc_cli extends t3lib_cli {
 	 * CLI engine
 	 *
 	 * @param array Command line arguments
-	 * @return string
+	 * @return void
 	 */
-
 	function main($argv) {
-		// get task (function)
 
+		// get task (function)
 		$task = (string)$this->cli_args['_DEFAULT'][1];
 
 		if (!$task){
@@ -83,23 +81,12 @@ class tx_terdoc_cli extends t3lib_cli {
 			$this->cli_echo("\n\nmyFunction will be called:\n\n");
 			$this->myFunction();
 		}
-
-		/**
-		 * Or other tasks
-		 * Which task shoud be called can you define in the shell command
-		 * /www/typo3/cli_dispatch.phpsh cli_example otherTask
-		 */
-		if ($task == 'otherTask') {
-			// ...
-		}
 	}
-
 
 	/**
 	 * myFunction which is called over cli
 	 *
 	 */
-
 	function myFunction(){
 		// Output
 		$this->cli_echo("Whats your name:");
