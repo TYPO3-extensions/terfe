@@ -40,16 +40,7 @@ if (!defined('TYPO3_cliMode'))
  *
  */
 class Tx_TerDoc_Cli_Renderer {
-
-	/**
-	 * Constructor
-	 *
-	 * @return Tx_TerDoc_Cli_Renderer
-	 */
-	function __construct() {
-
-	}
-
+	
 	/**
 	 * CLI dispatcher
 	 *
@@ -59,32 +50,28 @@ class Tx_TerDoc_Cli_Renderer {
 	function main($argv) {
 		$controller = t3lib_div::makeInstance('Tx_TerDoc_Controller_CliController');
 
-		$options = $commands = array();
-		$options['help'] = $options['force'] = FALSE;
+		$arguments = $commands = array();
+		$arguments['help'] = $arguments['force'] = $arguments['limit'] = FALSE;
 
 		// process the command's arguments
 		array_shift($argv);
 		$argv = array_map('trim', $argv);
-		foreach ($argv as $argument) {
-			if (preg_match('/^-/is', $argument)) {
-				switch ($argument) {
-					case '--force':
-					case '-f':
-						$options['force'] = TRUE;
-						break;
-					case '--help':
-					case '-h':
-						$options['help'] = TRUE;
-						break;
+		foreach ($argv as $arg) {
+			if (preg_match('/^-/is', $arg)) {
+				if (preg_match('/^--force$|^-f$/is', $arg)) {
+					$arguments['force'] = TRUE;
+				} else if (preg_match('/^--help$|^-h$/is', $arg)) {
+					$arguments['help'] = TRUE;
+				} else if (preg_match('/^--limit=(.+)$|^-l=(.+)$/is', $arg, $matches)) {
+					$arguments['limit'] = (int) $matches[1];
 				}
-			}
-			else {
-				$commands[] = $argument;
+			} else {
+				$commands[] = $arg;
 			}
 		}
 
 		// displays help if necessary
-		if (count($argv) == 0 || $options['help']) {
+		if (count($argv) == 0 || $arguments['help']) {
 			$controller->helpAction();
 			die();
 		}
@@ -92,7 +79,7 @@ class Tx_TerDoc_Cli_Renderer {
 		// call the right command
 		if ($commands[0] == 'render') {
 			try {
-				$controller->renderAction($options);
+				$controller->renderAction($arguments);
 			} catch (Exception $e) {
 				Tx_TerDoc_Utility_Cli::log($e->getMessage());
 			}
@@ -101,17 +88,11 @@ class Tx_TerDoc_Cli_Renderer {
 			Tx_TerDoc_Utility_Cli::log('Type "help" for usage.');
 		}
 
-		// get task (function)
-		#$task = (string)$this->cli_args['_DEFAULT'][1];
 		// DocumentCache
 		//   deleteOutdatedDocuments
 		//   getModifiedExtensionVersions
 		//   transformManualToDocBook
 		//   
-		// extensionIndex
-		//   updateDB
-		//   wasModified
-		//
 		// pageCache
 		//   clearForAll
 		//   getCacheUidsForExtension
@@ -131,42 +112,10 @@ class Tx_TerDoc_Cli_Renderer {
 		// getExtensionVersionPathAndBaseName
 		// removeDirRecursively
 		// log
-//		if (!$task){
-//			$this->cli_validateArgs();
-//			$this->cli_help();
-//			exit;
-//		}
-//
-//		if ($task == 'myFunction') {
-//			$this->cli_echo("\n\nmyFunction will be called:\n\n");
-//			$this->myFunction();
-//		}
 	}
-
-	/**
-	 * myFunction which is called over cli
-	 *
-	 */
-	function myFunction() {
-		// Output
-		$this->cli_echo("Whats your name:");
-
-		// Input
-		$input = $this->cli_keyboardInput();
-		$this->cli_echo("\n\nHi " . $input . ", your CLI script works :)\n\n");
-
-		// Input yes/no
-		$input = $this->cli_keyboardInput_yes('You want money?');
-		if ($b) {
-			$this->cli_echo("\nHaha.. go working! :)\n");
-		} else {
-			$this->cli_echo("\nOh ok.. are you ill?\n");
-		}
-	}
-
 }
 
-// Call the functionality
+// Run the script
 $ter = t3lib_div::makeInstance('Tx_TerDoc_Cli_Renderer');
 $ter->main($_SERVER['argv']);
 ?>

@@ -57,14 +57,14 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 
 		// Extends settings
 		$this->settings['homeDir'] = Tx_TerDoc_Utility_Cli::sanitizeDirectoryPath(PATH_site . $this->settings['homeDir']);
+		$this->settings['documentsCache'] = $this->settings['homeDir'] . 'documentscache/';
 		$this->settings['lockFile'] = $this->settings['homeDir'] . 'tx_terdoc_render.lock';
 		$this->settings['md5File'] = $this->settings['homeDir'] . 'tx_terdoc_extensionsmd5.txt';
-		$this->settings['extensionDatasource'] = $this->settings['repositoryDir'] . 'extensions.xml.gz';
+		$this->settings['extensionFile'] = $this->settings['repositoryDir'] . 'extensions.xml.gz';
 
 		// Initialize objects
 		$this->languageGuesserServiceObj = t3lib_div::makeInstanceService('textLang'); // Initialize language guessing service:
-		$this->extensionRepository = t3lib_div::makeInstance('Tx_TerDoc_Domain_Repository_ExtensionRepository', $this->settings); // Initialize repository
-		
+		$this->extensionRepository = t3lib_div::makeInstance('Tx_TerDoc_Domain_Repository_ExtensionRepository', $this->settings, $this->arguments); // Initialize repository
 		// Makes sure the envionment is good and throw an error if that is not the case
 		$this->validateEnvironement();
 	}
@@ -72,40 +72,41 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 	/**
 	 * Index action for this controller. Displays a list of addresses.
 	 *
-	 * @param  array list of possible options
+	 * @param  array $arguments list of possible arguments
 	 * @return void
 	 */
-	public function renderAction($cliOptions) {
+	public function renderAction($arguments) {
 
 		// Options  coming from the CLI
-		$this->cliOptions = $cliOptions;
-		
-		$this->initializeAction($cliOptions);
+		$this->arguments = $arguments;
 
-		if (! $this->isLocked() || $this->cliOptions['force']) {
+		$this->initializeAction();
+
+		if (!$this->isLocked() || $this->arguments['force']) {
 			// create a lock
 			touch($this->settings['lockFile']);
 
 			Tx_TerDoc_Utility_Cli::log(strftime('%d.%m.%y %R') . ' ter_doc renderer starting ...');
 
-			if ($this->extensionRepository->wasModified() || $this->cliOptions['force']) {
-				Tx_TerDoc_Utility_Cli::log('it works');
-				exit();
+			if ($this->extensionRepository->wasModified() || $this->arguments['force']) {
 				Tx_TerDoc_Utility_Cli::log('* extensions.xml was modified since last run');
 
-				if ($this->extensionIndex_updateDB()) {
-					$this->documentCache_deleteOutdatedDocuments();
-					$modifiedExtensionVersionsArr = $this->documentCache_getModifiedExtensionVersions();
+				if ($this->extensionRepository->updateDB()) {
+
+					$this->extensionRepository->deleteOutdatedDocuments();
+					$modifiedExtensionVersionsArr = $this->extensionRepository->getModifiedExtensionVersions();
 
 					foreach ($modifiedExtensionVersionsArr as $extensionAndVersionArr) {
 						$transformationErrorCodes = array();
 						$extensionKey = $extensionAndVersionArr['extensionkey'];
 						$version = $extensionAndVersionArr['version'];
-						$documentDir = $this->getDocumentDirOfExtensionVersion($extensionKey, $version);
+						$documentDir = Tx_TerDoc_Utility_Cli::getDocumentDirOfExtensionVersion($extensionKey, $version);
 
 						Tx_TerDoc_Utility_Cli::log('* Rendering documents for extension "' . $extensionKey . '" (' . $version . ')');
 						$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_terdoc_renderproblems', 'extensionkey="' . $extensionKey . '" AND version="' . $version . '"');
+						Tx_TerDoc_Utility_Cli::log('temporary end');
 
+						exit();
 						if ($this->documentCache_transformManualToDocBook($extensionKey, $version, $transformationErrorCodes)) {
 							foreach ($this->outputFormats as $label => $formatInfoArr) {
 								Tx_TerDoc_Utility_Cli::log('   * Rendering ' . $label);
@@ -143,11 +144,11 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 	 */
 	protected function validateEnvironement() {
 		// if home directory is not defined, create this one now.
-		if (!is_dir($this->settings['homeDir'])) {
+		if (!is_dir($this->settings['documentsCache'])) {
 			// @todo: check whether a set up action would be necessary
-			//throw new Exception('Exception thrown #1294746784: temp directory does not exist "' . $this->settings['homeDir'] . '". Run command setUp', 1294746784);
+			//throw new Exception('Exception thrown #1294746784: temp directory does not exist "' . $this->settings['documentsCache'] . '". Run command setUp', 1294746784);
 			try {
-				mkdir($this->settings['homeDir'], 0777, TRUE);
+				mkdir($this->settings['documentsCache'], 0777, TRUE);
 			} catch (Exception $e) {
 				Tx_TerDoc_Utility_Cli::log($e->getMessage());
 			}
@@ -196,11 +197,12 @@ usage:
     /var/www/typo3/cli_dispatch.phpsh ter_doc <options> <commands>
 
 options:
-    -h, --help     - print this message
-    -f, --force    - force de command to be executed
+    -h, --help            - print this message
+    -f, --force           - force de command to be executed
+    -l=10, --limit=10     - force de command to be executed
 
 commands:
-    render         - render documentation cache
+    render                - render documentation cache
 EOF;
 
 		Tx_TerDoc_Utility_Cli::log($message);

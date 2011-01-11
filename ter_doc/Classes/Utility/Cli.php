@@ -99,6 +99,33 @@ class Tx_TerDoc_Utility_Cli {
 		return $settings;
 	}
 
+
+	/**
+	 * Returns the full path of the document directory for the specified
+	 * extension version. If the path does not exist yet, it will be created -
+	 * given that the typo3temp/tx_terdoc/documentscache/ dir exists.
+	 *
+	 * In the document directory all rendered documents are stored.
+	 *
+	 * @param	string		$extensionKey: The extension key
+	 * @param	string		$version: The version string
+	 * @return	string		Full path to the document directory for the specified extension version
+	 */
+	public static function getDocumentDirOfExtensionVersion ($baseDir, $extensionKey, $version) {
+		$firstLetter = strtolower (substr ($extensionKey, 0, 1));
+		$secondLetter = strtolower (substr ($extensionKey, 1, 1));
+
+ 		list ($majorVersion, $minorVersion, $devVersion) = t3lib_div::intExplode ('.', $version);
+		$fullPath = $baseDir.$firstLetter.'/'.$secondLetter.'/'.strtolower($extensionKey).'-'.$majorVersion.'.'.$minorVersion.'.'.$devVersion;
+
+		if (strlen($firstLetter.$secondLetter)) {
+			@mkdir ($baseDir.$firstLetter);
+			@mkdir ($baseDir.$firstLetter.'/'.$secondLetter);
+			@mkdir ($fullPath);
+
+			return $fullPath.'/';
+		}
+	}
 }
 
 ?>

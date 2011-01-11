@@ -35,13 +35,14 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 	 *
 	 * @param array $settings options passed from the CLI
 	 */
-	public function __construct($settings) {
+	public function __construct($settings, $arguments) {
 		$this->settings = $settings;
+		$this->arguments = $arguments;
 	}
 
-	/*	 * ****************************************************
+	/******************************************************
 	 *
-	 * Extension index functions (protected)
+	 * Extension index functions
 	 *
 	 * **************************************************** */
 
@@ -57,16 +58,129 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 		if (file_exists($this->settings['md5File'])) {
 			$oldMD5Hash = file_get_contents($this->settings['md5File']);
 		}
-		
-		if (file_exists($this->settings['extensionDatasource'])) {
-			$currentMD5Hash = md5_file($this->settings['extensionDatasource']);
+
+		if (file_exists($this->settings['extensionFile'])) {
+			$currentMD5Hash = md5_file($this->settings['extensionFile']);
 		} else {
-			throw new Exception('Exception thrown #1294747712: no data source has been found at "' .  $this->settings['extensionDatasource'] . '"', 1294747712);
+			throw new Exception('Exception thrown #1294747712: no data source has been found at "' . $this->settings['extensionFile'] . '"', 1294747712);
 		}
 
 		return ($oldMD5Hash != $currentMD5Hash);
 	}
 
+	/**
+	 * Reads the extension index file (extensions.xml.gz) and updates
+	 * the the manual caching table accordingly.
+	 *
+	 * @return	boolean		TRUE if operation was successful
+	 * @access	protected
+	 */
+	public function updateDB() {
+
+		Tx_TerDoc_Utility_Cli::log('* Deleting cached manual information from database');
+
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_terdoc_manuals', '1');
+
+		// Transfer data from extensions.xml.gz to database:
+		$unzippedExtensionsXML = implode('', @gzfile($this->settings['repositoryDir'] . 'extensions.xml.gz'));
+		$extensions = simplexml_load_string($unzippedExtensionsXML);
+		if (!is_object($extensions)) {
+			Tx_TerDoc_Utility_Cli::log('Error while parsing ' . $this->settings['extensionFile'] . ' - aborting!');
+			return FALSE;
+		}
+
+		$loop = 0;
+		foreach ($extensions as $extension) {
+
+			foreach ($extension as $version) {
+				if (strlen($version['version'])) {
+					$documentDir = Tx_TerDoc_Utility_Cli::getDocumentDirOfExtensionVersion($this->settings['documentsCache'], $extension['extensionkey'], $version['version']);
+					$abstract = @file_get_contents($documentDir . 'abstract.txt');
+					$language = @file_get_contents($documentDir . 'language.txt');
+
+					$extensionsRow = array(
+						'extensionkey' => $extension['extensionkey'],
+						'version' => $version['version'],
+						'title' => $version->title,
+						'language' => $language,
+						'abstract' => $abstract,
+						'modificationdate' => $version->lastuploaddate,
+						'authorname' => $version->authorname,
+						'authoremail' => $version->authoremail,
+						't3xfilemd5' => $version->t3xfilemd5
+					);
+					$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_terdoc_manuals', $extensionsRow);
+				}
+			}
+			
+			// prevent the script to loop to many times in a development context
+			// Otherwise will process more than 20000 extensions
+			$loop ++;
+			if ($loop == $this->arguments['limit']) {
+				break;
+			}
+		}
+
+		// Create new MD5 hash:
+		#t3lib_div::writeFile($this->settings['extensionFile'], md5_file($this->settings['repositoryDir'] . 'extensions.xml.gz'));
+		Tx_TerDoc_Utility_Cli::log('* Manual DB index was sucessfully reindexed');
+
+		return TRUE;
+	}
+
+
+	/******************************************************
+	 *
+	 * Cache related functions
+	 *
+	 ******************************************************/
+
+	/**
+	 * Deletes rendered documents and directories of those extensions which don't
+	 * exist in the extension index (anymore).
+	 *
+	 * @return	void
+	 * @access	protected
+	 */
+	public function deleteOutdatedDocuments() {
+		// FIXME
+		Tx_TerDoc_Utility_Cli::log('* FIXME: deleteOutDatedDocuments not implemented');
+	}
+
+	/**
+	 * Returns an array of extension keys and version numbers of those
+	 * extensions which were modified since the last time the documents
+	 * were rendered for this extension.
+	 *
+	 * @return	array		Array of extensionkey and version
+	 * @access	protected
+	 */
+	public function getModifiedExtensionVersions() {
+
+		$extensionKeysAndVersionsArr = array();
+		Tx_TerDoc_Utility_Cli::log('* Checking for modified extension versions');
+
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery (
+			'extensionkey,version,t3xfilemd5',
+			'tx_terdoc_manuals',
+			'1'
+		);
+		if ($res) {
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc ($res)) {
+				$documentDir = Tx_TerDoc_Utility_Cli::getDocumentDirOfExtensionVersion ($row['extensionkey'], $row['version']);
+				$t3xMD5OfRenderedDocuments = @file_get_contents ($documentDir.'t3xfilemd5.txt');
+				if ($t3xMD5OfRenderedDocuments != $row['t3xfilemd5']) {
+					$extensionKeysAndVersionsArr[] = array (
+						'extensionkey' => $row['extensionkey'],
+						'version' => $row['version'],
+						't3xfilemd5' => $row['t3xfilemd5']
+					);
+				}
+			}
+		}
+		Tx_TerDoc_Utility_Cli::log('* Found '.count($extensionKeysAndVersionsArr).' modified extension versions');
+		return $extensionKeysAndVersionsArr;
+	}
 	/**
 	 * Find all objects up to a certain limit with a given offset and a sorting order
 	 *
