@@ -1,0 +1,42 @@
+# ======================================================================
+# Plugin configuration ot the extension "ter_fe2"
+# ======================================================================
+plugin.tx_terfe2 {
+
+	## General settings
+	settings {
+
+	}
+
+	## Storage settings
+	persistence {
+		storagePid = {$plugin.tx_terfe2.extensionPid}
+		classes {
+			Tx_TerFe2_Domain_Model_Category.newRecordStoragePid   = {$plugin.tx_terfe2.categoryPid}
+			Tx_TerFe2_Domain_Model_Experience.newRecordStoragePid = {$plugin.tx_terfe2.experiencePid}
+			Tx_TerFe2_Domain_Model_Extension.newRecordStoragePid  = {$plugin.tx_terfe2.extensionPid}
+			Tx_TerFe2_Domain_Model_Media.newRecordStoragePid      = {$plugin.tx_terfe2.mediaPid}
+			Tx_TerFe2_Domain_Model_Relation.newRecordStoragePid   = {$plugin.tx_terfe2.relationPid}
+			Tx_TerFe2_Domain_Model_Tag.newRecordStoragePid        = {$plugin.tx_terfe2.tagPid}
+			Tx_TerFe2_Domain_Model_Version.newRecordStoragePid    = {$plugin.tx_terfe2.versionPid}
+		}
+	}
+
+	## View specific settings
+	view {
+		# templateRootPath = 
+		# partialRootPath  = 
+		# layoutRootPath   = 
+	}
+
+	## Overwrite locallang labels
+	_LOCAL_LANG.default {
+
+	}
+
+	## Basic styles
+	_CSS_DEFAULT_STYLE (
+
+	)
+
+}

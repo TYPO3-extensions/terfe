@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the TER Frontend Index extension in the FRONTEND</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_terfe2_domain_model_extension">Extension container</label>
+			<label index="tx_terfe2_domain_model_extension.ext_key">extKey</label>
+			<label index="tx_terfe2_domain_model_extension.forge_link">forgeLink</label>
+			<label index="tx_terfe2_domain_model_extension.hudson_link">hudsonLink</label>
+			<label index="tx_terfe2_domain_model_extension.category">category</label>
+			<label index="tx_terfe2_domain_model_extension.tag">tag</label>
+			<label index="tx_terfe2_domain_model_extension.version">version</label>
+			<label index="tx_terfe2_domain_model_category">Frontend category of the extension</label>
+			<label index="tx_terfe2_domain_model_category.title">Title of the category</label>
+			<label index="tx_terfe2_domain_model_category.description">Description of the category</label>
+			<label index="tx_terfe2_domain_model_tag">Tag for the extension</label>
+			<label index="tx_terfe2_domain_model_tag.title">Title of the tag</label>
+			<label index="tx_terfe2_domain_model_version">Single version of an extension</label>
+			<label index="tx_terfe2_domain_model_version.title">Title of the extension</label>
+			<label index="tx_terfe2_domain_model_version.icon">The filename of the extension icon.</label>
+			<label index="tx_terfe2_domain_model_version.description">Description of the extension</label>
+			<label index="tx_terfe2_domain_model_version.filename">Path to extension file</label>
+			<label index="tx_terfe2_domain_model_version.author">author</label>
+			<label index="tx_terfe2_domain_model_version.version_number">The version number in format "x.x.x"</label>
+			<label index="tx_terfe2_domain_model_version.upload_date">Upload date and time</label>
+			<label index="tx_terfe2_domain_model_version.upload_comment">The user comment for this version</label>
+			<label index="tx_terfe2_domain_model_version.download_counter">How many downloads for this version</label>
+			<label index="tx_terfe2_domain_model_version.status">Status of the extension (beta, stable, obsolete, etc.)</label>
+			<label index="tx_terfe2_domain_model_version.em_category">The category of the extension manager (frontend plugin, backend module, etc.)</label>
+			<label index="tx_terfe2_domain_model_version.load_order">Loading order in Extension Manager</label>
+			<label index="tx_terfe2_domain_model_version.modify_tables">Information which existing DB tables will be modified</label>
+			<label index="tx_terfe2_domain_model_version.manual">Relation to manual object of ter_doc extension</label>
+			<label index="tx_terfe2_domain_model_version.media">media</label>
+			<label index="tx_terfe2_domain_model_version.experience">experience</label>
+			<label index="tx_terfe2_domain_model_version.software_relation">softwareRelation</label>
+			<label index="tx_terfe2_domain_model_media">Any type of media associated to an extension</label>
+			<label index="tx_terfe2_domain_model_media.title">Title of the media</label>
+			<label index="tx_terfe2_domain_model_media.type">Media type (link, image, video, pdf)</label>
+			<label index="tx_terfe2_domain_model_media.language">Short language parameter (en, de, dk, etc.)</label>
+			<label index="tx_terfe2_domain_model_media.source">Filename or url</label>
+			<label index="tx_terfe2_domain_model_media.description">Short description of this media attachment</label>
+			<label index="tx_terfe2_domain_model_experience">User experience with an extension</label>
+			<label index="tx_terfe2_domain_model_experience.date_time">Timestamp of the experience</label>
+			<label index="tx_terfe2_domain_model_experience.comment">Comment</label>
+			<label index="tx_terfe2_domain_model_experience.rating">User rating</label>
+			<label index="tx_terfe2_domain_model_relation">Any type of relation of an extension</label>
+			<label index="tx_terfe2_domain_model_relation.relation_type">Dependancy, conflict or suggest</label>
+			<label index="tx_terfe2_domain_model_relation.software_type">Core, extension or system</label>
+			<label index="tx_terfe2_domain_model_relation.tx_terfe2_key">extension key, php, mysql or something else</label>
+			<label index="tx_terfe2_domain_model_relation.version">Version of the field "key", e.g. key "php" and version "5.2"</label>
+		</languageKey>
+	</data>
+</T3locallang>

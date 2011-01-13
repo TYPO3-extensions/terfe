@@ -1,0 +1,22 @@
+plugin.tx_terfe2 {
+	# cat=plugin.tx_terfe2/persistence/100; type=int+; label=Category storage PID
+	categoryPid =
+
+	# cat=plugin.tx_terfe2/persistence/200; type=int+; label=Expirience storage PID
+	experiencePid =
+
+	# cat=plugin.tx_terfe2/persistence/300; type=int+; label=Extension storage PID
+	extensionPid =
+
+	# cat=plugin.tx_terfe2/persistence/400; type=int+; label=Media storage PID
+	mediaPid =
+
+	# cat=plugin.tx_terfe2/persistence/500; type=int+; label=Relation storage PID
+	relationPid =
+
+	# cat=plugin.tx_terfe2/persistence/600; type=int+; label=Tag storage PID
+	tagPid =
+
+	# cat=plugin.tx_terfe2/persistence/700; type=int+; label=Version storage PID
+	versionPid =
+}

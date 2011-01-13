@@ -1,0 +1,31 @@
+<f:layout name="default" />
+
+This Template is responsible for creating a table of domain objects.
+
+<f:section name="main">
+<h1>Listing for Extension</h1>
+
+<f:flashMessages />
+
+<table>
+	<tr>
+		<th><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></th>
+		<th><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></th>
+		<th><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></th>
+		<th> </th>
+		<th> </th>
+	</tr>
+
+	<f:for each="{extensions}" as="extension">
+		<tr>
+			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.extKey}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.forgeLink}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.hudsonLink}</f:link.action></td>
+			<td><f:link.action action="edit" arguments="{extension : extension}">Edit</f:link.action></td>
+			<td><f:link.action action="delete" arguments="{extension : extension}">Delete</f:link.action></td>
+		</tr>
+	</f:for>
+</table>
+
+<f:link.action action="new">New Extension</f:link.action>
+</f:section>
