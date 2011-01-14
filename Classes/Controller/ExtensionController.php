@@ -46,14 +46,20 @@
 		 */
 		protected function initializeAction() {
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+
+			// Pre-parse TypoScript
+			$typoScriptParser = t3lib_div::makeInstance('Tx_TerFe2_Service_TypoScriptParserService');
+			$this->settings   = $typoScriptParser->getParsed($this->settings);
+			unset($typoScriptParser);
 		}
 
 
 		/**
-		 * List action for this controller. Displays all Extensions.
+		 * Index action, displays new and updated extensions
 		 */
 		public function indexAction() {
-			$extensions = $this->extensionRepository->findAll();
+			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 20);
+			$extensions  = $this->extensionRepository->findNewAndUpdated($latestCount);
 			$this->view->assign('extensions', $extensions);
 		}
 
@@ -85,6 +91,11 @@
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension A fresh Extension object which has not yet been added to the repository
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
+
+			// Todo: Add an action to create a new version:
+			// $extension->addVersion($version);
+			// $extension->setLastUpdate(new DateTime()); <-- required for new and updated
+
 			$this->extensionRepository->add($newExtension);
 			$this->flashMessageContainer->add('Your new Extension was created.');
 			$this->redirect('index');
