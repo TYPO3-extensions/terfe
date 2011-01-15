@@ -39,8 +39,8 @@
 										<numIndex index="1">manageCategories</numIndex>
 									</numIndex>
 									<numIndex index="4" type="array">
-										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.manageExpiriences</numIndex>
-										<numIndex index="1">manageExpiriences</numIndex>
+										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.manageExperiences</numIndex>
+										<numIndex index="1">manageExperiences</numIndex>
 									</numIndex>
 									<numIndex index="5" type="array">
 										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.manageExtensions</numIndex>

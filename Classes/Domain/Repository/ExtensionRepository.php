@@ -33,20 +33,5 @@
 	 */
 	class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_Extbase_Persistence_Repository {
 
-		/**
-		 * Returns new and updated extensions
-		 *
-		 * @param integer $latestCount Count of extensions
-		 * @return array An array of extensions
-		 */
-		public function findNewAndUpdated($latestCount) {
-			$query = $this->createQuery();
-			$query->setLimit((int) $latestCount);
-			$query->setOrderings(
-				array('lastUpdate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
-			);
-			return $query->execute();
-		}
-
 	}
 ?>

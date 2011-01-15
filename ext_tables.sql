@@ -8,7 +8,6 @@ CREATE TABLE tx_terfe2_domain_model_extension (
 	ext_key tinytext,
 	forge_link tinytext,
 	hudson_link tinytext,
-	last_update int(11) unsigned DEFAULT '0' NOT NULL,
 	category int(11) unsigned DEFAULT '0',
 	tag int(11) unsigned DEFAULT '0' NOT NULL,
 	version int(11) unsigned DEFAULT '0' NOT NULL,

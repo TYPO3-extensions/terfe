@@ -53,12 +53,6 @@
 		protected $hudsonLink;
 
 		/**
-		 * lastUpdate
-		 * @var DateTime
-		 */
-		protected $lastUpdate;
-
-		/**
 		 * category
 		 * @var Tx_TerFe2_Domain_Model_Category
 		 */
@@ -81,7 +75,8 @@
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
 		 */
 		public function __construct() {
-			$this->tag     = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->tag = new Tx_Extbase_Persistence_ObjectStorage();
+
 			$this->version = new Tx_Extbase_Persistence_ObjectStorage();
 		}
 
@@ -146,27 +141,6 @@
 		 */
 		public function getHudsonLink() {
 			return $this->hudsonLink;
-		}
-
-
-		/**
-		 * Setter for lastUpdate
-		 *
-		 * @param DateTime $lastUpdate
-		 * @return void
-		 */
-		public function setLastUpdate(DateTime $lastUpdate) {
-			$this->lastUpdate = $lastUpdate;
-		}
-
-
-		/**
-		 * Getter for lastUpdate
-		 *
-		 * @return DateTime
-		 */
-		public function getLastUpdate() {
-			return $this->lastUpdate;
 		}
 
 

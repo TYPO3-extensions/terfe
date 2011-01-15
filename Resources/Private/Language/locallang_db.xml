@@ -10,7 +10,6 @@
 			<label index="tx_terfe2_domain_model_extension.ext_key">Ext Key</label>
 			<label index="tx_terfe2_domain_model_extension.forge_link">Forge Link</label>
 			<label index="tx_terfe2_domain_model_extension.hudson_link">Hudson Link</label>
-			<label index="tx_terfe2_domain_model_extension.last_update">Last update</label>
 			<label index="tx_terfe2_domain_model_extension.category">Category</label>
 			<label index="tx_terfe2_domain_model_extension.tag">Tag</label>
 			<label index="tx_terfe2_domain_model_extension.version">Version</label>
@@ -93,7 +92,7 @@
 			<label index="tt_content.flexform_pi1.s_def.type.detail">Detail</label>
 			<label index="tt_content.flexform_pi1.s_def.type.search">Search</label>
 			<label index="tt_content.flexform_pi1.s_def.type.manageCategories">Manage Categories</label>
-			<label index="tt_content.flexform_pi1.s_def.type.manageExpiriences">Manage Expiriences</label>
+			<label index="tt_content.flexform_pi1.s_def.type.manageExperiences">Manage Experiences</label>
 			<label index="tt_content.flexform_pi1.s_def.type.manageExtensions">Manage Extensions</label>
 			<label index="tt_content.flexform_pi1.s_def.type.manageTags">Manage Tags</label>
 
