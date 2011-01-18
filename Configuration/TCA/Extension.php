@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_extension'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_extension']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'ext_key,forge_link,hudson_link,category,tag,version',
+			'showRecordFieldList' => 'ext_key,forge_link,hudson_link,last_update,categories,tags,versions',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'ext_key,forge_link,hudson_link,category,tag,version'),
+			'1' => array('showitem' => 'ext_key,forge_link,hudson_link,last_update,categories,tags,versions'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -88,23 +88,35 @@
 					'eval' => 'trim',
 				),
 			),
-			'category' => array(
-				'exclude' => 0,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.category',
+			'last_update' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.last_update',
 				'config'  => array(
-					'type'          => 'inline',
-					'foreign_table' => 'tx_terfe2_domain_model_category',
-					'minitems'      => 0,
-					'maxitems'      => 1,
-					'appearance'    => array(
-						'collapse'              => 0,
-						'newRecordLinkPosition' => 'bottom',
-					),
+					'type'     => 'input',
+					'size'     => 12,
+					'max'      => 20,
+					'eval'     => 'datetime',
+					'default'  => '0',
 				),
 			),
-			'tag' => array(
+			'categories' => array(
 				'exclude' => 0,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.tag',
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.categories',
+				'config'  => array(
+					'type'              => 'select',
+					'size'              => 3,
+					'minitems'          => 0,
+					'maxitems'          => 9999,
+					'autoSizeMax'       => 10,
+					'multiple'          => 0,
+					'foreign_table'     => 'tx_terfe2_domain_model_category',
+					'MM'                => 'tx_terfe2_extension_category_mm',
+					'MM_opposite_field' => 'extensions',
+				),
+			),
+			'tags' => array(
+				'exclude' => 0,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.tags',
 				'config'  => array(
 					'type'          => 'inline',
 					'foreign_table' => 'tx_terfe2_domain_model_tag',
@@ -116,9 +128,9 @@
 					),
 				),
 			),
-			'version' => array(
+			'versions' => array(
 				'exclude' => 0,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.version',
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.versions',
 				'config'  => array(
 					'type'          => 'inline',
 					'foreign_table' => 'tx_terfe2_domain_model_version',

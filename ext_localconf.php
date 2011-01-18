@@ -9,9 +9,11 @@
 		'Pi1',
 		array(
 			'Extension' => 'index, show, new, create, edit, update, delete',
+			'Version'   => 'index, show, new, create',
 		),
 		array(
 			'Extension' => 'create, update, delete',
+			'Version'   => 'create',
 		)
 	);
 ?>

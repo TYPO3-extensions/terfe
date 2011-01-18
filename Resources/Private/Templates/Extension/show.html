@@ -7,7 +7,7 @@ This Template is responsible for creating a single view for a domain object
 
 <f:flashMessages />
 
-<table>
+<table cellpadding="4" style="border:1px solid black;">
 	<tr>
 		<td><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></td>
 		<td>{extension.extKey}</td>
@@ -21,8 +21,8 @@ This Template is responsible for creating a single view for a domain object
 		<td>{extension.hudsonLink}</td>
 	</tr>
 </table>
+<br />
 <f:link.action action="edit" arguments="{extension : extension}">Edit</f:link.action>
 <f:link.action action="delete" arguments="{extension : extension}">Delete</f:link.action>
-
 <f:link.action action="index">Back to listing</f:link.action>
 </f:section>

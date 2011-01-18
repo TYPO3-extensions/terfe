@@ -10,9 +10,10 @@
 			<label index="tx_terfe2_domain_model_extension.ext_key">Ext Key</label>
 			<label index="tx_terfe2_domain_model_extension.forge_link">Forge Link</label>
 			<label index="tx_terfe2_domain_model_extension.hudson_link">Hudson Link</label>
-			<label index="tx_terfe2_domain_model_extension.category">Category</label>
-			<label index="tx_terfe2_domain_model_extension.tag">Tag</label>
-			<label index="tx_terfe2_domain_model_extension.version">Version</label>
+			<label index="tx_terfe2_domain_model_extension.last_update">Last update</label>
+			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
+			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
+			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
 
 			<label index="tx_terfe2_domain_model_category">Category</label>
 			<label index="tx_terfe2_domain_model_category.title">Title</label>

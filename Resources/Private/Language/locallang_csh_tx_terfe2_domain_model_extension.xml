@@ -10,9 +10,10 @@
 			<label index="ext_key.description">extKey</label>
 			<label index="forge_link.description">forgeLink</label>
 			<label index="hudson_link.description">hudsonLink</label>
-			<label index="category.description">category</label>
-			<label index="tag.description">tag</label>
-			<label index="version.description">version</label>
+			<label index="last_update.description">lastUpdate</label>
+			<label index="categories.description">category</label>
+			<label index="tags.description">tag</label>
+			<label index="versions.description">version</label>
 		</languageKey>
     </data>
 </T3locallang>

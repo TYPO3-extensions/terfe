@@ -8,9 +8,10 @@ CREATE TABLE tx_terfe2_domain_model_extension (
 	ext_key tinytext,
 	forge_link tinytext,
 	hudson_link tinytext,
-	category int(11) unsigned DEFAULT '0',
-	tag int(11) unsigned DEFAULT '0' NOT NULL,
-	version int(11) unsigned DEFAULT '0' NOT NULL,
+	last_update int(11) unsigned DEFAULT '0',
+	categories int(11) unsigned DEFAULT '0',
+	tags int(11) unsigned DEFAULT '0' NOT NULL,
+	versions int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -43,6 +44,7 @@ CREATE TABLE tx_terfe2_domain_model_category (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+	extensions int(11) unsigned DEFAULT '0' NOT NULL,
 	title tinytext,
 	description tinytext,
 
@@ -272,4 +274,18 @@ CREATE TABLE tx_terfe2_domain_model_relation (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)
+);
+
+
+# ======================================================================
+# Table configuration for table "tx_terfe2_extension_category_mm"
+# ======================================================================
+CREATE TABLE tx_terfe2_extension_category_mm (
+	uid_local int(10) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(10) unsigned DEFAULT '0' NOT NULL,
+	sorting int(10) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(10) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
 );

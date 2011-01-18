@@ -202,6 +202,12 @@
 		 */
 		protected $softwareRelation;
 
+		/**
+		 * extension
+		 * @var Tx_TerFe2_Domain_Model_Extension
+		 */
+		protected $extension;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -843,6 +849,27 @@
 		 */
 		public function removeSoftwareRelation(Tx_TerFe2_Domain_Model_Relation $softwareRelation) {
 			$this->softwareRelation->detach($softwareRelation);
+		}
+
+
+		/**
+		 * Setter for extension
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension extension
+		 * @return void
+		 */
+		public function setExtension(Tx_TerFe2_Domain_Model_Extension $extension) {
+			$this->extension = $extension;
+		}
+
+
+		/**
+		 * Getter for extension
+		 *
+		 * @return Tx_TerFe2_Domain_Model_Extension extension
+		 */
+		public function getExtension() {
+			return $this->extension;
 		}
 
 	}

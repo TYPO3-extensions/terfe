@@ -53,31 +53,37 @@
 		protected $hudsonLink;
 
 		/**
-		 * category
-		 * @var Tx_TerFe2_Domain_Model_Category
+		 * lastUpdate
+		 * @var DateTime
 		 */
-		protected $category;
+		protected $lastUpdate;
 
 		/**
-		 * tag
+		 * categories
+		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Category>
+		 */
+		protected $categories;
+
+		/**
+		 * tags
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag>
 		 */
-		protected $tag;
+		protected $tags;
 
 		/**
-		 * version
+		 * versions
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version>
 		 */
-		protected $version;
+		protected $versions;
 
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
 		 */
 		public function __construct() {
-			$this->tag = new Tx_Extbase_Persistence_ObjectStorage();
-
-			$this->version = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->categories = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->tags       = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->versions   = new Tx_Extbase_Persistence_ObjectStorage();
 		}
 
 
@@ -145,44 +151,65 @@
 
 
 		/**
-		 * Setter for category
+		 * Setter for lastUpdate
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Category $category category
+		 * @param DataTime $lastUpdate lastUpdate
 		 * @return void
 		 */
-		public function setCategory(Tx_TerFe2_Domain_Model_Category $category) {
-			$this->category = $category;
+		public function setLastUpdate($lastUpdate) {
+			$this->lastUpdate = $lastUpdate;
 		}
 
 
 		/**
-		 * Getter for category
+		 * Getter for hudsonLink
 		 *
-		 * @return Tx_TerFe2_Domain_Model_Category category
+		 * @return DateTime lastUpdate
 		 */
-		public function getCategory() {
-			return $this->category;
+		public function getLastUpdate() {
+			return $this->lastUpdate;
 		}
 
 
 		/**
-		 * Setter for tag
+		 * Getter for categories
 		 *
-		 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag> $tag tag
+		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Category> categories
+		 */
+		public function getCategories() {
+			return $this->categories;
+		}
+
+
+		/**
+		 * Adds a category
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Category The Category to be added
 		 * @return void
 		 */
-		public function setTag(Tx_Extbase_Persistence_ObjectStorage $tag) {
-			$this->tag = $tag;
+		public function addCategory(Tx_TerFe2_Domain_Model_Category $category) {
+			$this->categories->attach($category);
 		}
 
 
 		/**
-		 * Getter for tag
+		 * Removes a category
 		 *
-		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag> tag
+		 * @param Tx_TerFe2_Domain_Model_Category The Category to be removed
+		 * @return void
 		 */
-		public function getTag() {
-			return $this->tag;
+		public function removeCategory(Tx_TerFe2_Domain_Model_Category $category) {
+			$this->categories->detach($category);
+		}
+
+
+		/**
+		 * Getter for tags
+		 *
+		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag> tags
+		 */
+		public function getTags() {
+			return $this->tags;
 		}
 
 
@@ -193,7 +220,7 @@
 		 * @return void
 		 */
 		public function addTag(Tx_TerFe2_Domain_Model_Tag $tag) {
-			$this->tag->attach($tag);
+			$this->tags->attach($tag);
 		}
 
 
@@ -204,28 +231,17 @@
 		 * @return void
 		 */
 		public function removeTag(Tx_TerFe2_Domain_Model_Tag $tag) {
-			$this->tag->detach($tag);
+			$this->tags->detach($tag);
 		}
 
 
 		/**
-		 * Setter for version
+		 * Getter for versions
 		 *
-		 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version> $version version
-		 * @return void
+		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version> versions
 		 */
-		public function setVersion(Tx_Extbase_Persistence_ObjectStorage $version) {
-			$this->version = $version;
-		}
-
-
-		/**
-		 * Getter for version
-		 *
-		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version> version
-		 */
-		public function getVersion() {
-			return $this->version;
+		public function getVersions() {
+			return $this->versions;
 		}
 
 
@@ -236,7 +252,7 @@
 		 * @return void
 		 */
 		public function addVersion(Tx_TerFe2_Domain_Model_Version $version) {
-			$this->version->attach($version);
+			$this->versions->attach($version);
 		}
 
 
@@ -247,7 +263,7 @@
 		 * @return void
 		 */
 		public function removeVersion(Tx_TerFe2_Domain_Model_Version $version) {
-			$this->version->detach($version);
+			$this->versions->detach($version);
 		}
 
 	}
