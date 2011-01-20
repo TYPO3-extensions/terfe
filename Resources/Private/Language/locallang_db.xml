@@ -39,7 +39,7 @@
 			<label index="tx_terfe2_domain_model_version.state.stable">Stable</label>
 			<label index="tx_terfe2_domain_model_version.state.experimental">Experimental</label>
 			<label index="tx_terfe2_domain_model_version.state.test">Test</label>
-			<label index="tx_terfe2_domain_model_version.state.obsolate">Obsolate</label>
+			<label index="tx_terfe2_domain_model_version.state.obsolete">Obsolete</label>
 			<label index="tx_terfe2_domain_model_version.em_category">Em Category</label>
 			<label index="tx_terfe2_domain_model_version.em_category.fe">Frontend</label>
 			<label index="tx_terfe2_domain_model_version.em_category.plugin">Frontend Plugins</label>

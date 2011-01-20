@@ -1,0 +1,28 @@
+<f:layout name="default" />
+
+This Template is responsible for creating a single view for a domain object
+
+<f:section name="main">
+<h1>Single View for Versions</h1>
+
+<f:flashMessages />
+
+<table cellpadding="4" style="border:1px solid black;">
+	<tr>
+		<td><f:translate key="tx_terfe2_domain_model_version.ext_key" /></td>
+		<td>{version.extKey}</td>
+	</tr>
+	<tr>
+		<td><f:translate key="tx_terfe2_domain_model_version.forge_link" /></td>
+		<td>{version.forgeLink}</td>
+	</tr>
+	<tr>
+		<td><f:translate key="tx_terfe2_domain_model_version.hudson_link" /></td>
+		<td>{version.hudsonLink}</td>
+	</tr>
+</table>
+<br />
+<f:link.action action="edit" arguments="{version : version}">Edit</f:link.action>
+<f:link.action action="delete" arguments="{version : version}">Delete</f:link.action>
+<f:link.action action="index" controller="Extension">Back to listing</f:link.action>
+</f:section>

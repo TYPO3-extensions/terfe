@@ -1,0 +1,30 @@
+<f:layout name="default" />
+
+This template displays a NEW form for the current domain object.
+
+<f:section name="main">
+<h1>New Version</h1>
+
+<f:flashMessages />
+
+<f:render partial="formErrors" arguments="{for: 'newVersion'}" />
+
+<f:form method="post" controller="Version" action="create" name="newVersion" object="{newVersion}" arguments="{extension : extension}">
+	<label for="title"><f:translate key="tx_terfe2_domain_model_version.title" /></label><br />
+	<f:form.textbox property="title" /><br />
+	<label for="title"><f:translate key="tx_terfe2_domain_model_version.filename" /></label><br />
+	<f:form.textbox property="filename" /><br />
+	<label for="title"><f:translate key="tx_terfe2_domain_model_version.author" /></label><br />
+	<f:form.textbox property="author" /><br />
+	<label for="title"><f:translate key="tx_terfe2_domain_model_version.version_number" /></label><br />
+	<f:form.textbox property="versionNumber" /><br />
+	<label for="title"><f:translate key="tx_terfe2_domain_model_version.upload_date" /></label><br />
+	<f:form.textbox property="uploadDate" /><br />
+	<label for="title"><f:translate key="tx_terfe2_domain_model_version.state" /></label><br />
+	<f:form.textbox property="state" /><br />
+	<label for="title"><f:translate key="tx_terfe2_domain_model_version.em_category" /></label><br />
+	<f:form.textbox property="emCategory" /><br />
+	<f:form.submit value="Create new" />
+</f:form>
+<f:link.action action="index" controller="Extension">Back to listing</f:link.action>
+</f:section>

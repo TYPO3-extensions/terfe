@@ -1,0 +1,27 @@
+<f:layout name="default" />
+
+This Template is responsible for creating a table of domain objects.
+
+<f:section name="main">
+<h1>Listing for Versions</h1>
+
+<f:flashMessages />
+
+
+<table cellpadding="4" style="border:1px solid black;">
+	<tr>
+		<th><f:translate key="tx_terfe2_domain_model_version.title" /></th>
+		<th><f:translate key="tx_terfe2_domain_model_version.version_number" /></th>
+	</tr>
+
+	<f:for each="{versions}" as="version">
+		<tr>
+			<td>{version.title}</td>
+			<td>{version.versionNumber}</td>
+		</tr>
+	</f:for>
+</table>
+<br />
+<f:link.action action="index" controller="Extension">Back to listing</f:link.action>
+
+</f:section>
