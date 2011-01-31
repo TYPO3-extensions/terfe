@@ -80,9 +80,9 @@
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension A fresh Extension object taken as a basis for the rendering
 		 * @dontvalidate $newExtension
 		 */
-		public function newAction(Tx_TerFe2_Domain_Model_Extension $newExtension = NULL) {
+		/*public function newAction(Tx_TerFe2_Domain_Model_Extension $newExtension = NULL) {
 			$this->view->assign('newExtension', $newExtension);
-		}
+		}*/
 
 
 		/**
@@ -90,11 +90,11 @@
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension A fresh Extension object which has not yet been added to the repository
 		 */
-		public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
+		/*public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
 			$this->extensionRepository->add($newExtension);
 			$this->flashMessageContainer->add('Your new Extension was created.');
 			$this->redirect('index');
-		}
+		}*/
 
 
 		/**
@@ -103,31 +103,32 @@
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The Extension to display
 		 * @dontvalidate $extension
 		 */
-		public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+		/*public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->view->assign('extension', $extension);
-		}
+		}*/
 
 
 		/**
-		 * Updates an existing Extension and forwards to the index action afterwards.
+		 * Creates a new Version of an existing Extension and forwards to the index action afterwards.
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Extension $extension The Extension to display
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
+		 * @param Tx_TerFe2_Domain_Model_Version $newVersion A fresh Version object which has not yet been added to the repository
 		 */
-		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
-			$this->extensionRepository->update($extension);
-			$this->flashMessageContainer->add('Your Extension was updated.');
-			$this->redirect('index');
+		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $newVersion) {
+			$extension->addVersion($newVersion);
+			$extension->setLastUpdate(new DateTime());
+			$newVersion->setExtension($extension);
+			$this->redirect('index', 'Extension');
 		}
 
 
 		/**
-		 * Deletes an existing Extension
+		 * Deletes an existing Extension and all Versions
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The Extension to be deleted
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->remove($extension);
-			$this->flashMessageContainer->add('Your Extension was removed.');
 			$this->redirect('index');
 		}
 

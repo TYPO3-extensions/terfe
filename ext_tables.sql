@@ -9,6 +9,7 @@ CREATE TABLE tx_terfe2_domain_model_extension (
 	forge_link tinytext,
 	hudson_link tinytext,
 	last_update int(11) unsigned DEFAULT '0',
+	file_hash varchar(50) DEFAULT '' NOT NULL,
 	categories int(11) unsigned DEFAULT '0',
 	tags int(11) unsigned DEFAULT '0' NOT NULL,
 	versions int(11) unsigned DEFAULT '0' NOT NULL,

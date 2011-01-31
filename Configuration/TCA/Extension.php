@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_extension'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_extension']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'ext_key,forge_link,hudson_link,last_update,categories,tags,versions',
+			'showRecordFieldList' => 'ext_key,forge_link,hudson_link,last_update,file_hash,categories,tags,versions',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'ext_key,forge_link,hudson_link,last_update,categories,tags,versions'),
+			'1' => array('showitem' => 'ext_key,forge_link,hudson_link,last_update,file_hash,categories,tags,versions'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -97,6 +97,15 @@
 					'max'      => 20,
 					'eval'     => 'datetime',
 					'default'  => '0',
+				),
+			),
+			'file_hash' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.file_hash',
+				'config'  => array(
+					'type'     => 'input',
+					'size'     => 30,
+					'eval'     => 'trim',
 				),
 			),
 			'categories' => array(
