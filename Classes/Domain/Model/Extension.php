@@ -59,12 +59,6 @@
 		protected $lastUpdate;
 
 		/**
-		 * fileHash
-		 * @var string
-		 */
-		protected $fileHash;
-
-		/**
 		 * categories
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Category>
 		 */
@@ -174,27 +168,6 @@
 		 */
 		public function getLastUpdate() {
 			return $this->lastUpdate;
-		}
-
-
-		/**
-		 * Setter for fileHash
-		 *
-		 * @param string $fileHash MD5 hash of the t3x file
-		 * @return void
-		 */
-		public function setFileHash($fileHash) {
-			$this->fileHash = $fileHash;
-		}
-
-
-		/**
-		 * Getter for fileHash
-		 *
-		 * @return string MD5 hash of the t3x file
-		 */
-		public function getFileHash() {
-			return $this->fileHash;
 		}
 
 

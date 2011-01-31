@@ -38,6 +38,26 @@
 		 */
 		protected $extensionRepository;
 
+		/**
+		 * @var Tx_TerFe2_Domain_Repository_CategoryRepository
+		 */
+		protected $categoryRepository;
+
+		/**
+		 * @var Tx_TerFe2_Domain_Repository_TagRepository
+		 */
+		protected $tagRepository;
+
+		/**
+		 * @var Tx_TerFe2_Service_TypoScriptParserService
+		 */
+		protected $typoScriptParser;
+
+		/**
+		 * @var Tx_TerFe2_Service_FileHandlerService
+		 */
+		protected $fileHandler;
+
 
 		/**
 		 * Initializes the current action
@@ -46,11 +66,13 @@
 		 */
 		protected function initializeAction() {
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			$this->categoryRepository  = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
+			$this->tagRepository       = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_TagRepository');
+			$this->typoScriptParser    = t3lib_div::makeInstance('Tx_TerFe2_Service_TypoScriptParserService');
+			$this->fileHandler         = t3lib_div::makeInstance('Tx_TerFe2_Service_FileHandlerService');
 
-			// Pre-parse TypoScript
-			$typoScriptParser = t3lib_div::makeInstance('Tx_TerFe2_Service_TypoScriptParserService');
-			$this->settings   = $typoScriptParser->getParsed($this->settings);
-			unset($typoScriptParser);
+			// Pre-parse TypoScript setup
+			$this->settings = $this->typoScriptParser->getParsed($this->settings);
 		}
 
 
@@ -61,6 +83,14 @@
 			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 20);
 			$extensions  = $this->extensionRepository->findNewAndUpdated($latestCount);
 			$this->view->assign('extensions', $extensions);
+		}
+
+
+		/**
+		 * List action, displays all extensions
+		 */
+		public function listAction() {
+			$this->view->assign('extensions', $this->extensionRepository->findAll());
 		}
 
 
@@ -80,9 +110,11 @@
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension A fresh Extension object taken as a basis for the rendering
 		 * @dontvalidate $newExtension
 		 */
-		/*public function newAction(Tx_TerFe2_Domain_Model_Extension $newExtension = NULL) {
+		public function newAction(Tx_TerFe2_Domain_Model_Extension $newExtension = NULL) {
 			$this->view->assign('newExtension', $newExtension);
-		}*/
+			$this->view->assign('categories', $this->categoryRepository->findAll());
+			$this->view->assign('tags', $this->tagRepository->findAll());
+		}
 
 
 		/**
@@ -90,11 +122,11 @@
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension A fresh Extension object which has not yet been added to the repository
 		 */
-		/*public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
+		public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
 			$this->extensionRepository->add($newExtension);
-			$this->flashMessageContainer->add('Your new Extension was created.');
+			$this->flashMessageContainer->add($this->translate('msg_extension_created'));
 			$this->redirect('index');
-		}*/
+		}
 
 
 		/**
@@ -103,22 +135,20 @@
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The Extension to display
 		 * @dontvalidate $extension
 		 */
-		/*public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+		public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->view->assign('extension', $extension);
-		}*/
+		}
 
 
 		/**
-		 * Creates a new Version of an existing Extension and forwards to the index action afterwards.
+		 * Updates an existing Extension and forwards to the index action afterwards.
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
-		 * @param Tx_TerFe2_Domain_Model_Version $newVersion A fresh Version object which has not yet been added to the repository
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to update
 		 */
-		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $newVersion) {
-			$extension->addVersion($newVersion);
-			$extension->setLastUpdate(new DateTime());
-			$newVersion->setExtension($extension);
-			$this->redirect('index', 'Extension');
+		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+			$this->extensionRepository->update($extension);
+			$this->flashMessageContainer->add($this->translate('msg_extension_updated'));
+			$this->redirect('index');
 		}
 
 
@@ -132,5 +162,38 @@
 			$this->redirect('index');
 		}
 
+
+		/**
+		 * Creates a new Version of an existing Extension and forwards to the index action afterwards.
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
+		 * @param Tx_TerFe2_Domain_Model_Version $newVersion A fresh Version object which has not yet been added to the repository
+		 */
+		public function createVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $newVersion) {
+			// Get file hash
+			$fileHash = $this->fileHandler->getFileHash($newVersion->getFilename());
+
+			if (!empty($fileHash)) {
+				$newVersion->setFileHash($fileHash);
+				$newVersion->setExtension($extension);
+				$extension->addVersion($newVersion);
+				$extension->setLastUpdate(new DateTime());
+				$this->redirect('index');
+			} else {
+				$this->flashMessages->add($this->translate('msg_file_not_valid'));
+			}
+		}
+
+
+		/**
+		 * Translate a label
+		 * 
+		 * @param string $label Label to translate
+		 * @param array $arguments Optional arguments array
+		 * @return string Translated label
+		 */
+		protected function translate($label, array $arguments = array()) {
+			return Tx_Extbase_Utility_Localization::translate($label, 'ter_fe2', $arguments);
+		}
 	}
 ?>

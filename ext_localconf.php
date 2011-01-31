@@ -8,12 +8,10 @@
 		$_EXTKEY,
 		'Pi1',
 		array(
-			'Extension' => 'index, show, new, create, edit, update, delete',
-			'Version'   => 'index, show, new, create',
+			'Extension' => 'index, list, show, new, create, edit, update, delete, createVersion',
 		),
 		array(
-			'Extension' => 'create, update, delete',
-			'Version'   => 'create',
+			'Extension' => 'create, update, delete, createVersion',
 		)
 	);
 ?>

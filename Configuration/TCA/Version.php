@@ -363,6 +363,11 @@
 					'type' => 'passthrough',
 				),
 			),
+			'file_hash' => array(
+				'config'  => array(
+					'type' => 'passthrough',
+				),
+			),
 		),
 	);
 ?>

@@ -179,6 +179,12 @@
 		protected $cglComplianceNote;
 
 		/**
+		 * Hash of the t3x file
+		 * @var string
+		 */
+		protected $fileHash;
+
+		/**
 		 * Relation to manual object of ter_doc extension
 		 * @var string
 		 */
@@ -699,6 +705,27 @@
 		 */
 		public function getCglComplianceNote() {
 			return $this->cglComplianceNote;
+		}
+
+
+		/**
+		 * Setter for fileHash
+		 *
+		 * @param string $fileHash Hash of the t3x file
+		 * @return void
+		 */
+		public function setFileHash($fileHash) {
+			$this->fileHash = $fileHash;
+		}
+
+
+		/**
+		 * Getter for fileHash
+		 *
+		 * @return string Hash of the t3x file
+		 */
+		public function getFileHash() {
+			return $this->fileHash;
 		}
 
 

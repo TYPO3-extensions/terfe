@@ -70,7 +70,8 @@
 		 * @return array Unpacked extension files
 		 */
 		public function unpackT3xFile($filename) {
-			if (!$this->fileExists($filename)) {
+			$filename = $this->getAbsFilename($filename);
+			if (empty($filename)) {
 				return array();
 			}
 
@@ -102,7 +103,8 @@
 		 * @return string Generated hash or an empty string if file not found
 		 */
 		public function getFileHash($filename) {
-			if (!$this->fileExists($filename)) {
+			$filename = $this->getAbsFilename($filename);
+			if (empty($filename)) {
 				return '';
 			}
 
@@ -120,7 +122,8 @@
 		 * @return boolean FALSE if file not exists
 		 */
 		public function transferFile($filename, $visibleFilename = '') {
-			if (!$this->fileExists($filename)) {
+			$filename = $this->getAbsFilename($filename);
+			if (empty($filename)) {
 				return FALSE;
 			}
 

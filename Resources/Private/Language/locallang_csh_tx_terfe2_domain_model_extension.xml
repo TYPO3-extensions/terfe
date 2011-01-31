@@ -11,7 +11,6 @@
 			<label index="forge_link.description">forgeLink</label>
 			<label index="hudson_link.description">hudsonLink</label>
 			<label index="last_update.description">lastUpdate</label>
-			<label index="file_hash.description">fileHash</label>
 			<label index="categories.description">category</label>
 			<label index="tags.description">tag</label>
 			<label index="versions.description">version</label>
