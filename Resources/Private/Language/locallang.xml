@@ -58,6 +58,18 @@
 			<label index="msg_extension_created">Extension created</label>
 			<label index="msg_extension_updated">Extension updated</label>
 			<label index="msg_file_not_valid">Given file is not valid</label>
+
+			<label index="list_all_extensions">List of all extensions</label>
+			<label index="list_latest_extensions">List of new and updated extensions</label>
+			<label index="list_extensions_by_tag">List of extensions by tag</label>
+			<label index="list_extensions_by_category">List of extensions by category</label>
+			<label index="edit_extension">Edit Extension</label>
+			<label index="new_extension">New Extension</label>
+			<label index="single_extension">Show single Extension</label>
+			<label index="create_extension">Create new Extension</label>
+			<label index="back_to_list">Back to list</label>
+			<label index="edit">Edit</label>
+			<label index="delete">Delete</label>
 		</languageKey>
 	</data>
 </T3locallang>

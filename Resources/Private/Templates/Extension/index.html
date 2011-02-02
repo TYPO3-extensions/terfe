@@ -1,38 +1,4 @@
 <f:layout name="default" />
-
-This Template is responsible for creating a table of domain objects.
-
 <f:section name="main">
-<h1>Listing for Extensions</h1>
-
-<f:flashMessages />
-
-
-<table cellpadding="4" style="border:1px solid black;">
-	<tr>
-		<th><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></th>
-		<th><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></th>
-		<th><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></th>
-		<th><f:translate key="tx_terfe2_domain_model_extension.categories" /></th>
-		<th>Add Versions</th>
-		<th> </th>
-		<th> </th>
-		<th> </th>
-	</tr>
-
-	<f:for each="{extensions}" as="extension">
-		<tr>
-			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.extKey}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.forgeLink}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.hudsonLink}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{extension : extension}"><f:for each="{extension.categories}" as="category">{category.title}<br /></f:for></f:link.action></td>
-			<td><f:link.action action="index" controller="Version" arguments="{extension : extension}">{extension.extKey} (<f:count subject="{extension.versions}" />)</f:link.action></td>
-			<td><f:link.action action="edit" arguments="{extension : extension}">Edit</f:link.action></td>
-			<td><f:link.action action="delete" arguments="{extension : extension}">Delete</f:link.action></td>
-			<td><f:link.action action="new" controller="Version" arguments="{extension : extension}">New Version</f:link.action></td>
-		</tr>
-	</f:for>
-</table>
-<br />
-<f:link.action action="new">New Extension</f:link.action>
+	Nothring here at the moment...
 </f:section>

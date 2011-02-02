@@ -1,22 +1,14 @@
 <f:layout name="default" />
-
-This template displays a EDIT form for the current domain object.
-
 <f:section name="main">
-<h1>Edit Extension</h1>
-
-<f:flashMessages />
-
-<f:render partial="formErrors" />
-
-<f:form method="post" action="update" name="extension" object="{extension}">
-	<label for="title"><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></label><br />
-	<f:form.textbox property="extKey" /><br />
-	<label for="title"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></label><br />
-	<f:form.textbox property="forgeLink" /><br />
-	<label for="title"><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></label><br />
-	<f:form.textbox property="hudsonLink" /><br />
-	<f:form.submit value="Edit" />
-</f:form>
-<f:link.action action="index">Back to listing</f:link.action>
+	<h2><f:translate key="edit_extension"/></h2>
+	<f:form method="post" action="update" name="extension" object="{extension}">
+		<label for="extKey"><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></label><br />
+		<f:form.textbox property="extKey" /><br />
+		<label for="forgeLink"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></label><br />
+		<f:form.textbox property="forgeLink" /><br />
+		<label for="hudsonLink"><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></label><br />
+		<f:form.textbox property="hudsonLink" /><br />
+		<f:form.submit value="Edit" />
+	</f:form>
+	<f:link.action action="index"><f:translate key="back_to_list"/></f:link.action>
 </f:section>

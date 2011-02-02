@@ -1,28 +1,22 @@
 <f:layout name="default" />
-
-This Template is responsible for creating a single view for a domain object
-
 <f:section name="main">
-<h1>Single View for Extension</h1>
-
-<f:flashMessages />
-
-<table cellpadding="4" style="border:1px solid black;">
-	<tr>
-		<td><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></td>
-		<td>{extension.extKey}</td>
-	</tr>
-	<tr>
-		<td><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></td>
-		<td>{extension.forgeLink}</td>
-	</tr>
-	<tr>
-		<td><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></td>
-		<td>{extension.hudsonLink}</td>
-	</tr>
-</table>
-<br />
-<f:link.action action="edit" arguments="{extension : extension}">Edit</f:link.action>
-<f:link.action action="delete" arguments="{extension : extension}">Delete</f:link.action>
-<f:link.action action="index">Back to listing</f:link.action>
+	<h2><f:translate key="single_extension"/></h2>
+	<table cellpadding="4" style="border:1px solid black;">
+		<tr>
+			<td><f:translate key="tx_terfe2_domain_model_extension.ext_key" />:</td>
+			<td>{extension.extKey}</td>
+		</tr>
+		<tr>
+			<td><f:translate key="tx_terfe2_domain_model_extension.forge_link" />:</td>
+			<td>{extension.forgeLink}</td>
+		</tr>
+		<tr>
+			<td><f:translate key="tx_terfe2_domain_model_extension.hudson_link" />:</td>
+			<td>{extension.hudsonLink}</td>
+		</tr>
+	</table>
+	<br />
+	<f:link.action action="edit" arguments="{extension : extension}"><f:translate key="edit"/></f:link.action>
+	<f:link.action action="delete" arguments="{extension : extension}"><f:translate key="delete"/></f:link.action>
+	<f:link.action action="index"><f:translate key="back_to_list"/></f:link.action>
 </f:section>

@@ -57,8 +57,12 @@
 		 * @return array Parsed configuration
 		 */
 		public function getParsed(array $configuration) {
-			$configuration = $this->parse($configuration);
-			return t3lib_div::removeDotsFromTS($configuration);
+			if (!empty($configuration)) {
+				$configuration = $this->parse($configuration);
+				return t3lib_div::removeDotsFromTS($configuration);
+			}
+
+			return array();
 		}
 
 

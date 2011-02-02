@@ -80,7 +80,8 @@
 		 * Index action
 		 */
 		public function indexAction() {
-			$this->listLatestAction();
+			// Can be replaced by another action/view later
+			$this->forward('listLatest');
 		}
 
 
