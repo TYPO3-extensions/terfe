@@ -51,6 +51,10 @@
 			<label index="tx_terfe2_domain_model_relation.software_type">Core, extension or system</label>
 			<label index="tx_terfe2_domain_model_relation.tx_terfe2_key">extension key, php, mysql or something else</label>
 			<label index="tx_terfe2_domain_model_relation.version">Version of the field "key", e.g. key "php" and version "5.2"</label>
+
+			<label index="msg_extension_created">Extension created</label>
+			<label index="msg_extension_updated">Extension updated</label>
+			<label index="msg_file_not_valid">Given file is not valid</label>
 		</languageKey>
 	</data>
 </T3locallang>

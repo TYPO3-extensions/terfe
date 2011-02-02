@@ -118,14 +118,15 @@
 				'exclude' => 0,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.tags',
 				'config'  => array(
-					'type'          => 'inline',
-					'foreign_table' => 'tx_terfe2_domain_model_tag',
-					'foreign_field' => 'extension',
-					'maxitems'      => 9999,
-					'appearance'    => array(
-						'collapse'              => 0,
-						'newRecordLinkPosition' => 'bottom',
-					),
+					'type'              => 'select',
+					'size'              => 3,
+					'minitems'          => 0,
+					'maxitems'          => 9999,
+					'autoSizeMax'       => 10,
+					'multiple'          => 0,
+					'foreign_table'     => 'tx_terfe2_domain_model_tag',
+					'MM'                => 'tx_terfe2_extension_tag_mm',
+					'MM_opposite_field' => 'extensions',
 				),
 			),
 			'versions' => array(

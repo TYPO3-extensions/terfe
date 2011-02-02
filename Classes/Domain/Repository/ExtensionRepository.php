@@ -48,5 +48,33 @@
 			return $query->execute();
 		}
 
+
+		/**
+		 * Returns all extensions in a category
+		 * 
+		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to search in
+		 * @return array An array of extensions
+		 */
+		public function findByCategory(Tx_TerFe2_Domain_Model_Category $category) {
+			$query = $this->createQuery();
+			//$query->equals('categories.title', $category->getTitle());
+			$query->matching($query->contains('categories', $category));
+			return $query->execute();
+		}
+
+
+		/**
+		 * Returns all extensions with a tag
+		 * 
+		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to search for
+		 * @return array An array of extensions
+		 */
+		public function findByTag(Tx_TerFe2_Domain_Model_Tag $tag) {
+			$query = $this->createQuery();
+			//$query->equals('tags.title', $tag->getTitle());
+			$query->matching($query->contains('tags', $tag));
+			return $query->execute();
+		}
+
 	}
 ?>

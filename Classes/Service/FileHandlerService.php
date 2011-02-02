@@ -33,7 +33,7 @@
 	class Tx_TerFe2_Service_FileHandlerService implements t3lib_Singleton {
 
 		/**
-		 * Check if a file exists and is readable
+		 * Check if a file or folder exists
 		 * 
 		 * @param string $filename Path to the file
 		 * @return boolean TRUE if file exists
@@ -41,6 +41,10 @@
 		public function fileExists($filename) {
 			if (empty($filename)) {
 				return FALSE;
+			}
+
+			if (@is_dir($filename)) {
+				return (bool) @file_exists($filename);
 			}
 
 			return (bool) @is_readable($filename);
@@ -148,6 +152,59 @@
 			readfile($filename);
 			ob_flush();
 			exit;
+		}
+
+
+		/**
+		 * Get a list of all files in a directory
+		 * 
+		 * @param string $dirname Path to the directory
+		 * @param boolean $recursive Get subfolder content too
+		 * @return array All contained files
+		 */
+		public function getFiles($dirname, $recursive = FALSE) {
+			$dirname = $this->getAbsFilename($dirname);
+			if (empty($dirname)) {
+				return array();
+			}
+
+			if ($recursive) {
+				$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirname));
+			} else {
+				$files = new DirectoryIterator($dirname);
+			}
+
+			$result = array();
+			foreach ($files as $file) {
+				if ($file->isFile()) {
+					$result[] = $file->getPathname();
+				}
+			}
+
+			return $result;
+		}
+
+
+		/**
+		 * Get all files in a directory by filetype
+		 * 
+		 * @param string $dirname Path to the directory
+		 * @param string $fileType Type of the files to find
+		 * @param boolean $recursive Get subfolder content too
+		 * @return array All found files
+		 */
+		public function getFilesByType($dirname, $fileType, $recursive = FALSE) {
+			$files    = $this->getFiles($dirname, $recursive);
+			$fileType = ltrim($fileType, '.');
+
+			$result = array();
+			foreach ($files as $file) {
+				if (substr($file, strrpos($file, '.') + 1) == $fileType) {
+					$result[] = $file;
+				}
+			}
+
+			return $result;
 		}
 	}
 ?>

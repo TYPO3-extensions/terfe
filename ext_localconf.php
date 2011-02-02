@@ -8,7 +8,7 @@
 		$_EXTKEY,
 		'Pi1',
 		array(
-			'Extension' => 'index, list, show, new, create, edit, update, delete, createVersion',
+			'Extension' => 'index, list, listLatest, listByCategory, listByTag, show, new, create, edit, update, delete, createVersion',
 		),
 		array(
 			'Extension' => 'create, update, delete, createVersion',

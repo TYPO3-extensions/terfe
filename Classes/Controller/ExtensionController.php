@@ -77,12 +77,10 @@
 
 
 		/**
-		 * Index action, displays new and updated extensions
+		 * Index action
 		 */
 		public function indexAction() {
-			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 20);
-			$extensions  = $this->extensionRepository->findNewAndUpdated($latestCount);
-			$this->view->assign('extensions', $extensions);
+			$this->listLatestAction();
 		}
 
 
@@ -91,6 +89,37 @@
 		 */
 		public function listAction() {
 			$this->view->assign('extensions', $this->extensionRepository->findAll());
+		}
+
+
+		/**
+		 * List latest action, displays new and updated extensions
+		 */
+		public function listLatestAction() {
+			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 20);
+			$extensions  = $this->extensionRepository->findNewAndUpdated($latestCount);
+			$this->view->assign('extensions', $extensions);
+		}
+
+
+
+		/**
+		 * List by category action, displays all extensions in a category
+		 * 
+		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to search in
+		 */
+		public function listByCategoryAction(Tx_TerFe2_Domain_Model_Category $category) {
+			$this->view->assign('extensions', $this->extensionRepository->findByCategory($category));
+		}
+
+
+		/**
+		 * List by tag action, displays all extensions with a tag
+		 * 
+		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to search for
+		 */
+		public function listByTagAction(Tx_TerFe2_Domain_Model_Tag $tag) {
+			$this->view->assign('extensions', $this->extensionRepository->findByTag($tag));
 		}
 
 
@@ -178,10 +207,11 @@
 				$newVersion->setExtension($extension);
 				$extension->addVersion($newVersion);
 				$extension->setLastUpdate(new DateTime());
-				$this->redirect('index');
 			} else {
 				$this->flashMessages->add($this->translate('msg_file_not_valid'));
 			}
+
+			$this->redirect('index');
 		}
 
 
@@ -193,7 +223,8 @@
 		 * @return string Translated label
 		 */
 		protected function translate($label, array $arguments = array()) {
-			return Tx_Extbase_Utility_Localization::translate($label, 'ter_fe2', $arguments);
+			$extKey = $this->request->getControllerExtensionKey();
+			return Tx_Extbase_Utility_Localization::translate($label, $extKey, $arguments);
 		}
 	}
 ?>

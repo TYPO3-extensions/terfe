@@ -79,7 +79,7 @@ CREATE TABLE tx_terfe2_domain_model_tag (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	extension int(11) unsigned DEFAULT '0' NOT NULL,
+	extensions int(11) unsigned DEFAULT '0' NOT NULL,
 	title tinytext,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -282,6 +282,20 @@ CREATE TABLE tx_terfe2_domain_model_relation (
 # Table configuration for table "tx_terfe2_extension_category_mm"
 # ======================================================================
 CREATE TABLE tx_terfe2_extension_category_mm (
+	uid_local int(10) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(10) unsigned DEFAULT '0' NOT NULL,
+	sorting int(10) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(10) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
+
+
+# ======================================================================
+# Table configuration for table "tx_terfe2_extension_tag_mm"
+# ======================================================================
+CREATE TABLE tx_terfe2_extension_tag_mm (
 	uid_local int(10) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(10) unsigned DEFAULT '0' NOT NULL,
 	sorting int(10) unsigned DEFAULT '0' NOT NULL,

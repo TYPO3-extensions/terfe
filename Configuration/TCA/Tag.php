@@ -70,11 +70,6 @@
 					'eval' => 'trim,required',
 				),
 			),
-			'extension' => array(
-				'config' => array(
-					'type' => 'passthrough',
-				),
-			),
 		),
 	);
 ?>
