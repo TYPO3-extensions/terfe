@@ -7,12 +7,12 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="tx_terfe2_domain_model_extension">Extension container</label>
-			<label index="tx_terfe2_domain_model_extension.ext_key">extKey</label>
-			<label index="tx_terfe2_domain_model_extension.forge_link">forgeLink</label>
-			<label index="tx_terfe2_domain_model_extension.hudson_link">hudsonLink</label>
-			<label index="tx_terfe2_domain_model_extension.categories">categories</label>
-			<label index="tx_terfe2_domain_model_extension.tags">tags</label>
-			<label index="tx_terfe2_domain_model_extension.versions">versions</label>
+			<label index="tx_terfe2_domain_model_extension.ext_key">Extension key</label>
+			<label index="tx_terfe2_domain_model_extension.forge_link">Link to forge</label>
+			<label index="tx_terfe2_domain_model_extension.hudson_link">Link to hudson</label>
+			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
+			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
+			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
 			<label index="tx_terfe2_domain_model_category">Frontend category of the extension</label>
 			<label index="tx_terfe2_domain_model_category.title">Title of the category</label>
 			<label index="tx_terfe2_domain_model_category.description">Description of the category</label>
