@@ -86,7 +86,7 @@
 			}
 
 			// Get content parts
-			list($hash, $compression, $data) = split(':', $contents, 3);
+			list($hash, $compression, $data) = explode(':', $contents, 3);
 			unset($contents);
 
 			// Get extension files
