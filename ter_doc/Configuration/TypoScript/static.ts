@@ -16,5 +16,11 @@ plugin.tx_terdoc {
 
 			# If you specify a path and file name here, messages will logged to this file (if verbosity is checked). Otherwise messages are sent directly to STDOUT
 			homeDir = typo3temp/tx_terdoc/
+
+			# Tells what Docbook version to generate
+			docbook_version = 4,5
+
+			# Tells what Docbook version is the default one
+			docbook_version_default = 4
 		}
 }

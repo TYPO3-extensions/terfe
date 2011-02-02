@@ -40,7 +40,7 @@ if (!defined('TYPO3_cliMode'))
  *
  */
 class Tx_TerDoc_Cli_Renderer {
-	
+
 	/**
 	 * CLI dispatcher
 	 *
@@ -62,8 +62,15 @@ class Tx_TerDoc_Cli_Renderer {
 					$arguments['force'] = TRUE;
 				} else if (preg_match('/^--help$|^-h$/is', $arg)) {
 					$arguments['help'] = TRUE;
-				} else if (preg_match('/^--limit=(.+)$|^-l=(.+)$/is', $arg, $matches)) {
+				} else if (preg_match('/^--limit=(.+)$/is', $arg, $matches)) {
 					$arguments['limit'] = (int) $matches[1];
+				} else if (preg_match('/^-l=(.+)$/is', $arg, $matches)) {
+					$arguments['limit'] = (int) $matches[1];
+				} else {
+					// argument is not valid
+					Tx_TerDoc_Utility_Cli::log('Uknown argument ' . $arg);
+					Tx_TerDoc_Utility_Cli::log('give "--help" option to see usage');
+					die();
 				}
 			} else {
 				$commands[] = $arg;
@@ -87,31 +94,6 @@ class Tx_TerDoc_Cli_Renderer {
 			Tx_TerDoc_Utility_Cli::log('Unknown command');
 			Tx_TerDoc_Utility_Cli::log('Type "help" for usage.');
 		}
-
-		// DocumentCache
-		//   deleteOutdatedDocuments
-		//   getModifiedExtensionVersions
-		//   transformManualToDocBook
-		//   
-		// pageCache
-		//   clearForAll
-		//   getCacheUidsForExtension
-		//   clearForExtension
-		//
-		// t3x
-		//   extractFileFromT3X
-		//
-		// downloadT3X
-		//
-		//
-		// registerOutputFormat
-		// renderCache
-		//
-		// 
-		// getDocumentDirOfExtensionVersion
-		// getExtensionVersionPathAndBaseName
-		// removeDirRecursively
-		// log
 	}
 }
 

@@ -99,6 +99,24 @@ class Tx_TerDoc_Utility_Cli {
 		return $settings;
 	}
 
+	/**
+	 * Returns the full path including file name but excluding file extension of
+	 * the specified extension version in the file repository.
+	 *
+	 * @param	string		$baseDir: The extension base directory
+	 * @param	string		$extensionKey: The extension key
+	 * @param	string		$version: The version string
+	 * @return	string		Full path to the document directory for the specified extension version
+	 */
+	public static function getExtensionVersionPathAndBaseName($baseDir, $extensionKey, $version) {
+		$firstLetter = strtolower(substr($extensionKey, 0, 1));
+		$secondLetter = strtolower(substr($extensionKey, 1, 1));
+		$fullPath = $baseDir . $firstLetter . '/' . $secondLetter . '/';
+
+		list ($majorVersion, $minorVersion, $devVersion) = t3lib_div::intExplode('.', $version);
+
+		return $fullPath . strtolower($extensionKey) . '_' . $majorVersion . '.' . $minorVersion . '.' . $devVersion;
+	}
 
 	/**
 	 * Returns the full path of the document directory for the specified
@@ -107,6 +125,7 @@ class Tx_TerDoc_Utility_Cli {
 	 *
 	 * In the document directory all rendered documents are stored.
 	 *
+	 * @param	string		$baseDir: The extension base directory
 	 * @param	string		$extensionKey: The extension key
 	 * @param	string		$version: The version string
 	 * @return	string		Full path to the document directory for the specified extension version
@@ -125,6 +144,43 @@ class Tx_TerDoc_Utility_Cli {
 
 			return $fullPath.'/';
 		}
+	}
+
+	/**
+	 * Removes directory with all files from the given path recursively!
+	 * Path must somewhere below typo3temp/
+	 *
+	 * @param	string		$removePath: Absolute path to directory to remove
+	 * @return	void
+	 * @access	protected
+	 */
+	public static function removeDirRecursively($removePath) {
+
+		if (! t3lib_div::validPathStr($removePath)) {
+			die($removePath . ' was not within ' . $removePath);
+		}
+
+		// Go through dirs:
+		$dirs = t3lib_div::get_dirs($removePath);
+
+		if (is_array($dirs)) {
+			foreach ($dirs as $subdirs) {
+				if ($subdirs) {
+					self::removeDirRecursively($removePath . '/' . $subdirs . '/');
+				}
+			}
+		}
+
+		// Then files in this dir:
+		$fileArr = t3lib_div::getFilesInDir($removePath, '', 1);
+		if (is_array($fileArr)) {
+			foreach ($fileArr as $file) {
+				unlink($file);
+			}
+		}
+
+		// Remove this dir:
+		rmdir($removePath);
 	}
 }
 

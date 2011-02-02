@@ -91,7 +91,9 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 			if ($this->extensionRepository->wasModified() || $this->arguments['force']) {
 				Tx_TerDoc_Utility_Cli::log('* extensions.xml was modified since last run');
 
-				if ($this->extensionRepository->updateDB()) {
+				// Reads the extension index file (extensions.xml.gz) and updates the the manual caching table accordingly.
+				$hasUpdate = $this->extensionRepository->updateAll();
+				if ($hasUpdate) {
 
 					$this->extensionRepository->deleteOutdatedDocuments();
 					$modifiedExtensionVersionsArr = $this->extensionRepository->getModifiedExtensionVersions();
@@ -100,31 +102,55 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 						$transformationErrorCodes = array();
 						$extensionKey = $extensionAndVersionArr['extensionkey'];
 						$version = $extensionAndVersionArr['version'];
-						$documentDir = Tx_TerDoc_Utility_Cli::getDocumentDirOfExtensionVersion($extensionKey, $version);
 
+						// Computes the cache directory of the extension
+						$documentDir = Tx_TerDoc_Utility_Cli::getDocumentDirOfExtensionVersion($this->settings['documentsCache'], $extensionKey, $version);
+
+						// Prepare environment by deleting obsolete rendering problem log
 						Tx_TerDoc_Utility_Cli::log('* Rendering documents for extension "' . $extensionKey . '" (' . $version . ')');
-						$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_terdoc_renderproblems', 'extensionkey="' . $extensionKey . '" AND version="' . $version . '"');
-						Tx_TerDoc_Utility_Cli::log('temporary end');
+						$this->extensionRepository->prepare($extensionKey, $version);
 
-						exit();
-						if ($this->documentCache_transformManualToDocBook($extensionKey, $version, $transformationErrorCodes)) {
-							foreach ($this->outputFormats as $label => $formatInfoArr) {
-								Tx_TerDoc_Utility_Cli::log('   * Rendering ' . $label);
-								$formatInfoArr['object']->renderCache($documentDir);
+						// Extracting manual from t3x
+						Tx_TerDoc_Utility_Cli::log('   * Extracting "doc/manual.sxw" from extension ' . $extensionKey . ' (' . $version . ')');
+						$this->extensionRepository->extract($extensionKey, $version, 'doc/manual.sxw', $errorCodes);
+
+						// Initialize service
+						$xslObject = t3lib_div::makeInstanceService('xsl', 'xslt');
+						$xslObject->setSettings($this->settings);
+
+						// Rendering manual.sxw to Docbook
+						$isDocBookTransformationOk = FALSE;
+						$docBookVersions = explode(',', $this->settings['docbook_version']);
+						if (file_exists($documentDir . 'sxw/content.xml')) {
+							foreach ($docBookVersions as $docBookVersion) {
+								// @todo: improve the transformation: some staff are duplicated e.g. genartion of TOC
+								$isDocBookTransformationOk = $xslObject->transformManualToDocBook($documentDir, $docBookVersion, $transformationErrorCodes);
 							}
-						} else {
-							$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_terdoc_manuals', 'extensionkey="' . $extensionKey . '" AND version="' . $version . '"');
-							Tx_TerDoc_Utility_Cli::log('	* No manual found or problem while extracting manual');
 						}
-						$this->pageCache_clearForExtension($extensionKey);
+
+						if ($isDocBookTransformationOk) {
+							// Store some info from the Docbook transformation into the database
+							$dataSet = $xslObject->getInformation();
+							$this->extensionRepository->update($extensionKey, $version, $dataSet);
+
+							// Transform Docbook to HTML
+							$xslObject->transformDocBookToHtml($documentDir);
+						}
+						else {
+							#Tx_TerDoc_Utility_Cli::log('	* No manual found or problem while extracting manual');
+							$this->extensionRepository->delete($extensionKey, $version);
+						}
+
+						// Clean up environement by removing temporary files
+						$this->extensionRepository->cleanUp($extensionKey, $version);
 						t3lib_div::writeFile($documentDir . 't3xfilemd5.txt', $extensionAndVersionArr['t3xfilemd5']);
 
 						foreach ($transformationErrorCodes as $errorCode) {
-							$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_terdoc_renderproblems', array('extensionkey' => $extensionKey, 'version' => $version, 'tstamp' => time(), 'errorcode' => $errorCode));
+							$this->extensionRepository->log($extensionKey, $version, $errorCode);
 						}
 						Tx_TerDoc_Utility_Cli::log('   * Error code(s): ' . implode(',', $transformationErrorCodes));
 					}
-					$this->pageCache_clearForAll();
+					$this->extensionRepository->cleanUpAll();
 				}
 				Tx_TerDoc_Utility_Cli::log(strftime('%d.%m.%y %R') . ' done.');
 			} else
