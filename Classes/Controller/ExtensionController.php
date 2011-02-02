@@ -226,5 +226,6 @@
 			$extKey = $this->request->getControllerExtensionKey();
 			return Tx_Extbase_Utility_Localization::translate($label, $extKey, $arguments);
 		}
+
 	}
 ?>

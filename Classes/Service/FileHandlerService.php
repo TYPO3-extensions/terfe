@@ -33,8 +33,8 @@
 	class Tx_TerFe2_Service_FileHandlerService implements t3lib_Singleton {
 
 		/**
-		 * Check if a file or folder exists
-		 * 
+		 * Check if a file or directory exists
+		 *
 		 * @param string $filename Path to the file
 		 * @return boolean TRUE if file exists
 		 */
@@ -53,17 +53,17 @@
 
 		/**
 		 * Get absolute path to a file
-		 * 
+		 *
 		 * @param string $filename Relative path to the file
 		 * @return string Absolute path to file
 		 */
 		public function getAbsFilename($filename) {
 			$filename = t3lib_div::getFileAbsFileName($filename);
-			if (!$this->fileExists($filename)) {
-				return '';
+			if ($this->fileExists($filename)) {
+				return $filename;
 			}
 
-			return $filename;
+			return '';
 		}
 
 
@@ -108,11 +108,31 @@
 		 */
 		public function getFileHash($filename) {
 			$filename = $this->getAbsFilename($filename);
-			if (empty($filename)) {
-				return '';
+			if (!empty($filename)) {
+				$result = @md5_file($filename);
+				if ($result !== FALSE) {
+					return $result;
+				}
 			}
 
-			return @md5_file($filename);
+			return '';
+		}
+
+
+		/**
+		 * Get last modification time of a file or directory
+		 *
+		 * @param string $filename Path to the file
+		 * @reutrn integer Timestamp of the modification time
+		 */
+		public function getModificationTime($filename) {
+			$filename = $this->getAbsFilename($filename);
+			if (!empty($filename)) {
+				// clearstatcache();
+				return (int) @filemtime($filename);
+			}
+
+			return 0;
 		}
 
 
@@ -157,7 +177,7 @@
 
 		/**
 		 * Get a list of all files in a directory
-		 * 
+		 *
 		 * @param string $dirname Path to the directory
 		 * @param boolean $recursive Get subfolder content too
 		 * @return array All contained files
@@ -187,7 +207,7 @@
 
 		/**
 		 * Get all files in a directory by filetype
-		 * 
+		 *
 		 * @param string $dirname Path to the directory
 		 * @param string $fileType Type of the files to find
 		 * @param boolean $recursive Get subfolder content too
@@ -206,5 +226,6 @@
 
 			return $result;
 		}
+
 	}
 ?>
