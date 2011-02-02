@@ -208,7 +208,7 @@
 				$extension->addVersion($newVersion);
 				$extension->setLastUpdate(new DateTime());
 			} else {
-				$this->flashMessages->add($this->translate('msg_file_not_valid'));
+				$this->flashMessageContainer->add($this->translate('msg_file_not_valid'));
 			}
 
 			$this->redirect('index');
