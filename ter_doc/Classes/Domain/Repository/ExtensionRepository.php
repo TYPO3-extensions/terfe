@@ -192,33 +192,31 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 		// Computes the cache directory of the extension
 		$documentDir = Tx_TerDoc_Utility_Cli::getDocumentDirOfExtensionVersion($this->settings['documentsCache'], $extensionKey, $version);
 
-		// Prepare output directory:
-		if (@is_dir($documentDir . 'sxw')) {
-			Tx_TerDoc_Utility_Cli::removeDirRecursively($documentDir . 'sxw');
+		// set directory to be created
+		$directories = array('sxw', 'html_online');
+
+		// Computes docbook directories
+		$docBookVersions = explode(',', $this->settings['docbook_version']);
+		foreach ($docBookVersions as $docBookVersion) {
+			$directories[] = 'docbook' . $docBookVersion;
 		}
 
-		if (@is_dir($documentDir . 'docbook')) {
+		// Empty and create blank directory
+		foreach ($directories as $directory) {
+			if (is_dir($documentDir . $directory)) {
+				Tx_TerDoc_Utility_Cli::removeDirRecursively($documentDir . $directory);
+			}
+			@mkdir($documentDir . $directory);
+		}
+
+		// "docbook" is a special case -> symlink to the default docbook version
+		if (is_dir($documentDir . 'docbook')) {
 			Tx_TerDoc_Utility_Cli::removeDirRecursively($documentDir . 'docbook');
-		} else if (is_file($documentDir . 'docbook')) {
+		} else if (file_exists($documentDir . 'docbook')) {
 			unlink($documentDir . 'docbook');
 		}
 
 		@symlink($documentDir . 'docbook' . $this->settings['docbook_version_default'], $documentDir . 'docbook');
-		@mkdir($documentDir . 'sxw');
-
-		// Empty and create blank directory
-		$docBookVersions = explode(',', $this->settings['docbook_version']);
-		foreach ($docBookVersions as $docBookVersion) {
-			Tx_TerDoc_Utility_Cli::removeDirRecursively($documentDir . 'docbook' . $docBookVersion);
-			@mkdir($documentDir . 'docbook' . $docBookVersion);
-		}
-
-		// Prepare output directory:
-		if (@is_dir($documentDir . 'html_online')) {
-			Tx_TerDoc_Utility_Cli::removeDirRecursively($documentDir . 'html_online');
-		}
-		@mkdir($documentDir . 'html_online');
-
 
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_terdoc_renderproblems', 'extensionkey="' . $extensionKey . '" AND version="' . $version . '"');
 	}
@@ -235,8 +233,31 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 		// Computes the cache directory of the extension
 		$documentDir = Tx_TerDoc_Utility_Cli::getDocumentDirOfExtensionVersion($this->settings['documentsCache'], $extensionKey, $version);
 
+		// set directory to be deleted
+		$directories = array('sxw');
+
+		// Delete empty directory because doc/manual.sxw was not found)
+		if (!file_exists($documentDir . 'sxw/content.xml')) {
+
+			$directories[] = 'html_online';
+			$directories[] = 'docbook';
+
+			// Empty and create blank directory
+			$docBookVersions = explode(',', $this->settings['docbook_version']);
+			foreach ($docBookVersions as $docBookVersion) {
+				$directories[] = 'docbook' . $docBookVersion;
+			}
+		}
+
 		// Delete temporary directory
-		Tx_TerDoc_Utility_Cli::removeDirRecursively($documentDir . 'sxw');
+		foreach ($directories as $directory) {
+			if (is_link($documentDir . $directory)) {
+				unlink($documentDir . $directory);
+			}
+			elseif (is_dir($documentDir . $directory)) {
+				Tx_TerDoc_Utility_Cli::removeDirRecursively($documentDir . $directory);
+			}
+		}
 
 		$cacheUids = $this->getCacheUidsForExtension($extensionKey);
 
@@ -355,7 +376,7 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 		$unzipResultArr = array();
 		exec($unzipCommand, $unzipResultArr);
 
-		if (@is_dir($documentDir . 'sxw/Pictures')) {
+		if (is_dir($documentDir . 'sxw/Pictures')) {
 			rename($documentDir . 'sxw/Pictures', $documentDir . 'docbook/pictures');
 		}
 	}
