@@ -1,0 +1,22 @@
+<f:layout name="default" />
+
+<f:section name="main">
+	<table cellpadding="4" style="border:1px solid black;">
+		<tr>
+			<th><f:translate key="tx_terfe2_domain_model_tag.title" /></th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+		</tr>
+
+		<f:for each="{tags}" as="tag">
+			<tr>
+				<td>{tag.title}</td>
+				<td><f:link.action action="edit" arguments="{tag : tag}"><f:translate key="edit"/></f:link.action></td>
+				<td><f:link.action action="delete" arguments="{tag : tag}"><f:translate key="delete"/></f:link.action></td>
+			</tr>
+		</f:for>
+	</table>
+	<br />
+
+	<f:link.action action="new"><f:translate key="create_tag"/></f:link.action>
+</f:section>

@@ -81,7 +81,7 @@
 		 */
 		public function indexAction() {
 			// Can be replaced by another action/view later
-			$this->forward('listLatest');
+			//$this->forward('listLatest');
 		}
 
 
@@ -148,7 +148,7 @@
 
 
 		/**
-		 * Creates a new Extension and forwards to the index action.
+		 * Creates a new Extension and forwards to the index action
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension A fresh Extension object which has not yet been added to the repository
 		 */
@@ -171,7 +171,7 @@
 
 
 		/**
-		 * Updates an existing Extension and forwards to the index action afterwards.
+		 * Updates an existing Extension and forwards to the index action afterwards
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to update
 		 */
@@ -189,12 +189,13 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->remove($extension);
+			$this->flashMessageContainer->add($this->translate('msg_extension_deleted'));
 			$this->redirect('index');
 		}
 
 
 		/**
-		 * Creates a new Version of an existing Extension and forwards to the index action afterwards.
+		 * Creates a new Version of an existing Extension and forwards to the index action afterwards
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion A fresh Version object which has not yet been added to the repository

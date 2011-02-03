@@ -9,9 +9,13 @@
 		'Pi1',
 		array(
 			'Extension' => 'index, list, listLatest, listByCategory, listByTag, show, new, create, edit, update, delete, createVersion',
+			'Category'  => 'index, new, create, edit, update, delete',
+			'Tag'       => 'index, new, create, edit, update, delete',
 		),
 		array(
 			'Extension' => 'create, update, delete, createVersion',
+			'Category'  => 'create, update, delete',
+			'Tag'       => 'create, update, delete',
 		)
 	);
 

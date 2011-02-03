@@ -1,35 +1,35 @@
 plugin.tx_terfe2 {
 	persistence {
-		# cat=plugin.tx_terfe2/persistence/100; type=int+; label=Category storage PID
-		categoryPid =
+		# cat=plugin.tx_terfe2/persistence/100; type=int+; label=Extension storage PID
+		extensionPid = 0
 
-		# cat=plugin.tx_terfe2/persistence/200; type=int+; label=Expirience storage PID
-		experiencePid =
+		# cat=plugin.tx_terfe2/persistence/110; type=int+; label=Version storage PID
+		versionPid = 0
 
-		# cat=plugin.tx_terfe2/persistence/300; type=int+; label=Extension storage PID
-		extensionPid =
+		# cat=plugin.tx_terfe2/persistence/120; type=int+; label=Category storage PID
+		categoryPid = 0
 
-		# cat=plugin.tx_terfe2/persistence/400; type=int+; label=Media storage PID
-		mediaPid =
+		# cat=plugin.tx_terfe2/persistence/130; type=int+; label=Tag storage PID
+		tagPid = 0
 
-		# cat=plugin.tx_terfe2/persistence/500; type=int+; label=Relation storage PID
-		relationPid =
+		# cat=plugin.tx_terfe2/persistence/140; type=int+; label=Expirience storage PID
+		experiencePid = 0
 
-		# cat=plugin.tx_terfe2/persistence/600; type=int+; label=Tag storage PID
-		tagPid =
+		# cat=plugin.tx_terfe2/persistence/150; type=int+; label=Media storage PID
+		mediaPid = 0
 
-		# cat=plugin.tx_terfe2/persistence/700; type=int+; label=Version storage PID
-		versionPid =
+		# cat=plugin.tx_terfe2/persistence/160; type=int+; label=Relation storage PID
+		relationPid = 0
 	}
 
 	view {
-		# cat=plugin.tx_terfe2/view/100; type=string; label=Path to template root
+		# cat=plugin.tx_terfe2/view/200; type=string; label=Path to template root
 		templateRootPath = EXT:ter_fe2/Resources/Private/Templates/
 
-		# cat=plugin.tx_terfe2/view/200; type=string; label=Path to template partials
+		# cat=plugin.tx_terfe2/view/210; type=string; label=Path to template partials
 		partialRootPath = EXT:ter_fe2/Resources/Private/Partials/
 
-		# cat=plugin.tx_terfe2/view/300; type=string; label=Path to template layouts
+		# cat=plugin.tx_terfe2/view/220; type=string; label=Path to template layouts
 		layoutRootPath = EXT:ter_fe2/Resources/Private/Layouts/
 	}
 }
