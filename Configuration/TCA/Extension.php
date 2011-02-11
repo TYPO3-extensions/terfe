@@ -143,6 +143,11 @@
 					),
 				),
 			),
+			'last_version' => array(
+				'config'  => array(
+					'type' => 'passthrough',
+				),
+			),
 		),
 	);
 ?>

@@ -76,6 +76,12 @@
 		 */
 		protected $versions;
 
+		/**
+		 * lastVersion
+		 * @var Tx_TerFe2_Domain_Model_Version
+		 */
+		protected $lastVersion;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -253,17 +259,28 @@
 		 */
 		public function addVersion(Tx_TerFe2_Domain_Model_Version $version) {
 			$this->versions->attach($version);
+			$this->setLastVersion($version);
 		}
 
 
 		/**
-		 * Removes a Version
+		 * Setter for lastVersion
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version The Version to be removed
+		 * @param Tx_TerFe2_Domain_Model_Version $lastVersion lastVersion
 		 * @return void
 		 */
-		public function removeVersion(Tx_TerFe2_Domain_Model_Version $version) {
-			$this->versions->detach($version);
+		public function setLastVersion(Tx_TerFe2_Domain_Model_Version $lastVersion) {
+			$this->lastVersion = $lastVersion;
+		}
+
+
+		/**
+		 * Getter for lastVersion
+		 *
+		 * @return Tx_TerFe2_Domain_Model_Version lastVersion
+		 */
+		public function getLastVersion() {
+			return $this->lastVersion;
 		}
 
 	}

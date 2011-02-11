@@ -1,6 +1,7 @@
 <table cellpadding="4" style="border:1px solid black;">
 	<tr>
 		<th><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></th>
+		<th><f:translate key="tx_terfe2_domain_model_version.title" /></th>
 		<th><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></th>
 		<th><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></th>
 		<th><f:translate key="tx_terfe2_domain_model_extension.categories" /></th>
@@ -11,6 +12,7 @@
 	<f:for each="{extensions}" as="extension">
 		<tr>
 			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.extKey}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.lastVersion.title}</f:link.action></td>
 			<td>{extension.forgeLink}</td>
 			<td>{extension.hudsonLink}</td>
 			<td><f:for each="{extension.categories}" as="category">{category.title}<br /></f:for></td>

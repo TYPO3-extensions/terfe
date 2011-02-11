@@ -34,6 +34,20 @@
 	class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_Extbase_Persistence_Repository {
 
 		/**
+		 * Returns all extensions
+		 *
+		 * @return array An array of extensions
+		 */
+		public function findAll() {
+			$query = $this->createQuery();
+			$query->setOrderings(
+				array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+			);
+			return $query->execute();
+		}
+
+
+		/**
 		 * Returns new and updated extensions
 		 *
 		 * @param integer $latestCount Count of extensions
@@ -57,8 +71,10 @@
 		 */
 		public function findByCategory(Tx_TerFe2_Domain_Model_Category $category) {
 			$query = $this->createQuery();
-			//$query->equals('categories.title', $category->getTitle());
 			$query->matching($query->contains('categories', $category));
+			$query->setOrderings(
+				array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+			);
 			return $query->execute();
 		}
 
@@ -73,6 +89,9 @@
 			$query = $this->createQuery();
 			//$query->equals('tags.title', $tag->getTitle());
 			$query->matching($query->contains('tags', $tag));
+			$query->setOrderings(
+				array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+			);
 			return $query->execute();
 		}
 
