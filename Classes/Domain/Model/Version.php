@@ -211,6 +211,7 @@
 		/**
 		 * extension
 		 * @var Tx_TerFe2_Domain_Model_Extension
+		 * @lazy
 		 */
 		protected $extension;
 

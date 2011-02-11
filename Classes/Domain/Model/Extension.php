@@ -73,6 +73,7 @@
 		/**
 		 * versions
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version>
+		 * @lazy
 		 */
 		protected $versions;
 

@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_extension'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_extension']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'ext_key,forge_link,hudson_link,last_update,categories,tags,versions',
+			'showRecordFieldList' => 'ext_key,forge_link,hudson_link,last_update,categories,tags,versions,last_version',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'ext_key,forge_link,hudson_link,last_update,categories,tags,versions'),
+			'1' => array('showitem' => 'ext_key,forge_link,hudson_link,last_update,categories,tags,versions,last_version'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -100,7 +100,7 @@
 				),
 			),
 			'categories' => array(
-				'exclude' => 0,
+				'exclude' => 1,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.categories',
 				'config'  => array(
 					'type'              => 'select',
@@ -115,7 +115,7 @@
 				),
 			),
 			'tags' => array(
-				'exclude' => 0,
+				'exclude' => 1,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.tags',
 				'config'  => array(
 					'type'              => 'select',
@@ -130,7 +130,7 @@
 				),
 			),
 			'versions' => array(
-				'exclude' => 0,
+				'exclude' => 1,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.versions',
 				'config'  => array(
 					'type'          => 'inline',
@@ -144,8 +144,12 @@
 				),
 			),
 			'last_version' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.last_version',
 				'config'  => array(
-					'type' => 'passthrough',
+					'type'          => 'inline',
+					'foreign_table' => 'tx_terfe2_domain_model_version',
+					'maxitems'      => 1,
 				),
 			),
 		),
