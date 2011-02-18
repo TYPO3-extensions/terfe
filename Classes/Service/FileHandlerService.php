@@ -227,5 +227,29 @@
 			return $result;
 		}
 
+		/**
+		 * Get all files in a directory by filetype and changed since a timestamp
+		 *
+		 * @param string $dirname Path to the directory
+		 * @param string $fileType Type of the files to find
+		 * @param int $lastChange Timestamp of the last file change
+		 * @param boolean $recursive Get subfolder content too
+		 * @return array All found files
+		 */
+		public function getFilesByTypeAndByLastChange($dirname, $fileType, $timestamp, $recursive = FALSE) {
+			$files    = $this->getFiles($dirname, $recursive);
+			$fileType = ltrim($fileType, '.');
+
+			$result = array();
+			foreach ($files as $file) {
+				$lastModification = $this->getModificationTime($file);
+				if (substr($file, strrpos($file, '.') + 1) == $fileType and $lastModification > $timestamp) {
+					$result[] = $file;
+				}
+			}
+
+			return $result;
+		}
+
 	}
 ?>

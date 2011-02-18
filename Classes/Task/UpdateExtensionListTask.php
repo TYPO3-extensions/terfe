@@ -24,6 +24,8 @@
 	 *  This copyright notice MUST APPEAR in all copies of the script!
 	 ******************************************************************/
 
+	require_once(PATH_typo3conf.'ext/ter_fe2/Classes/Service/FileHandlerService.php');
+
 	/**
 	 * Update extension list task
 	 *
@@ -39,6 +41,23 @@
 		 * @return boolean True on success
 		 */
 		public function execute() {
+			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
+			$basicDirectory = $extConf['ter_directory']?$extConf['ter_directory']:'fileadmin/ter/';
+
+			$this->fileHandlerService = t3lib_div::makeInstance('Tx_TerFe2_Service_FileHandlerService');
+			$this->registry = t3lib_div::makeInstance('t3lib_Registry');
+			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
+
+			// get all t3x files in the target directory changed since the last run
+			$filesFound = $this->fileHandlerService->getFilesByTypeAndByLastChange($basicDirectory, 't3x', 99999, TRUE);
+
+			if (!empty($filesFound)) {
+				foreach ($filesFound as $key => $t3xFile) {
+					$extensionDetails = $this->fileHandlerService->unpackT3xFile($t3xFile);
+					t3lib_div::debug($extensionDetails['EM_CONF']);
+					unset($filesFound[$key]);
+				}
+			}
 
 		}
 
