@@ -36,29 +36,46 @@
 	class Tx_TerFe2_Task_UpdateExtensionListTask extends tx_scheduler_Task {
 
 		/**
+		 * @var t3lib_Registry
+		 */
+		protected $registry;
+
+		/**
+		 * @var Tx_TerFe2_Service_FileHandlerService
+		 */
+		protected $fileHandlerService;
+
+
+		/**
 		 * Public method, usually called by scheduler.
 		 *
-		 * @return boolean True on success
+		 * @return boolean TRUE on success
 		 */
 		public function execute() {
 			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
-			$basicDirectory = $extConf['ter_directory']?$extConf['ter_directory']:'fileadmin/ter/';
+			$extPath = ($extConf['ter_directory'] ? $extConf['ter_directory'] : 'fileadmin/ter/');
 
-			$this->fileHandlerService = t3lib_div::makeInstance('Tx_TerFe2_Service_FileHandlerService');
+			// Get last run
 			$this->registry = t3lib_div::makeInstance('t3lib_Registry');
 			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
 
-			// get all t3x files in the target directory changed since the last run
-			$filesFound = $this->fileHandlerService->getFilesByTypeAndByLastChange($basicDirectory, 't3x', 99999, TRUE);
-
-			if (!empty($filesFound)) {
-				foreach ($filesFound as $key => $t3xFile) {
-					$extensionDetails = $this->fileHandlerService->unpackT3xFile($t3xFile);
-					t3lib_div::debug($extensionDetails['EM_CONF']);
-					unset($filesFound[$key]);
-				}
+			// Get all T3X files in the target directory changed since last run
+			$this->fileHandlerService = t3lib_div::makeInstance('Tx_TerFe2_Service_FileHandlerService');
+			$files = $this->fileHandlerService->getFiles($extPath, 't3x', 99999, TRUE);
+			if (empty($files)) {
+				return TRUE;
 			}
 
+			// Unpack files and get extension details
+			foreach ($files as $key => $fileName) {
+				$extContent = $this->fileHandlerService->unpackT3xFile($fileName);
+				t3lib_div::debug($extContent['EM_CONF']);
+				unset($files[$key]);
+			}
+
+			// ...
+
+			return TRUE;
 		}
 
 	}

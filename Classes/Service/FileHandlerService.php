@@ -43,27 +43,31 @@
 				return FALSE;
 			}
 
-			if (@is_dir($filename)) {
-				return (bool) @file_exists($filename);
+			if (is_dir($filename)) {
+				return (bool) file_exists($filename);
 			}
 
-			return (bool) @is_readable($filename);
+			return (bool) is_readable($filename);
 		}
 
 
 		/**
-		 * Get absolute path to a file
-		 *
-		 * @param string $filename Relative path to the file
-		 * @return string Absolute path to file
+		 * Returns relative path to a T3X file via extension key and version
+		 * 
+		 * @param string $extKey Extension Key
+		 * @param string $version Version of the extension
+		 * @return string Path to extension
 		 */
-		public function getAbsFilename($filename) {
-			$filename = t3lib_div::getFileAbsFileName($filename);
-			if ($this->fileExists($filename)) {
-				return $filename;
+		public function getT3xRelPath($extKey, $version) {
+			if (empty($extKey) || empty($version)) {
+				return '';
 			}
 
-			return '';
+			$extKey  = strtolower($extKey);
+			$version = t3lib_div::intExplode('.', $version);
+			$path    = '%s/%s/%s_%d.%d.%d.t3x';
+
+			return sprintf($path, $extKey[0], $extKey[1], $extKey, $version[0], $version[1], $version[2]);
 		}
 
 
@@ -74,7 +78,6 @@
 		 * @return array Unpacked extension files
 		 */
 		public function unpackT3xFile($filename) {
-			$filename = $this->getAbsFilename($filename);
 			if (empty($filename)) {
 				return array();
 			}
@@ -107,12 +110,9 @@
 		 * @return string Generated hash or an empty string if file not found
 		 */
 		public function getFileHash($filename) {
-			$filename = $this->getAbsFilename($filename);
-			if (!empty($filename)) {
-				$result = @md5_file($filename);
-				if ($result !== FALSE) {
-					return $result;
-				}
+			$result = @md5_file($filename);
+			if ($result !== FALSE) {
+				return $result;
 			}
 
 			return '';
@@ -126,13 +126,8 @@
 		 * @reutrn integer Timestamp of the modification time
 		 */
 		public function getModificationTime($filename) {
-			$filename = $this->getAbsFilename($filename);
-			if (!empty($filename)) {
-				// clearstatcache();
-				return (int) @filemtime($filename);
-			}
-
-			return 0;
+			// clearstatcache();
+			return (int) @filemtime($filename);
 		}
 
 
@@ -146,18 +141,18 @@
 		 * @return boolean FALSE if file not exists
 		 */
 		public function transferFile($filename, $visibleFilename = '') {
-			$filename = $this->getAbsFilename($filename);
-			if (empty($filename)) {
+			$filename = t3lib_div::getFileAbsFileName($filename);
+			if (!$this->fileExists($filename)) {
 				return FALSE;
 			}
 
 			// Get filename for download
 			if (empty($visibleFilename)) {
-				$visibleFilename = @basename($filename);
+				$visibleFilename = basename($filename);
 			}
 
 			// Get file size
-			$size = @filesize($filename);
+			$size = filesize($filename);
 			if (empty($size)) {
 				return FALSE;
 			}
@@ -179,14 +174,20 @@
 		 * Get a list of all files in a directory
 		 *
 		 * @param string $dirname Path to the directory
+		 * @param string $fileType Type of the files to find
+		 * @param int $lastChange Timestamp of the last file change
 		 * @param boolean $recursive Get subfolder content too
 		 * @return array All contained files
 		 */
-		public function getFiles($dirname, $recursive = FALSE) {
-			$dirname = $this->getAbsFilename($dirname);
-			if (empty($dirname)) {
+		public function getFiles($dirname, $fileType = '', $timestamp = 0, $recursive = FALSE) {
+			$dirname = t3lib_div::getFileAbsFileName($dirname);
+			if (!$this->fileExists($dirname)) {
 				return array();
 			}
+
+			$fileType  = ltrim($fileType, '.');
+			$timestamp = (int) $timestamp;
+			$result    = array();
 
 			if ($recursive) {
 				$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirname));
@@ -194,57 +195,26 @@
 				$files = new DirectoryIterator($dirname);
 			}
 
-			$result = array();
 			foreach ($files as $file) {
 				if ($file->isFile()) {
-					$result[] = $file->getPathname();
-				}
-			}
+					$fileName = $file->getPathname();
 
-			return $result;
-		}
+					// Check file type
+					if ($fileType) {
+						if (substr($fileName, strrpos($fileName, '.') + 1) != $fileType) {
+							continue;
+						}
+					}
 
+					// Check timestamp
+					if ($timestamp) {
+						$modificationTime = $this->getModificationTime($fileName);
+						if ($modificationTime < $timestamp) {
+							continue;
+						}
+					}
 
-		/**
-		 * Get all files in a directory by filetype
-		 *
-		 * @param string $dirname Path to the directory
-		 * @param string $fileType Type of the files to find
-		 * @param boolean $recursive Get subfolder content too
-		 * @return array All found files
-		 */
-		public function getFilesByType($dirname, $fileType, $recursive = FALSE) {
-			$files    = $this->getFiles($dirname, $recursive);
-			$fileType = ltrim($fileType, '.');
-
-			$result = array();
-			foreach ($files as $file) {
-				if (substr($file, strrpos($file, '.') + 1) == $fileType) {
-					$result[] = $file;
-				}
-			}
-
-			return $result;
-		}
-
-		/**
-		 * Get all files in a directory by filetype and changed since a timestamp
-		 *
-		 * @param string $dirname Path to the directory
-		 * @param string $fileType Type of the files to find
-		 * @param int $lastChange Timestamp of the last file change
-		 * @param boolean $recursive Get subfolder content too
-		 * @return array All found files
-		 */
-		public function getFilesByTypeAndByLastChange($dirname, $fileType, $timestamp, $recursive = FALSE) {
-			$files    = $this->getFiles($dirname, $recursive);
-			$fileType = ltrim($fileType, '.');
-
-			$result = array();
-			foreach ($files as $file) {
-				$lastModification = $this->getModificationTime($file);
-				if (substr($file, strrpos($file, '.') + 1) == $fileType and $lastModification > $timestamp) {
-					$result[] = $file;
+					$result[] = $fileName;
 				}
 			}
 
