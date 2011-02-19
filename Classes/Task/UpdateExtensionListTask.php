@@ -65,6 +65,8 @@
 			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
 			$extPath = ($extConf['terDirectory'] ? $extConf['terDirectory'] : 'fileadmin/ter/');
 
+			t3lib_div::makeInstance('Tx_Extbase_Dispatcher');
+
 			// Get last run
 			$this->registry = t3lib_div::makeInstance('t3lib_Registry');
 			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
@@ -77,7 +79,7 @@
 			}
 
 			// Get Extension repository and add extension objects
-			//$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			foreach ($files as $key => $fileName) {
 				// Generate Extension information
 				$extInfo = $this->getExtensionInfo($fileName);
@@ -92,7 +94,7 @@
 
 				// Create Version object and add to Extension
 				if ($extension !== NULL) {
-					$version = $this->createVersionObject($extInfo);
+					$version = $this->createVersionObject($extension, $extInfo);
 					$extension->addVersion($version);
 					$this->extensionRepository->update($extension);
 				}
