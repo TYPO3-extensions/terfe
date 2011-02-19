@@ -88,36 +88,60 @@
 				unset($files[$key]);
 
 				// Load Extension object if already exists, else create new one
-				$extension = $this->extensionRepository->findOneByExtKey($extInfo['extKey']);
-				if ($extension === NULL) {
-					$extension = $this->createExtensionObject($extInfo);
-					$this->extensionRepository->add($extension);
-				}
+				$extension = $this->getExtensionObject($extInfo);
 
 				// Create Version object and add to Extension
-				if ($extension !== NULL) {
-					// Check latest Version
-					$lastVersion = $extension->getLastVersion();
-					$makeNewVersion = TRUE;
-					if ($lastVersion instanceof Tx_TerFe2_Domain_Model_Version) {
-						$lastVersionNumber = $lastVersion->getVersionNumber();
-						if (t3lib_div::int_from_ver($lastVersionNumber) >= t3lib_div::int_from_ver($extInfo['versionNumber'])) {
-							$makeNewVersion = FALSE;
-						}
-					}
-					
-					// Create new Version
-					if ($makeNewVersion) {
-						$version = $this->createVersionObject($extension, $extInfo);
-						$extension->addVersion($version);
-						//$this->extensionRepository->update($extension);
-					}
-				}
+				$this->addVersionToExtension($extension, $extInfo);
+
 				// Persist Extension object
 				$this->dataMapper->persistAll();
 			}
 
 			return TRUE;
+		}
+
+
+		/**
+		 * Load Extension object if already exists, else create new one
+		 *
+		 * @param  $extInfo array Extension info from t3x file
+		 * @return Tx_TerFe2_Domain_Model_Extension New or existing extension object
+		 */
+		public function getExtensionObject(array $extInfo) {
+			$extension = $this->extensionRepository->findOneByExtKey($extInfo['extKey']);
+			if ($extension === NULL) {
+				$extension = $this->createExtensionObject($extInfo);
+				$this->extensionRepository->add($extension);
+			}
+			return $extension;
+		}
+
+
+		/**
+		 * Create Version object and add to Extension
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension
+		 * @param array $extInfo
+		 * @return void
+		 */
+		public function addVersionToExtension(Tx_TerFe2_Domain_Model_Extension $extension, array $extInfo) {
+			if ($extension !== NULL) {
+				// Check latest Version
+				$lastVersion = $extension->getLastVersion();
+				$makeNewVersion = TRUE;
+				if ($lastVersion instanceof Tx_TerFe2_Domain_Model_Version) {
+					$lastVersionNumber = $lastVersion->getVersionNumber();
+					if (t3lib_div::int_from_ver($lastVersionNumber) >= t3lib_div::int_from_ver($extInfo['versionNumber'])) {
+						$makeNewVersion = FALSE;
+					}
+				}
+
+				// Create new Version and add it to given extension
+				if ($makeNewVersion == TRUE) {
+					$version = $this->createVersionObject($extension, $extInfo);
+					$extension->addVersion($version);
+				}
+			}
 		}
 
 
@@ -141,7 +165,7 @@
 				'forgeLink'         => '',
 				'hudsonLink'        => '',
 				'title'             => $extContent['EM_CONF']['title'],
-				'icon'              => '',
+				'icon'              => $this->fileHandler->getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version'], '.gif'),
 				'description'       => $extContent['EM_CONF']['description'],
 				'filename'          => $fileName,
 				'author'            => $extContent['EM_CONF']['author'],
@@ -170,6 +194,46 @@
 				'experience'        => array(),
 				'softwareRelation'  => array(), // dependencies, conflicts, suggests, TYPO3_version, PHP_version
 			);
+
+			// build relation object from TYPO3_version
+			if ($extContent['EM_CONF']['TYPO3_version']) {
+				$relationObject = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Relation');
+				$relationObject->setRelationType('dependancy');
+				$relationObject->setKey('typo3');
+				$relationObject->setSoftwareType('system');
+				$versionParts = t3lib_div::trimExplode('-', $extContent['EM_CONF']['TYPO3_version']);
+				if (sizeof($versionParts) > 1) {
+					if (array_search('0.0.0', $versionParts) == 1) {
+						$version = '>'.$versionParts[0];
+					} else {
+						$version = '<'.$versionParts[1];
+					}
+				} else {
+					$version = $versionParts;
+				}
+				$relationObject->setVersion($version);
+				array_push($extInfo['softwareRelation'], $relationObject);
+			}
+
+			// build relation object from PHP_version
+			if ($extContent['EM_CONF']['PHP_version']) {
+				$relationObject = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Relation');
+				$relationObject->setRelationType('dependancy');
+				$relationObject->setKey('php');
+				$relationObject->setSoftwareType('system');
+				$versionParts = t3lib_div::trimExplode('-', $extContent['EM_CONF']['PHP_version']);
+				if (sizeof($versionParts) > 1) {
+					if (array_search('0.0.0', $versionParts) == 1) {
+						$version = '>'.$versionParts[0];
+					} else {
+						$version = '<'.$versionParts[1];
+					}
+				} else {
+					$version = $versionParts;
+				}
+				$relationObject->setVersion($version);
+				array_push($extInfo['softwareRelation'], $relationObject);
+			}
 
 			return $extInfo;
 		}
@@ -246,17 +310,23 @@
 
 			// Add Media objects
 			foreach ($extInfo['media'] as $media) {
-				$version->addMedia($media);
+				if ($media instanceof Tx_TerFe2_Domain_Model_Media) {
+					$version->addMedia($media);
+				}
 			}
 
 			// Add Expirience objects
 			foreach ($extInfo['experience'] as $experience) {
-				$version->addExperience($experience);
+				if ($experience instanceof Tx_TerFe2_Domain_Model_Experience) {
+					$version->addExperience($experience);
+				}
 			}
 
 			// Add SoftwareRelation objects
 			foreach ($extInfo['softwareRelation'] as $softwareRelation) {
-				$version->addSoftwareRelation($softwareRelation);
+				if ($softwareRelation instanceof Tx_TerFe2_Domain_Model_Relation) {
+					$version->addSoftwareRelation($softwareRelation);
+				}
 			}
 
 			// Set Extension object for back reference
