@@ -141,7 +141,7 @@
 				'shy'               => $extContent['EM_CONF']['shy'],
 				'internal'          => $extContent['EM_CONF']['internal'],
 				'module'            => $extContent['EM_CONF']['module'],
-				'doNotLoadInFe'     => '',
+				'doNotLoadInFe'     => $extContent['EM_CONF']['doNotLoadInFE'],
 				'uploadfolder'      => (bool) $extContent['EM_CONF']['uploadfolder'],
 				'createDirs'        => $extContent['EM_CONF']['createDirs'],
 				'modifyTables'      => $extContent['EM_CONF']['modify_tables'],
@@ -153,7 +153,7 @@
 				'tags'              => array(),
 				'media'             => array(),
 				'experience'        => array(),
-				'softwareRelation'  => array(), // dependencies, conflicts, TYPO3_version, PHP_version
+				'softwareRelation'  => array(), // dependencies, conflicts, suggests, TYPO3_version, PHP_version
 			);
 
 			return $extInfo;
@@ -182,6 +182,7 @@
 				$extension->addCategory($category);
 			}
 
+			// Add Tag objects
 			foreach ($extInfo['tags'] as $tag) {
 				$extension->addTag($tag);
 			}
@@ -228,22 +229,22 @@
 			$version->setCglComplianceNote($extInfo['cglComplianceNote']);
 			$version->setFileHash($this->fileHandler->getFileHash($extInfo['filename']));
 
-			// Add media
+			// Add Media objects
 			foreach ($extInfo['media'] as $media) {
 				$version->addMedia($media);
 			}
 
-			// Add expirience
+			// Add Expirience objects
 			foreach ($extInfo['experience'] as $experience) {
 				$version->addExperience($experience);
 			}
 
-			// Add software relation
+			// Add SoftwareRelation objects
 			foreach ($extInfo['softwareRelation'] as $softwareRelation) {
 				$version->addSoftwareRelation($softwareRelation);
 			}
 
-			// Set version object for back reference
+			// Set Extension object for back reference
 			$version->setExtension($extension);
 
 			return $version;
