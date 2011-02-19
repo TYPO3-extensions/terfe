@@ -778,7 +778,7 @@
 		 * @param Tx_TerFe2_Domain_Model_Media The Media to be added
 		 * @return void
 		 */
-		public function addMedium(Tx_TerFe2_Domain_Model_Media $medium) {
+		public function addMedia(Tx_TerFe2_Domain_Model_Media $medium) {
 			$this->media->attach($medium);
 		}
 
@@ -789,7 +789,7 @@
 		 * @param Tx_TerFe2_Domain_Model_Media The Media to be removed
 		 * @return void
 		 */
-		public function removeMedium(Tx_TerFe2_Domain_Model_Media $medium) {
+		public function removeMedia(Tx_TerFe2_Domain_Model_Media $medium) {
 			$this->media->detach($medium);
 		}
 
