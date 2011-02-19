@@ -65,11 +65,9 @@
 			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
 			$extPath = ($extConf['terDirectory'] ? $extConf['terDirectory'] : 'fileadmin/ter/');
 
-			t3lib_div::makeInstance('Tx_Extbase_Dispatcher');
-
 			// Get last run
 			$this->registry = t3lib_div::makeInstance('t3lib_Registry');
-			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
+			$lastRun = $this->registry->get('tx_scheduler', 'lastRun'); // $lastRun['end']
 
 			// Get all T3X files in the target directory changed since last run
 			$this->fileHandler = t3lib_div::makeInstance('Tx_TerFe2_Service_FileHandlerService');
@@ -78,8 +76,9 @@
 				return TRUE;
 			}
 
+			// Load dispatcher and get data mapper instance
+			t3lib_div::makeInstance('Tx_Extbase_Dispatcher');
 			$this->dataMapper = Tx_Extbase_Dispatcher::getPersistenceManager();
-
 
 			// Get Extension repository and add extension objects
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
@@ -95,10 +94,9 @@
 					$this->extensionRepository->add($extension);
 				}
 
-
 				// Create Version object and add to Extension
 				if ($extension !== NULL) {
-					// Check if a newer version
+					// Check latest Version
 					$lastVersion = $extension->getLastVersion();
 					$makeNewVersion = TRUE;
 					if ($lastVersion instanceof Tx_TerFe2_Domain_Model_Version) {
@@ -107,6 +105,8 @@
 							$makeNewVersion = FALSE;
 						}
 					}
+					
+					// Create new Version
 					if ($makeNewVersion) {
 						$version = $this->createVersionObject($extension, $extInfo);
 						$extension->addVersion($version);
