@@ -56,16 +56,17 @@
 		 * 
 		 * @param string $extKey Extension Key
 		 * @param string $version Version of the extension
+		 * @param string $fileType File type of the returning path
 		 * @return string Path to extension
 		 */
-		public function getT3xRelPath($extKey, $version) {
+		public function getT3xRelPath($extKey, $version, $fileType = 't3x') {
 			if (empty($extKey) || empty($version)) {
 				return '';
 			}
 
 			$extKey  = strtolower($extKey);
 			$version = t3lib_div::intExplode('.', $version);
-			$path    = '%s/%s/%s_%d.%d.%d.t3x';
+			$path    = '%s/%s/%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
 
 			return sprintf($path, $extKey[0], $extKey[1], $extKey, $version[0], $version[1], $version[2]);
 		}
