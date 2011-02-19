@@ -78,6 +78,9 @@
 				return TRUE;
 			}
 
+			$this->dataMapper = Tx_Extbase_Dispatcher::getPersistenceManager();
+
+
 			// Get Extension repository and add extension objects
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			foreach ($files as $key => $fileName) {
@@ -92,17 +95,27 @@
 					$this->extensionRepository->add($extension);
 				}
 
+
 				// Create Version object and add to Extension
 				if ($extension !== NULL) {
-					$version = $this->createVersionObject($extension, $extInfo);
-					$extension->addVersion($version);
-					$this->extensionRepository->update($extension);
+					// Check if a newer version
+					$lastVersion = $extension->getLastVersion();
+					$makeNewVersion = TRUE;
+					if ($lastVersion instanceof Tx_TerFe2_Domain_Model_Version) {
+						$lastVersionNumber = $lastVersion->getVersionNumber();
+						if (t3lib_div::int_from_ver($lastVersionNumber) >= t3lib_div::int_from_ver($extInfo['versionNumber'])) {
+							$makeNewVersion = FALSE;
+						}
+					}
+					if ($makeNewVersion) {
+						$version = $this->createVersionObject($extension, $extInfo);
+						$extension->addVersion($version);
+						//$this->extensionRepository->update($extension);
+					}
 				}
+				// Persist Extension object
+				$this->dataMapper->persistAll();
 			}
-
-			// Finally persist Extension objects
-			$this->dataMapper = Tx_Extbase_Dispatcher::getPersistenceManager();
-			$this->dataMapper->persistAll();
 
 			return TRUE;
 		}
@@ -173,7 +186,7 @@
 				return NULL;
 			}
 
-			$extension = new Tx_TerFe2_Domain_Model_Extension();
+			$extension = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Extension');
 			$extension->setExtKey($extInfo['extKey']);
 			$extension->setForgeLink($extInfo['forgeLink']);
 			$extension->setHudsonLink($extInfo['hudsonLink']);
@@ -205,7 +218,7 @@
 				return NULL;
 			}
 
-			$version = new Tx_TerFe2_Domain_Model_Version();
+			$version = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Version');
 			$version->setTitle($extInfo['title']);
 			$version->setIcon($extInfo['icon']);
 			$version->setDescription($extInfo['description']);
