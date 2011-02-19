@@ -53,7 +53,7 @@
 		 */
 		public function execute() {
 			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
-			$extPath = ($extConf['ter_directory'] ? $extConf['ter_directory'] : 'fileadmin/ter/');
+			$extPath = ($extConf['terDirectory'] ? $extConf['terDirectory'] : 'fileadmin/ter/');
 
 			// Get last run
 			$this->registry = t3lib_div::makeInstance('t3lib_Registry');

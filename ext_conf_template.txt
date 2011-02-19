@@ -1,5 +1,2 @@
-# cat=general options/subcat/100; type=string; label=Headline: Description
-demo =
-
-# cat=general options/subcat/100; type=string; label=Extension directory: Insert a directory from the document root (e.g. fileadmin/ter/)
-ter_directory =
+# cat=general options/ter/100; type=string; label=Extension directory: Relative path to the extension directory (e.g. fileadmin/ter/)
+terDirectory = fileadmin/ter/
