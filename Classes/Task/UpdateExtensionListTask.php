@@ -24,8 +24,6 @@
 	 *  This copyright notice MUST APPEAR in all copies of the script!
 	 ******************************************************************/
 
-	require_once(PATH_typo3conf.'ext/ter_fe2/Classes/Service/FileHandlerService.php');
-
 	/**
 	 * Update extension list task
 	 *
@@ -167,7 +165,8 @@
 				'title'             => $extContent['EM_CONF']['title'],
 				'icon'              => $this->fileHandler->getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version'], '.gif'),
 				'description'       => $extContent['EM_CONF']['description'],
-				'filename'          => $fileName,
+				'filename'          => $this->fileHandler->getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version']),
+				'fileHash'          => $this->fileHandler->getFileHash($fileName),
 				'author'            => $extContent['EM_CONF']['author'],
 				'authorEmail'       => $extContent['EM_CONF']['author_email'],   // Missing in version object
 				'authorCompany'     => $extContent['EM_CONF']['author_company'], // Missing in version object
@@ -176,7 +175,7 @@
 				'state'             => $extContent['EM_CONF']['state'],
 				'emCategory'        => $extContent['EM_CONF']['category'],
 				'loadOrder'         => $extContent['EM_CONF']['loadOrder'],
-				'priority'          => $extContent['EM_CONF']['priority'],       // Missing in version object
+				'priority'          => $extContent['EM_CONF']['priority'],
 				'shy'               => $extContent['EM_CONF']['shy'],
 				'internal'          => $extContent['EM_CONF']['internal'],
 				'module'            => $extContent['EM_CONF']['module'],
@@ -256,16 +255,6 @@
 			$extension->setHudsonLink($extInfo['hudsonLink']);
 			$extension->setLastUpdate(new DateTime());
 
-			// Add Category objects
-			foreach ($extInfo['categories'] as $category) {
-				$extension->addCategory($category);
-			}
-
-			// Add Tag objects
-			foreach ($extInfo['tags'] as $tag) {
-				$extension->addTag($tag);
-			}
-
 			return $extension;
 		}
 
@@ -306,21 +295,7 @@
 			$version->setLockType($extInfo['lockType']);
 			$version->setCglCompliance($extInfo['cglCompliance']);
 			$version->setCglComplianceNote($extInfo['cglComplianceNote']);
-			$version->setFileHash($this->fileHandler->getFileHash($extInfo['filename']));
-
-			// Add Media objects
-			foreach ($extInfo['media'] as $media) {
-				if ($media instanceof Tx_TerFe2_Domain_Model_Media) {
-					$version->addMedia($media);
-				}
-			}
-
-			// Add Expirience objects
-			foreach ($extInfo['experience'] as $experience) {
-				if ($experience instanceof Tx_TerFe2_Domain_Model_Experience) {
-					$version->addExperience($experience);
-				}
-			}
+			$version->setFileHash($extInfo['fileHash']);
 
 			// Add SoftwareRelation objects
 			foreach ($extInfo['softwareRelation'] as $softwareRelation) {
