@@ -127,6 +127,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	state tinytext,
 	em_category tinytext,
 	load_order tinytext,
+	priority tinytext,
 	shy tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	internal tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	do_not_load_in_fe tinyint(4) unsigned DEFAULT '0' NOT NULL,

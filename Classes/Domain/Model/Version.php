@@ -113,6 +113,12 @@
 		protected $loadOrder;
 
 		/**
+		 * Priority
+		 * @var string
+		 */
+		protected $priority;
+
+		/**
 		 * Information if extension is shy
 		 * @var boolean
 		 */
@@ -475,6 +481,27 @@
 		 */
 		public function getLoadOrder() {
 			return $this->loadOrder;
+		}
+
+
+		/**
+		 * Setter for priority
+		 *
+		 * @param string $priority Priority
+		 * @return void
+		 */
+		public function setPriority($priority) {
+			$this->priority = $priority;
+		}
+
+
+		/**
+		 * Getter for priority
+		 *
+		 * @return string Priority
+		 */
+		public function getPriority() {
+			return $this->priority;
 		}
 
 

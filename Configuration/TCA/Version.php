@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_version'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_version']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'title,icon,description,filename,author,version_number,upload_date,upload_comment,download_counter,state,em_category,load_order,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation',
+			'showRecordFieldList' => 'title,icon,description,filename,author,version_number,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'title,icon,description,filename,author,version_number,upload_date,upload_comment,download_counter,state,em_category,load_order,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation'),
+			'1' => array('showitem' => 'title,icon,description,filename,author,version_number,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -211,6 +211,15 @@
 						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.load_order.top', 'top'),
 						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.load_order.bottom', 'bottom'),
 					),
+				),
+			),
+			'priority' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.priority',
+				'config'  => array(
+					'type' => 'input',
+					'size' => 30,
+					'eval' => 'trim',
 				),
 			),
 			'shy' => array(

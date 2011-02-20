@@ -19,6 +19,7 @@
 			<label index="state.description">State of the extension (beta, stable, obsolete, etc.)</label>
 			<label index="em_category.description">The category of the extension manager (frontend plugin, backend module, etc.)</label>
 			<label index="load_order.description">Loading order in Extension Manager</label>
+			<label index="priority.description">Priority</label>
 			<label index="shy.description">Information if extension is shy</label>
 			<label index="internal.description">Internal</label>
 			<label index="do_not_load_in_fe.description">Whether extension will be loaded in Frontend or not</label>
