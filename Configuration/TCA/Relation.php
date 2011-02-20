@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_relation'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_relation']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'relation_type,software_type,tx_terfe2_key,version',
+			'showRecordFieldList' => 'relation_type,software_type,relation_key,version_string',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'relation_type,software_type,tx_terfe2_key,version'),
+			'1' => array('showitem' => 'relation_type,software_type,relation_key,version_string'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -87,18 +87,18 @@
 					),
 				)
 			),
-			'tx_terfe2_key' => array(
+			'relation_key' => array(
 				'exclude'    => 1,
-				'label'      => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_relation.tx_terfe2_key',
+				'label'      => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_relation.relation_key',
 				'config'     => array(
 					'type'    => 'input',
 					'size'    => 30,
 					'eval'    => 'trim,required',
 				)
 			),
-			'version' => array(
+			'version_string' => array(
 				'exclude' => 1,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_relation.version',
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_relation.version_string',
 				'config'  => array(
 					'type' => 'input',
 					'size' => 30,

@@ -67,11 +67,18 @@
 		protected $author;
 
 		/**
+		 * The version number as integer
+		 * @var integer
+		 * @validate NotEmpty
+		 */
+		protected $versionNumber;
+
+		/**
 		 * The version number in format "x.x.x"
 		 * @var string
 		 * @validate NotEmpty
 		 */
-		protected $versionNumber;
+		protected $versionString;
 
 		/**
 		 * Upload date and time
@@ -340,7 +347,7 @@
 		/**
 		 * Setter for versionNumber
 		 *
-		 * @param string $versionNumber The version number in format "x.x.x"
+		 * @param integer $versionNumber The version number
 		 * @return void
 		 */
 		public function setVersionNumber($versionNumber) {
@@ -351,10 +358,31 @@
 		/**
 		 * Getter for versionNumber
 		 *
-		 * @return string The version number in format "x.x.x"
+		 * @return integer The version number
 		 */
 		public function getVersionNumber() {
 			return $this->versionNumber;
+		}
+		
+		
+		/**
+		 * Setter for versionString
+		 *
+		 * @param string $versionString The version number in format "x.x.x"
+		 * @return void
+		 */
+		public function setVersionString($versionString) {
+			$this->versionString = $versionString;
+		}
+
+
+		/**
+		 * Getter for versionString
+		 *
+		 * @return string The version number in format "x.x.x"
+		 */
+		public function getVersionString() {
+			return $this->versionString;
 		}
 
 

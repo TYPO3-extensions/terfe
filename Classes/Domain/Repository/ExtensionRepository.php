@@ -95,5 +95,24 @@
 			return $query->execute();
 		}
 
+
+		/**
+		 * Returns count of extensions with given extKey and versionNumber
+		 * 
+		 * @param string $extKey Extension Key
+		 * @param integer $versionNumber Version of the extension
+		 * @return integer Result count
+		 */
+		public function countByExtKeyAndVersion($extKey, $versionNumber) {
+			$query = $this->createQuery();
+			$query->matching(
+				$query->logicalAnd(
+					$query->equals('extKey', $extKey),
+					$query->greaterThanOrEqual('lastVersion.versionNumber', (int) $versionNumber)
+				)
+			);
+			return $query->count();
+		}
+
 	}
 ?>

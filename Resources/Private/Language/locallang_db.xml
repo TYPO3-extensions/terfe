@@ -31,6 +31,7 @@
 			<label index="tx_terfe2_domain_model_version.filename.popup">Open Wizard</label>
 			<label index="tx_terfe2_domain_model_version.author">Author</label>
 			<label index="tx_terfe2_domain_model_version.version_number">Version Number</label>
+			<label index="tx_terfe2_domain_model_version.version_string">Version Number</label>
 			<label index="tx_terfe2_domain_model_version.upload_date">Upload Date</label>
 			<label index="tx_terfe2_domain_model_version.upload_comment">Upload Comment</label>
 			<label index="tx_terfe2_domain_model_version.download_counter">Download Counter</label>
@@ -86,8 +87,8 @@
 			<label index="tx_terfe2_domain_model_relation">Relation</label>
 			<label index="tx_terfe2_domain_model_relation.relation_type">Relation Type</label>
 			<label index="tx_terfe2_domain_model_relation.software_type">Software Type</label>
-			<label index="tx_terfe2_domain_model_relation.tx_terfe2_key">Key</label>
-			<label index="tx_terfe2_domain_model_relation.version">Version</label>
+			<label index="tx_terfe2_domain_model_relation.relation_key">Key</label>
+			<label index="tx_terfe2_domain_model_relation.version_string">Version</label>
 
 			<label index="tt_content.flexform_pi1.s_def">General</label>
 			<label index="tt_content.flexform_pi1.s_def.type">Type</label>

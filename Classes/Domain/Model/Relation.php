@@ -52,13 +52,13 @@
 		 * @var string
 		 * @validate NotEmpty
 		 */
-		protected $key;
+		protected $relationKey;
 
 		/**
 		 * Version of the field "key", e.g. key "php" and version "5.2"
 		 * @var string
 		 */
-		protected $version;
+		protected $versionString;
 
 
 		/**
@@ -104,44 +104,44 @@
 
 
 		/**
-		 * Setter for key
+		 * Setter for relationKey
 		 *
-		 * @param string $key extension key, php, mysql or something else
+		 * @param string $relationKey extension key, php, mysql or something else
 		 * @return void
 		 */
-		public function setKey($key) {
-			$this->key = $key;
+		public function setRelationKey($relationKey) {
+			$this->relationKey = $relationKey;
 		}
 
 
 		/**
-		 * Getter for key
+		 * Getter for relationKey
 		 *
 		 * @return string extension key, php, mysql or something else
 		 */
-		public function getKey() {
-			return $this->key;
+		public function getRelationKey() {
+			return $this->relationKey;
 		}
 
 
 		/**
-		 * Setter for version
+		 * Setter for versionString
 		 *
-		 * @param string $version Version of the field "key", e.g. key "php" and version "5.2"
+		 * @param string $versionString Version of the field "key", e.g. key "php" and version "5.2"
 		 * @return void
 		 */
-		public function setVersion($version) {
-			$this->version = $version;
+		public function setVersionString($versionString) {
+			$this->versionString = $versionString;
 		}
 
 
 		/**
-		 * Getter for version
+		 * Getter for versionString
 		 *
 		 * @return string Version of the field "key", e.g. key "php" and version "5.2"
 		 */
-		public function getVersion() {
-			return $this->version;
+		public function getVersionString() {
+			return $this->versionString;
 		}
 
 	}

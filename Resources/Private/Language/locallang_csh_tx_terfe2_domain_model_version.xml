@@ -12,7 +12,8 @@
 			<label index="description.description">Description of the extension</label>
 			<label index="filename.description">Path to extension file</label>
 			<label index="author.description">author</label>
-			<label index="version_number.description">The version number in format "x.x.x"</label>
+			<label index="version_number.description">The version number</label>
+			<label index="version_string.description">The version number in format "x.x.x"</label>
 			<label index="upload_date.description">Upload date and time</label>
 			<label index="upload_comment.description">The user comment for this version</label>
 			<label index="download_counter.description">Shows how many times this version was downloaded</label>

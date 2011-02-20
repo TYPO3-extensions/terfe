@@ -9,8 +9,8 @@
         <languageKey index="default" type="array">
 			<label index="relation_type.description">Dependancy, conflict or suggest</label>
 			<label index="software_type.description">Core, extension or system</label>
-			<label index="tx_terfe2_key.description">extension key, php, mysql or something else</label>
-			<label index="version.description">Version of the field "key", e.g. key "php" and version "5.2"</label>
+			<label index="relation_key.description">extension key, php, mysql or something else</label>
+			<label index="version_string.description">Version of the field "key", e.g. key "php" and version "5.2"</label>
 		</languageKey>
     </data>
 </T3locallang>
