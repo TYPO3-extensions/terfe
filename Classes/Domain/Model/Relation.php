@@ -55,10 +55,11 @@
 		protected $relationKey;
 
 		/**
-		 * Version of the field "key", e.g. key "php" and version "5.2"
-		 * @var string
+		 * Version range, something like 3.8.1-4.5.1
+		 * @var Tx_TerFe2_Domain_Model_VersionRange
+		 * @validate NotEmpty
 		 */
-		protected $versionString;
+		protected $versionRange;
 
 
 		/**
@@ -125,23 +126,23 @@
 
 
 		/**
-		 * Setter for versionString
+		 * Setter for versionRange
 		 *
-		 * @param string $versionString Version of the field "key", e.g. key "php" and version "5.2"
+		 * @param Tx_TerFe2_Domain_Model_VersionRange $versionRange Version range of the relation
 		 * @return void
 		 */
-		public function setVersionString($versionString) {
-			$this->versionString = $versionString;
+		public function setVersionRange(Tx_TerFe2_Domain_Model_VersionRange $versionRange) {
+			$this->versionRange = $versionRange;
 		}
 
 
 		/**
-		 * Getter for versionString
+		 * Getter for versionRange
 		 *
-		 * @return string Version of the field "key", e.g. key "php" and version "5.2"
+		 * @return Tx_TerFe2_Domain_Model_VersionRange Version range of the relation
 		 */
-		public function getVersionString() {
-			return $this->versionString;
+		public function getVersionRange() {
+			return $this->versionRange;
 		}
 
 	}

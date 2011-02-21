@@ -21,31 +21,33 @@
 
 	// Domain models and their label field
 	$models = array(
-		'extension'  => 'ext_key',
-		'category'   => 'title',
-		'tag'        => 'title',
-		'version'    => 'title',
-		'media'      => 'title',
-		'experience' => 'date_time',
-		'relation'   => 'relation_type',
+		'Extension'    => 'ext_key',
+		'Category'     => 'title',
+		'Tag'          => 'title',
+		'Version'      => 'title',
+		'Media'        => 'title',
+		'Experience'   => 'date_time',
+		'Relation'     => 'relation_type',
+		'VersionRange' => 'minimum_value',
 	);
 
 	// Add entities and value objects
 	foreach ($models as $modelName => $labelField) {
+		$modelNameLower = strtolower($modelName);
 
 		// Add help text to the Backend form
 		t3lib_extMgm::addLLrefForTCAdescr(
-			'tx_terfe2_domain_model_' . $modelName,
-			'EXT:ter_fe2/Resources/Private/Language/locallang_csh_tx_terfe2_domain_model_' . $modelName . '.xml'
+			'tx_terfe2_domain_model_' . $modelNameLower,
+			'EXT:ter_fe2/Resources/Private/Language/locallang_csh_tx_terfe2_domain_model_' . $modelNameLower . '.xml'
 		);
 
 		// Allow datasets on standard pages
-		t3lib_extMgm::allowTableOnStandardPages('tx_terfe2_domain_model_' . $modelName);
+		t3lib_extMgm::allowTableOnStandardPages('tx_terfe2_domain_model_' . $modelNameLower);
 
 		// Add table configuration
-		$TCA['tx_terfe2_domain_model_' . $modelName] = array (
+		$TCA['tx_terfe2_domain_model_' . $modelNameLower] = array (
 			'ctrl' => array (
-				'title'                    => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_' . $modelName,
+				'title'                    => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_' . $modelNameLower,
 				'label'                    => $labelField,
 				'tstamp'                   => 'tstamp',
 				'crdate'                   => 'crdate',
@@ -60,7 +62,7 @@
 					'disabled'              => 'hidden'
 				),
 				'dynamicConfigFile'        => t3lib_extMgm::extPath($_EXTKEY)    . 'Configuration/TCA/' . ucfirst($modelName) . '.php',
-				'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_terfe2_domain_model_' . $modelName . '.gif'
+				'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_terfe2_domain_model_' . $modelNameLower . '.gif'
 			)
 		);
 

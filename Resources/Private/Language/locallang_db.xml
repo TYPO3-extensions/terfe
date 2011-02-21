@@ -88,7 +88,11 @@
 			<label index="tx_terfe2_domain_model_relation.relation_type">Relation Type</label>
 			<label index="tx_terfe2_domain_model_relation.software_type">Software Type</label>
 			<label index="tx_terfe2_domain_model_relation.relation_key">Key</label>
-			<label index="tx_terfe2_domain_model_relation.version_string">Version</label>
+			<label index="tx_terfe2_domain_model_relation.version_range">Version range</label>
+
+			<label index="tx_terfe2_domain_model_versionrange">Relation</label>
+			<label index="tx_terfe2_domain_model_versionrange.minimum_value">Minimum value</label>
+			<label index="tx_terfe2_domain_model_versionrange.maximum_value">Maximum value</label>
 
 			<label index="tt_content.flexform_pi1.s_def">General</label>
 			<label index="tt_content.flexform_pi1.s_def.type">Type</label>

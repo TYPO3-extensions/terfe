@@ -13,6 +13,7 @@
 		'tx_terfe2_domain_model_relation' => $extensionClassesPath . 'Domain/Model/Relation.php',
 		'tx_terfe2_domain_model_tag' => $extensionClassesPath . 'Domain/Model/Tag.php',
 		'tx_terfe2_domain_model_version' => $extensionClassesPath . 'Domain/Model/Version.php',
+		'tx_terfe2_domain_model_versionrange' => $extensionClassesPath . 'Domain/Model/VersionRange.php',
 		'tx_terfe2_domain_repository_categoryrepository' => $extensionClassesPath . 'Domain/Repository/CategoryRepository.php',
 		'tx_terfe2_domain_repository_extensionrepository' => $extensionClassesPath . 'Domain/Repository/ExtensionRepository.php',
 		'tx_terfe2_domain_repository_tagrepository' => $extensionClassesPath . 'Domain/Repository/TagRepository.php',

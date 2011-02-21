@@ -9,16 +9,17 @@ plugin.tx_terfe2 {
 
 	## Storage settings
 	persistence {
-		storagePid = {$plugin.tx_terfe2.persistence.extensionPid},{$plugin.tx_terfe2.persistence.versionPid},{$plugin.tx_terfe2.persistence.categoryPid},{$plugin.tx_terfe2.persistence.tagPid},{$plugin.tx_terfe2.persistence.experiencePid},{$plugin.tx_terfe2.persistence.mediaPid},{$plugin.tx_terfe2.persistence.relationPid}
+		storagePid = {$plugin.tx_terfe2.persistence.extensionPid},{$plugin.tx_terfe2.persistence.versionPid},{$plugin.tx_terfe2.persistence.categoryPid},{$plugin.tx_terfe2.persistence.tagPid},{$plugin.tx_terfe2.persistence.experiencePid},{$plugin.tx_terfe2.persistence.mediaPid},{$plugin.tx_terfe2.persistence.relationPid},{$plugin.tx_terfe2.persistence.versionRangePid}
 
 		classes {
-			Tx_TerFe2_Domain_Model_Extension.newRecordStoragePid  = {$plugin.tx_terfe2.persistence.extensionPid}
-			Tx_TerFe2_Domain_Model_Version.newRecordStoragePid    = {$plugin.tx_terfe2.persistence.versionPid}
-			Tx_TerFe2_Domain_Model_Category.newRecordStoragePid   = {$plugin.tx_terfe2.persistence.categoryPid}
-			Tx_TerFe2_Domain_Model_Tag.newRecordStoragePid        = {$plugin.tx_terfe2.persistence.tagPid}
-			Tx_TerFe2_Domain_Model_Experience.newRecordStoragePid = {$plugin.tx_terfe2.persistence.experiencePid}
-			Tx_TerFe2_Domain_Model_Media.newRecordStoragePid      = {$plugin.tx_terfe2.persistence.mediaPid}
-			Tx_TerFe2_Domain_Model_Relation.newRecordStoragePid   = {$plugin.tx_terfe2.persistence.relationPid}
+			Tx_TerFe2_Domain_Model_Extension.newRecordStoragePid    = {$plugin.tx_terfe2.persistence.extensionPid}
+			Tx_TerFe2_Domain_Model_Version.newRecordStoragePid      = {$plugin.tx_terfe2.persistence.versionPid}
+			Tx_TerFe2_Domain_Model_Category.newRecordStoragePid     = {$plugin.tx_terfe2.persistence.categoryPid}
+			Tx_TerFe2_Domain_Model_Tag.newRecordStoragePid          = {$plugin.tx_terfe2.persistence.tagPid}
+			Tx_TerFe2_Domain_Model_Experience.newRecordStoragePid   = {$plugin.tx_terfe2.persistence.experiencePid}
+			Tx_TerFe2_Domain_Model_Media.newRecordStoragePid        = {$plugin.tx_terfe2.persistence.mediaPid}
+			Tx_TerFe2_Domain_Model_Relation.newRecordStoragePid     = {$plugin.tx_terfe2.persistence.relationPid}
+			Tx_TerFe2_Domain_Model_VersionRange.newRecordStoragePid = {$plugin.tx_terfe2.persistence.versionRangePid}
 		}
 	}
 

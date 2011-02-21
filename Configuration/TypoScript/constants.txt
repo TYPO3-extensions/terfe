@@ -20,6 +20,9 @@ plugin.tx_terfe2 {
 
 		# cat=plugin.tx_terfe2/persistence/160; type=int+; label=Relation storage PID
 		relationPid = 0
+
+		# cat=plugin.tx_terfe2/persistence/170; type=int+; label=Version range storage PID
+		versionRangePid = 0
 	}
 
 	view {

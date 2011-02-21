@@ -68,6 +68,7 @@
 		 * Public method, usually called by scheduler.
 		 *
 		 * TODO:
+		 *  - Version Range is NULL while persiting software relation objects
 		 *  - Cache Extensions (?)
 		 *  - Prevent duplicate Version and Relations
 		 *  - Use a ValueRange object for version requirements in relation objects
@@ -183,7 +184,7 @@
 					'relationType'  => 'dependancy',
 					'relationKey'   => 'typo3',
 					'softwareType'  => 'system',
-					'versionString' => $extContent['EM_CONF']['TYPO3_version'],
+					'versionRange'  => $extContent['EM_CONF']['TYPO3_version'],
 				);
 			}
 
@@ -193,7 +194,7 @@
 					'relationType'  => 'dependancy',
 					'relationKey'   => 'php',
 					'softwareType'  => 'system',
-					'versionString' => $extContent['EM_CONF']['PHP_version'],
+					'versionRange'  => $extContent['EM_CONF']['PHP_version'],
 				);
 			}
 
@@ -260,23 +261,18 @@
 		 * @return Tx_TerFe2_Domain_Model_Relation New releation object
 		 */
 		protected function createSoftwareRelation(array $relationInfo) {
-			// Get version string
-			$versionString = $relationInfo['versionString'];
-			if (strpos($versionString, '-') !== FALSE) {
-				$versionParts = t3lib_div::trimExplode('-', $versionString);
-				if (array_search('0.0.0', $versionParts) == 1) {
-					$versionString = '>' . $versionParts[0];
-				} else {
-					$versionString = '<' . $versionParts[1];
-				}
-			}
+			// Get version range
+			$versionParts = t3lib_div::trimExplode('-', $relationInfo['versionRange']);
+			$minimumValue = (!empty($versionParts[0]) ? t3lib_div::int_from_ver($versionParts[0]) : 0);
+			$maximumValue = (!empty($versionParts[1]) ? t3lib_div::int_from_ver($versionParts[1]) : 0);
+			$versionRange = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_VersionRange', $minimumValue, $maximumValue);
 
 			// Get Relation object
 			$relationObject = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Relation');
 			$relationObject->setRelationType($relationInfo['relationType']);
 			$relationObject->setRelationKey($relationInfo['relationKey']);
 			$relationObject->setSoftwareType($relationInfo['softwareType']);
-			$relationObject->setVersionString($versionString);
+			$relationObject->setVersionRange($versionRange);
 
 			return $relationObject;
 		}
