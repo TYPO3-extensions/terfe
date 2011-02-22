@@ -49,6 +49,11 @@
 		protected $fileHandler;
 
 		/**
+		 * @var Tx_TerFe2_Service_TypoScriptParserService
+		 */
+		protected $typoScriptParser;
+
+		/**
 		 * @var Tx_Extbase_Persistence_Manager
 		 */
 		protected $persistenceManager;
@@ -68,10 +73,8 @@
 		 * Public method, usually called by scheduler.
 		 *
 		 * TODO:
-		 *  - Version Range is NULL while persiting software relation objects
 		 *  - Cache Extensions (?)
 		 *  - Prevent duplicate Version and Relations
-		 *  - Use a ValueRange object for version requirements in relation objects
 		 *  - Check how to handle author information
 		 *  - Add upload comment to version object (requires a connection to ter extension?)
 		 *
@@ -97,6 +100,13 @@
 			$this->persistenceManager = Tx_Extbase_Dispatcher::getPersistenceManager();
 			$this->dataMapper = $this->persistenceManager->getBackend()->getDataMapper();
 			$this->session = $this->persistenceManager->getSession();
+
+			// Pre-parse TypoScript setup
+			/*
+			 * TODO: Inject setup to dispatcher, required to store objects in correct sysfolder
+			 */
+			$this->typoScriptParser = t3lib_div::makeInstance('Tx_TerFe2_Service_TypoScriptParserService');
+			$this->settings = $this->typoScriptParser->getParsedConfiguration();
 
 			// Get Extension repository and add extension objects
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
@@ -263,16 +273,16 @@
 		protected function createSoftwareRelation(array $relationInfo) {
 			// Get version range
 			$versionParts = t3lib_div::trimExplode('-', $relationInfo['versionRange']);
-			$minimumValue = (!empty($versionParts[0]) ? t3lib_div::int_from_ver($versionParts[0]) : 0);
-			$maximumValue = (!empty($versionParts[1]) ? t3lib_div::int_from_ver($versionParts[1]) : 0);
-			$versionRange = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_VersionRange', $minimumValue, $maximumValue);
+			$minimumVersion = (!empty($versionParts[0]) ? t3lib_div::int_from_ver($versionParts[0]) : 0);
+			$maximumVersion = (!empty($versionParts[1]) ? t3lib_div::int_from_ver($versionParts[1]) : 0);
 
 			// Get Relation object
 			$relationObject = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Relation');
 			$relationObject->setRelationType($relationInfo['relationType']);
 			$relationObject->setRelationKey($relationInfo['relationKey']);
 			$relationObject->setSoftwareType($relationInfo['softwareType']);
-			$relationObject->setVersionRange($versionRange);
+			$relationObject->setMinimumVersion($minimumVersion);
+			$relationObject->setMaximumVersion($maximumVersion);
 
 			return $relationObject;
 		}

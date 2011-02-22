@@ -39,41 +39,47 @@
 
 
 		/**
-		 * Contructor for the TypoScript parser
-		 *
-		 * @return void
-		 */
-		public function __construct() {
-			if (empty($this->cObj)) {
-				$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-			}
-		}
-
-
-		/**
 		 * Returns completely parsed TypoScript configuration
-		 * 
+		 *
 		 * @param array $configuration TypoScript configuration
 		 * @return array Parsed configuration
 		 */
-		public function getParsed(array $configuration) {
-			if (!empty($configuration)) {
-				$configuration = $this->parse($configuration);
-				return t3lib_div::removeDotsFromTS($configuration);
+		public function getParsedConfiguration(array $configuration = array()) {
+			if (!defined('TYPO3_MODE')) {
+				return array();
 			}
 
-			return array();
+			// Parse TypoScript configuration for the Frontend
+			if (TYPO3_MODE == 'FE') {
+				if (empty($this->cObj)) {
+					$this->cObj = t3lib_div::makeInstance('tslib_cObj');
+				}
+				$configuration = $this->parsePlainArray($configuration);
+			}
+
+			// Parse TypoScript configuration for the Backend
+			if (TYPO3_MODE == 'BE') {
+				if (empty($this->cObj)) {
+					$this->cObj = $this->getBackendCObj();
+				}
+				if (empty($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_terfe2.'])) {
+					return array();
+				}
+				$configuration = $this->parseTypoScriptArray($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_terfe2.']);
+			}
+
+			return t3lib_div::removeDotsFromTS($configuration);
 		}
 
 
 		/**
-		 * Parse TypoScript configuration
-		 * 
+		 * Parse plain "Fluid like" TypoScript configuration
+		 *
 		 * @param array $configuration TypoScript configuration
 		 * @param boolean $parseSub Parse child nodes
 		 * @return array Parsed configuration
 		 */
-		public function parse(array $configuration, $parseSub = TRUE) {
+		public function parsePlainArray(array $configuration, $parseSub = TRUE) {
 			$typoScriptArray = array();
 
 			foreach ($configuration as $key => $value) {
@@ -82,7 +88,7 @@
 					if (!empty($value['_typoScriptNodeValue'])) {
 						$typoScriptArray[$key] = $value['_typoScriptNodeValue'];
 						unset($value['_typoScriptNodeValue']);
-						$typoScriptArray[$key . '.'] = $this->parse($value, FALSE);
+						$typoScriptArray[$key . '.'] = $this->parsePlainArray($value, FALSE);
 
 						// Parse TypoScript object
 						if ($parseSub) {
@@ -93,7 +99,7 @@
 							unset($typoScriptArray[$key . '.']);
 						}
 					} else {
-						$typoScriptArray[$key . '.'] = $this->parse($value, $parseSub);
+						$typoScriptArray[$key . '.'] = $this->parsePlainArray($value, $parseSub);
 					}
 				} else {
 					$typoScriptArray[$key] = $value;
@@ -101,6 +107,66 @@
 			}
 
 			return $typoScriptArray;
+		}
+
+
+		/**
+		 * Parse classic TypoScript configuration
+		 *
+		 * @param array $configuration TypoScript configuration
+		 * @return array Parsed configuration
+		 */
+		public function parseTypoScriptArray(array $configuration) {
+			$typoScriptArray = array();
+
+			foreach ($configuration as $key => $value) {
+				$ident = rtrim($key, '.');
+				if (is_array($value)) {
+					if (!empty($configuration[$ident])) {
+						$typoScriptArray[$ident] = $this->cObj->cObjGetSingle($configuration[$ident], $value);
+					} else {
+						$typoScriptArray[$key] = $this->parseTypoScriptArray($value);
+					}
+				} else if (is_string($value) && $key == $ident) {
+					$typoScriptArray[$key] = $value;
+				}
+			}
+
+			return $typoScriptArray;
+		}
+
+
+		/**
+		 * Create a cObj within Backend
+		 *
+		 * @param integer $pid Load configuration for this page
+		 * @return tslib_cObj New cObj instance
+		 */
+		protected function getBackendCObj($pid = 1) {
+			if (!empty($GLOBALS['TSFE'])) {
+				return t3lib_div::makeInstance('tslib_cObj');
+			}
+
+			// Load required TimeTrack object
+			if (!is_object($GLOBALS['TT'])) {
+				$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
+				$GLOBALS['TT']->start();
+			}
+
+			// Load basic Frontend and TypoScript configuration
+			if (!empty($GLOBALS['TYPO3_CONF_VARS'])) {
+				$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], (int) $pid, 0);
+				$GLOBALS['TSFE']->connectToDB();
+				$GLOBALS['TSFE']->initFEuser();
+				$GLOBALS['TSFE']->determineId();
+				if (empty($GLOBALS['TCA'])) {
+					$GLOBALS['TSFE']->getCompressedTCarray();
+				}
+				$GLOBALS['TSFE']->initTemplate();
+				$GLOBALS['TSFE']->getConfigArray();
+			}
+
+			return t3lib_div::makeInstance('tslib_cObj');
 		}
 
 	}

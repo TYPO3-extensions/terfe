@@ -10,7 +10,8 @@
 			<label index="relation_type.description">Dependancy, conflict or suggest</label>
 			<label index="software_type.description">Core, extension or system</label>
 			<label index="relation_key.description">extension key, php, mysql or something else</label>
-			<label index="version_range.description">Version of the relation e.g. 3.8.1-4.5.1</label>
+			<label index="minimum_version.description">Minimum required version e.g. 3.8.1</label>
+			<label index="maximum_version.description">Maximum allowed version e.g. 4.5.1</label>
 		</languageKey>
 	</data>
 </T3locallang>

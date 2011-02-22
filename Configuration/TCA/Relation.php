@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_relation'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_relation']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'relation_type,software_type,relation_key,version_range',
+			'showRecordFieldList' => 'relation_type,software_type,relation_key,minimum_version,maximum_version',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'relation_type,software_type,relation_key,version_range'),
+			'1' => array('showitem' => 'relation_type,software_type,relation_key,minimum_version,maximum_version'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -88,14 +88,22 @@
 					'eval'    => 'trim,required',
 				),
 			),
-			'version_range' => array(
-				'exclude' => 1,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_relation.version_range',
-				'config'  => array(
-					'type'          => 'inline',
-					'foreign_table' => 'tx_terfe2_domain_model_versionrange',
-					'eval'          => 'required',
-					'maxitems'      => 1,
+			'minimum_version' => array(
+				'exclude'    => 1,
+				'label'      => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_relation.minimum_version',
+				'config'     => array(
+					'type'    => 'input',
+					'size'    => 12,
+					'eval'    => 'int',
+				),
+			),
+			'maximum_version' => array(
+				'exclude'    => 1,
+				'label'      => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_relation.maximum_version',
+				'config'     => array(
+					'type'    => 'input',
+					'size'    => 12,
+					'eval'    => 'int',
 				),
 			),
 			'version' => array(

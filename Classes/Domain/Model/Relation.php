@@ -55,11 +55,16 @@
 		protected $relationKey;
 
 		/**
-		 * Version range, something like 3.8.1-4.5.1
-		 * @var Tx_TerFe2_Domain_Model_VersionRange
-		 * @validate NotEmpty
+		 * Minimum required version for this Relation
+		 * @var integer
 		 */
-		protected $versionRange;
+		protected $minimumVersion;
+
+		/**
+		 * Maximum allowed version for this Relation
+		 * @var integer
+		 */
+		protected $maximumVersion;
 
 
 		/**
@@ -126,23 +131,44 @@
 
 
 		/**
-		 * Setter for versionRange
+		 * Setter for minimumVersion
 		 *
-		 * @param Tx_TerFe2_Domain_Model_VersionRange $versionRange Version range of the relation
+		 * @param integer $minimumVersion Minimum required version
 		 * @return void
 		 */
-		public function setVersionRange(Tx_TerFe2_Domain_Model_VersionRange $versionRange) {
-			$this->versionRange = $versionRange;
+		public function setMinimumVersion($minimumVersion) {
+			$this->minimumVersion = $minimumVersion;
 		}
 
 
 		/**
-		 * Getter for versionRange
+		 * Getter for minimumVersion
 		 *
-		 * @return Tx_TerFe2_Domain_Model_VersionRange Version range of the relation
+		 * @return integer Minimum required version
 		 */
-		public function getVersionRange() {
-			return $this->versionRange;
+		public function getMinimumVersion() {
+			return $this->minimumVersion;
+		}
+
+
+		/**
+		 * Setter for maximumVersion
+		 *
+		 * @param integer $maximumVersion Maximum allowed version
+		 * @return void
+		 */
+		public function setMaximumVersion($maximumVersion) {
+			$this->maximumVersion = $maximumVersion;
+		}
+
+
+		/**
+		 * Getter for maximumVersion
+		 *
+		 * @return integer Maximum allowed version
+		 */
+		public function getMaximumVersion() {
+			return $this->maximumVersion;
 		}
 
 	}
