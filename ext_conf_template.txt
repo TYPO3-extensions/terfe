@@ -1,2 +1,2 @@
-# cat=general options/ter/100; type=string; label=Extension directory: Relative path to the extension directory (e.g. fileadmin/ter/)
-terDirectory = fileadmin/ter/
+# cat=general options/ter/100; type=string; label=Extension Path: Path to the extension directory (e.g. fileadmin/ter/)
+extensionRootPath = fileadmin/ter/

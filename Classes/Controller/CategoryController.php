@@ -37,11 +37,6 @@
 		 */
 		protected $categoryRepository;
 
-		/**
-		 * @var Tx_TerFe2_Service_TypoScriptParserService
-		 */
-		protected $typoScriptParser;
-
 
 		/**
 		 * Initializes the current action
@@ -50,10 +45,9 @@
 		 */
 		protected function initializeAction() {
 			$this->categoryRepository  = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
-			$this->typoScriptParser    = t3lib_div::makeInstance('Tx_TerFe2_Service_TypoScriptParserService');
 
 			// Pre-parse TypoScript setup
-			$this->settings = $this->typoScriptParser->getParsedConfiguration($this->settings);
+			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
 		}
 
 

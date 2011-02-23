@@ -24,13 +24,13 @@
 	 ******************************************************************/
 
 	/**
-	 * Specific methods for file handling
+	 * Utilities to manage files
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_Service_FileHandlerService implements t3lib_Singleton {
+	class Tx_TerFe2_Utility_Files implements t3lib_Singleton {
 
 		/**
 		 * Check if a file or directory exists
@@ -38,7 +38,7 @@
 		 * @param string $filename Path to the file
 		 * @return boolean TRUE if file exists
 		 */
-		public function fileExists($filename) {
+		static public function fileExists($filename) {
 			if (empty($filename)) {
 				return FALSE;
 			}
@@ -59,13 +59,13 @@
 		 * @param string $fileType File type of the returning path
 		 * @return string Path to extension
 		 */
-		public function getT3xRelPath($extKey, $version, $fileType = 't3x') {
+		static public function getT3xRelPath($extKey, $version, $fileType = 't3x') {
 			if (empty($extKey) || empty($version)) {
 				return '';
 			}
 
 			$extKey  = strtolower($extKey);
-			$version = t3lib_div::intExplode('.', $version);
+			$version = Tx_Extbase_Utility_Arrays::integerExplode('.', $version);
 			$path    = '%s/%s/%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
 
 			return sprintf($path, $extKey[0], $extKey[1], $extKey, $version[0], $version[1], $version[2]);
@@ -78,7 +78,7 @@
 		 * @param string $filename Path to T3X file
 		 * @return array Unpacked extension files
 		 */
-		public function unpackT3xFile($filename) {
+		static public function unpackT3xFile($filename) {
 			if (empty($filename)) {
 				return array();
 			}
@@ -110,7 +110,7 @@
 		 * @param string $filename Path to the file
 		 * @return string Generated hash or an empty string if file not found
 		 */
-		public function getFileHash($filename) {
+		static public function getFileHash($filename) {
 			$result = @md5_file($filename);
 			if ($result !== FALSE) {
 				return $result;
@@ -126,7 +126,7 @@
 		 * @param string $filename Path to the file
 		 * @reutrn integer Timestamp of the modification time
 		 */
-		public function getModificationTime($filename) {
+		static public function getModificationTime($filename) {
 			// clearstatcache();
 			return (int) @filemtime($filename);
 		}
@@ -141,9 +141,9 @@
 		 * @param string $visibleFilename Override real filename with this one for download
 		 * @return boolean FALSE if file not exists
 		 */
-		public function transferFile($filename, $visibleFilename = '') {
+		static public function transferFile($filename, $visibleFilename = '') {
 			$filename = t3lib_div::getFileAbsFileName($filename);
-			if (!$this->fileExists($filename)) {
+			if (!self::fileExists($filename)) {
 				return FALSE;
 			}
 
@@ -180,9 +180,9 @@
 		 * @param boolean $recursive Get subfolder content too
 		 * @return array All contained files
 		 */
-		public function getFiles($dirname, $fileType = '', $timestamp = 0, $recursive = FALSE) {
+		static public function getFiles($dirname, $fileType = '', $timestamp = 0, $recursive = FALSE) {
 			$dirname = t3lib_div::getFileAbsFileName($dirname);
-			if (!$this->fileExists($dirname)) {
+			if (!self::fileExists($dirname)) {
 				return array();
 			}
 
@@ -209,7 +209,7 @@
 
 					// Check timestamp
 					if ($timestamp) {
-						$modificationTime = $this->getModificationTime($fileName);
+						$modificationTime = self::getModificationTime($fileName);
 						if ($modificationTime < $timestamp) {
 							continue;
 						}

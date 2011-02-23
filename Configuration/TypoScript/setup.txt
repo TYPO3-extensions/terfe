@@ -4,7 +4,7 @@
 plugin.tx_terfe2 {
 	## General settings
 	settings {
-
+		latestCount = 20
 	}
 
 	## Storage settings

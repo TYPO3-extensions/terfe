@@ -48,16 +48,6 @@
 		 */
 		protected $tagRepository;
 
-		/**
-		 * @var Tx_TerFe2_Service_TypoScriptParserService
-		 */
-		protected $typoScriptParser;
-
-		/**
-		 * @var Tx_TerFe2_Service_FileHandlerService
-		 */
-		protected $fileHandler;
-
 
 		/**
 		 * Initializes the current action
@@ -68,11 +58,9 @@
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->categoryRepository  = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
 			$this->tagRepository       = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_TagRepository');
-			$this->typoScriptParser    = t3lib_div::makeInstance('Tx_TerFe2_Service_TypoScriptParserService');
-			$this->fileHandler         = t3lib_div::makeInstance('Tx_TerFe2_Service_FileHandlerService');
 
 			// Pre-parse TypoScript setup
-			$this->settings = $this->typoScriptParser->getParsedConfiguration($this->settings);
+			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
 		}
 
 
@@ -202,7 +190,8 @@
 		 */
 		public function createVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $newVersion) {
 			// Get file hash
-			$fileHash = $this->fileHandler->getFileHash($newVersion->getFilename());
+			$fileName = t3lib_div::getFileAbsFileName($newVersion->getFilename());
+			$fileHash = Tx_TerFe2_Utility_Files::getFileHash($fileName);
 
 			if (!empty($fileHash)) {
 				$newVersion->setFileHash($fileHash);

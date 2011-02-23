@@ -16,8 +16,8 @@
 		'tx_terfe2_domain_repository_categoryrepository' => $extensionClassesPath . 'Domain/Repository/CategoryRepository.php',
 		'tx_terfe2_domain_repository_extensionrepository' => $extensionClassesPath . 'Domain/Repository/ExtensionRepository.php',
 		'tx_terfe2_domain_repository_tagrepository' => $extensionClassesPath . 'Domain/Repository/TagRepository.php',
-		'tx_terfe2_service_filehandlerservice' => $extensionClassesPath . 'Service/FileHandlerService.php',
-		'tx_terfe2_service_typoscriptparserservice' => $extensionClassesPath . 'Service/TypoScriptParserService.php',
 		'tx_terfe2_task_updateextensionlisttask' => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
+		'tx_terfe2_utility_files' => $extensionClassesPath . 'Utility/Files.php',
+		'tx_terfe2_utility_typoscript' => $extensionClassesPath . 'Utility/TypoScript.php',
 	);
 ?>

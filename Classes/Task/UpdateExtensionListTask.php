@@ -34,6 +34,11 @@
 	class Tx_TerFe2_Task_UpdateExtensionListTask extends tx_scheduler_Task {
 
 		/**
+		 * @var array
+		 */
+		protected $settings;
+
+		/**
 		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
 		 */
 		protected $extensionRepository;
@@ -42,11 +47,6 @@
 		 * @var t3lib_Registry
 		 */
 		protected $registry;
-
-		/**
-		 * @var Tx_TerFe2_Service_FileHandlerService
-		 */
-		protected $fileHandler;
 
 		/**
 		 * @var Tx_Extbase_Persistence_Manager
@@ -68,7 +68,7 @@
 		 * Public method, usually called by scheduler.
 		 *
 		 * TODO:
-		 *  - Cache Extensions (?)
+		 *  - Version Number will not be stored into DB table
 		 *  - Prevent duplicate Version and Relations
 		 *  - Check how to handle author information
 		 *  - Add upload comment to version object (requires a connection to ter extension?)
@@ -76,30 +76,18 @@
 		 * @return boolean TRUE on success
 		 */
 		public function execute() {
-			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
-			$extPath = ($extConf['terDirectory'] ? $extConf['terDirectory'] : 'fileadmin/ter/');
-
-			// Get last run
-			$this->registry = t3lib_div::makeInstance('t3lib_Registry');
-			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
+			// Initialize environment
+			$this->initialize();
 
 			// Get all T3X files in the target directory changed since last run
-			$this->fileHandler = t3lib_div::makeInstance('Tx_TerFe2_Service_FileHandlerService');
-			$files = $this->fileHandler->getFiles($extPath, 't3x', 99999, TRUE); // $lastRun['end']
+			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
+			$extPath = (!empty($this->settings['extensionRootPath']) ? $this->settings['extensionRootPath'] : 'fileadmin/ter/');
+			$files = Tx_TerFe2_Utility_Files::getFiles($extPath, 't3x', 99999, TRUE); // $lastRun['end']
 			if (empty($files)) {
 				return TRUE;
 			}
 
-			// Load Dispatcher and get Persistance manager
-			t3lib_div::makeInstance('Tx_Extbase_Dispatcher');
-			// $dispatcher = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap');
-			// $dispatcher->initialize(array('extensionName' => NULL, 'pluginName' => NULL));
-			$this->persistenceManager = Tx_Extbase_Dispatcher::getPersistenceManager();
-			$this->dataMapper = $this->persistenceManager->getBackend()->getDataMapper();
-			$this->session = $this->persistenceManager->getSession();
-
-			// Get Extension repository and add extension objects
-			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			// Create new Version and Extension objects
 			foreach ($files as $key => $fileName) {
 				// Generate Extension information
 				$extInfo = $this->getExtensionInfo($fileName);
@@ -131,6 +119,40 @@
 
 
 		/**
+		 * Initialize environment
+		 *
+		 * @return void
+		 */
+		protected function initialize() {
+			// Dummy Extension configuration for Dispatcher
+			$configuration = array(
+				'extensionName' => 'TerFe2',
+				'pluginName'    => 'Pi1',
+			);
+
+			// Get TypoScript configuration
+			$setup = Tx_TerFe2_Utility_TypoScript::getSetup();
+			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($setup['settings.']);
+			$configuration = array_merge($configuration, $setup);
+
+			// Add Extension configuration
+			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
+			$this->settings = Tx_Extbase_Utility_Arrays::arrayMergeRecursiveOverrule($this->settings, $extConf, FALSE, FALSE);
+
+			// Load Dispatcher
+			$dispatcher = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap');
+			$dispatcher->initialize($configuration);
+
+			// Load required objects
+			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			$this->registry            = t3lib_div::makeInstance('t3lib_Registry');
+			$this->persistenceManager  = Tx_Extbase_Dispatcher::getPersistenceManager();
+			$this->dataMapper          = $this->persistenceManager->getBackend()->getDataMapper();
+			$this->session             = $this->persistenceManager->getSession();
+		}
+
+
+		/**
 		 * Generates an array with all Extension information
 		 *
 		 * @param string $fileName Filename of the relating t3x file
@@ -142,7 +164,7 @@
 			}
 
 			// Unpack file and get extension details
-			$extContent = $this->fileHandler->unpackT3xFile($fileName);
+			$extContent = Tx_TerFe2_Utility_Files::unpackT3xFile($fileName);
 			unset($extContent['FILES']);
 
 			$extInfo = array(
@@ -150,9 +172,9 @@
 				'forgeLink'         => '',
 				'hudsonLink'        => '',
 				'title'             => $extContent['EM_CONF']['title'],
-				'icon'              => $this->fileHandler->getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version'], '.gif'),
+				'icon'              => Tx_TerFe2_Utility_Files::getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version'], '.gif'),
 				'description'       => $extContent['EM_CONF']['description'],
-				'filename'          => $this->fileHandler->getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version']),
+				'filename'          => Tx_TerFe2_Utility_Files::getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version']),
 				'author'            => $extContent['EM_CONF']['author'],
 				'authorEmail'       => $extContent['EM_CONF']['author_email'],   // Missing in version object
 				'authorCompany'     => $extContent['EM_CONF']['author_company'], // Missing in version object
@@ -174,7 +196,7 @@
 				'lockType'          => $extContent['EM_CONF']['lockType'],
 				'cglCompliance'     => $extContent['EM_CONF']['CGLcompliance'],
 				'cglComplianceNote' => $extContent['EM_CONF']['CGLcompliance_note'],
-				'fileHash'          => $this->fileHandler->getFileHash($fileName),
+				'fileHash'          => Tx_TerFe2_Utility_Files::getFileHash($fileName),
 				'softwareRelation'  => array(), // dependencies, conflicts, suggests, TYPO3_version, PHP_version
 			);
 
@@ -262,7 +284,7 @@
 		 */
 		protected function createSoftwareRelation(array $relationInfo) {
 			// Get version range
-			$versionParts = t3lib_div::trimExplode('-', $relationInfo['versionRange']);
+			$versionParts = Tx_Extbase_Utility_Arrays::trimExplode('-', $relationInfo['versionRange']);
 			$minimumVersion = (!empty($versionParts[0]) ? t3lib_div::int_from_ver($versionParts[0]) : 0);
 			$maximumVersion = (!empty($versionParts[1]) ? t3lib_div::int_from_ver($versionParts[1]) : 0);
 
