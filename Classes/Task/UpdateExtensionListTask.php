@@ -49,11 +49,6 @@
 		protected $fileHandler;
 
 		/**
-		 * @var Tx_TerFe2_Service_TypoScriptParserService
-		 */
-		protected $typoScriptParser;
-
-		/**
 		 * @var Tx_Extbase_Persistence_Manager
 		 */
 		protected $persistenceManager;
@@ -95,18 +90,13 @@
 				return TRUE;
 			}
 
-			// Load dispatcher and get data mapper and session
+			// Load Dispatcher and get Persistance manager
 			t3lib_div::makeInstance('Tx_Extbase_Dispatcher');
+			// $dispatcher = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap');
+			// $dispatcher->initialize(array('extensionName' => NULL, 'pluginName' => NULL));
 			$this->persistenceManager = Tx_Extbase_Dispatcher::getPersistenceManager();
 			$this->dataMapper = $this->persistenceManager->getBackend()->getDataMapper();
 			$this->session = $this->persistenceManager->getSession();
-
-			// Pre-parse TypoScript setup
-			/*
-			 * TODO: Inject setup to dispatcher, required to store objects in correct sysfolder
-			 */
-			$this->typoScriptParser = t3lib_div::makeInstance('Tx_TerFe2_Service_TypoScriptParserService');
-			$this->settings = $this->typoScriptParser->getParsedConfiguration();
 
 			// Get Extension repository and add extension objects
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');

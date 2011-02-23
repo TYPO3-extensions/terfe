@@ -37,35 +37,50 @@
 		 */
 		protected $cObj;
 
+		/**
+		 * @var Tx_Extbase_Configuration_ConfigurationManager
+		 */
+		protected $configurationManager;
+
+
+		/**
+		 * Contructor for the TypoScript parser
+		 *
+		 * @return void
+		 */
+		public function __construct() {
+			$this->configurationManager = t3lib_div::makeInstance('Tx_Extbase_Configuration_ConfigurationManager');
+
+			if (TYPO3_MODE == 'BE') {
+				$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+				$this->configurationManager->injectObjectManager($objectManager);
+				$this->configurationManager->setContentObject(t3lib_div::makeInstance('tslib_cObj'));
+			}
+
+			// Get cObj instance
+			if (empty($this->cObj)) {
+				$this->cObj = $this->configurationManager->getContentObject();
+			}
+		}
+
 
 		/**
 		 * Returns completely parsed TypoScript configuration
+		 *
+		 * TODO: cObjGetSingle doesn't work here with 4.5.0 Backend
 		 *
 		 * @param array $configuration TypoScript configuration
 		 * @return array Parsed configuration
 		 */
 		public function getParsedConfiguration(array $configuration = array()) {
-			if (!defined('TYPO3_MODE')) {
-				return array();
-			}
-
-			// Parse TypoScript configuration for the Frontend
 			if (TYPO3_MODE == 'FE') {
-				if (empty($this->cObj)) {
-					$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-				}
 				$configuration = $this->parsePlainArray($configuration);
-			}
-
-			// Parse TypoScript configuration for the Backend
-			if (TYPO3_MODE == 'BE') {
-				if (empty($this->cObj)) {
-					$this->cObj = $this->getBackendCObj();
-				}
-				if (empty($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_terfe2.'])) {
-					return array();
-				}
-				$configuration = $this->parseTypoScriptArray($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_terfe2.']);
+			} else {
+				$setup = $this->configurationManager->getConfiguration(
+					Tx_Extbase_Configuration_ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+				);
+				$configuration = (!empty($setup['plugin.']['tx_terfe2.']['settings.']) ? $setup['plugin.']['tx_terfe2.']['settings.'] : array());
+				$configuration = $this->parseTypoScriptArray($configuration);
 			}
 
 			return t3lib_div::removeDotsFromTS($configuration);
@@ -124,6 +139,7 @@
 				if (is_array($value)) {
 					if (!empty($configuration[$ident])) {
 						$typoScriptArray[$ident] = $this->cObj->cObjGetSingle($configuration[$ident], $value);
+						unset($configuration[$key]);
 					} else {
 						$typoScriptArray[$key] = $this->parseTypoScriptArray($value);
 					}
@@ -133,40 +149,6 @@
 			}
 
 			return $typoScriptArray;
-		}
-
-
-		/**
-		 * Create a cObj within Backend
-		 *
-		 * @param integer $pid Load configuration for this page
-		 * @return tslib_cObj New cObj instance
-		 */
-		protected function getBackendCObj($pid = 1) {
-			if (!empty($GLOBALS['TSFE'])) {
-				return t3lib_div::makeInstance('tslib_cObj');
-			}
-
-			// Load required TimeTrack object
-			if (!is_object($GLOBALS['TT'])) {
-				$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
-				$GLOBALS['TT']->start();
-			}
-
-			// Load basic Frontend and TypoScript configuration
-			if (!empty($GLOBALS['TYPO3_CONF_VARS'])) {
-				$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], (int) $pid, 0);
-				$GLOBALS['TSFE']->connectToDB();
-				$GLOBALS['TSFE']->initFEuser();
-				$GLOBALS['TSFE']->determineId();
-				if (empty($GLOBALS['TCA'])) {
-					$GLOBALS['TSFE']->getCompressedTCarray();
-				}
-				$GLOBALS['TSFE']->initTemplate();
-				$GLOBALS['TSFE']->getConfigArray();
-			}
-
-			return t3lib_div::makeInstance('tslib_cObj');
 		}
 
 	}
