@@ -53,7 +53,7 @@
 			$this->typoScriptParser = t3lib_div::makeInstance('Tx_TerFe2_Service_TypoScriptParserService');
 
 			// Pre-parse TypoScript setup
-			$this->settings = $this->typoScriptParser->getParsed($this->settings);
+			$this->settings = $this->typoScriptParser->getParsedConfiguration($this->settings);
 		}
 
 
