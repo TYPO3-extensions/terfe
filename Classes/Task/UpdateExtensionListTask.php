@@ -54,11 +54,6 @@
 		protected $persistenceManager;
 
 		/**
-		 * @var Tx_Extbase_Persistence_Mapper_DataMapper
-		 */
-		protected $dataMapper;
-
-		/**
 		 * @var Tx_Extbase_Persistence_Session
 		 */
 		protected $session;
@@ -147,7 +142,6 @@
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->registry            = t3lib_div::makeInstance('t3lib_Registry');
 			$this->persistenceManager  = Tx_Extbase_Dispatcher::getPersistenceManager();
-			$this->dataMapper          = $this->persistenceManager->getBackend()->getDataMapper();
 			$this->session             = $this->persistenceManager->getSession();
 		}
 
