@@ -63,8 +63,6 @@
 		 * Public method, usually called by scheduler.
 		 *
 		 * TODO:
-		 *  - Version Number will not be stored into DB table
-		 *  - Prevent duplicate Version and Relations
 		 *  - Check how to handle author information
 		 *  - Add upload comment to version object (requires a connection to ter extension?)
 		 *
@@ -226,8 +224,7 @@
 		 */
 		public function getVersion(array $extInfo) {
 			// Check if a Version exists with given version number
-			$versionNumber = t3lib_div::int_from_ver($extInfo['versionNumber']);
-			if ($this->extensionRepository->countByExtKeyAndVersion($extInfo['extKey'], $versionNumber)) {
+			if ($this->extensionRepository->countByExtKeyAndVersion($extInfo['extKey'], $extInfo['versionNumber'])) {
 				return NULL;
 			}
 
