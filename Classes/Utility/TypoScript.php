@@ -35,7 +35,7 @@
 		/**
 		 * @var tslib_cObj
 		 */
-		static protected $cObj;
+		static protected $contentObject;
 
 		/**
 		 * @var Tx_Extbase_Configuration_ConfigurationManager
@@ -69,14 +69,15 @@
 		 * Parse given TypoScript configuration
 		 *
 		 * @param array $configuration TypoScript configuration
+		 * @param boolean $isPlain Is a plain "Fluid like" configuration array
 		 * @return array Parsed configuration
 		 */
-		static public function parse(array $configuration) {
-			if (empty(self::$cObj)) {
+		static public function parse(array $configuration, $isPlain = TRUE) {
+			if (empty(self::$contentObject)) {
 				self::initialize();
 			}
 
-			if (TYPO3_MODE == 'FE') {
+			if ($isPlain) {
 				$configuration = self::parsePlainArray($configuration);
 			} else {
 				$configuration = self::parseTypoScriptArray($configuration);
@@ -87,9 +88,7 @@
 
 
 		/**
-		 * Initialize TypoScript utility
-		 * 
-		 * TODO: cObjGetSingle doesn't work here with 4.5.0 Backend
+		 * Initialize configuration manager and content object
 		 *
 		 * @return void
 		 */
@@ -100,12 +99,33 @@
 				$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 				self::$configurationManager->injectObjectManager($objectManager);
 				self::$configurationManager->setContentObject(t3lib_div::makeInstance('tslib_cObj'));
+
+				// Load basic Frontend to make tslib_cObj::cObjGetSingle available in Backend
+				if (empty($GLOBALS['TSFE'])) {
+					$currentPageId = self::getCurrentPageId();
+
+					// Load TimeTrack object
+					if (!is_object($GLOBALS['TT'])) {
+						$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
+						$GLOBALS['TT']->start();
+					}
+
+					// Load Frontend
+					if (!empty($GLOBALS['TYPO3_CONF_VARS'])) {
+						$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $currentPageId, 0);
+						$GLOBALS['TSFE']->connectToDB();
+						$GLOBALS['TSFE']->initFEuser();
+						$GLOBALS['TSFE']->determineId();
+						$GLOBALS['TSFE']->initTemplate();
+						$GLOBALS['TSFE']->getConfigArray();
+					}
+				}
 			}
 
-			// Get cObj instance
-			self::$cObj = self::$configurationManager->getContentObject();
-			if (empty(self::$cObj)) {
-				self::$cObj = t3lib_div::makeInstance('tslib_cObj');
+			// Get content object
+			self::$contentObject = self::$configurationManager->getContentObject();
+			if (empty(self::$contentObject)) {
+				self::$contentObject = t3lib_div::makeInstance('tslib_cObj');
 			}
 		}
 
@@ -130,7 +150,7 @@
 
 						// Parse TypoScript object
 						if ($parseSub) {
-							$typoScriptArray[$key] = self::$cObj->cObjGetSingle(
+							$typoScriptArray[$key] = self::$contentObject->cObjGetSingle(
 								$typoScriptArray[$key],
 								$typoScriptArray[$key . '.']
 							);
@@ -161,7 +181,7 @@
 				$ident = rtrim($key, '.');
 				if (is_array($value)) {
 					if (!empty($configuration[$ident])) {
-						$typoScriptArray[$ident] = self::$cObj->cObjGetSingle($configuration[$ident], $value);
+						$typoScriptArray[$ident] = self::$contentObject->cObjGetSingle($configuration[$ident], $value);
 						unset($configuration[$key]);
 					} else {
 						$typoScriptArray[$key] = self::parseTypoScriptArray($value);
@@ -172,6 +192,34 @@
 			}
 
 			return $typoScriptArray;
+		}
+
+
+		/**
+		 * Returns the UID of current page
+		 *
+		 * @return integer Current page id, if no page is selected current root page id is returned
+		 * @see Tx_Extbase_Configuration_BackendConfigurationManager::getCurrentPageId
+		 */
+		static protected function getCurrentPageId() {
+			$pageId = (int) t3lib_div::_GP('id');
+			if (!empty($pageId)) {
+				return $pageId;
+			}
+
+			// Get current site root
+			$rootPages = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'pages', 'deleted=0 AND hidden=0 AND is_siteroot=1', '', '', '1');
+			if (!empty($rootPages[0]['uid'])) {
+				return $rootPages[0]['uid'];
+			}
+
+			// Get root template
+			$rootTemplates = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('pid', 'sys_template', 'deleted=0 AND hidden=0 AND root=1', '', '', '1');
+			if (!empty($rootTemplates[0]['pid'])) {
+				return $rootTemplates[0]['pid'];
+			}
+
+			return 0;
 		}
 
 	}

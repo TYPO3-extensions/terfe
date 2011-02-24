@@ -132,7 +132,7 @@
 
 			// Get TypoScript configuration
 			$setup = Tx_TerFe2_Utility_TypoScript::getSetup();
-			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($setup['settings.']);
+			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($setup['settings.'], FALSE);
 			$configuration = array_merge($configuration, $setup);
 
 			// Add Extension configuration
