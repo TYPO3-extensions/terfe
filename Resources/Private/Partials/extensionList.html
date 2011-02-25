@@ -1,4 +1,4 @@
-<table cellpadding="4" style="border:1px solid black;">
+<!--<table cellpadding="4" style="width: 100%;">
 	<tr>
 		<th><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></th>
 		<th><f:translate key="tx_terfe2_domain_model_version.title" /></th>
@@ -20,4 +20,12 @@
 			<td><f:link.action action="delete" arguments="{extension : extension}"><f:translate key="delete"/></f:link.action></td>
 		</tr>
 	</f:for>
-</table>
+</table>-->
+
+<f:for each="{extensions}" as="extension">
+	<div class="extension">
+		<h3 style="background: url({extension.lastVersion.icon}) top left; padding-left: 20px;"><f:link.action action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action></h3>
+		<p class="description">{extension.lastVersion.description}</p>
+		
+	</div>
+</f:for>
