@@ -30,7 +30,7 @@
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_ExtensionProvider_FileProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
+	class Tx_TerFe2_ExtensionProvider_FileProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider implements t3lib_Singleton {
 
 		/**
 		 * Returns all Extensions informations for the Scheduler Task
