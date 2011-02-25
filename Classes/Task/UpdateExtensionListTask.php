@@ -303,7 +303,8 @@
 				$extension->setExtKey($extInfo['extKey']);
 				$extension->setForgeLink($extInfo['forgeLink']);
 				$extension->setHudsonLink($extInfo['hudsonLink']);
-				$extension->setLastUpdate(new DateTime());
+				$extension->setLastUpload(new DateTime());
+				$extension->setLastMaintained(new DateTime());
 			}
 
 			return $extension;

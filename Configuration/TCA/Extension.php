@@ -88,9 +88,20 @@
 					'eval' => 'trim',
 				),
 			),
-			'last_update' => array(
+			'last_upload' => array(
 				'exclude' => 1,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.last_update',
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.last_upload',
+				'config'  => array(
+					'type'     => 'input',
+					'size'     => 12,
+					'max'      => 20,
+					'eval'     => 'datetime',
+					'default'  => '0',
+				),
+			),
+			'last_maintained' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.last_maintained',
 				'config'  => array(
 					'type'     => 'input',
 					'size'     => 12,
