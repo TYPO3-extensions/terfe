@@ -26,6 +26,6 @@
 	<div class="extension">
 		<h3 style="background: url({extension.lastVersion.icon}) top left; padding-left: 20px;"><f:link.action action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action></h3>
 		<p class="description">{extension.lastVersion.description}</p>
-		
+		<p class="tags"><f:for each="{extension.categories}" as="{category}">{category.title}</f:for></p>
 	</div>
 </f:for>
