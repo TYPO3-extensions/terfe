@@ -8,9 +8,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="title.description">Title of the extension</label>
-			<label index="icon.description">The filename of the extension icon.</label>
 			<label index="description.description">Description of the extension</label>
-			<label index="filename.description">Path to extension file</label>
 			<label index="author.description">author</label>
 			<label index="version_number.description">The version number</label>
 			<label index="version_string.description">The version number in format "x.x.x"</label>

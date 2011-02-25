@@ -117,9 +117,8 @@ CREATE TABLE tx_terfe2_domain_model_version (
 
 	extension int(11) unsigned DEFAULT '0' NOT NULL,
 	title tinytext,
-	icon tinytext,
 	description text,
-	filename tinytext,
+	file_hash varchar(50) DEFAULT '' NOT NULL,
 	author tinytext,
 	version_number int(11) DEFAULT '0' NOT NULL,
 	version_string tinytext,
@@ -141,7 +140,6 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	lock_type tinytext,
 	cgl_compliance tinytext,
 	cgl_compliance_note text,
-	file_hash varchar(50) DEFAULT '' NOT NULL,
 	manual tinytext,
 	media int(11) unsigned DEFAULT '0' NOT NULL,
 	experience int(11) unsigned DEFAULT '0' NOT NULL,

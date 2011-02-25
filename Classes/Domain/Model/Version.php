@@ -41,23 +41,16 @@
 		protected $title;
 
 		/**
-		 * The filename of the extension icon.
-		 * @var string
-		 */
-		protected $icon;
-
-		/**
 		 * Description of the extension
 		 * @var string
 		 */
 		protected $description;
 
 		/**
-		 * Path to extension file
+		 * Hash of the t3x file
 		 * @var string
-		 * @validate NotEmpty
 		 */
-		protected $filename;
+		protected $fileHash;
 
 		/**
 		 * author
@@ -192,12 +185,6 @@
 		protected $cglComplianceNote;
 
 		/**
-		 * Hash of the t3x file
-		 * @var string
-		 */
-		protected $fileHash;
-
-		/**
 		 * Relation to manual object of ter_doc extension
 		 * @var string
 		 */
@@ -261,27 +248,6 @@
 
 
 		/**
-		 * Setter for icon
-		 *
-		 * @param string $icon The filename of the extension icon.
-		 * @return void
-		 */
-		public function setIcon($icon) {
-			$this->icon = $icon;
-		}
-
-
-		/**
-		 * Getter for icon
-		 *
-		 * @return string The filename of the extension icon.
-		 */
-		public function getIcon() {
-			return $this->icon;
-		}
-
-
-		/**
 		 * Setter for description
 		 *
 		 * @param string $description Description of the extension
@@ -303,25 +269,24 @@
 
 
 		/**
-		 * Setter for filename
+		 * Setter for fileHash
 		 *
-		 * @param string $filename Path to extension file
+		 * @param string $fileHash Hash of the t3x file
 		 * @return void
 		 */
-		public function setFilename($filename) {
-			$this->filename = $filename;
+		public function setFileHash($fileHash) {
+			$this->fileHash = $fileHash;
 		}
 
 
 		/**
-		 * Getter for filename
+		 * Getter for fileHash
 		 *
-		 * @return string Path to extension file
+		 * @return string Hash of the t3x file
 		 */
-		public function getFilename() {
-			return $this->filename;
+		public function getFileHash() {
+			return $this->fileHash;
 		}
-
 
 		/**
 		 * Setter for author
@@ -761,27 +726,6 @@
 		 */
 		public function getCglComplianceNote() {
 			return $this->cglComplianceNote;
-		}
-
-
-		/**
-		 * Setter for fileHash
-		 *
-		 * @param string $fileHash Hash of the t3x file
-		 * @return void
-		 */
-		public function setFileHash($fileHash) {
-			$this->fileHash = $fileHash;
-		}
-
-
-		/**
-		 * Getter for fileHash
-		 *
-		 * @return string Hash of the t3x file
-		 */
-		public function getFileHash() {
-			return $this->fileHash;
 		}
 
 

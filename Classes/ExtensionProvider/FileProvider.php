@@ -24,13 +24,13 @@
 	 ******************************************************************/
 
 	/**
-	 * A Filesystem DataProvider for the Schduler Task
+	 * A Filesystem Extension Provider for the Scheduler Task
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_DataProvider_FileProvider extends Tx_TerFe2_DataProvider_AbstractDataProvider {
+	class Tx_TerFe2_ExtensionProvider_FileProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
 
 		/**
 		 * Returns all Extensions informations for the Scheduler Task
@@ -79,9 +79,8 @@
 				'forgeLink'         => '',
 				'hudsonLink'        => '',
 				'title'             => $extContent['EM_CONF']['title'],
-				'icon'              => Tx_TerFe2_Utility_Files::getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version'], '.gif'),
 				'description'       => $extContent['EM_CONF']['description'],
-				'filename'          => Tx_TerFe2_Utility_Files::getT3xRelPath($extContent['extKey'], $extContent['EM_CONF']['version']),
+				'fileHash'          => Tx_TerFe2_Utility_Files::getFileHash($fileName),
 				'author'            => $extContent['EM_CONF']['author'],
 				'authorEmail'       => $extContent['EM_CONF']['author_email'],   // Missing in version object
 				'authorCompany'     => $extContent['EM_CONF']['author_company'], // Missing in version object
@@ -103,7 +102,6 @@
 				'lockType'          => $extContent['EM_CONF']['lockType'],
 				'cglCompliance'     => $extContent['EM_CONF']['CGLcompliance'],
 				'cglComplianceNote' => $extContent['EM_CONF']['CGLcompliance_note'],
-				'fileHash'          => Tx_TerFe2_Utility_Files::getFileHash($fileName),
 				'softwareRelation'  => array(), // dependencies, conflicts, suggests, TYPO3_version, PHP_version
 			);
 
@@ -128,6 +126,18 @@
 			}
 
 			return $extInfo;
+		}
+
+
+		/**
+		 * Returns path and basename of a file via extKey and version
+		 * 
+		 * @param string $extKey Extension key
+		 * @param string $versionString Version string
+		 * @return string URL to file without ending
+		 */
+		public function getPathAndBasename($extKey, $versionString) {
+			return Tx_TerFe2_Utility_Files::getPathAndBasename($extKey, $versionString);
 		}
 
 	}

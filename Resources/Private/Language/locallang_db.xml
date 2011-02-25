@@ -25,10 +25,7 @@
 
 			<label index="tx_terfe2_domain_model_version">Version</label>
 			<label index="tx_terfe2_domain_model_version.title">Title</label>
-			<label index="tx_terfe2_domain_model_version.icon">Icon</label>
 			<label index="tx_terfe2_domain_model_version.description">Description</label>
-			<label index="tx_terfe2_domain_model_version.filename">Filename</label>
-			<label index="tx_terfe2_domain_model_version.filename.popup">Open Wizard</label>
 			<label index="tx_terfe2_domain_model_version.author">Author</label>
 			<label index="tx_terfe2_domain_model_version.version_number">Version Number</label>
 			<label index="tx_terfe2_domain_model_version.version_string">Version Number</label>

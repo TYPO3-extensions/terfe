@@ -58,6 +58,11 @@
 		 */
 		protected $session;
 
+		/**
+		 * @var Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider
+		 */
+		protected $extensionProvider;
+
 
 		/**
 		 * Public method, usually called by scheduler.
@@ -65,6 +70,7 @@
 		 * TODO:
 		 *  - Check how to handle author information
 		 *  - Add upload comment to version object (requires a connection to ter extension?)
+		 *  - Create ViewHelpers to get image and t3x file from extensionProvider
 		 *
 		 * @return boolean TRUE on success
 		 */
@@ -74,7 +80,7 @@
 
 			// Get all updated Extensions since last run
 			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
-			$updateInfoArray = $this->dataProvider->getUpdateInfo(99999); // $lastRun['end']
+			$updateInfoArray = $this->extensionProvider->getUpdateInfo(99999); // $lastRun['end']
 
 			// Create new Version and Extension objects
 			foreach ($updateInfoArray as $extInfo) {
@@ -129,11 +135,11 @@
 			$this->persistenceManager  = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
 			$this->session             = $this->persistenceManager->getSession();
 
-			// Get DataProvider
+			// Get Extension Provider
 			// TODO: Allow multiple Data Providers and merge their update informations
 			// e.g. JSON, XML / RSS, other DB, ...
-			$this->dataProvider = t3lib_div::makeInstance('Tx_TerFe2_DataProvider_FileProvider');
-			$this->dataProvider->injectConfiguration($this->settings);
+			$this->extensionProvider = t3lib_div::makeInstance('Tx_TerFe2_ExtensionProvider_FileProvider');
+			$this->extensionProvider->injectConfiguration($this->settings);
 		}
 
 
@@ -152,9 +158,8 @@
 			// Create new Version
 			$version = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Version');
 			$version->setTitle($extInfo['title']);
-			$version->setIcon($extInfo['icon']);
 			$version->setDescription($extInfo['description']);
-			$version->setFilename($extInfo['filename']);
+			$version->setFileHash($extInfo['fileHash']);
 			$version->setAuthor($extInfo['author']);
 			$version->setVersionNumber($extInfo['versionNumber']);
 			$version->setVersionString($extInfo['versionString']);
@@ -176,7 +181,6 @@
 			$version->setLockType($extInfo['lockType']);
 			$version->setCglCompliance($extInfo['cglCompliance']);
 			$version->setCglComplianceNote($extInfo['cglComplianceNote']);
-			$version->setFileHash($extInfo['fileHash']);
 
 			// Add software relations
 			foreach ($extInfo['softwareRelation'] as $relationInfo) {

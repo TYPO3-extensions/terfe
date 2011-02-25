@@ -24,18 +24,13 @@
 	 ******************************************************************/
 
 	/**
-	 * Abstract Data Provider
+	 * A Extension Provider Interface, will be called from Scheduler Task to get Extension informations
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	abstract class Tx_TerFe2_DataProvider_AbstractDataProvider implements Tx_TerFe2_DataProvider_DataProviderInterface {
-
-		/**
-		 * @var array Configuration array
-		 */
-		protected $configuration;
+	interface Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface {
 
 		/**
 		 * Inject configuration for the DataProvider
@@ -43,9 +38,7 @@
 		 * @param array $configuration TypoScript configuration
 		 * @return void
 		 */
-		public function injectConfiguration(array $configuration) {
-			$this->configuration = $configuration;
-		}
+		public function injectConfiguration(array $configuration);
 
 
 		/**
@@ -54,7 +47,17 @@
 		 * @param integer $lastUpdate Last update of the extension list
 		 * @return array Extension informations
 		 */
-		public function getUpdateInfo($lastUpdate) {}
+		// public function getUpdateInfo($lastUpdate);
+
+
+		/**
+		 * Returns path and basename of a file via extKey and version
+		 * 
+		 * @param string $extKey Extension key
+		 * @param string $versionString Version string
+		 * @return string URL to file without ending
+		 */
+		// public function getPathAndBasename($extKey, $versionString);
 
 	}
 ?>

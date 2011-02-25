@@ -52,21 +52,20 @@
 
 
 		/**
-		 * Returns relative path to a T3X file via extension key and version
+		 * Returns relative path to a file via extension key and version
 		 * 
 		 * @param string $extKey Extension Key
 		 * @param string $version Version of the extension
-		 * @param string $fileType File type of the returning path
-		 * @return string Path to extension
+		 * @return string Path and basename to file
 		 */
-		static public function getT3xRelPath($extKey, $version, $fileType = 't3x') {
+		static public function getPathAndBasename($extKey, $version) {
 			if (empty($extKey) || empty($version)) {
 				return '';
 			}
 
 			$extKey  = strtolower($extKey);
 			$version = Tx_Extbase_Utility_Arrays::integerExplode('.', $version);
-			$path    = '%s/%s/%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
+			$path    = '%s/%s/%s_%d.%d.%d';
 
 			return sprintf($path, $extKey[0], $extKey[1], $extKey, $version[0], $version[1], $version[2]);
 		}

@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_version'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_version']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'title,icon,description,filename,author,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation',
+			'showRecordFieldList' => 'title,description,author,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'title,icon,description,filename,author,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation'),
+			'1' => array('showitem' => 'title,description,author,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -70,15 +70,6 @@
 					'eval' => 'trim,required',
 				),
 			),
-			'icon' => array(
-				'exclude' => 1,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.icon',
-				'config'  => array(
-					'type' => 'input',
-					'size' => 30,
-					'eval' => 'trim',
-				),
-			),
 			'description' => array(
 				'exclude' => 1,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.description',
@@ -86,29 +77,6 @@
 					'type' => 'text',
 					'cols' => 30,
 					'rows' => 5,
-				),
-			),
-			'filename' => array(
-				'exclude' => 1,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.filename',
-				'config'  => array(
-					'type' => 'input',
-					'size' => 30,
-					'eval' => 'trim',
-					'wizards' => array(
-						'_PADDING' => 2,
-						'link'     => array(
-							'type'         => 'popup',
-							'title'        => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.filename.popup',
-							'icon'         => 'link_popup.gif',
-							'script'       => 'browse_links.php?mode=wizard&amp;act=file',
-							'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
-							'params'       => array(
-								'blindLinkOptions'  => 'mail,spec,folder,page,url',
-								'allowedExtensions' => 't3x',
-							),
-						),
-					),
 				),
 			),
 			'author' => array(
