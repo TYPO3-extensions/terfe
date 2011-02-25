@@ -100,12 +100,10 @@
 				$version->setExtension($extension);
 				$extension->addVersion($version);
 
-				// Register Extension
+				// Persist Extension object now to prevent duplicates
 				$this->session->registerReconstitutedObject($extension);
+				$this->persistenceManager->persistAll();
 			}
-
-			// Persist all Extension objects
-			$this->persistenceManager->persistAll();
 
 			return TRUE;
 		}
