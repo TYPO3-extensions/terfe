@@ -30,13 +30,13 @@
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_ExtensionProvider_FileProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider implements t3lib_Singleton {
+	class Tx_TerFe2_ExtensionProvider_FileProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
 
 		/**
-		 * Returns all Extensions informations for the Scheduler Task
+		 * Returns all Extension information for the Scheduler Task
 		 *
 		 * @param integer $lastUpdate Last update of the extension list
-		 * @return array Extension informations
+		 * @return array Extension information
 		 */
 		public function getUpdateInfo($lastUpdate) {
 			$extPath = (!empty($this->configuration['extensionRootPath']) ? $this->configuration['extensionRootPath'] : 'fileadmin/ter/');
@@ -130,14 +130,16 @@
 
 
 		/**
-		 * Returns path and basename of a file via extKey and version
+		 * Returns URL to a file via extKey, version and fileType
 		 * 
 		 * @param string $extKey Extension key
 		 * @param string $versionString Version string
-		 * @return string URL to file without ending
+		 * @param string $fileType File type
+		 * @return string URL to file
 		 */
-		public function getPathAndBasename($extKey, $versionString) {
-			return Tx_TerFe2_Utility_Files::getPathAndBasename($extKey, $versionString);
+		public function getUrlToFile($extKey, $versionString, $fileType) {
+			$fileName = Tx_TerFe2_Utility_Files::getT3xRelPath($extKey, $versionString, $fileType);
+			return t3lib_div::locationHeaderUrl($fileName);
 		}
 
 	}

@@ -58,11 +58,6 @@
 		 */
 		protected $session;
 
-		/**
-		 * @var Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider
-		 */
-		protected $extensionProvider;
-
 
 		/**
 		 * Public method, usually called by scheduler.
@@ -80,7 +75,7 @@
 
 			// Get all updated Extensions since last run
 			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
-			$updateInfoArray = $this->extensionProvider->getUpdateInfo(99999); // $lastRun['end']
+			$updateInfoArray = $this->getUpdateInfo(99999); // $lastRun['end']
 
 			// Create new Version and Extension objects
 			foreach ($updateInfoArray as $extInfo) {
@@ -121,10 +116,6 @@
 			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($setup['settings.'], FALSE);
 			$configuration = array_merge($configuration, $setup);
 
-			// Add Extension configuration
-			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
-			$this->settings = Tx_Extbase_Utility_Arrays::arrayMergeRecursiveOverrule($this->settings, $extConf, FALSE, FALSE);
-
 			// Load Dispatcher
 			$dispatcher = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap');
 			$dispatcher->initialize($configuration);
@@ -134,11 +125,61 @@
 			$this->registry            = t3lib_div::makeInstance('t3lib_Registry');
 			$this->persistenceManager  = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
 			$this->session             = $this->persistenceManager->getSession();
+		}
 
-			// Get Extension Provider
-			// TODO: Allow multiple Data Providers and merge their update informations
-			$this->extensionProvider = t3lib_div::makeInstance('Tx_TerFe2_ExtensionProvider_FileProvider');
-			$this->extensionProvider->injectConfiguration($this->settings);
+
+		/**
+		 * Load update information from Extension providers
+		 * 
+		 * TODO: Use ExtensionProvider Datasets in DB-Table instead of TypoScript configuration
+		 *       The Dataset gets the fields:
+		 *         - Type (All registered, default: file | soap)
+		 *         - File: FilePath, ClassName, extensionRootPath
+		 *         - SOAP: Wsdl-URL, Update-Function, FileName-Function, Username, Password
+		 *
+		 * @param integer $lastUpdate Last update of the extension list
+		 * @return array Update information
+		 */
+		protected function getUpdateInfo($lastUpdate) {
+			if (empty($this->settings['extensionProviders'])) {
+				return array();
+			}
+
+			$updateInfoArray();
+
+			// Get provider root path
+			$providerRootPath = 'EXT:ter_fe2/Classes/ExtensionProvider/';
+			if (!empty($this->settings['extensionProviders']['providerRootPath'])) {
+				$providerRootPath = rtrim($this->settings['extensionProviders']['providerRootPath'], '/ ') . '/';
+			}
+
+			// Call Extension providers
+			foreach ($this->settings['extensionProviders'] as $providerIdent => $providerConf) {
+				if (strrpos($providerIdent, 'Provider') === FALSE) {
+					continue;
+				}
+
+				// Get class name
+				$className = 'Tx_TerFe2_ExtensionProvider_' . ucfirst($providerIdent);
+				if (!class_exists($className)) {
+					$fileName = t3lib_div::getFileAbsFileName($providerRootPath . ucfirst($providerIdent) . '.php');
+					if (Tx_TerFe2_Utility_Files::fileExists($fileName)) {
+						t3lib_div::requireOnce($fileName);
+					}
+					if (!class_exists($className)) {
+						throw new Exception('Class "' . $className . '" not found for Extension Provider "' . $providerIdent . '"');
+					}
+				}
+
+				// Create instance and load update info
+				$extensionProvider = t3lib_div::makeInstance($className);
+				$extensionProvider->injectConfiguration($providerConf);
+				$updateInfo = $extensionProvider->getUpdateInfo($lastUpdate);
+				$updateInfoArray = Tx_Extbase_Utility_Arrays::arrayMergeRecursiveOverrule($updateInfoArray, $updateInfo, FALSE, FALSE);
+				unset($extensionProvider);
+			}
+
+			return $updateInfoArray;
 		}
 
 
@@ -217,6 +258,9 @@
 
 		/**
 		 * Load Extension object if already exists, else create new one
+		 * 
+		 * TODO: Create new Versions only if Extension was already registered via Frontend,
+		 *       do not create new Extensions if not
 		 *
 		 * @param array $extInfo Extension information
 		 * @return Tx_TerFe2_Domain_Model_Extension New or existing Extension object

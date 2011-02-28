@@ -30,7 +30,7 @@
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	abstract class Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider implements Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface {
+	abstract class Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider implements Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface, t3lib_Singleton {
 
 		/**
 		 * @var array Configuration array
@@ -49,22 +49,23 @@
 
 
 		/**
-		 * Returns all Extensions informations for the Scheduler Task
+		 * Returns all Extension information for the Scheduler Task
 		 *
 		 * @param integer $lastUpdate Last update of the extension list
-		 * @return array Extension informations
+		 * @return array Extension information
 		 */
 		abstract public function getUpdateInfo($lastUpdate);
 
 
 		/**
-		 * Returns path and basename of a file via extKey and version
+		 * Returns URL to a file via extKey, version and fileType
 		 * 
 		 * @param string $extKey Extension key
 		 * @param string $versionString Version string
-		 * @return string URL to file without ending
+		 * @param string $fileType File type
+		 * @return string URL to file
 		 */
-		abstract public function getPathAndBasename($extKey, $versionString);
+		abstract public function getUrlToFile($extKey, $versionString, $fileType);
 
 	}
 ?>

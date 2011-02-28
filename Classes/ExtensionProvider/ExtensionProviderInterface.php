@@ -40,24 +40,5 @@
 		 */
 		public function injectConfiguration(array $configuration);
 
-
-		/**
-		 * Returns all Extensions informations for the Scheduler Task
-		 *
-		 * @param integer $lastUpdate Last update of the extension list
-		 * @return array Extension informations
-		 */
-		// public function getUpdateInfo($lastUpdate);
-
-
-		/**
-		 * Returns path and basename of a file via extKey and version
-		 * 
-		 * @param string $extKey Extension key
-		 * @param string $versionString Version string
-		 * @return string URL to file without ending
-		 */
-		// public function getPathAndBasename($extKey, $versionString);
-
 	}
 ?>
