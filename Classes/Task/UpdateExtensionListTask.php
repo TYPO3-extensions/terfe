@@ -58,11 +58,6 @@
 		 */
 		protected $session;
 
-		/**
-		 * @var Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider
-		 */
-		protected $extensionProvider;
-
 
 		/**
 		 * Public method, usually called by scheduler.
@@ -71,6 +66,9 @@
 		 *  - Check how to handle author information
 		 *  - Add upload comment to version object (requires a connection to ter extension?)
 		 *  - Create ViewHelpers to get image and t3x file from extensionProvider
+		 *  - Create new Versions only if Extension was already registered via Frontend,
+		 *    do not create new Extensions if not
+		 *  - Complete SOAP Extension Provider
 		 *
 		 * @return boolean TRUE on success
 		 */
@@ -78,9 +76,11 @@
 			// Initialize environment
 			$this->initialize();
 
-			// Get all updated Extensions since last run
-			$lastRun = $this->registry->get('tx_scheduler', 'lastRun');
-			$updateInfoArray = $this->extensionProvider->getUpdateInfo(99999); // $lastRun['end']
+			// Get all updated Extensions
+			$updateInfoArray = $this->getUpdateInfo();
+			if (empty($updateInfoArray)) {
+				return TRUE;
+			}
 
 			// Create new Version and Extension objects
 			foreach ($updateInfoArray as $extInfo) {
@@ -121,10 +121,6 @@
 			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($setup['settings.'], FALSE);
 			$configuration = array_merge($configuration, $setup);
 
-			// Add Extension configuration
-			$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_fe2']);
-			$this->settings = Tx_Extbase_Utility_Arrays::arrayMergeRecursiveOverrule($this->settings, $extConf, FALSE, FALSE);
-
 			// Load Dispatcher
 			$dispatcher = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap');
 			$dispatcher->initialize($configuration);
@@ -134,11 +130,42 @@
 			$this->registry            = t3lib_div::makeInstance('t3lib_Registry');
 			$this->persistenceManager  = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
 			$this->session             = $this->persistenceManager->getSession();
+		}
 
-			// Get Extension Provider
-			// TODO: Allow multiple Data Providers and merge their update informations
-			$this->extensionProvider = t3lib_div::makeInstance('Tx_TerFe2_ExtensionProvider_FileProvider');
-			$this->extensionProvider->injectConfiguration($this->settings);
+
+		/**
+		 * Get all updated Extensions since last run from several Extension Providers
+		 *
+		 * @return array Update information
+		 */
+		protected function getUpdateInfo() {
+			if (empty($this->settings['extensionProviders'])) {
+				return array();
+			}
+
+			$lastRunInfo = $this->registry->get('tx_scheduler', 'lastRun');
+			$lastRunTime = (!empty($lastRunInfo['end']) ? (int) $lastRunInfo['end'] : 0);
+			$updateInfoArray = array();
+
+			// TODO: Remove testing value
+			$lastRunTime = 99999;
+
+			foreach ($this->settings['extensionProviders'] as $providerIdent => $providerSettings) {
+				if (empty($providerSettings['className'])) {
+					continue;
+				}
+
+				// Load Extension Provider and get update information
+				$extensionProvider = t3lib_div::makeInstance($providerSettings['className']);
+				if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
+					$extensionProvider->injectConfiguration($providerSettings);
+					$localUpdateInfo = $extensionProvider->getUpdateInfo($lastRunTime);
+					$updateInfoArray = array_merge($updateInfoArray, $localUpdateInfo);
+				}
+				unset($extensionProvider);
+			}
+
+			return $updateInfoArray;
 		}
 
 

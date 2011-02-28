@@ -1,4 +1,37 @@
 plugin.tx_terfe2 {
+	settings {
+		# cat=plugin.tx_terfe2/settings/100; type=int+; label=Count of results in latest Extensions overview
+		latestCount = 20
+
+		fileProvider {
+			# cat=plugin.tx_terfe2/settings/200; type=string+; label=Class name of the Filesystem Extension Provider
+			className = Tx_TerFe2_ExtensionProvider_FileProvider
+
+			# cat=plugin.tx_terfe2/settings/300; type=string+; label=Extension root path in local filesystem
+			extensionRootPath = fileadmin/ter/
+		}
+
+		soapProvider {
+			# cat=plugin.tx_terfe2/settings/400; type=string+; label=Class name of the SOAP Extension Provider
+			className = Tx_TerFe2_ExtensionProvider_SoapProvider
+
+			# cat=plugin.tx_terfe2/settings/500; type=string+; label=URL to WSDL file on SOAP server
+			wsdl =
+
+			# cat=plugin.tx_terfe2/settings/600; type=string+; label=Username for the authentication on SOAP server
+			username =
+
+			# cat=plugin.tx_terfe2/settings/700; type=string+; label=Password for the authentication on SOAP server
+			password =
+
+			# cat=plugin.tx_terfe2/settings/800; type=string+; label=Name of the function to get updated Extensions
+			updateFunc =
+
+			# cat=plugin.tx_terfe2/settings/900; type=string+; label=Name of the function to get the URL to a file
+			getFileFunc =
+		}
+	}
+
 	persistence {
 		# cat=plugin.tx_terfe2/persistence/100; type=int+; label=General storage PID for the TER Frontend Index
 		storagePid = 0

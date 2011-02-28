@@ -4,7 +4,25 @@
 plugin.tx_terfe2 {
 	## General settings
 	settings {
-		latestCount = 20
+		latestCount = {$plugin.tx_terfe2.settings.latestCount}
+
+		extensionProviders {
+			## Filesystem Extension Provider
+			fileProvider {
+				className         = {$plugin.tx_terfe2.settings.fileProvider.className}
+				extensionRootPath = {$plugin.tx_terfe2.settings.fileProvider.extensionRootPath}
+			}
+
+			## SOAP Extension Provider
+			soapProvider {
+				className         = {$plugin.tx_terfe2.settings.soapProvider.className}
+				wsdl              = {$plugin.tx_terfe2.settings.soapProvider.wsdl}
+				username          = {$plugin.tx_terfe2.settings.soapProvider.username}
+				password          = {$plugin.tx_terfe2.settings.soapProvider.password}
+				updateFunc        = {$plugin.tx_terfe2.settings.soapProvider.updateFunc}
+				getFileFunc       = {$plugin.tx_terfe2.settings.soapProvider.getFileFunc}
+			}
+		}
 	}
 
 	## Storage settings
