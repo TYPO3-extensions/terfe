@@ -69,6 +69,8 @@
 		 *  - Create new Versions only if Extension was already registered via Frontend,
 		 *    do not create new Extensions if not
 		 *  - Complete SOAP Extension Provider
+		 *  - Add className of providing Extension Provider to Version Object to get a
+		 *    file URL from it later
 		 *
 		 * @return boolean TRUE on success
 		 */
