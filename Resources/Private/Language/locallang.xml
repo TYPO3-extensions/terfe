@@ -87,6 +87,7 @@
 			<label index="create">Create</label>
 			<label index="edit">Edit</label>
 			<label index="delete">Delete</label>
+			<label index="download">» Download Extension</label>
 		</languageKey>
 	</data>
 </T3locallang>

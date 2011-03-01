@@ -28,5 +28,7 @@
 		<p class="description">{extension.lastVersion.description}</p>
 		<p class="categories"><f:for each="{extension.categories}" as="{category}">{category.title}</f:for></p>
 		<p class="tags"><f:for each="{extension.tags}" as="{tag}">{tag.title}</f:for></p>
+		<p class="download"><f:link.action action="download" arguments="{extension : extension, version : extension.lastVersion}"><f:translate key="download"/></f:link.action></p>
 	</div>
+	<hr />
 </f:for>

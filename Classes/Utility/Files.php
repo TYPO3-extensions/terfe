@@ -142,27 +142,28 @@
 		 * @return boolean FALSE if file not exists
 		 */
 		static public function transferFile($filename, $visibleFilename = '') {
-			$filename = t3lib_div::getFileAbsFileName($filename);
+			// Check if file exists (not available for external files)
+			/*$filename = t3lib_div::getFileAbsFileName($filename);
 			if (!self::fileExists($filename)) {
 				return FALSE;
-			}
+			}*/
 
 			// Get filename for download
 			if (empty($visibleFilename)) {
 				$visibleFilename = basename($filename);
 			}
 
-			// Get file size
-			$size = filesize($filename);
+			// Get file size (not available for external files)
+			/*$size = filesize($filename);
 			if (empty($size)) {
 				return FALSE;
-			}
+			}*/
 
 			// Set headers
 			header('Content-Disposition: attachment; filename=' . (string) $visibleFilename);
 			header('Content-type: x-application/octet-stream');
 			header('Content-Transfer-Encoding: binary');
-			header('Content-length:' . (string) $size);
+			//header('Content-length:' . (string) $size); // not available for external files
 
 			// Send file contents
 			readfile($filename);

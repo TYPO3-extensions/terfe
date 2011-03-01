@@ -66,6 +66,8 @@
 
 		/**
 		 * Index action
+		 * 
+		 * @return void
 		 */
 		public function indexAction() {
 			// Can be replaced by another action/view later
@@ -75,6 +77,8 @@
 
 		/**
 		 * List action, displays all extensions
+		 * 
+		 * @return void
 		 */
 		public function listAction() {
 			$this->view->assign('extensions', $this->extensionRepository->findAll());
@@ -83,6 +87,8 @@
 
 		/**
 		 * List latest action, displays new and updated extensions
+		 * 
+		 * @return void
 		 */
 		public function listLatestAction() {
 			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 20);
@@ -96,6 +102,7 @@
 		 * List by category action, displays all extensions in a category
 		 * 
 		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to search in
+		 * @return void
 		 */
 		public function listByCategoryAction(Tx_TerFe2_Domain_Model_Category $category) {
 			$this->view->assign('extensions', $this->extensionRepository->findByCategory($category));
@@ -106,6 +113,7 @@
 		 * List by tag action, displays all extensions with a tag
 		 * 
 		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to search for
+		 * @return void
 		 */
 		public function listByTagAction(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$this->view->assign('extensions', $this->extensionRepository->findByTag($tag));
@@ -116,6 +124,7 @@
 		 * Action that displays a single Extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The Extension to display
+		 * @return void
 		 */
 		public function showAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->view->assign('extension', $extension);
@@ -126,6 +135,7 @@
 		 * Displays a form for creating a new Extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension A fresh Extension object taken as a basis for the rendering
+		 * @return void
 		 * @dontvalidate $newExtension
 		 */
 		public function newAction(Tx_TerFe2_Domain_Model_Extension $newExtension = NULL) {
@@ -139,6 +149,7 @@
 		 * Creates a new Extension and forwards to the index action
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension A fresh Extension object which has not yet been added to the repository
+		 * @return void
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
 			$this->extensionRepository->add($newExtension);
@@ -151,6 +162,7 @@
 		 * Displays a form to edit an existing Extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The Extension to display
+		 * @return void
 		 * @dontvalidate $extension
 		 */
 		public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
@@ -162,6 +174,7 @@
 		 * Updates an existing Extension and forwards to the index action afterwards
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to update
+		 * @return void
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->update($extension);
@@ -174,6 +187,7 @@
 		 * Deletes an existing Extension and all Versions
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The Extension to be deleted
+		 * @return void
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->remove($extension);
@@ -187,6 +201,7 @@
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion A fresh Version object which has not yet been added to the repository
+		 * @return void
 		 */
 		public function createVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $newVersion) {
 			// Get file hash
@@ -202,6 +217,61 @@
 				$this->flashMessageContainer->add($this->translate('msg_file_not_valid'));
 			}
 
+			$this->redirect('index');
+		}
+
+
+		/**
+		 * Check file hash and increment counter while downloading
+		 * 
+		 * TODO: Add extKey to user session to record only one download a day from same user
+		 * 
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
+		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing Version object
+		 * @return void
+		 */
+		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $version) {
+			// Check configuration
+			$providerIdent = $version->getExtensionProvider();
+			if (empty($providerIdent) || empty($this->settings['extensionProviders'][$providerIdent])) {
+				return;
+			}
+
+			// Get className of the Provider
+			$providerConf = $this->settings['extensionProviders'][$providerIdent];
+			if (empty($providerConf['className'])) {
+				return;
+			}
+
+			// Load Extension Provider and get URL to file
+			$urlToFile = '';
+			$extensionProvider = t3lib_div::makeInstance($providerConf['className']);
+			if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
+				$extensionProvider->injectConfiguration($providerConf);
+				$extKey = $extension->getExtKey();
+				$versionString = $version->getVersionString();
+				$urlToFile = $extensionProvider->getUrlToFile($extKey, $versionString, 't3x');
+			}
+			if (empty($urlToFile)) {
+				return;
+			}
+
+			// Check file hash
+			$fileHash = Tx_TerFe2_Utility_Files::getFileHash($urlToFile);
+			if ($fileHash != $version->getFileHash()) {
+				return;
+			}
+
+			// Add +1 to download counter
+			$version->incrementDownloadCounter();
+			$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+			$persistenceManager->persistAll();
+
+			// Send file to browser
+			$newFileName = $extKey . '_' . $versionString . '.t3x';
+			Tx_TerFe2_Utility_Files::transferFile($urlToFile, $newFileName);
+
+			// Fallback
 			$this->redirect('index');
 		}
 

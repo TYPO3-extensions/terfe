@@ -215,6 +215,12 @@
 		 */
 		protected $extension;
 
+		/**
+		 * Extension Provider
+		 * @var string
+		 */
+		protected $extensionProvider;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -401,6 +407,16 @@
 		 */
 		public function setDownloadCounter($downloadCounter) {
 			$this->downloadCounter = $downloadCounter;
+		}
+
+
+		/**
+		 * Increment downloadCounter
+		 *
+		 * @return void
+		 */
+		public function incrementDownloadCounter() {
+			$this->downloadCounter++;
 		}
 
 
@@ -897,6 +913,27 @@
 		 */
 		public function getExtension() {
 			return $this->extension;
+		}
+
+
+		/**
+		 * Setter for extensionProvider
+		 *
+		 * @param string $extensionProvider Extension Provider
+		 * @return void
+		 */
+		public function setExtensionProvider($extensionProvider) {
+			$this->extensionProvider = $extensionProvider;
+		}
+
+
+		/**
+		 * Getter for extensionProvider
+		 *
+		 * @return string Extension Provider
+		 */
+		public function getExtensionProvider() {
+			return $this->extensionProvider;
 		}
 
 	}

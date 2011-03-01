@@ -144,6 +144,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	media int(11) unsigned DEFAULT '0' NOT NULL,
 	experience int(11) unsigned DEFAULT '0' NOT NULL,
 	software_relation int(11) unsigned DEFAULT '0' NOT NULL,
+	extension_provider tinytext,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

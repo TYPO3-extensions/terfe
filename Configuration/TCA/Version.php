@@ -354,6 +354,11 @@
 					'type' => 'passthrough',
 				),
 			),
+			'extension_provider' => array(
+				'config'  => array(
+					'type' => 'passthrough',
+				),
+			),
 		),
 	);
 ?>

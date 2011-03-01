@@ -53,6 +53,8 @@
 
 		/**
 		 * Index action, displays all categories
+		 * 
+		 * @return void
 		 */
 		public function indexAction() {
 			$this->view->assign('categories', $this->categoryRepository->findAll());
@@ -63,6 +65,7 @@
 		 * Displays a form for creating a new Category
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $newCategory A fresh Category object taken as a basis for the rendering
+		 * @return void
 		 * @dontvalidate $newCategory
 		 */
 		public function newAction(Tx_TerFe2_Domain_Model_Category $newCategory = NULL) {
@@ -74,6 +77,7 @@
 		 * Creates a new Category and forwards to the index action
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $newCategory A fresh Category object which has not yet been added to the repository
+		 * @return void
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Category $newCategory) {
 			$this->categoryRepository->add($newCategory);
@@ -86,6 +90,7 @@
 		 * Displays a form to edit an existing Category
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to display
+		 * @return void
 		 * @dontvalidate $category
 		 */
 		public function editAction(Tx_TerFe2_Domain_Model_Category $category) {
@@ -97,6 +102,7 @@
 		 * Updates an existing Category and forwards to the index action afterwards
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $category Category to update
+		 * @return void
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Category $category) {
 			$this->categoryRepository->update($category);
@@ -109,6 +115,7 @@
 		 * Deletes an existing Category
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to be deleted
+		 * @return void
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Category $category) {
 			$this->categoryRepository->remove($category);

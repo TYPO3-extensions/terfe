@@ -53,6 +53,8 @@
 
 		/**
 		 * Index action, displays all categories
+		 * 
+		 * @return void
 		 */
 		public function indexAction() {
 			$this->view->assign('tags', $this->tagRepository->findAll());
@@ -63,6 +65,7 @@
 		 * Displays a form for creating a new Tag
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $newTag A fresh Tag object taken as a basis for the rendering
+		 * @return void
 		 * @dontvalidate $newTag
 		 */
 		public function newAction(Tx_TerFe2_Domain_Model_Tag $newTag = NULL) {
@@ -74,6 +77,7 @@
 		 * Creates a new Tag and forwards to the index action
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $newTag A fresh Tag object which has not yet been added to the repository
+		 * @return void
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Tag $newTag) {
 			$this->tagRepository->add($newTag);
@@ -86,6 +90,7 @@
 		 * Displays a form to edit an existing Tag
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to display
+		 * @return void
 		 * @dontvalidate $tag
 		 */
 		public function editAction(Tx_TerFe2_Domain_Model_Tag $tag) {
@@ -97,6 +102,7 @@
 		 * Updates an existing Tag and forwards to the index action afterwards
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $tag Tag to update
+		 * @return void
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$this->tagRepository->update($tag);
@@ -109,6 +115,7 @@
 		 * Deletes an existing Tag
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to be deleted
+		 * @return void
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$this->tagRepository->remove($tag);

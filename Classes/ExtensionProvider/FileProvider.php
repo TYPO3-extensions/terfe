@@ -138,8 +138,21 @@
 		 * @return string URL to file
 		 */
 		public function getUrlToFile($extKey, $versionString, $fileType) {
+			// Get fileName
 			$fileName = Tx_TerFe2_Utility_Files::getT3xRelPath($extKey, $versionString, $fileType);
-			return t3lib_div::locationHeaderUrl($fileName);
+
+			// Get path to local Extension directory
+			$extensionRootPath = 'fileadmin/ter/';
+			if (!empty($this->configuration['extensionRootPath'])) {
+				$extensionRootPath = rtrim($this->configuration['extensionRootPath'], '/ ') . '/';
+			}
+
+			// Check if file exists and is readable
+			if (!Tx_TerFe2_Utility_Files::fileExists(PATH_site . $extensionRootPath . $fileName)) {
+				return '';
+			}
+
+			return t3lib_div::locationHeaderUrl($extensionRootPath . $fileName);
 		}
 
 	}

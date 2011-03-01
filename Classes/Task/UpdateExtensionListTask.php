@@ -65,12 +65,10 @@
 		 * TODO:
 		 *  - Check how to handle author information
 		 *  - Add upload comment to version object (requires a connection to ter extension?)
-		 *  - Create ViewHelpers to get image and t3x file from extensionProvider
+		 *  - Create ViewHelper to get image file from extensionProvider using getUrlToFile()
 		 *  - Create new Versions only if Extension was already registered via Frontend,
 		 *    do not create new Extensions if not
-		 *  - Complete SOAP Extension Provider
-		 *  - Add className of providing Extension Provider to Version Object to get a
-		 *    file URL from it later
+		 *  - Finalize SOAP Extension Provider
 		 *
 		 * @return boolean TRUE on success
 		 */
@@ -162,6 +160,7 @@
 				if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
 					$extensionProvider->injectConfiguration($providerSettings);
 					$localUpdateInfo = $extensionProvider->getUpdateInfo($lastRunTime);
+					array_walk($localUpdateInfo, array($this, 'setExtensionProvider'), $providerIdent);
 					$updateInfoArray = array_merge($updateInfoArray, $localUpdateInfo);
 				}
 				unset($extensionProvider);
@@ -209,6 +208,7 @@
 			$version->setLockType($extInfo['lockType']);
 			$version->setCglCompliance($extInfo['cglCompliance']);
 			$version->setCglComplianceNote($extInfo['cglComplianceNote']);
+			$version->setExtensionProvider($extInfo['extensionProvider']);
 
 			// Add software relations
 			foreach ($extInfo['softwareRelation'] as $relationInfo) {
@@ -263,6 +263,19 @@
 			}
 
 			return $extension;
+		}
+
+
+		/**
+		 * Add Extension Provider to Extension information
+		 *
+		 * @param array $extInfo Extension information
+		 * @param string $key Array key
+		 * @param string $providerIdent Ident of the Extension Provider
+		 * @return void
+		 */
+		protected function setExtensionProvider(array &$extInfo, $key, $providerIdent) {
+			$extInfo['extensionProvider'] = $providerIdent;
 		}
 
 	}
