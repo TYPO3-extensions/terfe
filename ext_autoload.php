@@ -22,5 +22,6 @@
 		'tx_terfe2_task_updateextensionlisttask' => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
 		'tx_terfe2_utility_files' => $extensionClassesPath . 'Utility/Files.php',
 		'tx_terfe2_utility_typoscript' => $extensionClassesPath . 'Utility/TypoScript.php',
+		'tx_terfe2_viewhelpers_extensionproviderviewhelper' => $extensionClassesPath . 'ViewHelpers/class.Tx_TerFe2_ViewHelpers_ExtensionProviderViewHelper.php',
 	);
 ?>

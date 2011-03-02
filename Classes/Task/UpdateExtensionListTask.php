@@ -1,5 +1,5 @@
 <?php
-	/*******************************************************************
+/*******************************************************************
 	 *  Copyright notice
 	 *
 	 *  (c) 2011 Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
@@ -224,7 +224,7 @@
 		 * Create a Software relation
 		 *
 		 * @param array $relationInfo Relation information
-		 * @return Tx_TerFe2_Domain_Model_Relation New releation object
+		 * @return Tx_TerFe2_Domain_Model_Relation New relation object
 		 */
 		protected function createSoftwareRelation(array $relationInfo) {
 			// Get version range
