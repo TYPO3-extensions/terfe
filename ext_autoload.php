@@ -19,9 +19,10 @@
 		'tx_terfe2_extensionprovider_abstractextensionprovider' => $extensionClassesPath . 'ExtensionProvider/AbstractExtensionProvider.php',
 		'tx_terfe2_extensionprovider_extensionproviderinterface' => $extensionClassesPath . 'ExtensionProvider/ExtensionProviderInterface.php',
 		'tx_terfe2_extensionprovider_fileprovider' => $extensionClassesPath . 'ExtensionProvider/FileProvider.php',
+		'tx_terfe2_extensionprovider_soapprovider' => $extensionClassesPath . 'ExtensionProvider/SoapProvider.php',
 		'tx_terfe2_task_updateextensionlisttask' => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
 		'tx_terfe2_utility_files' => $extensionClassesPath . 'Utility/Files.php',
 		'tx_terfe2_utility_typoscript' => $extensionClassesPath . 'Utility/TypoScript.php',
-		'tx_terfe2_viewhelpers_extensionproviderviewhelper' => $extensionClassesPath . 'ViewHelpers/class.Tx_TerFe2_ViewHelpers_ExtensionProviderViewHelper.php',
+		'tx_terfe2_viewhelpers_exticonviewhelper' => $extensionClassesPath . 'ViewHelpers/ExtIconViewHelper.php',
 	);
 ?>

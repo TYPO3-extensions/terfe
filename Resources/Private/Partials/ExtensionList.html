@@ -1,31 +1,11 @@
-<!--<table cellpadding="4" style="width: 100%;">
-	<tr>
-		<th><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></th>
-		<th><f:translate key="tx_terfe2_domain_model_version.title" /></th>
-		<th><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></th>
-		<th><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></th>
-		<th><f:translate key="tx_terfe2_domain_model_extension.categories" /></th>
-		<th>&nbsp;</th>
-		<th>&nbsp;</th>
-	</tr>
-
-	<f:for each="{extensions}" as="extension">
-		<tr>
-			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.extKey}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{extension : extension}"> {extension.lastVersion.title}</f:link.action></td>
-			<td>{extension.forgeLink}</td>
-			<td>{extension.hudsonLink}</td>
-			<td><f:for each="{extension.categories}" as="category">{category.title}<br /></f:for></td>
-			<td><f:link.action action="edit" arguments="{extension : extension}"><f:translate key="edit"/></f:link.action></td>
-			<td><f:link.action action="delete" arguments="{extension : extension}"><f:translate key="delete"/></f:link.action></td>
-		</tr>
-	</f:for>
-</table>-->
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
 <f:for each="{extensions}" as="extension">
 	<div class="extension">
-		<h3 style="background: url({extension.lastVersion.icon}) top left; padding-left: 20px;"><f:link.action action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action></h3>
+		<h3>
+			<span class="icon"><terfe2:extIcon extension="{extension}" version="{extension.lastVersion}" alt="{extension.lastVersion.title}"></terfe2:extIcon></span>
+			<f:link.action action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action>
+		</h3>
 		<p class="description">{extension.lastVersion.description}</p>
 		<p class="categories"><f:for each="{extension.categories}" as="{category}">{category.title}</f:for></p>
 		<p class="tags"><f:for each="{extension.tags}" as="{tag}">{tag.title}</f:for></p>
