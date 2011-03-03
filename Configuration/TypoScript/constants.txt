@@ -16,7 +16,7 @@ plugin.tx_terfe2 {
 			className = Tx_TerFe2_ExtensionProvider_SoapProvider
 
 			# cat=plugin.tx_terfe2/settings/500; type=string+; label=URL to WSDL file on SOAP server
-			wsdl =
+			wsdlUrl =
 
 			# cat=plugin.tx_terfe2/settings/600; type=string+; label=Username for the authentication on SOAP server
 			username =

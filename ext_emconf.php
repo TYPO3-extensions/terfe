@@ -12,13 +12,13 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'TER Frontend Index',
-	'description' => 'New TER Frontend based on extbase and fluid',
+	'description' => 'New TER Frontend based on Extbase and Fluid',
 	'category' => 'plugin',
 	'author' => 'Thomas Loeffler,Kai Vogel',
 	'author_email' => 'loeffler@spooner-web.de,kai.vogel@speedprogs.de',
 	'author_company' => 'Spooner Web,Speedprogs.de',
 	'shy' => '',
-	'dependencies' => 'cms,extbase,fluid',
+	'dependencies' => 'cms,extbase,fluid,em',
 	'conflicts' => '',
 	'priority' => '',
 	'module' => '',
@@ -35,6 +35,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'cms' => '',
 			'extbase' => '',
 			'fluid' => '',
+			'em' => '',
 		),
 		'conflicts' => array(
 		),

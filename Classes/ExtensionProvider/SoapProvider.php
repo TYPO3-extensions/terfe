@@ -33,16 +33,28 @@
 	class Tx_TerFe2_ExtensionProvider_SoapProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
 
 		/**
+		 * @var tx_em_Connection_Soap
+		 */
+		protected $soapConnection;
+
+
+		/**
 		 * Returns all Extension information for the Scheduler Task
 		 *
 		 * @param integer $lastUpdate Last update of the extension list
 		 * @return array Extension information
 		 */
 		public function getUpdateInfo($lastUpdate) {
+			if (empty($this->configuration['updateFunc'])) {
+				throw new Exception('No update function (updateFunc) defined for SOAP Extension Provider');
+			}
 
-			// TODO: Add SOAP request
-			return array();
-
+			// Get update information
+			$params = array('lastUpdate' => $lastUpdate);
+			$dataArray = $this->getSoapResult($this->configuration['updateFunc'], $params);
+			if (empty($dataArray)) {
+				return array();
+			}
 
 			// Generate Extension information
 			$updateInfoArray = array();
@@ -65,36 +77,47 @@
 		 * @return array Extension information
 		 */
 		protected function getExtensionInfo(array $extData) {
-			$extInfo = array(
-				'extKey'            => '',
-				'forgeLink'         => '',
-				'hudsonLink'        => '',
-				'title'             => '',
-				'description'       => '',
-				'fileHash'          => '',
-				'author'            => '',
-				'authorEmail'       => '',
-				'authorCompany'     => '',
-				'versionNumber'     => '',
-				'versionString'     => '',
-				'uploadComment'     => '',
-				'state'             => '',
-				'emCategory'        => '',
-				'loadOrder'         => '',
-				'priority'          => '',
-				'shy'               => '',
-				'internal'          => '',
-				'module'            => '',
-				'doNotLoadInFe'     => '',
-				'uploadfolder'      => '',
-				'createDirs'        => '',
-				'modifyTables'      => '',
-				'clearCacheOnLoad'  => '',
-				'lockType'          => '',
-				'cglCompliance'     => '',
-				'cglComplianceNote' => '',
-				'softwareRelation'  => array(),
+			$extInfoKeys = array(
+				'extKey', 'forgeLink', 'hudsonLink', 'title', 'description', 'fileHash', 'author',
+				'authorEmail', 'authorCompany', 'versionNumber', 'versionString', 'uploadComment',
+				'state', 'emCategory', 'loadOrder', 'priority', 'shy', 'internal', 'module',
+				'doNotLoadInFe', 'uploadfolder', 'createDirs', 'modifyTables', 'clearCacheOnLoad',
+				'lockType', 'cglCompliance', 'cglComplianceNote',
 			);
+
+			// Get Extension information
+			$extInfo = array('softwareRelation' => array());
+			foreach ($extInfoKeys as $key) {
+				$extInfo[$key] = (!empty($extData[$key]) ? $extData[$key] : '');
+
+				// Get file hash
+				if ($key == 'fileHash' && !empty($extInfo['fileName'])) {
+					$extInfo[$key] = Tx_TerFe2_Utility_Files::getFileHash($extInfo['fileName']);
+				}
+
+				// Get version number
+				if ($key == 'versionNumber') {
+					$extInfo[$key] = 0;
+					if (!empty($extInfo['versionString'])) {
+						$extInfo[$key] = t3lib_div::int_from_ver($extInfo['versionString']);
+					}
+				}
+
+				// Get boolean values
+				if ($key == 'uploadfolder' || $key == 'clearCacheOnLoad') {
+					$extInfo[$key] = (bool) $extInfo[$key];
+				}
+			}
+
+			// Add relations
+			if (empty($extData['relations']) && is_array($extData['relations'])) {
+				foreach ($extData['relations'] as $relation) {
+					if (!empty($relation['relationType']) && !empty($relation['relationKey']) && !empty($relation['softwareType'])) {
+						$relation['versionRange'] = (!empty($relation['versionRange']) ? $relation['versionRange'] : '');
+						$extInfo['softwareRelation'][] = $relation;
+					}
+				}
+			}
 
 			return $extInfo;
 		}
@@ -102,17 +125,74 @@
 
 		/**
 		 * Returns URL to a file via extKey, version and fileType
-		 * 
+		 *
 		 * @param string $extKey Extension key
 		 * @param string $versionString Version string
 		 * @param string $fileType File type
 		 * @return string URL to file
 		 */
 		public function getUrlToFile($extKey, $versionString, $fileType) {
+			if (empty($this->configuration['getFileFunc'])) {
+				throw new Exception('No function (getFileFunc) defined to get files from SOAP Extension Provider');
+			}
 
-			// TODO: Add SOAP request
-			return '';
+			$params = array(
+				'extKey'        => $extKey,
+				'versionString' => $versionString,
+				'fileType'      => $fileType,
+			);
 
+			// Get URL
+			$dataArray = $this->getSoapResult($this->configuration['getFileFunc'], $params);
+			if (empty($dataArray['urlToFile'])) {
+				return '';
+			}
+
+			return (string) $dataArray['urlToFile'];
+
+		}
+
+
+		/**
+		 * Wrapper method for SOAP calls
+		 *
+		 * @param string $methodName Method name
+		 * @param array $params Parameters
+		 * @return array Result of the SOAP call
+		 */
+		protected function getSoapResult($methodName, array $params = array()) {
+			// Initialize SOAP connection
+			if ($this->soapConnection === NULL) {
+				if (!t3lib_extMgm::isLoaded('em')) {
+					throw new Exception('System extension "em" must be loaded for SOAP Extension Provider');
+				}
+				if (empty($this->configuration['wsdlUrl'])) {
+					throw new Exception('No wsdlUrl found for SOAP Extension Provider');
+				}
+
+				$username = (!empty($this->configuration['username']) ? $this->configuration['username'] : FALSE);
+				$password = (!empty($this->configuration['password']) ? $this->configuration['password'] : FALSE);
+				$options  = array(
+					'wsdl'   => $this->configuration['wsdlUrl'],
+					'format' => 'array',
+					'soapoptions' => array(
+						'trace'      => 1,
+						'exceptions' => 0,
+					)
+				);
+
+				// Load connection
+				$this->soapConnection = t3lib_div::makeInstance('tx_em_Connection_Soap');
+				$this->soapConnection->init($options, $username, $password);
+			}
+
+			// Call given method
+			$response = $this->soapConnection->call($methodName, $params);
+			if ($response === FALSE) {
+				return array();
+			}
+
+			return (array) $response;
 		}
 
 	}
