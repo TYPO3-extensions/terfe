@@ -73,6 +73,8 @@
 
 
 		/**
+		 * Inject Configuration Manager
+		 * 
 		 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
 		 * @return void
 		 */
@@ -82,7 +84,7 @@
 
 
 		/**
-		 * Initialize arguments.
+		 * Initialize arguments
 		 *
 		 * @return void
 		 */

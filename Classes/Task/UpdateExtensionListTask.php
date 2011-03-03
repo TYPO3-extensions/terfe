@@ -69,6 +69,9 @@
 		 *  - Create new Versions only if Extension was already registered via Frontend,
 		 *    do not create new Extensions if not
 		 *  - Finalize SOAP Extension Provider
+		 *  - Additonal Version Info:
+		 *    - Codelines
+		 *    - Codebytes
 		 *
 		 * @return boolean TRUE on success
 		 */
