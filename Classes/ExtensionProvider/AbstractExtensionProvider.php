@@ -33,18 +33,189 @@
 	abstract class Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider implements Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface, t3lib_Singleton {
 
 		/**
+		 * @var Tx_Extbase_Persistence_Mapper_DataMapFactory
+		 */
+		protected $dataMapFactory;
+
+		/**
+		 * @var Tx_Extbase_Reflection_Service
+		 */
+		protected $reflectionService;
+
+		/**
 		 * @var array Configuration array
 		 */
 		protected $configuration;
 
 		/**
-		 * Inject configuration for the DataProvider
-		 * 
+		 * @var array Extension information schema
+		 */
+		protected $extInfoSchema = array();
+
+
+		/**
+		 * Injects the DataMap Factory
+		 *
+		 * @param Tx_Extbase_Persistence_Mapper_DataMapFactory
+		 * @return void
+		 */
+		public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory) {
+			$this->dataMapFactory = $dataMapFactory;
+		}
+
+
+		/**
+		 * Injects the Reflection Service
+		 *
+		 * @param Tx_Extbase_Reflection_Service
+		 * @return void
+		 */
+		public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService) {
+			$this->reflectionService = $reflectionService;
+		}
+
+
+		/**
+		 * Set configuration for the DataProvider
+		 *
 		 * @param array $configuration TypoScript configuration
 		 * @return void
 		 */
-		public function injectConfiguration(array $configuration) {
+		public function setConfiguration(array $configuration) {
 			$this->configuration = $configuration;
+		}
+
+
+		/**
+		 * Generates an array with all Extension information
+		 *
+		 * @param array $extData Extension data
+		 * @param array $extInfoSchema Extension information schema
+		 * @return array Extension information
+		 */
+		protected function getExtensionInfo(array $extData) {
+			$extInfoSchema = $this->getExtensionInfoSchema();
+			$extInfo       = array('softwareRelation' => array());
+
+			// Get field value
+			foreach ($extInfoSchema as $fieldName => $fieldConf) {
+				$extInfo[$fieldName] = '';
+				if (!empty($extData[$fieldName])) {
+					$extInfo[$fieldName] = $this->convertValue($extData[$fieldName], $fieldConf['type']);
+				}
+			}
+
+			// Get upload date
+			if (empty($extInfo['uploadDate'])) {
+				$extInfo['uploadDate'] = (int) $GLOBALS['SIM_EXEC_TIME'];
+			}
+
+			// Get file hash
+			if (empty($extInfo['fileHash']) && !empty($extData['fileName'])) {
+				$extInfo['fileHash'] = Tx_TerFe2_Utility_Files::getFileHash($extData['fileName']);
+			}
+
+			// Get version number
+			if (empty($extInfo['versionNumber']) && !empty($extInfo['versionString'])) {
+				$extInfo['versionNumber'] = t3lib_div::int_from_ver($extInfo['versionString']);
+			}
+
+			// Check required information afterwards
+			foreach ($extInfoSchema as $fieldName => $fieldConf) {
+				if (empty($extInfo[$fieldName]) && $fieldConf['required']) {
+					return array();
+				}
+			}
+
+			// Add relations
+			if (!empty($extData['relations']) && is_array($extData['relations'])) {
+				foreach ($extData['relations'] as $relation) {
+					if (!empty($relation['relationType']) && !empty($relation['relationKey']) && !empty($relation['softwareType'])) {
+						$relation['versionRange'] = (!empty($relation['versionRange']) ? $relation['versionRange'] : '');
+						$extInfo['softwareRelation'][] = $relation;
+					}
+				}
+			}
+
+			return $extInfo;
+		}
+
+
+		/**
+		 * Returns properties of the Extension and Version object
+		 *
+		 * @return array Properties
+		 */
+		protected function getExtensionInfoSchema() {
+			if (!empty($this->extInfoSchema)) {
+				return $this->extInfoSchema;
+			}
+
+			// Get class structure and property options
+			$classNames = array('Tx_TerFe2_Domain_Model_Extension', 'Tx_TerFe2_Domain_Model_Version');
+			foreach ($classNames as $className) {
+				$classSchema = $this->reflectionService->getClassSchema($className);
+				$dataMap     = $this->dataMapFactory->buildDataMap($className);
+				$object      = t3lib_div::makeInstance($className);
+				$properties  = $object->_getProperties();
+
+				foreach ($properties as $propertyName => $propertyValue) {
+					// Check if property is persitable
+					if (!$dataMap->isPersistableProperty($propertyName)) {
+						continue;
+					}
+
+					// Get property type
+					$propertyData = $classSchema->getProperty($propertyName);
+					if (strpos($propertyData['type'], 'Tx_') !== FALSE) {
+						continue;
+					}
+
+					// Check if property is required
+					$tagValues = $this->reflectionService->getPropertyTagValues($className, $propertyName, 'validate');
+					$required  = (stripos(implode(',', $tagValues), 'NotEmpty') !== FALSE);
+
+					// Build field
+					$this->extInfoSchema[$propertyName] = array(
+						'type'     => $propertyData['type'],
+						'required' => $required,
+					);
+				}
+			}
+
+			unset($this->extInfoSchema['manual']);
+			unset($this->extInfoSchema['extensionProvider']);
+
+			return $this->extInfoSchema;
+		}
+
+
+		/**
+		 * Convert value into correct type
+		 *
+		 * @param mixed $value Value to convert
+		 * @param string $type Type of the conversation
+		 * @return mixed Converted value
+		 */
+		protected function convertValue($value, $type) {
+			switch ($type) {
+				case 'integer':
+					return (int) $value;
+					break;
+				case 'float':
+					return (float) $value;
+					break;
+				case 'boolean':
+					return (boolean) $value;
+					break;
+				case 'array':
+					return (array) $value;
+					break;
+				case 'string':
+				default:
+					return (string) $value;
+					break;
+			}
 		}
 
 
@@ -59,7 +230,7 @@
 
 		/**
 		 * Returns URL to a file via extKey, version and fileType
-		 * 
+		 *
 		 * @param string $extKey Extension key
 		 * @param string $versionString Version string
 		 * @param string $fileType File type

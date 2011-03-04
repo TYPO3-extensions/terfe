@@ -33,12 +33,30 @@
 	interface Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface {
 
 		/**
-		 * Inject configuration for the DataProvider
-		 * 
+		 * Injects the DataMap Factory
+		 *
+		 * @param Tx_Extbase_Persistence_Mapper_DataMapFactory
+		 * @return void
+		 */
+		public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory);
+
+
+		/**
+		 * Injects the Reflection Service
+		 *
+		 * @param Tx_Extbase_Reflection_Service
+		 * @return void
+		 */
+		public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService);
+
+
+		/**
+		 * Set configuration for the DataProvider
+		 *
 		 * @param array $configuration TypoScript configuration
 		 * @return void
 		 */
-		public function injectConfiguration(array $configuration);
+		public function setConfiguration(array $configuration);
 
 	}
 ?>

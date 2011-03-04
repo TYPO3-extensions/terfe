@@ -51,7 +51,6 @@
 				$extInfo = $this->getExtensionInfo($fileName);
 				if (!empty($extInfo)) {
 					$updateInfoArray[] = $extInfo;
-					continue;
 				}
 			}
 
@@ -74,58 +73,44 @@
 			$extContent = Tx_TerFe2_Utility_Files::unpackT3xFile($fileName);
 			unset($extContent['FILES']);
 
-			$extInfo = array(
-				'extKey'            => $extContent['extKey'],
-				'forgeLink'         => '',
-				'hudsonLink'        => '',
-				'title'             => $extContent['EM_CONF']['title'],
-				'description'       => $extContent['EM_CONF']['description'],
-				'fileHash'          => Tx_TerFe2_Utility_Files::getFileHash($fileName),
-				'author'            => $extContent['EM_CONF']['author'],
-				'authorEmail'       => $extContent['EM_CONF']['author_email'],   // Missing in version object
-				'authorCompany'     => $extContent['EM_CONF']['author_company'], // Missing in version object
-				'versionNumber'     => t3lib_div::int_from_ver($extContent['EM_CONF']['version']),
-				'versionString'     => $extContent['EM_CONF']['version'],
-				'uploadComment'     => '',
-				'state'             => $extContent['EM_CONF']['state'],
-				'emCategory'        => $extContent['EM_CONF']['category'],
-				'loadOrder'         => $extContent['EM_CONF']['loadOrder'],
-				'priority'          => $extContent['EM_CONF']['priority'],
-				'shy'               => $extContent['EM_CONF']['shy'],
-				'internal'          => $extContent['EM_CONF']['internal'],
-				'module'            => $extContent['EM_CONF']['module'],
-				'doNotLoadInFe'     => $extContent['EM_CONF']['doNotLoadInFE'],
-				'uploadfolder'      => (bool) $extContent['EM_CONF']['uploadfolder'],
-				'createDirs'        => $extContent['EM_CONF']['createDirs'],
-				'modifyTables'      => $extContent['EM_CONF']['modify_tables'],
-				'clearCacheOnLoad'  => (bool) $extContent['EM_CONF']['clearcacheonload'],
-				'lockType'          => $extContent['EM_CONF']['lockType'],
-				'cglCompliance'     => $extContent['EM_CONF']['CGLcompliance'],
-				'cglComplianceNote' => $extContent['EM_CONF']['CGLcompliance_note'],
-				'softwareRelation'  => array(), // dependencies, conflicts, suggests, TYPO3_version, PHP_version
-			);
+			// Map fields
+			$extData = $extContent['EM_CONF'];
+			$extData['extKey']            = $extContent['extKey'];
+			$extData['forgeLink']         = '';
+			$extData['hudsonLink']        = '';
+			$extData['uploadComment']     = '';
+			$extData['fileName']          = $fileName;
+			$extData['versionString']     = $extData['version'];
+			$extData['authorEmail']       = $extData['author_email'];
+			$extData['authorCompany']     = $extData['author_company'];
+			$extData['emCategory']        = $extData['category'];
+			$extData['doNotLoadInFe']     = $extData['doNotLoadInFE'];
+			$extData['modifyTables']      = $extData['modify_tables'];
+			$extData['clearCacheOnLoad']  = $extData['clearcacheonload'];
+			$extData['cglCompliance']     = $extData['CGLcompliance'];
+			$extData['cglComplianceNote'] = $extData['CGLcompliance_note'];
 
 			// Add TYPO3 version requirement
-			if (!empty($extContent['EM_CONF']['PHP_version'])) {
-				$extInfo['softwareRelation'][] = array(
+			if (!empty($extData['TYPO3_version'])) {
+				$extData['relations'][] = array(
 					'relationType'  => 'dependancy',
 					'relationKey'   => 'typo3',
 					'softwareType'  => 'system',
-					'versionRange'  => $extContent['EM_CONF']['TYPO3_version'],
+					'versionRange'  => $extData['TYPO3_version'],
 				);
 			}
 
 			// Add PHP version requirement
-			if (!empty($extContent['EM_CONF']['PHP_version'])) {
-				$extInfo['softwareRelation'][] = array(
+			if (!empty($extData['PHP_version'])) {
+				$extData['relations'][] = array(
 					'relationType'  => 'dependancy',
 					'relationKey'   => 'php',
 					'softwareType'  => 'system',
-					'versionRange'  => $extContent['EM_CONF']['PHP_version'],
+					'versionRange'  => $extData['PHP_version'],
 				);
 			}
 
-			return $extInfo;
+			return parent::getExtensionInfo($extData);
 		}
 
 

@@ -62,64 +62,10 @@
 				$extInfo = $this->getExtensionInfo($extData);
 				if (!empty($extInfo)) {
 					$updateInfoArray[] = $extInfo;
-					continue;
 				}
 			}
 
 			return $updateInfoArray;
-		}
-
-
-		/**
-		 * Generates an array with all Extension information
-		 *
-		 * @param array $extData Extension data
-		 * @return array Extension information
-		 */
-		protected function getExtensionInfo(array $extData) {
-			$extInfoKeys = array(
-				'extKey', 'forgeLink', 'hudsonLink', 'title', 'description', 'fileHash', 'author',
-				'authorEmail', 'authorCompany', 'versionNumber', 'versionString', 'uploadComment',
-				'state', 'emCategory', 'loadOrder', 'priority', 'shy', 'internal', 'module',
-				'doNotLoadInFe', 'uploadfolder', 'createDirs', 'modifyTables', 'clearCacheOnLoad',
-				'lockType', 'cglCompliance', 'cglComplianceNote',
-			);
-
-			// Get Extension information
-			$extInfo = array('softwareRelation' => array());
-			foreach ($extInfoKeys as $key) {
-				$extInfo[$key] = (!empty($extData[$key]) ? $extData[$key] : '');
-
-				// Get file hash
-				if ($key == 'fileHash' && !empty($extInfo['fileName'])) {
-					$extInfo[$key] = Tx_TerFe2_Utility_Files::getFileHash($extInfo['fileName']);
-				}
-
-				// Get version number
-				if ($key == 'versionNumber') {
-					$extInfo[$key] = 0;
-					if (!empty($extInfo['versionString'])) {
-						$extInfo[$key] = t3lib_div::int_from_ver($extInfo['versionString']);
-					}
-				}
-
-				// Get boolean values
-				if ($key == 'uploadfolder' || $key == 'clearCacheOnLoad') {
-					$extInfo[$key] = (bool) $extInfo[$key];
-				}
-			}
-
-			// Add relations
-			if (empty($extData['relations']) && is_array($extData['relations'])) {
-				foreach ($extData['relations'] as $relation) {
-					if (!empty($relation['relationType']) && !empty($relation['relationKey']) && !empty($relation['softwareType'])) {
-						$relation['versionRange'] = (!empty($relation['versionRange']) ? $relation['versionRange'] : '');
-						$extInfo['softwareRelation'][] = $relation;
-					}
-				}
-			}
-
-			return $extInfo;
 		}
 
 

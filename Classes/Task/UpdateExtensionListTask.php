@@ -44,6 +44,11 @@
 		protected $extensionRepository;
 
 		/**
+		 * @var Tx_Extbase_Object_ObjectManagerInterface
+		 */
+		protected $objectManager;
+
+		/**
 		 * @var t3lib_Registry
 		 */
 		protected $registry;
@@ -129,9 +134,10 @@
 			$dispatcher->initialize($configuration);
 
 			// Load required objects
+			$this->objectManager       = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->registry            = t3lib_div::makeInstance('t3lib_Registry');
-			$this->persistenceManager  = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 			$this->session             = $this->persistenceManager->getSession();
 		}
 
@@ -159,9 +165,9 @@
 				}
 
 				// Load Extension Provider and get update information
-				$extensionProvider = t3lib_div::makeInstance($providerSettings['className']);
+				$extensionProvider = $this->objectManager->get($providerSettings['className']);
 				if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
-					$extensionProvider->injectConfiguration($providerSettings);
+					$extensionProvider->setConfiguration($providerSettings);
 					$localUpdateInfo = $extensionProvider->getUpdateInfo($lastRunTime);
 					array_walk($localUpdateInfo, array($this, 'setExtensionProvider'), $providerIdent);
 					$updateInfoArray = array_merge($updateInfoArray, $localUpdateInfo);
