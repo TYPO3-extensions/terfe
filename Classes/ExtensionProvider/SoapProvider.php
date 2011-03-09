@@ -24,7 +24,7 @@
 	 ******************************************************************/
 
 	/**
-	 *  A SOAP Extension Provider for the Scheduler Task
+	 * A SOAP Extension Provider for the Scheduler Task
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors

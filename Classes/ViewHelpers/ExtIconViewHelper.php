@@ -120,7 +120,7 @@
 			$urlToFile = '';
 			$extensionProvider = t3lib_div::makeInstance($providerConf['className']);
 			if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
-				$extensionProvider->injectConfiguration($providerConf);
+				$extensionProvider->setConfiguration($providerConf);
 				$extKey = $extension->getExtKey();
 				$versionString = $version->getVersionString();
 				$urlToFile = $extensionProvider->getUrlToFile($extKey, $versionString, $fileType);

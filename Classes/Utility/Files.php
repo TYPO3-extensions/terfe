@@ -177,7 +177,7 @@
 		 *
 		 * @param string $dirname Path to the directory
 		 * @param string $fileType Type of the files to find
-		 * @param integer $lastChange Timestamp of the last file change
+		 * @param integer $timestamp Timestamp of the last file change
 		 * @param boolean $recursive Get subfolder content too
 		 * @return array All contained files
 		 */
