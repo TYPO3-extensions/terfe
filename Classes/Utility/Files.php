@@ -33,7 +33,7 @@
 	class Tx_TerFe2_Utility_Files implements t3lib_Singleton {
 
 		/**
-		 * Check if a file or directory exists
+		 * Check if a file, URL or directory exists
 		 *
 		 * @param string $filename Path to the file
 		 * @return boolean TRUE if file exists
@@ -47,7 +47,8 @@
 				return (bool) file_exists($filename);
 			}
 
-			return (bool) is_readable($filename);
+			$result = @fopen($filename, 'r');
+			return ($result !== FALSE);
 		}
 
 
@@ -111,7 +112,7 @@
 			}
 
 			// Get file content
-			$contents = @file_get_contents($filename);
+			$contents = t3lib_div::getURL($filename);
 			if (empty($contents)) {
 				return array();
 			}
@@ -169,6 +170,10 @@
 		 * @return boolean FALSE if file not exists
 		 */
 		static public function transferFile($filename, $visibleFilename = '') {
+			if (!self::fileExists($filename)) {
+				return FALSE;
+			}
+
 			// Get filename for download
 			if (empty($visibleFilename)) {
 				$visibleFilename = basename($filename);
@@ -247,7 +252,7 @@
 		 * @return boolean TRUE if success
 		 */
 		static public function copyFile($fromFileName, $toFileName, $overwrite = FALSE) {
-			$fromFile = file_get_contents($fromFileName);
+			$fromFile = t3lib_div::getURL($fromFileName);
 
 			// Check files
 			if ($fromFile === FALSE || ($toFileExists && !$overwrite)) {
@@ -260,7 +265,7 @@
 			}
 
 			// Copy file to new name
-			$result = file_put_contents($toFileName, $fromFile);
+			$result = t3lib_div::writeFile($toFileName, $fromFile);
 			return ($result !== FALSE);
 		}
 
