@@ -42,7 +42,7 @@
 		 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
 		 */
 		protected $configurationManager;
-		
+
 		/**
 		 * @var array
 		 */
@@ -74,7 +74,7 @@
 
 		/**
 		 * Inject Configuration Manager
-		 * 
+		 *
 		 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
 		 * @return void
 		 */
@@ -123,7 +123,7 @@
 				$extensionProvider->setConfiguration($providerConf);
 				$extKey = $extension->getExtKey();
 				$versionString = $version->getVersionString();
-				$urlToFile = $extensionProvider->getUrlToFile($extKey, $versionString, $fileType);
+				$urlToFile = $extensionProvider->getUrlToIcon($extKey, $versionString, $fileType);
 			}
 			if (empty($urlToFile)) {
 				return '';

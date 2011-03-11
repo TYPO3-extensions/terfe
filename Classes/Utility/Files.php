@@ -53,7 +53,7 @@
 
 		/**
 		 * Returns relative path to a file via extension key and version
-		 * 
+		 *
 		 * @param string $extKey Extension Key
 		 * @param string $version Version of the extension
 		 * @param string $fileType File type of the returning path
@@ -69,6 +69,33 @@
 			$path    = '%s/%s/%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
 
 			return sprintf($path, $extKey[0], $extKey[1], $extKey, $version[0], $version[1], $version[2]);
+		}
+
+
+		/**
+		 * Returns relative path to cached extension icon
+		 *
+		 * @param string $extKey Extension Key
+		 * @param string $version Version of the extension
+		 * @param string $fileType File type of the returning path
+		 * @return string Path and filename
+		 */
+		static public function getIconRelCachePath($extKey, $version, $fileType = 'gif') {
+			if (empty($extKey) || empty($version)) {
+				return '';
+			}
+
+			// Get temporary directory
+			$tmpPath = 'typo3temp/pics/';
+			if (!self::fileExists(PATH_site . $tmpPath)) {
+				t3lib_div::mkdir_deep(PATH_site . $tmpPath);
+			}
+
+			$extKey  = strtolower($extKey);
+			$version = Tx_Extbase_Utility_Arrays::integerExplode('.', $version);
+			$path    = $tmpPath . '%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
+
+			return sprintf($path, $extKey, $version[0], $version[1], $version[2]);
 		}
 
 
@@ -142,28 +169,15 @@
 		 * @return boolean FALSE if file not exists
 		 */
 		static public function transferFile($filename, $visibleFilename = '') {
-			// Check if file exists (not available for external files)
-			/*$filename = t3lib_div::getFileAbsFileName($filename);
-			if (!self::fileExists($filename)) {
-				return FALSE;
-			}*/
-
 			// Get filename for download
 			if (empty($visibleFilename)) {
 				$visibleFilename = basename($filename);
 			}
 
-			// Get file size (not available for external files)
-			/*$size = filesize($filename);
-			if (empty($size)) {
-				return FALSE;
-			}*/
-
 			// Set headers
 			header('Content-Disposition: attachment; filename=' . (string) $visibleFilename);
 			header('Content-type: x-application/octet-stream');
 			header('Content-Transfer-Encoding: binary');
-			//header('Content-length:' . (string) $size); // not available for external files
 
 			// Send file contents
 			readfile($filename);
@@ -221,6 +235,33 @@
 			}
 
 			return $result;
+		}
+
+
+		/**
+		 * Copy a file
+		 *
+		 * @param string $fromFileName Existing file
+		 * @param string $toFileName File name of the new file
+		 * @param boolean $overwrite Existing A file with new name will be overwritten if set
+		 * @return boolean TRUE if success
+		 */
+		static public function copyFile($fromFileName, $toFileName, $overwrite = FALSE) {
+			$fromFile = file_get_contents($fromFileName);
+
+			// Check files
+			if ($fromFile === FALSE || ($toFileExists && !$overwrite)) {
+				return FALSE;
+			}
+
+			// Remove existing
+			if (self::fileExists($toFileName) && $overwrite) {
+				unlink($toFileName);
+			}
+
+			// Copy file to new name
+			$result = file_put_contents($toFileName, $fromFile);
+			return ($result !== FALSE);
 		}
 
 	}

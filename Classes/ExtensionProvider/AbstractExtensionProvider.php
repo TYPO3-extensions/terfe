@@ -220,6 +220,31 @@
 
 
 		/**
+		 * Get URL to a cached or new Extension icon file
+		 *
+		 * @param string $extKey Extension key
+		 * @param string $versionString Version string
+		 * @param string $fileType File type
+		 * @return string URL to icon file
+		 */
+		public function getUrlToIcon($extKey, $versionString, $fileType = 'gif') {
+			// Check local cache first
+			$iconRelPath = Tx_TerFe2_Utility_Files::getIconRelCachePath($extKey, $versionString, $fileType);
+			if (Tx_TerFe2_Utility_Files::fileExists(PATH_site . $iconRelPath)) {
+				return t3lib_div::locationHeaderUrl($iconRelPath);
+			}
+
+			// Get new file from concrete provider
+			$urlToFile = $this->getUrlToFile($extKey, $versionString, $fileType);
+
+			// Copy URL to local cache
+			Tx_TerFe2_Utility_Files::copyFile($urlToFile, $iconRelPath);
+
+			return $urlToFile;
+		}
+
+
+		/**
 		 * Returns all Extension information for the Scheduler Task
 		 *
 		 * @param integer $lastUpdate Last update of the extension list

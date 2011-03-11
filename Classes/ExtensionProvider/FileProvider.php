@@ -116,7 +116,7 @@
 
 		/**
 		 * Returns URL to a file via extKey, version and fileType
-		 * 
+		 *
 		 * @param string $extKey Extension key
 		 * @param string $versionString Version string
 		 * @param string $fileType File type
