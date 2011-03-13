@@ -11,6 +11,7 @@ plugin.tx_terfe2 {
 			fileProvider {
 				className         = {$plugin.tx_terfe2.settings.fileProvider.className}
 				extensionRootPath = {$plugin.tx_terfe2.settings.fileProvider.extensionRootPath}
+				useEmMirrors      = {$plugin.tx_terfe2.settings.fileProvider.useEmMirrors}
 			}
 
 			## SOAP Extension Provider

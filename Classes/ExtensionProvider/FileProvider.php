@@ -24,7 +24,7 @@
 	 ******************************************************************/
 
 	/**
-	 * A Filesystem Extension Provider for the Scheduler Task
+	 * A Filesystem Extension Provider
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors
@@ -33,7 +33,13 @@
 	class Tx_TerFe2_ExtensionProvider_FileProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
 
 		/**
-		 * Returns all Extension information for the Scheduler Task
+		 * @var string
+		 */
+		protected $mirrorUrl;
+
+
+		/**
+		 * Returns all Extension information
 		 *
 		 * @param integer $lastUpdate Last update of the extension list
 		 * @return array Extension information
@@ -126,6 +132,14 @@
 			// Get fileName
 			$fileName = Tx_TerFe2_Utility_Files::getT3xRelPath($extKey, $versionString, $fileType);
 
+			// Use mirror system from local Extension Manager
+			if (!empty($this->configuration['useEmMirrors'])) {
+				$mirrorUrl = $this->getMirrorUrl();
+				if (!empty($mirrorUrl) && Tx_TerFe2_Utility_Files::fileExists($mirrorUrl . $fileName)) {
+					return $mirrorUrl . $fileName;
+				}
+			}
+
 			// Get path to local Extension directory
 			$extensionRootPath = 'fileadmin/ter/';
 			if (!empty($this->configuration['extensionRootPath'])) {
@@ -133,11 +147,65 @@
 			}
 
 			// Check if file exists and is readable
-			if (!Tx_TerFe2_Utility_Files::fileExists(PATH_site . $extensionRootPath . $fileName)) {
-				return '';
+			if (Tx_TerFe2_Utility_Files::fileExists(PATH_site . $extensionRootPath . $fileName)) {
+				return t3lib_div::locationHeaderUrl($extensionRootPath . $fileName);
 			}
 
-			return t3lib_div::locationHeaderUrl($extensionRootPath . $fileName);
+			return '';
+		}
+
+
+		/**
+		 * Returns mirror URL from local Extension Manager
+		 *
+		 * @return string Mirror URL
+		 */
+		protected function getMirrorUrl() {
+			if (empty($this->mirrorUrl) && t3lib_extMgm::isLoaded('em')) {
+
+				// Get EM settings
+				$emSettings = array(
+					'rep_url'            => '',
+					'extMirrors'         => '',
+					'selectedRepository' => 1,
+					'selectedMirror'     => 0,
+				);
+				if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['em'])) {
+					$emSettings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['em']);
+				}
+
+				if (!empty($emSettings['rep_url'])) {
+					// Force manually added URL
+					$mirrorUrl = $emSettings['rep_url'];
+				} else {
+					// Set selected repository to "1" if no mirrors found
+					$mirrors = unserialize($emSettings['extMirrors']);
+					if (!is_array($mirrors)) {
+						if ($emSettings['selectedRepository'] < 1) {
+							$emSettings['selectedRepository'] = 1;
+						}
+					}
+
+					// Get mirrors from repository object
+					$repository = t3lib_div::makeInstance('tx_em_Repository', $emSettings['selectedRepository']);
+					if ($repository->getMirrorListUrl()) {
+						$repositoryUtility = t3lib_div::makeInstance('tx_em_Repository_Utility', $repository);
+						$mirrors = $repositoryUtility->getMirrors(TRUE)->getMirrors();
+						unset($repositoryUtility);
+						if (!is_array($mirrors)) {
+							return '';
+						}
+					}
+
+					// Build URL
+					$key = (!empty($emSettings['selectedMirror']) ? $emSettings['selectedMirror'] : array_rand($mirrors));
+					$mirrorUrl = 'http://' . $mirrors[$key]['host'] . $mirrors[$key]['path'];
+				}
+
+				$this->mirrorUrl = rtrim($mirrorUrl, '/ ') . '/';
+			}
+
+			return $this->mirrorUrl;
 		}
 
 	}

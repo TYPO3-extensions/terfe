@@ -56,7 +56,7 @@
 		/**
 		 * Injects the DataMap Factory
 		 *
-		 * @param Tx_Extbase_Persistence_Mapper_DataMapFactory
+		 * @param Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory
 		 * @return void
 		 */
 		public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory) {
@@ -67,7 +67,7 @@
 		/**
 		 * Injects the Reflection Service
 		 *
-		 * @param Tx_Extbase_Reflection_Service
+		 * @param Tx_Extbase_Reflection_Service $reflectionService
 		 * @return void
 		 */
 		public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService) {
@@ -245,7 +245,7 @@
 
 
 		/**
-		 * Returns all Extension information for the Scheduler Task
+		 * Returns all Extension information
 		 *
 		 * @param integer $lastUpdate Last update of the extension list
 		 * @return array Extension information

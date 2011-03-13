@@ -224,7 +224,10 @@
 		/**
 		 * Check file hash and increment counter while downloading
 		 * 
-		 * TODO: Add extKey to user session to record only one download a day from same user
+		 * TODO:
+		 *   - Add extKey to user session to record only one download a day from same user
+		 *   - Show a "please wait" massage until file will be downloaded into output buffer
+		 *     or find an other way to send external file to browser
 		 * 
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing Version object

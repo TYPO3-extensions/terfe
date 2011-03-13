@@ -24,7 +24,7 @@
 	 ******************************************************************/
 
 	/**
-	 * A SOAP Extension Provider for the Scheduler Task
+	 * A SOAP Extension Provider
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors
@@ -39,7 +39,7 @@
 
 
 		/**
-		 * Returns all Extension information for the Scheduler Task
+		 * Returns all Extension information
 		 *
 		 * @param integer $lastUpdate Last update of the extension list
 		 * @return array Extension information

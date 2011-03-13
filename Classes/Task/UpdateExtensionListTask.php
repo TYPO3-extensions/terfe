@@ -148,8 +148,8 @@
 		 * @return array Update information
 		 */
 		protected function getUpdateInfo() {
-			if (empty($this->settings['extensionProviders'])) {
-				return array();
+			if (empty($this->settings['extensionProviders']) || !is_array($this->settings['extensionProviders'])) {
+				throw new Exception('No Extension Providers found to get update info');
 			}
 
 			$lastRunInfo = $this->registry->get('tx_scheduler', 'lastRun');
