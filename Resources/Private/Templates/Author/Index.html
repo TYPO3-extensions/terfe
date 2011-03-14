@@ -1,0 +1,28 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+	<table cellpadding="4" style="border:1px solid black;">
+		<tr>
+			<th><f:translate key="tx_terfe2_domain_model_author.name" /></th>
+			<th><f:translate key="tx_terfe2_domain_model_author.email" /></th>
+			<th><f:translate key="tx_terfe2_domain_model_author.company" /></th>
+			<th><f:translate key="tx_terfe2_domain_model_author.forge_link" /></th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+		</tr>
+
+		<f:for each="{authors}" as="author">
+			<tr>
+				<td>{author.name}</td>
+				<td>{author.email}</td>
+				<td>{author.company}</td>
+				<td>{author.forgeLink}</td>
+				<td><f:link.action action="edit" arguments="{author : author}"><f:translate key="edit"/></f:link.action></td>
+				<td><f:link.action action="delete" arguments="{author : author}"><f:translate key="delete"/></f:link.action></td>
+			</tr>
+		</f:for>
+	</table>
+	<br />
+
+	<f:link.action action="new"><f:translate key="create_author"/></f:link.action>
+</f:section>

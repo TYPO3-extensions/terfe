@@ -28,6 +28,7 @@
 		'media'        => 'title',
 		'experience'   => 'date_time',
 		'relation'     => 'relation_type',
+		'author'       => 'name',
 	);
 
 	// Add entities and value objects

@@ -88,6 +88,13 @@
 			<label index="tx_terfe2_domain_model_relation.minimum_version">Minimum required version</label>
 			<label index="tx_terfe2_domain_model_relation.maximum_version">Maximum allowed version</label>
 
+			<label index="tx_terfe2_domain_model_author">Author</label>
+			<label index="tx_terfe2_domain_model_author.name">Name</label>
+			<label index="tx_terfe2_domain_model_author.email">Email</label>
+			<label index="tx_terfe2_domain_model_author.company">Company</label>
+			<label index="tx_terfe2_domain_model_author.forge_link">Link to forge</label>
+			<label index="tx_terfe2_domain_model_author.versions">Versions</label>
+
 			<label index="tt_content.flexform_pi1.s_def">General</label>
 			<label index="tt_content.flexform_pi1.s_def.type">Type</label>
 			<label index="tt_content.flexform_pi1.s_def.type.list">List</label>

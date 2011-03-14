@@ -6,6 +6,7 @@
 		'tx_terfe2_controller_categorycontroller' => $extensionClassesPath . 'Controller/CategoryController.php',
 		'tx_terfe2_controller_extensioncontroller' => $extensionClassesPath . 'Controller/ExtensionController.php',
 		'tx_terfe2_controller_tagcontroller' => $extensionClassesPath . 'Controller/TagController.php',
+		'tx_terfe2_domain_model_author' => $extensionClassesPath . 'Domain/Model/Author.php',
 		'tx_terfe2_domain_model_category' => $extensionClassesPath . 'Domain/Model/Category.php',
 		'tx_terfe2_domain_model_experience' => $extensionClassesPath . 'Domain/Model/Experience.php',
 		'tx_terfe2_domain_model_extension' => $extensionClassesPath . 'Domain/Model/Extension.php',

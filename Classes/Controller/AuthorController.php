@@ -2,8 +2,7 @@
 	/*******************************************************************
 	 *  Copyright notice
 	 *
-	 *  (c) 2011 Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
-	 *           Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
+	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
 	 *
 	 *  All rights reserved
 	 *
@@ -25,18 +24,18 @@
 	 ******************************************************************/
 
 	/**
-	 * Controller for the Tag object
+	 * Controller for the Author object
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_Controller_TagController extends Tx_Extbase_MVC_Controller_ActionController {
+	class Tx_TerFe2_Controller_AuthorController extends Tx_Extbase_MVC_Controller_ActionController {
 
 		/**
-		 * @var Tx_TerFe2_Domain_Repository_TagRepository
+		 * @var Tx_TerFe2_Domain_Repository_AuthorRepository
 		 */
-		protected $tagRepository;
+		protected $authorRepository;
 
 
 		/**
@@ -45,7 +44,7 @@
 		 * @return void
 		 */
 		protected function initializeAction() {
-			$this->tagRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_TagRepository');
+			$this->authorRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_AuthorRepository');
 
 			// Pre-parse TypoScript setup
 			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
@@ -53,74 +52,74 @@
 
 
 		/**
-		 * Index action, displays all categories
+		 * Index action, displays all authors
 		 * 
 		 * @return void
 		 */
 		public function indexAction() {
-			$this->view->assign('tags', $this->tagRepository->findAll());
+			$this->view->assign('authors', $this->authorRepository->findAll());
 		}
 
 
 		/**
-		 * Displays a form for creating a new Tag
+		 * Displays a form for creating a new Author
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag $newTag A fresh Tag object taken as a basis for the rendering
+		 * @param Tx_TerFe2_Domain_Model_Author $newAuthor A fresh Author object taken as a basis for the rendering
 		 * @return void
-		 * @dontvalidate $newTag
+		 * @dontvalidate $newAuthor
 		 */
-		public function newAction(Tx_TerFe2_Domain_Model_Tag $newTag = NULL) {
-			$this->view->assign('newTag', $newTag);
+		public function newAction(Tx_TerFe2_Domain_Model_Author $newAuthor = NULL) {
+			$this->view->assign('newAuthor', $newAuthor);
 		}
 
 
 		/**
-		 * Creates a new Tag and forwards to the index action
+		 * Creates a new Author and forwards to the index action
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag $newTag A fresh Tag object which has not yet been added to the repository
+		 * @param Tx_TerFe2_Domain_Model_Author $newAuthor A fresh Author object which has not yet been added to the repository
 		 * @return void
 		 */
-		public function createAction(Tx_TerFe2_Domain_Model_Tag $newTag) {
-			$this->tagRepository->add($newTag);
-			$this->flashMessageContainer->add($this->translate('msg_tag_created'));
+		public function createAction(Tx_TerFe2_Domain_Model_Author $newAuthor) {
+			$this->authorRepository->add($newAuthor);
+			$this->flashMessageContainer->add($this->translate('msg_author_created'));
 			$this->redirect('index');
 		}
 
 
 		/**
-		 * Displays a form to edit an existing Tag
+		 * Displays a form to edit an existing Author
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to display
+		 * @param Tx_TerFe2_Domain_Model_Author $author The Author to display
 		 * @return void
-		 * @dontvalidate $tag
+		 * @dontvalidate $author
 		 */
-		public function editAction(Tx_TerFe2_Domain_Model_Tag $tag) {
-			$this->view->assign('tag', $tag);
+		public function editAction(Tx_TerFe2_Domain_Model_Author $author) {
+			$this->view->assign('author', $author);
 		}
 
 
 		/**
-		 * Updates an existing Tag and forwards to the index action afterwards
+		 * Updates an existing Author and forwards to the index action afterwards
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag $tag Tag to update
+		 * @param Tx_TerFe2_Domain_Model_Author $author Author to update
 		 * @return void
 		 */
-		public function updateAction(Tx_TerFe2_Domain_Model_Tag $tag) {
-			$this->tagRepository->update($tag);
-			$this->flashMessageContainer->add($this->translate('msg_tag_updated'));
+		public function updateAction(Tx_TerFe2_Domain_Model_Author $author) {
+			$this->authorRepository->update($author);
+			$this->flashMessageContainer->add($this->translate('msg_author_updated'));
 			$this->redirect('index');
 		}
 
 
 		/**
-		 * Deletes an existing Tag
+		 * Deletes an existing Author
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to be deleted
+		 * @param Tx_TerFe2_Domain_Model_Author $author The Author to be deleted
 		 * @return void
 		 */
-		public function deleteAction(Tx_TerFe2_Domain_Model_Tag $tag) {
-			$this->tagRepository->remove($tag);
-			$this->flashMessageContainer->add($this->translate('msg_tag_deleted'));
+		public function deleteAction(Tx_TerFe2_Domain_Model_Author $author) {
+			$this->authorRepository->remove($author);
+			$this->flashMessageContainer->add($this->translate('msg_author_deleted'));
 			$this->redirect('index');
 		}
 

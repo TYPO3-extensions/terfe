@@ -44,6 +44,11 @@
 		protected $extensionRepository;
 
 		/**
+		 * @var Tx_TerFe2_Domain_Repository_AuthorRepository
+		 */
+		protected $authorRepository;
+
+		/**
 		 * @var Tx_Extbase_Object_ObjectManagerInterface
 		 */
 		protected $objectManager;
@@ -68,15 +73,14 @@
 		 * Public method, usually called by scheduler.
 		 *
 		 * TODO:
-		 *  - Check how to handle author information
-		 *  - Add upload comment to version object (requires a connection to ter extension?)
-		 *  - Create ViewHelper to get image file from extensionProvider using getUrlToFile()
+		 *  - Add upload comment to version object (get via SOAP connection from ter)
 		 *  - Create new Versions only if Extension was already registered via Frontend,
 		 *    do not create new Extensions if not
-		 *  - Finalize SOAP Extension Provider
 		 *  - Additonal Version Info:
 		 *    - Codelines
 		 *    - Codebytes
+		 *  - Add "authorForgeLink" to extInfo
+		 *  - Maybe make author name not required
 		 *
 		 * @return boolean TRUE on success
 		 */
@@ -98,12 +102,20 @@
 					continue;
 				}
 
+				// Load Author if already exists, else create new one
+				$author = $this->getAuthor($extInfo);
+				$version->setAuthor($author);
+
 				// Load Extension if already exists, else create new one
 				$extension = $this->getExtension($extInfo);
 				$version->setExtension($extension);
+
+				// Add Version to Object Storages
+				$author->addVersion($version);
 				$extension->addVersion($version);
 
 				// Persist Extension object now to prevent duplicates
+				$this->session->registerReconstitutedObject($author);
 				$this->session->registerReconstitutedObject($extension);
 				$this->persistenceManager->persistAll();
 			}
@@ -136,6 +148,7 @@
 			// Load required objects
 			$this->objectManager       = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			$this->authorRepository    = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_AuthorRepository');
 			$this->registry            = t3lib_div::makeInstance('t3lib_Registry');
 			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 			$this->session             = $this->persistenceManager->getSession();
@@ -196,7 +209,6 @@
 			$version->setTitle($extInfo['title']);
 			$version->setDescription($extInfo['description']);
 			$version->setFileHash($extInfo['fileHash']);
-			$version->setAuthor($extInfo['author']);
 			$version->setVersionNumber($extInfo['versionNumber']);
 			$version->setVersionString($extInfo['versionString']);
 			$version->setUploadDate(new DateTime());
@@ -272,6 +284,27 @@
 			}
 
 			return $extension;
+		}
+
+
+		/**
+		 * Load Author object if already exists, else create new one
+		 *
+		 * @param array $extInfo Extension information
+		 * @return Tx_TerFe2_Domain_Model_Author New or existing Author object
+		 */
+		public function getAuthor(array $extInfo) {
+			$author = $this->authorRepository->findOneByEmail($extInfo['authorEmail']);
+			if ($author === NULL) {
+				// Create new Author
+				$author = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Author');
+				$author->setName($extInfo['authorName']);
+				$author->setEmail($extInfo['authorEmail']);
+				$author->setCompany($extInfo['authorCompany']);
+				//$author->setForgeLink($extInfo['authorForgeLink']);
+			}
+
+			return $author;
 		}
 
 

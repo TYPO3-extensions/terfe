@@ -152,7 +152,11 @@
 			}
 
 			// Get class structure and property options
-			$classNames = array('Tx_TerFe2_Domain_Model_Extension', 'Tx_TerFe2_Domain_Model_Version');
+			$classNames = array(
+				'Tx_TerFe2_Domain_Model_Extension',
+				'Tx_TerFe2_Domain_Model_Version',
+				'Tx_TerFe2_Domain_Model_Author',
+			);
 			foreach ($classNames as $className) {
 				$classSchema = $this->reflectionService->getClassSchema($className);
 				$dataMap     = $this->dataMapFactory->buildDataMap($className);
@@ -174,6 +178,11 @@
 					// Check if property is required
 					$tagValues = $this->reflectionService->getPropertyTagValues($className, $propertyName, 'validate');
 					$required  = (stripos(implode(',', $tagValues), 'NotEmpty') !== FALSE);
+
+					// Check for Author fields
+					if ($className == 'Tx_TerFe2_Domain_Model_Author') {
+						$propertyName = 'author' . ucfirst($propertyName);
+					}
 
 					// Build field
 					$this->extInfoSchema[$propertyName] = array(

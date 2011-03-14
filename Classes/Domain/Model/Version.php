@@ -53,9 +53,9 @@
 		protected $fileHash;
 
 		/**
-		 * author
-		 * @var string
-		 * @validate NotEmpty
+		 * Author
+		 * @var Tx_TerFe2_Domain_Model_Author
+		 * @lazy
 		 */
 		protected $author;
 
@@ -295,20 +295,20 @@
 		}
 
 		/**
-		 * Setter for author
+		 * Setter for Author
 		 *
-		 * @param string $author author
+		 * @param Tx_TerFe2_Domain_Model_Author $author Author
 		 * @return void
 		 */
-		public function setAuthor($author) {
+		public function setAuthor(Tx_TerFe2_Domain_Model_Author $author) {
 			$this->author = $author;
 		}
 
 
 		/**
-		 * Getter for author
+		 * Getter for Author
 		 *
-		 * @return string author
+		 * @return Tx_TerFe2_Domain_Model_Author Author
 		 */
 		public function getAuthor() {
 			return $this->author;

@@ -44,7 +44,7 @@
 		 * @return void
 		 */
 		protected function initializeAction() {
-			$this->categoryRepository  = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
+			$this->categoryRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
 
 			// Pre-parse TypoScript setup
 			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);

@@ -87,6 +87,7 @@
 			$extData['uploadComment']     = '';
 			$extData['fileName']          = $fileName;
 			$extData['versionString']     = $extData['version'];
+			$extData['authorName']        = $extData['author'];
 			$extData['authorEmail']       = $extData['author_email'];
 			$extData['authorCompany']     = $extData['author_company'];
 			$extData['emCategory']        = $extData['category'];

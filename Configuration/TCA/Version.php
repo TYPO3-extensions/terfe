@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_version'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_version']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'title,description,author,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation',
+			'showRecordFieldList' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'title,description,author,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation'),
+			'1' => array('showitem' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,manual,media,experience,software_relation'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -77,15 +77,6 @@
 					'type' => 'text',
 					'cols' => 30,
 					'rows' => 5,
-				),
-			),
-			'author' => array(
-				'exclude' => 1,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.author',
-				'config'  => array(
-					'type' => 'input',
-					'size' => 30,
-					'eval' => 'trim,required',
 				),
 			),
 			'version_number' => array(
@@ -342,6 +333,11 @@
 						'collapse'              => 0,
 						'newRecordLinkPosition' => 'bottom',
 					),
+				),
+			),
+			'author' => array(
+				'config' => array(
+					'type' => 'passthrough',
 				),
 			),
 			'extension' => array(

@@ -51,6 +51,11 @@
 			<label index="tx_terfe2_domain_model_relation.software_type">Core, extension or system</label>
 			<label index="tx_terfe2_domain_model_relation.tx_terfe2_key">extension key, php, mysql or something else</label>
 			<label index="tx_terfe2_domain_model_relation.version">Version of the field "key", e.g. key "php" and version "5.2"</label>
+			<label index="tx_terfe2_domain_model_author">Author of the extension</label>
+			<label index="tx_terfe2_domain_model_author.name">Name of the author</label>
+			<label index="tx_terfe2_domain_model_author.email">Email address</label>
+			<label index="tx_terfe2_domain_model_author.company">Company name</label>
+			<label index="tx_terfe2_domain_model_author.forge_link">Link to forge profile</label>
 
 			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
@@ -64,6 +69,9 @@
 			<label index="msg_tag_created">Tag created</label>
 			<label index="msg_tag_updated">Tag updated</label>
 			<label index="msg_tag_deleted">Tag deleted</label>
+			<label index="msg_author_created">Author created</label>
+			<label index="msg_author_updated">Author updated</label>
+			<label index="msg_author_deleted">Author deleted</label>
 			<label index="msg_file_not_valid">Given file is not valid</label>
 
 			<label index="list_all_extensions">List of all extensions</label>
@@ -82,6 +90,11 @@
 			<label index="new_tag">Create new Tag</label>
 			<label index="edit_tag">Edit Tag</label>
 			<label index="create_tag">Create new Tag</label>
+
+			<label index="new_author">Create new Author</label>
+			<label index="edit_author">Edit Author</label>
+			<label index="create_author">Create new Author</label>
+			<label index="single_author">Show single Author</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="create">Create</label>
