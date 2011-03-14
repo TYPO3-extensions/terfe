@@ -44,6 +44,41 @@
 
 
 		/**
+		 * Initialize configuration manager and content object
+		 *
+		 * @return void
+		 */
+		static protected function initialize() {
+			// Get configuration manager
+			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+			self::$configurationManager = $objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
+
+			// Simulate Frontend
+			if (TYPO3_MODE == 'BE') {
+				Tx_Extbase_Utility_FrontendSimulator::simulateFrontendEnvironment();
+				if (empty($GLOBALS['TSFE']->sys_page)) {
+					$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+				}
+				if (empty($GLOBALS['TT'])) {
+					$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
+				}
+				self::$configurationManager->setContentObject($GLOBALS['TSFE']->cObj);
+			}
+
+			// Get content object
+			self::$contentObject = self::$configurationManager->getContentObject();
+			if (empty(self::$contentObject)) {
+				self::$contentObject = t3lib_div::makeInstance('tslib_cObj');
+			}
+
+			// Reset Frontend if modified
+			if (TYPO3_MODE == 'BE') {
+				Tx_Extbase_Utility_FrontendSimulator::resetFrontendEnvironment();
+			}
+		}
+
+
+		/**
 		 * Returns unparsed TypoScript setup
 		 *
 		 * @return array TypoScript setup
@@ -77,99 +112,21 @@
 				self::initialize();
 			}
 
+			// Convert to classic TypoScript array
 			if ($isPlain) {
-				$configuration = self::parsePlainArray($configuration);
-			} else {
-				$configuration = self::parseTypoScriptArray($configuration);
+				$configuration = Tx_Extbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray($configuration);
 			}
 
-			return t3lib_div::removeDotsFromTS($configuration);
+			// Parse configuration
+			$configuration = self::parseTypoScriptArray($configuration);
+			$configuration = t3lib_div::removeDotsFromTS($configuration);
+
+			return $configuration;
 		}
 
 
 		/**
-		 * Initialize configuration manager and content object
-		 *
-		 * @return void
-		 */
-		static protected function initialize() {
-			// Load configuration manager
-			self::$configurationManager = t3lib_div::makeInstance('Tx_Extbase_Configuration_ConfigurationManager');
-			if (TYPO3_MODE == 'BE') {
-				$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-				self::$configurationManager->injectObjectManager($objectManager);
-				self::$configurationManager->setContentObject(t3lib_div::makeInstance('tslib_cObj'));
-
-				// Load basic Frontend to make tslib_cObj::cObjGetSingle available in Backend
-				if (empty($GLOBALS['TSFE'])) {
-					$currentPageId = self::getCurrentPageId();
-
-					// Load TimeTrack object
-					if (!is_object($GLOBALS['TT'])) {
-						$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
-						$GLOBALS['TT']->start();
-					}
-
-					// Load Frontend
-					if (!empty($GLOBALS['TYPO3_CONF_VARS'])) {
-						$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $currentPageId, 0);
-						$GLOBALS['TSFE']->connectToDB();
-						$GLOBALS['TSFE']->initFEuser();
-						$GLOBALS['TSFE']->determineId();
-						$GLOBALS['TSFE']->initTemplate();
-						$GLOBALS['TSFE']->getConfigArray();
-					}
-				}
-			}
-
-			// Get content object
-			self::$contentObject = self::$configurationManager->getContentObject();
-			if (empty(self::$contentObject)) {
-				self::$contentObject = t3lib_div::makeInstance('tslib_cObj');
-			}
-		}
-
-
-		/**
-		 * Parse plain "Fluid like" TypoScript configuration
-		 *
-		 * @param array $configuration TypoScript configuration
-		 * @param boolean $parseSub Parse child nodes
-		 * @return array Parsed configuration
-		 */
-		static protected function parsePlainArray(array $configuration, $parseSub = TRUE) {
-			$typoScriptArray = array();
-
-			foreach ($configuration as $key => $value) {
-				if (is_array($value)) {
-					// Get TypoScript like configuration array
-					if (!empty($value['_typoScriptNodeValue'])) {
-						$typoScriptArray[$key] = $value['_typoScriptNodeValue'];
-						unset($value['_typoScriptNodeValue']);
-						$typoScriptArray[$key . '.'] = self::parsePlainArray($value, FALSE);
-
-						// Parse TypoScript object
-						if ($parseSub) {
-							$typoScriptArray[$key] = self::$contentObject->cObjGetSingle(
-								$typoScriptArray[$key],
-								$typoScriptArray[$key . '.']
-							);
-							unset($typoScriptArray[$key . '.']);
-						}
-					} else {
-						$typoScriptArray[$key . '.'] = self::parsePlainArray($value, $parseSub);
-					}
-				} else {
-					$typoScriptArray[$key] = $value;
-				}
-			}
-
-			return $typoScriptArray;
-		}
-
-
-		/**
-		 * Parse classic TypoScript configuration
+		 * Parse TypoScript configuration
 		 *
 		 * @param array $configuration TypoScript configuration
 		 * @return array Parsed configuration
@@ -192,34 +149,6 @@
 			}
 
 			return $typoScriptArray;
-		}
-
-
-		/**
-		 * Returns the UID of current page
-		 *
-		 * @return integer Current page id, if no page is selected current root page id is returned
-		 * @see Tx_Extbase_Configuration_BackendConfigurationManager::getCurrentPageId
-		 */
-		static protected function getCurrentPageId() {
-			$pageId = (int) t3lib_div::_GP('id');
-			if (!empty($pageId)) {
-				return $pageId;
-			}
-
-			// Get current site root
-			$rootPages = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'pages', 'deleted=0 AND hidden=0 AND is_siteroot=1', '', '', '1');
-			if (!empty($rootPages[0]['uid'])) {
-				return $rootPages[0]['uid'];
-			}
-
-			// Get root template
-			$rootTemplates = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('pid', 'sys_template', 'deleted=0 AND hidden=0 AND root=1', '', '', '1');
-			if (!empty($rootTemplates[0]['pid'])) {
-				return $rootTemplates[0]['pid'];
-			}
-
-			return 0;
 		}
 
 	}
