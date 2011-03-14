@@ -18,7 +18,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_email' => 'loeffler@spooner-web.de,kai.vogel@speedprogs.de',
 	'author_company' => 'Spooner Web,Speedprogs.de',
 	'shy' => '',
-	'dependencies' => 'cms,extbase,fluid,em',
+	'dependencies' => 'cms,extbase,fluid',
 	'conflicts' => '',
 	'priority' => '',
 	'module' => '',
@@ -35,11 +35,11 @@ $EM_CONF[$_EXTKEY] = array(
 			'cms' => '',
 			'extbase' => '',
 			'fluid' => '',
-			'em' => '',
 		),
 		'conflicts' => array(
 		),
 		'suggests' => array(
+			'em' => '',
 		),
 	),
 	'suggests' => array(

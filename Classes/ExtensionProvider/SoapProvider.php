@@ -109,36 +109,52 @@
 		protected function getSoapResult($methodName, array $params = array()) {
 			// Initialize SOAP connection
 			if ($this->soapConnection === NULL) {
-				if (!t3lib_extMgm::isLoaded('em')) {
-					throw new Exception('System extension "em" must be loaded for SOAP Extension Provider');
+				if (!class_exists('SoapClient')) {
+					throw new Exception('PHP soap extension not available');
 				}
 				if (empty($this->configuration['wsdlUrl'])) {
-					throw new Exception('No wsdlUrl found for SOAP Extension Provider');
+					throw new Exception('No wsdl (wsdlUrl) defined for Extension Provider SOAP requests');
 				}
 
-				$username = (!empty($this->configuration['username']) ? $this->configuration['username'] : FALSE);
-				$password = (!empty($this->configuration['password']) ? $this->configuration['password'] : FALSE);
-				$options  = array(
-					'wsdl'   => $this->configuration['wsdlUrl'],
-					'format' => 'array',
-					'soapoptions' => array(
-						'trace'      => 1,
-						'exceptions' => 0,
-					)
-				);
-
 				// Load connection
-				$this->soapConnection = t3lib_div::makeInstance('tx_em_Connection_Soap');
-				$this->soapConnection->init($options, $username, $password);
+				$this->soapConnection = new SoapClient($this->configuration['wsdlUrl'], array(
+					'trace'      => 1,
+					'exceptions' => 0,
+				));
+			}
+
+			// Get authentication header
+			$header = NULL;
+			if (!empty($this->configuration['username']) && !empty($this->configuration['password'])) {
+				$headerData = array(
+					'username' => $this->configuration['username'],
+					'password' => $this->configuration['password'],
+				);
+				$header = new SoapHeader('', 'HeaderLogin', (object) $headerData, TRUE);
 			}
 
 			// Call given method
-			$response = $this->soapConnection->call($methodName, $params);
-			if ($response === FALSE) {
+			$response = $this->soapConnection->__soapCall($methodName, $params, NULL, $header);
+			if (is_soap_fault($response)) {
 				return array();
 			}
 
-			return (array) $response;
+			return $this->convertObjectToArray($response);
+		}
+
+
+		/**
+		 * Convert an object to array
+		 *
+		 * @param object $object Object to convert
+		 * @return array Converted object
+		 */
+		protected function convertObjectToArray($object) {
+			if (is_object($object) || is_array($object)) {
+				$object = array_map(array($this, 'convertObjectToArray'), (array) $object);
+			}
+
+			return $object;
 		}
 
 	}
