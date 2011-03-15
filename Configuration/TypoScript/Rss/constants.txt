@@ -1,0 +1,7 @@
+# ======================================================================
+# RSS output configuration ot the extension "ter_fe2"
+# ======================================================================
+plugin.tx_terfe2.rssOutput {
+  # cat=TER Frontend - RSS/rss/100; type=int+; label=Type number of the RSS page object
+  typeNum = 95831
+}

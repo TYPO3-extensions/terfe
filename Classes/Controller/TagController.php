@@ -2,8 +2,7 @@
 	/*******************************************************************
 	 *  Copyright notice
 	 *
-	 *  (c) 2011 Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
-	 *           Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
+	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
 	 *
 	 *  All rights reserved
 	 *

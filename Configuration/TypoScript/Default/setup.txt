@@ -1,5 +1,5 @@
 # ======================================================================
-# Plugin configuration ot the extension "ter_fe2"
+# Default configuration ot the extension "ter_fe2"
 # ======================================================================
 plugin.tx_terfe2 {
 	## General settings

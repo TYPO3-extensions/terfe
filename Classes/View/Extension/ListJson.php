@@ -3,7 +3,6 @@
 	 *  Copyright notice
 	 *
 	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
-	 *       and Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
 	 *
 	 *  All rights reserved
 	 *
@@ -25,67 +24,41 @@
 	 ******************************************************************/
 
 	/**
-	 * Frontend category of the extension
+	 * JSON view for the list action of the Extension controller
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_Domain_Model_Category extends Tx_Extbase_DomainObject_AbstractValueObject {
+	class Tx_TerFe2_View_Extension_ListJson extends Tx_Extbase_MVC_View_AbstractView {
 
 		/**
-		 * Title of the category
-		 * @var string
-		 * @validate NotEmpty
+		 * @var array
 		 */
-		protected $title;
-
-		/**
-		 * Description of the category
-		 * @var string
-		 */
-		protected $description;
+		protected $settings;
 
 
 		/**
-		 * Setter for title
+		 * Inject extension settings
 		 *
-		 * @param string $title Title of the category
 		 * @return void
 		 */
-		public function setTitle($title) {
-			$this->title = $title;
+		public function injectSettings(array $settings) {
+			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($settings);
 		}
 
 
 		/**
-		 * Getter for title
-		 *
-		 * @return string Title of the category
+		 * Render method, returns latest Extensions
+		 * 
+		 * @return string JSON content
 		 */
-		public function getTitle() {
-			return $this->title;
-		}
-
-
-		/**
-		 * Setter for description
-		 *
-		 * @param string $description Description of the category
-		 * @return void
-		 */
-		public function setDescription($description) {
-			$this->description = $description;
-		}
-
-
-		/**
-		 * Getter for description
-		 *
-		 * @return string Description of the category
-		 */
-		public function getDescription() {
-			return $this->description;
+		public function render() {
+			$extensions = array();
+			if (!empty($this->variables['extensions'])) {
+				$extensions = $this->variables['extensions'];
+			}
+			return json_encode($extensions);
 		}
 
 	}

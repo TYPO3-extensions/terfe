@@ -2,8 +2,7 @@
 /*******************************************************************
 	 *  Copyright notice
 	 *
-	 *  (c) 2011 Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
-	 *           Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
+	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
 	 *
 	 *  All rights reserved
 	 *
@@ -245,7 +244,7 @@
 		 * Create a Software relation
 		 *
 		 * @param array $relationInfo Relation information
-		 * @return Tx_TerFe2_Domain_Model_Relation New relation object
+		 * @return Tx_TerFe2_Domain_Model_Relation New Relation object
 		 */
 		protected function createSoftwareRelation(array $relationInfo) {
 			// Get version range
@@ -275,12 +274,13 @@
 			$extension = $this->extensionRepository->findOneByExtKey($extInfo['extKey']);
 			if ($extension === NULL) {
 				// Create new Extension
+				$dateTime = new DateTime();
 				$extension = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Extension');
 				$extension->setExtKey($extInfo['extKey']);
 				$extension->setForgeLink($extInfo['forgeLink']);
 				$extension->setHudsonLink($extInfo['hudsonLink']);
-				$extension->setLastUpload(new DateTime());
-				$extension->setLastMaintained(new DateTime());
+				$extension->setLastUpload($dateTime);
+				$extension->setLastMaintained($dateTime);
 			}
 
 			return $extension;

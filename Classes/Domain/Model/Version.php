@@ -2,8 +2,8 @@
 	/*******************************************************************
 	 *  Copyright notice
 	 *
-	 *  (c) 2011 Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
-	 *           Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
+	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
+	 *       and Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
 	 *
 	 *  All rights reserved
 	 *
@@ -129,7 +129,7 @@
 		 * @var boolean
 		 */
 		protected $internal;
-		
+
 		/**
 		 * Whether extension will be loaded in Frontend or not
 		 * @var boolean
@@ -334,8 +334,8 @@
 		public function getVersionNumber() {
 			return $this->versionNumber;
 		}
-		
-		
+
+
 		/**
 		 * Setter for versionString
 		 *

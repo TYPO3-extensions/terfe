@@ -11,7 +11,9 @@
 	);
 
 	// Add static TypoScript files
-	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'TER Frontend Index');
+	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Default/', 'TER Frontend - Default Configuration');
+	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Rss/',     'TER Frontend - RSS Output');
+	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Json/',    'TER Frontend - JSON Output');
 
 	// Add flexform to field list of the Backend form
 	$extIdent = strtolower(t3lib_div::underscoredToUpperCamelCase($_EXTKEY)) . '_pi1';

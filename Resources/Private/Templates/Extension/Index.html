@@ -1,9 +1,14 @@
 <f:layout name="Default" />
 
 <f:section name="main">
+	<h3>Basic Actions</h3>
 	<f:link.action action="listLatest">&raquo; New and Updated Extensions</f:link.action><br />
 	<f:link.action action="list">&raquo; All Extensions</f:link.action><br />
 	<f:link.action controller="Category" action="index">&raquo; Categories</f:link.action><br />
 	<f:link.action controller="Tag" action="index">&raquo; Tags</f:link.action><br />
 	<f:link.action controller="Author" action="index">&raquo; Authors</f:link.action><br />
+
+	<h3>JSON Output</h3>
+	<f:link.action action="listLatest" format="json" pageType="{settings.jsonOutput.typeNum}">&raquo; New and Updated Extensions</f:link.action><br />
+	<f:link.action action="list" format="json" pageType="{settings.jsonOutput.typeNum}">&raquo; All Extensions</f:link.action><br />
 </f:section>
