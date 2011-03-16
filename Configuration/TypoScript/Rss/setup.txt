@@ -12,6 +12,7 @@ plugin.tx_terfe2.settings.rssOutput {
   imageHeight = {$plugin.tx_terfe2.rssOutput.imageHeight}
   docs        = {$plugin.tx_terfe2.rssOutput.docs}
   webmaster   = {$plugin.tx_terfe2.rssOutput.webmaster}
+  dateFormat  = {$plugin.tx_terfe2.rssOutput.dateFormat}
 }
 
 rssOutput = PAGE

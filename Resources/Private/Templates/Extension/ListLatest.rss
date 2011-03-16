@@ -1,3 +1,4 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 	<channel>
@@ -16,16 +17,16 @@
 		<generator>TYPO3</generator>
 		<docs>{settings.rssOutput.docs}</docs>
 		<webMaster>{settings.rssOutput.webmaster}</webMaster>
-		<lastBuildDate>Wed, 19 May 2010 16:42:00 +0200</lastBuildDate>
+		<lastBuildDate><terfe2:dateTime format="{settings.rssOutput.dateFormat}"></terfe2:dateTime></lastBuildDate>
 
 		<f:for each="{extensions}" as="extension">
 			<item>
 				<title>{extension.lastVersion.title}</title>
-				<link><f:link.action action="show" arguments="{extension : extension}"><!-- REPLACE WITH OWN VIEW HELPER FOR URL ONLY --></f:link.action></link>
-				<guid><f:link.action action="download" arguments="{extension : extension, version : extension.lastVersion}"><!-- REPLACE WITH OWN VIEW HELPER FOR URL ONLY --></f:link.action></guid>
+				<link><terfe2:url action="show" arguments="{extension : extension}" addHost="1"></terfe2:url></link>
+				<guid><terfe2:url action="download" arguments="{extension : extension, version : extension.lastVersion}" addHost="1"></terfe2:url></guid>
 				<description>{extension.lastVersion.description}</description>
 				<content:encoded><![CDATA[]]></content:encoded>
-				<pubDate>{extension.lastVersion.uploadDate} <!-- ADD VIEW HELPER FOR RSS LIKE DATE FORMAT --></pubDate>
+				<pubDate><terfe2:dateTime format="{settings.rssOutput.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></pubDate>
 			</item>
 		</f:for>
 

@@ -31,4 +31,7 @@ plugin.tx_terfe2.rssOutput {
 
   # cat=TER Frontend - RSS/rss/190; type=string; label=Webmaster email address
   webmaster =
+
+  # cat=TER Frontend - RSS/rss/200; type=string; label=Date format
+  dateFormat = D, j M Y H:i:s O
 }
