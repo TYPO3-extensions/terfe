@@ -4,4 +4,31 @@
 plugin.tx_terfe2.rssOutput {
   # cat=TER Frontend - RSS/rss/100; type=int+; label=Type number of the RSS page object
   typeNum = 95831
+
+  # cat=TER Frontend - RSS/rss/110; type=string; label=Title of the RSS feed
+  title =
+
+  # cat=TER Frontend - RSS/rss/120; type=string; label=Link to website
+  link =
+
+  # cat=TER Frontend - RSS/rss/130; type=string; label=Description
+  description =
+
+  # cat=TER Frontend - RSS/rss/140; type=string; label=Language
+  language = en
+
+  # cat=TER Frontend - RSS/rss/150; type=string; label=Small image
+  image =
+
+  # cat=TER Frontend - RSS/rss/160; type=int+; label=Image width
+  imageWidth =
+
+  # cat=TER Frontend - RSS/rss/170; type=int+; label=Image height
+  imageHeight =
+
+  # cat=TER Frontend - RSS/rss/180; type=string; label=RSS documentation
+  docs = http://blogs.law.harvard.edu/tech/rss
+
+  # cat=TER Frontend - RSS/rss/190; type=string; label=Webmaster email address
+  webmaster =
 }

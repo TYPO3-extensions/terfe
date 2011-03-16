@@ -2,7 +2,16 @@
 # RSS output configuration ot the extension "ter_fe2"
 # ======================================================================
 plugin.tx_terfe2.settings.rssOutput {
-  typeNum = {$plugin.tx_terfe2.rssOutput.typeNum}
+  typeNum     = {$plugin.tx_terfe2.rssOutput.typeNum}
+  title       = {$plugin.tx_terfe2.rssOutput.title}
+  link        = {$plugin.tx_terfe2.rssOutput.link}
+  description = {$plugin.tx_terfe2.rssOutput.description}
+  language    = {$plugin.tx_terfe2.rssOutput.language}
+  image       = {$plugin.tx_terfe2.rssOutput.image}
+  imageWidth  = {$plugin.tx_terfe2.rssOutput.imageWidth}
+  imageHeight = {$plugin.tx_terfe2.rssOutput.imageHeight}
+  docs        = {$plugin.tx_terfe2.rssOutput.docs}
+  webmaster   = {$plugin.tx_terfe2.rssOutput.webmaster}
 }
 
 rssOutput = PAGE

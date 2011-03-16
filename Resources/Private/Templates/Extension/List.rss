@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+	<channel>
+		<title>{settings.rssOutput.title}</title>
+		<link>{settings.rssOutput.link}</link>
+		<description>{settings.rssOutput.description}</description>
+		<language>{settings.rssOutput.language}</language>
+		<image>
+			<title>{settings.rssOutput.title}</title>
+			<url>{settings.rssOutput.image}</url>
+			<link>{settings.rssOutput.link}</link>
+			<width>{settings.rssOutput.imageWidth}</width>
+			<height>{settings.rssOutput.imageHeight}</height>
+			<description>{settings.rssOutput.description}</description>
+		</image>
+		<generator>TYPO3</generator>
+		<docs>{settings.rssOutput.docs}</docs>
+		<webMaster>{settings.rssOutput.webmaster}</webMaster>
+		<lastBuildDate>Wed, 19 May 2010 16:42:00 +0200</lastBuildDate>
+
+		<f:for each="{extensions}" as="extension">
+			<item>
+				<title>{extension.lastVersion.title}</title>
+				<link><f:link.action action="show" arguments="{extension : extension}"><!-- REPLACE WITH OWN VIEW HELPER FOR URL ONLY --></f:link.action></link>
+				<guid><f:link.action action="download" arguments="{extension : extension, version : extension.lastVersion}"><!-- REPLACE WITH OWN VIEW HELPER FOR URL ONLY --></f:link.action></guid>
+				<description>{extension.lastVersion.description}</description>
+				<content:encoded><![CDATA[]]></content:encoded>
+				<pubDate>{extension.lastVersion.uploadDate} <!-- ADD VIEW HELPER FOR RSS LIKE DATE FORMAT --></pubDate>
+			</item>
+		</f:for>
+
+	</channel>
+</rss>
