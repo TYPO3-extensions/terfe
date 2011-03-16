@@ -24,6 +24,8 @@
 		'tx_terfe2_task_updateextensionlisttask' => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
 		'tx_terfe2_utility_files' => $extensionClassesPath . 'Utility/Files.php',
 		'tx_terfe2_utility_typoscript' => $extensionClassesPath . 'Utility/TypoScript.php',
+		'tx_terfe2_view_extension_listjson' => $extensionClassesPath . 'View/Extension/ListJson.php',
+		'tx_terfe2_view_extension_listlatestjson' => $extensionClassesPath . 'View/Extension/ListLatestJson.php',
 		'tx_terfe2_viewhelpers_exticonviewhelper' => $extensionClassesPath . 'ViewHelpers/ExtIconViewHelper.php',
 	);
 ?>
