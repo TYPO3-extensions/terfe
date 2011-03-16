@@ -81,7 +81,8 @@
 		 * @return void
 		 */
 		public function listAction() {
-			$this->view->assign('extensions', $this->extensionRepository->findAll());
+			$rawData = ('json' == $this->request->getFormat());
+			$this->view->assign('extensions', $this->extensionRepository->findAll($rawData));
 		}
 
 
@@ -91,8 +92,9 @@
 		 * @return void
 		 */
 		public function listLatestAction() {
+			$rawData     = ('json' == $this->request->getFormat());
 			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 20);
-			$extensions  = $this->extensionRepository->findNewAndUpdated($latestCount);
+			$extensions  = $this->extensionRepository->findNewAndUpdated($latestCount, $rawData);
 			$this->view->assign('extensions', $extensions);
 		}
 
