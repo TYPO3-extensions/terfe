@@ -69,7 +69,7 @@
 
 		/**
 		 * Returns all extensions in a category
-		 * 
+		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to search in
 		 * @return array An array of extensions
 		 */
@@ -85,7 +85,7 @@
 
 		/**
 		 * Returns all extensions with a tag
-		 * 
+		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to search for
 		 * @return array An array of extensions
 		 */
@@ -102,7 +102,7 @@
 
 		/**
 		 * Returns count of extensions with given extKey and versionNumber
-		 * 
+		 *
 		 * @param string $extKey Extension Key
 		 * @param integer $versionNumber Version of the extension
 		 * @return integer Result count

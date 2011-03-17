@@ -33,13 +33,35 @@
 	class Tx_TerFe2_ViewHelpers_DateTimeViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 		/**
+		 * @var string
+		 */
+		protected $defaultFormat = '';
+
+
+		/**
+		 * Initialize configuration, will be invoked just before the render method
+		 *
+		 * @return void
+		 */
+		public function initialize() {
+			$ddmmyy = $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'];
+			$hhmm   = $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm'];
+			$this->defaultFormat = trim($ddmmyy . ' ' . $hhmm);
+		}
+
+
+		/**
 		 * Renders an extension icon of given extension and version
 		 *
 		 * @param mixed $dateTime Time to format
 		 * @param string $format Format of the resulting time
 		 * @return string Formated time
 		 */
-		public function render($dateTime = NULL, $format = 'Y-m-d h-i-s') {
+		public function render($dateTime = NULL, $format = '') {
+			if (empty($format)) {
+				$format = $this->defaultFormat;
+			}
+
 			if ($dateTime === NULL) {
 				$dateTime = $this->renderChildren();
 			}

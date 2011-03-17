@@ -50,7 +50,7 @@
 
 		/**
 		 * Render method, returns latest Extensions
-		 * 
+		 *
 		 * @return string JSON content
 		 */
 		public function render() {

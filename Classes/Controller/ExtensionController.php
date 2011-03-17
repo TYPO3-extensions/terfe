@@ -66,7 +66,7 @@
 
 		/**
 		 * Index action
-		 * 
+		 *
 		 * @return void
 		 */
 		public function indexAction() {
@@ -77,7 +77,7 @@
 
 		/**
 		 * List action, displays all extensions
-		 * 
+		 *
 		 * @return void
 		 */
 		public function listAction() {
@@ -88,7 +88,7 @@
 
 		/**
 		 * List latest action, displays new and updated extensions
-		 * 
+		 *
 		 * @return void
 		 */
 		public function listLatestAction() {
@@ -101,7 +101,7 @@
 
 		/**
 		 * List by category action, displays all extensions in a category
-		 * 
+		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to search in
 		 * @return void
 		 */
@@ -112,7 +112,7 @@
 
 		/**
 		 * List by tag action, displays all extensions with a tag
-		 * 
+		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to search for
 		 * @return void
 		 */
@@ -224,12 +224,12 @@
 
 		/**
 		 * Check file hash and increment counter while downloading
-		 * 
+		 *
 		 * TODO:
 		 *   - Add extKey to user session to record only one download a day from same user
 		 *   - Show a "please wait" massage until file will be downloaded into output buffer
 		 *     or find an other way to send external file to browser
-		 * 
+		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing Version object
 		 * @return void
@@ -282,7 +282,7 @@
 
 		/**
 		 * Translate a label
-		 * 
+		 *
 		 * @param string $label Label to translate
 		 * @param array $arguments Optional arguments array
 		 * @return string Translated label

@@ -50,11 +50,11 @@
 		 * @param boolean $absolute If set, the URI of the rendered link is absolute
 		 * @param boolean $addQueryString If set, the current query parameters will be kept in the URI
 		 * @param array $argumentsToBeExcludedFromQueryString arguments to be removed from the URI. Only active if $addQueryString = TRUE
-		 * @param boolean $addHost Add host to URL
+		 * @param boolean $makeAbsolute Add host to URL
 		 * @return string Rendered link
 		 * @see Tx_Fluid_ViewHelpers_Link_ActionViewHelper::render
 		 */
-		public function render($action = NULL, array $arguments = array(), $controller = NULL, $extensionName = NULL, $pluginName = NULL, $pageUid = NULL, $pageType = 0, $noCache = FALSE, $noCacheHash = FALSE, $section = '', $format = '', $linkAccessRestrictedPages = FALSE, array $additionalParams = array(), $absolute = FALSE, $addQueryString = FALSE, array $argumentsToBeExcludedFromQueryString = array(), $addHost = FALSE) {
+		public function render($action = NULL, array $arguments = array(), $controller = NULL, $extensionName = NULL, $pluginName = NULL, $pageUid = NULL, $pageType = 0, $noCache = FALSE, $noCacheHash = FALSE, $section = '', $format = '', $linkAccessRestrictedPages = FALSE, array $additionalParams = array(), $absolute = FALSE, $addQueryString = FALSE, array $argumentsToBeExcludedFromQueryString = array(), $makeAbsolute = FALSE) {
 			$uriBuilder = $this->controllerContext->getUriBuilder();
 			$uri = $uriBuilder
 				->reset()
@@ -71,7 +71,7 @@
 				->setArgumentsToBeExcludedFromQueryString($argumentsToBeExcludedFromQueryString)
 				->uriFor($action, $arguments, $controller, $extensionName, $pluginName);
 
-			return ($addHost ? t3lib_div::locationHeaderUrl($uri) : $uri);
+			return ($makeAbsolute ? t3lib_div::locationHeaderUrl($uri) : $uri);
 		}
 
 	}

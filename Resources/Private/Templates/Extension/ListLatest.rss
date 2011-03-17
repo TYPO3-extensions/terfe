@@ -1,34 +1,5 @@
-{namespace terfe2=Tx_TerFe2_ViewHelpers}
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-	<channel>
-		<title>{settings.rssOutput.title}</title>
-		<link>{settings.rssOutput.link}</link>
-		<description>{settings.rssOutput.description}</description>
-		<language>{settings.rssOutput.language}</language>
-		<image>
-			<title>{settings.rssOutput.title}</title>
-			<url>{settings.rssOutput.image}</url>
-			<link>{settings.rssOutput.link}</link>
-			<width>{settings.rssOutput.imageWidth}</width>
-			<height>{settings.rssOutput.imageHeight}</height>
-			<description>{settings.rssOutput.description}</description>
-		</image>
-		<generator>TYPO3</generator>
-		<docs>{settings.rssOutput.docs}</docs>
-		<webMaster>{settings.rssOutput.webmaster}</webMaster>
-		<lastBuildDate><terfe2:dateTime format="{settings.rssOutput.dateFormat}"></terfe2:dateTime></lastBuildDate>
+<f:layout name="Default" />
 
-		<f:for each="{extensions}" as="extension">
-			<item>
-				<title>{extension.lastVersion.title}</title>
-				<link><terfe2:url action="show" arguments="{extension : extension}" addHost="1"></terfe2:url></link>
-				<guid><terfe2:url action="download" arguments="{extension : extension, version : extension.lastVersion}" addHost="1"></terfe2:url></guid>
-				<description>{extension.lastVersion.description}</description>
-				<content:encoded><![CDATA[]]></content:encoded>
-				<pubDate><terfe2:dateTime format="{settings.rssOutput.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></pubDate>
-			</item>
-		</f:for>
-
-	</channel>
-</rss>
+<f:section name="items">
+	<f:render partial="ExtensionList" arguments="{extensions: extensions}"/>
+</f:section>

@@ -53,7 +53,7 @@
 
 		/**
 		 * Index action, displays all authors
-		 * 
+		 *
 		 * @return void
 		 */
 		public function indexAction() {
@@ -126,7 +126,7 @@
 
 		/**
 		 * Translate a label
-		 * 
+		 *
 		 * @param string $label Label to translate
 		 * @param array $arguments Optional arguments array
 		 * @return string Translated label

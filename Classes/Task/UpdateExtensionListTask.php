@@ -80,6 +80,7 @@
 		 *    - Codebytes
 		 *  - Add "authorForgeLink" to extInfo
 		 *  - Maybe make author name not required
+		 *  - !!! Add lastVersion to Extension object only if newer then existing one !!!
 		 *
 		 * @return boolean TRUE on success
 		 */
