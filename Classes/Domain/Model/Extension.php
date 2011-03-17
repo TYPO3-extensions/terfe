@@ -286,13 +286,24 @@
 
 
 		/**
-		 * Setter for lastVersion
+		 * Setter for lastVersion, will only set if given version is newer than existing one
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $lastVersion lastVersion
 		 * @return void
 		 */
 		public function setLastVersion(Tx_TerFe2_Domain_Model_Version $lastVersion) {
-			$this->lastVersion = $lastVersion;
+			if (empty($this->lastVersion)) {
+				$this->lastVersion = $lastVersion;
+				return;
+			}
+
+			$curVersionNumber = (int) $this->lastVersion->getVersionNumber();
+			$newVersionNumber = (int) $lastVersion->getVersionNumber();
+
+			// Add lastVersion only if newer
+			if ($newVersionNumber > $curVersionNumber) {
+				$this->lastVersion = $lastVersion;
+			}
 		}
 
 

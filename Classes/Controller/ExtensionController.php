@@ -230,40 +230,26 @@
 		 *   - Show a "please wait" massage until file will be downloaded into output buffer
 		 *     or find an other way to send external file to browser
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing Version object
 		 * @return void
 		 */
-		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $version) {
-			// Check configuration
-			$providerIdent = $version->getExtensionProvider();
-			if (empty($providerIdent) || empty($this->settings['extensionProviders'][$providerIdent])) {
-				return;
-			}
+		public function downloadAction(Tx_TerFe2_Domain_Model_Version $version) {
+			// Load Extension Provider
+			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+			$extensionProvider = $objectManager->get('Tx_TerFe2_ExtensionProvider_ExtensionProvider');
 
-			// Get className of the Provider
-			$providerConf = $this->settings['extensionProviders'][$providerIdent];
-			if (empty($providerConf['className'])) {
-				return;
-			}
-
-			// Load Extension Provider and get URL to file
-			$urlToFile = '';
-			$extensionProvider = t3lib_div::makeInstance($providerConf['className']);
-			if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
-				$extensionProvider->setConfiguration($providerConf);
-				$extKey = $extension->getExtKey();
-				$versionString = $version->getVersionString();
-				$urlToFile = $extensionProvider->getUrlToFile($extKey, $versionString, 't3x');
-			}
+			// Get URL to file
+			$urlToFile = $extensionProvider->getExtensionFile($version);
 			if (empty($urlToFile)) {
-				return;
+				$this->flashMessageContainer->add($this->translate('msg_file_not_found'));
+				$this->redirect('index');
 			}
 
 			// Check file hash
 			$fileHash = Tx_TerFe2_Utility_Files::getFileHash($urlToFile);
 			if ($fileHash != $version->getFileHash()) {
-				return;
+				$this->flashMessageContainer->add($this->translate('msg_file_hash_not_equal'));
+				$this->redirect('index');
 			}
 
 			// Add +1 to download counter
@@ -272,7 +258,7 @@
 			$persistenceManager->persistAll();
 
 			// Send file to browser
-			$newFileName = $extKey . '_' . $versionString . '.t3x';
+			$newFileName = $extensionProvider->getExtensionFileName($version, 't3x');
 			Tx_TerFe2_Utility_Files::transferFile($urlToFile, $newFileName);
 
 			// Fallback

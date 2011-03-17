@@ -38,47 +38,19 @@
 		protected $tagName = 'img';
 
 		/**
-		 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+		 * @var Tx_TerFe2_ExtensionProvider_ExtensionProvider
 		 */
-		protected $configurationManager;
-
-		/**
-		 * @var array
-		 */
-		protected $settings;
+		protected $extensionProvider;
 
 
 		/**
-		 * Initialize configuration, will be invoked just before the render method
+		 * Inject Extension Provider
 		 *
+		 * @param Tx_TerFe2_ExtensionProvider_ExtensionProvider $extensionProvider
 		 * @return void
 		 */
-		public function initialize() {
-			parent::initialize();
-
-			// Get TypoScript configuration
-			if (empty($this->settings)) {
-				if (TYPO3_MODE == 'BE') {
-					$setup = Tx_TerFe2_Utility_TypoScript::getSetup();
-					$this->settings = Tx_TerFe2_Utility_TypoScript::parse($setup['settings.'], FALSE);
-				} else {
-					$this->settings = $this->configurationManager->getConfiguration(
-						Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
-					);
-					$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
-				}
-			}
-		}
-
-
-		/**
-		 * Inject Configuration Manager
-		 *
-		 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
-		 * @return void
-		 */
-		public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
-			$this->configurationManager = $configurationManager;
+		public function injectExtensionProvider(Tx_TerFe2_ExtensionProvider_ExtensionProvider $extensionProvider) {
+			$this->extensionProvider = $extensionProvider;
 		}
 
 
@@ -95,40 +67,22 @@
 
 
 		/**
-		 * Renders an extension icon of given extension and version
+		 * Renders an extension icon for given Version object
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Extension $extension An existing Extension object
-		 * @param Tx_TerFe2_Domain_Model_Version $version An existing Version object
+		 * @param $version Version object
 		 * @param string $fileType File type
 		 * @return string Rendered image tag
 		 */
-		public function render(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $version, $fileType = 'gif') {
-			// Check configuration
-			$providerIdent = $version->getExtensionProvider();
-			if (empty($providerIdent) || empty($this->settings['extensionProviders'][$providerIdent])) {
-				return '';
+		public function render($version = NULL, $fileType = 'gif') {
+			if ($version === NULL) {
+				$version = $this->renderChildren();
 			}
 
-			// Get className of the Provider
-			$providerConf = $this->settings['extensionProviders'][$providerIdent];
-			if (empty($providerConf['className'])) {
-				return '';
+			if (!$version instanceof Tx_TerFe2_Domain_Model_Version) {
+				throw new Exception('No valid Version object given');
 			}
 
-			// Load Extension Provider and get URL to file
-			$urlToFile = '';
-			$extensionProvider = t3lib_div::makeInstance($providerConf['className']);
-			if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
-				$extensionProvider->setConfiguration($providerConf);
-				$extKey = $extension->getExtKey();
-				$versionString = $version->getVersionString();
-				$urlToFile = $extensionProvider->getUrlToIcon($extKey, $versionString, $fileType);
-			}
-			if (empty($urlToFile)) {
-				return '';
-			}
-
-			// Build image
+			$urlToFile = $this->extensionProvider->getExtensionIcon($version, $fileType);
 			$this->tag->addAttribute('src', $urlToFile);
 			return $this->tag->render();
 		}

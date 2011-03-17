@@ -80,7 +80,6 @@
 		 *    - Codebytes
 		 *  - Add "authorForgeLink" to extInfo
 		 *  - Maybe make author name not required
-		 *  - !!! Add lastVersion to Extension object only if newer then existing one !!!
 		 *
 		 * @return boolean TRUE on success
 		 */
@@ -167,26 +166,13 @@
 
 			$lastRunInfo = $this->registry->get('tx_scheduler', 'lastRun');
 			$lastRunTime = (!empty($lastRunInfo['end']) ? (int) $lastRunInfo['end'] : 0);
-			$updateInfoArray = array();
 
 			// TODO: Remove testing value
 			$lastRunTime = 99999;
 
-			foreach ($this->settings['extensionProviders'] as $providerIdent => $providerSettings) {
-				if (empty($providerSettings['className'])) {
-					continue;
-				}
-
-				// Load Extension Provider and get update information
-				$extensionProvider = $this->objectManager->get($providerSettings['className']);
-				if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
-					$extensionProvider->setConfiguration($providerSettings);
-					$localUpdateInfo = $extensionProvider->getUpdateInfo($lastRunTime);
-					array_walk($localUpdateInfo, array($this, 'setExtensionProvider'), $providerIdent);
-					$updateInfoArray = array_merge($updateInfoArray, $localUpdateInfo);
-				}
-				unset($extensionProvider);
-			}
+			// Load Extension Provider and get update information
+			$extensionProvider = $this->objectManager->get('Tx_TerFe2_ExtensionProvider_ExtensionProvider');
+			$updateInfoArray = $extensionProvider->getUpdateInfo($lastRunTime);
 
 			return $updateInfoArray;
 		}
@@ -306,19 +292,6 @@
 			}
 
 			return $author;
-		}
-
-
-		/**
-		 * Add Extension Provider to Extension information
-		 *
-		 * @param array $extInfo Extension information
-		 * @param string $key Array key
-		 * @param string $providerIdent Ident of the Extension Provider
-		 * @return void
-		 */
-		protected function setExtensionProvider(array &$extInfo, $key, $providerIdent) {
-			$extInfo['extensionProvider'] = $providerIdent;
 		}
 
 	}

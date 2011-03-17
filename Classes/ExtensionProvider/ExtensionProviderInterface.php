@@ -30,7 +30,7 @@
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	interface Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface {
+	interface Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface extends t3lib_Singleton {
 
 		/**
 		 * Injects the DataMap Factory
@@ -57,6 +57,35 @@
 		 * @return void
 		 */
 		public function setConfiguration(array $configuration);
+
+
+		/**
+		 * Returns URL to a cached or new Extension icon
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param string $fileType File type
+		 * @return string URL to icon file
+		 */
+		public function getExtensionIcon(Tx_TerFe2_Domain_Model_Version $version, $fileType);
+
+
+		/**
+		 * Returns URL to an Extension file
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param string $fileType File type
+		 * @return string URL to file
+		 */
+		public function getExtensionFile(Tx_TerFe2_Domain_Model_Version $version, $fileType);
+
+		/**
+		 * Returns name of an Extension file
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param string $fileType File type
+		 * @return string File name
+		 */
+		public function getExtensionFileName(Tx_TerFe2_Domain_Model_Version $version, $fileType);
 
 	}
 ?>

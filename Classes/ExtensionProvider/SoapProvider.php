@@ -33,16 +33,34 @@
 	class Tx_TerFe2_ExtensionProvider_SoapProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
 
 		/**
-		 * @var tx_em_Connection_Soap
+		 * Inititalize Provider, create SOAP connection
+		 *
+		 * @return void
 		 */
-		protected $soapConnection;
+		public function initialize() {
+			if (empty($this->configuration['wsdlUrl'])) {
+				throw new Exception('No wsdl URL (wsdlUrl) defined for SOAP Extension Provider');
+			}
+
+			// Connect with login
+			if (!empty($this->configuration['username']) && !empty($this->configuration['password'])) {
+				Tx_TerFe2_Utility_Soap::connect(
+					$this->configuration['wsdlUrl'],
+					$this->configuration['username'],
+					$this->configuration['password']
+				);
+				return;
+			}
+
+			Tx_TerFe2_Utility_Soap::connect($this->configuration['wsdlUrl']);
+		}
 
 
 		/**
-		 * Returns all Extension information
+		 * Returns an array with information about all updated Extensions
 		 *
 		 * @param integer $lastUpdate Last update of the extension list
-		 * @return array Extension information
+		 * @return array Update information
 		 */
 		public function getUpdateInfo($lastUpdate) {
 			if (empty($this->configuration['updateFunc'])) {
@@ -51,7 +69,8 @@
 
 			// Get update information
 			$params = array('lastUpdate' => $lastUpdate);
-			$dataArray = $this->getSoapResult($this->configuration['updateFunc'], $params);
+
+			$dataArray = Tx_TerFe2_Utility_Soap::call($this->configuration['updateFunc'], $params);
 			if (empty($dataArray)) {
 				return array();
 			}
@@ -70,91 +89,24 @@
 
 
 		/**
-		 * Returns URL to a file via extKey, version and fileType
+		 * Returns the URL to a file
 		 *
-		 * @param string $extKey Extension key
-		 * @param string $versionString Version string
-		 * @param string $fileType File type
+		 * @param string $fileName File name
 		 * @return string URL to file
 		 */
-		public function getUrlToFile($extKey, $versionString, $fileType) {
+		public function getUrlToFile($fileName) {
 			if (empty($this->configuration['getFileFunc'])) {
 				throw new Exception('No function (getFileFunc) defined to get files from SOAP Extension Provider');
 			}
 
-			$params = array(
-				'extKey'        => $extKey,
-				'versionString' => $versionString,
-				'fileType'      => $fileType,
-			);
-
 			// Get URL
-			$dataArray = $this->getSoapResult($this->configuration['getFileFunc'], $params);
-			if (empty($dataArray['urlToFile'])) {
+			$params = array('fileName' => $fileName);
+			$dataArray = Tx_TerFe2_Utility_Soap::call($this->configuration['getFileFunc'], $params);
+			if (empty($dataArray['url'])) {
 				return '';
 			}
 
-			return (string) $dataArray['urlToFile'];
-
-		}
-
-
-		/**
-		 * Wrapper method for SOAP calls
-		 *
-		 * @param string $methodName Method name
-		 * @param array $params Parameters
-		 * @return array Result of the SOAP call
-		 */
-		protected function getSoapResult($methodName, array $params = array()) {
-			// Initialize SOAP connection
-			if ($this->soapConnection === NULL) {
-				if (!class_exists('SoapClient')) {
-					throw new Exception('PHP soap extension not available');
-				}
-				if (empty($this->configuration['wsdlUrl'])) {
-					throw new Exception('No wsdl (wsdlUrl) defined for Extension Provider SOAP requests');
-				}
-
-				// Load connection
-				$this->soapConnection = new SoapClient($this->configuration['wsdlUrl'], array(
-					'trace'      => 1,
-					'exceptions' => 0,
-				));
-			}
-
-			// Get authentication header
-			$header = NULL;
-			if (!empty($this->configuration['username']) && !empty($this->configuration['password'])) {
-				$headerData = array(
-					'username' => $this->configuration['username'],
-					'password' => $this->configuration['password'],
-				);
-				$header = new SoapHeader('', 'HeaderLogin', (object) $headerData, TRUE);
-			}
-
-			// Call given method
-			$response = $this->soapConnection->__soapCall($methodName, $params, NULL, $header);
-			if (is_soap_fault($response)) {
-				return array();
-			}
-
-			return $this->convertObjectToArray($response);
-		}
-
-
-		/**
-		 * Convert an object to array
-		 *
-		 * @param object $object Object to convert
-		 * @return array Converted object
-		 */
-		protected function convertObjectToArray($object) {
-			if (is_object($object) || is_array($object)) {
-				$object = array_map(array($this, 'convertObjectToArray'), (array) $object);
-			}
-
-			return $object;
+			return (string) $dataArray['url'];
 		}
 
 	}

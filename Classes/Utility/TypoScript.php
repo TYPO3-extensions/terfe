@@ -30,7 +30,7 @@
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_Utility_TypoScript implements t3lib_Singleton {
+	class Tx_TerFe2_Utility_TypoScript {
 
 		/**
 		 * @var tslib_cObj

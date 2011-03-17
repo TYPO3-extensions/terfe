@@ -30,7 +30,7 @@
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_Utility_Files implements t3lib_Singleton {
+	class Tx_TerFe2_Utility_Files {
 
 		/**
 		 * Check if a file, URL or directory exists
@@ -53,50 +53,41 @@
 
 
 		/**
-		 * Returns relative path to a file via extension key and version
+		 * Generates a file name via extension key, version and type
 		 *
 		 * @param string $extKey Extension Key
 		 * @param string $version Version of the extension
 		 * @param string $fileType File type of the returning path
 		 * @return string Path and filename
 		 */
-		static public function getT3xRelPath($extKey, $version, $fileType = 't3x') {
-			if (empty($extKey) || empty($version)) {
+		static public function generateFileName($extKey, $version, $fileType = 't3x') {
+			if (empty($extKey) || empty($version) || empty($fileType)) {
 				return '';
 			}
 
-			$extKey  = strtolower($extKey);
+			$extKey   = strtolower($extKey);
 			$version = Tx_Extbase_Utility_Arrays::integerExplode('.', $version);
-			$path    = '%s/%s/%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
+			$fileName = '%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
 
-			return sprintf($path, $extKey[0], $extKey[1], $extKey, $version[0], $version[1], $version[2]);
+			return sprintf($fileName, $extKey, $version[0], $version[1], $version[2]);
 		}
 
 
 		/**
-		 * Returns relative path to cached extension icon
+		 * Returns absolute path to given directory
 		 *
-		 * @param string $extKey Extension Key
-		 * @param string $version Version of the extension
-		 * @param string $fileType File type of the returning path
-		 * @return string Path and filename
+		 * @return string Absolute path
 		 */
-		static public function getIconRelCachePath($extKey, $version, $fileType = 'gif') {
-			if (empty($extKey) || empty($version)) {
-				return '';
+		static public function getAbsDirectory($path) {
+			if (empty($path)) {
+				return PATH_site;
 			}
 
-			// Get temporary directory
-			$tmpPath = 'typo3temp/pics/';
-			if (!self::fileExists(PATH_site . $tmpPath)) {
-				t3lib_div::mkdir_deep(PATH_site . $tmpPath);
+			if (!self::fileExists(PATH_site . $path)) {
+				t3lib_div::mkdir_deep(PATH_site . $path);
 			}
 
-			$extKey  = strtolower($extKey);
-			$version = Tx_Extbase_Utility_Arrays::integerExplode('.', $version);
-			$path    = $tmpPath . '%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
-
-			return sprintf($path, $extKey, $version[0], $version[1], $version[2]);
+			return PATH_site . $path;
 		}
 
 

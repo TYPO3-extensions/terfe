@@ -73,6 +73,8 @@
 			<label index="msg_author_updated">Author updated</label>
 			<label index="msg_author_deleted">Author deleted</label>
 			<label index="msg_file_not_valid">Given file is not valid</label>
+			<label index="msg_file_not_found">File not found</label>
+			<label index="msg_file_hash_not_equal">File was changed and is therefore corrupt</label>
 
 			<label index="list_all_extensions">List of all extensions</label>
 			<label index="list_latest_extensions">List of new and updated extensions</label>

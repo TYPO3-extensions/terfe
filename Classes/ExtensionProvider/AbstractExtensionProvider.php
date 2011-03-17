@@ -30,7 +30,7 @@
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	abstract class Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider implements Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface, t3lib_Singleton {
+	abstract class Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider implements Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface {
 
 		/**
 		 * @var Tx_Extbase_Persistence_Mapper_DataMapFactory
@@ -84,6 +84,83 @@
 		public function setConfiguration(array $configuration) {
 			$this->configuration = $configuration;
 		}
+
+
+		/**
+		 * Returns URL to a cached or new Extension icon
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param string $fileType File type
+		 * @return string URL to icon file
+		 */
+		public function getExtensionIcon(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
+			$fileName  = $this->getExtensionFileName($version, $fileType);
+			$cachePath = Tx_TerFe2_Utility_Files::getAbsDirectory('typo3temp/pics/');
+
+			// Check local cache first
+			if (Tx_TerFe2_Utility_Files::fileExists($cachePath . $fileName)) {
+				return t3lib_div::locationHeaderUrl('typo3temp/pics/' . $fileName);
+			}
+
+			// Get icon from concrete Extension Provider
+			$urlToFile = $this->getUrlToFile($fileName);
+
+			// Copy URL to local cache
+			Tx_TerFe2_Utility_Files::copyFile($urlToFile, $cachePath . $fileName);
+
+			return $urlToFile;
+		}
+
+
+		/**
+		 * Returns URL to an Extension file
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param string $fileType File type
+		 * @return string URL to file
+		 */
+		public function getExtensionFile(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
+			$fileName = $this->getExtensionFileName($version, $fileType);
+			return $this->getUrlToFile($fileName);
+		}
+
+
+		/**
+		 * Returns name of an Extension file
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param string $fileType File type
+		 * @return string File name
+		 */
+		public function getExtensionFileName(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
+			$extKey = $version->getExtension()->getExtKey();
+			$versionString = $version->getVersionString();
+			$fileName = Tx_TerFe2_Utility_Files::generateFileName($extKey, $versionString, $fileType);
+
+			if (empty($fileName)) {
+				throw new Exception('Could not generate file name for this Version object');
+			}
+
+			return $fileName;
+		}
+
+
+		/**
+		 * Returns the URL to a file
+		 *
+		 * @param string $fileName File name
+		 * @return string URL to file
+		 */
+		abstract protected function getUrlToFile($fileName);
+
+
+		/**
+		 * Returns an array with information about all updated Extensions
+		 *
+		 * @param integer $lastUpdate Last update of the extension list
+		 * @return array Update information
+		 */
+		abstract public function getUpdateInfo($lastUpdate);
 
 
 		/**
@@ -226,51 +303,6 @@
 					break;
 			}
 		}
-
-
-		/**
-		 * Get URL to a cached or new Extension icon file
-		 *
-		 * @param string $extKey Extension key
-		 * @param string $versionString Version string
-		 * @param string $fileType File type
-		 * @return string URL to icon file
-		 */
-		public function getUrlToIcon($extKey, $versionString, $fileType = 'gif') {
-			// Check local cache first
-			$iconRelPath = Tx_TerFe2_Utility_Files::getIconRelCachePath($extKey, $versionString, $fileType);
-			if (Tx_TerFe2_Utility_Files::fileExists(PATH_site . $iconRelPath)) {
-				return t3lib_div::locationHeaderUrl($iconRelPath);
-			}
-
-			// Get new file from concrete provider
-			$urlToFile = $this->getUrlToFile($extKey, $versionString, $fileType);
-
-			// Copy URL to local cache
-			Tx_TerFe2_Utility_Files::copyFile($urlToFile, $iconRelPath);
-
-			return $urlToFile;
-		}
-
-
-		/**
-		 * Returns all Extension information
-		 *
-		 * @param integer $lastUpdate Last update of the extension list
-		 * @return array Extension information
-		 */
-		abstract public function getUpdateInfo($lastUpdate);
-
-
-		/**
-		 * Returns URL to a file via extKey, version and fileType
-		 *
-		 * @param string $extKey Extension key
-		 * @param string $versionString Version string
-		 * @param string $fileType File type
-		 * @return string URL to file
-		 */
-		abstract public function getUrlToFile($extKey, $versionString, $fileType);
 
 	}
 ?>

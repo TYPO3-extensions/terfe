@@ -18,14 +18,18 @@
 		'tx_terfe2_domain_repository_extensionrepository' => $extensionClassesPath . 'Domain/Repository/ExtensionRepository.php',
 		'tx_terfe2_domain_repository_tagrepository' => $extensionClassesPath . 'Domain/Repository/TagRepository.php',
 		'tx_terfe2_extensionprovider_abstractextensionprovider' => $extensionClassesPath . 'ExtensionProvider/AbstractExtensionProvider.php',
+		'tx_terfe2_extensionprovider_extensionprovider' => $extensionClassesPath . 'ExtensionProvider/ExtensionProvider.php',
 		'tx_terfe2_extensionprovider_extensionproviderinterface' => $extensionClassesPath . 'ExtensionProvider/ExtensionProviderInterface.php',
 		'tx_terfe2_extensionprovider_fileprovider' => $extensionClassesPath . 'ExtensionProvider/FileProvider.php',
 		'tx_terfe2_extensionprovider_soapprovider' => $extensionClassesPath . 'ExtensionProvider/SoapProvider.php',
 		'tx_terfe2_task_updateextensionlisttask' => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
 		'tx_terfe2_utility_files' => $extensionClassesPath . 'Utility/Files.php',
+		'tx_terfe2_utility_soap' => $extensionClassesPath . 'Utility/Soap.php',
 		'tx_terfe2_utility_typoscript' => $extensionClassesPath . 'Utility/TypoScript.php',
 		'tx_terfe2_view_extension_listjson' => $extensionClassesPath . 'View/Extension/ListJson.php',
 		'tx_terfe2_view_extension_listlatestjson' => $extensionClassesPath . 'View/Extension/ListLatestJson.php',
+		'tx_terfe2_viewhelpers_datetimeviewhelper' => $extensionClassesPath . 'ViewHelpers/DateTimeViewHelper.php',
 		'tx_terfe2_viewhelpers_exticonviewhelper' => $extensionClassesPath . 'ViewHelpers/ExtIconViewHelper.php',
+		'tx_terfe2_viewhelpers_urlviewhelper' => $extensionClassesPath . 'ViewHelpers/UrlViewHelper.php',
 	);
 ?>

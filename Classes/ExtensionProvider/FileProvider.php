@@ -39,10 +39,10 @@
 
 
 		/**
-		 * Returns all Extension information
+		 * Returns an array with information about all updated Extensions
 		 *
 		 * @param integer $lastUpdate Last update of the extension list
-		 * @return array Extension information
+		 * @return array Update information
 		 */
 		public function getUpdateInfo($lastUpdate) {
 			$extPath = (!empty($this->configuration['extensionRootPath']) ? $this->configuration['extensionRootPath'] : 'fileadmin/ter/');
@@ -61,6 +61,39 @@
 			}
 
 			return $updateInfoArray;
+		}
+
+
+		/**
+		 * Returns the URL to a file
+		 *
+		 * @param string $fileName File name
+		 * @return string URL to file
+		 */
+		public function getUrlToFile($fileName) {
+			// Path: /t/e/ter_fe2
+			$fileName = $fileName[0] . '/' . $fileName[1] . '/' . $fileName;
+
+			// Use mirror system from local Extension Manager
+			if (!empty($this->configuration['useEmMirrors'])) {
+				$mirrorUrl = $this->getMirrorUrl();
+				if (!empty($mirrorUrl) && Tx_TerFe2_Utility_Files::fileExists($mirrorUrl . $fileName)) {
+					return $mirrorUrl . $fileName;
+				}
+			}
+
+			// Get path to local Extension directory
+			$extensionRootPath = 'fileadmin/ter/';
+			if (!empty($this->configuration['extensionRootPath'])) {
+				$extensionRootPath = rtrim($this->configuration['extensionRootPath'], '/ ') . '/';
+			}
+
+			// Check if file exists and is readable
+			if (Tx_TerFe2_Utility_Files::fileExists(PATH_site . $extensionRootPath . $fileName)) {
+				return t3lib_div::locationHeaderUrl($extensionRootPath . $fileName);
+			}
+
+			return '';
 		}
 
 
@@ -118,41 +151,6 @@
 			}
 
 			return parent::getExtensionInfo($extData);
-		}
-
-
-		/**
-		 * Returns URL to a file via extKey, version and fileType
-		 *
-		 * @param string $extKey Extension key
-		 * @param string $versionString Version string
-		 * @param string $fileType File type
-		 * @return string URL to file
-		 */
-		public function getUrlToFile($extKey, $versionString, $fileType) {
-			// Get fileName
-			$fileName = Tx_TerFe2_Utility_Files::getT3xRelPath($extKey, $versionString, $fileType);
-
-			// Use mirror system from local Extension Manager
-			if (!empty($this->configuration['useEmMirrors'])) {
-				$mirrorUrl = $this->getMirrorUrl();
-				if (!empty($mirrorUrl) && Tx_TerFe2_Utility_Files::fileExists($mirrorUrl . $fileName)) {
-					return $mirrorUrl . $fileName;
-				}
-			}
-
-			// Get path to local Extension directory
-			$extensionRootPath = 'fileadmin/ter/';
-			if (!empty($this->configuration['extensionRootPath'])) {
-				$extensionRootPath = rtrim($this->configuration['extensionRootPath'], '/ ') . '/';
-			}
-
-			// Check if file exists and is readable
-			if (Tx_TerFe2_Utility_Files::fileExists(PATH_site . $extensionRootPath . $fileName)) {
-				return t3lib_div::locationHeaderUrl($extensionRootPath . $fileName);
-			}
-
-			return '';
 		}
 
 
