@@ -131,9 +131,8 @@
 		static public function getFileHash($filename) {
 			// Get md5 from local file
 			if (t3lib_div::isOnCurrentHost($filename)) {
-				$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
-				$filename = PATH_site . str_ireplace($hostUrl, '', $filename);
-				return @md5_file($filename);
+				$filename = self::getLocalUrlPath($filename);
+				return md5_file($filename);
 			}
 
 			// Get md5 from external file
@@ -168,6 +167,10 @@
 		 * @return boolean FALSE if file not exists
 		 */
 		static public function transferFile($filename, $visibleFilename = '') {
+			if (t3lib_div::isOnCurrentHost($filename)) {
+				$filename = self::getLocalUrlPath($filename);
+			}
+
 			// Get filename for download
 			if (empty($visibleFilename)) {
 				$visibleFilename = basename($filename);
@@ -246,6 +249,10 @@
 		 * @return boolean TRUE if success
 		 */
 		static public function copyFile($fromFileName, $toFileName, $overwrite = FALSE) {
+			if (t3lib_div::isOnCurrentHost($fromFileName)) {
+				$fromFileName = self::getLocalUrlPath($fromFileName);
+			}
+
 			$fromFile = t3lib_div::getURL($fromFileName);
 
 			// Check files
@@ -261,6 +268,21 @@
 			// Copy file to new name
 			$result = t3lib_div::writeFile($toFileName, $fromFile);
 			return ($result !== FALSE);
+		}
+
+
+		/**
+		 * Returns local filename from URL if located on current server
+		 * 
+		 * Required to get absolute path on filesystem if php has no rights
+		 * to fetch a file via URL from current server (TYPO3_REQUEST_HOST).
+		 * 
+		 * @param string $urlToFile URL of the file
+		 * @return string Absolute path to file
+		 */
+		static public function getLocalUrlPath($urlToFile) {
+			$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
+			return PATH_site . str_ireplace($hostUrl, '', $urlToFile);
 		}
 
 	}
