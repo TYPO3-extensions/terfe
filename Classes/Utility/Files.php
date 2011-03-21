@@ -129,6 +129,14 @@
 		 * @return string Generated hash or an empty string if file not found
 		 */
 		static public function getFileHash($filename) {
+			// Get md5 from local file
+			if (t3lib_div::isOnCurrentHost($filename)) {
+				$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
+				$filename = PATH_site . str_ireplace($hostUrl, '', $filename);
+				return @md5_file($filename);
+			}
+
+			// Get md5 from external file
 			$contents = t3lib_div::getURL($filename);
 			if (!empty($contents)) {
 				return md5($contents);
