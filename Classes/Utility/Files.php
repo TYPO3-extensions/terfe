@@ -33,7 +33,7 @@
 	class Tx_TerFe2_Utility_Files {
 
 		/**
-		 * Check if a file, URL or directory exists
+		 * Check if a file or directory exists
 		 *
 		 * @param string $filename Path to the file
 		 * @return boolean TRUE if file exists
@@ -47,8 +47,7 @@
 				return (bool) file_exists($filename);
 			}
 
-			$result = @fopen($filename, 'r');
-			return ($result !== FALSE);
+			return is_readable($filename);
 		}
 
 
@@ -130,9 +129,9 @@
 		 * @return string Generated hash or an empty string if file not found
 		 */
 		static public function getFileHash($filename) {
-			$result = @md5_file($filename);
-			if ($result !== FALSE) {
-				return $result;
+			$contents = t3lib_div::getURL($filename);
+			if (!empty($contents)) {
+				return md5($contents);
 			}
 
 			return '';
@@ -161,10 +160,6 @@
 		 * @return boolean FALSE if file not exists
 		 */
 		static public function transferFile($filename, $visibleFilename = '') {
-			if (!self::fileExists($filename)) {
-				return FALSE;
-			}
-
 			// Get filename for download
 			if (empty($visibleFilename)) {
 				$visibleFilename = basename($filename);

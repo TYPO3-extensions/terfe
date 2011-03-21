@@ -77,7 +77,7 @@
 			// Use mirror system from local Extension Manager
 			if (!empty($this->configuration['useEmMirrors'])) {
 				$mirrorUrl = $this->getMirrorUrl();
-				if (!empty($mirrorUrl) && Tx_TerFe2_Utility_Files::fileExists($mirrorUrl . $fileName)) {
+				if (!empty($mirrorUrl)) {
 					return $mirrorUrl . $fileName;
 				}
 			}
