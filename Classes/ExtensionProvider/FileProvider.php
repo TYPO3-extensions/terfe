@@ -78,7 +78,13 @@
 			if (!empty($this->configuration['useEmMirrors'])) {
 				$mirrorUrl = $this->getMirrorUrl();
 				if (!empty($mirrorUrl)) {
-					return $mirrorUrl . $fileName;
+					$urlToFile = $mirrorUrl . $fileName;
+					if (Tx_TerFe2_Utility_Files::isLocalUrl($urlToFile)) {
+						$urlToFile = Tx_TerFe2_Utility_Files::getLocalUrlPath($urlToFile);
+					}
+					if (Tx_TerFe2_Utility_Files::fileExists($urlToFile)) {
+						return $urlToFile;
+					}
 				}
 			}
 

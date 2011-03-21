@@ -33,7 +33,7 @@
 	class Tx_TerFe2_Utility_Files {
 
 		/**
-		 * Check if a file or directory exists
+		 * Check if a file, URL or directory exists
 		 *
 		 * @param string $filename Path to the file
 		 * @return boolean TRUE if file exists
@@ -47,7 +47,8 @@
 				return (bool) file_exists($filename);
 			}
 
-			return is_readable($filename);
+			$result = @fopen($filename, 'r');
+			return ($result !== FALSE);
 		}
 
 
@@ -130,7 +131,7 @@
 		 */
 		static public function getFileHash($filename) {
 			// Get md5 from local file
-			if (t3lib_div::isOnCurrentHost($filename)) {
+			if (self::isLocalUrl($filename)) {
 				$filename = self::getLocalUrlPath($filename);
 				return md5_file($filename);
 			}
@@ -167,8 +168,13 @@
 		 * @return boolean FALSE if file not exists
 		 */
 		static public function transferFile($filename, $visibleFilename = '') {
-			if (t3lib_div::isOnCurrentHost($filename)) {
+			if (self::isLocalUrl($filename)) {
 				$filename = self::getLocalUrlPath($filename);
+			}
+
+			// Check if file exists
+			if (!self::fileExists($filename)) {
+				return FALSE;
 			}
 
 			// Get filename for download
@@ -249,7 +255,7 @@
 		 * @return boolean TRUE if success
 		 */
 		static public function copyFile($fromFileName, $toFileName, $overwrite = FALSE) {
-			if (t3lib_div::isOnCurrentHost($fromFileName)) {
+			if (self::isLocalUrl($fromFileName)) {
 				$fromFileName = self::getLocalUrlPath($fromFileName);
 			}
 
@@ -272,7 +278,18 @@
 
 
 		/**
-		 * Returns local filename from URL if located on current server
+		 * Check if a URL is located to current server
+		 * 
+		 * @param string $urlToFile URL of the file
+		 * @return boolean TRUE if given file is local
+		 */
+		static public function isLocalUrl($urlToFile) {
+			return t3lib_div::isOnCurrentHost($urlToFile);
+		}
+
+
+		/**
+		 * Returns local filename from URL if located to current server
 		 * 
 		 * Required to get absolute path on filesystem if php has no rights
 		 * to fetch a file via URL from current server (TYPO3_REQUEST_HOST).
