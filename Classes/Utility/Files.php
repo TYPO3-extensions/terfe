@@ -302,5 +302,50 @@
 			return PATH_site . str_ireplace($hostUrl, '', $urlToFile);
 		}
 
+
+		/**
+		 * Creates a ZIP file from given extension T3X file
+		 * 
+		 * TODO: Create ext_emconf.php
+		 * 
+		 * @param string $filename Path to the T3X file
+		 * @param string $overwrite Overwrite file if exists
+		 * @return string File name of the ZIP file
+		 */
+		static public function createT3xZipArchive($filename, $overwrite = FALSE) {
+			if (!class_exists('ZipArchive')) {
+				throw new Exception('Please make sure that php zip extension is installed');
+			}
+			if (empty($filename)) {
+				return '';
+			}
+
+			// Get file names
+			$archiveName = substr(basename($filename), 0, strrpos(basename($filename), '.')) . '.zip';
+			$tempFile = self::getAbsDirectory('typo3temp/') . $archiveName;
+
+			// Check if file was cached
+			if ($overwrite || !self::fileExists($tempFile)) {
+				// Unpack extension files
+				$content = self::unpackT3xFile($filename);
+				$createMode = ($overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE);
+				if (empty($content['FILES']) || !is_array($content['FILES'])) {
+					return '';
+				}
+
+				// Create ZIP archive
+				$zipFile = new ZipArchive();
+				$zipFile->open($tempFile, $createMode);
+				foreach ($content['FILES'] as $fileInfo) {
+					if (!empty($fileInfo['name']) && isset($fileInfo['content'])) {
+						$zipFile->addFromString($fileInfo['name'], $fileInfo['content']);
+					}
+				}
+				$zipFile->close();
+			}
+
+			return $tempFile;
+		}
+
 	}
 ?>

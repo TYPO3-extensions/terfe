@@ -265,6 +265,11 @@
 				Tx_TerFe2_Utility_Session::save();
 			}
 
+			// Download as ZIP file
+			//$fileName = Tx_TerFe2_Utility_Files::createT3xZipArchive($urlToFile);
+			//Tx_TerFe2_Utility_Files::transferFile($fileName, basename($fileName));
+			//$this->redirect('index');
+
 			// Send file to browser
 			$newFileName = $extensionProvider->getExtensionFileName($version, 't3x');
 			Tx_TerFe2_Utility_Files::transferFile($urlToFile, $newFileName);
