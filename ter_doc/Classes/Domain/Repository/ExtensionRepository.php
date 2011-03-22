@@ -346,7 +346,8 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 				$data = file_get_contents($t3xOnline);
 				$result = file_put_contents($file, $data);
 				if (!$result) {
-					throw new Exception('Exception thrown #1300153669: could not write or download "' . $file . '"', 1300153669);
+					Tx_TerDoc_Utility_Cli::log('      * Warning could not write or download "' . $file . '"');
+					#throw new Exception('Exception thrown #1300153669: could not write or download "' . $file . '"', 1300153669);
 				}
 			}
 		}
