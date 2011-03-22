@@ -319,34 +319,35 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 	 * **************************************************** */
 	 
 	/**
-	 * Unpacks the T3X file of the given extension version and extracts the file specified
-	 * in $sourceName. If $targetFullPath is given, the file will be saved into the given
-	 * location, otherwize the content of the extracted file will be returned.
-	 *
-	 * If the operation fails, FALSE is returned.
+	 * Download some files. Currently there are the t3x and gif files
 	 *
 	 * @param	string	$extensionKey: Extension key of the extension
 	 * @param	string	$version: Version number of the extension
 	 * @return	mixed	FALSE if operation fails, TRUE if file was written successfully, Array if operation was successful and $targetFullPath was NULL
 	 * @access	protected
 	 */
-	public function fetchT3x($extensionKey, $version) {
+	public function fetchExtension($extensionKey, $version) {
 
-		$t3xFile = Tx_TerDoc_Utility_Cli::getExtensionVersionPathAndBaseName($this->settings['repositoryDir'], $extensionKey, $version) . '.t3x';
+		$fileExtensions = array('.t3x', '.gif');
 
-		// special case -> download the t3x archive when not already present on the harddrive.
-		if (!file_exists($t3xFile)) {
-			$parts = explode('/', $t3xFile);
-			$t3xName = array_pop($parts);
-			mkdir(implode('/', $parts), 0777, TRUE);
+		foreach ($fileExtensions as $fileExtension) {
 
-			$t3xOnline = 'http://typo3.org' . str_replace($GLOBALS['_SERVER']['PWD'], '', $t3xFile);
+			$file = Tx_TerDoc_Utility_Cli::getExtensionVersionPathAndBaseName($this->settings['repositoryDir'], $extensionKey, $version) . $fileExtension;
 
-			Tx_TerDoc_Utility_Cli::log('   * Downloading online archive of ' . $t3xName);
-			$data = file_get_contents($t3xOnline);
-			$result = file_put_contents($t3xFile, $data);
-			if (!$result) {
-				throw new Exception('Exception thrown #1300153669: could not write or download "' . $t3xFile . '"', 1300153669);
+			// special case -> download the t3x archive when not already present on the harddrive.
+			if (!file_exists($file)) {
+				$parts = explode('/', $file);
+				$t3xName = array_pop($parts);
+				mkdir(implode('/', $parts), 0777, TRUE);
+
+				$t3xOnline = 'http://typo3.org' . str_replace($GLOBALS['_SERVER']['PWD'], '', $file);
+
+				Tx_TerDoc_Utility_Cli::log('   * Downloading online archive of ' . $t3xName);
+				$data = file_get_contents($t3xOnline);
+				$result = file_put_contents($file, $data);
+				if (!$result) {
+					throw new Exception('Exception thrown #1300153669: could not write or download "' . $file . '"', 1300153669);
+				}
 			}
 		}
 	}
