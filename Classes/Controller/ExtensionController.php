@@ -226,7 +226,6 @@
 		 * Check file hash and increment counter while downloading
 		 *
 		 * TODO:
-		 *   - Add extKey to user session to record only one download a day from same user
 		 *   - Show a "please wait" massage until file will be downloaded into output buffer
 		 *     or find an other way to send external file to browser
 		 *
@@ -252,10 +251,19 @@
 				$this->redirect('index');
 			}
 
-			// Add +1 to download counter
-			$version->incrementDownloadCounter();
-			$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
-			$persistenceManager->persistAll();
+			// Check session if user has already downloaded this file today
+			$extKey = $version->getExtension()->getExtKey();
+			Tx_TerFe2_Utility_Session::load();
+			if (!Tx_TerFe2_Utility_Session::hasDownloaded($extKey)) {
+				// Add +1 to download counter
+				$version->incrementDownloadCounter();
+				$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+				$persistenceManager->persistAll();
+
+				// Add extension key to session
+				Tx_TerFe2_Utility_Session::addDownload($extKey);
+				Tx_TerFe2_Utility_Session::save();
+			}
 
 			// Send file to browser
 			$newFileName = $extensionProvider->getExtensionFileName($version, 't3x');

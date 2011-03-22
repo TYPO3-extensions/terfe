@@ -24,6 +24,7 @@
 		'tx_terfe2_extensionprovider_soapprovider' => $extensionClassesPath . 'ExtensionProvider/SoapProvider.php',
 		'tx_terfe2_task_updateextensionlisttask' => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
 		'tx_terfe2_utility_files' => $extensionClassesPath . 'Utility/Files.php',
+		'tx_terfe2_utility_session' => $extensionClassesPath . 'Utility/Session.php',
 		'tx_terfe2_utility_soap' => $extensionClassesPath . 'Utility/Soap.php',
 		'tx_terfe2_utility_typoscript' => $extensionClassesPath . 'Utility/TypoScript.php',
 		'tx_terfe2_view_extension_listjson' => $extensionClassesPath . 'View/Extension/ListJson.php',
