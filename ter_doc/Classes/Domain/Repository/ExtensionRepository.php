@@ -75,6 +75,23 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 	 * Reads the extension index file (extensions.xml.gz) and updates
 	 * the the manual caching table accordingly.
 	 *
+	 * @return	object
+	 */
+	public function findAll() {
+		// Transfer data from extensions.xml.gz to database:
+		$unzippedExtensionsXML = implode('', @gzfile($this->settings['repositoryDir'] . 'extensions.xml.gz'));
+		$extensions = simplexml_load_string($unzippedExtensionsXML);
+		if (!is_object($extensions)) {
+			throw new Exception('Exception thrown #1300783708: Error while parsing ' . $this->settings['repositoryDir'] . 'extensions.xml.gz', 1300783708);
+		}
+		
+		return $extensions;
+	}
+
+	/**
+	 * Reads the extension index file (extensions.xml.gz) and updates
+	 * the the manual caching table accordingly.
+	 *
 	 * @return	boolean		TRUE if operation was successful
 	 * @access	protected
 	 */
@@ -84,13 +101,7 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_terdoc_manuals', '1');
 
-		// Transfer data from extensions.xml.gz to database:
-		$unzippedExtensionsXML = implode('', @gzfile($this->settings['repositoryDir'] . 'extensions.xml.gz'));
-		$extensions = simplexml_load_string($unzippedExtensionsXML);
-		if (!is_object($extensions)) {
-			Tx_TerDoc_Utility_Cli::log('Error while parsing ' . $this->settings['extensionFile'] . ' - aborting!');
-			return FALSE;
-		}
+		$extensions = $this->findAll();
 
 		$loop = 0;
 		foreach ($extensions as $extension) {

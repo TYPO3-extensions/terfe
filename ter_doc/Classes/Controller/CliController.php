@@ -68,12 +68,12 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 	}
 
 	/**
-	 * Fetch action for this controller. Displays a list of addresses.
+	 * Update the latest datasource of extensions from typo3.org. Basically, this is a XML file.
 	 *
 	 * @param  array $arguments list of possible arguments
 	 * @return void
 	 */
-	public function fetchAction($arguments) {
+	public function updateAction($arguments) {
 		// Options  coming from the CLI
 		$this->arguments = $arguments;
 
@@ -92,6 +92,37 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 		}
 		
 		Tx_TerDoc_Utility_Cli::log('Data Source has been updated with success');
+	}
+
+	/**
+	 * Download all extension from typo3.org (t3x files)
+	 *
+	 * @param  array $arguments list of possible arguments
+	 * @return void
+	 */
+	public function downloadAction($arguments) {
+
+		// Options  coming from the CLI
+		$this->arguments = $arguments;
+
+		$this->initializeAction();
+
+		// Makes sure the envionment is good and throw an error if that is not the case
+		$this->validator->validateFileStructure();
+		$this->validator->validateDataSource();
+
+		if (!$this->isLocked() || $this->arguments['force']) {
+			// create a lock
+			touch($this->settings['lockFile']);
+
+			Tx_TerDoc_Utility_Cli::log(strftime('%d.%m.%y %R') . ' ter_doc downloading started...');
+
+			$extensions = $this->extensionRepository->findAll();
+			foreach ($extensions as $extension) {
+				print_r($extension);
+				exit();
+			}
+		}
 	}
 	
 	/**
@@ -240,7 +271,8 @@ options:
 
 commands:
     render                - render documentation cache
-    fetch                 - fetch / update the latest datasource of extensions from typo3.org. Basically, this is in the form of a XML file.
+    update                - update the latest datasource of extensions from typo3.org. Basically, this is a XML file.
+    download              - download all extension from typo3.org (t3x files)
 EOF;
 
 		Tx_TerDoc_Utility_Cli::log($message);

@@ -91,13 +91,20 @@ class Tx_TerDoc_Cli_Renderer {
 				Tx_TerDoc_Utility_Cli::log($e->getMessage());
 			}
 		}
-		elseif ($commands[0] == 'fetch') {
+		elseif ($commands[0] == 'update') {
 			try {
-				$controller->fetchAction($arguments);
+				$controller->updateAction($arguments);
 			} catch (Exception $e) {
 				Tx_TerDoc_Utility_Cli::log($e->getMessage());
 			}
 		} 
+		elseif ($commands[0] == 'download') {
+			try {
+				$controller->downloadAction($arguments);
+			} catch (Exception $e) {
+				Tx_TerDoc_Utility_Cli::log($e->getMessage());
+			}
+		}
 		else {
 			Tx_TerDoc_Utility_Cli::log('Unknown command');
 			Tx_TerDoc_Utility_Cli::log('Type option "--help" for usage.');
