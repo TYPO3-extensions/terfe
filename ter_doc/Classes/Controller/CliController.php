@@ -121,11 +121,12 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 			foreach ($extensions as $extension) {
 				foreach ($extension as $version) {
 					if (strlen($version['version'])) {
-						$this->extensionRepository->downloadExtension($extension['extensionkey'], $version, 'doc/manual.sxw');
+						$this->extensionRepository->downloadExtension($extension['extensionkey'], $version['version']);
 					}
 				}
 			}
 		}
+		unlink($this->settings['lockFile']);
 	}
 	
 	/**
@@ -175,7 +176,7 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 
 						// Extracting manual from t3x
 						Tx_TerDoc_Utility_Cli::log('   * Extracting "doc/manual.sxw" from extension ' . $extensionKey . ' (' . $version . ')');
-						$this->extensionRepository->downloadExtension($extensionKey, $version, 'doc/manual.sxw');
+						$this->extensionRepository->downloadExtension($extensionKey, $version);
 						$this->extensionRepository->extractT3x($extensionKey, $version, 'doc/manual.sxw', $errorCodes);
 						$this->extensionRepository->decompressManual($extensionKey, $version);
 
@@ -221,8 +222,9 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 					$this->extensionRepository->cleanUpAll();
 				}
 				Tx_TerDoc_Utility_Cli::log(strftime('%d.%m.%y %R') . ' done.');
-			} else
+			} else {
 				Tx_TerDoc_Utility_Cli::log('Extensions.xml was not modified since last run, so nothing to do - done.');
+			}
 
 			unlink($this->settings['lockFile']);
 		}
