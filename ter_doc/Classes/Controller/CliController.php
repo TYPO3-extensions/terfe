@@ -119,8 +119,11 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 
 			$extensions = $this->extensionRepository->findAll();
 			foreach ($extensions as $extension) {
-				print_r($extension);
-				exit();
+				foreach ($extension as $version) {
+					if (strlen($version['version'])) {
+						$this->extensionRepository->downloadExtension($extension['extensionkey'], $version, 'doc/manual.sxw');
+					}
+				}
 			}
 		}
 	}
@@ -172,7 +175,7 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 
 						// Extracting manual from t3x
 						Tx_TerDoc_Utility_Cli::log('   * Extracting "doc/manual.sxw" from extension ' . $extensionKey . ' (' . $version . ')');
-						$this->extensionRepository->fetchExtension($extensionKey, $version, 'doc/manual.sxw', $errorCodes);
+						$this->extensionRepository->downloadExtension($extensionKey, $version, 'doc/manual.sxw');
 						$this->extensionRepository->extractT3x($extensionKey, $version, 'doc/manual.sxw', $errorCodes);
 						$this->extensionRepository->decompressManual($extensionKey, $version);
 
