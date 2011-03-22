@@ -342,7 +342,7 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 
 				$t3xOnline = 'http://typo3.org' . str_replace($GLOBALS['_SERVER']['PWD'], '', $file);
 
-				Tx_TerDoc_Utility_Cli::log('   * Downloading online archive of ' . $t3xName);
+				Tx_TerDoc_Utility_Cli::log('   * Downloading from typo3.org: ' . $t3xName);
 				$data = file_get_contents($t3xOnline);
 				$result = file_put_contents($file, $data);
 				if (!$result) {
