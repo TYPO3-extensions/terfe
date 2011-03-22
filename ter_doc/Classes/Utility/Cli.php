@@ -78,9 +78,13 @@ class Tx_TerDoc_Utility_Cli {
 
 		// retrieve user configuration ...and throw error if configuration is not correct
 		$configurationArray = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['ter_doc']);
+		
+		// Make sure the configuration file exists
 		if (empty($configurationArray['typoscriptFile'])) {
 			throw new Exception('Exception thrown #1294655536 : no configuration file is defined. Update key "typoscriptFile" in EM', 1294655536);
 		}
+		$configurationArray['typoscriptFile'] = t3lib_div::getFileAbsFileName($configurationArray['typoscriptFile']);
+		
 		if (!is_file($configurationArray['typoscriptFile'])) {
 			throw new Exception('Exception thrown #1294657536: file does not exist "' . $configurationArray['typoscriptFile'] . '". Make sure key "typoscriptFile" in EM is correct', 1294657536);
 		}
@@ -155,9 +159,11 @@ class Tx_TerDoc_Utility_Cli {
 	 * @access	protected
 	 */
 	public static function removeDirRecursively($removePath) {
-
+	
+		// Debug message
+		// Tx_TerDoc_Utility_Cli::log(' Delete -> ' . $removePath);
 		if (! t3lib_div::validPathStr($removePath)) {
-			die($removePath . ' was not within ' . $removePath);
+			throw new Exception('Exception thrown #1300155944: not a valid path "' . $removePath . '"', 1300155944);
 		}
 
 		// Go through dirs:
@@ -166,7 +172,7 @@ class Tx_TerDoc_Utility_Cli {
 		if (is_array($dirs)) {
 			foreach ($dirs as $subdirs) {
 				if ($subdirs) {
-					self::removeDirRecursively($removePath . '/' . $subdirs . '/');
+					self::removeDirRecursively($removePath . '/' . $subdirs); # . '/'
 				}
 			}
 		}

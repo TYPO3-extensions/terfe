@@ -90,9 +90,17 @@ class Tx_TerDoc_Cli_Renderer {
 			} catch (Exception $e) {
 				Tx_TerDoc_Utility_Cli::log($e->getMessage());
 			}
-		} else {
+		}
+		elseif ($commands[0] == 'fetch') {
+			try {
+				$controller->fetchAction($arguments);
+			} catch (Exception $e) {
+				Tx_TerDoc_Utility_Cli::log($e->getMessage());
+			}
+		} 
+		else {
 			Tx_TerDoc_Utility_Cli::log('Unknown command');
-			Tx_TerDoc_Utility_Cli::log('Type "help" for usage.');
+			Tx_TerDoc_Utility_Cli::log('Type option "--help" for usage.');
 		}
 	}
 }

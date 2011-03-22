@@ -1,4 +1,4 @@
-# cat=basic//; type=string; label=TypoScript configuration based settings - path to the settings file which will override default configuration located in ter_doc/Configuration/TypoScript/static.ts
+# cat=basic//; type=string; label=TypoScript configuration settings: Path to the settings file which will override default configuration. ***Important!*** you should copy the file bellow into fileadmin/ter/configuration for example and *edit* values such as "repositoryDir"
 typoscriptFile = EXT:ter_doc/Configuration/TypoScript/static.ts
 
 # cat=basic//; type=string; label=OBSOLETE - Full path to the repository: Enter the full path to the local extension repository. Example: /var/www/fileadmin/ter/

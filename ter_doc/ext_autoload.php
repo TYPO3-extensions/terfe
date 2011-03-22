@@ -7,5 +7,6 @@ return array(
 	'tx_terdoc_utility_cli' => t3lib_extMgm::extPath('ter_doc').'Classes/Utility/Cli.php',
 	'tx_terdoc_controller_clicontroller' => t3lib_extMgm::extPath('ter_doc').'Classes/Controller/CliController.php',
 	'tx_terdoc_domain_repository_extensionrepository' => t3lib_extMgm::extPath('ter_doc').'Classes/Domain/Repository/ExtensionRepository.php',
+	'tx_terdoc_validator_environment' => t3lib_extMgm::extPath('ter_doc').'Classes/Validator/Environment.php',
 );
 ?>

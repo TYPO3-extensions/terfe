@@ -47,7 +47,6 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 	 */
 	public function initializeAction() {
 
-
 		// Define controller property here
 		$this->settings = Tx_TerDoc_Utility_Cli::getSettings();
 		$this->settings['repositoryDir'] = Tx_TerDoc_Utility_Cli::sanitizeDirectoryPath($this->settings['repositoryDir']);
@@ -65,10 +64,36 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 		// Initialize objects
 		$this->languageGuesserServiceObj = t3lib_div::makeInstanceService('textLang'); // Initialize language guessing service:
 		$this->extensionRepository = t3lib_div::makeInstance('Tx_TerDoc_Domain_Repository_ExtensionRepository', $this->settings, $this->arguments); // Initialize repository
-		// Makes sure the envionment is good and throw an error if that is not the case
-		$this->validateEnvironement();
+		$this->validator = t3lib_div::makeInstance('Tx_TerDoc_Validator_Environment', $this->settings, $this->arguments); // Initialize repository
 	}
 
+	/**
+	 * Fetch action for this controller. Displays a list of addresses.
+	 *
+	 * @param  array $arguments list of possible arguments
+	 * @return void
+	 */
+	public function fetchAction($arguments) {
+		// Options  coming from the CLI
+		$this->arguments = $arguments;
+
+		$this->initializeAction();
+		$this->validator->validateFileStructure();
+		
+		// fetch content
+		$content = file_get_contents('http://typo3.org/fileadmin/ter/extensions.xml.gz');
+		
+		// write content
+		$datasource = $this->settings['repositoryDir'] . 'extensions.xml.gz';
+		$result = file_put_contents($datasource, $content);
+		
+		if (! $result) {
+			throw new Exception('Exception thrown #1300100506: not possible to write datasource at "' . $datasource . '" or to fetch the datasource from "' . $content . '"', 1300100506);
+		}
+		
+		Tx_TerDoc_Utility_Cli::log('Data Source has been updated with success');
+	}
+	
 	/**
 	 * Index action for this controller. Displays a list of addresses.
 	 *
@@ -81,6 +106,10 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 		$this->arguments = $arguments;
 
 		$this->initializeAction();
+		
+		// Makes sure the envionment is good and throw an error if that is not the case
+		$this->validator->validateFileStructure();
+		$this->validator->validateDataSource();
 
 		if (!$this->isLocked() || $this->arguments['force']) {
 			// create a lock
@@ -112,7 +141,9 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 
 						// Extracting manual from t3x
 						Tx_TerDoc_Utility_Cli::log('   * Extracting "doc/manual.sxw" from extension ' . $extensionKey . ' (' . $version . ')');
-						$this->extensionRepository->extract($extensionKey, $version, 'doc/manual.sxw', $errorCodes);
+						$this->extensionRepository->fetchT3x($extensionKey, $version, 'doc/manual.sxw', $errorCodes);
+						$this->extensionRepository->extractT3x($extensionKey, $version, 'doc/manual.sxw', $errorCodes);
+						$this->extensionRepository->decompressManual($extensionKey, $version);
 
 						// Initialize service
 						$xslObject = t3lib_div::makeInstanceService('xsl', 'xslt');
@@ -148,7 +179,10 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 						foreach ($transformationErrorCodes as $errorCode) {
 							$this->extensionRepository->log($extensionKey, $version, $errorCode);
 						}
-						Tx_TerDoc_Utility_Cli::log('   * Error code(s): ' . implode(',', $transformationErrorCodes));
+						
+						if (!empty($transformationErrorCodes)) {						
+							Tx_TerDoc_Utility_Cli::log('   * Error code(s): ' . implode(',', $transformationErrorCodes));
+						}
 					}
 					$this->extensionRepository->cleanUpAll();
 				}
@@ -159,30 +193,7 @@ class Tx_TerDoc_Controller_CliController extends Tx_Extbase_MVC_Controller_Actio
 			unlink($this->settings['lockFile']);
 		}
 		else {
-			Tx_TerDoc_Utility_Cli::log('... aborting - another process seems to render documents right now!');
-		}
-	}
-
-	/**
-	 * Validate the running environment. Check whether the path are correct and if some directories exist
-	 *
-	 * @return void
-	 */
-	protected function validateEnvironement() {
-		// if home directory is not defined, create this one now.
-		if (!is_dir($this->settings['documentsCache'])) {
-			// @todo: check whether a set up action would be necessary
-			//throw new Exception('Exception thrown #1294746784: temp directory does not exist "' . $this->settings['documentsCache'] . '". Run command setUp', 1294746784);
-			try {
-				mkdir($this->settings['documentsCache'], 0777, TRUE);
-			} catch (Exception $e) {
-				Tx_TerDoc_Utility_Cli::log($e->getMessage());
-			}
-		}
-
-		// Check if configuration is valid ...and throw error if that is not the case
-		if (!is_dir($this->settings['repositoryDir'])) {
-			throw new Exception('Exception thrown #1294657643: directory does not exist "' . $this->settings['repositoryDir'] . '". Make sure key "repositoryDir" is properly defined in file ' . $configurationArray['typoscriptFile'], 1294657643);
+			Tx_TerDoc_Utility_Cli::log('... aborting - another process seems to render documents right now! Try running with option "--force" enabled');
 		}
 	}
 
@@ -229,6 +240,7 @@ options:
 
 commands:
     render                - render documentation cache
+    fetch                 - fetch / update the latest datasource of extensions from typo3.org. Basically, this is in the form of a XML file.
 EOF;
 
 		Tx_TerDoc_Utility_Cli::log($message);
