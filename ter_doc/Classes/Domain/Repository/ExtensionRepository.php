@@ -344,7 +344,6 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 		foreach ($fileExtensions as $fileExtension) {
 
 			$file = Tx_TerDoc_Utility_Cli::getExtensionVersionPathAndBaseName($this->settings['repositoryDir'], $extensionKey, $version) . $fileExtension;
-			print_r($file );
 
 			// special case -> download the t3x archive when not already present on the harddrive.
 			if (!file_exists($file)) {
@@ -363,7 +362,6 @@ class Tx_TerDoc_Domain_Repository_ExtensionRepository {
 				}
 			}
 		}
-		exit();
 	}
 	 
 	/**
