@@ -9,7 +9,8 @@
 		<p class="description">{extension.lastVersion.description}</p>
 		<p class="categories"><f:for each="{extension.categories}" as="{category}">{category.title}</f:for></p>
 		<p class="tags"><f:for each="{extension.tags}" as="{tag}">{tag.title}</f:for></p>
-		<p class="download"><f:link.action action="download" arguments="{version : extension.lastVersion}"><f:translate key="download"/></f:link.action></p>
+		<p class="download_t3x"><f:link.action action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></p>
+		<p class="download_zip"><f:link.action action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></p>
 	</div>
 	<hr />
 </f:for>

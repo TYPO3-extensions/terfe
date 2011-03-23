@@ -27,6 +27,7 @@
 		'tx_terfe2_utility_session' => $extensionClassesPath . 'Utility/Session.php',
 		'tx_terfe2_utility_soap' => $extensionClassesPath . 'Utility/Soap.php',
 		'tx_terfe2_utility_typoscript' => $extensionClassesPath . 'Utility/TypoScript.php',
+		'tx_terfe2_utility_zip' => $extensionClassesPath . 'Utility/Zip.php',
 		'tx_terfe2_view_extension_listjson' => $extensionClassesPath . 'View/Extension/ListJson.php',
 		'tx_terfe2_view_extension_listlatestjson' => $extensionClassesPath . 'View/Extension/ListLatestJson.php',
 		'tx_terfe2_viewhelpers_datetimeviewhelper' => $extensionClassesPath . 'ViewHelpers/DateTimeViewHelper.php',

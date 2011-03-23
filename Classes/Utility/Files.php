@@ -279,7 +279,7 @@
 
 		/**
 		 * Check if a URL is located to current server
-		 * 
+		 *
 		 * @param string $urlToFile URL of the file
 		 * @return boolean TRUE if given file is local
 		 */
@@ -290,10 +290,10 @@
 
 		/**
 		 * Returns local filename from URL if located to current server
-		 * 
+		 *
 		 * Required to get absolute path on filesystem if php has no rights
 		 * to fetch a file via URL from current server (TYPO3_REQUEST_HOST).
-		 * 
+		 *
 		 * @param string $urlToFile URL of the file
 		 * @return string Absolute path to file
 		 */
@@ -304,47 +304,35 @@
 
 
 		/**
-		 * Creates a ZIP file from given extension T3X file
-		 * 
-		 * TODO: Create ext_emconf.php
-		 * 
-		 * @param string $filename Path to the T3X file
-		 * @param string $overwrite Overwrite file if exists
-		 * @return string File name of the ZIP file
+		 * Compiles the ext_emconf.php file
+		 *
+		 * @param string $extKey Extension key
+		 * @param array $emConfArray Content of the file
+		 * @return string PHP file content, ready to write to ext_emconf.php file
+		 * @see tx_em_Extensions_Details::construct_ext_emconf_file()
 		 */
-		static public function createT3xZipArchive($filename, $overwrite = FALSE) {
-			if (!class_exists('ZipArchive')) {
-				throw new Exception('Please make sure that php zip extension is installed');
-			}
-			if (empty($filename)) {
-				return '';
+		static public function createExtEmconfFile($extKey, array $emConfArray) {
+			if (!t3lib_extMgm::isLoaded('em')) {
+				throw new Exception('System extension "em" is required to generate ext_emconf.php');
 			}
 
-			// Get file names
-			$archiveName = substr(basename($filename), 0, strrpos(basename($filename), '.')) . '.zip';
-			$tempFile = self::getAbsDirectory('typo3temp/') . $archiveName;
+			$content = '<?php
 
-			// Check if file was cached
-			if ($overwrite || !self::fileExists($tempFile)) {
-				// Unpack extension files
-				$content = self::unpackT3xFile($filename);
-				$createMode = ($overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE);
-				if (empty($content['FILES']) || !is_array($content['FILES'])) {
-					return '';
-				}
+########################################################################
+# Extension Manager/Repository config file for ext "' . $extKey . '".
+#
+# Auto generated ' . date('d-m-Y H:i') . '
+#
+# Manual updates:
+# Only the data in the array - everything else is removed by next
+# writing. "version" and "dependencies" must not be touched!
+########################################################################
 
-				// Create ZIP archive
-				$zipFile = new ZipArchive();
-				$zipFile->open($tempFile, $createMode);
-				foreach ($content['FILES'] as $fileInfo) {
-					if (!empty($fileInfo['name']) && isset($fileInfo['content'])) {
-						$zipFile->addFromString($fileInfo['name'], $fileInfo['content']);
-					}
-				}
-				$zipFile->close();
-			}
+$EM_CONF[$_EXTKEY] = ' . tx_em_Tools::arrayToCode($emConfArray, 0) . ';
 
-			return $tempFile;
+?>';
+
+			return str_replace(CR, '', $content);
 		}
 
 	}

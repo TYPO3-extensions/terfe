@@ -230,9 +230,10 @@
 		 *     or find an other way to send external file to browser
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing Version object
+		 * @param string $format Format of the file output
 		 * @return void
 		 */
-		public function downloadAction(Tx_TerFe2_Domain_Model_Version $version) {
+		public function downloadAction(Tx_TerFe2_Domain_Model_Version $version, $format = 't3x') {
 			// Load Extension Provider
 			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 			$extensionProvider = $objectManager->get('Tx_TerFe2_ExtensionProvider_ExtensionProvider');
@@ -265,13 +266,12 @@
 				Tx_TerFe2_Utility_Session::save();
 			}
 
-			// Download as ZIP file
-			//$fileName = Tx_TerFe2_Utility_Files::createT3xZipArchive($urlToFile);
-			//Tx_TerFe2_Utility_Files::transferFile($fileName, basename($fileName));
-			//$this->redirect('index');
-
 			// Send file to browser
-			$newFileName = $extensionProvider->getExtensionFileName($version, 't3x');
+			$format = (strtolower($format) == 'zip' ? 'zip' : 't3x');
+			$newFileName = $extensionProvider->getExtensionFileName($version, $format);
+			if ($format == 'zip') {
+				$urlToFile = Tx_TerFe2_Utility_Zip::convertT3xToZip($urlToFile);
+			}
 			Tx_TerFe2_Utility_Files::transferFile($urlToFile, $newFileName);
 
 			// Fallback

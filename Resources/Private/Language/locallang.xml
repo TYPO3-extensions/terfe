@@ -102,7 +102,8 @@
 			<label index="create">Create</label>
 			<label index="edit">Edit</label>
 			<label index="delete">Delete</label>
-			<label index="download">» Download Extension</label>
+			<label index="download_t3x">» Download T3X</label>
+			<label index="download_zip">» Download ZIP</label>
 		</languageKey>
 	</data>
 </T3locallang>
