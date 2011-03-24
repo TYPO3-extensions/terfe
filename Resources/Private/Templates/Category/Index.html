@@ -1,24 +1,8 @@
 <f:layout name="Default" />
 
 <f:section name="main">
-	<table cellpadding="4" style="border:1px solid black;">
-		<tr>
-			<th><f:translate key="tx_terfe2_domain_model_category.title" /></th>
-			<th><f:translate key="tx_terfe2_domain_model_category.description" /></th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
-		</tr>
-
-		<f:for each="{categories}" as="category">
-			<tr>
-				<td>{category.title}</td>
-				<td>{category.description}</td>
-				<td><f:link.action action="edit" arguments="{category : category}"><f:translate key="edit"/></f:link.action></td>
-				<td><f:link.action action="delete" arguments="{category : category}"><f:translate key="delete"/></f:link.action></td>
-			</tr>
-		</f:for>
-	</table>
+	<f:render partial="CategoryList" arguments="{categories: categories}"/>
 	<br />
 
-	<f:link.action action="new"><f:translate key="create_category"/></f:link.action>
+	<f:link.action controller="Category" action="new"><f:translate key="create_category"/></f:link.action>
 </f:section>
