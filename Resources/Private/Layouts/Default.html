@@ -7,27 +7,7 @@
 			<f:render section="main" />
 		</div>
 		<div class="tx_terfe2_additional">
-			<h2><f:translate key="header.categories"/></h2>
-			<f:render partial="CategoryMenu" arguments="{categories: categories}"/><br />
-
-			<h2><f:translate key="header.tags"/></h2>
-			<f:render partial="TagCloud" arguments="{tags: tags}"/><br />
-
-			<h2><f:translate key="header.random_authors"/></h2>
-			<f:render partial="AuthorMenu" arguments="{authors: randomAuthors}"/><br />
-
-			<h2><f:translate key="header.quicklinks"/></h2>
-			<ul>
-				<li><f:link.action controller="Extension" action="listLatest"><f:translate key="link.latest_extensions"/></f:link.action></li>
-				<li><f:link.action controller="Extension" action="listLatest" format="rss" pageType="{settings.rssOutput.typeNum}" target="_blank"><f:translate key="link.latest_extensions.rss"/></f:link.action></li>
-				<li><f:link.action controller="Extension" action="listLatest" format="json" pageType="{settings.jsonOutput.typeNum}" target="_blank"><f:translate key="link.latest_extensions.json"/></f:link.action></li>
-				<li><f:link.action controller="Extension" action="list"><f:translate key="link.all_extensions"/></f:link.action></li>
-				<li><f:link.action controller="Extension" action="list" format="rss" pageType="{settings.rssOutput.typeNum}" target="_blank"><f:translate key="link.all_extensions.rss"/></f:link.action></li>
-				<li><f:link.action controller="Extension" action="list" format="json" pageType="{settings.jsonOutput.typeNum}" target="_blank"><f:translate key="link.all_extensions.json"/></f:link.action></li>
-				<li><f:link.action controller="Category" action="index"><f:translate key="link.all_categories"/></f:link.action></li>
-				<li><f:link.action controller="Tag" action="index"><f:translate key="link.all_tags"/></f:link.action></li>
-				<li><f:link.action controller="Author" action="index"><f:translate key="link.all_authors"/></f:link.action></li>
-			</ul>
+			<f:render partial="QuickMenu"/>
 		</div>
 		<br class="tx_terfe2_clear" />
 	</div>
