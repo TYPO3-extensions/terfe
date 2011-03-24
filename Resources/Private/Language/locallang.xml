@@ -76,6 +76,7 @@
 			<label index="msg.file_not_found">File not found</label>
 			<label index="msg.file_hash_not_equal">File was changed and is therefore corrupt</label>
 			<label index="msg.no_entries_found">No entries found</label>
+			<label index="msg.could_not_transfer_file">File download is broken</label>
 
 			<label index="header.latest_extensions">Latest Extensions</label>
 			<label index="header.top_rated_extensions">Top rated Extensions</label>

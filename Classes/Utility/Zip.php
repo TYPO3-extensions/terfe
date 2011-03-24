@@ -54,7 +54,7 @@
 			$createMode = ($overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE);
 			$zipArchive = new ZipArchive();
 			if (empty($zipArchive) || !$zipArchive->open($fileName, $createMode)) {
-				return FALSE;
+				throw new Exception('Could not open ZIP file to write');
 			}
 
 			// Add files
@@ -63,13 +63,13 @@
 					continue;
 				}
 				if (!$zipArchive->addFromString($path, (string) $content)) {
-					return FALSE;
+					throw new Exception('Could not write file "' . $path . '" into ZIP file');
 				}
 			}
 
 			// Save and close
 			if (!$zipArchive->close()) {
-				return FALSE;
+				throw new Exception('Could not close ZIP file');
 			}
 
 			return TRUE;
@@ -84,7 +84,7 @@
 		 */
 		static public function convertT3xToZip($filename) {
 			if (empty($filename)) {
-				return '';
+				throw new Exception('No valid T3X file given to convert to ZIP file');
 			}
 
 			// Get archive name
@@ -103,9 +103,6 @@
 				foreach ($content['FILES'] as $fileInfo) {
 					$filesArray[$fileInfo['name']] = $fileInfo['content'];
 				}
-			}
-			if (empty($filesArray)) {
-				return '';
 			}
 
 			// Create ext_emconf.php

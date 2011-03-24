@@ -298,7 +298,9 @@
 			if ($format == 'zip') {
 				$urlToFile = Tx_TerFe2_Utility_Zip::convertT3xToZip($urlToFile);
 			}
-			Tx_TerFe2_Utility_Files::transferFile($urlToFile, $newFileName);
+			if (!Tx_TerFe2_Utility_Files::transferFile($urlToFile, $newFileName)) {
+				$this->flashMessageContainer->add($this->translate('msg.could_not_transfer_file'));
+			}
 
 			// Fallback
 			$this->redirect('index');
