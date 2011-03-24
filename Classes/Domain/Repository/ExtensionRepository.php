@@ -68,6 +68,24 @@
 
 
 		/**
+		 * Returns top rated extensions
+		 * 
+		 * @param integer $topRatedCount Count of extensions
+		 * @param boolean $rawResult Return raw data
+		 * @return array An array of extensions
+		 */
+		public function findTopRated($topRatedCount, $rawResult = FALSE) {
+			$query = $this->createQuery();
+			$query->getQuerySettings()->setReturnRawQueryResult($rawResult);
+			$query->setLimit((int) $topRatedCount);
+			$query->setOrderings(
+				array('lastVersion.experience.rating' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+			);
+			return $query->execute();
+		}
+
+
+		/**
 		 * Returns all extensions in a category
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to search in
@@ -91,10 +109,25 @@
 		 */
 		public function findByTag(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$query = $this->createQuery();
-			//$query->equals('tags.title', $tag->getTitle());
 			$query->matching($query->contains('tags', $tag));
 			$query->setOrderings(
 				array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+			);
+			return $query->execute();
+		}
+
+
+		/**
+		 * Returns all extensions by an author
+		 * 
+		 * @param Tx_TerFe2_Domain_Model_Author $author The Author to search for
+		 * @return array An array of extensions
+		 */
+		public function findByAuthor(Tx_TerFe2_Domain_Model_Author $author) {
+			$query = $this->createQuery();
+			$query->matching($query->contains('versions.author', $author));
+			$query->setOrderings(
+				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
 			);
 			return $query->execute();
 		}

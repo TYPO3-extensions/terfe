@@ -83,6 +83,12 @@
 		 */
 		protected $lastVersion;
 
+		/**
+		 * frontendUser
+		 * @var Tx_Extbase_Domain_Model_FrontendUser
+		 */
+		protected $frontendUser;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -314,6 +320,27 @@
 		 */
 		public function getLastVersion() {
 			return $this->lastVersion;
+		}
+
+
+		/**
+		 * Setter for frontendUser
+		 *
+		 * @param Tx_Extbase_Domain_Model_FrontendUser $frontendUser Frontend user
+		 * @return void
+		 */
+		public function setFrontendUser(Tx_Extbase_Domain_Model_FrontendUser $frontendUser) {
+			$this->frontendUser = $frontendUser;
+		}
+
+
+		/**
+		 * Getter for frontendUser
+		 *
+		 * @return Tx_Extbase_Domain_Model_FrontendUser Frontend user
+		 */
+		public function getFrontendUser() {
+			return $this->frontendUser;
 		}
 
 	}

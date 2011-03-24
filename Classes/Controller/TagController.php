@@ -81,7 +81,7 @@
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Tag $newTag) {
 			$this->tagRepository->add($newTag);
-			$this->flashMessageContainer->add($this->translate('msg_tag_created'));
+			$this->flashMessageContainer->add($this->translate('msg.tag_created'));
 			$this->redirect('index');
 		}
 
@@ -106,7 +106,7 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$this->tagRepository->update($tag);
-			$this->flashMessageContainer->add($this->translate('msg_tag_updated'));
+			$this->flashMessageContainer->add($this->translate('msg.tag_updated'));
 			$this->redirect('index');
 		}
 
@@ -119,7 +119,7 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$this->tagRepository->remove($tag);
-			$this->flashMessageContainer->add($this->translate('msg_tag_deleted'));
+			$this->flashMessageContainer->add($this->translate('msg.tag_deleted'));
 			$this->redirect('index');
 		}
 

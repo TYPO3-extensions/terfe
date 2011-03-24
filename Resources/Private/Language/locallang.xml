@@ -60,21 +60,41 @@
 			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
 
-			<label index="msg_extension_created">Extension created</label>
-			<label index="msg_extension_updated">Extension updated</label>
-			<label index="msg_extension_deleted">Extension deleted</label>
-			<label index="msg_category_created">Category created</label>
-			<label index="msg_category_updated">Category updated</label>
-			<label index="msg_category_deleted">Category deleted</label>
-			<label index="msg_tag_created">Tag created</label>
-			<label index="msg_tag_updated">Tag updated</label>
-			<label index="msg_tag_deleted">Tag deleted</label>
-			<label index="msg_author_created">Author created</label>
-			<label index="msg_author_updated">Author updated</label>
-			<label index="msg_author_deleted">Author deleted</label>
-			<label index="msg_file_not_valid">Given file is not valid</label>
-			<label index="msg_file_not_found">File not found</label>
-			<label index="msg_file_hash_not_equal">File was changed and is therefore corrupt</label>
+			<label index="msg.extension_created">Extension created</label>
+			<label index="msg.extension_updated">Extension updated</label>
+			<label index="msg.extension_deleted">Extension deleted</label>
+			<label index="msg.category_created">Category created</label>
+			<label index="msg.category_updated">Category updated</label>
+			<label index="msg.category_deleted">Category deleted</label>
+			<label index="msg.tag_created">Tag created</label>
+			<label index="msg.tag_updated">Tag updated</label>
+			<label index="msg.tag_deleted">Tag deleted</label>
+			<label index="msg.author_created">Author created</label>
+			<label index="msg.author_updated">Author updated</label>
+			<label index="msg.author_deleted">Author deleted</label>
+			<label index="msg.file_not_valid">Given file is not valid</label>
+			<label index="msg.file_not_found">File not found</label>
+			<label index="msg.file_hash_not_equal">File was changed and is therefore corrupt</label>
+			<label index="msg.no_entries_found">No entries found</label>
+
+			<label index="header.latest_extensions">Latest Extensions</label>
+			<label index="header.top_rated_extensions">Top rated Extensions</label>
+			<label index="header.categories">All categories</label>
+			<label index="header.tags">All tags</label>
+			<label index="header.random_authors">Random Authors</label>
+			<label index="header.quicklinks">Quicklinks</label>
+			<label index="header.json_output">JSON Output</label>
+			<label index="header.rss_output">RSS Output</label>
+
+			<label index="link.latest_extensions">Latest Extensions</label>
+			<label index="link.latest_extensions.rss">Latest Extensions (RSS)</label>
+			<label index="link.latest_extensions.json">Latest Extensions (JSON)</label>
+			<label index="link.all_extensions">All Extensions</label>
+			<label index="link.all_extensions.rss">All Extensions (RSS)</label>
+			<label index="link.all_extensions.json">All Extensions (JSON)</label>
+			<label index="link.all_categories">All Categories</label>
+			<label index="link.all_tags">All Tags</label>
+			<label index="link.all_authors">All Authors</label>
 
 			<label index="list_all_extensions">List of all extensions</label>
 			<label index="list_latest_extensions">List of new and updated extensions</label>

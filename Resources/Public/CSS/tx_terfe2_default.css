@@ -1,0 +1,44 @@
+div.tx_terfe2 {
+
+}
+
+div.tx_terfe2_messages {
+
+}
+
+div.tx_terfe2_content {
+  clear:both;
+}
+
+div.tx_terfe2_main {
+  width: 77%;
+  float: left;
+  margin-right: 3%;
+}
+
+div.tx_terfe2_additional {
+  width: 17%;
+  float: left;
+}
+
+div.tx_terfe2_footer {
+  
+}
+
+div.tx_terfe2_footer li {
+  float: left;
+  margin-right: 12px;
+}
+
+div.tx_terfe2 br.clear {
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  clear: both;
+}
+
+div.tx_terfe2 li {
+  list-style-type: square;
+}

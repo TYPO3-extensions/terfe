@@ -1,10 +1,16 @@
 # ======================================================================
-# Default configuration ot the extension "ter_fe2"
+# Default configuration of the extension "ter_fe2"
 # ======================================================================
 plugin.tx_terfe2 {
 	settings {
-		# cat=TER Frontend/settings/100; type=int+; label=Count of results in latest Extensions overview
-		latestCount = 20
+		# cat=TER Frontend/settings/100; type=int+; label=Count of latest Extensions
+		latestCount = 10
+
+		# cat=TER Frontend/settings/110; type=int+; label=Count of top rated Extensions
+		topRatedCount = 10
+
+		# cat=TER Frontend/settings/120; type=int+; label=Count of random Authors
+		randomAuthorCount = 10
 
 		fileProvider {
 			# cat=TER Frontend/settings/200; type=string; label=Class name of the Filesystem Extension Provider

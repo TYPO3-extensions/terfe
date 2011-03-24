@@ -32,5 +32,26 @@
 	 */
 	class Tx_TerFe2_Domain_Repository_AuthorRepository extends Tx_Extbase_Persistence_Repository {
 
+		/**
+		 * Returns random authors
+		 * 
+		 * @param integer $randomAuthorCount Count of authors
+		 * @return array An array of extensions
+		 */
+		public function findRandom($randomAuthorCount) {
+			$query = $this->createQuery();
+			$query->setLimit((int) $randomAuthorCount);
+
+			// Workaround for random ordering until Extbase doesn't support this
+			// See: http://lists.typo3.org/pipermail/typo3-project-typo3v4mvc/2010-July/005870.html
+			$backend = $this->objectManager->get('Tx_Extbase_Persistence_Storage_Typo3DbBackend');
+			$parameters = array();
+			$statementParts = $backend->parseQuery($query, $parameters);
+			$statementParts['orderings'][] = ' RAND()';
+			$statement = $backend->buildQuery($statementParts, $parameters);
+			$query->statement($statement, $parameters);
+
+			return $query->execute();
+		}
 	}
 ?>

@@ -16,6 +16,7 @@
 			<label index="tags.description">tag</label>
 			<label index="versions.description">version</label>
 			<label index="last_version.description">lastVersion</label>
+			<label index="frontend_user.description">frontendUser</label>
 		</languageKey>
 	</data>
 </T3locallang>

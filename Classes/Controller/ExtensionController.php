@@ -48,6 +48,11 @@
 		 */
 		protected $tagRepository;
 
+		/**
+		 * @var Tx_TerFe2_Domain_Repository_AuthorRepository
+		 */
+		protected $authorRepository;
+
 
 		/**
 		 * Initializes the current action
@@ -58,6 +63,7 @@
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->categoryRepository  = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
 			$this->tagRepository       = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_TagRepository');
+			$this->authorRepository    = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_AuthorRepository');
 
 			// Pre-parse TypoScript setup
 			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
@@ -65,13 +71,33 @@
 
 
 		/**
-		 * Index action
+		 * Index action, shows an overview
 		 *
 		 * @return void
 		 */
 		public function indexAction() {
-			// Can be replaced by another action/view later
-			//$this->forward('listLatest');
+			// Get latest extensions
+			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 10);
+			$latestExtensions = $this->extensionRepository->findNewAndUpdated($latestCount);
+			$this->view->assign('latestExtensions', $latestExtensions);
+
+			// Get top rated extensions
+			$topRatedCount = (!empty($this->settings['topRatedCount']) ? $this->settings['topRatedCount'] : 10);
+			$topRatedExtensions = $this->extensionRepository->findTopRated($topRatedCount);
+			$this->view->assign('topRatedExtensions', $topRatedExtensions);
+
+			// Get all categories
+			$categories = $this->categoryRepository->findAll();
+			$this->view->assign('categories', $categories);
+
+			// Get all tags
+			$tags = $this->tagRepository->findAll();
+			$this->view->assign('tags', $tags);
+
+			// Get random authors
+			$randomAuthorCount = (!empty($this->settings['randomAuthorCount']) ? $this->settings['randomAuthorCount'] : 10);
+			$randomAuthors = $this->authorRepository->findRandom($randomAuthorCount);
+			$this->view->assign('randomAuthors', $randomAuthors);
 		}
 
 
@@ -154,7 +180,7 @@
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
 			$this->extensionRepository->add($newExtension);
-			$this->flashMessageContainer->add($this->translate('msg_extension_created'));
+			$this->flashMessageContainer->add($this->translate('msg.extension_created'));
 			$this->redirect('index');
 		}
 
@@ -179,7 +205,7 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->update($extension);
-			$this->flashMessageContainer->add($this->translate('msg_extension_updated'));
+			$this->flashMessageContainer->add($this->translate('msg.extension_updated'));
 			$this->redirect('index');
 		}
 
@@ -192,7 +218,7 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->remove($extension);
-			$this->flashMessageContainer->add($this->translate('msg_extension_deleted'));
+			$this->flashMessageContainer->add($this->translate('msg.extension_deleted'));
 			$this->redirect('index');
 		}
 
@@ -215,7 +241,7 @@
 				$extension->addVersion($newVersion);
 				$extension->setLastUpdate(new DateTime());
 			} else {
-				$this->flashMessageContainer->add($this->translate('msg_file_not_valid'));
+				$this->flashMessageContainer->add($this->translate('msg.file_not_valid'));
 			}
 
 			$this->redirect('index');
@@ -241,14 +267,14 @@
 			// Get URL to file
 			$urlToFile = $extensionProvider->getExtensionFile($version);
 			if (empty($urlToFile)) {
-				$this->flashMessageContainer->add($this->translate('msg_file_not_found'));
+				$this->flashMessageContainer->add($this->translate('msg.file_not_found'));
 				$this->redirect('index');
 			}
 
 			// Check file hash
 			$fileHash = Tx_TerFe2_Utility_Files::getFileHash($urlToFile);
 			if ($fileHash != $version->getFileHash()) {
-				$this->flashMessageContainer->add($this->translate('msg_file_hash_not_equal'));
+				$this->flashMessageContainer->add($this->translate('msg.file_hash_not_equal'));
 				$this->redirect('index');
 			}
 

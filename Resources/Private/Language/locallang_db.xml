@@ -15,6 +15,7 @@
 			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
 			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
 			<label index="tx_terfe2_domain_model_extension.last_version">Last Version</label>
+			<label index="tx_terfe2_domain_model_extension.frontend_user">Frontend User</label>
 
 			<label index="tx_terfe2_domain_model_category">Category</label>
 			<label index="tx_terfe2_domain_model_category.title">Title</label>

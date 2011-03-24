@@ -81,7 +81,7 @@
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Category $newCategory) {
 			$this->categoryRepository->add($newCategory);
-			$this->flashMessageContainer->add($this->translate('msg_category_created'));
+			$this->flashMessageContainer->add($this->translate('msg.category_created'));
 			$this->redirect('index');
 		}
 
@@ -106,7 +106,7 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Category $category) {
 			$this->categoryRepository->update($category);
-			$this->flashMessageContainer->add($this->translate('msg_category_updated'));
+			$this->flashMessageContainer->add($this->translate('msg.category_updated'));
 			$this->redirect('index');
 		}
 
@@ -119,7 +119,7 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Category $category) {
 			$this->categoryRepository->remove($category);
-			$this->flashMessageContainer->add($this->translate('msg_category_deleted'));
+			$this->flashMessageContainer->add($this->translate('msg.category_deleted'));
 			$this->redirect('index');
 		}
 

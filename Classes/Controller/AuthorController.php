@@ -62,6 +62,17 @@
 
 
 		/**
+		 * Action that displays a single Author
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Author $author The Author to display
+		 * @return void
+		 */
+		public function showAction(Tx_TerFe2_Domain_Model_Author $author) {
+			$this->view->assign('author', $author);
+		}
+
+
+		/**
 		 * Displays a form for creating a new Author
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Author $newAuthor A fresh Author object taken as a basis for the rendering
@@ -81,7 +92,7 @@
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Author $newAuthor) {
 			$this->authorRepository->add($newAuthor);
-			$this->flashMessageContainer->add($this->translate('msg_author_created'));
+			$this->flashMessageContainer->add($this->translate('msg.author_created'));
 			$this->redirect('index');
 		}
 
@@ -106,7 +117,7 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Author $author) {
 			$this->authorRepository->update($author);
-			$this->flashMessageContainer->add($this->translate('msg_author_updated'));
+			$this->flashMessageContainer->add($this->translate('msg.author_updated'));
 			$this->redirect('index');
 		}
 
@@ -119,7 +130,7 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Author $author) {
 			$this->authorRepository->remove($author);
-			$this->flashMessageContainer->add($this->translate('msg_author_deleted'));
+			$this->flashMessageContainer->add($this->translate('msg.author_deleted'));
 			$this->redirect('index');
 		}
 

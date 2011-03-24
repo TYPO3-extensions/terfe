@@ -254,6 +254,9 @@
 		/**
 		 * Load Extension object if already exists, else create new one
 		 *
+		 * TODO: Add current frontend user to extension dataset while
+		 *       creating extension via frontend form
+		 *
 		 * @param array $extInfo Extension information
 		 * @return Tx_TerFe2_Domain_Model_Extension New or existing Extension object
 		 */
@@ -268,6 +271,7 @@
 				$extension->setHudsonLink($extInfo['hudsonLink']);
 				$extension->setLastUpload($dateTime);
 				$extension->setLastMaintained($dateTime);
+				//$extension->setFrontendUser($frontendUser);
 			}
 
 			return $extension;

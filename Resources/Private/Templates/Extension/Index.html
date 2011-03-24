@@ -1,18 +1,9 @@
 <f:layout name="Default" />
 
 <f:section name="main">
-	<h3>Basic Actions</h3>
-	<f:link.action action="listLatest">&raquo; New and Updated Extensions</f:link.action><br />
-	<f:link.action action="list">&raquo; All Extensions</f:link.action><br />
-	<f:link.action controller="Category" action="index">&raquo; Categories</f:link.action><br />
-	<f:link.action controller="Tag" action="index">&raquo; Tags</f:link.action><br />
-	<f:link.action controller="Author" action="index">&raquo; Authors</f:link.action><br />
+	<h2><f:translate key="header.latest_extensions"/></h2>
+	<f:render partial="ExtensionList" arguments="{extensions: latestExtensions}"/><br />
 
-	<h3>JSON Output</h3>
-	<f:link.action action="listLatest" format="json" pageType="{settings.jsonOutput.typeNum}">&raquo; New and Updated Extensions</f:link.action><br />
-	<f:link.action action="list" format="json" pageType="{settings.jsonOutput.typeNum}">&raquo; All Extensions</f:link.action><br />
-
-	<h3>RSS Output</h3>
-	<f:link.action action="listLatest" format="rss" pageType="{settings.rssOutput.typeNum}">&raquo; New and Updated Extensions</f:link.action><br />
-	<f:link.action action="list" format="rss" pageType="{settings.rssOutput.typeNum}">&raquo; All Extensions</f:link.action><br />
+	<h2><f:translate key="header.top_rated_extensions"/></h2>
+	<f:render partial="ExtensionList" arguments="{extensions: topRatedExtensions}"/><br />
 </f:section>
