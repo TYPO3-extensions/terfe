@@ -6,13 +6,13 @@
 			<div class="extension">
 				<h3>
 					<span class="icon"><terfe2:extIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}"></terfe2:extIcon></span>
-					<f:link.action action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action>
+					<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action>
 				</h3>
 				<p class="description">{extension.lastVersion.description}</p>
 				<p class="categories"><f:for each="{extension.categories}" as="{category}">{category.title}</f:for></p>
 				<p class="tags"><f:for each="{extension.tags}" as="{tag}">{tag.title}</f:for></p>
-				<p class="download_t3x"><f:link.action action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></p>
-				<p class="download_zip"><f:link.action action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></p>
+				<p class="download_t3x"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></p>
+				<p class="download_zip"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></p>
 			</div>
 			<hr />
 		</f:for>
