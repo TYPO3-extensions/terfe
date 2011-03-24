@@ -2,7 +2,7 @@
 	<f:if condition="{categories}">
 		<f:then>
 			<f:for each="{categories}" as="category">
-				<li class="category">
+				<li class="tx_terfe2_category">
 					<f:link.action controller="Category" action="show" arguments="{category : category}">{category.title}</f:link.action>
 				</li>
 			</f:for>

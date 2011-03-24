@@ -16,5 +16,5 @@
 		<f:form.submit value="{f:translate(key:'edit')}" />
 	</f:form>
 
-	<f:link.action action="index"><f:translate key="back_to_list"/></f:link.action>
+	<f:link.action controller="Extension" action="show" arguments="{extension : extension}"><f:translate key="back_to_detail"/></f:link.action>
 </f:section>

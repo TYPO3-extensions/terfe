@@ -95,6 +95,7 @@
 			<label index="link.all_categories">All Categories</label>
 			<label index="link.all_tags">All Tags</label>
 			<label index="link.all_authors">All Authors</label>
+			<label index="link.extension_details">Show details »</label>
 
 			<label index="list_all_extensions">List of all extensions</label>
 			<label index="list_latest_extensions">List of new and updated extensions</label>
@@ -119,11 +120,12 @@
 			<label index="single_author">Show single Author</label>
 
 			<label index="back_to_list">Back to list</label>
+			<label index="back_to_detail">Back to details</label>
 			<label index="create">Create</label>
 			<label index="edit">Edit</label>
 			<label index="delete">Delete</label>
-			<label index="download_t3x">» Download T3X</label>
-			<label index="download_zip">» Download ZIP</label>
+			<label index="download_t3x">Download T3X file</label>
+			<label index="download_zip">Download ZIP file</label>
 		</languageKey>
 	</data>
 </T3locallang>

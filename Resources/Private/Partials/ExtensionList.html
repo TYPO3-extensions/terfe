@@ -3,18 +3,16 @@
 <f:if condition="{extensions}">
 	<f:then>
 		<f:for each="{extensions}" as="extension">
-			<div class="extension">
+			<div class="tx_terfe2_extension">
 				<h3>
-					<span class="icon"><terfe2:extIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}"></terfe2:extIcon></span>
+					<span class="tx_terfe2_icon"><terfe2:extIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}"></terfe2:extIcon></span>
 					<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action>
 				</h3>
-				<p class="description">{extension.lastVersion.description}</p>
-				<p class="categories"><f:for each="{extension.categories}" as="{category}">{category.title}</f:for></p>
-				<p class="tags"><f:for each="{extension.tags}" as="{tag}">{tag.title}</f:for></p>
-				<p class="download_t3x"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></p>
-				<p class="download_zip"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></p>
+				<p class="tx_terfe2_description">{extension.lastVersion.description}</p>
+				<p class="tx_terfe2_categories"><f:for each="{extension.categories}" as="{category}">{category.title}</f:for></p>
+				<p class="tx_terfe2_tags"><f:for each="{extension.tags}" as="{tag}">{tag.title}</f:for></p>
+				<p class="tx_terfe2_details"><f:link.action controller="Extension" action="show" arguments="{extension : extension}"><f:translate key="link.extension_details"/></f:link.action></p>
 			</div>
-			<hr />
 		</f:for>
 	</f:then>
 	<f:else>

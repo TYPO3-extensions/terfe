@@ -18,22 +18,17 @@
 
 			<h2><f:translate key="header.quicklinks"/></h2>
 			<ul>
-				<li><f:link.action action="listLatest"><f:translate key="link.latest_extensions"/></f:link.action></li>
-				<li><f:link.action action="list"><f:translate key="link.all_extensions"/></f:link.action></li>
+				<li><f:link.action controller="Extension" action="listLatest"><f:translate key="link.latest_extensions"/></f:link.action></li>
+				<li><f:link.action controller="Extension" action="listLatest" format="rss" pageType="{settings.rssOutput.typeNum}" target="_blank"><f:translate key="link.latest_extensions.rss"/></f:link.action></li>
+				<li><f:link.action controller="Extension" action="listLatest" format="json" pageType="{settings.jsonOutput.typeNum}" target="_blank"><f:translate key="link.latest_extensions.json"/></f:link.action></li>
+				<li><f:link.action controller="Extension" action="list"><f:translate key="link.all_extensions"/></f:link.action></li>
+				<li><f:link.action controller="Extension" action="list" format="rss" pageType="{settings.rssOutput.typeNum}" target="_blank"><f:translate key="link.all_extensions.rss"/></f:link.action></li>
+				<li><f:link.action controller="Extension" action="list" format="json" pageType="{settings.jsonOutput.typeNum}" target="_blank"><f:translate key="link.all_extensions.json"/></f:link.action></li>
 				<li><f:link.action controller="Category" action="index"><f:translate key="link.all_categories"/></f:link.action></li>
 				<li><f:link.action controller="Tag" action="index"><f:translate key="link.all_tags"/></f:link.action></li>
 				<li><f:link.action controller="Author" action="index"><f:translate key="link.all_authors"/></f:link.action></li>
 			</ul>
 		</div>
-		<br class="clear" />
-	</div>
-	<div class="tx_terfe2_footer">
-		<ul>
-			<li><f:link.action controller="Extension" action="listLatest" format="rss" pageType="{settings.rssOutput.typeNum}" target="_blank"><f:translate key="link.latest_extensions.rss"/></f:link.action></li>
-			<li><f:link.action controller="Extension" action="listLatest" format="json" pageType="{settings.jsonOutput.typeNum}" target="_blank"><f:translate key="link.latest_extensions.json"/></f:link.action></li>
-			<li><f:link.action controller="Extension" action="list" format="rss" pageType="{settings.rssOutput.typeNum}" target="_blank"><f:translate key="link.all_extensions.rss"/></f:link.action></li>
-			<li><f:link.action controller="Extension" action="list" format="json" pageType="{settings.jsonOutput.typeNum}" target="_blank"><f:translate key="link.all_extensions.json"/></f:link.action></li>
-		</ul>
-		<br class="clear" />
+		<br class="tx_terfe2_clear" />
 	</div>
 </div>

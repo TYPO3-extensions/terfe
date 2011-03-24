@@ -3,7 +3,7 @@
 <f:section name="main">
 	<h2><f:translate key="single_extension"/></h2>
 
-	<table cellpadding="4" style="border:1px solid black;">
+	<table cellpadding="4">
 		<tr>
 			<td><f:translate key="tx_terfe2_domain_model_extension.ext_key" />:</td>
 			<td>{extension.extKey}</td>
@@ -19,7 +19,14 @@
 	</table>
 	<br />
 
-	<f:link.action action="edit" arguments="{extension : extension}"><f:translate key="edit"/></f:link.action>
-	<f:link.action action="delete" arguments="{extension : extension}"><f:translate key="delete"/></f:link.action>
-	<f:link.action action="index"><f:translate key="back_to_list"/></f:link.action>
+	<ul>
+		<li><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></li>
+		<li><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></li>
+	</ul>
+
+	<ul>
+		<li><f:link.action controller="Extension" action="edit" arguments="{extension : extension}"><f:translate key="edit"/></f:link.action></li>
+		<li><f:link.action controller="Extension" action="index"><f:translate key="back_to_list"/></f:link.action></li>
+	</ul>
+
 </f:section>
