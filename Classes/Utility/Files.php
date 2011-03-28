@@ -102,6 +102,11 @@
 				return array();
 			}
 
+			// Get local filename if on same server
+			if (self::isLocalUrl($filename)) {
+				$filename = self::getLocalUrlPath($filename);
+			}
+
 			// Get file content
 			$contents = t3lib_div::getURL($filename);
 			if (empty($contents)) {
@@ -183,6 +188,8 @@
 			}
 
 			// Set headers
+			header('Cache-Control: no-cache, must-revalidate');
+			header('Expires: Sat, 10 Jan 1970 00:00:00 GMT');
 			header('Content-Disposition: attachment; filename=' . (string) $visibleFilename);
 			header('Content-type: x-application/octet-stream');
 			header('Content-Transfer-Encoding: binary');
