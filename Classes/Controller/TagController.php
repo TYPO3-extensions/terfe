@@ -39,12 +39,19 @@
 
 
 		/**
+		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
+		 */
+		protected $extensionRepository;
+
+
+		/**
 		 * Initializes the current action
 		 *
 		 * @return void
 		 */
 		protected function initializeAction() {
 			$this->tagRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_TagRepository');
+			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 
 			// Pre-parse TypoScript setup
 			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
@@ -65,11 +72,13 @@
 		 * Displays a form for creating a new Tag
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $newTag A fresh Tag object taken as a basis for the rendering
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to add this new tag
 		 * @return void
 		 * @dontvalidate $newTag
 		 */
-		public function newAction(Tx_TerFe2_Domain_Model_Tag $newTag = NULL) {
+		public function newAction(Tx_TerFe2_Domain_Model_Tag $newTag = NULL, Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->view->assign('newTag', $newTag);
+			$this->view->assign('extension', $extension);
 		}
 
 
@@ -80,6 +89,9 @@
 		 * @return void
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Tag $newTag) {
+			if ($tag = $this->tagRepository->findByTitle($newTag->getTitle())) {
+
+			}
 			$this->tagRepository->add($newTag);
 			$this->flashMessageContainer->add($this->translate('msg.tag_created'));
 			$this->redirect('index');

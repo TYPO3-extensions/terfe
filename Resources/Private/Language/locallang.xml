@@ -111,7 +111,7 @@
 			<label index="edit_category">Edit Category</label>
 			<label index="create_category">Create new Category</label>
 
-			<label index="new_tag">Create new Tag</label>
+			<label index="new_tag">Create new Tag for extension</label>
 			<label index="edit_tag">Edit Tag</label>
 			<label index="create_tag">Create new Tag</label>
 

@@ -206,7 +206,7 @@
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->update($extension);
 			$this->flashMessageContainer->add($this->translate('msg.extension_updated'));
-			$this->redirect('index');
+			$this->redirect('show', NULL, NULL, array('extension' => $extension->getUid()));
 		}
 
 
