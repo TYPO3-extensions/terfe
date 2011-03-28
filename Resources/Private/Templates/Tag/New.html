@@ -1,9 +1,9 @@
 <f:layout name="Default" />
 
 <f:section name="main">
-	<h2><f:translate key="new_tag"/> {extension.title}</h2>
+	<h2><f:translate key="new_tag"/> {extension.extKey}</h2>
 
-	<f:form method="post" action="create" name="tag" arguments="{extension : extension.uid}" object="{newTag}">
+	<f:form method="post" action="create" name="newTag" arguments="{extension : extension}" object="{newTag}">
 		<label for="title"><f:translate key="tx_terfe2_domain_model_tag.title" /></label><br />
 		<f:form.textbox property="title" /><br /><br />
 

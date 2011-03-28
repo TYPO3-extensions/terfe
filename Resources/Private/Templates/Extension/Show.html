@@ -10,7 +10,7 @@
 		</h3>
 		<p class="description">{extension.lastVersion.description}</p>
 		<p class="categories"><f:for each="{extension.categories}" as="{category}">{category.title}</f:for></p>
-		<p class="tags"><f:for each="{extension.tags}" as="tag" iteration="tagIterator">{tag.title}{f:if(condition: tagIterator.isLast, then:'', else, then: ', ')}</f:for><f:link.action action="new" controller="Tag" arguments="{extension : extension}"><f:translate key="create_tag" /></f:link.action> </p>
+		<p class="tags"><f:for each="{extension.tags}" as="tag" iteration="tagIterator">{tag.title}{f:if(condition:tagIterator.isLast,then:'',else:', ')}</f:for><br /><f:link.action action="new" controller="Tag" arguments="{extension : extension}"><f:translate key="create_tag" /></f:link.action> </p>
 		<p class="download"><f:link.action action="download" arguments="{extension : extension, version : extension.lastVersion}"><f:translate key="download"/></f:link.action></p>
 		<f:if condition="{extension.forgeLink}"><p class="forgeLink"><f:link.action absolute="{extension.forgeLink}"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></f:link.action></p></f:if>
 		<f:if condition="{extension.hudsonLink}"><p class="hudsonLink"><f:link.action absolute="{extension.hudsonLink}"><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></f:link.action></p></f:if>
