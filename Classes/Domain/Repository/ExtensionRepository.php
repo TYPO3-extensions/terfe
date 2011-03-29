@@ -36,12 +36,10 @@
 		/**
 		 * Returns all extensions
 		 *
-		 * @param boolean $rawResult Return raw data
 		 * @return array An array of extensions
 		 */
-		public function findAll($rawResult = FALSE) {
+		public function findAll() {
 			$query = $this->createQuery();
-			$query->getQuerySettings()->setReturnRawQueryResult($rawResult);
 			$query->setOrderings(
 				array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
 			);
@@ -53,12 +51,10 @@
 		 * Returns new and updated extensions
 		 *
 		 * @param integer $latestCount Count of extensions
-		 * @param boolean $rawResult Return raw data
 		 * @return array An array of extensions
 		 */
-		public function findNewAndUpdated($latestCount, $rawResult = FALSE) {
+		public function findNewAndUpdated($latestCount) {
 			$query = $this->createQuery();
-			$query->getQuerySettings()->setReturnRawQueryResult($rawResult);
 			$query->setLimit((int) $latestCount);
 			$query->setOrderings(
 				array('lastUpload' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)

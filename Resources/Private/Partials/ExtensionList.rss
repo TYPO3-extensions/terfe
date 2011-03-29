@@ -3,9 +3,9 @@
 <f:for each="{extensions}" as="extension">
 	<item>
 		<title>{extension.lastVersion.title}</title>
-		<link><terfe2:url action="show" arguments="{extension : extension}" makeAbsolute="1"></terfe2:url></link>
-		<guid><terfe2:url action="download" arguments="{extension : extension, version : extension.lastVersion}" makeAbsolute="1"></terfe2:url></guid>
-		<description>{extension.lastVersion.description}</description>
+		<link><![CDATA[<terfe2:url action="show" arguments="{extension : extension}" makeAbsolute="1"></terfe2:url>]]></link>
+		<guid><![CDATA[<terfe2:url action="download" arguments="{extension : extension, version : extension.lastVersion}" makeAbsolute="1"></terfe2:url>]]></guid>
+		<description><![CDATA[{extension.lastVersion.description}]]></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<pubDate><terfe2:dateTime format="{settings.rssOutput.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></pubDate>
 	</item>

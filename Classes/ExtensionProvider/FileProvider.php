@@ -45,8 +45,8 @@
 		 * @return array Update information
 		 */
 		public function getUpdateInfo($lastUpdate) {
-			$extPath = (!empty($this->configuration['extensionRootPath']) ? $this->configuration['extensionRootPath'] : 'fileadmin/ter/');
-			$files = Tx_TerFe2_Utility_Files::getFiles($extPath, 't3x', (int) $lastUpdate, TRUE);
+			$extensionPath = (!empty($this->configuration['extensionRootPath']) ? $this->configuration['extensionRootPath'] : 'fileadmin/ter/');
+			$files = Tx_TerFe2_Utility_Files::getFiles($extensionPath, 't3x', (int) $lastUpdate, TRUE);
 			if (empty($files)) {
 				return array();
 			}
@@ -54,9 +54,9 @@
 			// Generate Extension information
 			$updateInfoArray = array();
 			foreach ($files as $fileName) {
-				$extInfo = $this->getExtensionInfo($fileName);
-				if (!empty($extInfo)) {
-					$updateInfoArray[] = $extInfo;
+				$extensionInfo = $this->getExtensionInfo($fileName);
+				if (!empty($extensionInfo)) {
+					$updateInfoArray[] = $extensionInfo;
 				}
 			}
 
@@ -115,48 +115,49 @@
 			}
 
 			// Unpack file and get extension details
-			$extContent = Tx_TerFe2_Utility_Files::unpackT3xFile($fileName);
-			unset($extContent['FILES']);
+			$extensionContent = Tx_TerFe2_Utility_Files::unpackT3xFile($fileName);
+			unset($extensionContent['FILES']);
 
 			// Map fields
-			$extData = $extContent['EM_CONF'];
-			$extData['extKey']            = $extContent['extKey'];
-			$extData['forgeLink']         = '';
-			$extData['hudsonLink']        = '';
-			$extData['uploadComment']     = '';
-			$extData['fileName']          = $fileName;
-			$extData['versionString']     = $extData['version'];
-			$extData['authorName']        = $extData['author'];
-			$extData['authorEmail']       = $extData['author_email'];
-			$extData['authorCompany']     = $extData['author_company'];
-			$extData['emCategory']        = $extData['category'];
-			$extData['doNotLoadInFe']     = $extData['doNotLoadInFE'];
-			$extData['modifyTables']      = $extData['modify_tables'];
-			$extData['clearCacheOnLoad']  = $extData['clearcacheonload'];
-			$extData['cglCompliance']     = $extData['CGLcompliance'];
-			$extData['cglComplianceNote'] = $extData['CGLcompliance_note'];
+			$extensionInfo = $extensionContent['EM_CONF'];
+			$extensionInfo['extKey']            = $extensionContent['extKey'];
+			$extensionInfo['forgeLink']         = '';
+			$extensionInfo['hudsonLink']        = '';
+			$extensionInfo['uploadComment']     = '';
+			$extensionInfo['fileName']          = $fileName;
+			$extensionInfo['versionString']     = $extensionInfo['version'];
+			$extensionInfo['authorName']        = $extensionInfo['author'];
+			$extensionInfo['authorEmail']       = $extensionInfo['author_email'];
+			$extensionInfo['authorCompany']     = $extensionInfo['author_company'];
+			$extensionInfo['authorForgeLink']   = '';
+			$extensionInfo['emCategory']        = $extensionInfo['category'];
+			$extensionInfo['doNotLoadInFe']     = $extensionInfo['doNotLoadInFE'];
+			$extensionInfo['modifyTables']      = $extensionInfo['modify_tables'];
+			$extensionInfo['clearCacheOnLoad']  = $extensionInfo['clearcacheonload'];
+			$extensionInfo['cglCompliance']     = $extensionInfo['CGLcompliance'];
+			$extensionInfo['cglComplianceNote'] = $extensionInfo['CGLcompliance_note'];
 
 			// Add TYPO3 version requirement
-			if (!empty($extData['TYPO3_version'])) {
-				$extData['relations'][] = array(
+			if (!empty($extensionInfo['TYPO3_version'])) {
+				$extensionInfo['relations'][] = array(
 					'relationType'  => 'dependancy',
 					'relationKey'   => 'typo3',
 					'softwareType'  => 'system',
-					'versionRange'  => $extData['TYPO3_version'],
+					'versionRange'  => $extensionInfo['TYPO3_version'],
 				);
 			}
 
 			// Add PHP version requirement
-			if (!empty($extData['PHP_version'])) {
-				$extData['relations'][] = array(
+			if (!empty($extensionInfo['PHP_version'])) {
+				$extensionInfo['relations'][] = array(
 					'relationType'  => 'dependancy',
 					'relationKey'   => 'php',
 					'softwareType'  => 'system',
-					'versionRange'  => $extData['PHP_version'],
+					'versionRange'  => $extensionInfo['PHP_version'],
 				);
 			}
 
-			return parent::getExtensionInfo($extData);
+			return parent::getExtensionInfo($extensionInfo);
 		}
 
 
@@ -203,8 +204,8 @@
 					}
 
 					// Build URL
-					$key = (!empty($emSettings['selectedMirror']) ? $emSettings['selectedMirror'] : array_rand($mirrors));
-					$mirrorUrl = 'http://' . $mirrors[$key]['host'] . $mirrors[$key]['path'];
+					$selectedMirror = (!empty($emSettings['selectedMirror']) ? $emSettings['selectedMirror'] : array_rand($mirrors));
+					$mirrorUrl      = 'http://' . $mirrors[$selectedMirror]['host'] . $mirrors[$selectedMirror]['path'];
 				}
 
 				$this->mirrorUrl = rtrim($mirrorUrl, '/ ') . '/';

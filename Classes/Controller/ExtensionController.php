@@ -107,8 +107,7 @@
 		 * @return void
 		 */
 		public function listAction() {
-			$rawData = ('json' == $this->request->getFormat());
-			$this->view->assign('extensions', $this->extensionRepository->findAll($rawData));
+			$this->view->assign('extensions', $this->extensionRepository->findAll());
 		}
 
 
@@ -118,9 +117,8 @@
 		 * @return void
 		 */
 		public function listLatestAction() {
-			$rawData     = ('json' == $this->request->getFormat());
 			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 20);
-			$extensions  = $this->extensionRepository->findNewAndUpdated($latestCount, $rawData);
+			$extensions  = $this->extensionRepository->findNewAndUpdated($latestCount);
 			$this->view->assign('extensions', $extensions);
 		}
 
@@ -279,23 +277,22 @@
 			}
 
 			// Check session if user has already downloaded this file today
-			$extKey = $version->getExtension()->getExtKey();
+			$extensionKey = $version->getExtension()->getExtKey();
 			Tx_TerFe2_Utility_Session::load();
-			if (!Tx_TerFe2_Utility_Session::hasDownloaded($extKey)) {
+			if (!Tx_TerFe2_Utility_Session::hasDownloaded($extensionKey)) {
 				// Add +1 to download counter
 				$version->incrementDownloadCounter();
 				$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
 				$persistenceManager->persistAll();
 
 				// Add extension key to session
-				Tx_TerFe2_Utility_Session::addDownload($extKey);
+				Tx_TerFe2_Utility_Session::addDownload($extensionKey);
 				Tx_TerFe2_Utility_Session::save();
 			}
 
 			// Send file to browser
-			$format = (strtolower($format) == 'zip' ? 'zip' : 't3x');
 			$newFileName = $extensionProvider->getExtensionFileName($version, $format);
-			if ($format == 'zip') {
+			if (strcasecmp($format, 'zip')) {
 				$urlToFile = Tx_TerFe2_Utility_Zip::convertT3xToZip($urlToFile);
 			}
 			if (!Tx_TerFe2_Utility_Files::transferFile($urlToFile, $newFileName)) {
@@ -315,8 +312,8 @@
 		 * @return string Translated label
 		 */
 		protected function translate($label, array $arguments = array()) {
-			$extKey = $this->request->getControllerExtensionKey();
-			return Tx_Extbase_Utility_Localization::translate($label, $extKey, $arguments);
+			$extensionKey = $this->request->getControllerExtensionKey();
+			return Tx_Extbase_Utility_Localization::translate($label, $extensionKey, $arguments);
 		}
 
 	}

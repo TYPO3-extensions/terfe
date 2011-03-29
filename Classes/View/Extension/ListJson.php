@@ -54,11 +54,20 @@
 		 * @return string JSON content
 		 */
 		public function render() {
+			$jsonArray  = array();
 			$extensions = array();
-			if (!empty($this->variables['extensions'])) {
-				$extensions = $this->variables['extensions'];
+
+			// Get extensions from view data
+			if (!empty($this->variables['extensions']) && $this->variables['extensions'] instanceof Tx_Extbase_Persistence_QueryResult) {
+				$extensions = $this->variables['extensions']->toArray();
 			}
-			return json_encode($extensions);
+			if (!empty($extensions)) {
+				foreach ($this->variables['extensions'] as $extension) {
+					$jsonArray[] = Tx_TerFe2_Utility_Extension::discloseExtension($extension);
+				}
+			}
+
+			return json_encode($jsonArray);
 		}
 
 	}

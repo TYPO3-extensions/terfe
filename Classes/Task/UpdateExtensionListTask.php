@@ -78,7 +78,7 @@
 		 *  - Additonal Version Info:
 		 *    - Codelines
 		 *    - Codebytes
-		 *  - Add "authorForgeLink" to extInfo
+		 *  - Add "authorForgeLink" to extensionInfo
 		 *  - Maybe make author name not required
 		 *
 		 * @return boolean TRUE on success
@@ -94,19 +94,19 @@
 			}
 
 			// Create new Version and Extension objects
-			foreach ($updateInfoArray as $extInfo) {
+			foreach ($updateInfoArray as $extensionInfo) {
 				// Get new Version if version number has changed
-				$version = $this->getVersion($extInfo);
+				$version = $this->getVersion($extensionInfo);
 				if ($version === NULL) {
 					continue;
 				}
 
 				// Load Author if already exists, else create new one
-				$author = $this->getAuthor($extInfo);
+				$author = $this->getAuthor($extensionInfo);
 				$version->setAuthor($author);
 
 				// Load Extension if already exists, else create new one
-				$extension = $this->getExtension($extInfo);
+				$extension = $this->getExtension($extensionInfo);
 				$version->setExtension($extension);
 
 				// Add Version to Object Storages
@@ -136,9 +136,9 @@
 			);
 
 			// Get TypoScript configuration
-			$setup = Tx_TerFe2_Utility_TypoScript::getSetup();
+			$setup          = Tx_TerFe2_Utility_TypoScript::getSetup();
 			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($setup['settings.'], FALSE);
-			$configuration = array_merge($configuration, $setup);
+			$configuration  = array_merge($configuration, $setup);
 
 			// Load Dispatcher
 			$dispatcher = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap');
@@ -172,7 +172,7 @@
 
 			// Load Extension Provider and get update information
 			$extensionProvider = $this->objectManager->get('Tx_TerFe2_ExtensionProvider_ExtensionProvider');
-			$updateInfoArray = $extensionProvider->getUpdateInfo($lastRunTime);
+			$updateInfoArray   = $extensionProvider->getUpdateInfo($lastRunTime);
 
 			return $updateInfoArray;
 		}
@@ -181,44 +181,44 @@
 		/**
 		 * Create Version object and add to Extension
 		 *
-		 * @param array $extInfo Extension information
+		 * @param array $extensionInfo Extension information
 		 * @return Tx_TerFe2_Domain_Model_Version New Version object
 		 */
-		public function getVersion(array $extInfo) {
+		public function getVersion(array $extensionInfo) {
 			// Check if a Version exists with given version number
-			if ($this->extensionRepository->countByExtKeyAndVersion($extInfo['extKey'], $extInfo['versionNumber'])) {
+			if ($this->extensionRepository->countByExtKeyAndVersion($extensionInfo['extKey'], $extensionInfo['versionNumber'])) {
 				return NULL;
 			}
 
 			// Create new Version
 			$version = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Version');
-			$version->setTitle($extInfo['title']);
-			$version->setDescription($extInfo['description']);
-			$version->setFileHash($extInfo['fileHash']);
-			$version->setVersionNumber($extInfo['versionNumber']);
-			$version->setVersionString($extInfo['versionString']);
-			$version->setUploadDate(new DateTime());
-			$version->setUploadComment($extInfo['uploadComment']);
-			$version->setDownloadCounter(0);
-			$version->setState($extInfo['state']);
-			$version->setEmCategory($extInfo['emCategory']);
-			$version->setLoadOrder($extInfo['loadOrder']);
-			$version->setPriority($extInfo['priority']);
-			$version->setShy($extInfo['shy']);
-			$version->setInternal($extInfo['internal']);
-			$version->setModule($extInfo['module']);
-			$version->setDoNotLoadInFe($extInfo['doNotLoadInFe']);
-			$version->setUploadfolder($extInfo['uploadfolder']);
-			$version->setCreateDirs($extInfo['createDirs']);
-			$version->setModifyTables($extInfo['modifyTables']);
-			$version->setClearCacheOnLoad($extInfo['clearCacheOnLoad']);
-			$version->setLockType($extInfo['lockType']);
-			$version->setCglCompliance($extInfo['cglCompliance']);
-			$version->setCglComplianceNote($extInfo['cglComplianceNote']);
-			$version->setExtensionProvider($extInfo['extensionProvider']);
+			$version->setTitle(            $extensionInfo['title']);
+			$version->setDescription(      $extensionInfo['description']);
+			$version->setFileHash(         $extensionInfo['fileHash']);
+			$version->setVersionNumber(    $extensionInfo['versionNumber']);
+			$version->setVersionString(    $extensionInfo['versionString']);
+			$version->setUploadDate(       new DateTime());
+			$version->setUploadComment(    $extensionInfo['uploadComment']);
+			$version->setDownloadCounter(  0);
+			$version->setState(            $extensionInfo['state']);
+			$version->setEmCategory(       $extensionInfo['emCategory']);
+			$version->setLoadOrder(        $extensionInfo['loadOrder']);
+			$version->setPriority(         $extensionInfo['priority']);
+			$version->setShy(              $extensionInfo['shy']);
+			$version->setInternal(         $extensionInfo['internal']);
+			$version->setModule(           $extensionInfo['module']);
+			$version->setDoNotLoadInFe(    $extensionInfo['doNotLoadInFe']);
+			$version->setUploadfolder(     $extensionInfo['uploadfolder']);
+			$version->setCreateDirs(       $extensionInfo['createDirs']);
+			$version->setModifyTables(     $extensionInfo['modifyTables']);
+			$version->setClearCacheOnLoad( $extensionInfo['clearCacheOnLoad']);
+			$version->setLockType(         $extensionInfo['lockType']);
+			$version->setCglCompliance(    $extensionInfo['cglCompliance']);
+			$version->setCglComplianceNote($extensionInfo['cglComplianceNote']);
+			$version->setExtensionProvider($extensionInfo['extensionProvider']);
 
 			// Add software relations
-			foreach ($extInfo['softwareRelation'] as $relationInfo) {
+			foreach ($extensionInfo['softwareRelation'] as $relationInfo) {
 				$softwareRelation = $this->createSoftwareRelation($relationInfo);
 				$version->addSoftwareRelation($softwareRelation);
 			}
@@ -235,15 +235,15 @@
 		 */
 		protected function createSoftwareRelation(array $relationInfo) {
 			// Get version range
-			$versionParts = Tx_Extbase_Utility_Arrays::trimExplode('-', $relationInfo['versionRange']);
+			$versionParts   = Tx_Extbase_Utility_Arrays::trimExplode('-', $relationInfo['versionRange']);
 			$minimumVersion = (!empty($versionParts[0]) ? t3lib_div::int_from_ver($versionParts[0]) : 0);
 			$maximumVersion = (!empty($versionParts[1]) ? t3lib_div::int_from_ver($versionParts[1]) : 0);
 
 			// Get Relation object
 			$relationObject = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Relation');
-			$relationObject->setRelationType($relationInfo['relationType']);
-			$relationObject->setRelationKey($relationInfo['relationKey']);
-			$relationObject->setSoftwareType($relationInfo['softwareType']);
+			$relationObject->setRelationType(  $relationInfo['relationType']);
+			$relationObject->setRelationKey(   $relationInfo['relationKey']);
+			$relationObject->setSoftwareType(  $relationInfo['softwareType']);
 			$relationObject->setMinimumVersion($minimumVersion);
 			$relationObject->setMaximumVersion($maximumVersion);
 
@@ -254,24 +254,26 @@
 		/**
 		 * Load Extension object if already exists, else create new one
 		 *
-		 * TODO: Add current frontend user to extension dataset while
-		 *       creating extension via frontend form
-		 *
-		 * @param array $extInfo Extension information
+		 * @param array $extensionInfo Extension information
 		 * @return Tx_TerFe2_Domain_Model_Extension New or existing Extension object
 		 */
-		public function getExtension(array $extInfo) {
-			$extension = $this->extensionRepository->findOneByExtKey($extInfo['extKey']);
+		public function getExtension(array $extensionInfo) {
+			$extension = $this->extensionRepository->findOneByExtKey($extensionInfo['extKey']);
 			if ($extension === NULL) {
 				// Create new Extension
 				$dateTime = new DateTime();
 				$extension = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Extension');
-				$extension->setExtKey($extInfo['extKey']);
-				$extension->setForgeLink($extInfo['forgeLink']);
-				$extension->setHudsonLink($extInfo['hudsonLink']);
-				$extension->setLastUpload($dateTime);
+				$extension->setExtKey(        $extensionInfo['extKey']);
+				$extension->setForgeLink(     $extensionInfo['forgeLink']);
+				$extension->setHudsonLink(    $extensionInfo['hudsonLink']);
+				$extension->setLastUpload(    $dateTime);
 				$extension->setLastMaintained($dateTime);
-				//$extension->setFrontendUser($frontendUser);
+
+				// Add current frontend user uid if logged in
+				// TODO: Implement community extension here!
+				/*if (!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
+					$extension->setFrontendUser((int) $GLOBALS['TSFE']->fe_user->user['uid']);
+				}*/
 			}
 
 			return $extension;
@@ -281,18 +283,18 @@
 		/**
 		 * Load Author object if already exists, else create new one
 		 *
-		 * @param array $extInfo Extension information
+		 * @param array $extensionInfo Extension information
 		 * @return Tx_TerFe2_Domain_Model_Author New or existing Author object
 		 */
-		public function getAuthor(array $extInfo) {
-			$author = $this->authorRepository->findOneByEmail($extInfo['authorEmail']);
+		public function getAuthor(array $extensionInfo) {
+			$author = $this->authorRepository->findOneByEmail($extensionInfo['authorEmail']);
 			if ($author === NULL) {
 				// Create new Author
 				$author = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Author');
-				$author->setName($extInfo['authorName']);
-				$author->setEmail($extInfo['authorEmail']);
-				$author->setCompany($extInfo['authorCompany']);
-				//$author->setForgeLink($extInfo['authorForgeLink']);
+				$author->setName(     $extensionInfo['authorName']);
+				$author->setEmail(    $extensionInfo['authorEmail']);
+				$author->setCompany(  $extensionInfo['authorCompany']);
+				//$author->setForgeLink($extensionInfo['authorForgeLink']);
 			}
 
 			return $author;

@@ -79,17 +79,17 @@
 		/**
 		 * Creates a ZIP file from given extension T3X file
 		 *
-		 * @param string $filename Path to the T3X file
+		 * @param string $fileName Path to the T3X file
 		 * @return string File name of the ZIP file
 		 */
-		static public function convertT3xToZip($filename) {
-			if (empty($filename)) {
+		static public function convertT3xToZip($fileName) {
+			if (empty($fileName)) {
 				throw new Exception('No valid T3X file given to convert to ZIP file');
 			}
 
 			// Get archive name
-			$archiveName = substr(basename($filename), 0, strrpos(basename($filename), '.')) . '.zip';
-			$zipFile = Tx_TerFe2_Utility_Files::getAbsDirectory('typo3temp/') . $archiveName;
+			$archiveName = substr(basename($fileName), 0, strrpos(basename($fileName), '.')) . '.zip';
+			$zipFile     = Tx_TerFe2_Utility_Files::getAbsoluteDirectory('typo3temp/') . $archiveName;
 
 			// Check if file was cached
 			if (Tx_TerFe2_Utility_Files::fileExists($zipFile)) {
@@ -98,7 +98,7 @@
 
 			// Unpack extension files
 			$filesArray = array();
-			$content = Tx_TerFe2_Utility_Files::unpackT3xFile($filename);
+			$content    = Tx_TerFe2_Utility_Files::unpackT3xFile($fileName);
 			if (!empty($content['FILES']) && is_array($content['FILES'])) {
 				foreach ($content['FILES'] as $fileInfo) {
 					$filesArray[$fileInfo['name']] = $fileInfo['content'];

@@ -68,8 +68,7 @@
 			}
 
 			// Get update information
-			$params = array('lastUpdate' => $lastUpdate);
-
+			$params    = array('lastUpdate' => $lastUpdate);
 			$dataArray = Tx_TerFe2_Utility_Soap::call($this->configuration['updateFunc'], $params);
 			if (empty($dataArray)) {
 				return array();
@@ -77,10 +76,10 @@
 
 			// Generate Extension information
 			$updateInfoArray = array();
-			foreach ($dataArray as $extData) {
-				$extInfo = $this->getExtensionInfo($extData);
-				if (!empty($extInfo)) {
-					$updateInfoArray[] = $extInfo;
+			foreach ($dataArray as $extensionData) {
+				$extensionInfo = $this->getExtensionInfo($extensionData);
+				if (!empty($extensionInfo)) {
+					$updateInfoArray[] = $extensionInfo;
 				}
 			}
 

@@ -104,7 +104,7 @@
 
 
 		/**
-		 * Check if session contains given value
+		 * Check if session contains given value key
 		 *
 		 * @param string $key Name of the value
 		 * @return boolean TRUE if exists
@@ -132,12 +132,12 @@
 		/**
 		 * Add an extension download to session
 		 *
-		 * @param string $extKey Downloaded extension key
+		 * @param string $extensionKey Downloaded extension key
 		 * @return void
 		 */
-		static public function addDownload($extKey) {
+		static public function addDownload($extensionKey) {
 			$downloadedExtensions = self::getDownloads();
-			$downloadedExtensions[$extKey] = $GLOBALS['SIM_EXEC_TIME'];
+			$downloadedExtensions[$extensionKey] = $GLOBALS['SIM_EXEC_TIME'];
 			self::setDownloads($downloadedExtensions);
 		}
 
@@ -145,22 +145,22 @@
 		/**
 		 * Check if given extension was downloaded in period
 		 *
-		 * @param string $extKey Extension key to check
+		 * @param string $extensionKey Extension key to check
 		 * @param integer $period Time period in hours
 		 * @return boolean TRUE if extension was downloaded in given period
 		 */
-		static public function hasDownloaded($extKey, $period = 24) {
+		static public function hasDownloaded($extensionKey, $period = 24) {
 			$downloadedExtensions = self::getDownloads();
 			if (!is_array($downloadedExtensions)) {
 				return FALSE;
 			}
-			if (!array_key_exists($extKey, $downloadedExtensions)) {
+			if (!array_key_exists($extensionKey, $downloadedExtensions)) {
 				return FALSE;
 			}
 
 			// Check timestamp
 			$period     = 3600 * (int) $period; // Seconds
-			$timestamp  = $downloadedExtensions[$extKey];
+			$timestamp  = $downloadedExtensions[$extensionKey];
 			$difference = ((int) $GLOBALS['SIM_EXEC_TIME'] - (int) $timestamp);
 			if ($difference > $period) {
 				return FALSE;
@@ -173,19 +173,19 @@
 		/**
 		 * Get extension download timestamp from session
 		 *
-		 * @param string $extKey Downloaded extension key
+		 * @param string $extensionKey Downloaded extension key
 		 * @return integer Timestamp
 		 */
-		static public function getDownloadTime($extKey) {
+		static public function getDownloadTime($extensionKey) {
 			$downloadedExtensions = self::getDownloads();
 			if (!is_array($downloadedExtensions)) {
 				return 0;
 			}
-			if (!array_key_exists($extKey, $downloadedExtensions)) {
+			if (!array_key_exists($extensionKey, $downloadedExtensions)) {
 				return 0;
 			}
 
-			return (int) $downloadedExtensions[$extKey];
+			return (int) $downloadedExtensions[$extensionKey];
 		}
 
 

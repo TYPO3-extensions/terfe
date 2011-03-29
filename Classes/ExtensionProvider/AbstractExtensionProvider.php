@@ -50,7 +50,7 @@
 		/**
 		 * @var array Extension information schema
 		 */
-		protected $extInfoSchema = array();
+		protected $extensionInfoSchema = array();
 
 
 		/**
@@ -95,7 +95,7 @@
 		 */
 		public function getExtensionIcon(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
 			$fileName  = $this->getExtensionFileName($version, $fileType);
-			$cachePath = Tx_TerFe2_Utility_Files::getAbsDirectory('typo3temp/pics/');
+			$cachePath = Tx_TerFe2_Utility_Files::getAbsoluteDirectory('typo3temp/pics/');
 
 			// Check local cache first
 			if (Tx_TerFe2_Utility_Files::fileExists($cachePath . $fileName)) {
@@ -133,9 +133,9 @@
 		 * @return string File name
 		 */
 		public function getExtensionFileName(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
-			$extKey = $version->getExtension()->getExtKey();
+			$extensionKey  = $version->getExtension()->getExtKey();
 			$versionString = $version->getVersionString();
-			$fileName = Tx_TerFe2_Utility_Files::generateFileName($extKey, $versionString, $fileType);
+			$fileName      = Tx_TerFe2_Utility_Files::generateFileName($extensionKey, $versionString, $fileType);
 
 			if (empty($fileName)) {
 				throw new Exception('Could not generate file name for this Version object');
@@ -166,55 +166,54 @@
 		/**
 		 * Generates an array with all Extension information
 		 *
-		 * @param array $extData Extension data
-		 * @param array $extInfoSchema Extension information schema
+		 * @param array $extensionData Extension data
 		 * @return array Extension information
 		 */
-		protected function getExtensionInfo(array $extData) {
-			$extInfoSchema = $this->getExtensionInfoSchema();
-			$extInfo       = array('softwareRelation' => array());
+		protected function getExtensionInfo(array $extensionData) {
+			$extensionInfoSchema = $this->getExtensionInfoSchema();
+			$extensionInfo       = array('softwareRelation' => array());
 
 			// Get field value
-			foreach ($extInfoSchema as $fieldName => $fieldConf) {
-				$extInfo[$fieldName] = '';
-				if (!empty($extData[$fieldName])) {
-					$extInfo[$fieldName] = $this->convertValue($extData[$fieldName], $fieldConf['type']);
+			foreach ($extensionInfoSchema as $fieldName => $fieldConf) {
+				$extensionInfo[$fieldName] = '';
+				if (!empty($extensionData[$fieldName])) {
+					$extensionInfo[$fieldName] = $this->convertValue($extensionData[$fieldName], $fieldConf['type']);
 				}
 			}
 
 			// Get upload date
-			if (empty($extInfo['uploadDate'])) {
-				$extInfo['uploadDate'] = (int) $GLOBALS['SIM_EXEC_TIME'];
+			if (empty($extensionInfo['uploadDate'])) {
+				$extensionInfo['uploadDate'] = (int) $GLOBALS['SIM_EXEC_TIME'];
 			}
 
 			// Get file hash
-			if (empty($extInfo['fileHash']) && !empty($extData['fileName'])) {
-				$extInfo['fileHash'] = Tx_TerFe2_Utility_Files::getFileHash($extData['fileName']);
+			if (empty($extensionInfo['fileHash']) && !empty($extensionData['fileName'])) {
+				$extensionInfo['fileHash'] = Tx_TerFe2_Utility_Files::getFileHash($extensionData['fileName']);
 			}
 
 			// Get version number
-			if (empty($extInfo['versionNumber']) && !empty($extInfo['versionString'])) {
-				$extInfo['versionNumber'] = t3lib_div::int_from_ver($extInfo['versionString']);
+			if (empty($extensionInfo['versionNumber']) && !empty($extensionInfo['versionString'])) {
+				$extensionInfo['versionNumber'] = t3lib_div::int_from_ver($extensionInfo['versionString']);
 			}
 
 			// Check required information afterwards
-			foreach ($extInfoSchema as $fieldName => $fieldConf) {
-				if (empty($extInfo[$fieldName]) && $fieldConf['required']) {
+			foreach ($extensionInfoSchema as $fieldName => $fieldConf) {
+				if (empty($extensionInfo[$fieldName]) && $fieldConf['required']) {
 					return array();
 				}
 			}
 
 			// Add relations
-			if (!empty($extData['relations']) && is_array($extData['relations'])) {
-				foreach ($extData['relations'] as $relation) {
+			if (!empty($extensionData['relations']) && is_array($extensionData['relations'])) {
+				foreach ($extensionData['relations'] as $relation) {
 					if (!empty($relation['relationType']) && !empty($relation['relationKey']) && !empty($relation['softwareType'])) {
 						$relation['versionRange'] = (!empty($relation['versionRange']) ? $relation['versionRange'] : '');
-						$extInfo['softwareRelation'][] = $relation;
+						$extensionInfo['softwareRelation'][] = $relation;
 					}
 				}
 			}
 
-			return $extInfo;
+			return $extensionInfo;
 		}
 
 
@@ -224,8 +223,8 @@
 		 * @return array Properties
 		 */
 		protected function getExtensionInfoSchema() {
-			if (!empty($this->extInfoSchema)) {
-				return $this->extInfoSchema;
+			if (!empty($this->extensionInfoSchema)) {
+				return $this->extensionInfoSchema;
 			}
 
 			// Get class structure and property options
@@ -262,17 +261,17 @@
 					}
 
 					// Build field
-					$this->extInfoSchema[$propertyName] = array(
+					$this->extensionInfoSchema[$propertyName] = array(
 						'type'     => $propertyData['type'],
 						'required' => $required,
 					);
 				}
 			}
 
-			unset($this->extInfoSchema['manual']);
-			unset($this->extInfoSchema['extensionProvider']);
+			unset($this->extensionInfoSchema['manual']);
+			unset($this->extensionInfoSchema['extensionProvider']);
 
-			return $this->extInfoSchema;
+			return $this->extensionInfoSchema;
 		}
 
 

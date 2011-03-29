@@ -143,8 +143,8 @@
 		 * @return string Translated label
 		 */
 		protected function translate($label, array $arguments = array()) {
-			$extKey = $this->request->getControllerExtensionKey();
-			return Tx_Extbase_Utility_Localization::translate($label, $extKey, $arguments);
+			$extensionKey = $this->request->getControllerExtensionKey();
+			return Tx_Extbase_Utility_Localization::translate($label, $extensionKey, $arguments);
 		}
 
 	}

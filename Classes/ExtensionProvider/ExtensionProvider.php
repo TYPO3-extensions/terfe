@@ -93,8 +93,8 @@
 			$updateInfoArray = array();
 			foreach ($this->settings['extensionProviders'] as $providerIdent => $providerSettings) {
 				// Get update info from one Extension Provider
-				$extensionProvider = $this->getConcreteExtensionProvider($providerIdent);
-				$updateInfo = $extensionProvider->getUpdateInfo($lastRunTime);
+				$extensionProvider = $this->getConcreteExtensionProvider($providerIdent, $providerSettings);
+				$updateInfo        = $extensionProvider->getUpdateInfo($lastRunTime);
 
 				// Set providerIdent recursively
 				array_walk($updateInfo, array($this, 'setExtensionProvider'), $providerIdent);
@@ -150,9 +150,10 @@
 		 * Load a concrete Extension provider by identifier
 		 *
 		 * @param string $providerIdent Identifier of the Extension Provider
+		 * @param array $providerSettings Provider specific settings
 		 * @return Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface Extension Provider
 		 */
-		protected function getConcreteExtensionProvider($providerIdent) {
+		protected function getConcreteExtensionProvider($providerIdent, array $providerSettings) {
 			if (empty($providerIdent)) {
 				throw new Exception('No Extension Provider given');
 			}
@@ -161,12 +162,11 @@
 				return $this->concreteExtensionProviders[$providerIdent];
 			}
 
-			if (empty($this->settings['extensionProviders'][$providerIdent]['className'])) {
+			if (empty($providerSettings['className'])) {
 				throw new Exception('No className found for Extension Provider "' . $providerIdent . '"');
 			}
 
 			// Create new one from settings
-			$providerSettings  = $this->settings['extensionProviders'][$providerIdent];
 			$extensionProvider = $this->objectManager->get($providerSettings['className']);
 			if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
 				$extensionProvider->setConfiguration($providerSettings);
@@ -183,13 +183,13 @@
 		/**
 		 * Add Extension Provider to Extension information array
 		 *
-		 * @param array $extInfo Extension information
+		 * @param array $extensionInfo Extension information
 		 * @param string $key Array key
 		 * @param string $providerIdent Ident of the Extension Provider
 		 * @return void
 		 */
-		protected function setExtensionProvider(array &$extInfo, $key, $providerIdent) {
-			$extInfo['extensionProvider'] = $providerIdent;
+		protected function setExtensionProvider(array &$extensionInfo, $key, $providerIdent) {
+			$extensionInfo['extensionProvider'] = $providerIdent;
 		}
 
 	}

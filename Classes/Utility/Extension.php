@@ -24,50 +24,43 @@
 	 ******************************************************************/
 
 	/**
-	 * JSON view for the listLatest action of the Extension controller
+	 * Utilities to manage extension information
 	 *
 	 * @version $Id$
 	 * @copyright Copyright belongs to the respective authors
 	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_View_Extension_ListLatestJson extends Tx_Extbase_MVC_View_AbstractView {
+	class Tx_TerFe2_Utility_Extension {
 
 		/**
-		 * @var array
-		 */
-		protected $settings;
-
-
-		/**
-		 * Inject extension settings
+		 * Get extension information from module getters
 		 *
-		 * @return void
+		 * @param Tx_TerFe2_Domain_Model_Extension Extension object
+		 * @return array Extension information
 		 */
-		public function injectSettings(array $settings) {
-			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($settings);
-		}
+		static public function discloseExtension(Tx_TerFe2_Domain_Model_Extension $extension) {
+			$extensionInfo = array();
+			$classObjects  = array(
+				'Tx_TerFe2_Domain_Model_Extension' => $extension,
+				'Tx_TerFe2_Domain_Model_Version'   => $extension->getLastVersion(),
+				'Tx_TerFe2_Domain_Model_Author'    => $extension->getLastVersion()->getAuthor(),
+			);
 
-
-		/**
-		 * Render method, returns latest Extensions
-		 *
-		 * @return string JSON content
-		 */
-		public function render() {
-			$jsonArray  = array();
-			$extensions = array();
-
-			// Get extensions from view data
-			if (!empty($this->variables['extensions']) && $this->variables['extensions'] instanceof Tx_Extbase_Persistence_QueryResult) {
-				$extensions = $this->variables['extensions']->toArray();
-			}
-			if (!empty($extensions)) {
-				foreach ($this->variables['extensions'] as $extension) {
-					$jsonArray[] = Tx_TerFe2_Utility_Extension::discloseExtension($extension);
+			foreach ($classObjects as $className => $object) {
+				$methods = get_class_methods($className);
+				foreach ($methods as $methodName) {
+					if (strpos($methodName, 'get') === 0) {
+						$arrayKey = str_replace('get', '', $methodName);
+						$arrayKey[0] = strtolower($arrayKey[0]);
+						if ($className == 'Tx_TerFe2_Domain_Model_Author') {
+							$arrayKey = 'author' . ucfirst($arrayKey);
+						}
+						$extensionInfo[$arrayKey] = $object->$methodName();
+					}
 				}
 			}
 
-			return json_encode($jsonArray);
+			return $extensionInfo;
 		}
 
 	}
