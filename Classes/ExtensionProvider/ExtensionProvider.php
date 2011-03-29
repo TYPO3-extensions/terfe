@@ -93,7 +93,7 @@
 			$updateInfoArray = array();
 			foreach ($this->settings['extensionProviders'] as $providerIdent => $providerSettings) {
 				// Get update info from one Extension Provider
-				$extensionProvider = $this->getConcreteExtensionProvider($providerIdent, $providerSettings);
+				$extensionProvider = $this->getConcreteExtensionProvider($providerIdent);
 				$updateInfo        = $extensionProvider->getUpdateInfo($lastRunTime);
 
 				// Set providerIdent recursively
@@ -150,10 +150,9 @@
 		 * Load a concrete Extension provider by identifier
 		 *
 		 * @param string $providerIdent Identifier of the Extension Provider
-		 * @param array $providerSettings Provider specific settings
 		 * @return Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface Extension Provider
 		 */
-		protected function getConcreteExtensionProvider($providerIdent, array $providerSettings) {
+		protected function getConcreteExtensionProvider($providerIdent) {
 			if (empty($providerIdent)) {
 				throw new Exception('No Extension Provider given');
 			}
@@ -162,11 +161,12 @@
 				return $this->concreteExtensionProviders[$providerIdent];
 			}
 
-			if (empty($providerSettings['className'])) {
+			if (empty($this->settings['extensionProviders'][$providerIdent]['className'])) {
 				throw new Exception('No className found for Extension Provider "' . $providerIdent . '"');
 			}
 
 			// Create new one from settings
+			$providerSettings  = $this->settings['extensionProviders'][$providerIdent];
 			$extensionProvider = $this->objectManager->get($providerSettings['className']);
 			if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {
 				$extensionProvider->setConfiguration($providerSettings);

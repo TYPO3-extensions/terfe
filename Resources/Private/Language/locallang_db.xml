@@ -23,6 +23,7 @@
 
 			<label index="tx_terfe2_domain_model_tag">Tag</label>
 			<label index="tx_terfe2_domain_model_tag.title">Title</label>
+			<label index="tx_terfe2_domain_model_tag.extensions">Extensions</label>
 
 			<label index="tx_terfe2_domain_model_version">Version</label>
 			<label index="tx_terfe2_domain_model_version.title">Title</label>

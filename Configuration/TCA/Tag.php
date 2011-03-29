@@ -6,7 +6,7 @@
 	$TCA['tx_terfe2_domain_model_tag'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_tag']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'title',
+			'showRecordFieldList' => 'title,extensions',
 		),
 		'types' => array(
 			'1' => array('showitem' => 'title'),
@@ -68,6 +68,21 @@
 					'type' => 'input',
 					'size' => 30,
 					'eval' => 'trim,required',
+				),
+			),
+			'extensions' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_tag.extensions',
+				'config'  => array(
+					'type'              => 'select',
+					'size'              => 10,
+					'minitems'          => 0,
+					'maxitems'          => 9999,
+					'autoSizeMax'       => 30,
+					'multiple'          => 0,
+					'foreign_table'     => 'tx_terfe2_domain_model_extension',
+					'MM'                => 'tx_terfe2_extension_tag_mm',
+					'MM_opposite_field' => 'tags',
 				),
 			),
 		),
