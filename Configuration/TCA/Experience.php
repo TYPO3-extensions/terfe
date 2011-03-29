@@ -43,7 +43,7 @@
 			),
 			'l18n_diffsource' => array(
 				'config'       => array(
-					'type'      =>'passthrough',
+					'type'      => 'passthrough',
 				),
 			),
 			't3ver_label' => array(

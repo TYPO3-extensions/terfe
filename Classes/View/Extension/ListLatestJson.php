@@ -41,6 +41,7 @@
 		/**
 		 * Inject extension settings
 		 *
+		 * @param array $settings View settings
 		 * @return void
 		 */
 		public function injectSettings(array $settings) {

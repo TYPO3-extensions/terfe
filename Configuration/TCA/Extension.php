@@ -50,7 +50,7 @@
 				'displayCond' => 'FIELD:t3ver_label:REQ:true',
 				'label'       => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
 				'config'      => array(
-					'type'     =>'none',
+					'type'     => 'none',
 					'cols'     => 27,
 				),
 			),

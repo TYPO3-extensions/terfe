@@ -140,7 +140,7 @@
 		/**
 		 * Setter for forgeLink
 		 *
-		 * @param string $name Link to forge profile
+		 * @param string $forgeLink Link to forge profile
 		 * @return void
 		 */
 		public function setForgeLink($forgeLink) {
@@ -171,7 +171,7 @@
 		/**
 		 * Adds a version
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version The Version to be added
+		 * @param Tx_TerFe2_Domain_Model_Version $version The Version to be added
 		 * @return void
 		 */
 		public function addVersion(Tx_TerFe2_Domain_Model_Version $version) {
@@ -182,7 +182,7 @@
 		/**
 		 * Removes a version
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version The Version to be removed
+		 * @param Tx_TerFe2_Domain_Model_Version $version The Version to be removed
 		 * @return void
 		 */
 		public function removeVersion(Tx_TerFe2_Domain_Model_Version $version) {

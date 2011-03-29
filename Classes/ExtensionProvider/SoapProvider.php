@@ -49,10 +49,9 @@
 					$this->configuration['username'],
 					$this->configuration['password']
 				);
-				return;
+			} else {
+				Tx_TerFe2_Utility_Soap::connect($this->configuration['wsdlUrl']);
 			}
-
-			Tx_TerFe2_Utility_Soap::connect($this->configuration['wsdlUrl']);
 		}
 
 

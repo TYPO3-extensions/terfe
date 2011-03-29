@@ -35,7 +35,7 @@
 		/**
 		 * Get extension information from module getters
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Extension Extension object
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension object
 		 * @return array Extension information
 		 */
 		static public function discloseExtension(Tx_TerFe2_Domain_Model_Extension $extension) {

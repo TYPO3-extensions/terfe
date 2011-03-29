@@ -93,7 +93,7 @@
 		/**
 		 * Add multiple values to session
 		 *
-		 * @param array Key <-> value pairs
+		 * @param array $value Key <-> value pairs
 		 * @return void
 		 */
 		static public function addValues(array $values) {

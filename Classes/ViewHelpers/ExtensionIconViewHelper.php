@@ -69,11 +69,11 @@
 		/**
 		 * Renders an extension icon for given Version object
 		 *
-		 * @param $version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string Rendered image tag
 		 */
-		public function render($version = NULL, $fileType = 'gif') {
+		public function render(Tx_TerFe2_Domain_Model_Version $version = NULL, $fileType = 'gif') {
 			if ($version === NULL) {
 				$version = $this->renderChildren();
 			}

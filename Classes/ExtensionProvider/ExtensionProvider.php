@@ -82,7 +82,7 @@
 		/**
 		 * Returns an array with information about all updated Extensions
 		 *
-		 * @param integer $lastUpdate Last update of the extension list
+		 * @param integer $lastRunTime Last update of the extension list
 		 * @return array Update information
 		 */
 		public function getUpdateInfo($lastRunTime) {
@@ -110,7 +110,7 @@
 		/**
 		 * Returns URL to an Extension icon
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string URL to icon file
 		 */
@@ -123,7 +123,7 @@
 		/**
 		 * Returns URL to an Extension file
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string URL to file
 		 */
@@ -136,7 +136,7 @@
 		/**
 		 * Returns name of an Extension file
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string File name
 		 */
@@ -184,7 +184,7 @@
 		 * Add Extension Provider to Extension information array
 		 *
 		 * @param array $extensionInfo Extension information
-		 * @param string $key Array key
+		 * @param string $key Array key (never used, but required for array_walk)
 		 * @param string $providerIdent Ident of the Extension Provider
 		 * @return void
 		 */

@@ -44,8 +44,8 @@
 		 * @return void
 		 */
 		public function initialize() {
-			$ddmmyy = $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'];
-			$hhmm   = $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm'];
+			$ddmmyy = trim($GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy']);
+			$hhmm   = trim($GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm']);
 			$this->defaultFormat = trim($ddmmyy . ' ' . $hhmm);
 		}
 

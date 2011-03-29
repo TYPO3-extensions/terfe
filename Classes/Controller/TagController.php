@@ -70,8 +70,8 @@
 		/**
 		 * Displays a form for creating a new Tag
 		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to add the new tag
 		 * @param Tx_TerFe2_Domain_Model_Tag $newTag A fresh Tag object taken as a basis for the rendering
-		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to add this new tag
 		 * @return void
 		 * @dontvalidate $newTag
 		 */
@@ -85,6 +85,7 @@
 		 * Creates a new Tag and forwards to the index action
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $newTag A fresh Tag object which has not yet been added to the repository
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to add the new tag
 		 * @return void
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Tag $newTag, Tx_TerFe2_Domain_Model_Extension $extension) {

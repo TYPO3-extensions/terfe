@@ -35,7 +35,7 @@
 		/**
 		 * Injects the DataMap Factory
 		 *
-		 * @param Tx_Extbase_Persistence_Mapper_DataMapFactory
+		 * @param Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory
 		 * @return void
 		 */
 		public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory);
@@ -44,7 +44,7 @@
 		/**
 		 * Injects the Reflection Service
 		 *
-		 * @param Tx_Extbase_Reflection_Service
+		 * @param Tx_Extbase_Reflection_Service $reflectionService
 		 * @return void
 		 */
 		public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService);
@@ -62,7 +62,7 @@
 		/**
 		 * Returns URL to a cached or new Extension icon
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string URL to icon file
 		 */
@@ -72,7 +72,7 @@
 		/**
 		 * Returns URL to an Extension file
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string URL to file
 		 */
@@ -81,7 +81,7 @@
 		/**
 		 * Returns name of an Extension file
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string File name
 		 */

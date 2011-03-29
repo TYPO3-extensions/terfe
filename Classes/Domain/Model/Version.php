@@ -790,7 +790,7 @@
 		/**
 		 * Adds a Media
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Media The Media to be added
+		 * @param Tx_TerFe2_Domain_Model_Media $medium The Media to be added
 		 * @return void
 		 */
 		public function addMedia(Tx_TerFe2_Domain_Model_Media $medium) {
@@ -801,7 +801,7 @@
 		/**
 		 * Removes a Media
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Media The Media to be removed
+		 * @param Tx_TerFe2_Domain_Model_Media $medium The Media to be removed
 		 * @return void
 		 */
 		public function removeMedia(Tx_TerFe2_Domain_Model_Media $medium) {
@@ -833,7 +833,7 @@
 		/**
 		 * Adds a Experience
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Experience The Experience to be added
+		 * @param Tx_TerFe2_Domain_Model_Experience $experience The Experience to be added
 		 * @return void
 		 */
 		public function addExperience(Tx_TerFe2_Domain_Model_Experience $experience) {
@@ -844,7 +844,7 @@
 		/**
 		 * Removes a Experience
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Experience The Experience to be removed
+		 * @param Tx_TerFe2_Domain_Model_Experience $experience The Experience to be removed
 		 * @return void
 		 */
 		public function removeExperience(Tx_TerFe2_Domain_Model_Experience $experience) {
@@ -876,7 +876,7 @@
 		/**
 		 * Adds a Relation
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Relation The Relation to be added
+		 * @param Tx_TerFe2_Domain_Model_Relation $softwareRelation The Relation to be added
 		 * @return void
 		 */
 		public function addSoftwareRelation(Tx_TerFe2_Domain_Model_Relation $softwareRelation) {
@@ -887,7 +887,7 @@
 		/**
 		 * Removes a Relation
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Relation The Relation to be removed
+		 * @param Tx_TerFe2_Domain_Model_Relation $softwareRelation The Relation to be removed
 		 * @return void
 		 */
 		public function removeSoftwareRelation(Tx_TerFe2_Domain_Model_Relation $softwareRelation) {

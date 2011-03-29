@@ -218,7 +218,7 @@
 		/**
 		 * Adds a category
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Category The Category to be added
+		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to be added
 		 * @return void
 		 */
 		public function addCategory(Tx_TerFe2_Domain_Model_Category $category) {
@@ -229,7 +229,7 @@
 		/**
 		 * Removes a category
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Category The Category to be removed
+		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to be removed
 		 * @return void
 		 */
 		public function removeCategory(Tx_TerFe2_Domain_Model_Category $category) {
@@ -250,7 +250,7 @@
 		/**
 		 * Adds a Tag
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag The Tag to be added
+		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to be added
 		 * @return void
 		 */
 		public function addTag(Tx_TerFe2_Domain_Model_Tag $tag) {
@@ -261,7 +261,7 @@
 		/**
 		 * Removes a Tag
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag The Tag to be removed
+		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to be removed
 		 * @return void
 		 */
 		public function removeTag(Tx_TerFe2_Domain_Model_Tag $tag) {
@@ -282,7 +282,7 @@
 		/**
 		 * Adds a Version
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version The Version to be added
+		 * @param Tx_TerFe2_Domain_Model_Version $version The Version to be added
 		 * @return void
 		 */
 		public function addVersion(Tx_TerFe2_Domain_Model_Version $version) {

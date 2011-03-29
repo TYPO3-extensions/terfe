@@ -89,7 +89,7 @@
 		/**
 		 * Returns URL to a cached or new Extension icon
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string URL to icon file
 		 */
@@ -115,7 +115,7 @@
 		/**
 		 * Returns URL to an Extension file
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string URL to file
 		 */
@@ -128,7 +128,7 @@
 		/**
 		 * Returns name of an Extension file
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version Version object
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
 		 * @param string $fileType File type
 		 * @return string File name
 		 */
