@@ -42,7 +42,6 @@
 		/**
 		 * Email address
 		 * @var string
-		 * @validate EmailAddress
 		 */
 		protected $email;
 

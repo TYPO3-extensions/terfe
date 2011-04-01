@@ -78,8 +78,6 @@
 		 *  - Additonal Version Info:
 		 *    - Codelines
 		 *    - Codebytes
-		 *  - Add "authorForgeLink" to extensionInfo
-		 *  - Maybe make author name not required
 		 *
 		 * @return boolean TRUE on success
 		 */
@@ -271,9 +269,9 @@
 
 				// Add current frontend user uid if logged in
 				// TODO: Implement community extension here!
-				/*if (!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
+				if (!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
 					$extension->setFrontendUser((int) $GLOBALS['TSFE']->fe_user->user['uid']);
-				}*/
+				}
 			}
 
 			return $extension;
@@ -294,7 +292,7 @@
 				$author->setName(     $extensionInfo['authorName']);
 				$author->setEmail(    $extensionInfo['authorEmail']);
 				$author->setCompany(  $extensionInfo['authorCompany']);
-				//$author->setForgeLink($extensionInfo['authorForgeLink']);
+				$author->setForgeLink($extensionInfo['authorForgeLink']);
 			}
 
 			return $author;

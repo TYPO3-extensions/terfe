@@ -249,10 +249,6 @@
 		/**
 		 * Check file hash and increment counter while downloading
 		 *
-		 * TODO:
-		 *   - Show a "please wait" massage until file will be downloaded into output buffer
-		 *     or find an other way to send external file to browser
-		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing Version object
 		 * @param string $format Format of the file output
 		 * @return void
