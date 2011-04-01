@@ -30,6 +30,7 @@
 		'tx_terfe2_utility_zip' => $extensionClassesPath . 'Utility/Zip.php',
 		'tx_terfe2_view_extension_listjson' => $extensionClassesPath . 'View/Extension/ListJson.php',
 		'tx_terfe2_view_extension_listlatestjson' => $extensionClassesPath . 'View/Extension/ListLatestJson.php',
+		'tx_terfe2_viewhelpers_cdataviewhelper' => $extensionClassesPath . 'ViewHelpers/CdataViewHelper.php',
 		'tx_terfe2_viewhelpers_datetimeviewhelper' => $extensionClassesPath . 'ViewHelpers/DateTimeViewHelper.php',
 		'tx_terfe2_viewhelpers_extensioniconviewhelper' => $extensionClassesPath . 'ViewHelpers/ExtensionIconViewHelper.php',
 		'tx_terfe2_viewhelpers_urlviewhelper' => $extensionClassesPath . 'ViewHelpers/UrlViewHelper.php',
