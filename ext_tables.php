@@ -20,4 +20,6 @@ if (TYPO3_MODE=='BE') {
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_terfe_pi3_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi3/class.tx_terfe_pi3_wizicon.php';
 }
 
+t3lib_extMgm::addStaticFile($_EXTKEY, 'res/static/', 'TER Frontend');
+
 ?>
