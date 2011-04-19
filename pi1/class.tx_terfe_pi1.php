@@ -199,7 +199,7 @@ class tx_terfe_pi1 extends tslib_pibase
 		}
 
 		$markerArray = array(
-			'###ID###' => $this->pi_getPageLink($TSFE->id),
+			'###ACTION###' => $this->pi_getPageLink($TSFE->id),
 			'###SEARCHBUTTONTEXT###' => $this->pi_getLL('listview_search_searchbutton', '', TRUE),
 			'###SEARCHMESSAGE###' => sprintf($this->pi_getLL('listview_new_introduction', '', TRUE), $numberOfDays),
 			'###SEARCHRESULTS###' => $tableRows
@@ -319,21 +319,17 @@ class tx_terfe_pi1 extends tslib_pibase
 	{
 		global $TYPO3_DB, $TSFE;
 
-		$searchForm = '
-			<form action="' . $this->pi_getPageLink($TSFE->id) . '" method="get">
-				<input type="hidden" name="tx_terfe_pi1[view]" value="search" />
-				<input type="hidden" name="no_cache" value="1" />
-				<input type="text" name="tx_terfe_pi1[sword]" size="20" />
-				<input type="submit" value="' . $this->pi_getLL('listview_search_searchbutton', '', 1) . '" />
-			</form>
-		';
+		$subpart = $this->cObj->getSubpart($this->template, '###LISTVIEW###');
 
 		$searchResult = strlen(trim($this->piVars['sword'])) > 2 ? $this->renderListView_searchResult() : '';
 
-		$content = '
-			' . $searchForm . '
-			' . $searchResult . '
-		';
+		$markerArray = array(
+			'###ACTION###' => $this->pi_getPageLink($TSFE->id),
+			'###SEARCHBUTTONTEXT###' =>$this->pi_getLL('listview_search_searchbutton', '', 1),
+			'###SEARCHRESULTS###' => $searchResult
+		);
+
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
 
