@@ -67,18 +67,18 @@
 		</dd>
 		<dd class="right">
 			<dl>
-				<dt>'.$this->commonObj->getLL('extension_lastuploaddate','',1).'</dt>
-				<dd class="updated">'.$extensionRecord['lastuploaddate'].'</dd>
+				<dt>###LASTUPLOAD_LABEL###</dt>
+				<dd class="updated">###LASTUPLOAD###</dd>
 			</dl>
 			<dl class="changelog">
-				<dt>'.$this->commonObj->getLL('extension_uploadcomment','',1).'</dt>
-				<dd class="changelog">'.$extensionRecord['uploadcomment'].'</dd>
+				<dt>###UPLOADCOMMENT_LABEL###</dt>
+				<dd class="changelog">###UPLOADCOMMENT###</dd>
 			</dl>
 		</dd>
 		<dd class="bottom">
 			<dl class="description">
-				<dt>'.$this->commonObj->getLL('extension_description','',1).'</dt>
-				<dd>'.$extensionRecord['description'].'</dd>
+				<dt>###DESCRIPTION_LABEL###</dt>
+				<dd>###DESCRIPTION###</dd>
 			</dl>
 		</dd>
 	</dl>
@@ -188,6 +188,44 @@
 ###FILES###
 </li>
 <!-- ###EXTENSIONDETAILS### end -->
+
+
+<!-- ###UPLOADHISTORY### start -->
+<ul>
+<!-- ###ROW### -->
+	<li>###ITEM###</li>
+<!-- ###ROW### -->
+</ul>
+<!-- ###UPLOADHISTORY### end -->
+
+
+<!-- ###SHORTEXTENSIONRECORD### start -->
+<tr ###ROWCLASS###>
+	<td>###LINK###</td>
+	<td>###KEY###</td>
+	<td>###DOCLINK###</td>
+	<td class="###CLS_STATE###">###STATE###</td>
+	<td>###REATING###</td>
+	<td>###LASTUPLOAD###</td>
+</tr>
+<!-- ###SHORTEXTENSIONRECORD### end -->
+
+
+
+
+
+
+<!-- ###TOPMENU### start -->
+<div class="terfe-tabnav">
+	<!-- Uese Marker ###OLDMENU### for old markup -->
+<ul>
+	<li###ACTIVE_CLS_NEW###>###NEW###</li>
+	<li###ACTIVE_CLS_POPULAR###>###POPULAR###</li>
+	<li###ACTIVE_CLS_FULLLIST###>###FULLLIST###</li>
+	<li###ACTIVE_CLS_SEARCH###>###SEARCH###</li>
+</ul>
+</div>
+<!-- ###TOPMENU### end -->
 
 
 

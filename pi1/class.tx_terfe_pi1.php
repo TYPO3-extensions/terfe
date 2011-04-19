@@ -746,18 +746,21 @@ class tx_terfe_pi1 extends tslib_pibase
 		$extensionRecord = $this->commonObj->db_prepareExtensionRecordForOutput($extensionRecord);
 		$rowClass = $this->oddRow ? 'class="even"' : '';
 		$this->oddRow = 1 - $this->oddRow;
-		$tableRows = '
-			<tr ' . $rowClass . '>
-			<td>' . $this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view' => 'view', 'showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']), 1, 1) . '</td>
-				<td>' . $extensionRecord['extensionkey'] . '</td>
-				<td>' . $documentationLink . '</td>
-				<td class="' . strtolower($extensionRecord['state']) . '">' . $extensionRecord['state'] . '</td>
-				<td>' . ($extensionRecord['rating'] ? $extensionRecord['rating'] : 'none') . '</td>
-				<td>' . $extensionRecord['lastuploaddate'] . '</td>
-			</tr>
-		';
 
-		return $tableRows;
+		$subpart = $this->cObj->getSubpart($this->template, '###SHORTEXTENSIONRECORD###');
+		$markerArray = array(
+			'###ROWCLASS###' => $rowClass,
+			'###LINK###' => $this->pi_linkTP_keepPIvars($extensionRecord['title'], array('view' => 'view', 'showExt' => $extensionRecord['extensionkey'], 'version' => $extensionRecord['version']), 1, 1),
+			'###KEY###' => htmlspecialchars($extensionRecord['extensionkey']),
+			'###DOCLINK###' => $documentationLink,
+			'###CLS_STATE###' => strtolower($extensionRecord['state']),
+			'###STATE###' => $extensionRecord['state'],
+			'###RATING###' => $extensionRecord['rating'] ? $extensionRecord['rating'] : 'none',
+			'###LASTZPLOAD###' => $extensionRecord['lastuploaddate'],
+		);
+
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
+		return $content;
 	}
 
 	/**
@@ -782,13 +785,18 @@ class tx_terfe_pi1 extends tslib_pibase
 		);
 
 		if ($res) {
-			$output = '<ul>';
+			$subpart = $this->cObj->getSubpart($this->template, '###UPLOADHISTORY###');
+			$subpartRow = $this->cObj->getSubpart($subpart, '###ROW###');
+			$row = '';
+			$markerArray = $subpartArray = array();
 			while ($result = $TYPO3_DB->sql_fetch_assoc($res)) {
 				if ($result['uploadcomment']) {
-					$output .= '<li>' . $result['version'] . ': ' . htmlspecialchars($result['uploadcomment']) . '</li>';
+					$markerArray['###ITEM###'] =  $result['version'] . ': ' . htmlspecialchars($result['uploadcomment']);
+					$row .= $this->cObj->substituteMarkerArrayCached($subpartRow, $markerArray, array(), array());
 				}
 			}
-			return $output . '</ul>';
+			$subpartArray['###ROW###'] = $row;
+			return $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, $subpartArray, array());
 		} else return FALSE;
 	}
 
@@ -803,13 +811,26 @@ class tx_terfe_pi1 extends tslib_pibase
 
 		// Prepare the top menu items:
 		$menuItems = array('new', 'popular', 'fulllist', 'search'); # FIXME: disabled: categories
+		$subpart = $this->cObj->getSubpart($this->template, '###TOPMENU###');
+		$markerArray = array(
+			'###EXTRELPATH###' => t3lib_extMgm::siteRelPath('ter_fe'),
+			'###ACTIVE_CLS_NEW###' => '',
+			'###ACTIVE_CLS_POPULAR###' => '',
+			'###ACTIVE_CLS_FULLLIST###' => '',
+			'###ACTIVE_CLS_SEARCH###' => '',
+		);
 
 		// Render the top menu
 		$counter = 0;
 		foreach ($menuItems as $itemKey) {
-			$activeItemsArr[$counter] = $this->piVars['view'] == $itemKey;
+			if ($this->piVars['view'] == $itemKey) {
+				$activeItemsArr[$counter] = TRUE;
+				$markerArray['###ACTIVE_CLS_' . strtoupper($itemKey) . '###'] = ' class="active"';
+			}
 			$counter++;
 		}
+
+
 
 		$counter = 0;
 		$topMenuItems = '';
@@ -818,6 +839,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			$link = '<a href="' . $this->cObj->lastTypoLinkUrl . '" ' . ($activeItemsArr[$counter] ? 'class="active"'
 					: '') . '>' . $this->pi_getLL('views_' . $itemKey, '', 1) . '</a>';
 
+			$markerArray['###' . strtoupper($itemKey) . '###'] = $link;
 			if ($activeItemsArr[$counter]) {
 				if ($counter > 0) {
 					$topMenuItems .= '<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-act-left.gif" alt="" /></div>';
@@ -843,7 +865,10 @@ class tx_terfe_pi1 extends tslib_pibase
 				<div><img src="' . t3lib_extMgm::siteRelPath('ter_fe') . 'res/terfe-tabnav-end.gif" alt="" /></div>
 			</div>
 		';
-		return $topMenu;
+		$markerArray['###OLDMENU###'] = $topMenu;
+
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
+		return $content;
 	}
 }
 
