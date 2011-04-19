@@ -579,41 +579,22 @@ class tx_terfe_pi1 extends tslib_pibase
 		$detailRows = '';
 		$t3xDownloadURL = substr($this->commonObj->getExtensionVersionPathAndBaseName($extensionRecord['extensionkey'], $extensionRecord['version']) . '.t3x', strlen(PATH_site));
 
-		$detailsArr = array(
-			'extension_dependencies' => $this->commonObj->getRenderedDependencies($extensionRecord['dependencies']),
-			'extension_reversedependencies' => $this->commonObj->getRenderedReverseDependencies($extensionRecord['extensionkey'], $extensionRecord['version']),
-			'extension_files' => $this->commonObj->getRenderedListOfFiles($extDetailsRow),
-			'extension_history' => $this->getUploadHistory($extensionRecord['extensionkey'], $extensionRecord['lastuploaddate_raw']),
-			'extension_download_extension' => '<p><a href="' . $t3xDownloadURL . '">' . $this->commonObj->getLL('extensionfiles_downloadcompressedt3x', '', 1) . '</a></p>'
-
+		$markerArray = array(
+			'###DEP_LABEL###' => $this->commonObj->getLL('extension_dependencies', '', 1),
+			'###REVDEP_LABEL###' => $this->commonObj->getLL('extension_reversedependencies', '', 1),
+			'###FILES_LABEL###' => $this->commonObj->getLL('extension_files', '', 1),
+			'###HISTORY_LABEL###' => $this->commonObj->getLL('extension_history', '', 1),
+			'###DOWNLOAD_LABEL###' => $this->commonObj->getLL('extension_download_extension', '', 1),
+			'###DEP###' => $this->commonObj->getRenderedDependencies($extensionRecord['dependencies']),
+			'###REVDEP###' => $this->commonObj->getRenderedReverseDependencies($extensionRecord['extensionkey'], $extensionRecord['version']),
+			'###FILES###' => $this->commonObj->getRenderedListOfFiles($extDetailsRow),
+			'###HISTORY###' => $this->getUploadHistory($extensionRecord['extensionkey'], $extensionRecord['lastuploaddate_raw']),
+			'###DOWNLOADURL###' => $t3xDownloadURL,
+			'###DOWNLOAD###' => $this->commonObj->getLL('extensionfiles_downloadcompressedt3x', '', 1),
 		);
 
-		foreach ($detailsArr as $llKey => $value) {
-			$detailRows[] = '
-					<dt>' . $this->commonObj->getLL($llKey, '', 1) . '</dt>
-					<dd>' . $value . '</dd>
-			';
-		}
-
-		// Put everything together
-		$content = '
-			<li><dl class="ext-info">
-				<dt class="hidden">Extension Details</dt>
-				<dd class="left">
-					<dl class="deps">' . $detailRows[0] . '</dl>
-					<dl class="deps">' . $detailRows[1] . '</dl>
-					</dd>
-					<dd class="right">
-					<dl class="deps">' . $detailRows[3] . '</dl>
-					</dd>
-					<dd class="bottom">
-					<dl class="description">' . $detailRows[4] . '</dl>
-					</dd>
-					</dl>
-			</li>
-					<li class="files">
-			' . $detailsArr['extension_files'] . '</li>';
-
+		$subpart = $this->cObj->getSubpart($this->template, '###EXTENSIONDETAILS###');
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
 
