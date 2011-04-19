@@ -346,6 +346,8 @@ class tx_terfe_pi1 extends tslib_pibase
 
 		$tableRows = array();
 
+		$subpart = $this->cObj->getSubpart($this->template, '###SEARCHRESULTS###');
+
 		$res = $TYPO3_DB->exec_SELECTquery(
 			'e.*,rating,votes',
 			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
@@ -363,17 +365,15 @@ class tx_terfe_pi1 extends tslib_pibase
 						$alreadyRenderedExtensionKeys[] = $extensionRecord['extensionkey'];
 					}
 				}
-				$output = '
-					<ul class="extensions">
-					' . implode('', $tableRows) . '
-					</ul>
-				';
+				$markerArray['###RESULTS###'] =  implode('', $tableRows);
+
 			} else {
-				$output = $this->pi_getLL('listview_search_noresult', '', 1);
+				$markerArray['###RESULTS###'] = $this->pi_getLL('listview_search_noresult', '', 1);
 			}
 		}
 
-		return $output;
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
+		return $content;
 	}
 
 	/**
@@ -397,6 +397,7 @@ class tx_terfe_pi1 extends tslib_pibase
 		);
 
 		$tableRows = array();
+		$subpart = $this->cObj->getSubpart($this->template, '###COMPACTLISTVIEW###');
 
 		// get char from piVars
 		$char = $this->piVars['char'];
@@ -434,10 +435,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			}
 		}
 
-		$content = '<p>' . $this->pi_getLL('listview_fulllist_introduction', '', 1) . '</p>';
-
-		// char menu
-		$content .= '<p class="terfe-charmenu">';
+		$charMenu = '';
 		for ($i = 96; $i < 123; $i++) {
 			$c = $i == 96 ? '[0-9]' : strtoupper(chr($i));
 			$piVar = $i == 96 ? '0' : chr($i);
@@ -448,21 +446,24 @@ class tx_terfe_pi1 extends tslib_pibase
 				$style = 'padding:0 3px;';
 			}
 
-			$content .= '<span style="' . $style . '">' . $this->pi_linkTP_keepPIvars($c, array('char' => $piVar), 1) . '</span>';
+			$charMenu .= '<span style="' . $style . '">' . $this->pi_linkTP_keepPIvars($c, array('char' => $piVar), 1) . '</span>';
 		}
-		$content .= '</p>';
 
-		$content .= '
-				<table class="ext-compactlist"><tr>
-				<th>' . $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_title', '', 1), array('sorting' => 'by_title'), 1) . '</th>
-				<th>' . $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_extensionkey', '', 1), array('sorting' => 'by_extkey'), 1) . '</th>
-				<th>' . $this->commonObj->getLL('extension_documentation', '', 1) . '</th>
-				<th>' . $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_state', '', 1), array('sorting' => 'by_state'), 1) . '</th>
-				<th>' . $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_rating', '', 1), array('sorting' => 'by_rating'), 1) . '</th>
-				<th>' . $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_lastuploaddate', '', 1), array('sorting' => 'by_update'), 1) . '</th>
-			</tr>' . implode('', $tableRows) . '
-			</table>
-		';
+
+		$markerArray = array(
+			'###HEADER###' => $this->pi_getLL('listview_fulllist_introduction', '', 1),
+			'###CHARMENU###' => $charMenu,
+			'###INTRODUCTION###' => $this->pi_getLL('listview_fulllist_introduction', '', 1),
+			'###TITLE_HEAD###' => $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_title', '', 1), array('sorting' => 'by_title'), 1),
+			'###KEY_HEAD###' => $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_extensionkey', '', 1), array('sorting' => 'by_extkey'), 1),
+			'###DOC_HEAD###' => $this->commonObj->getLL('extension_documentation', '', 1),
+			'###STATE_HEAD###' => $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_state', '', 1), array('sorting' => 'by_state'), 1),
+			'###RATING_HEAD###' => $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_rating', '', 1), array('sorting' => 'by_rating'), 1),
+			'###LASTUPDATE_HEAD###' => $this->pi_linkTP_keepPIvars($this->commonObj->getLL('extension_lastuploaddate', '', 1), array('sorting' => 'by_update'), 1),
+			'###RESULTS###' => implode('', $tableRows),
+		);
+
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
 

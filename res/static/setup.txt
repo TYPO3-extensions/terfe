@@ -1,5 +1,6 @@
 plugin.tx_terfe_pi1 {
-	repositoryDirectory = 
+	repositoryDirectory =
+	templateFile = EXT:ter_fe/templates/template_pi1.html
 }
 
 plugin.tx_terfe_pi2{
@@ -8,5 +9,5 @@ plugin.tx_terfe_pi2{
 }
 
 plugin.tx_terfe_pi3 {
-	repositoryDirectory = 
+	repositoryDirectory =
 }
