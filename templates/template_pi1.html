@@ -8,7 +8,7 @@
 
 
 #FORM
-<!-- ###SEARCHFORM### start -->
+<!-- ###LISTVIEW### start -->
 <form action="###ID###" method="get">
 	<input type="hidden" name="tx_terfe_pi1[view]" value="search"/>
 	<input type="hidden" name="no_cache" value="1"/>
@@ -20,7 +20,7 @@
 <ul class="extensions">
 	###SEARCHRESULTS###
 </ul>
-<!-- ###SEARCHFORM### end -->
+<!-- ###LISTVIEW### end -->
 
 
 <!-- ###EXTENSIONRECORD### start -->
@@ -83,7 +83,22 @@
 		</dd>
 	</dl>
 </li>
-<!-- ###EXTENSIONRECORD### end ->
+<!-- ###EXTENSIONRECORD### end -->
+
+
+<!-- ###CATEGORYVIEW### start-->
+<p>###HEADER###</p>
+<ul class="extensions">
+###EXTENSIONLIST###
+</ul>
+<!-- ###CATEGORYVIEW### end -->
+
+<!-- ###POPULARVIEW### start-->
+<p>###HEADER###</p>
+<ul class="extensions">
+###EXTENSIONLIST###
+</ul>
+<!-- ###POPULARVIEW### end -->
 
 
 </body>

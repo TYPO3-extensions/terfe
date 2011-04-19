@@ -172,7 +172,7 @@ class tx_terfe_pi1 extends tslib_pibase
 		$numberOfDays = 20;
 		$tableRows = array();
 
-		$subpart = $this->cObj->getSubpart($this->template, '###SEARCHFORM###');
+		$subpart = $this->cObj->getSubpart($this->template, '###LISTVIEW###');
 
 		// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:
 		if (t3lib_extMgm::isLoaded('ter_doc')) {
@@ -223,6 +223,8 @@ class tx_terfe_pi1 extends tslib_pibase
 		$numberOfDays = 50;
 		$tableRows = array();
 
+		$subpart = $this->cObj->getSubpart($this->template, '###CATEGORYVIEW###');
+
 		$res = $TYPO3_DB->exec_SELECTquery(
 			'*',
 			'tx_terfe_extensions',
@@ -241,12 +243,12 @@ class tx_terfe_pi1 extends tslib_pibase
 			}
 		}
 
-		$content = '
-			<p>' . htmlspecialchars(sprintf($this->pi_getLL('renderview_new_introduction', ''), $numberOfDays)) . '</p>
-			<ul class="extensions">
-			' . implode('', $tableRows) . '
-			</ul>
-		';
+		$markerArray = array(
+			'###HEADER###' => htmlspecialchars(sprintf($this->pi_getLL('renderview_new_introduction', ''), $numberOfDays)),
+			'###EXTENSIONLIST###' => implode('', $tableRows)
+		);
+
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
 
@@ -261,6 +263,8 @@ class tx_terfe_pi1 extends tslib_pibase
 		global $TYPO3_DB;
 
 		$tableRows = array();
+		$subpart = $this->cObj->getSubpart($this->template, '###POPULARVIEW###');
+
 
 		// Set the magic "reg1" so we can clear the cache for this manual if a new one is uploaded:
 		if (t3lib_extMgm::isLoaded('ter_doc')) {
@@ -296,12 +300,12 @@ class tx_terfe_pi1 extends tslib_pibase
 			}
 		}
 
-		$content = '
-			<p>' . $this->pi_getLL('listview_popular_introduction', '', 1) . '</p>
-			<ol class="extensions">
-			' . implode('', $tableRows) . '
-			</ol>
-		';
+		$markerArray = array(
+			'###HEADER###' => $this->pi_getLL('listview_popular_introduction', '', TRUE),
+			'###EXTENSIONLIST###' => implode('', $tableRows)
+		);
+
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
 
