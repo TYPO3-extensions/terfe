@@ -508,41 +508,50 @@ class tx_terfe_pi1 extends tslib_pibase
 
 		// Render the top menu
 		$topMenu = '';
+		$subpart = $this->cObj->getSubpart($this->template, '###TOPMENU###');
 		foreach ($menuItems as $itemKey) {
 			$itemActive = ($this->piVars['extView'] == $itemKey);
 			$link = $this->pi_linkTP_keepPIvars($this->pi_getLL('extensioninfo_views_' . $itemKey, '', 1), array('showExt' => $extensionKey, 'extView' => $itemKey, 'viewFile' => ''), 1);
-			$topMenu .= '<span ' . ($itemActive ? 'class="submenu-button-active"'
-					: 'class="submenu-button"') . '>' . $link . '</span>';
+			$markerArray = array(
+				'###CLS###' => $itemActive ? 'class="submenu-button-active"' : 'class="submenu-button"',
+				'###LINK###' => $link,
+			);
+			$topMenu .= $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());;
 		}
 
-		$subContent = '<ul class="extensions">' . $this->renderListView_detailledExtensionRecord($extensionRecord);
+		$subpart = $this->cObj->getSubpart($this->template, '###SUBCONTENT###');
+		$markerArray  = array(
+			'###RECORD###' => $this->renderListView_detailledExtensionRecord($extensionRecord),
+
+		);
 
 		// Render content of the currently selected view:
 		switch ($this->piVars['extView']) {
 			case 'feedback' :
-				$subContent .= '<li>' . $this->renderSingleView_feedbackForm($extensionRecord) . '<li>';
+				$markerArray['###ADD###'] = '<li>' . $this->renderSingleView_feedbackForm($extensionRecord) . '<li>';
 				break;
 
 			case 'rating':
 				$rating = new tx_terfe_ratings($extensionRecord, $this);
 				$rating->process_rating();
-				$subContent = '<ul class="extensions">' . $this->renderListView_detailledExtensionRecord($extensionRecord);
-				$subContent .= $rating->renderSingleView_rating();
+
+				$markerArray['###ADD###'] = $rating->renderSingleView_rating();
 
 				break;
 			case 'info':
 			default:
-				$subContent .= $this->renderSingleView_extensionDetails($extensionRecord);
+				$markerArray['###ADD###'] = $this->renderSingleView_extensionDetails($extensionRecord);
 		}
-		$subContent .= '</ul>';
+		$subContent = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 
+		$subpart = $this->cObj->getSubpart($this->template, '###COMPACTLISTVIEW###');
+		$markerArray = array(
+			'###TITLE###' => htmlspecialchars($extensionRecord['title']),
+			'###TOPMENU###' => $topMenu,
+			'###SUBCONTENT###' => $subContent,
+		);
 
-		// Put everything together:
-		$content = '
-			<h3>' . $extensionRecord['title'] . '</h3><br />
-			<p>' . $topMenu . '</p><br />
-			' . $subContent;
-
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
 
