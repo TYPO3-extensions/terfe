@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Template for pi1</title>
+</head>
+<body>
+
+
+#FORM
+<!-- ###SEARCHFORM### start -->
+<form action="###ID###" method="get">
+	<input type="hidden" name="tx_terfe_pi1[view]" value="search"/>
+	<input type="hidden" name="no_cache" value="1"/>
+	<input type="text" name="tx_terfe_pi1[sword]" size="20"/>
+	<input type="submit" value="###SEARCHBUTTONTEXT###"/>
+</form>
+
+<p>###SEARCHMESSAGE###</p>
+<ul class="extensions">
+	###SEARCHRESULTS###
+</ul>
+<!-- ###SEARCHFORM### end -->
+
+
+<!-- ###EXTENSIONRECORD### start -->
+<li>
+	<dl class="ext-header">
+		<dt>Icon</dt>
+		<dd>###ICON###</dd>
+		<dt>###TITLE###</dt>
+		<dd class="ext-name">###DETAILLINK###</dd>
+		<dt>###EXTENSIONKEY_LABEL###'</dt>
+		<dd>(###EXTENSIONKEY###)</dd>
+		<dt>###EXTENSIONSTATE_LABEL###</dt>
+		<dd class="###EXTENSIONSTATE_CLS### state">
+			<span>###EXTENSIONSTATE###</span></dd>
+	</dl>
+	<dl class="ext-info">
+		<dt class="hidden">Extension Details</dt>
+		<dd class="left">
+			<dl class="first">
+				<dt>###AUTHORNAME_LABEL###</dt>
+				<dd>###AUTHORNAME###</dd>
+			</dl>
+			<dl>
+				<dt>###CATEGORY_LABEL###</dt>
+				<dd>###CATEGORY###</dd>
+			</dl>
+			<dl>
+				<dt>###VERSION_LABEL###</dt>
+				<dd>###VERSION###</dd>
+			</dl>
+			<dl>
+				<dt>###DOC_LABEL###</dt>
+				<dd>###DOC_LINK###</dd>
+			</dl>
+			<dl>
+				<dt>###DOWNLOADCOUNT_LABEL###</dt>
+				<dd>###DOWNLOADCOUNT###</dd>
+			</dl>
+			<dl>
+				<dt>###RATING_LABEL###</dt>
+				<dd>###RATING###</dd>
+			</dl>
+
+		</dd>
+		<dd class="right">
+			<dl>
+				<dt>'.$this->commonObj->getLL('extension_lastuploaddate','',1).'</dt>
+				<dd class="updated">'.$extensionRecord['lastuploaddate'].'</dd>
+			</dl>
+			<dl class="changelog">
+				<dt>'.$this->commonObj->getLL('extension_uploadcomment','',1).'</dt>
+				<dd class="changelog">'.$extensionRecord['uploadcomment'].'</dd>
+			</dl>
+		</dd>
+		<dd class="bottom">
+			<dl class="description">
+				<dt>'.$this->commonObj->getLL('extension_description','',1).'</dt>
+				<dd>'.$extensionRecord['description'].'</dd>
+			</dl>
+		</dd>
+	</dl>
+</li>
+<!-- ###EXTENSIONRECORD### end ->
+
+
+</body>
+</html>
