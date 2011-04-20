@@ -546,14 +546,14 @@ class tx_terfe_pi1 extends tslib_pibase
 		}
 		$subContent = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 debug($subpart, $markerArray,$subContent);
-		
-		$subpart = $this->cObj->getSubpart($this->template, '###COMPACTLISTVIEW###');
+
+		$subpart = $this->cObj->getSubpart($this->template, '###SINGLEVIEW###');
 		$markerArray = array(
 			'###TITLE###' => htmlspecialchars($extensionRecord['title']),
 			'###TOPMENU###' => $topMenu,
 			'###SUBCONTENT###' => $subContent,
 		);
-debug($markerArray);
+
 		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
