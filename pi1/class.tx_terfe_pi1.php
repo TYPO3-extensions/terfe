@@ -518,7 +518,7 @@ class tx_terfe_pi1 extends tslib_pibase
 				'###LINK###' => $link,
 			);
 			$topMenu .= $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());;
-			debug(array($subpart,$markerArray ));
+			debug(array($subpart,$markerArray,$topMenu ));
 		}
 
 		$subpart = $this->cObj->getSubpart($this->template, '###SUBCONTENT###');
