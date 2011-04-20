@@ -554,7 +554,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			'###SUBCONTENT###' => $subContent,
 		);
 debug(array($subpart, $markerArray,$subContent),'Final');
-		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array()) . 'TEST';
 		return $content;
 	}
 
