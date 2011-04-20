@@ -518,7 +518,7 @@ class tx_terfe_pi1 extends tslib_pibase
 				'###LINK###' => $link,
 			);
 			$topMenu .= $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());;
-			debug(array($subpart,$markerArray,$topMenu ));
+
 		}
 
 		$subpart = $this->cObj->getSubpart($this->template, '###SUBCONTENT###');
@@ -526,7 +526,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			'###RECORD###' => $this->renderListView_detailledExtensionRecord($extensionRecord),
 
 		);
-
+debug($subpart, $markerArray);
 		// Render content of the currently selected view:
 		switch ($this->piVars['extView']) {
 			case 'feedback' :
