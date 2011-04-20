@@ -551,7 +551,7 @@ debug('IN NEW');
 			'###TOPMENU###' => $topMenu,
 			'###SUBCONTENT###' => $subContent,
 		);
-
+debug($markerArray);
 		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
