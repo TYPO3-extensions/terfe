@@ -509,7 +509,7 @@ class tx_terfe_pi1 extends tslib_pibase
 
 		// Render the top menu
 		$topMenu = '';
-		$subpart = $this->cObj->getSubpart($this->template, '###TOPMENU###');
+		$subpart = $this->cObj->getSubpart($this->template, '###TOPMENUROW###');
 		foreach ($menuItems as $itemKey) {
 			$itemActive = ($this->piVars['extView'] == $itemKey);
 			$link = $this->pi_linkTP_keepPIvars($this->pi_getLL('extensioninfo_views_' . $itemKey, '', 1), array('showExt' => $extensionKey, 'extView' => $itemKey, 'viewFile' => ''), 1);
