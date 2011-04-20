@@ -545,7 +545,7 @@ class tx_terfe_pi1 extends tslib_pibase
 				$markerArray['###ADD###'] = $this->renderSingleView_extensionDetails($extensionRecord);
 		}
 		$subContent = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
-debug($subpart, $markerArray,$subContent);
+
 
 		$subpart = $this->cObj->getSubpart($this->template, '###SINGLEVIEW###');
 		$markerArray = array(
@@ -553,7 +553,7 @@ debug($subpart, $markerArray,$subContent);
 			'###TOPMENU###' => $topMenu,
 			'###SUBCONTENT###' => $subContent,
 		);
-
+debug(array($subpart, $markerArray,$subContent),'Final');
 		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
