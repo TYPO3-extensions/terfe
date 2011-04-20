@@ -479,7 +479,7 @@ class tx_terfe_pi1 extends tslib_pibase
 	protected function renderSingleView_extension($extensionKey, $version = 'current')
 	{
 		global $TYPO3_DB, $TSFE;
-debug('IN');
+debug('IN NEW');
 		if (!strlen($version) || $version == 'current') {
 			$version = $this->commonObj->db_getLatestVersionNumberOfExtension($extensionKey, $this->tooFewReviewsMode);
 		} else {
