@@ -479,7 +479,7 @@ class tx_terfe_pi1 extends tslib_pibase
 	protected function renderSingleView_extension($extensionKey, $version = 'current')
 	{
 		global $TYPO3_DB, $TSFE;
-debug('IN NEW');
+
 		if (!strlen($version) || $version == 'current') {
 			$version = $this->commonObj->db_getLatestVersionNumberOfExtension($extensionKey, $this->tooFewReviewsMode);
 		} else {
@@ -518,6 +518,7 @@ debug('IN NEW');
 				'###LINK###' => $link,
 			);
 			$topMenu .= $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());;
+			debug(array($subpart,$markerArray ));
 		}
 
 		$subpart = $this->cObj->getSubpart($this->template, '###SUBCONTENT###');
