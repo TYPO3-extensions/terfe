@@ -152,7 +152,8 @@ class tx_terfe_pi1 extends tslib_pibase
 		}
 
 		// Put everything together:
-		$content = $this->commonObj->getTopMenu(array('new', 'popular', 'fulllist', 'search')) . '<br />' . $subContent;
+		#$content = $this->getTopMenu(array('new', 'popular', 'fulllist', 'search')) . '<br />' . $subContent;
+		$content = $this->renderTopMenu() . $subContent;
 
 		return $this->pi_wrapInBaseClass($content);
 	}
@@ -811,7 +812,7 @@ class tx_terfe_pi1 extends tslib_pibase
 
 		// Prepare the top menu items:
 		$menuItems = array('new', 'popular', 'fulllist', 'search'); # FIXME: disabled: categories
-		$subpart = $this->cObj->getSubpart($this->template, '###TOPMENU###');
+		$subpart = $this->cObj->getSubpart($this->template, '###TOPMAINMENU###');
 		$markerArray = array(
 			'###EXTRELPATH###' => t3lib_extMgm::siteRelPath('ter_fe'),
 			'###ACTIVE_CLS_NEW###' => '',
@@ -866,8 +867,9 @@ class tx_terfe_pi1 extends tslib_pibase
 			</div>
 		';
 		$markerArray['###OLDMENU###'] = $topMenu;
-
+//t3lib_div::debug($markerArray);
 		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
+		//t3lib_div::debug(array($subpart, $content));
 		return $content;
 	}
 }
