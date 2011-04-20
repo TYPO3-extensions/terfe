@@ -580,7 +580,8 @@ class tx_terfe_pi1 extends tslib_pibase
 
 		// Compile detail rows information:
 		$detailRows = '';
-		$t3xDownloadURL = substr($this->commonObj->getExtensionVersionPathAndBaseName($extensionRecord['extensionkey'], $extensionRecord['version']) . '.t3x', strlen(PATH_site));
+		$downloadUrl = $this->commonObj->getExtensionVersionPathAndBaseName($extensionRecord['extensionkey'], $extensionRecord['version']) . '.t3x';
+		$t3xDownloadURL = substr($downloadUrl, strlen(PATH_site));
 
 		$markerArray = array(
 			'###DEP_LABEL###' => $this->commonObj->getLL('extension_dependencies', '', 1),
@@ -592,7 +593,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			'###REVDEP###' => $this->commonObj->getRenderedReverseDependencies($extensionRecord['extensionkey'], $extensionRecord['version']),
 			'###FILES###' => $this->commonObj->getRenderedListOfFiles($extDetailsRow),
 			'###HISTORY###' => $this->getUploadHistory($extensionRecord['extensionkey'], $extensionRecord['lastuploaddate_raw']),
-			'###DOWNLOADURL###' => $t3xDownloadURL,
+			'###DOWNLOADURL###' => $downloadUrl,
 			'###DOWNLOAD###' => $this->commonObj->getLL('extensionfiles_downloadcompressedt3x', '', 1),
 		);
 
@@ -869,9 +870,8 @@ class tx_terfe_pi1 extends tslib_pibase
 			</div>
 		';
 		$markerArray['###OLDMENU###'] = $topMenu;
-//t3lib_div::debug($markerArray);
+
 		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
-		//t3lib_div::debug(array($subpart, $content));
 		return $content;
 	}
 }
