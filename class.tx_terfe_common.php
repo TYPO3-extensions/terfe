@@ -636,6 +636,7 @@ class tx_terfe_common
 				$downloadLink = $this->pObj->pi_linkTP_keepPIvars($this->getLL('general_download', '', 1), array('downloadFile' => urlencode($fileName)), 1);
 				if (t3lib_div::inList('php,txt,tmpl,htm,xml,sql,asc,log,jpg,gif,png,css', strtolower(substr($fileName, -3, 3)))) {
 					$viewLink = $this->pObj->pi_linkTP_keepPIvars($this->getLL('general_view', '', 1), array('viewFile' => urlencode($fileName)), 1);
+					$viewLink = str_replace('">', '#ter_fe_preview">', $viewLink);
 				} else {
 					$viewLink = '';
 				}
@@ -661,7 +662,8 @@ class tx_terfe_common
 			}
 
 			if (isset($this->pObj->piVars['viewFile']) && is_array($filesArr[urldecode($this->pObj->piVars['viewFile'])])) {
-				$filePreview = $this->getRenderedFilePreview($tempDir . basename($filesArr[urldecode($this->pObj->piVars['viewFile'])]['tempfilename']));
+				$filePreview = '<h3 class="filename">' . htmlspecialchars(basename($filesArr[urldecode($this->pObj->piVars['viewFile'])]['tempfilename'])) . '</h3>';
+				$filePreview .= $this->getRenderedFilePreview($tempDir . basename($filesArr[urldecode($this->pObj->piVars['viewFile'])]['tempfilename']));
 			}
 
 			$output = '
