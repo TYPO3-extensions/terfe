@@ -691,13 +691,27 @@ class tx_terfe_common
 		$output = '<strong>' . htmlspecialchars(sprintf($this->getLL('extension_filepreview', ''), basename($pathAndFileName))) . ':</strong><br />';
 
 		if (t3lib_div::inList('php,txt,xml,sql,log,css,tmpl,htm,asc', strtolower(substr($pathAndFileName, -3, 3)))) {
-			ob_start();
-			highlight_file(PATH_site . $pathAndFileName);
-			$output .= ob_get_contents();
-			ob_end_clean();
-
-			$output = str_replace('<code>', '<pre>', $output);
-			$output = str_replace('</code>', '</pre>', $output);
+				// Use geshilib extension if installed else default html highlighting
+			if (t3lib_extMgm::isLoaded('geshilib')) {
+				require_once(t3lib_extMgm::siteRelPath('geshilib') . 'res/geshi.php');
+				$code     = file_get_contents(PATH_site . $pathAndFileName);
+				$language = substr($pathAndFileName, strrpos(trim($pathAndFileName), '_') + 1);
+					// Run GeSHi
+				$geshi = new GeSHi($code, $language, '');
+				$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+				$geshi->enable_classes(TRUE);
+				$geshi->set_overall_id('ter_fe_preview');
+				$output = $geshi->parse_code();
+					// Add CSS
+				$GLOBALS['TSFE']->additionalCSS[] = $geshi->get_stylesheet();
+			} else {
+				ob_start();
+				highlight_file(PATH_site . $pathAndFileName);
+				$output .= ob_get_contents();
+				ob_end_clean();
+				$output = str_replace('<code>', '<pre>', $output);
+				$output = str_replace('</code>', '</pre>', $output);
+			}
 
 		} elseif (t3lib_div::inList('jpg,gif,png', strtolower(substr($pathAndFileName, -3, 3)))) {
 			$output .= '<img src="' . $pathAndFileName . '" />';
