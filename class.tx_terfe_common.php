@@ -642,10 +642,10 @@ class tx_terfe_common
 				$tableRows[] = '
 					<tr>
 						<td class="filename">' . $this->csConvHSC($fileName) . '</td>
-						<td>' . t3lib_div::formatSize($fileArr['size']) . '</td>
-						<td>' . $viewLink . '</td>
-						<td>' . strftime($this->getLL('general_dateandtimeformat'), $fileArr['mtime']) . '</td>
-						<td>' . $downloadLink . '</td>
+						<td class="filesize">' . t3lib_div::formatSize($fileArr['size']) . '</td>
+						<td class="viewlink">' . $viewLink . '</td>
+						<td class="filetime">' . strftime($this->getLL('general_dateandtimeformat'), $fileArr['mtime']) . '</td>
+						<td class="filelink">' . $downloadLink . '</td>
 					</tr>
 				';
 			}
