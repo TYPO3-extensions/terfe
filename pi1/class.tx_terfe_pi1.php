@@ -327,7 +327,8 @@ class tx_terfe_pi1 extends tslib_pibase
 		$markerArray = array(
 			'###ACTION###' => $this->pi_getPageLink($TSFE->id),
 			'###SEARCHBUTTONTEXT###' =>$this->pi_getLL('listview_search_searchbutton', '', 1),
-			'###SEARCHRESULTS###' => $searchResult
+			'###SEARCHRESULTS###' => $searchResult,
+			'###SEARCHMESSAGE###' => 'Search for "' . htmlspecialchars($this->piVars['sword']) . '"',
 		);
 
 		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
@@ -347,7 +348,7 @@ class tx_terfe_pi1 extends tslib_pibase
 
 		$tableRows = array();
 
-		$subpart = $this->cObj->getSubpart($this->template, '###SEARCHRESULTS###');
+		$subpart = $this->cObj->getSubpart($this->template, '###SEARCHRESULTSROWS###');
 
 		$res = $TYPO3_DB->exec_SELECTquery(
 			'e.*,rating,votes',
