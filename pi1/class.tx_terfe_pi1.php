@@ -528,7 +528,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			'###RECORD###' => $this->renderListView_detailledExtensionRecord($extensionRecord),
 
 		);
-#t3lib_div::debug($this->piVars['extView']);
+
 		// Render content of the currently selected view:
 		switch ($this->piVars['extView']) {
 			case 'feedback' :
@@ -546,6 +546,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			default:
 				$markerArray['###ADD###'] = $this->renderSingleView_extensionDetails($extensionRecord);
 		}
+
 		$subContent = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 
 
