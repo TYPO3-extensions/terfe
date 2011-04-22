@@ -528,7 +528,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			'###RECORD###' => $this->renderListView_detailledExtensionRecord($extensionRecord),
 
 		);
-t3lib_div::debug($this->piVars['extView']);
+#t3lib_div::debug($this->piVars['extView']);
 		// Render content of the currently selected view:
 		switch ($this->piVars['extView']) {
 			case 'feedback' :
@@ -627,18 +627,27 @@ t3lib_div::debug($this->piVars['extView']);
 			$captchaString = $_SESSION['tx_captcha_string'];
 			$_SESSION['tx_captcha_string'] = '';
 
+			$subpart = $this->cObj->getSubpart($this->template, '###FEEDBACK_SENDED###');
+			$markerArray = array(
+				'###HEADER###' => $this->pi_getLL('extensioninfo_feedback_emailsent', '', 1),
+			);
+
 			if (t3lib_div::validEmail($this->piVars['DATA']['sender_email'])) {
+
+
 				if ($captchaString == $this->piVars['DATA']['captcha']) {
 					$message = 'TER feedback - ' . $extensionRecord['extensionkey'] . chr(10) . trim($this->piVars['DATA']['comment']);
 					$this->cObj->sendNotifyEmail($message, $extensionRecord['authoremail'], $this->feedbackMailsCCAddress, $this->piVars['DATA']['sender_email'], $this->piVars['DATA']['sender_name']);
 
-					$content = '
-							<h3>' . $this->pi_getLL('extensioninfo_feedback_emailsent', '', 1) . '</h3>
-							<p>' . htmlspecialchars(sprintf($this->pi_getLL('extensioninfo_feedback_emailsent_details'), $extensionRecord['authoremail'])) . '</p>
-						';
-				} else $content = '<p>' . $this->pi_getLL('extensioninfo_feedback_invalidcaptcha', '', 1) . '</p>';
-			} else $content = '<p>' . htmlspecialchars(sprintf($this->pi_getLL('extensioninfo_feedback_invalidemailaddress'), $this->piVars['DATA']['sender_email'])) . '</p>';
+					$markerArray['###MESSAGE###'] = htmlspecialchars(sprintf($this->pi_getLL('extensioninfo_feedback_emailsent_details'), $extensionRecord['authoremail']));
+				} else {
+					$markerArray['###MESSAGE###'] = $this->pi_getLL('extensioninfo_feedback_invalidcaptcha', '', 1) . '</p>';
+				}
+			} else {
+				$markerArray['###MESSAGE###'] = htmlspecialchars(sprintf($this->pi_getLL('extensioninfo_feedback_invalidemailaddress'), $this->piVars['DATA']['sender_email']));
+			}
 		} else {
+			$subpart = $this->cObj->getSubpart($this->template, '###FEEDBACKFORM###');
 			$content = '
 					<h3>' . $this->pi_getLL('extensioninfo_feedback_feedbacktotheauthor', '', 1) . '</h3>
 					<p>' . htmlspecialchars(sprintf($this->pi_getLL('extensioninfo_feedback_introduction'), $authorName)) . '</p>

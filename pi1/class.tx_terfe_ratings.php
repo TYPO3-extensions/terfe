@@ -92,7 +92,7 @@ class tx_terfe_ratings {
 
 		// Rendering rating history
 		$history = $this->render_ratingList($this->db_getRatings($this->extensionKey));
-	t3lib_div::debug($history, $this->extensionKey);
+	#t3lib_div::debug($history, $this->extensionKey);
 
 		if ($history) {
 			$output .= '<li>'.$history.'</li>';
