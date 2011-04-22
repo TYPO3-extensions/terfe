@@ -32,16 +32,16 @@
  *
  * @package TYPO3
  * @subpackage ter_fe
- * @author	Michael Scharkow <michael@underused.org	
+ * @author	Michael Scharkow <michael@underused.org
  * @author	Robert Lemke <robert@typo3.org>
  */
 class tx_terfe_ratings {
-	 
+
 	var $minRating = 1;
 	var $maxRating = 5;
 	var $minNumRatings = 3;
 	var $ratingItems = array (1 => 'useless', 2 => 'bad', 3 => 'average', 4 => 'good', 5 => 'excellent');
-	 
+
 	function __construct($extensionRecord, $backref) {
 		global $TSFE;
 		$this->extRow = $extensionRecord;
@@ -50,7 +50,7 @@ class tx_terfe_ratings {
 		$this->username = $TSFE->fe_user->user['username'];
 		$this->backRef = $backref;
 	}
-	 
+
 	/**
 	* Checks if rating cache is up to date, processes incoming rating data and saves rating
 	*
@@ -61,14 +61,14 @@ class tx_terfe_ratings {
 		$ratingsArr = t3lib_div::_POST('rating');
 		$real_rating = $this->comp_weightedRating($this->extensionKey, $this->version);
 		// if ratings cache is outdated update it
-		 
-		 
+
+
 		if ($real_rating != $this->extRow['rating']) {
 			$this->db_cache_rating($this->extensionKey, $this->version);
 			$TSFE->clearPageCacheContent();
-			 
+
 		}
-		 
+
 		if ($ratingsArr && $this->canBeRated()) {
 			$res = $this->db_saveRating($ratingsArr, t3lib_div::_POST('notes'), $this->username);
 			if ($res) {
@@ -76,32 +76,36 @@ class tx_terfe_ratings {
 			} else {
 				return FALSE;
 			}
-			 
+
 		}
 	}
-	 
+
 	/**
-	* Renders the single view for ratings, with 
+	* Renders the single view for ratings, with
 	*
 	* @return string The rendered output
 	*/
 	function renderSingleView_rating() {
 		global $TSFE;
-		 
+
+		$output = '';
+
 		// Rendering rating history
 		$history = $this->render_ratingList($this->db_getRatings($this->extensionKey));
+	t3lib_div::debug($history, $this->extensionKey);
+
 		if ($history) {
 			$output .= '<li>'.$history.'</li>';
 		}
-		 
+
 		// Rendering form
 		if ($this->canBeRated()) {
 			$output .= '<li>'.$this->render_ratingForm().'</li>';
 		}
-		 
+
 		return $output;
 	}
-	 
+
 	/**
 	* Displays a table with rating records
 	*
@@ -109,6 +113,8 @@ class tx_terfe_ratings {
 	* @return string Rating list
 	*/
 	function render_ratingList($ratings) {
+		$output = '';
+
 		if (is_array($ratings[0])) {
 			$ratings = array_slice($ratings,0,29); //only 30 ratings are displayed
 			$output .= '<table class="ext-compactlist review-hist">
@@ -153,33 +159,33 @@ class tx_terfe_ratings {
 		for ($i = $this->minRating; $i <= $this->maxRating; $i++) {
 			$valuerows[] = '<option value="'.$i.'">'.$this->ratingItems[$i].'</option>';
 		}
-		 
+
 		$output = '<form action="'.t3lib_div::getIndpEnv('REQUEST_URI').'" method="POST" class="rating">';
 		$output .= '<fieldset><legend>Rate this extension</legend>';
 		$output .= '<div>';
-		 
+
 		$output .= '<label for="funcrating">'.$this->backRef->pi_getLL('extensioninfo_ratings_funcrating', '').'</label><select name="rating[funcrating]" id="funcrating"><option value=""></option>';
 		$output .= implode('', array_reverse($valuerows));
 		$output .= '</select>';
-		 
+
 		$output .= '<label for="docrating">'.$this->backRef->pi_getLL('extensioninfo_ratings_docrating', '').'</label><select name="rating[docrating]" id="docrating"><option value=""></option>';
 		$output .= implode('', array_reverse($valuerows));
 		$output .= '</select>';
-		 
+
 		$output .= '<label for="coderating">'.$this->backRef->pi_getLL('extensioninfo_ratings_coderating', '').'</label><select name="rating[coderating]" id="coderating"><option value="" ></option>';
 		$output .= implode('', array_reverse($valuerows));
 		$output .= '</select>';
-		 
-		 
+
+
 		$output .= '</div><div>';
-		 
+
 		$output .= '<label for="notes">'.$this->backRef->pi_getLL('extensioninfo_ratings_addnotes', '').'</label><br/><textarea name="notes" id="notes" cols="50" rows="4"></textarea>';
 		$output .= '<input type="hidden" name="no_cache" value="1"/>';
 		$output .= '<input type="submit" name="submit" value="Submit rating"/></div>';
 		$output .= '</fieldset></form>';
 		return $output;
-		 
-		 
+
+
 	}
 	/**
 	* Renders a rating wrapped in css-stylable span
@@ -194,7 +200,7 @@ class tx_terfe_ratings {
 		$roundedvalue = round(($num * 2), 0)/2;
 		return '<span class="ext_rating stars'. $roundedvalue * 10 .'">' . $roundedvalue . ' out of 5</span>';
 	}
-	 
+
 	/**
 	* Computes the weighted rating for an extension version
 	*
@@ -205,13 +211,13 @@ class tx_terfe_ratings {
 	private function comp_weightedRating($extensionKey, $version) {
 		$versionRating = $this->db_getAvgRating($this->extensionKey, $this->version);
 		$allRating = $this->db_getAvgRating($this->extensionKey, $this->version, 1);
-	
+
 		$counter = 0;
 		if (is_array($versionRating) && $versionRating['num'] >= $this->minNumRatings) {
 			$ver = $versionRating['avg'];
 			$counter++;
 		}
-		 
+
 		if (is_array($allRating) && $allRating['num'] >= $this->minNumRatings) {
 			$all = $allRating['avg'];
 			$counter++;
@@ -223,7 +229,7 @@ class tx_terfe_ratings {
 		$realNumber = $allRating['num'];
 		return array ($realRating, $realNumber);
 	}
-	 
+
 	/**
 	* Computes rating average from 3 dimensions
 	*
@@ -245,7 +251,7 @@ class tx_terfe_ratings {
 		}
 		return $sum/$counter;
 	}
-	 
+
 	/**
 	* Checks if the current extension version can be rated by the current FE user
 	*
@@ -255,7 +261,7 @@ class tx_terfe_ratings {
 	if (!$this->username) {
 			return FALSE;
 		}
-		 
+
 		if ($this->extRow['ownerusername'] == $this->username) {
 			return FALSE;
 		}
@@ -263,11 +269,11 @@ class tx_terfe_ratings {
 			return FALSE;
 		}
 		return True;
-		 
+
 	}
-	 
-	 
-	 
+
+
+
 	/**
 	* Saves submitted rating data to db
 	*
@@ -277,17 +283,17 @@ class tx_terfe_ratings {
 	* @return boolean	True if saving worked, else False
 	*/
 	private function db_saveRating($ratingsArr, $notes, $username) {
-		 
+
 		foreach ($ratingsArr as $ratingType => $rating) {
 			if ($this->maxRating < $rating || $this->minRating > $rating) {
 				$ratingsArr[$ratingType] = FALSE;
 			}
 		}
-		 
+
 		if (! $overall = $this->comp_overallAvg($ratingsArr)) {
 			return FALSE;
 		}
-		 
+
 		global $TYPO3_DB;
 		$table = 'tx_terfe_ratings';
 		$insertArr = array(
@@ -301,17 +307,17 @@ class tx_terfe_ratings {
 			'username' => $TYPO3_DB->quoteStr($username, $table),
 			'tstamp' => time()
 		);
-		 
+
 		$res = $TYPO3_DB->exec_INSERTquery($table, $insertArr);
-		 
+
 		if (!$res) {
 			return FALSE;
 		}
 		$this->db_cache_rating($this->extensionKey, $this->version);
 		return TRUE;
-		 
+
 	}
-	 
+
 	/**
 	* Saves average rating to the db for caching
 	*
@@ -322,10 +328,10 @@ class tx_terfe_ratings {
 	private function db_cache_rating($extensionKey, $version) {
 		$cachable_ratings = $this->comp_weightedRating($extensionKey, $version);
 		if ($cachable_ratings) {
-			 
+
 			global $TYPO3_DB;
 			$table = 'tx_terfe_ratings';
-			 
+
 			$cachedRatingArr = array (
 			'extensionkey' => $TYPO3_DB->quoteStr($extensionKey, $table),
 				'version' => $TYPO3_DB->quoteStr($version, $table),
@@ -333,7 +339,7 @@ class tx_terfe_ratings {
 				'votes' => intval($cachable_ratings[1])
 			);
 			$cachingTable = 'tx_terfe_ratingscache';
-			 
+
 			$res2 = $TYPO3_DB->exec_DELETEquery(
 			$cachingTable,
 				'extensionkey =' . $TYPO3_DB->fullQuoteStr($extensionKey, 'tx_terfe_ratingscache'). ' AND version = ' . $TYPO3_DB->fullQuoteStr($version, 'tx_terfe_ratingscache')
@@ -341,16 +347,16 @@ class tx_terfe_ratings {
 			$res3 = $TYPO3_DB->exec_INSERTquery(
 			$cachingTable,
 				$cachedRatingArr );
-			 
+
 			return $res3? TRUE:
 			 FALSE;
-			 
-			 
+
+
 		} else {
 			return FALSE;
 		}
 	}
-	 
+
 	/**
 	* Retrieves rating records from the db,
 	*
@@ -360,7 +366,7 @@ class tx_terfe_ratings {
 	* @return array  Rating record
 	*/
 	private function db_getRatings($extensionkey, $version = '', $username = '') {
-		 
+
 		global $TYPO3_DB, $TSFE;
 		$res = $TYPO3_DB->exec_SELECTquery (
 		'*',
@@ -370,7 +376,7 @@ class tx_terfe_ratings {
 		.($username ? ' AND username = ' . $TYPO3_DB->fullQuoteStr($username, 'tx_terfe_ratings') : ''),
 			'',
 			'version DESC,tstamp DESC' );
-		 
+
 		if ($res) {
 			$ratings = array();
 			while ($ratingRow = $TYPO3_DB->sql_fetch_assoc($res)) {
@@ -379,7 +385,7 @@ class tx_terfe_ratings {
 			return $ratings;
 		}
 	}
-	 
+
 	/**
 	* Gets Average rating and number of votes from the db
 	*
@@ -389,7 +395,7 @@ class tx_terfe_ratings {
 	* @return array  Array containing avg and number of votes
 	*/
 	private function db_getAvgRating($extensionkey, $version, $previous = FALSE) {
-		 
+
 		global $TYPO3_DB, $TSFE;
 		$res = $TYPO3_DB->exec_SELECTquery (
 		'AVG(overall) as avg, COUNT(overall) as num',
@@ -402,6 +408,6 @@ class tx_terfe_ratings {
 			return $ratings;
 		}
 	}
-	 
-}	 
+
+}
 ?>

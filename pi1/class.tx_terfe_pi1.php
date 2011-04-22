@@ -504,7 +504,9 @@ class tx_terfe_pi1 extends tslib_pibase
 		}
 
 		// Prepare the top menu items:
-		if (!$this->piVars['extView']) $this->piVars['extView'] = 'info';
+		if (!$this->piVars['extView']) {
+			$this->piVars['extView'] = 'info';
+		}
 		$menuItems = array('info', 'rating', 'feedback'); // 'rating' enabled
 
 		// Render the top menu
