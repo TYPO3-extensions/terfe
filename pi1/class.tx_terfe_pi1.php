@@ -532,7 +532,7 @@ class tx_terfe_pi1 extends tslib_pibase
 		// Render content of the currently selected view:
 		switch ($this->piVars['extView']) {
 			case 'feedback' :
-				$markerArray['###ADD###'] = '<li>' . $this->renderSingleView_feedbackForm($extensionRecord) . '<li>';
+				$markerArray['###ADD###'] = '<li class="feedbackform">' . $this->renderSingleView_feedbackForm($extensionRecord) . '<li>';
 				break;
 
 			case 'rating':
