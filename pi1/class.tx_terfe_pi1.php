@@ -630,6 +630,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			$subpart = $this->cObj->getSubpart($this->template, '###FEEDBACK_SENDED###');
 			$markerArray = array(
 				'###HEADER###' => $this->pi_getLL('extensioninfo_feedback_emailsent', '', 1),
+				'###INTRODUCTION###' => ''
 			);
 
 			if (t3lib_div::validEmail($this->piVars['DATA']['sender_email'])) {
@@ -647,40 +648,23 @@ class tx_terfe_pi1 extends tslib_pibase
 				$markerArray['###MESSAGE###'] = htmlspecialchars(sprintf($this->pi_getLL('extensioninfo_feedback_invalidemailaddress'), $this->piVars['DATA']['sender_email']));
 			}
 		} else {
-			$subpart = $this->cObj->getSubpart($this->template, '###FEEDBACKFORM###');
-			$content = '
-					<h3>' . $this->pi_getLL('extensioninfo_feedback_feedbacktotheauthor', '', 1) . '</h3>
-					<p>' . htmlspecialchars(sprintf($this->pi_getLL('extensioninfo_feedback_introduction'), $authorName)) . '</p>
-					<p>' . $this->pi_getLL('extensioninfo_feedback_moreintroduction', '', 1) . '</p>
-
-					<form action="' . t3lib_div::getIndpEnv('REQUEST_URI') . '" method="POST" style="margin: 0px 0px 0px 0px;">
-						<br />
-						<p><strong>' . $this->pi_getLL('extensioninfo_feedback_yourname', '', 1) . ':</strong></p>
-						' . ($TSFE->loginUser ?
-					'<input type="hidden" name="' . $this->prefixId . '[DATA][sender_name]" value="' . htmlspecialchars($TSFE->fe_user->user['name'] . ' (' . $TSFE->fe_user->user['username']) . ')" />
-							<p>' . htmlspecialchars($TSFE->fe_user->user['name'] . ' (' . $GLOBALS['TSFE']->fe_user->user['username'] . ')') . '</p>'
-					:
-					'<input type="text" name="' . $this->prefixId . '[DATA][sender_name]" style="width: 400px;" /><br />') .
-					   '<br />
-
-						<p><strong>' . $this->pi_getLL('extensioninfo_feedback_youremailaddress', '', 1) . ':</strong></p>
-						' . ($TSFE->loginUser ?
-					'<input type="hidden" name="' . $this->prefixId . '[DATA][sender_email]" value="' . htmlspecialchars($TSFE->fe_user->user['email']) . '" />
-							<p>' . htmlspecialchars($TSFE->fe_user->user['email']) . '</p>' :
-					'<input type="text" name="' . $this->prefixId . '[DATA][sender_email]" style="width: 400px;"><br />') .
-					   '<br />
-
-						<p><strong>' . $this->pi_getLL('extensioninfo_feedback_yourcomment', '', 1) . ':</strong></p>
-						<textarea rows="5" name="' . $this->prefixId . '[DATA][comment]" style="width: 400px;">' . $defaultMessage . '</textarea><br /><br />
-						<p>' . $this->pi_getLL('extensioninfo_feedback_captchainstruction', '', 1) . ':<br />
-							<img src="' . t3lib_extMgm::siteRelPath('captcha') . 'captcha/captcha.php" alt="" style="vertical-align:middle;" />
-							<input type="text" name="' . $this->prefixId . '[DATA][captcha]" size="10" />
-							<input type="submit" value="' . $this->pi_getLL('extensioninfo_feedback_sendfeedback', '', 1) . '">
-						</p>
-					</form>
-				';
+			$subpart = $this->cObj->getSubpart($this->template, $TSFE->loginUser ?  '###FEEDBACKFORM_LOGGEDIN###' : '###FEEDBACKFORM###');
+			$markerArray = array(
+				'###HEADER###' => $this->pi_getLL('extensioninfo_feedback_feedbacktotheauthor', '', 1),
+				'###MESSAGE###' => htmlspecialchars(sprintf($this->pi_getLL('extensioninfo_feedback_introduction'), $authorName)),
+				'###INTRODUCTION###' => $this->pi_getLL('extensioninfo_feedback_moreintroduction', '', 1),
+				'###ACTION###' => t3lib_div::getIndpEnv('REQUEST_URI'),
+				'###YOURNAME_LABEL###' => $this->pi_getLL('extensioninfo_feedback_yourname', '', 1),
+				'###PREFIX###' => $this->prefixId,
+				'###YOURNAME###' => htmlspecialchars($TSFE->fe_user->user['name'] . ' (' . $TSFE->fe_user->user['username'] . ')'),
+				'###YOUREMAIL_LABEL###' => $this->pi_getLL('extensioninfo_feedback_youremailaddress', '', 1),
+				'###YOUREMAIL###' => htmlspecialchars($TSFE->fe_user->user['email']),
+				'###YOURCOMMENT_LABEL###' => $this->pi_getLL('extensioninfo_feedback_yourcomment', '', 1),
+				'###DEFAULT_MESSAGE###' => trim($defaultMessage),
+				'###SUBMIT###' => $this->pi_getLL('extensioninfo_feedback_sendfeedback', '', 1),
+			);
 		}
-
+		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;
 	}
 

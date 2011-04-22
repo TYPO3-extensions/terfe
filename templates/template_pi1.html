@@ -234,10 +234,51 @@
 
 
 <!-- ###FEEDBACKFORM### start -->
+<h3>###HEADER###</h3>
+<p>###MESSAGE###</p>
+<p>###INTRODUCTION###</p>
+<form action="###ACTION###" method="POST" class="terfe-feedback">
+	<p><strong>###YOURNAME_LABEL###:</strong></p>
+	<p>
+		<input type="text" name="###PREFIX###[DATA][sender_name]" />
+	</p>
 
+	<p><strong>###YOUREMAIL_LABEL###:</strong></p>
+	<p>
+		<input type="text" name="###PREFIX###[DATA][sender_email]" />
+	</p>
+
+	<p><strong>###YOURCOMMENT_LABEL###:</strong></p>
+	<p>
+		<textarea rows="5" name="###PREFIX###[DATA][comment]" style="width: 400px;">###DEFAULT_MESSAGE###</textarea>
+	</p>
+	<p class="submit">
+		<input type="submit" value="###SUBMIT###" />
+	</p>
+</form>
 <!-- ###FEEDBACKFORM### end -->
 
+<!-- ###FEEDBACKFORM_LOGGEDIN### start -->
+<h3>###HEADER###</h3>
+<p>###MESSAGE###</p>
+<p>###INTRODUCTION###</p>
+<form action="###ACTION###" method="POST" class="terfe-feedback">
+	<p><strong>###YOURNAME_LABEL###:</strong></p>
+	<input type="hidden" name="###PREFIX###[DATA][sender_name]" value="###YOURNAME###" />
+	<p>###YOURNAME###</p>
+	<p><strong>###YOUREMAIL_LABEL###:</strong></p>
+	<input type="hidden" name="###PREFIX###[DATA][sender_email]" value="YOUREMAIL###" />
+	<p>###YOUREMAIL###</p>
 
+	<p><strong>###YOURCOMMENT_LABEL###:</strong></p>
+	<p>
+		<textarea rows="5" name="###PREFIX###[DATA][comment]" style="width: 400px;">###DEFAULT_MESSAGE###</textarea>
+	</p>
+	<p>
+		<input type="submit" value="###SUBMIT###" />
+	</p>
+</form>
+<!-- ###FEEDBACKFORM### end -->
 
 
 </body>
