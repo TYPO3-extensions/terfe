@@ -528,7 +528,7 @@ class tx_terfe_pi1 extends tslib_pibase
 			'###RECORD###' => $this->renderListView_detailledExtensionRecord($extensionRecord),
 
 		);
-
+debug($this->piVars['extView']);
 		// Render content of the currently selected view:
 		switch ($this->piVars['extView']) {
 			case 'feedback' :
