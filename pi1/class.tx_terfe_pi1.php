@@ -203,9 +203,8 @@ class tx_terfe_pi1 extends tslib_pibase
 			'###ACTION###' => $this->pi_getPageLink($TSFE->id),
 			'###SEARCHBUTTONTEXT###' => $this->pi_getLL('listview_search_searchbutton', '', TRUE),
 			'###SEARCHMESSAGE###' => sprintf($this->pi_getLL('listview_new_introduction', '', TRUE), $numberOfDays),
-			'###SEARCHRESULTS###' => $tableRows
+			'###SEARCHRESULTS###' => implode(PHP_EOL, $tableRows),
 		);
-
 
 		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
 		return $content;

@@ -733,15 +733,15 @@ class tx_terfe_common
 	 * @return	string		Returns the icon image tag, if any
 	 * @access	public
 	 */
-	public function getIcon_extension($extensionKey, $version)
-	{
+	public function getIcon_extension($extensionKey, $version) {
 		$iconFileName = $this->getExtensionVersionPathAndBaseName($extensionKey, $version) . '.gif';
+
 		if (@is_file($iconFileName)) {
-			$iconTag = '<img src="' . t3lib_div::getIndpEnv('TYPO3_SITE_URL') . substr($iconFileName, strlen(PATH_site)) . '" alt="' . htmlspecialchars($extensionKey) . '" />';
-		} else {
-			$iconTag = '';
+			$iconUrl = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . str_replace(PATH_site, '', $iconFileName);
+			return '<img src="' . $iconUrl . '" alt="' . htmlspecialchars($extensionKey) . '" />';
 		}
-		return $iconTag;
+
+		return '';
 	}
 
 	/**
