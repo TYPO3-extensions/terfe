@@ -341,39 +341,43 @@ class tx_terfe_pi1 extends tslib_pibase
 	 * @access	protected
 	 * @see renderListView_search
 	 */
-	protected function renderListView_searchResult()
-	{
-		global $TYPO3_DB;
-
-		$tableRows = array();
-
-		$subpart = $this->cObj->getSubpart($this->template, '###SEARCHRESULTSROWS###');
-
-		$res = $TYPO3_DB->exec_SELECTquery(
-			'e.*,rating,votes',
-			'tx_terfe_extensions as e LEFT JOIN tx_terfe_ratingscache USING(extensionkey,version)',
-			$TYPO3_DB->searchQuery(explode(' ', $this->piVars['sword']), array('extensionkey', 'title', 'authorname', 'description'), 'e') . ' AND reviewstate > -1',
-			'',
-			'extensiondownloadcounter DESC,lastuploaddate DESC',
-			''
+	protected function renderListView_searchResult() {
+		$markerArray = array(
+			'###RESULTS###' => $this->pi_getLL('listview_search_noresult', '', 1),
 		);
-		if ($res) {
-			$alreadyRenderedExtensionKeys = array();
-			if ($TYPO3_DB->sql_num_rows($res)) {
-				while ($extensionRecord = $TYPO3_DB->sql_fetch_assoc($res)) {
-					if (!t3lib_div::inArray($alreadyRenderedExtensionKeys, $extensionRecord['extensionkey'])) {
-						$tableRows[] = $this->renderListView_detailledExtensionRecord($extensionRecord);
-						$alreadyRenderedExtensionKeys[] = $extensionRecord['extensionkey'];
-					}
-				}
-				$markerArray['###RESULTS###'] =  implode('', $tableRows);
 
-			} else {
-				$markerArray['###RESULTS###'] = $this->pi_getLL('listview_search_noresult', '', 1);
+			// Get WHERE statement
+		$where = $GLOBALS['TYPO3_DB']->searchQuery(
+			explode(' ', $this->piVars['sword']),
+			array('extensionkey', 'title', 'authorname', 'description'),
+			'e1'
+		);
+
+			// Get latest version from each appropriate extension
+		$result = $GLOBALS['TYPO3_DB']->sql_query('
+			SELECT e1.*, r.rating, r.votes
+			FROM tx_terfe_extensions AS e1
+			INNER JOIN (SELECT e2.extensionkey, MAX(e2.version) AS version FROM tx_terfe_extensions e2 GROUP BY e2.extensionkey) AS lastVersion
+			ON e1.extensionkey = lastVersion.extensionkey AND e1.version = lastVersion.version
+			LEFT JOIN tx_terfe_ratingscache AS r ON (r.extensionkey = e1.extensionkey AND r.version = e1.version)
+			WHERE ' . $where . ' AND e1.reviewstate > -1
+			ORDER BY e1.extensiondownloadcounter DESC, e1.lastuploaddate DESC
+		');
+
+			// Build table rows
+		if (!empty($result) && $GLOBALS['TYPO3_DB']->sql_num_rows($result)) {
+			$tableRows = array();
+			while($extension = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result)) {
+				$tableRows[] = $this->renderListView_detailledExtensionRecord($extension);
+			}
+			if (!empty($tableRows)) {
+				$markerArray['###RESULTS###'] = implode('', $tableRows);
 			}
 		}
 
+		$subpart = $this->cObj->getSubpart($this->template, '###SEARCHRESULTSROWS###');
 		$content = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray, array(), array());
+
 		return $content;
 	}
 
