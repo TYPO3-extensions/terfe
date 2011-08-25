@@ -24,9 +24,45 @@
 	 ******************************************************************/
 
 	/**
-	 * Repository for Tx_TerFe2_Domain_Model_Tag
+	 * Abstract controller
 	 */
-	class Tx_TerFe2_Domain_Repository_TagRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
+	abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Controller_ActionController {
+
+		/**
+		 * Pre-parse TypoScript setup
+		 *
+		 * @return void
+		 */
+		public function initializeAction() {
+				// Pre-parse settings
+			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
+
+				// Initialize the controller
+			$this->initialize();
+		}
+
+
+		/**
+		 * Override in concrete controller to initialize it
+		 * 
+		 * @return void
+		 */
+		protected function initialize() {
+			
+		}
+
+
+		/**
+		 * Translate a label
+		 *
+		 * @param string $label Label to translate
+		 * @param array $arguments Optional arguments array
+		 * @return string Translated label
+		 */
+		protected function translate($label, array $arguments = array()) {
+			$extensionKey = $this->request->getControllerExtensionKey();
+			return Tx_Extbase_Utility_Localization::translate($label, $extensionKey, $arguments);
+		}
 
 	}
 ?>

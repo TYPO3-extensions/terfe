@@ -3,25 +3,25 @@
 		die ('Access denied.');
 	}
 
-	// Add plugin to list
+		// Add plugin to list
 	Tx_Extbase_Utility_Extension::registerPlugin(
 		$_EXTKEY,
 		'Pi1',
 		'TER Frontend Index'
 	);
 
-	// Add static TypoScript files
+		// Add static TypoScript files
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Default/', 'TER Frontend - Default Configuration');
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Rss/',     'TER Frontend - RSS Output');
 	t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Json/',    'TER Frontend - JSON Output');
 
-	// Add flexform to field list of the Backend form
+		// Add flexform to field list of the Backend form
 	$extIdent = strtolower(t3lib_div::underscoredToUpperCamelCase($_EXTKEY)) . '_pi1';
 	$TCA['tt_content']['types']['list']['subtypes_excludelist'][$extIdent] = 'layout,select_key,recursive';
 	$TCA['tt_content']['types']['list']['subtypes_addlist'][$extIdent] = 'pi_flexform';
 	t3lib_extMgm::addPiFlexFormValue($extIdent, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_list.xml');
 
-	// Domain models and their label field
+		// Domain models and their label field
 	$models = array(
 		'extension'    => 'ext_key',
 		'category'     => 'title',
@@ -33,18 +33,18 @@
 		'author'       => 'name',
 	);
 
-	// Add entities and value objects
+		// Add entities and value objects
 	foreach ($models as $modelName => $labelField) {
-		// Add help text to the Backend form
+			// Add help text to the Backend form
 		t3lib_extMgm::addLLrefForTCAdescr(
 			'tx_terfe2_domain_model_' . $modelName,
 			'EXT:ter_fe2/Resources/Private/Language/locallang_csh_tx_terfe2_domain_model_' . $modelName . '.xml'
 		);
 
-		// Allow datasets on standard pages
+			// Allow datasets on standard pages
 		t3lib_extMgm::allowTableOnStandardPages('tx_terfe2_domain_model_' . $modelName);
 
-		// Add table configuration
+			// Add table configuration
 		$TCA['tx_terfe2_domain_model_' . $modelName] = array (
 			'ctrl' => array (
 				'title'                    => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_' . $modelName,

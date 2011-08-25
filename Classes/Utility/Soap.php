@@ -25,10 +25,6 @@
 
 	/**
 	 * Utilities to manage SOAP requests
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_Utility_Soap {
 
@@ -60,13 +56,13 @@
 				throw new Exception('PHP SOAP extension not available');
 			}
 
-			// Create connection
+				// Create connection
 			self::$soapConnection = new SoapClient($wsdlUrl, array(
 				'trace'      => 1,
 				'exceptions' => 0,
 			));
 
-			// Get authentication header
+				// Get authentication header
 			if (!empty($username) && !empty($password)) {
 				$headerData = array('username' => $username, 'password' => $password);
 				self::$authenticationHeader = new SoapHeader('', 'HeaderLogin', (object) $headerData, TRUE);
@@ -82,12 +78,12 @@
 		 * @return array Result of the SOAP call
 		 */
 		static public function call($methodName, array $params = array()) {
-			// Check for existing connection
+				// Check for existing connection
 			if (empty(self::$soapConnection)) {
 				throw new Exception('Create SOAP connection first');
 			}
 
-			// Call given method
+				// Call given method
 			$response = self::$soapConnection->__soapCall(
 				$methodName,
 				$params,
@@ -95,7 +91,7 @@
 				self::$authenticationHeader
 			);
 
-			// Check for errors
+				// Check for errors
 			if (is_soap_fault($response)) {
 				return array();
 			}

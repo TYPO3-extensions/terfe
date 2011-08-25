@@ -25,10 +25,6 @@
 
 	/**
 	 * Utilities to manage and convert Typoscript Code
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_Utility_TypoScript {
 
@@ -49,11 +45,11 @@
 		 * @return void
 		 */
 		static protected function initialize() {
-			// Get configuration manager
+				// Get configuration manager
 			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 			self::$configurationManager = $objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
 
-			// Simulate Frontend
+				// Simulate Frontend
 			if (TYPO3_MODE == 'BE') {
 				Tx_Extbase_Utility_FrontendSimulator::simulateFrontendEnvironment();
 				if (empty($GLOBALS['TSFE']->sys_page)) {
@@ -65,13 +61,13 @@
 				self::$configurationManager->setContentObject($GLOBALS['TSFE']->cObj);
 			}
 
-			// Get content object
+				// Get content object
 			self::$contentObject = self::$configurationManager->getContentObject();
 			if (empty(self::$contentObject)) {
 				self::$contentObject = t3lib_div::makeInstance('tslib_cObj');
 			}
 
-			// Reset Frontend if modified
+				// Reset Frontend if modified
 			if (TYPO3_MODE == 'BE') {
 				Tx_Extbase_Utility_FrontendSimulator::resetFrontendEnvironment();
 			}
@@ -112,12 +108,12 @@
 				self::initialize();
 			}
 
-			// Convert to classic TypoScript array
+				// Convert to classic TypoScript array
 			if ($isPlain) {
 				$configuration = Tx_Extbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray($configuration);
 			}
 
-			// Parse configuration
+				// Parse configuration
 			$configuration = self::parseTypoScriptArray($configuration);
 			$configuration = t3lib_div::removeDotsFromTS($configuration);
 

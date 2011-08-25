@@ -25,10 +25,6 @@
 
 	/**
 	 * Abstract Extension Provider
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	abstract class Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider implements Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface {
 
@@ -97,15 +93,15 @@
 			$fileName  = $this->getExtensionFileName($version, $fileType);
 			$cachePath = Tx_TerFe2_Utility_Files::getAbsoluteDirectory('typo3temp/pics/');
 
-			// Check local cache first
+				// Check local cache first
 			if (Tx_TerFe2_Utility_Files::fileExists($cachePath . $fileName)) {
 				return t3lib_div::locationHeaderUrl('typo3temp/pics/' . $fileName);
 			}
 
-			// Get icon from concrete Extension Provider
+				// Get icon from concrete Extension Provider
 			$urlToFile = $this->getUrlToFile($fileName);
 
-			// Copy URL to local cache
+				// Copy URL to local cache
 			Tx_TerFe2_Utility_Files::copyFile($urlToFile, $cachePath . $fileName);
 
 			return $urlToFile;
@@ -173,7 +169,7 @@
 			$extensionInfoSchema = $this->getExtensionInfoSchema();
 			$extensionInfo       = array('softwareRelation' => array());
 
-			// Get field value
+				// Get field value
 			foreach ($extensionInfoSchema as $fieldName => $fieldConf) {
 				$extensionInfo[$fieldName] = '';
 				if (!empty($extensionData[$fieldName])) {
@@ -181,29 +177,29 @@
 				}
 			}
 
-			// Get upload date
+				// Get upload date
 			if (empty($extensionInfo['uploadDate'])) {
 				$extensionInfo['uploadDate'] = (int) $GLOBALS['SIM_EXEC_TIME'];
 			}
 
-			// Get file hash
+				// Get file hash
 			if (empty($extensionInfo['fileHash']) && !empty($extensionData['fileName'])) {
 				$extensionInfo['fileHash'] = Tx_TerFe2_Utility_Files::getFileHash($extensionData['fileName']);
 			}
 
-			// Get version number
+				// Get version number
 			if (empty($extensionInfo['versionNumber']) && !empty($extensionInfo['versionString'])) {
 				$extensionInfo['versionNumber'] = t3lib_div::int_from_ver($extensionInfo['versionString']);
 			}
 
-			// Check required information afterwards
+				// Check required information afterwards
 			foreach ($extensionInfoSchema as $fieldName => $fieldConf) {
 				if (empty($extensionInfo[$fieldName]) && $fieldConf['required']) {
 					return array();
 				}
 			}
 
-			// Add relations
+				// Add relations
 			if (!empty($extensionData['relations']) && is_array($extensionData['relations'])) {
 				foreach ($extensionData['relations'] as $relation) {
 					if (!empty($relation['relationType']) && !empty($relation['relationKey']) && !empty($relation['softwareType'])) {
@@ -227,7 +223,7 @@
 				return $this->extensionInfoSchema;
 			}
 
-			// Get class structure and property options
+				// Get class structure and property options
 			$classNames = array(
 				'Tx_TerFe2_Domain_Model_Extension',
 				'Tx_TerFe2_Domain_Model_Version',
@@ -240,27 +236,27 @@
 				$properties  = $object->_getProperties();
 
 				foreach ($properties as $propertyName => $propertyValue) {
-					// Check if property is persitable
+						// Check if property is persitable
 					if (!$dataMap->isPersistableProperty($propertyName)) {
 						continue;
 					}
 
-					// Get property type
+						// Get property type
 					$propertyData = $classSchema->getProperty($propertyName);
 					if (strpos($propertyData['type'], 'Tx_') !== FALSE) {
 						continue;
 					}
 
-					// Check if property is required
+						// Check if property is required
 					$tagValues = $this->reflectionService->getPropertyTagValues($className, $propertyName, 'validate');
 					$required  = (stripos(implode(',', $tagValues), 'NotEmpty') !== FALSE);
 
-					// Check for Author fields
+						// Check for Author fields
 					if ($className == 'Tx_TerFe2_Domain_Model_Author') {
 						$propertyName = 'author' . ucfirst($propertyName);
 					}
 
-					// Build field
+						// Build field
 					$this->extensionInfoSchema[$propertyName] = array(
 						'type'     => $propertyData['type'],
 						'required' => $required,

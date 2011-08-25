@@ -3,7 +3,6 @@
 	 *  Copyright notice
 	 *
 	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
-	 *       and Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
 	 *
 	 *  All rights reserved
 	 *
@@ -26,65 +25,61 @@
 
 	/**
 	 * Extension container
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_Domain_Model_Extension extends Tx_Extbase_DomainObject_AbstractEntity {
 
 		/**
-		 * extKey
+		 * Extension key
 		 * @var string
 		 * @validate NotEmpty
 		 */
 		protected $extKey;
 
 		/**
-		 * forgeLink
+		 * Link to forge project
 		 * @var string
 		 */
 		protected $forgeLink;
 
 		/**
-		 * hudsonLink
+		 * Link to hudson
 		 * @var string
 		 */
 		protected $hudsonLink;
 
 		/**
-		 * lastUpdate
+		 * Last update
 		 * @var DateTime
 		 */
 		protected $lastUpdate;
 
 		/**
-		 * categories
+		 * Categories
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Category>
 		 */
 		protected $categories;
 
 		/**
-		 * tags
+		 * Tags
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag>
 		 */
 		protected $tags;
 
 		/**
-		 * versions
+		 * Versions
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version>
 		 * @lazy
 		 */
 		protected $versions;
 
 		/**
-		 * lastVersion
+		 * Last version
 		 * @var Tx_TerFe2_Domain_Model_Version
 		 */
 		protected $lastVersion;
 
 		/**
-		 * frontendUser
+		 * Frontend user
 		 * @var Tx_Extbase_Domain_Model_FrontendUser
 		 */
 		protected $frontendUser;
@@ -306,7 +301,7 @@
 			$curVersionNumber = (int) $this->lastVersion->getVersionNumber();
 			$newVersionNumber = (int) $lastVersion->getVersionNumber();
 
-			// Add lastVersion only if newer
+				// Add lastVersion only if newer
 			if ($newVersionNumber > $curVersionNumber) {
 				$this->lastVersion = $lastVersion;
 			}

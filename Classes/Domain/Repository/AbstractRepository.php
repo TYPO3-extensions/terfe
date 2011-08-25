@@ -24,9 +24,31 @@
 	 ******************************************************************/
 
 	/**
-	 * Repository for Tx_TerFe2_Domain_Model_Tag
+	 * Abstract repository
 	 */
-	class Tx_TerFe2_Domain_Repository_TagRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
+	abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase_Persistence_Repository {
+
+		/**
+		 * Returns random objects from db
+		 * 
+		 * @param integer $limit Limit of the results
+		 * @return Tx_Extbase_Persistence_QueryResult Query result
+		 */
+		public function findRandom($limit) {
+			$query = $this->createQuery();
+			$query->setLimit((int) $limit);
+
+				// Workaround for random ordering until Extbase doesn't support this yet
+				// See: http://lists.typo3.org/pipermail/typo3-project-typo3v4mvc/2010-July/005870.html
+			$backend = $this->objectManager->get('Tx_Extbase_Persistence_Storage_Typo3DbBackend');
+			$parameters = array();
+			$statementParts = $backend->parseQuery($query, $parameters);
+			$statementParts['orderings'][] = ' RAND()';
+			$statement = $backend->buildQuery($statementParts, $parameters);
+			$query->statement($statement, $parameters);
+
+			return $query->execute();
+		}
 
 	}
 ?>

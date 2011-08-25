@@ -25,10 +25,6 @@
 
 	/**
 	 * Extension Provider Manager
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_ExtensionProvider_ExtensionProvider implements t3lib_Singleton {
 
@@ -92,14 +88,14 @@
 
 			$updateInfoArray = array();
 			foreach ($this->settings['extensionProviders'] as $providerIdent => $providerSettings) {
-				// Get update info from one Extension Provider
+					// Get update info from one Extension Provider
 				$extensionProvider = $this->getConcreteExtensionProvider($providerIdent);
 				$updateInfo        = $extensionProvider->getUpdateInfo($lastRunTime);
 
-				// Set providerIdent recursively
+					// Set providerIdent recursively
 				array_walk($updateInfo, array($this, 'setExtensionProvider'), $providerIdent);
 
-				// Add to info array
+					// Add to info array
 				$updateInfoArray = array_merge($updateInfoArray, $updateInfo);
 			}
 
@@ -165,7 +161,7 @@
 				throw new Exception('No className found for Extension Provider "' . $providerIdent . '"');
 			}
 
-			// Create new one from settings
+				// Create new one from settings
 			$providerSettings  = $this->settings['extensionProviders'][$providerIdent];
 			$extensionProvider = $this->objectManager->get($providerSettings['className']);
 			if ($extensionProvider instanceof Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider) {

@@ -3,7 +3,6 @@
 	 *  Copyright notice
 	 *
 	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
-	 *       and Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
 	 *
 	 *  All rights reserved
 	 *
@@ -26,12 +25,8 @@
 
 	/**
 	 * Controller for the Extension object
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_Controller_ExtensionController extends Tx_Extbase_MVC_Controller_ActionController {
+	class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_AbstractController {
 
 		/**
 		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
@@ -55,18 +50,15 @@
 
 
 		/**
-		 * Initializes the current action
+		 * Initializes the controller
 		 *
 		 * @return void
 		 */
-		protected function initializeAction() {
+		protected function initialize() {
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->categoryRepository  = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
 			$this->tagRepository       = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_TagRepository');
 			$this->authorRepository    = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_AuthorRepository');
-
-			// Pre-parse TypoScript setup
-			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
 		}
 
 
@@ -76,25 +68,25 @@
 		 * @return void
 		 */
 		public function indexAction() {
-			// Get latest extensions
+				// Get latest extensions
 			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 10);
 			$latestExtensions = $this->extensionRepository->findNewAndUpdated($latestCount);
 			$this->view->assign('latestExtensions', $latestExtensions);
 
-			// Get top rated extensions
+				// Get top rated extensions
 			$topRatedCount = (!empty($this->settings['topRatedCount']) ? $this->settings['topRatedCount'] : 10);
 			$topRatedExtensions = $this->extensionRepository->findTopRated($topRatedCount);
 			$this->view->assign('topRatedExtensions', $topRatedExtensions);
 
-			// Get all categories
+				// Get all categories
 			$categories = $this->categoryRepository->findAll();
 			$this->view->assign('categories', $categories);
 
-			// Get all tags
+				// Get all tags
 			$tags = $this->tagRepository->findAll();
 			$this->view->assign('tags', $tags);
 
-			// Get random authors
+				// Get random authors
 			$randomAuthorCount = (!empty($this->settings['randomAuthorCount']) ? $this->settings['randomAuthorCount'] : 10);
 			$randomAuthors = $this->authorRepository->findRandom($randomAuthorCount);
 			$this->view->assign('randomAuthors', $randomAuthors);
@@ -229,7 +221,7 @@
 		 * @return void
 		 */
 		public function createVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $newVersion) {
-			// Get file hash
+				// Get file hash
 			$fileName = t3lib_div::getFileAbsFileName($newVersion->getFilename());
 			$fileHash = Tx_TerFe2_Utility_Files::getFileHash($fileName);
 
@@ -254,39 +246,39 @@
 		 * @return void
 		 */
 		public function downloadAction(Tx_TerFe2_Domain_Model_Version $version, $format = 't3x') {
-			// Load Extension Provider
+				// Load Extension Provider
 			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 			$extensionProvider = $objectManager->get('Tx_TerFe2_ExtensionProvider_ExtensionProvider');
 
-			// Get URL to file
+				// Get URL to file
 			$urlToFile = $extensionProvider->getExtensionFile($version);
 			if (empty($urlToFile)) {
 				$this->flashMessageContainer->add($this->translate('msg.file_not_found'));
 				$this->redirect('index');
 			}
 
-			// Check file hash
+				// Check file hash
 			$fileHash = Tx_TerFe2_Utility_Files::getFileHash($urlToFile);
 			if ($fileHash != $version->getFileHash()) {
 				$this->flashMessageContainer->add($this->translate('msg.file_hash_not_equal'));
 				$this->redirect('index');
 			}
 
-			// Check session if user has already downloaded this file today
+				// Check session if user has already downloaded this file today
 			$extensionKey = $version->getExtension()->getExtKey();
 			Tx_TerFe2_Utility_Session::load();
 			if (!Tx_TerFe2_Utility_Session::hasDownloaded($extensionKey)) {
-				// Add +1 to download counter
+					// Add +1 to download counter
 				$version->incrementDownloadCounter();
 				$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
 				$persistenceManager->persistAll();
 
-				// Add extension key to session
+					// Add extension key to session
 				Tx_TerFe2_Utility_Session::addDownload($extensionKey);
 				Tx_TerFe2_Utility_Session::save();
 			}
 
-			// Send file to browser
+				// Send file to browser
 			$newFileName = $extensionProvider->getExtensionFileName($version, $format);
 			if (strcasecmp($format, 'zip')) {
 				$urlToFile = Tx_TerFe2_Utility_Zip::convertT3xToZip($urlToFile);

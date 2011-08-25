@@ -25,12 +25,8 @@
 
 	/**
 	 * Controller for the Author object
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_Controller_AuthorController extends Tx_Extbase_MVC_Controller_ActionController {
+	class Tx_TerFe2_Controller_AuthorController extends Tx_TerFe2_Controller_AbstractController {
 
 		/**
 		 * @var Tx_TerFe2_Domain_Repository_AuthorRepository
@@ -39,15 +35,12 @@
 
 
 		/**
-		 * Initializes the current action
+		 * Initializes the controller
 		 *
 		 * @return void
 		 */
-		protected function initializeAction() {
+		protected function initialize() {
 			$this->authorRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_AuthorRepository');
-
-			// Pre-parse TypoScript setup
-			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);
 		}
 
 

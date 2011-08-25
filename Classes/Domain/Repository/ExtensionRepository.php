@@ -3,7 +3,6 @@
 	 *  Copyright notice
 	 *
 	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
-	 *       and Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
 	 *
 	 *  All rights reserved
 	 *
@@ -26,12 +25,8 @@
 
 	/**
 	 * Repository for Tx_TerFe2_Domain_Model_Extension
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
-	class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_Extbase_Persistence_Repository {
+	class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
 
 		/**
 		 * Returns all extensions

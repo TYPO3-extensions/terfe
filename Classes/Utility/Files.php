@@ -25,10 +25,6 @@
 
 	/**
 	 * Utilities to manage files
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_Utility_Files {
 
@@ -102,28 +98,28 @@
 				return array();
 			}
 
-			// Get local file name if on same server
+				// Get local file name if on same server
 			if (self::isLocalUrl($fileName)) {
 				$fileName = self::getLocalUrlPath($fileName);
 			}
 
-			// Get file content
+				// Get file content
 			$contents = t3lib_div::getURL($fileName);
 			if (empty($contents)) {
 				return array();
 			}
 
-			// Get content parts
+				// Get content parts
 			list($hash, $compression, $data) = explode(':', $contents, 3);
 			unset($contents);
 
-			// Get extension files
+				// Get extension files
 			$files = gzuncompress($data);
 			if (empty($files) || $hash != md5($files)) {
 				return array();
 			}
 
-			// Unserialize files array
+				// Unserialize files array
 			return unserialize($files);
 		}
 
@@ -135,13 +131,13 @@
 		 * @return string Generated hash or an empty string if file not found
 		 */
 		static public function getFileHash($fileName) {
-			// Get md5 from local file
+				// Get md5 from local file
 			if (self::isLocalUrl($fileName)) {
 				$fileName = self::getLocalUrlPath($fileName);
 				return md5_file($fileName);
 			}
 
-			// Get md5 from external file
+				// Get md5 from external file
 			$contents = t3lib_div::getURL($fileName);
 			if (!empty($contents)) {
 				return md5($contents);
@@ -177,24 +173,24 @@
 				$fileName = self::getLocalUrlPath($fileName);
 			}
 
-			// Check if file exists
+				// Check if file exists
 			if (!self::fileExists($fileName)) {
 				return FALSE;
 			}
 
-			// Get file name for download
+				// Get file name for download
 			if (empty($visibleFileName)) {
 				$visibleFileName = basename($fileName);
 			}
 
-			// Set headers
+				// Set headers
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Expires: Sat, 10 Jan 1970 00:00:00 GMT');
 			header('Content-Disposition: attachment; filename=' . (string) $visibleFileName);
 			header('Content-type: x-application/octet-stream');
 			header('Content-Transfer-Encoding: binary');
 
-			// Send file contents
+				// Send file contents
 			readfile($fileName);
 			ob_flush();
 			exit;
@@ -230,14 +226,14 @@
 				if ($file->isFile()) {
 					$fileName = $file->getPathname();
 
-					// Check file type
+						// Check file type
 					if ($fileType) {
 						if (substr($fileName, strrpos($fileName, '.') + 1) != $fileType) {
 							continue;
 						}
 					}
 
-					// Check timestamp
+						// Check timestamp
 					if ($timestamp) {
 						$modificationTime = self::getModificationTime($fileName);
 						if ($modificationTime < $timestamp) {
@@ -268,17 +264,17 @@
 
 			$fromFile = t3lib_div::getURL($fromFileName);
 
-			// Check files
+				// Check files
 			if ($fromFile === FALSE || ($toFileExists && !$overwrite)) {
 				return FALSE;
 			}
 
-			// Remove existing
+				// Remove existing
 			if (self::fileExists($toFileName) && $overwrite) {
 				unlink($toFileName);
 			}
 
-			// Copy file to new name
+				// Copy file to new name
 			$result = t3lib_div::writeFile($toFileName, $fromFile);
 			return ($result !== FALSE);
 		}

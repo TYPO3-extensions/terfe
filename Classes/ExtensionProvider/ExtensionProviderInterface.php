@@ -25,10 +25,6 @@
 
 	/**
 	 * A Extension Provider Interface, will be called from Scheduler Task to get Extension informations
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	interface Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface extends t3lib_Singleton {
 

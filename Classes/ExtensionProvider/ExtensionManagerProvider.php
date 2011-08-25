@@ -24,9 +24,9 @@
 	 ******************************************************************/
 
 	/**
-	 * A Filesystem Extension Provider
+	 * An Extension Provider for local Extension Manager
 	 */
-	class Tx_TerFe2_ExtensionProvider_FileProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
+	class Tx_TerFe2_ExtensionProvider_ExtensionManagerProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
 
 		/**
 		 * @var string

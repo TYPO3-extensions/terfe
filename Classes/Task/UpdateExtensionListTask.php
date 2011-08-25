@@ -25,10 +25,6 @@
 
 	/**
 	 * Update extension list task
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_Task_UpdateExtensionListTask extends tx_scheduler_Task {
 
@@ -82,36 +78,36 @@
 		 * @return boolean TRUE on success
 		 */
 		public function execute() {
-			// Initialize environment
+				// Initialize environment
 			$this->initialize();
 
-			// Get all updated Extensions
+				// Get all updated Extensions
 			$updateInfoArray = $this->getUpdateInfo();
 			if (empty($updateInfoArray)) {
 				return TRUE;
 			}
 
-			// Create new Version and Extension objects
+				// Create new Version and Extension objects
 			foreach ($updateInfoArray as $extensionInfo) {
-				// Get new Version if version number has changed
+					// Get new Version if version number has changed
 				$version = $this->getVersion($extensionInfo);
 				if ($version === NULL) {
 					continue;
 				}
 
-				// Load Author if already exists, else create new one
+					// Load Author if already exists, else create new one
 				$author = $this->getAuthor($extensionInfo);
 				$version->setAuthor($author);
 
-				// Load Extension if already exists, else create new one
+					// Load Extension if already exists, else create new one
 				$extension = $this->getExtension($extensionInfo);
 				$version->setExtension($extension);
 
-				// Add Version to Object Storages
+					// Add Version to Object Storages
 				$author->addVersion($version);
 				$extension->addVersion($version);
 
-				// Persist Extension object now to prevent duplicates
+					// Persist Extension object now to prevent duplicates
 				$this->session->registerReconstitutedObject($author);
 				$this->session->registerReconstitutedObject($extension);
 				$this->persistenceManager->persistAll();
@@ -127,22 +123,22 @@
 		 * @return void
 		 */
 		protected function initialize() {
-			// Dummy Extension configuration for Dispatcher
+				// Dummy Extension configuration for Dispatcher
 			$configuration = array(
 				'extensionName' => 'TerFe2',
 				'pluginName'    => 'Pi1',
 			);
 
-			// Get TypoScript configuration
+				// Get TypoScript configuration
 			$setup          = Tx_TerFe2_Utility_TypoScript::getSetup();
 			$this->settings = Tx_TerFe2_Utility_TypoScript::parse($setup['settings.'], FALSE);
 			$configuration  = array_merge($configuration, $setup);
 
-			// Load Dispatcher
+				// Load Dispatcher
 			$dispatcher = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap');
 			$dispatcher->initialize($configuration);
 
-			// Load required objects
+				// Load required objects
 			$this->objectManager       = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->authorRepository    = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_AuthorRepository');
@@ -165,10 +161,10 @@
 			$lastRunInfo = $this->registry->get('tx_scheduler', 'lastRun');
 			$lastRunTime = (!empty($lastRunInfo['end']) ? (int) $lastRunInfo['end'] : 0);
 
-			// TODO: Remove testing value
+				// TODO: Remove testing value
 			$lastRunTime = 99999;
 
-			// Load Extension Provider and get update information
+				// Load Extension Provider and get update information
 			$extensionProvider = $this->objectManager->get('Tx_TerFe2_ExtensionProvider_ExtensionProvider');
 			$updateInfoArray   = $extensionProvider->getUpdateInfo($lastRunTime);
 
@@ -183,12 +179,12 @@
 		 * @return Tx_TerFe2_Domain_Model_Version New Version object
 		 */
 		public function getVersion(array $extensionInfo) {
-			// Check if a Version exists with given version number
+				// Check if a Version exists with given version number
 			if ($this->extensionRepository->countByExtKeyAndVersion($extensionInfo['extKey'], $extensionInfo['versionNumber'])) {
 				return NULL;
 			}
 
-			// Create new Version
+				// Create new Version
 			$version = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Version');
 			$version->setTitle(            $extensionInfo['title']);
 			$version->setDescription(      $extensionInfo['description']);
@@ -215,7 +211,7 @@
 			$version->setCglComplianceNote($extensionInfo['cglComplianceNote']);
 			$version->setExtensionProvider($extensionInfo['extensionProvider']);
 
-			// Add software relations
+				// Add software relations
 			foreach ($extensionInfo['softwareRelation'] as $relationInfo) {
 				$softwareRelation = $this->createSoftwareRelation($relationInfo);
 				$version->addSoftwareRelation($softwareRelation);
@@ -232,12 +228,12 @@
 		 * @return Tx_TerFe2_Domain_Model_Relation New Relation object
 		 */
 		protected function createSoftwareRelation(array $relationInfo) {
-			// Get version range
+				// Get version range
 			$versionParts   = Tx_Extbase_Utility_Arrays::trimExplode('-', $relationInfo['versionRange']);
 			$minimumVersion = (!empty($versionParts[0]) ? t3lib_div::int_from_ver($versionParts[0]) : 0);
 			$maximumVersion = (!empty($versionParts[1]) ? t3lib_div::int_from_ver($versionParts[1]) : 0);
 
-			// Get Relation object
+				// Get Relation object
 			$relationObject = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Relation');
 			$relationObject->setRelationType(  $relationInfo['relationType']);
 			$relationObject->setRelationKey(   $relationInfo['relationKey']);
@@ -258,7 +254,7 @@
 		public function getExtension(array $extensionInfo) {
 			$extension = $this->extensionRepository->findOneByExtKey($extensionInfo['extKey']);
 			if ($extension === NULL) {
-				// Create new Extension
+					// Create new Extension
 				$dateTime = new DateTime();
 				$extension = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Extension');
 				$extension->setExtKey(        $extensionInfo['extKey']);
@@ -267,8 +263,8 @@
 				$extension->setLastUpload(    $dateTime);
 				$extension->setLastMaintained($dateTime);
 
-				// Add current frontend user uid if logged in
-				// TODO: Implement community extension here!
+					// Add current frontend user uid if logged in
+					// TODO: Implement community extension here!
 				if (!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
 					$extension->setFrontendUser((int) $GLOBALS['TSFE']->fe_user->user['uid']);
 				}
@@ -287,7 +283,7 @@
 		public function getAuthor(array $extensionInfo) {
 			$author = $this->authorRepository->findOneByEmail($extensionInfo['authorEmail']);
 			if ($author === NULL) {
-				// Create new Author
+					// Create new Author
 				$author = t3lib_div::makeInstance('Tx_TerFe2_Domain_Model_Author');
 				$author->setName(     $extensionInfo['authorName']);
 				$author->setEmail(    $extensionInfo['authorEmail']);

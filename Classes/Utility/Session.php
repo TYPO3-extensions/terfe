@@ -25,10 +25,6 @@
 
 	/**
 	 * Utilities to manage session content
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_Utility_Session {
 
@@ -158,7 +154,7 @@
 				return FALSE;
 			}
 
-			// Check timestamp
+				// Check timestamp
 			$period     = 3600 * (int) $period; // Seconds
 			$timestamp  = $downloadedExtensions[$extensionKey];
 			$difference = ((int) $GLOBALS['SIM_EXEC_TIME'] - (int) $timestamp);

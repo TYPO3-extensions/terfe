@@ -25,10 +25,6 @@
 
 	/**
 	 * A SOAP Extension Provider
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_ExtensionProvider_SoapProvider extends Tx_TerFe2_ExtensionProvider_AbstractExtensionProvider {
 
@@ -42,7 +38,7 @@
 				throw new Exception('No wsdl URL (wsdlUrl) defined for SOAP Extension Provider');
 			}
 
-			// Connect with login
+				// Connect with login
 			if (!empty($this->configuration['username']) && !empty($this->configuration['password'])) {
 				Tx_TerFe2_Utility_Soap::connect(
 					$this->configuration['wsdlUrl'],
@@ -66,14 +62,14 @@
 				throw new Exception('No update function (updateFunc) defined for SOAP Extension Provider');
 			}
 
-			// Get update information
+				// Get update information
 			$params    = array('lastUpdate' => $lastUpdate);
 			$dataArray = Tx_TerFe2_Utility_Soap::call($this->configuration['updateFunc'], $params);
 			if (empty($dataArray)) {
 				return array();
 			}
 
-			// Generate Extension information
+				// Generate Extension information
 			$updateInfoArray = array();
 			foreach ($dataArray as $extensionData) {
 				$extensionInfo = $this->getExtensionInfo($extensionData);
@@ -97,7 +93,7 @@
 				throw new Exception('No function (getFileFunc) defined to get files from SOAP Extension Provider');
 			}
 
-			// Get URL
+				// Get URL
 			$params = array('fileName' => $fileName);
 			$dataArray = Tx_TerFe2_Utility_Soap::call($this->configuration['getFileFunc'], $params);
 			if (empty($dataArray['url'])) {

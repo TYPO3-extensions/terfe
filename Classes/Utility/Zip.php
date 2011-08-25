@@ -25,10 +25,6 @@
 
 	/**
 	 * Utilities to manage ZIP files
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_Utility_Zip {
 
@@ -45,19 +41,19 @@
 				throw new Exception('Please make sure that php zip extension is installed');
 			}
 
-			// Check if file already exists
+				// Check if file already exists
 			if (!$overwrite && Tx_TerFe2_Utility_Files::fileExists($zipFile)) {
 				return TRUE;
 			}
 
-			// Create ZIP archive
+				// Create ZIP archive
 			$createMode = ($overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE);
 			$zipArchive = new ZipArchive();
 			if (empty($zipArchive) || !$zipArchive->open($fileName, $createMode)) {
 				throw new Exception('Could not open ZIP file to write');
 			}
 
-			// Add files
+				// Add files
 			foreach ($filesArray as $path => $content) {
 				if (empty($path)) {
 					continue;
@@ -67,7 +63,7 @@
 				}
 			}
 
-			// Save and close
+				// Save and close
 			if (!$zipArchive->close()) {
 				throw new Exception('Could not close ZIP file');
 			}
@@ -87,16 +83,16 @@
 				throw new Exception('No valid T3X file given to convert to ZIP file');
 			}
 
-			// Get archive name
+				// Get archive name
 			$archiveName = substr(basename($fileName), 0, strrpos(basename($fileName), '.')) . '.zip';
 			$zipFile     = Tx_TerFe2_Utility_Files::getAbsoluteDirectory('typo3temp/') . $archiveName;
 
-			// Check if file was cached
+				// Check if file was cached
 			if (Tx_TerFe2_Utility_Files::fileExists($zipFile)) {
 				return $zipFile;
 			}
 
-			// Unpack extension files
+				// Unpack extension files
 			$filesArray = array();
 			$content    = Tx_TerFe2_Utility_Files::unpackT3xFile($fileName);
 			if (!empty($content['FILES']) && is_array($content['FILES'])) {
@@ -105,7 +101,7 @@
 				}
 			}
 
-			// Create ext_emconf.php
+				// Create ext_emconf.php
 			if (!empty($content['extKey']) && !empty($content['EM_CONF']) && is_array($content['EM_CONF'])) {
 				$filesArray['ext_emconf.php'] = Tx_TerFe2_Utility_Files::createExtEmconfFile(
 					$content['extKey'],
@@ -113,7 +109,7 @@
 				);
 			}
 
-			// Create ZIP archive
+				// Create ZIP archive
 			self::createArchive($zipFile, $filesArray);
 
 			return $zipFile;

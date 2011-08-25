@@ -25,10 +25,6 @@
 
 	/**
 	 * JSON view for the list action of the Extension controller
-	 *
-	 * @version $Id$
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
 	 */
 	class Tx_TerFe2_View_Extension_ListJson extends Tx_Extbase_MVC_View_AbstractView {
 
@@ -58,7 +54,7 @@
 			$jsonArray  = array();
 			$extensions = array();
 
-			// Get extensions from view data
+				// Get extensions from view data
 			if (!empty($this->variables['extensions']) && $this->variables['extensions'] instanceof Tx_Extbase_Persistence_QueryResult) {
 				$extensions = $this->variables['extensions']->toArray();
 			}
