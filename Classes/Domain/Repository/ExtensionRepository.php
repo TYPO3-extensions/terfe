@@ -60,7 +60,7 @@
 
 		/**
 		 * Returns top rated extensions
-		 * 
+		 *
 		 * @param integer $topRatedCount Count of extensions
 		 * @param boolean $rawResult Return raw data
 		 * @return array An array of extensions
@@ -110,7 +110,7 @@
 
 		/**
 		 * Returns all extensions by an author
-		 * 
+		 *
 		 * @param Tx_TerFe2_Domain_Model_Author $author The Author to search for
 		 * @return array An array of extensions
 		 */

@@ -31,41 +31,20 @@
 		/**
 		 * Check if a file, URL or directory exists
 		 *
-		 * @param string $fileName Path to the file
+		 * @param string $filename Path to the file
 		 * @return boolean TRUE if file exists
 		 */
-		static public function fileExists($fileName) {
-			if (empty($fileName)) {
+		public static function fileExists($filename) {
+			if (empty($filename)) {
 				return FALSE;
 			}
 
-			if (is_dir($fileName)) {
-				return (bool) file_exists($fileName);
+			if (is_dir($filename)) {
+				return (bool) file_exists($filename);
 			}
 
-			$result = @fopen($fileName, 'r');
+			$result = @fopen($filename, 'r');
 			return ($result !== FALSE);
-		}
-
-
-		/**
-		 * Generates a file name via extension key, version and type
-		 *
-		 * @param string $extensionKey Extension Key
-		 * @param string $version Version of the extension
-		 * @param string $fileType File type of the returning path
-		 * @return string Path and file name
-		 */
-		static public function generateFileName($extensionKey, $version, $fileType = 't3x') {
-			if (empty($extensionKey) || empty($version) || empty($fileType)) {
-				return '';
-			}
-
-			$extensionKey = strtolower($extensionKey);
-			$version      = Tx_Extbase_Utility_Arrays::integerExplode('.', $version);
-			$fileName     = '%s_%d.%d.%d.' . strtolower(trim($fileType, '. '));
-
-			return sprintf($fileName, $extensionKey, $version[0], $version[1], $version[2]);
 		}
 
 
@@ -74,7 +53,7 @@
 		 *
 		 * @return string Absolute path
 		 */
-		static public function getAbsoluteDirectory($path) {
+		public static function getAbsoluteDirectory($path) {
 			if (empty($path)) {
 				return PATH_site;
 			}
@@ -83,62 +62,25 @@
 				t3lib_div::mkdir_deep(PATH_site . $path);
 			}
 
-			return PATH_site . $path;
-		}
-
-
-		/**
-		 * Unpack an extension from T3X file
-		 *
-		 * @param string $fileName Path to T3X file
-		 * @return array Unpacked extension files
-		 */
-		static public function unpackT3xFile($fileName) {
-			if (empty($fileName)) {
-				return array();
-			}
-
-				// Get local file name if on same server
-			if (self::isLocalUrl($fileName)) {
-				$fileName = self::getLocalUrlPath($fileName);
-			}
-
-				// Get file content
-			$contents = t3lib_div::getURL($fileName);
-			if (empty($contents)) {
-				return array();
-			}
-
-				// Get content parts
-			list($hash, $compression, $data) = explode(':', $contents, 3);
-			unset($contents);
-
-				// Get extension files
-			$files = gzuncompress($data);
-			if (empty($files) || $hash != md5($files)) {
-				return array();
-			}
-
-				// Unserialize files array
-			return unserialize($files);
+			return PATH_site . rtrim($path, '/') . '/';
 		}
 
 
 		/**
 		 * Returns the MD5 hash of a file
 		 *
-		 * @param string $fileName Path to the file
+		 * @param string $filename Path to the file
 		 * @return string Generated hash or an empty string if file not found
 		 */
-		static public function getFileHash($fileName) {
+		public static function getFileHash($filename) {
 				// Get md5 from local file
-			if (self::isLocalUrl($fileName)) {
-				$fileName = self::getLocalUrlPath($fileName);
-				return md5_file($fileName);
+			if (self::isLocalUrl($filename)) {
+				$filename = self::getAbsolutePathFromUrl($filename);
+				return md5_file($filename);
 			}
 
 				// Get md5 from external file
-			$contents = t3lib_div::getURL($fileName);
+			$contents = t3lib_div::getURL($filename);
 			if (!empty($contents)) {
 				return md5($contents);
 			}
@@ -150,12 +92,12 @@
 		/**
 		 * Get last modification time of a file or directory
 		 *
-		 * @param string $fileName Path to the file
+		 * @param string $filename Path to the file
 		 * @return integer Timestamp of the modification time
 		 */
-		static public function getModificationTime($fileName) {
+		public static function getModificationTime($filename) {
 			// clearstatcache();
-			return (int) @filemtime($fileName);
+			return (int) @filemtime($filename);
 		}
 
 
@@ -164,23 +106,23 @@
 		 *
 		 * This function must be called before any HTTP headers have been sent
 		 *
-		 * @param string $fileName Path to the file
+		 * @param string $filename Path to the file
 		 * @param string $visibleFileName Override real file name with this one for download
 		 * @return boolean FALSE if file not exists
 		 */
-		static public function transferFile($fileName, $visibleFileName = '') {
-			if (self::isLocalUrl($fileName)) {
-				$fileName = self::getLocalUrlPath($fileName);
+		public static function transferFile($filename, $visibleFileName = '') {
+			if (self::isLocalUrl($filename)) {
+				$filename = self::getAbsolutePathFromUrl($filename);
 			}
 
 				// Check if file exists
-			if (!self::fileExists($fileName)) {
+			if (!self::fileExists($filename)) {
 				return FALSE;
 			}
 
 				// Get file name for download
 			if (empty($visibleFileName)) {
-				$visibleFileName = basename($fileName);
+				$visibleFileName = basename($filename);
 			}
 
 				// Set headers
@@ -191,8 +133,7 @@
 			header('Content-Transfer-Encoding: binary');
 
 				// Send file contents
-			readfile($fileName);
-			ob_flush();
+			readfile($filename);
 			exit;
 		}
 
@@ -206,7 +147,7 @@
 		 * @param boolean $recursive Get subfolder content too
 		 * @return array All contained files
 		 */
-		static public function getFiles($directory, $fileType = '', $timestamp = 0, $recursive = FALSE) {
+		public static function getFiles($directory, $fileType = '', $timestamp = 0, $recursive = FALSE) {
 			$directory = t3lib_div::getFileAbsFileName($directory);
 			if (!self::fileExists($directory)) {
 				return array();
@@ -224,24 +165,24 @@
 
 			foreach ($files as $file) {
 				if ($file->isFile()) {
-					$fileName = $file->getPathname();
+					$filename = $file->getPathname();
 
 						// Check file type
 					if ($fileType) {
-						if (substr($fileName, strrpos($fileName, '.') + 1) != $fileType) {
+						if (substr($filename, strrpos($filename, '.') + 1) != $fileType) {
 							continue;
 						}
 					}
 
 						// Check timestamp
 					if ($timestamp) {
-						$modificationTime = self::getModificationTime($fileName);
+						$modificationTime = self::getModificationTime($filename);
 						if ($modificationTime < $timestamp) {
 							continue;
 						}
 					}
 
-					$result[] = $fileName;
+					$result[] = $filename;
 				}
 			}
 
@@ -257,9 +198,9 @@
 		 * @param boolean $overwrite Existing A file with new name will be overwritten if set
 		 * @return boolean TRUE if success
 		 */
-		static public function copyFile($fromFileName, $toFileName, $overwrite = FALSE) {
+		public static function copyFile($fromFileName, $toFileName, $overwrite = FALSE) {
 			if (self::isLocalUrl($fromFileName)) {
-				$fromFileName = self::getLocalUrlPath($fromFileName);
+				$fromFileName = self::getAbsolutePathFromUrl($fromFileName);
 			}
 
 			$fromFile = t3lib_div::getURL($fromFileName);
@@ -281,28 +222,65 @@
 
 
 		/**
-		 * Check if a URL is located to current server
+		 * Move a file or folder
 		 *
-		 * @param string $urlToFile URL of the file
-		 * @return boolean TRUE if given file is local
+		 * @param string $fromFileName Existing file
+		 * @param string $toFileName File name of the new file
+		 * @param boolean $overwrite Existing A file with new name will be overwritten if set
+		 * @return boolean TRUE if success
 		 */
-		static public function isLocalUrl($urlToFile) {
-			return t3lib_div::isOnCurrentHost($urlToFile);
+		public static function moveFile($fromFileName, $toFileName, $overwrite = FALSE) {
+			$result = self::copyFile($fromFileName, $toFileName, $overwrite);
+			if ($result && self::isAbsolutePath($fromFileName)) {
+				unlink($fromFileName);
+			}
+			return $result;
 		}
 
 
 		/**
-		 * Returns local file name from URL if located to current server
+		 * Check if a URL is located to current server
 		 *
-		 * Required to get absolute path on filesystem if php has no rights
-		 * to fetch a file via URL from current server (TYPO3_REQUEST_HOST).
+		 * @param string $url UUrl to file
+		 * @return boolean TRUE if given file is local
+		 */
+		public static function isLocalUrl($url) {
+			return t3lib_div::isOnCurrentHost($url);
+		}
+
+
+		/**
+		 * Check if a filename is an absolute path in local file system
 		 *
-		 * @param string $urlToFile URL of the file
+		 * @param string $path Path to file
+		 * @return boolean TRUE if given path is absolute
+		 */
+		public static function isAbsolutePath($path) {
+			return (strpos(PATH_site, $path) === 0);
+		}
+
+
+		/**
+		 * Returns absolute path on local file system from an url
+		 *
+		 * @param string $url Url to file
 		 * @return string Absolute path to file
 		 */
-		static public function getLocalUrlPath($urlToFile) {
+		public static function getAbsolutePathFromUrl($url) {
 			$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
-			return PATH_site . str_ireplace($hostUrl, '', $urlToFile);
+			return PATH_site . str_ireplace($hostUrl, '', $url);
+		}
+
+
+		/**
+		 * Returns url from an absolute path on local file system
+		 *
+		 * @param string $path Absolute path to file
+		 * @return string Url to file
+		 */
+		public static function getUrlFromAbsolutePath($path) {
+			$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
+			return $hostUrl . str_ireplace(PATH_site, '', $path);
 		}
 
 
@@ -314,7 +292,7 @@
 		 * @return string PHP file content, ready to write to ext_emconf.php file
 		 * @see tx_em_Extensions_Details::construct_ext_emconf_file()
 		 */
-		static public function createExtEmconfFile($extKey, array $emConfArray) {
+		public static function createExtEmconfFile($extKey, array $emConfArray) {
 			if (!t3lib_extMgm::isLoaded('em')) {
 				throw new Exception('System extension "em" is required to generate ext_emconf.php');
 			}

@@ -30,7 +30,7 @@
 
 		/**
 		 * Returns random objects from db
-		 * 
+		 *
 		 * @param integer $limit Limit of the results
 		 * @return Tx_Extbase_Persistence_QueryResult Query result
 		 */

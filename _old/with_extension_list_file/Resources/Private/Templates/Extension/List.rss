@@ -1,0 +1,5 @@
+<f:layout name="Default" />
+
+<f:section name="items">
+	<f:render partial="ExtensionList" arguments="{extensions: extensions}"/>
+</f:section>

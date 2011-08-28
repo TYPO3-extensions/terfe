@@ -1,0 +1,44 @@
+div.tx_terfe2 {
+
+}
+
+div.tx_terfe2_messages {
+
+}
+
+div.tx_terfe2_content {
+  clear:both;
+}
+
+div.tx_terfe2_main {
+  width: 70%;
+  float: left;
+  margin-right: 3%;
+}
+
+div.tx_terfe2_additional {
+  width: 24%;
+  float: left;
+}
+
+br.tx_terfe2_clear {
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  clear: both;
+}
+
+div.tx_terfe2 li {
+  list-style-type: square;
+}
+
+div.tx_terfe2_extension,
+div.tx_terfe2_category,
+div.tx_terfe2_author,
+div.tx_terfe2_tag {
+  border: 1px dashed #424242;
+  margin-bottom: 12px;
+  padding: 0 6px;
+}

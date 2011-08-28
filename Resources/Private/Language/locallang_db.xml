@@ -66,6 +66,7 @@
 			<label index="tx_terfe2_domain_model_version.lock_type">Lock type</label>
 			<label index="tx_terfe2_domain_model_version.cgl_compliance">CGL compliance</label>
 			<label index="tx_terfe2_domain_model_version.cgl_compliance_note">CGL compliance note</label>
+			<label index="tx_terfe2_domain_model_version.review_state">Review state</label>
 			<label index="tx_terfe2_domain_model_version.manual">Manual</label>
 			<label index="tx_terfe2_domain_model_version.media">Media</label>
 			<label index="tx_terfe2_domain_model_version.experience">Experience</label>
@@ -95,6 +96,7 @@
 			<label index="tx_terfe2_domain_model_author.email">Email</label>
 			<label index="tx_terfe2_domain_model_author.company">Company</label>
 			<label index="tx_terfe2_domain_model_author.forge_link">Link to forge</label>
+			<label index="tx_terfe2_domain_model_author.username">Username</label>
 			<label index="tx_terfe2_domain_model_author.versions">Versions</label>
 
 			<label index="tt_content.flexform_pi1.s_def">General</label>
@@ -108,9 +110,7 @@
 			<label index="tt_content.flexform_pi1.s_def.type.manageTags">Manage Tags</label>
 
 			<label index="tt_content.flexform_pi1.s_list">List</label>
-
 			<label index="tt_content.flexform_pi1.s_detail">Detail</label>
-
 			<label index="tt_content.flexform_pi1.s_search">Search</label>
 		</languageKey>
 	</data>

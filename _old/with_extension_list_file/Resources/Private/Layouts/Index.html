@@ -1,0 +1,23 @@
+<div class="tx_terfe2">
+	<div class="tx_terfe2_messages">
+		<f:flashMessages />
+	</div>
+	<div class="tx_terfe2_content">
+		<div class="tx_terfe2_main">
+			<f:render section="main" />
+		</div>
+		<div class="tx_terfe2_additional">
+			<f:render partial="QuickMenu"/><br />
+
+			<h2><f:translate key="header.random_authors"/></h2>
+			<f:render partial="AuthorMenu" arguments="{authors: randomAuthors}"/><br />
+
+			<h2><f:translate key="header.categories"/></h2>
+			<f:render partial="CategoryMenu" arguments="{categories: categories}"/><br />
+
+			<h2><f:translate key="header.tags"/></h2>
+			<f:render partial="TagCloud" arguments="{tags: tags}"/><br />
+		</div>
+		<br class="tx_terfe2_clear" />
+	</div>
+</div>

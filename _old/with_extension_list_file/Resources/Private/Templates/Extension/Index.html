@@ -1,0 +1,10 @@
+<f:layout name="Index" />
+
+
+<f:section name="main">
+	<h2><f:translate key="header.latest_extensions"/></h2>
+	<f:render partial="ExtensionList" arguments="{extensions: latestExtensions}"/><br />
+
+	<h2><f:translate key="header.top_rated_extensions"/></h2>
+	<f:render partial="ExtensionList" arguments="{extensions: topRatedExtensions}"/><br />
+</f:section>

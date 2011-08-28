@@ -1,0 +1,10 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+	<h2><f:translate key="list_latest_extensions"/></h2>
+
+	<f:render partial="ExtensionList" arguments="{extensions: extensions}"/>
+	<br />
+
+	<f:link.action action="new"><f:translate key="create_extension"/></f:link.action>
+</f:section>

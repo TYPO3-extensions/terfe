@@ -1,0 +1,26 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+	<h2><f:translate key="new_extension"/></h2>
+
+	<f:form method="post" action="create" name="newExtension" object="{newExtension}">
+		<label for="extKey"><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></label><br />
+		<f:form.textbox property="extKey" /><br />
+
+		<label for="forgeLink"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></label><br />
+		<f:form.textbox property="forgeLink" /><br />
+
+		<label for="hudsonLink"><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></label><br />
+		<f:form.textbox property="hudsonLink" /><br />
+
+		<label for="categories"><f:translate key="tx_terfe2_domain_model_extension.categories" /></label><br />
+		<f:form.select property="categories" options="{categories}" optionValueField="uid" optionLabelField="title"></f:form.select><br />
+
+		<label for="tags"><f:translate key="tx_terfe2_domain_model_extension.tags" /></label><br />
+		<f:form.select property="tags" options="{tags}" optionValueField="uid" optionLabelField="title" multiple="1" size="5"></f:form.select><br /><br />
+
+		<f:form.submit value="{f:translate(key:'create')}" />
+	</f:form>
+
+	<f:link.action action="index"><f:translate key="back_to_list"/></f:link.action>
+</f:section>
