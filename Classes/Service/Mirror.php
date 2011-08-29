@@ -51,7 +51,7 @@
 
 		/**
 		 * Setter for maxAttempts
-		 * 
+		 *
 		 * @param integer $maxAttempts Maximal count of attemts to connect
 		 * @return void
 		 */
@@ -62,7 +62,7 @@
 
 		/**
 		 * Getter for maxAttempts
-		 * 
+		 *
 		 * @return integer Maximal count of attemts to connect
 		 */
 		public function getMaxAttempts() {
@@ -72,7 +72,7 @@
 
 		/**
 		 * Setter for protocol
-		 * 
+		 *
 		 * @param string $protocol Url protocol
 		 * @return void
 		 */
@@ -83,7 +83,7 @@
 
 		/**
 		 * Getter for protocol
-		 * 
+		 *
 		 * @return string Url protocol
 		 */
 		public function getProtocol() {
@@ -93,7 +93,7 @@
 
 		/**
 		 * Setter for repositoryId
-		 * 
+		 *
 		 * @param integer $repositoryId Repository id
 		 * @return void
 		 */
@@ -104,7 +104,7 @@
 
 		/**
 		 * Getter for repositoryId
-		 * 
+		 *
 		 * @return integer Repository id
 		 */
 		public function getRepositoryId() {
@@ -200,7 +200,7 @@
 
 		/**
 		 * Fetch a file from mirror server
-		 * 
+		 *
 		 * @param string $filename File name to fetch
 		 * @return string File content
 		 */

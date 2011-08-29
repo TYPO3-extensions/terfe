@@ -126,7 +126,7 @@
 
 		/**
 		 * Generates the name of an extension related file
-		 * 
+		 *
 		 * @param string $extension Extension key
 		 * @param string $version Version string
 		 * @param string $fileType File type
@@ -144,7 +144,7 @@
 
 		/**
 		 * Parse compressed extension list file and return updated extensions
-		 * 
+		 *
 		 * @param string $filename File name
 		 * @param integer $lastRun Timestamp of last update
 		 * @param integer $offset Offset to start with
@@ -256,7 +256,7 @@
 
 		/**
 		 * Returns the content of an ext_emconf.php file
-		 * 
+		 *
 		 * @param string $extension Extension key
 		 * @param string $version Version string
 		 * @return array Extension info array

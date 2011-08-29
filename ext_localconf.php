@@ -28,7 +28,7 @@
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['extensionmanager'] = array(
 		'class' => 'Tx_TerFe2_ExtensionProvider_ExtensionManagerProvider',
 		'configuration' => array(
-			'repositoryId' => 1,
+			'repositoryId'      => 1,
 		),
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['file'] = array(
@@ -41,7 +41,12 @@
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['soap'] = array(
 		'class' => 'Tx_TerFe2_ExtensionProvider_SoapProvider',
 		'configuration' => array(
-			
+			'wsdlUrl'           => '',
+			'username'          => '',
+			'password'          => '',
+			'getExtensionsFunc' => 'getExtensions',
+			'getFileUrlFunc'    => 'getFileUrl',
+			'getFileNameFunc'   => 'getFileName',
 		),
 	);
 

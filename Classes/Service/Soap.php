@@ -24,30 +24,30 @@
 	 ******************************************************************/
 
 	/**
-	 * Utilities to manage SOAP requests
+	 * Service to handle soap requests
 	 */
-	class Tx_TerFe2_Utility_Soap {
+	class Tx_TerFe2_Service_Soap {
 
 		/**
 		 * @var SoapClient
 		 */
-		static protected $soapConnection;
+		protected $soapConnection;
 
 		/**
 		 * @var SoapHeader
 		 */
-		static protected $authenticationHeader;
+		protected $authenticationHeader;
 
 
 		/**
-		 * Load connection
+		 * Open connection
 		 *
 		 * @param string $wsdlUrl URL of the wsdl
 		 * @param string $username Login with this username
 		 * @param string $password Login with this password
 		 * @return void
 		 */
-		static public function connect($wsdlUrl, $username = '', $password = '') {
+		public function connect($wsdlUrl, $username = '', $password = '') {
 			if (empty($wsdlUrl)) {
 				throw new Exception('No valid wsdl URL given');
 			}
@@ -57,7 +57,7 @@
 			}
 
 				// Create connection
-			self::$soapConnection = new SoapClient($wsdlUrl, array(
+			$this->soapConnection = new SoapClient($wsdlUrl, array(
 				'trace'      => 1,
 				'exceptions' => 0,
 			));
@@ -65,7 +65,7 @@
 				// Get authentication header
 			if (!empty($username) && !empty($password)) {
 				$headerData = array('username' => $username, 'password' => $password);
-				self::$authenticationHeader = new SoapHeader('', 'HeaderLogin', (object) $headerData, TRUE);
+				$this->authenticationHeader = new SoapHeader('', 'HeaderLogin', (object) $headerData, TRUE);
 			}
 		}
 
@@ -77,26 +77,26 @@
 		 * @param array $params Parameters
 		 * @return array Result of the SOAP call
 		 */
-		static public function call($methodName, array $params = array()) {
+		public function call($methodName, array $params = array()) {
 				// Check for existing connection
-			if (empty(self::$soapConnection)) {
+			if (empty($this->soapConnection)) {
 				throw new Exception('Create SOAP connection first');
 			}
 
 				// Call given method
-			$response = self::$soapConnection->__soapCall(
+			$response = $this->soapConnection->__soapCall(
 				$methodName,
 				$params,
 				NULL,
-				self::$authenticationHeader
+				$this->authenticationHeader
 			);
 
 				// Check for errors
 			if (is_soap_fault($response)) {
-				return array();
+				throw new Exception('Could not call function "' . $methodName . '" on soap server');
 			}
 
-			return self::convertObjectToArray($response);
+			return $this->convertObjectToArray($response);
 		}
 
 
@@ -106,15 +106,25 @@
 		 * @param object $object Object to convert
 		 * @return array Converted object
 		 */
-		static protected function convertObjectToArray($object) {
+		protected function convertObjectToArray($object) {
 			if (is_object($object) || is_array($object)) {
 				$object = (array) $object;
 				foreach ($object as $key => $value) {
-					$object[$key] = self::convertObjectToArray($value);
+					$object[$key] = $this->convertObjectToArray($value);
 				}
 			}
 
 			return $object;
+		}
+
+
+		/**
+		 * Close connection
+		 *
+		 * @return void
+		 */
+		public function disconnect() {
+			unset($this->soapConnection, $this->authenticationHeader);
 		}
 
 	}

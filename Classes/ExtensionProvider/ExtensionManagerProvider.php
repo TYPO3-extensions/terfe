@@ -62,10 +62,10 @@
 			}
 
 				// Get repository for extension manager cache entries
-			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository');
+			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository');
 
 				// Get mirror service
-			$this->mirrorService = t3lib_div::makeInstance('Tx_TerFe2_Service_Mirror');
+			$this->mirrorService = $this->objectManager->get('Tx_TerFe2_Service_Mirror');
 			$this->mirrorService->setRepositoryId($this->repositoryId);
 		}
 

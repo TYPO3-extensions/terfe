@@ -31,12 +31,12 @@
 		/**
 		 * @var tslib_cObj
 		 */
-		static protected $contentObject;
+		protected static $contentObject;
 
 		/**
 		 * @var Tx_Extbase_Configuration_ConfigurationManager
 		 */
-		static protected $configurationManager;
+		protected static $configurationManager;
 
 
 		/**
@@ -44,7 +44,7 @@
 		 *
 		 * @return void
 		 */
-		static protected function initialize() {
+		protected static function initialize() {
 				// Get configuration manager
 			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 			self::$configurationManager = $objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
@@ -79,7 +79,7 @@
 		 *
 		 * @return array TypoScript setup
 		 */
-		static public function getSetup() {
+		public static function getSetup() {
 			if (empty(self::$configurationManager)) {
 				self::initialize();
 			}
@@ -103,7 +103,7 @@
 		 * @param boolean $isPlain Is a plain "Fluid like" configuration array
 		 * @return array Parsed configuration
 		 */
-		static public function parse(array $configuration, $isPlain = TRUE) {
+		public static function parse(array $configuration, $isPlain = TRUE) {
 			if (empty(self::$contentObject)) {
 				self::initialize();
 			}
@@ -127,7 +127,7 @@
 		 * @param array $configuration TypoScript configuration
 		 * @return array Parsed configuration
 		 */
-		static protected function parseTypoScriptArray(array $configuration) {
+		protected static function parseTypoScriptArray(array $configuration) {
 			$typoScriptArray = array();
 
 			foreach ($configuration as $key => $value) {
