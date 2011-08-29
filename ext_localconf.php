@@ -28,19 +28,21 @@
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['extensionmanager'] = array(
 		'class' => 'Tx_TerFe2_ExtensionProvider_ExtensionManagerProvider',
 		'configuration' => array(
-			'extensionRootPath'    => 'fileadmin/ter/',
-			'extensionListFile'    => 'typo3temp/extensions.xml.gz',
-			'useExtensionListFile' => FALSE,
-			'maxMirrorChecks'      => 2,
+			'repositoryId' => 1,
 		),
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['file'] = array(
 		'class' => 'Tx_TerFe2_ExtensionProvider_FileProvider',
-		'configuration' => array(),
+		'configuration' => array(
+			'extensionRootPath' => 'fileadmin/ter/',
+			'extensionListFile' => 'typo3temp/extensions.xml.gz',
+		),
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['soap'] = array(
 		'class' => 'Tx_TerFe2_ExtensionProvider_SoapProvider',
-		'configuration' => array(),
+		'configuration' => array(
+			
+		),
 	);
 
 		// Register extension list update task

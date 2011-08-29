@@ -29,29 +29,20 @@
 	class Tx_TerFe2_ExtensionProvider_ExtensionManagerProvider extends Tx_TerFe2_ExtensionProvider_AbstractProvider {
 
 		/**
-		 * @var string
-		 */
-		protected $extensionRootPath = 'fileadmin/ter/';
-
-		/**
-		 * @var string
-		 */
-		protected $extensionListFile = 'typo3temp/extensions.xml.gz';
-
-		/**
 		 * @var integer
 		 */
-		protected $maxMirrorChecks = 2;
-
-		/**
-		 * @var string
-		 */
-		protected $mirrorUrl;
+		protected $repositoryId = 1;
 
 		/**
 		 * @var Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository
 		 */
-		protected $cacheEntryRepository;
+		protected $extensionRepository;
+
+		/**
+		 * @var Tx_TerFe2_Service_Mirror
+		 */
+		protected $mirrorService;
+
 
 
 		/**
@@ -65,23 +56,17 @@
 				throw new Exception('Requierd system extension "em" is not loaded');
 			}
 
-				// Set extension root path
-			if (!empty($this->configuration['extensionRootPath'])) {
-				$this->extensionRootPath = rtrim($this->configuration['extensionRootPath'], '/ ') . '/';
-			}
-
-				// Set extension list file
-			if (!empty($this->configuration['extensionListFile'])) {
-				$this->extensionListFile = $this->configuration['extensionListFile'];
-			}
-
-				// Set maximal mirror check count
-			if (!empty($this->configuration['maxMirrorChecks'])) {
-				$this->maxMirrorChecks = (int) $this->configuration['maxMirrorChecks'];
+				// Set repository id
+			if (!empty($this->configuration['repositoryId'])) {
+				$this->repositoryId = (int) $this->configuration['repositoryId'];
 			}
 
 				// Get repository for extension manager cache entries
 			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository');
+
+				// Get mirror service
+			$this->mirrorService = t3lib_div::makeInstance('Tx_TerFe2_Service_Mirror');
+			$this->mirrorService->setRepositoryId($this->repositoryId);
 		}
 
 
@@ -125,7 +110,7 @@
 			$filename = $this->getFileName($version, $fileType);
 
 				// Get filename on mirror server
-			$filename = $this->getMirrorFileUrl($filename);
+			$filename = $this->mirrorService->getUrlToFile($filename);
 			if (Tx_TerFe2_Utility_File::isLocalUrl($filename)) {
 				$filename = Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($filename);
 			}
@@ -223,7 +208,7 @@
 					'cgl_compliance'        => $extension['CGLcompliance'],
 					'cgl_compliance_note'   => $extension['CGLcompliance_note'],
 					'download_counter'      => (int) $extension['downloadcounter'],
-					'manual'                => NULL,
+					'manual'                => NULL, // TODO: Implement
 					'name'                  => $extension['authorname'],
 					'email'                 => $extension['authoremail'],
 					'company'               => $extension['authorcompany'],
@@ -231,8 +216,6 @@
 					'repository'            => $extension['repository'],
 					'review_state'          => $extension['reviewstate'],
 					'file_hash'             => $extension['t3xfilemd5'],
-					'is_last_version'       => $extension['lastversion'],
-					'last_reviewed_version' => $extension['lastreviewedversion'],
 					'relations'             => array(),
 				);
 
@@ -257,88 +240,6 @@
 
 
 		/**
-		 * Returns mirror url from local extension manager
-		 *
-		 * @param integer $repositoryId Id of the repository to fetch mirrors from
-		 * @return string Mirror url
-		 */
-		protected function getMirror($repositoryId = 1) {
-				// Get extension manager settings
-			$emSettings = array(
-				'rep_url'            => '',
-				'extMirrors'         => '',
-				'selectedRepository' => (int) $repositoryId,
-				'selectedMirror'     => 0,
-			);
-			if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['em'])) {
-				$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['em']);
-				$emSettings = array_merge($emSettings, $extConf);
-			}
-
-			if (!empty($emSettings['rep_url'])) {
-					// Force manually added url
-				$mirrorUrl = $emSettings['rep_url'];
-			} else {
-					// Set selected repository to "1" if no mirrors found
-				$mirrors = unserialize($emSettings['extMirrors']);
-				if (!is_array($mirrors)) {
-					if ($emSettings['selectedRepository'] < 1) {
-						$emSettings['selectedRepository'] = 1;
-					}
-				}
-
-					// Get mirrors from repository object
-				$repository = t3lib_div::makeInstance('tx_em_Repository', $emSettings['selectedRepository']);
-				if ($repository->getMirrorListUrl()) {
-					$repositoryUtility = t3lib_div::makeInstance('tx_em_Repository_Utility', $repository);
-					$mirrors = $repositoryUtility->getMirrors(TRUE)->getMirrors();
-					unset($repositoryUtility);
-					if (!is_array($mirrors)) {
-						return '';
-					}
-				}
-
-					// Build url
-				$selectedMirror = (!empty($emSettings['selectedMirror']) ? $emSettings['selectedMirror'] : array_rand($mirrors));
-				$mirrorUrl = 'http://' . $mirrors[$selectedMirror]['host'] . $mirrors[$selectedMirror]['path'];
-			}
-
-			return rtrim($mirrorUrl, '/ ') . '/';
-		}
-
-
-		/**
-		 * Generate the url a file on mirror server
-		 *
-		 * @param string $filename File name to fetch
-		 * @return string Url to file on mirror server
-		 */
-		protected function getMirrorFileUrl($filename) {
-			if (empty($filename)) {
-				throw new Exception('No filename given to generate url');
-			}
-
-				// Get first mirror url
-			if (empty($this->mirrorUrl)) {
-				$this->mirrorUrl = $this->getMirror();
-			}
-
-				// Check mirrors if file exits
-			$count = 1;
-			while (!Tx_TerFe2_Utility_File::fileExists($this->mirrorUrl . $filename)) {
-				$count++;
-				if ($count > $this->maxMirrorChecks) {
-					throw new Exception('File "' . $filename . '" could not be found on ' . $this->maxMirrorChecks . ' mirrors, break');
-					break;
-				}
-				$this->mirrorUrl = $this->getMirror();
-			}
-
-			return $this->mirrorUrl . $filename;
-		}
-
-
-		/**
 		 * Returns the content of an ext_emconf.php file
 		 *
 		 * @param string $extension Extension key
@@ -352,16 +253,7 @@
 
 				// Fetch file from server
 			$filename = $this->generateFileName($extension, $version, 't3x');
-			$filename = $this->getMirrorFileUrl($filename);
-			if (Tx_TerFe2_Utility_File::isLocalUrl($filename)) {
-				$filename = Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($filename);
-				$content = t3lib_div::getURL($filename);
-			} else {
-				$content = t3lib_div::getURL($filename, 0, array(TYPO3_user_agent));
-			}
-			if (empty($content)) {
-				throw new Exception('Can not fetch file "' . $filename . '"');
-			}
+			$content = $this->mirrorService->getFile($filename);
 
 				// Check file hash
 			if ($fileHash !== md5($content)) {
