@@ -40,10 +40,10 @@
 		 * @return void
 		 */
 		public function load() {
-			if (!$this->isLoaded) {
+			if (!$this->isLoaded()) {
 				$this->registry = t3lib_div::makeInstance('t3lib_Registry');
 				$this->content  = $this->registry->get($this->name, 'content');
-				$this->isLoaded = TRUE;
+				$this->setIsLoaded(TRUE);
 			}
 		}
 

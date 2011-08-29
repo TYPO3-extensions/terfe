@@ -34,11 +34,6 @@
 		protected $name = 'Tx_TerFe2';
 
 		/**
-		 * @var array
-		 */
-		protected $content = array();
-
-		/**
 		 * @var boolean
 		 */
 		protected $isLoaded = FALSE;
@@ -47,6 +42,11 @@
 		 * @var boolean
 		 */
 		protected $saveImmediately = TRUE;
+
+		/**
+		 * @var array
+		 */
+		protected $content = array();
 
 
 		/**
@@ -57,6 +57,37 @@
 		 */
 		public function setName($name) {
 			$this->name = $name;
+		}
+
+
+		/**
+		 * Get name
+		 *
+		 * @return string Name of the persistence
+		 */
+		public function getName() {
+			return $this->name;
+		}
+
+
+		/**
+		 * Set isLoaded
+		 *
+		 * @param boolean $isLoaded Is loaded state
+		 * @return void
+		 */
+		public function setIsLoaded($isLoaded) {
+			$this->isLoaded = (bool) $isLoaded;
+		}
+
+
+		/**
+		 * Get isLoaded
+		 *
+		 * @return boolean Is loaded state
+		 */
+		public function isLoaded() {
+			return (bool) $this->isLoaded;
 		}
 
 
@@ -72,6 +103,16 @@
 
 
 		/**
+		 * Get saveImmediately
+		 *
+		 * @return boolean Save immediately state
+		 */
+		public function saveImmediately() {
+			return (bool) $this->saveImmediately;
+		}
+
+
+		/**
 		 * Add value
 		 *
 		 * @param string $key Name of the value
@@ -82,11 +123,11 @@
 			if (empty($key)) {
 				throw new Exception('Empty keys are not allowed');
 			}
-			if (!$this->isLoaded) {
+			if (!$this->isLoaded()) {
 				$this->load();
 			}
 			$this->content[$key] = $value;
-			if ($this->saveImmediately) {
+			if ($this->saveImmediately()) {
 				$this->save();
 			}
 		}
@@ -112,7 +153,7 @@
 		 * @return boolean TRUE if exists
 		 */
 		public function has($key) {
-			if (!$this->isLoaded) {
+			if (!$this->isLoaded()) {
 				$this->load();
 			}
 			return isset($this->content[$key]);
@@ -139,7 +180,7 @@
 		 * @return array Key <-> value pairs
 		 */
 		public function getAll() {
-			if (!$this->isLoaded) {
+			if (!$this->isLoaded()) {
 				$this->load();
 			}
 			return $this->content;
@@ -156,7 +197,7 @@
 			if ($this->has($key)) {
 				unset($this->content[$key]);
 			}
-			if ($this->saveImmediately) {
+			if ($this->saveImmediately()) {
 				$this->save();
 			}
 		}
@@ -168,11 +209,11 @@
 		 * @return void
 		 */
 		public function removeAll() {
-			if (!$this->isLoaded) {
+			if (!$this->isLoaded()) {
 				$this->load();
 			}
 			$this->content = array();
-			if ($this->saveImmediately) {
+			if ($this->saveImmediately()) {
 				$this->save();
 			}
 		}

@@ -126,18 +126,18 @@
 
 				// Get filename on mirror server
 			$filename = $this->getMirrorFileUrl($filename);
-			if (Tx_TerFe2_Utility_Files::isLocalUrl($filename)) {
-				$filename = Tx_TerFe2_Utility_Files::getAbsolutePathFromUrl($filename);
+			if (Tx_TerFe2_Utility_File::isLocalUrl($filename)) {
+				$filename = Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($filename);
 			}
 
 				// Check if file exists
-			if (!Tx_TerFe2_Utility_Files::fileExists($filename)) {
+			if (!Tx_TerFe2_Utility_File::fileExists($filename)) {
 				throw new Exception('File "' . $filename . '" not found');
 			}
 
 				// Get local url from absolute path
-			if (Tx_TerFe2_Utility_Files::isAbsolutePath($filename)) {
-				return Tx_TerFe2_Utility_Files::getUrlFromAbsolutePath($filename);
+			if (Tx_TerFe2_Utility_File::isAbsolutePath($filename)) {
+				return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($filename);
 			}
 
 			return $filename;
@@ -325,7 +325,7 @@
 
 				// Check mirrors if file exits
 			$count = 1;
-			while (!Tx_TerFe2_Utility_Files::fileExists($this->mirrorUrl . $filename)) {
+			while (!Tx_TerFe2_Utility_File::fileExists($this->mirrorUrl . $filename)) {
 				$count++;
 				if ($count > $this->maxMirrorChecks) {
 					throw new Exception('File "' . $filename . '" could not be found on ' . $this->maxMirrorChecks . ' mirrors, break');
@@ -353,8 +353,8 @@
 				// Fetch file from server
 			$filename = $this->generateFileName($extension, $version, 't3x');
 			$filename = $this->getMirrorFileUrl($filename);
-			if (Tx_TerFe2_Utility_Files::isLocalUrl($filename)) {
-				$filename = Tx_TerFe2_Utility_Files::getAbsolutePathFromUrl($filename);
+			if (Tx_TerFe2_Utility_File::isLocalUrl($filename)) {
+				$filename = Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($filename);
 				$content = t3lib_div::getURL($filename);
 			} else {
 				$content = t3lib_div::getURL($filename, 0, array(TYPO3_user_agent));

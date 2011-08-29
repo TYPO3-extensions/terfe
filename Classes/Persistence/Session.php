@@ -39,7 +39,7 @@
 			}
 			if (!$this->isLoaded) {
 				$this->content = $GLOBALS['TSFE']->fe_user->getKey('ses', $this->name);
-				$this->isLoaded = TRUE;
+				$this->setIsLoaded(TRUE);
 			}
 		}
 

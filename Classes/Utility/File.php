@@ -26,7 +26,7 @@
 	/**
 	 * Utilities to manage files
 	 */
-	class Tx_TerFe2_Utility_Files {
+	class Tx_TerFe2_Utility_File {
 
 		/**
 		 * Check if a file, URL or directory exists

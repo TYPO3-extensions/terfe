@@ -27,7 +27,7 @@
 		'tx_terfe2_task_updateextensionlisttask'                           => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
 		'tx_terfe2_task_updateextensionlisttaskadditionalfieldprovider'    => $extensionClassesPath . 'Task/UpdateExtensionListTaskAdditionalFieldProvider.php',
 		'tx_terfe2_utility_archive'                                        => $extensionClassesPath . 'Utility/Archive.php',
-		'tx_terfe2_utility_files'                                          => $extensionClassesPath . 'Utility/Files.php',
+		'tx_terfe2_utility_file'                                           => $extensionClassesPath . 'Utility/File.php',
 		'tx_terfe2_utility_soap'                                           => $extensionClassesPath . 'Utility/Soap.php',
 		'tx_terfe2_utility_typoscript'                                     => $extensionClassesPath . 'Utility/TypoScript.php',
 	);

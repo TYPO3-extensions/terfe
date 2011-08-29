@@ -42,7 +42,7 @@
 			}
 
 				// Check if file already exists
-			if (!$overwrite && Tx_TerFe2_Utility_Files::fileExists($filename)) {
+			if (!$overwrite && Tx_TerFe2_Utility_File::fileExists($filename)) {
 				return TRUE;
 			}
 
@@ -86,12 +86,12 @@
 			}
 
 				// Check if file exists
-			if (!Tx_TerFe2_Utility_Files::fileExists($filename)) {
+			if (!Tx_TerFe2_Utility_File::fileExists($filename)) {
 				throw new Exception('File "' . $filename . '" not found to extract');
 			}
 
 				// Check if path is writable
-			$path = Tx_TerFe2_Utility_Files::getAbsoluteDirectory($path);
+			$path = Tx_TerFe2_Utility_File::getAbsoluteDirectory($path);
 			if (!is_writable($path)) {
 				throw new Exception('Path "' . $path . '" is not writeable');
 			}
@@ -132,7 +132,7 @@
 			}
 
 				// Check if file was cached
-			if (Tx_TerFe2_Utility_Files::fileExists($zipFile)) {
+			if (Tx_TerFe2_Utility_File::fileExists($zipFile)) {
 				return TRUE;
 			}
 
@@ -147,7 +147,7 @@
 
 				// Create ext_emconf.php
 			if (!empty($content['extKey']) && !empty($content['EM_CONF']) && is_array($content['EM_CONF'])) {
-				$files['ext_emconf.php'] = Tx_TerFe2_Utility_Files::createExtEmconfFile(
+				$files['ext_emconf.php'] = Tx_TerFe2_Utility_File::createExtEmconfFile(
 					$content['extKey'],
 					$content['EM_CONF']
 				);
@@ -172,8 +172,8 @@
 			}
 
 				// Get local file name if on same server
-			if (Tx_TerFe2_Utility_Files::isLocalUrl($filename)) {
-				$filename = Tx_TerFe2_Utility_Files::getAbsolutePathFromUrl($filename);
+			if (Tx_TerFe2_Utility_File::isLocalUrl($filename)) {
+				$filename = Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($filename);
 			}
 
 				// Get file content

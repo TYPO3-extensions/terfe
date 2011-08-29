@@ -60,7 +60,7 @@
 		 * @return void
 		 */
 		public function __construct() {
-			$this->imageCachePath = Tx_TerFe2_Utility_Files::getAbsoluteDirectory($this->imageCachePath);
+			$this->imageCachePath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->imageCachePath);
 		}
 
 
@@ -113,7 +113,7 @@
 			$filename = $this->getFileName($version, $fileType);
 
 				// Check local cache first
-			if (Tx_TerFe2_Utility_Files::fileExists($this->imageCachePath . $filename)) {
+			if (Tx_TerFe2_Utility_File::fileExists($this->imageCachePath . $filename)) {
 				return t3lib_div::locationHeaderUrl($this->imageCachePath . $filename);
 			}
 
@@ -121,7 +121,7 @@
 			$iconUrl = $this->getFileUrl($filename);
 
 				// Copy icon to local cache
-			Tx_TerFe2_Utility_Files::copyFile($iconUrl, $this->imageCachePath . $filename);
+			Tx_TerFe2_Utility_File::copyFile($iconUrl, $this->imageCachePath . $filename);
 
 			return $iconUrl;
 		}
