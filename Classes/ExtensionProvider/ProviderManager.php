@@ -71,6 +71,9 @@
 			}
 
 			$provider = $this->objectManager->get($configuration['class']);
+			if (!($provider instanceof Tx_TerFe2_ExtensionProvider_ProviderInterface)) {
+				throw new Exception('Provider "' . $name . '" does not implement the interface "Tx_TerFe2_ExtensionProvider_ProviderInterface"');
+			}
 			if (!empty($configuration['configuration']) && method_exists($provider, 'setConfiguration')) {
 				$provider->setConfiguration($configuration['configuration']);
 			}

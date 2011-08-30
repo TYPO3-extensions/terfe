@@ -60,7 +60,10 @@
 			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.extensionsPerRun">Count of extensions to process at once</label>
-			<label index="tx_terfe2_task_updateextensionlisttask.providerName">Fetch extensions from this provider</label>
+			<label index="tx_terfe2_task_updateextensionlisttask.providerName">Fetch extensions from this source</label>
+			<label index="tx_terfe2_extensionprovider_extensionmanagerprovider.name">Local Extension Manager</label>
+			<label index="tx_terfe2_extensionprovider_fileprovider.name">Local Filesystem</label>
+			<label index="tx_terfe2_extensionprovider_soapprovider.name">SOAP Server</label>
 
 			<label index="msg.extension_created">Extension created</label>
 			<label index="msg.extension_updated">Extension updated</label>

@@ -81,7 +81,9 @@
 				// Add html structure for provider name field
 			$options = array();
 			if (!empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'])) {
-				$options = array_keys($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders']);
+				foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'] as $key => $configuration) {
+					$options[$key] = (!empty($configuration['title']) ? $configuration['title'] : $key);
+				}
 			}
 			$additionalFields[$this->fields['providerName']] = array(
 				'code'  => $this->getSelect($this->fields['providerName'], $options, $taskInfo[$this->fields['providerName']]),
@@ -124,15 +126,18 @@
 		 *
 		 * @param string $fieldName Field name
 		 * @param array $options Select options
-		 * @param string $selectedOption Selected option
+		 * @param string $selectedKey Selected option key
 		 * @return string
 		 */
-		protected function getSelect($fieldName, array $options, $selectedOption = '') {
+		protected function getSelect($fieldName, array $options, $selectedKey = '') {
 			$html = array('<option></option>');
 
-			foreach ($options as $option) {
-				$selected = ($option === $selectedOption ? ' selected="selected"' : '');
-				$html[]   = '<option' . $selected . '>' . $option . '</option>';
+			foreach ($options as $key => $option) {
+				$selected = ($key === $selectedKey ? ' selected="selected"' : '');
+				if ($key !== $option) {
+					$option = Tx_Extbase_Utility_Localization::translate($option);
+				}
+				$html[]   = '<option value="' . $key . '"' . $selected . '>' . $option . '</option>';
 			}
 
 			return '<select name="tx_scheduler[' . $fieldName . ']">' . implode(PHP_EOL, $html) . '</select>';

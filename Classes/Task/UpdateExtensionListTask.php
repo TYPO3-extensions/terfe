@@ -71,7 +71,7 @@
 				// Load configuration manager and set extension setup
 				// required to be loaded in object manager for persistence mapping
 			$configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
-			$configurationManager->setConfiguration(Tx_TerFe2_Utility_TypoScript::getSetup());
+			$configurationManager->setConfiguration(Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2'));
 
 				// Load provider manager
 			$this->providerManager = $this->objectManager->get('Tx_TerFe2_ExtensionProvider_ProviderManager');
@@ -146,7 +146,12 @@
 		 * @return string
 		 */
 		public function getAdditionalInformation() {
-			return ' ' . $this->providerName . ' ';
+			$title = ucfirst($this->providerName);
+			if (!empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$this->providerName]['title'])) {
+				$title = $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$this->providerName]['title'];
+				$title = Tx_Extbase_Utility_Localization::translate($title);
+			}
+			return ' ' . $title . ' ';
 		}
 
 	}
