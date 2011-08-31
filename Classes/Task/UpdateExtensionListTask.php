@@ -78,6 +78,9 @@
 
 				// Load registry
 			$this->registry = $this->objectManager->get('Tx_TerFe2_Persistence_Registry');
+
+				// Load object builder
+			$this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
 		}
 
 
@@ -100,7 +103,8 @@
 
 				// Get extension structure from provider
 			$provider = $this->providerManager->getProvider($this->providerName);
-			$extensions = $provider->getExtensions($lastRun, $offset, $count);
+			//$extensions = $provider->getExtensions($lastRun, $offset, $count);
+			$extensions = array();
 
 				// Build models from extension structure
 			$this->createObjects($extensions);
@@ -120,23 +124,23 @@
 		 * @return void
 		 */
 		protected function createObjects(array $structure) {
-			t3lib_div::writeFile(PATH_site . 'debug.txt', print_r($structure, TRUE));
-
 			/**
-			 * Ablauf:
-			 *  1. Alle Autoren anlegen und in Array mit hash des autors als key und uid als value
-			 *  2. Das selbe für relations
-			 *  3. Das selbe für extensions
-			 *  4. Versionen anlegen und uids nachtragen
-			 *
-			tx_terfe2_domain_model_extension
-			tx_terfe2_domain_model_version
-			tx_terfe2_domain_model_relation
-			tx_terfe2_domain_model_author
-			*
-			$dataMapper = $this->objectManager->get('Tx_Extbase_Persistence_Mapper_DataMapper');
-			$rows = $dataMapper->map('Tx_TerFe2_Domain_Model_Version', array($extensions));
-			*/
+			 * 1. Author     Tx_TerFe2_Domain_Model_Author
+			 * 2. Relation   Tx_TerFe2_Domain_Model_Relation
+			 * 3. Version    Tx_TerFe2_Domain_Model_Version
+			 * 4. Extension  Tx_TerFe2_Domain_Model_Extension
+			 */
+
+
+			$structure = array(
+				'ext_key' => 'test'
+			);
+
+			$this->objectBuilder->create('Tx_TerFe2_Domain_Model_Extension', $structure['ext_key'], $structure);
+			$this->objectBuilder->get('Tx_TerFe2_Domain_Model_Extension', $structure['ext_key'])->setExtKey('blub');
+
+			$objects = $this->objectBuilder->getAll();
+			t3lib_div::writeFile(PATH_site . 'debug.txt', print_r($objects, TRUE));
 		}
 
 

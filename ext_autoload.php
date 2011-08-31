@@ -22,6 +22,7 @@
 		'tx_terfe2_extensionprovider_providerinterface'                    => $extensionClassesPath . 'ExtensionProvider/ProviderInterface.php',
 		'tx_terfe2_extensionprovider_providermanager'                      => $extensionClassesPath . 'ExtensionProvider/ProviderManager.php',
 		'tx_terfe2_extensionprovider_soapprovider'                         => $extensionClassesPath . 'ExtensionProvider/SoapProvider.php',
+		'tx_terfe2_object_objectbuilder'                                   => $extensionClassesPath . 'Object/ObjectBuilder.php',
 		'tx_terfe2_persistence_abstractpersistence'                        => $extensionClassesPath . 'Persistence/AbstractPersistence.php',
 		'tx_terfe2_persistence_persistenceinterface'                       => $extensionClassesPath . 'Persistence/PersistenceInterface.php',
 		'tx_terfe2_persistence_registry'                                   => $extensionClassesPath . 'Persistence/Registry.php',

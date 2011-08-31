@@ -161,10 +161,10 @@
 		/**
 		 * Setter for lastUpload
 		 *
-		 * @param DataTime $lastUpload lastUpload
+		 * @param DateTime $lastUpload lastUpload
 		 * @return void
 		 */
-		public function setLastUpload($lastUpload) {
+		public function setLastUpload(DateTime $lastUpload) {
 			$this->lastUpload = $lastUpload;
 		}
 
@@ -182,10 +182,10 @@
 		/**
 		 * Setter for lastMaintained
 		 *
-		 * @param DataTime $lastMaintained lastMaintained
+		 * @param DateTime $lastMaintained lastMaintained
 		 * @return void
 		 */
-		public function setLastMaintained($lastMaintained) {
+		public function setLastMaintained(DateTime $lastMaintained) {
 			$this->lastMaintained = $lastMaintained;
 		}
 
