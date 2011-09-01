@@ -78,44 +78,78 @@
 			if (empty($className) || empty($identifier) || empty($attributes)) {
 				throw new Exception('No valid params given to create an object');
 			}
-
-			if (!empty($this->objects[$className][$identifier])) {
+			if (!empty($this->objects[$identifier])) {
 				return;
 			}
-
 			$object = reset($this->dataMapper->map($className, array($attributes)));
-			$this->objects[$className][$identifier] = $object;
+			$this->objects[$identifier] = clone($object);
 			$this->persistenceSession->unregisterReconstitutedObject($object);
+			unset($object);
+		}
+
+
+		/**
+		 * Check if an object exists in storage
+		 * 
+		 * @param string $identifier String to uniquely identify an object
+		 * @return boolean TRUE if exists
+		 */
+		public function has($identifier) {
+			if (empty($identifier)) {
+				throw new Exception('No valid identifier given to check for an object');
+			}
+			return (!empty($this->objects[$identifier]));
 		}
 
 
 		/**
 		 * Return a stored object
 		 * 
-		 * @param string $className Name of the class
 		 * @param string $identifier String to uniquely identify an object
 		 * @return Tx_Extbase_DomainObject_DomainObjectInterface Stored object
 		 */
-		public function get($className, $identifier) {
-			if (empty($className) || empty($identifier)) {
-				throw new Exception('No valid params given to return an object');
+		public function get($identifier) {
+			if (empty($identifier)) {
+				throw new Exception('No valid identifier given to return an object');
 			}
-
-			if (!empty($this->objects[$className][$identifier])) {
-				return $this->objects[$className][$identifier];
+			if (!empty($this->objects[$identifier])) {
+				return $this->objects[$identifier];
 			}
-
 			return NULL;
 		}
 
 
 		/**
-		 * Returns all objects
+		 * Remove a stored object
+		 * 
+		 * @param string $identifier String to uniquely identify an object
+		 * @return void
+		 */
+		public function remove($identifier) {
+			if (empty($identifier)) {
+				throw new Exception('No valid identifier given to remove an object');
+			}
+			unset($this->objects[$identifier]);
+		}
+
+
+		/**
+		 * Returns all stored objects
 		 * 
 		 * @return array All objects
 		 */
 		public function getAll() {
 			return $this->objects;
+		}
+
+
+		/**
+		 * Remove all stored objects
+		 * 
+		 * @return void
+		 */
+		public function removeAll() {
+			unset($this->objects);
 		}
 
 	}

@@ -130,17 +130,17 @@
 			 * 3. Version    Tx_TerFe2_Domain_Model_Version
 			 * 4. Extension  Tx_TerFe2_Domain_Model_Extension
 			 */
-
-
+t3lib_div::writeFile(PATH_site . 'debug.txt', print_r($structure, TRUE));
+/*
 			$structure = array(
 				'ext_key' => 'test'
 			);
 
 			$this->objectBuilder->create('Tx_TerFe2_Domain_Model_Extension', $structure['ext_key'], $structure);
-			$this->objectBuilder->get('Tx_TerFe2_Domain_Model_Extension', $structure['ext_key'])->setExtKey('blub');
+			//$this->objectBuilder->get('Tx_TerFe2_Domain_Model_Extension', $structure['ext_key'])->setExtKey('blub');
 
 			$objects = $this->objectBuilder->getAll();
-			t3lib_div::writeFile(PATH_site . 'debug.txt', print_r($objects, TRUE));
+			t3lib_div::writeFile(PATH_site . 'debug.txt', print_r($objects, TRUE));*/
 		}
 
 
