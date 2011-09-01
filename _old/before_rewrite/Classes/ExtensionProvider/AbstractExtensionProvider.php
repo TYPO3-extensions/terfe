@@ -280,12 +280,14 @@
 		 */
 		protected function convertValue($value, $type) {
 			switch ($type) {
+				case 'int':
 				case 'integer':
 					return (int) $value;
 					break;
 				case 'float':
 					return (float) $value;
 					break;
+				case 'bool':
 				case 'boolean':
 					return (boolean) $value;
 					break;

@@ -26,7 +26,7 @@
 	/**
 	 * Extension provider for soap requests
 	 */
-	class Tx_TerFe2_ExtensionProvider_SoapProvider extends Tx_TerFe2_ExtensionProvider_AbstractProvider {
+	class Tx_TerFe2_Provider_SoapProvider extends Tx_TerFe2_Provider_AbstractProvider {
 
 		/**
 		 * @var string

@@ -26,7 +26,7 @@
 	/**
 	 * Manager for extension providers
 	 */
-	class Tx_TerFe2_ExtensionProvider_ProviderManager implements t3lib_Singleton {
+	class Tx_TerFe2_Provider_ProviderManager implements t3lib_Singleton {
 
 		/**
 		 * @var Tx_Extbase_Object_ObjectManagerInterface
@@ -52,7 +52,7 @@
 		 * Get an instance of a concrete extension provider
 		 *
 		 * @param string $name Name of the provider
-		 * @return Tx_TerFe2_ExtensionProvider_ExtensionProviderInterface Extension provider
+		 * @return Tx_TerFe2_Provider_ProviderInterface Extension provider
 		 */
 		public function getProvider($name) {
 			$name = strtolower(trim($name));
@@ -71,8 +71,8 @@
 			}
 
 			$provider = $this->objectManager->get($configuration['class']);
-			if (!($provider instanceof Tx_TerFe2_ExtensionProvider_ProviderInterface)) {
-				throw new Exception('Provider "' . $name . '" does not implement the interface "Tx_TerFe2_ExtensionProvider_ProviderInterface"');
+			if (!($provider instanceof Tx_TerFe2_Provider_ProviderInterface)) {
+				throw new Exception('Provider "' . $name . '" does not implement the interface "Tx_TerFe2_Provider_ProviderInterface"');
 			}
 			if (!empty($configuration['configuration']) && method_exists($provider, 'setConfiguration')) {
 				$provider->setConfiguration($configuration['configuration']);

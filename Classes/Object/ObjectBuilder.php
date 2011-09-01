@@ -29,40 +29,40 @@
 	class Tx_TerFe2_Object_ObjectBuilder implements t3lib_Singleton {
 
 		/**
-		 * @var Tx_Extbase_Persistence_Mapper_DataMapper
+		 * @var Tx_Extbase_Reflection_Service
 		 */
-		protected $dataMapper;
+		protected $reflectionService;
 
 		/**
-		 * @var Tx_Extbase_Persistence_Session
+		 * @var Tx_Extbase_Persistence_IdentityMap
 		 */
-		protected $persistenceSession;
+		protected $identityMap;
 
 		/**
 		 * @var array
 		 */
-		protected $objects;
+		protected $classSchemata;
 
 
 		/**
-		 * Injects the object storage
+		 * Injects the identity map
 		 *
-		 * @param Tx_Extbase_Persistence_Mapper_DataMapper $dataMapper
+		 * @param Tx_Extbase_Persistence_IdentityMap $identityMap
 		 * @return void
 		 */
-		public function injectDataMapper(Tx_Extbase_Persistence_Mapper_DataMapper $dataMapper) {
-			$this->dataMapper = $dataMapper;
+		public function injectIdentityMap(Tx_Extbase_Persistence_IdentityMap $identityMap) {
+			$this->identityMap = $identityMap;
 		}
 
 
-			/**
-		 * Injects the persistence session
+		/**
+		 * Injects the reflection service
 		 *
-		 * @param Tx_Extbase_Persistence_Session $persistenceSession
+		 * @param Tx_Extbase_Reflection_Service $reflectionService
 		 * @return void
 		 */
-		public function injectPersistenceSession(Tx_Extbase_Persistence_Session $persistenceSession) {
-			$this->persistenceSession = $persistenceSession;
+		public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService) {
+			$this->reflectionService = $reflectionService;
 		}
 
 
@@ -70,86 +70,88 @@
 		 * Create an object from given class and attributes
 		 * 
 		 * @param string $className Name of the class
-		 * @param string $identifier String to uniquely identify an object
 		 * @param array $attributes Array of all class attributes
-		 * @return void
-		 */
-		public function create($className, $identifier, array $attributes) {
-			if (empty($className) || empty($identifier) || empty($attributes)) {
-				throw new Exception('No valid params given to create an object');
-			}
-			if (!empty($this->objects[$identifier])) {
-				return;
-			}
-			$object = reset($this->dataMapper->map($className, array($attributes)));
-			$this->objects[$identifier] = clone($object);
-			$this->persistenceSession->unregisterReconstitutedObject($object);
-			unset($object);
-		}
-
-
-		/**
-		 * Check if an object exists in storage
-		 * 
-		 * @param string $identifier String to uniquely identify an object
-		 * @return boolean TRUE if exists
-		 */
-		public function has($identifier) {
-			if (empty($identifier)) {
-				throw new Exception('No valid identifier given to check for an object');
-			}
-			return (!empty($this->objects[$identifier]));
-		}
-
-
-		/**
-		 * Return a stored object
-		 * 
-		 * @param string $identifier String to uniquely identify an object
 		 * @return Tx_Extbase_DomainObject_DomainObjectInterface Stored object
 		 */
-		public function get($identifier) {
-			if (empty($identifier)) {
-				throw new Exception('No valid identifier given to return an object');
+		public function create($className, array $attributes) {
+			if (empty($className) || empty($attributes)) {
+				throw new Exception('No valid params given to create an object');
 			}
-			if (!empty($this->objects[$identifier])) {
-				return $this->objects[$identifier];
+
+				// Check identity map
+			$identifier = md5(json_encode($attributes));
+			if ($this->identityMap->hasIdentifier($identifier, $className)) {
+				return $this->identityMap->getObjectByIdentifier($identifier, $className);
 			}
-			return NULL;
+
+				// Build object
+			$classSchema = $this->getClassSchema($className);
+			$object = new $className();
+			foreach ($attributes as $key => $value) {
+				$propertyName = t3lib_div::underscoredToLowerCamelCase($key);
+				$protertyInfo = $classSchema->getProperty($propertyName);
+				if (empty($protertyInfo) || stripos($protertyInfo['type'], 'Tx_') !== FALSE) {
+					continue;
+				}
+				$value = $this->convertValue($value, $protertyInfo['type']);
+				$method = 'set' . ucfirst($propertyName);
+				if (method_exists($object, $method)) {
+					$object->$method($value);
+				}
+			}
+
+				// Register object in identity map
+			$this->identityMap->registerObject($object, $identifier);
+
+			return $object;
 		}
 
 
 		/**
-		 * Remove a stored object
+		 * Returns the schema of a class
 		 * 
-		 * @param string $identifier String to uniquely identify an object
-		 * @return void
+		 * @param string $className Name of the class
+		 * @return Tx_Extbase_Reflection_ClassSchema Class schema
 		 */
-		public function remove($identifier) {
-			if (empty($identifier)) {
-				throw new Exception('No valid identifier given to remove an object');
+		protected function getClassSchema($className) {
+			if (empty($className)) {
+				throw new Exception('No valid class name given to create a class schema');
 			}
-			unset($this->objects[$identifier]);
+			if (empty($this->classSchemata[$className])) {
+				$this->classSchemata[$className] = $this->reflectionService->getClassSchema($className);
+			}
+			return $this->classSchemata[$className];
 		}
 
 
 		/**
-		 * Returns all stored objects
-		 * 
-		 * @return array All objects
+		 * Convert value into correct type
+		 *
+		 * @param mixed $value Value to convert
+		 * @param string $type Type of the conversation
+		 * @return mixed Converted value
 		 */
-		public function getAll() {
-			return $this->objects;
-		}
-
-
-		/**
-		 * Remove all stored objects
-		 * 
-		 * @return void
-		 */
-		public function removeAll() {
-			unset($this->objects);
+		protected function convertValue($value, $type) {
+			switch ($type) {
+				case 'int':
+				case 'integer':
+					return (int) $value;
+					break;
+				case 'float':
+					return (float) $value;
+					break;
+				case 'bool':
+				case 'boolean':
+					return (boolean) $value;
+					break;
+				case 'array':
+					return (array) $value;
+					break;
+				case 'string':
+				default:
+					return (string) $value;
+					break;
+			}
 		}
 
 	}

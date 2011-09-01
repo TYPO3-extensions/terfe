@@ -11,37 +11,6 @@ plugin.tx_terfe2 {
 
 		# cat=TER Frontend/settings/120; type=int+; label=Count of random Authors
 		randomAuthorCount = 10
-
-		fileProvider {
-			# cat=TER Frontend/settings/200; type=string; label=Class name of the Filesystem Extension Provider
-			className = Tx_TerFe2_ExtensionProvider_FileProvider
-
-			# cat=TER Frontend/settings/210; type=string; label=Extension root path in local filesystem
-			extensionRootPath = fileadmin/ter/
-
-			# cat=TER Frontend/settings/220; type=boolean; label=Use Extension Manager mirror system for file downloads
-			useEmMirrors = 0
-		}
-
-		soapProvider {
-			# cat=TER Frontend/settings/400; type=string; label=Class name of the SOAP Extension Provider
-			className = Tx_TerFe2_ExtensionProvider_SoapProvider
-
-			# cat=TER Frontend/settings/410; type=string; label=URL to WSDL file on SOAP server
-			wsdlUrl =
-
-			# cat=TER Frontend/settings/420; type=string; label=Username for the authentication on SOAP server
-			username =
-
-			# cat=TER Frontend/settings/430; type=string; label=Password for the authentication on SOAP server
-			password =
-
-			# cat=TER Frontend/settings/440; type=string; label=Name of the function to get updated Extensions
-			updateFunc =
-
-			# cat=TER Frontend/settings/450; type=string; label=Name of the function to get the URL to a file
-			getFileFunc =
-		}
 	}
 
 	persistence {

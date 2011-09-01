@@ -26,7 +26,7 @@
 	/**
 	 * Abstract extension provider
 	 */
-	abstract class Tx_TerFe2_ExtensionProvider_AbstractProvider implements Tx_TerFe2_ExtensionProvider_ProviderInterface {
+	abstract class Tx_TerFe2_Provider_AbstractProvider implements Tx_TerFe2_Provider_ProviderInterface {
 
 		/**
 		 * @var Tx_Extbase_Object_ObjectManagerInterface

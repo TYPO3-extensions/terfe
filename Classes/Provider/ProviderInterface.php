@@ -26,7 +26,7 @@
 	/**
 	 * Interface for extension providers
 	 */
-	interface Tx_TerFe2_ExtensionProvider_ProviderInterface extends t3lib_Singleton {
+	interface Tx_TerFe2_Provider_ProviderInterface extends t3lib_Singleton {
 
 		/*
 		 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager

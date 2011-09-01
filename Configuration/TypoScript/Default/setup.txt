@@ -7,25 +7,6 @@ plugin.tx_terfe2 {
 		latestCount       = {$plugin.tx_terfe2.settings.latestCount}
 		topRatedCount     = {$plugin.tx_terfe2.settings.topRatedCount}
 		randomAuthorCount = {$plugin.tx_terfe2.settings.randomAuthorCount}
-
-		extensionProviders {
-			## Filesystem Extension Provider
-			fileProvider {
-				className         = {$plugin.tx_terfe2.settings.fileProvider.className}
-				extensionRootPath = {$plugin.tx_terfe2.settings.fileProvider.extensionRootPath}
-				useEmMirrors      = {$plugin.tx_terfe2.settings.fileProvider.useEmMirrors}
-			}
-
-			## SOAP Extension Provider
-			#soapProvider {
-			#	className         = {$plugin.tx_terfe2.settings.soapProvider.className}
-			#	wsdlUrl           = {$plugin.tx_terfe2.settings.soapProvider.wsdlUrl}
-			#	username          = {$plugin.tx_terfe2.settings.soapProvider.username}
-			#	password          = {$plugin.tx_terfe2.settings.soapProvider.password}
-			#	updateFunc        = {$plugin.tx_terfe2.settings.soapProvider.updateFunc}
-			#	getFileFunc       = {$plugin.tx_terfe2.settings.soapProvider.getFileFunc}
-			#}
-		}
 	}
 
 	## Storage settings

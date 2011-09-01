@@ -49,7 +49,7 @@
 		protected $objectManager;
 
 		/**
-		 * @var Tx_TerFe2_ExtensionProvider_ProviderManager
+		 * @var Tx_TerFe2_Provider_ProviderManager
 		 */
 		protected $providerManager;
 
@@ -57,6 +57,26 @@
 		 * @var Tx_TerFe2_Persistence_Registry
 		 */
 		protected $registry;
+
+		/**
+		 * @var Tx_TerFe2_Object_ObjectBuilder
+		 */
+		protected $objectBuilder;
+
+		/**
+		 * @var Tx_Extbase_Persistence_Manager
+		 */
+		protected $persistenceManager;
+
+		/**
+		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
+		 */
+		protected $extensionRepository;
+
+		/**
+		 * @var Tx_TerFe2_Domain_Repository_AuthorRepository
+		 */
+		protected $authorRepository;
 
 
 		/**
@@ -74,13 +94,20 @@
 			$configurationManager->setConfiguration(Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2'));
 
 				// Load provider manager
-			$this->providerManager = $this->objectManager->get('Tx_TerFe2_ExtensionProvider_ProviderManager');
+			$this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
 
 				// Load registry
 			$this->registry = $this->objectManager->get('Tx_TerFe2_Persistence_Registry');
 
 				// Load object builder
 			$this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
+
+				// Load persistence manager
+			$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+
+				// Load repositories
+			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			$this->authorRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
 		}
 
 
@@ -103,11 +130,14 @@
 
 				// Get extension structure from provider
 			$provider = $this->providerManager->getProvider($this->providerName);
-			//$extensions = $provider->getExtensions($lastRun, $offset, $count);
-			$extensions = array();
+			$extensions = $provider->getExtensions($lastRun, $offset, $count);
 
-				// Build models from extension structure
-			$this->createObjects($extensions);
+				// Build extensions...
+			if (!empty($extensions)) {
+				foreach ($extensions as $extensionRow) {
+					$this->createOrUpdateExtension($extensionRow);
+				}
+			}
 
 				// Set new values to registry
 			$this->registry->add('lastRun', $GLOBALS['EXEC_TIME']);
@@ -118,29 +148,61 @@
 
 
 		/**
-		 * Create models from extension structure
+		 * Create or update an extension
 		 *
-		 * @param array $structure Extension structure
+		 * @param array $extensionRow Extension row
 		 * @return void
 		 */
-		protected function createObjects(array $structure) {
-			/**
-			 * 1. Author     Tx_TerFe2_Domain_Model_Author
-			 * 2. Relation   Tx_TerFe2_Domain_Model_Relation
-			 * 3. Version    Tx_TerFe2_Domain_Model_Version
-			 * 4. Extension  Tx_TerFe2_Domain_Model_Extension
-			 */
-t3lib_div::writeFile(PATH_site . 'debug.txt', print_r($structure, TRUE));
-/*
-			$structure = array(
-				'ext_key' => 'test'
-			);
+		protected function createOrUpdateExtension(array $extensionRow) {
+			$modified = FALSE;
 
-			$this->objectBuilder->create('Tx_TerFe2_Domain_Model_Extension', $structure['ext_key'], $structure);
-			//$this->objectBuilder->get('Tx_TerFe2_Domain_Model_Extension', $structure['ext_key'])->setExtKey('blub');
+				// Extension
+			if ($this->extensionRepository->countByExtKey($extensionRow['ext_key'])) {
+				$extension = $this->extensionRepository->findOneByExtKey($extensionRow['ext_key']);
+			} else {
+				$extension = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Extension', $extensionRow);
+				$extension->setLastUpload(new DateTime());
+				$extension->setLastMaintained(new DateTime());
+				$modified = TRUE;
+			}
 
-			$objects = $this->objectBuilder->getAll();
-			t3lib_div::writeFile(PATH_site . 'debug.txt', print_r($objects, TRUE));*/
+				// Versions
+			foreach ($extensionRow['versions'] as $versionRow) {
+					// Version already exists, so do nothing here
+				if ($this->extensionRepository->countByExtKeyAndVersionNumber($extensionRow['ext_key'], $versionRow['version_number'])) {
+					continue;
+				}
+
+				$version = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Version', $versionRow);
+				$version->setExtension($extension);
+				$modified = TRUE;
+
+					// Relations
+				foreach ($versionRow['relations'] as $relationRow) {
+					$relation = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Relation', $relationRow);
+					$version->addSoftwareRelation($relation);
+				}
+
+					// Author
+				if (!empty($versionRow['authors'])) {
+					$authorRow = reset($versionRow['authors']);
+					if ($this->authorRepository->countByEmail($authorRow['email'])) {
+						$author = $this->authorRepository->findOneByEmail($authorRow['email']);
+					} else {
+						$author = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Author', $authorRow);
+						$this->persistenceManager->getSession()->registerReconstitutedObject($author);
+					}
+					$version->setAuthor($author);
+				}
+
+				$extension->addVersion($version);
+			}
+
+				// Persist objects
+			if ($modified) {
+				$this->persistenceManager->getSession()->registerReconstitutedObject($extension);
+				$this->persistenceManager->persistAll();
+			}
 		}
 
 

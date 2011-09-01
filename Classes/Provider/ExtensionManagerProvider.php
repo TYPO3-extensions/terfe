@@ -26,7 +26,7 @@
 	/**
 	 * Extension provider for local extension manager
 	 */
-	class Tx_TerFe2_ExtensionProvider_ExtensionManagerProvider extends Tx_TerFe2_ExtensionProvider_AbstractProvider {
+	class Tx_TerFe2_Provider_ExtensionManagerProvider extends Tx_TerFe2_Provider_AbstractProvider {
 
 		/**
 		 * @var integer

@@ -26,7 +26,7 @@
 	/**
 	 * Extension provider using local files
 	 */
-	class Tx_TerFe2_ExtensionProvider_FileProvider extends Tx_TerFe2_ExtensionProvider_AbstractProvider {
+	class Tx_TerFe2_Provider_FileProvider extends Tx_TerFe2_Provider_AbstractProvider {
 
 		/**
 		 * @var string

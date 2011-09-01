@@ -131,7 +131,7 @@
 		 * @param integer $versionNumber Version of the extension
 		 * @return integer Result count
 		 */
-		public function countByExtKeyAndVersion($extKey, $versionNumber) {
+		public function countByExtKeyAndVersionNumber($extKey, $versionNumber) {
 			$query = $this->createQuery();
 			$query->matching(
 				$query->logicalAnd(
