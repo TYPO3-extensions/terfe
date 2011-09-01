@@ -90,7 +90,7 @@
 			foreach ($attributes as $key => $value) {
 				$propertyName = t3lib_div::underscoredToLowerCamelCase($key);
 				$protertyInfo = $classSchema->getProperty($propertyName);
-				if (empty($protertyInfo) || stripos($protertyInfo['type'], 'Tx_') !== FALSE) {
+				if (empty($protertyInfo) || stripos($protertyInfo['type'], 'Tx_') === 0) {
 					continue;
 				}
 				$value = $this->convertValue($value, $protertyInfo['type']);
@@ -136,21 +136,16 @@
 				case 'int':
 				case 'integer':
 					return (int) $value;
-					break;
 				case 'float':
 					return (float) $value;
-					break;
 				case 'bool':
 				case 'boolean':
 					return (boolean) $value;
-					break;
 				case 'array':
 					return (array) $value;
-					break;
 				case 'string':
 				default:
 					return (string) $value;
-					break;
 			}
 		}
 

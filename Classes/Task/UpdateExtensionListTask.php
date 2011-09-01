@@ -39,6 +39,11 @@
 		public $providerName = 'extensionmanager';
 
 		/**
+		 * @va string
+		 */
+		public $clearCachePages;
+
+		/**
 		 * @var array
 		 */
 		protected $settings;
@@ -88,8 +93,8 @@
 				// Load object manager
 			$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 
-				// Load configuration manager and set extension setup
-				// required to be loaded in object manager for persistence mapping
+				// Load configuration manager and set extension setup,
+				// it is required to be loaded in object manager for persistence mapping
 			$configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
 			$configurationManager->setConfiguration(Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2'));
 
@@ -98,6 +103,7 @@
 
 				// Load registry
 			$this->registry = $this->objectManager->get('Tx_TerFe2_Persistence_Registry');
+			$this->registry->setName(get_class($this) . '_' . $this->providerName);
 
 				// Load object builder
 			$this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
@@ -140,8 +146,14 @@
 			}
 
 				// Set new values to registry
+			$offset = (!empty($extensions) ? $offset + $count : 0);
 			$this->registry->add('lastRun', $GLOBALS['EXEC_TIME']);
-			$this->registry->add('offset', $offset + $count);
+			$this->registry->add('offset', $offset);
+
+				// Clear page cache
+			if (!empty($extensions) && !empty($this->clearCachePages)) {
+				$this->clearPageCache($this->clearCachePages);
+			}
 
 			return TRUE;
 		}
@@ -160,6 +172,7 @@
 			if ($this->extensionRepository->countByExtKey($extensionRow['ext_key'])) {
 				$extension = $this->extensionRepository->findOneByExtKey($extensionRow['ext_key']);
 			} else {
+					// TODO: Remove this later, only existing extensions (created in FE) are allowed
 				$extension = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Extension', $extensionRow);
 				$extension->setLastUpload(new DateTime());
 				$extension->setLastMaintained(new DateTime());
@@ -203,6 +216,18 @@
 				$this->persistenceManager->getSession()->registerReconstitutedObject($extension);
 				$this->persistenceManager->persistAll();
 			}
+		}
+
+
+		/**
+		 * Clear cache of given pages
+		 *
+		 * @param string $pages List of page ids
+		 * @return void
+		 */
+		protected function clearPageCache($pages) {
+			$pages = t3lib_div::intExplode(',', $pages, TRUE);
+			Tx_Extbase_Utility_Cache::clearPageCache($pages);
 		}
 
 

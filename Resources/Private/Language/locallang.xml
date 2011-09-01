@@ -61,6 +61,7 @@
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.extensionsPerRun">Count of extensions to process at once</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.providerName">Fetch extensions from this source</label>
+			<label index="tx_terfe2_task_updateextensionlisttask.clearCachePages">Clear cache of these pages after update</label>
 			<label index="tx_terfe2_provider_extensionmanagerprovider.name">Local Extension Manager</label>
 			<label index="tx_terfe2_provider_fileprovider.name">Local Filesystem</label>
 			<label index="tx_terfe2_provider_soapprovider.name">SOAP Server</label>

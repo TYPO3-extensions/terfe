@@ -34,9 +34,14 @@
 		protected $defaultExtensionsPerRun = 10;
 
 		/**
-		 * @var integer Default provider name
+		 * @var string Default provider name
 		 */
 		protected $defaultProviderName = 'extensionmanager';
+
+		/**
+		 * @var string Default clear cache pages
+		 */
+		protected $defaultClearCachePages = '';
 
 		/**
 		 * @var array
@@ -44,6 +49,7 @@
 		protected $fields = array(
 			'extensionsPerRun' => 'terfe2_updateExtensionList_extensionsPerRun',
 			'providerName'     => 'terfe2_updateExtensionList_providerName',
+			'clearCachePages'  => 'terfe2_updateExtensionList_clearCachePages',
 		);
 
 
@@ -56,11 +62,14 @@
 		 * @return array Array containing all the information pertaining to the additional fields
 		 */
 		public function getAdditionalFields(array &$taskInfo, $task, tx_scheduler_Module $parentObject) {
-				// Initialize extensions per run field
-			if (!isset($taskInfo[$this->fields['extensionsPerRun']])) {
-				$taskInfo[$this->fields['extensionsPerRun']] = $this->defaultExtensionsPerRun;
-				if ($parentObject->CMD === 'edit') {
-					$taskInfo[$this->fields['extensionsPerRun']] = $task->extensionsPerRun;
+				// Initialize fields
+			foreach ($this->fields as $key => $value) {
+				if (!isset($taskInfo[$value])) {
+					$attribute = 'default' . ucfirst($key);
+					$taskInfo[$value] = $this->$attribute;
+					if ($parentObject->CMD === 'edit') {
+						$taskInfo[$value] = $task->$key;
+					}
 				}
 			}
 
@@ -69,14 +78,6 @@
 				'code'  => '<input type="text" name="tx_scheduler[' . $this->fields['extensionsPerRun'] . ']" value="' . (int) $taskInfo[$this->fields['extensionsPerRun']] . '" />',
 				'label' => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.extensionsPerRun',
 			);
-
-				// Initialize provider name field
-			if (!isset($taskInfo[$this->fields['providerName']])) {
-				$taskInfo[$this->fields['providerName']] = $this->defaultProviderName;
-				if ($parentObject->CMD === 'edit') {
-					$taskInfo[$this->fields['providerName']] = $task->providerName;
-				}
-			}
 
 				// Add html structure for provider name field
 			$options = array();
@@ -88,6 +89,12 @@
 			$additionalFields[$this->fields['providerName']] = array(
 				'code'  => $this->getSelect($this->fields['providerName'], $options, $taskInfo[$this->fields['providerName']]),
 				'label' => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.providerName',
+			);
+
+				// Add html structure for clear cache pages field
+			$additionalFields[$this->fields['clearCachePages']] = array(
+				'code'  => '<input type="text" name="tx_scheduler[' . $this->fields['clearCachePages'] . ']" value="' . (int) $taskInfo[$this->fields['clearCachePages']] . '" />',
+				'label' => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.clearCachePages',
 			);
 
 			return $additionalFields;
@@ -118,6 +125,7 @@
 		public function saveAdditionalFields(array $submittedData, tx_scheduler_Task $task) {
 			$task->extensionsPerRun = (int) $submittedData[$this->fields['extensionsPerRun']];
 			$task->providerName = $submittedData[$this->fields['providerName']];
+			$task->clearCachePages = $submittedData[$this->fields['clearCachePages']];
 		}
 
 
