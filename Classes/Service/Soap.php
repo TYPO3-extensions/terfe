@@ -26,7 +26,7 @@
 	/**
 	 * Service to handle soap requests
 	 */
-	class Tx_TerFe2_Service_Soap {
+	class Tx_TerFe2_Service_Soap implements t3lib_Singleton {
 
 		/**
 		 * @var SoapClient

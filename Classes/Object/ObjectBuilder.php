@@ -34,25 +34,14 @@
 		protected $reflectionService;
 
 		/**
-		 * @var Tx_Extbase_Persistence_IdentityMap
-		 */
-		protected $identityMap;
-
-		/**
 		 * @var array
 		 */
 		protected $classSchemata;
 
-
 		/**
-		 * Injects the identity map
-		 *
-		 * @param Tx_Extbase_Persistence_IdentityMap $identityMap
-		 * @return void
+		 * @var array
 		 */
-		public function injectIdentityMap(Tx_Extbase_Persistence_IdentityMap $identityMap) {
-			$this->identityMap = $identityMap;
-		}
+		protected $objects = array();
 
 
 		/**
@@ -78,10 +67,10 @@
 				throw new Exception('No valid params given to create an object');
 			}
 
-				// Check identity map
-			$identifier = md5(json_encode($attributes));
-			if ($this->identityMap->hasIdentifier($identifier, $className)) {
-				return $this->identityMap->getObjectByIdentifier($identifier, $className);
+				// Check internal cache first
+			$identifier = md5($className . json_encode($attributes));
+			if (!empty($this->objects[$identifier])) {
+				return $this->objects[$identifier];
 			}
 
 				// Build object
@@ -100,8 +89,8 @@
 				}
 			}
 
-				// Register object in identity map
-			$this->identityMap->registerObject($object, $identifier);
+				// Add object to internal cache
+			$this->objects[$identifier] = $object;
 
 			return $object;
 		}

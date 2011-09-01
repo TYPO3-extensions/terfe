@@ -26,7 +26,7 @@
 	/**
 	 * Service to handle mirrors
 	 */
-	class Tx_TerFe2_Service_Mirror {
+	class Tx_TerFe2_Service_Mirror implements t3lib_Singleton {
 
 		/**
 		 * @var integer

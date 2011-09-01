@@ -271,7 +271,7 @@
 			$filename = PATH_site . $this->extensionRootPath . $filename;
 			$content = t3lib_div::getURL($filename);
 			if (empty($content)) {
-				throw new Exception('Can not fetch file "' . $filename . '"');
+				throw new Exception('Could not fetch file "' . $filename . '"');
 			}
 
 				// Check file hash

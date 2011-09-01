@@ -49,6 +49,11 @@
 		protected $settings;
 
 		/**
+		 * @var Tx_Extbase_Configuration_ConfigurationManager
+		 */
+		protected $configurationManager;
+
+		/**
 		 * @var Tx_Extbase_Object_ObjectManager
 		 */
 		protected $objectManager;
@@ -95,8 +100,9 @@
 
 				// Load configuration manager and set extension setup,
 				// it is required to be loaded in object manager for persistence mapping
-			$configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
-			$configurationManager->setConfiguration(Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2'));
+			$this->settings = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2');
+			$this->configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
+			$this->configurationManager->setConfiguration($this->settings);
 
 				// Load provider manager
 			$this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
@@ -125,6 +131,11 @@
 		public function execute() {
 			$this->initializeTask();
 
+				// Check storage page
+			if (!$this->storagePageConfigured()) {
+				throw new Exception('Please configure "plugin.tx_terfe2.persistence.storagePid" in TypoScript setup');
+			}
+
 				// Get information
 			$lastRun = (int) $this->registry->get('lastRun');
 			$offset  = (int) $this->registry->get('offset');
@@ -145,7 +156,7 @@
 				}
 			}
 
-				// Set new values to registry
+				// Add new values to registry
 			$offset = (!empty($extensions) ? $offset + $count : 0);
 			$this->registry->add('lastRun', $GLOBALS['EXEC_TIME']);
 			$this->registry->add('offset', $offset);
@@ -216,6 +227,24 @@
 				$this->persistenceManager->getSession()->registerReconstitutedObject($extension);
 				$this->persistenceManager->persistAll();
 			}
+		}
+
+
+		/**
+		 * Check whether a storage page is configured or not
+		 * 
+		 * @return TRUE if a storage page was found
+		 */
+		protected function storagePageConfigured() {
+			$setup = Tx_TerFe2_Utility_TypoScript::getSetup('config.tx_extbase.persistence');
+			$setup = Tx_Extbase_Utility_Arrays::arrayMergeRecursiveOverrule($setup, $this->settings['persistence.'], FALSE, FALSE);
+			if (!empty($setup['storagePid'])) {
+				return TRUE;
+			}
+			if (!empty($setup['classes.']['Tx_TerFe2_Domain_Model_Extension.']['newRecordStoragePid'])) {
+				return TRUE;
+			}
+			return FALSE;
 		}
 
 
