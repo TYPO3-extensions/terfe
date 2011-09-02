@@ -199,6 +199,7 @@
 
 				$version = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Version', $versionRow);
 				$version->setExtension($extension);
+				$version->setExtensionProvider($this->providerName);
 				$modified = TRUE;
 
 					// Relations

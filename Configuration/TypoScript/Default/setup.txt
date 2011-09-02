@@ -46,4 +46,4 @@ plugin.tx_terfe2 {
 # ======================================================================
 # Page object configuration of the extension "ter_fe2"
 # ======================================================================
-page.includeCSS.tx_terfe2 = EXT:ter_fe2/Resources/Public/CSS/tx_terfe2_default.css
+page.includeCSS.tx_terfe2 = EXT:ter_fe2/Resources/Public/Stylesheet/Default.css
