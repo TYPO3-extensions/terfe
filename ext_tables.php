@@ -62,7 +62,7 @@
 					'disabled'              => 'hidden'
 				),
 				'dynamicConfigFile'        => t3lib_extMgm::extPath($_EXTKEY)    . 'Configuration/TCA/' . ucfirst($modelName) . '.php',
-				'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_terfe2_domain_model_' . $modelName . '.gif'
+				'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/' . $modelName . '.gif'
 			)
 		);
 	}
