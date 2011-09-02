@@ -28,4 +28,13 @@ plugin.tx_terfe2 {
 		# cat=TER Frontend/view/320; type=string; label=Path to template layouts
 		layoutRootPath = EXT:ter_fe2/Resources/Private/Layouts/
 	}
+
+	libraries {
+		# cat=TER Frontend/libraries/400; type=string; label=Load jQuery
+		jquery.load = 1
+
+		# cat=TER Frontend/libraries/400; type=string; label=Load jqPlot
+		jqplot.load = 1
+	}
+
 }

@@ -29,34 +29,29 @@
 	class Tx_TerFe2_ViewHelpers_ChartViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 		/**
+		 * Disable the escaping interceptor
+		 */
+		protected $escapingInterceptorEnabled = FALSE;
+
+		/**
+		 * @var string
+		 */
+		protected $scriptTag = '<script type="text/javascript">|</script>';
+
+
+		/**
 		 * Renders a jqPlot chart
 		 *
 		 * @param array $points Array of points on chart
 		 * @return string Chart
 		 */
-		public function render($content = NULL) {
-			if ($content === NULL) {
-				$content = $this->renderChildren();
+		public function render($points = NULL) {
+			if ($points === NULL) {
+				$points = $this->renderChildren();
 			}
 
-			/*
-			$(document).ready(function(){
-				var line1=[['2008-06-30 8:00AM',4], ['2008-7-30 8:00AM',6.5], ['2008-8-30 8:00AM',5.7], ['2008-9-30 8:00AM',9], ['2008-10-30 8:00AM',8.2]];
-				var plot2 = $.jqplot('chart2', [line1], {
-						title:'Customized Date Axis',
-						gridPadding:{right:35},
-						axes:{
-							xaxis:{
-								renderer:$.jqplot.DateAxisRenderer,
-								tickOptions:{formatString:'%b %#d, %y'},
-								min:'May 30, 2008',
-								tickInterval:'1 month'
-							}
-						},
-						series:[{lineWidth:4, markerOptions:{style:'square'}}]
-				});
-			});
-			*/
+			$script = '$.jqplot("chartdiv",  [[[1,2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);';
+			return str_replace('|', $script, $this->scriptTag);
 		}
 
 	}
