@@ -255,7 +255,6 @@ CREATE TABLE tx_terfe2_domain_model_relation (
 
 	version int(11) unsigned DEFAULT '0' NOT NULL,
 	relation_type tinytext,
-	software_type tinytext,
 	relation_key tinytext,
 	minimum_version int(11) unsigned DEFAULT '0' NOT NULL,
 	maximum_version int(11) unsigned DEFAULT '0' NOT NULL,

@@ -29,7 +29,7 @@
 		'version'      => 'title',
 		'media'        => 'title',
 		'experience'   => 'date_time',
-		'relation'     => 'relation_type',
+		'relation'     => 'relation_key',
 		'author'       => 'name',
 	);
 
