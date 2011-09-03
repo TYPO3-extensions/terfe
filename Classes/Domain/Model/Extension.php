@@ -26,7 +26,7 @@
 	/**
 	 * Extension container
 	 */
-	class Tx_TerFe2_Domain_Model_Extension extends Tx_Extbase_DomainObject_AbstractEntity {
+	class Tx_TerFe2_Domain_Model_Extension extends Tx_TerFe2_Domain_Model_AbstractEntity {
 
 		/**
 		 * Extension key

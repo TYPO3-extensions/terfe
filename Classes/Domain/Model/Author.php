@@ -26,7 +26,7 @@
 	/**
 	 * Author of an extension
 	 */
-	class Tx_TerFe2_Domain_Model_Author extends Tx_Extbase_DomainObject_AbstractEntity {
+	class Tx_TerFe2_Domain_Model_Author extends Tx_TerFe2_Domain_Model_AbstractEntity {
 
 		/**
 		 * Name of the author

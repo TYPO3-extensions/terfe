@@ -26,7 +26,7 @@
 	/**
 	 * Any type of relation of an extension
 	 */
-	class Tx_TerFe2_Domain_Model_Relation extends Tx_Extbase_DomainObject_AbstractValueObject {
+	class Tx_TerFe2_Domain_Model_Relation extends Tx_TerFe2_Domain_Model_AbstractValueObject {
 
 		/**
 		 * Dependancy, conflict or suggest

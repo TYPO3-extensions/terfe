@@ -26,7 +26,7 @@
 	/**
 	 * Frontend category of the extension
 	 */
-	class Tx_TerFe2_Domain_Model_Category extends Tx_Extbase_DomainObject_AbstractValueObject {
+	class Tx_TerFe2_Domain_Model_Category extends Tx_TerFe2_Domain_Model_AbstractValueObject {
 
 		/**
 		 * Title of the category

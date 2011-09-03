@@ -26,7 +26,7 @@
 	/**
 	 * Single version of an extension
 	 */
-	class Tx_TerFe2_Domain_Model_Version extends Tx_Extbase_DomainObject_AbstractEntity {
+	class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEntity {
 
 		/**
 		 * Title of the extension

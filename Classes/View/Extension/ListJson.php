@@ -2,7 +2,7 @@
 	/*******************************************************************
 	 *  Copyright notice
 	 *
-	 *  (c) 2011 Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
+	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
 	 *
 	 *  All rights reserved
 	 *
@@ -24,36 +24,30 @@
 	 ******************************************************************/
 
 	/**
-	 * Tag for the extension
+	 * Json output view for the list action of extension controller
 	 */
-	class Tx_TerFe2_Domain_Model_Tag extends Tx_TerFe2_Domain_Model_AbstractValueObject {
+	class Tx_TerFe2_View_Extension_ListJson extends Tx_Extbase_MVC_View_AbstractView {
 
 		/**
-		 * Title of the tag
-		 * @var string
-		 * @validate NotEmpty
-		 */
-		protected $title;
-
-
-		/**
-		 * Setter for title
+		 * Render method, returns latest Extensions
 		 *
-		 * @param string $title Title of the tag
-		 * @return void
+		 * @return string JSON content
 		 */
-		public function setTitle($title) {
-			$this->title = $title;
-		}
+		public function render() {
+			$jsonArray  = array();
+			$extensions = array();
 
+				// Get extensions from view data
+			if (!empty($this->variables['extensions']) && $this->variables['extensions'] instanceof Tx_Extbase_Persistence_QueryResult) {
+				$extensions = $this->variables['extensions']->toArray();
+			}
+			if (!empty($extensions)) {
+				foreach ($this->variables['extensions'] as $extension) {
+					$jsonArray[] = $extension->toArray();
+				}
+			}
 
-		/**
-		 * Getter for title
-		 *
-		 * @return string Title of the tag
-		 */
-		public function getTitle() {
-			return $this->title;
+			return json_encode($jsonArray);
 		}
 
 	}

@@ -2,6 +2,8 @@
 	$extensionClassesPath = t3lib_extMgm::extPath('ter_fe2', 'Classes/');
 
 	return array(
+		'tx_terfe2_domain_model_abstractentity'                            => $extensionClassesPath . 'Domain/Model/AbstractEntity.php',
+		'tx_terfe2_domain_model_abstractvalueobject'                       => $extensionClassesPath . 'Domain/Model/AbstractValueObject.php',
 		'tx_terfe2_domain_model_author'                                    => $extensionClassesPath . 'Domain/Model/Author.php',
 		'tx_terfe2_domain_model_category'                                  => $extensionClassesPath . 'Domain/Model/Category.php',
 		'tx_terfe2_domain_model_experience'                                => $extensionClassesPath . 'Domain/Model/Experience.php',
@@ -34,6 +36,7 @@
 		'tx_terfe2_task_updateextensionlisttask'                           => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
 		'tx_terfe2_task_updateextensionlisttaskadditionalfieldprovider'    => $extensionClassesPath . 'Task/UpdateExtensionListTaskAdditionalFieldProvider.php',
 		'tx_terfe2_utility_archive'                                        => $extensionClassesPath . 'Utility/Archive.php',
+		'tx_terfe2_utility_array'                                          => $extensionClassesPath . 'Utility/Array.php',
 		'tx_terfe2_utility_file'                                           => $extensionClassesPath . 'Utility/File.php',
 		'tx_terfe2_utility_typoscript'                                     => $extensionClassesPath . 'Utility/TypoScript.php',
 		'tx_terfe2_viewhelpers_cdataviewhelper'                            => $extensionClassesPath . 'ViewHelpers/CdataViewHelper.php',

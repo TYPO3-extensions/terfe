@@ -26,7 +26,7 @@
 	/**
 	 * Any type of media associated to an extension
 	 */
-	class Tx_TerFe2_Domain_Model_Media extends Tx_Extbase_DomainObject_AbstractEntity {
+	class Tx_TerFe2_Domain_Model_Media extends Tx_TerFe2_Domain_Model_AbstractEntity {
 
 		/**
 		 * Title of the media

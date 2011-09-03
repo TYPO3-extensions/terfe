@@ -26,7 +26,7 @@
 	/**
 	 * User experience with an extension
 	 */
-	class Tx_TerFe2_Domain_Model_Experience extends Tx_Extbase_DomainObject_AbstractValueObject {
+	class Tx_TerFe2_Domain_Model_Experience extends Tx_TerFe2_Domain_Model_AbstractValueObject {
 
 		/**
 		 * Timestamp of the experience

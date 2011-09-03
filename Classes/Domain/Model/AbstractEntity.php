@@ -2,7 +2,7 @@
 	/*******************************************************************
 	 *  Copyright notice
 	 *
-	 *  (c) 2011 Thomas Loeffler <loeffler@spooner-web.de>, Spooner Web
+	 *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
 	 *
 	 *  All rights reserved
 	 *
@@ -24,36 +24,17 @@
 	 ******************************************************************/
 
 	/**
-	 * Tag for the extension
+	 * Abstract entity
 	 */
-	class Tx_TerFe2_Domain_Model_Tag extends Tx_TerFe2_Domain_Model_AbstractValueObject {
+	class Tx_TerFe2_Domain_Model_AbstractEntity extends Tx_Extbase_DomainObject_AbstractEntity {
 
 		/**
-		 * Title of the tag
-		 * @var string
-		 * @validate NotEmpty
+		 * Build an array from all attributes
+		 * 
+		 * @return array
 		 */
-		protected $title;
-
-
-		/**
-		 * Setter for title
-		 *
-		 * @param string $title Title of the tag
-		 * @return void
-		 */
-		public function setTitle($title) {
-			$this->title = $title;
-		}
-
-
-		/**
-		 * Getter for title
-		 *
-		 * @return string Title of the tag
-		 */
-		public function getTitle() {
-			return $this->title;
+		public function toArray() {
+			return Tx_TerFe2_Utility_Array::objectToArray($this);
 		}
 
 	}
