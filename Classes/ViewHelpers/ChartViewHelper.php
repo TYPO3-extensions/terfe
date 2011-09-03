@@ -25,6 +25,8 @@
 
 	/**
 	 * Chart view helper
+	 * 
+	 * For documentation and examples visit http://www.jqplot.com
 	 */
 	class Tx_TerFe2_ViewHelpers_ChartViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
@@ -36,22 +38,38 @@
 		/**
 		 * @var string
 		 */
-		protected $scriptTag = '<script type="text/javascript">|</script>';
+		protected $chart = '
+			<div id="%1$s" style="height:%2$s;width:%3$s;"></div>
+			<script type="text/javascript">$.jqplot("%1$s", %4$s, {%5$s});</script>
+		';
+
 
 
 		/**
 		 * Renders a jqPlot chart
 		 *
 		 * @param array $points Array of points on chart
+		 * @param integer $height Height of the chart
+		 * @param integer $width Width of the chart
+		 * @param string $color Color of the line
 		 * @return string Chart
 		 */
-		public function render($points = NULL) {
+		public function render($points = NULL, $height = 300, $width = 400, $color = '#FFA500') {
 			if ($points === NULL) {
 				$points = $this->renderChildren();
 			}
 
-			$script = '$.jqplot("chartdiv",  [[[1,2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);';
-			return str_replace('|', $script, $this->scriptTag);
+			if (!is_array($points)) {
+				throw new Exception('Chart points have no valid format');
+			}
+
+			$id = uniqid('chart_');
+			$height = (int) $height . 'px';
+			$width = (int) $width . 'px';
+			$points = json_encode(array(array($points)));
+			$options = 'series:[{color:"' . $color . '"}]';
+
+			return sprintf($this->chart, $id, $height, $width, $points, $options);
 		}
 
 	}

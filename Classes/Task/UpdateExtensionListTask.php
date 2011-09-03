@@ -88,6 +88,11 @@
 		 */
 		protected $authorRepository;
 
+		/**
+		 * @var Tx_TerFe2_Service_Documentation
+		 */
+		protected $documentationService;
+
 
 		/**
 		 * Initialize task
@@ -120,6 +125,9 @@
 				// Load repositories
 			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->authorRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
+
+				// Load documentation service
+			$this->documentationService = $this->objectManager->get('Tx_TerFe2_Service_Documentation');
 		}
 
 
@@ -201,6 +209,10 @@
 				$version->setExtension($extension);
 				$version->setExtensionProvider($this->providerName);
 				$modified = TRUE;
+
+					// Online documentation
+				$documentationUrl = $this->documentationService->getDocumentationUrl($extensionRow['ext_key'], $versionRow['version_string']);
+				$version->setManual($documentationUrl);
 
 					// Relations
 				foreach ($versionRow['relations'] as $relationRow) {
