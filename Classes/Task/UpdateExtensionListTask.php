@@ -29,14 +29,14 @@
 	class Tx_TerFe2_Task_UpdateExtensionListTask extends tx_scheduler_Task {
 
 		/**
-		 * @var integer
-		 */
-		public $extensionsPerRun = 10;
-
-		/**
 		 * @var string
 		 */
 		public $providerName = 'extensionmanager';
+
+		/**
+		 * @var integer
+		 */
+		public $extensionsPerRun = 10;
 
 		/**
 		 * @va string
@@ -100,34 +100,24 @@
 		 * @return void
 		 */
 		public function initializeTask() {
-				// Load object manager
 			$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 
-				// Load configuration manager and set extension setup,
-				// it is required to be loaded in object manager for persistence mapping
+				// Configuration is required to be loaded in object manager for persistence mapping
 			$this->settings = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2');
 			$this->configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
 			$this->configurationManager->setConfiguration($this->settings);
 
-				// Load provider manager
+				// Load default objects
 			$this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
-
-				// Load registry
 			$this->registry = $this->objectManager->get('Tx_TerFe2_Persistence_Registry');
-			$this->registry->setName(get_class($this) . '_' . $this->providerName);
-
-				// Load object builder
 			$this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
-
-				// Load persistence manager
 			$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
-
-				// Load repositories
 			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->authorRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
-
-				// Load documentation service
 			$this->documentationService = $this->objectManager->get('Tx_TerFe2_Service_Documentation');
+
+				// Set registry name to current provider name
+			$this->registry->setName(get_class($this) . '_' . $this->providerName);
 		}
 
 
@@ -144,7 +134,7 @@
 				throw new Exception('Please configure "plugin.tx_terfe2.persistence.storagePid" in TypoScript setup');
 			}
 
-				// Get information
+				// Get process information
 			$lastRun = (int) $this->registry->get('lastRun');
 			$offset  = (int) $this->registry->get('offset');
 			$count   = (int) $this->extensionsPerRun;

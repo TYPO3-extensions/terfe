@@ -29,32 +29,22 @@
 	class Tx_TerFe2_Task_UpdateExtensionListTaskAdditionalFieldProvider implements tx_scheduler_AdditionalFieldProvider {
 
 		/**
-		 * @var integer Default number of extensions to fetch at once
-		 */
-		protected $defaultExtensionsPerRun = 10;
-
-		/**
-		 * @var string Default provider name
-		 */
-		protected $defaultProviderName = 'extensionmanager';
-
-		/**
-		 * @var string Default clear cache pages
-		 */
-		protected $defaultClearCachePages = '';
-
-		/**
 		 * @var array
 		 */
 		protected $fields = array(
-			'extensionsPerRun' => 'terfe2_updateExtensionList_extensionsPerRun',
-			'providerName'     => 'terfe2_updateExtensionList_providerName',
-			'clearCachePages'  => 'terfe2_updateExtensionList_clearCachePages',
+			'providerName'     => 'extensionmanager',
+			'extensionsPerRun' => 10,
+			'clearCachePages'  => 0,
 		);
+
+		/**
+		 * @var string
+		 */
+		protected $prefix = 'terfe2_updateExtensionList_';
 
 
 		/**
-		 * Add an integer input field for the number of extensions
+		 * Add some input fields to configure the task
 		 *
 		 * @param array $taskInfo Reference to the array containing the info used in the add/edit form
 		 * @param object $task When editing, reference to the current task object. Null when adding.
@@ -65,90 +55,101 @@
 				// Initialize fields
 			foreach ($this->fields as $key => $value) {
 				if (!isset($taskInfo[$value])) {
-					$attribute = 'default' . ucfirst($key);
-					$taskInfo[$value] = $this->$attribute;
+					$taskInfo[$value] = $this->defaults[$key];
 					if ($parentObject->CMD === 'edit') {
-						$taskInfo[$value] = $task->$key;
+						$taskInfo[$value] = $this->fields[$key] = $task->$key;
 					}
 				}
 			}
 
-				// Add html structure for extensions per run field
-			$additionalFields[$this->fields['extensionsPerRun']] = array(
-				'code'  => '<input type="text" name="tx_scheduler[' . $this->fields['extensionsPerRun'] . ']" value="' . (int) $taskInfo[$this->fields['extensionsPerRun']] . '" />',
-				'label' => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.extensionsPerRun',
-			);
-
-				// Add html structure for provider name field
-			$options = array();
+				// Get providers
+			$providers = array();
 			if (!empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'])) {
 				foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'] as $key => $configuration) {
-					$options[$key] = (!empty($configuration['title']) ? $configuration['title'] : $key);
+					$providers[$key] = (!empty($configuration['title']) ? $configuration['title'] : $key);
 				}
 			}
-			$additionalFields[$this->fields['providerName']] = array(
-				'code'  => $this->getSelect($this->fields['providerName'], $options, $taskInfo[$this->fields['providerName']]),
-				'label' => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.providerName',
-			);
 
-				// Add html structure for clear cache pages field
-			$additionalFields[$this->fields['clearCachePages']] = array(
-				'code'  => '<input type="text" name="tx_scheduler[' . $this->fields['clearCachePages'] . ']" value="' . (int) $taskInfo[$this->fields['clearCachePages']] . '" />',
-				'label' => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.clearCachePages',
-			);
+				// Build html structure
+			$fields = array();
+			$this->addSelect($fields, 'providerName', $providers);
+			$this->addField($fields, 'extensionsPerRun');
+			$this->addField($fields, 'clearCachePages');
 
-			return $additionalFields;
+			return $fields;
 		}
 
 
 		/**
-		 * Checks if the given value is an integer
+		 * Checks the given values
 		 *
 		 * @param array $submittedData Reference to the array containing the data submitted by the user
 		 * @param tx_scheduler_Module $parentObject Reference to the calling object (Scheduler's BE module)
 		 * @return boolean TRUE if validation was ok (or selected class is not relevant), FALSE otherwise
 		 */
 		public function validateAdditionalFields(array &$submittedData, tx_scheduler_Module $parentObject) {
-			$extensionsPerRun = $submittedData[$this->fields['extensionsPerRun']];
-			$providerName = $submittedData[$this->fields['providerName']];
-			return (!empty($extensionsPerRun) && is_numeric($extensionsPerRun) && !empty($providerName));
+			$providerName = $submittedData[$this->prefix . 'providerName'];
+			$extensionsPerRun = $submittedData[$this->prefix . 'extensionsPerRun'];
+			return (!empty($providerName) && !empty($extensionsPerRun) && is_numeric($extensionsPerRun));
 		}
 
 
 		/**
-		 * Saves given integer value in task object
+		 * Saves given values into task object
 		 *
 		 * @param array $submittedData Contains data submitted by the user
 		 * @param tx_scheduler_Task $task Reference to the current task object
 		 * @return void
 		 */
 		public function saveAdditionalFields(array $submittedData, tx_scheduler_Task $task) {
-			$task->extensionsPerRun = (int) $submittedData[$this->fields['extensionsPerRun']];
-			$task->providerName = $submittedData[$this->fields['providerName']];
-			$task->clearCachePages = $submittedData[$this->fields['clearCachePages']];
+			foreach ($this->fields as $key => $value) {
+				$task->$key = $submittedData[$this->prefix . $key];
+			}
 		}
 
 
 		/**
-		 * Returns the HTML code of a select field
-		 *
-		 * @param string $fieldName Field name
-		 * @param array $options Select options
-		 * @param string $selectedKey Selected option key
-		 * @return string
+		 * Adds the structure of a field to fields array
+		 * 
+		 * @param $fields Field structure
+		 * @param string $fieldName Name of the field
+		 * @param string $code Optional code to use
+		 * @return void
 		 */
-		protected function getSelect($fieldName, array $options, $selectedKey = '') {
+		protected function addField(array &$fields, $fieldName, $code = '') {
+			if (empty($code)) {
+				$code = '<input type="text" name="tx_scheduler[' . $this->prefix . $fieldName . ']" value="' . htmlspecialchars($this->fields[$fieldName]) . '" />';
+			}
+
+			$fields[$this->prefix . $fieldName] = array(
+				'code'  => $code,
+				'label' => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.' . $fieldName,
+			);
+		}
+
+
+		/**
+		 * Adds the structure of a select to fields array
+		 *
+		 * @param $fields Field structure
+		 * @param string $fieldName Name of the field
+		 * @param array $options Select options
+		 * @return void
+		 */
+		protected function addSelect(array &$fields, $fieldName, array $options) {
 			$html = array('<option></option>');
 
 			foreach ($options as $key => $option) {
-				$selected = ($key === $selectedKey ? ' selected="selected"' : '');
+				$selected = ($key === $this->fields[$fieldName] ? ' selected="selected"' : '');
 				if ($key !== $option) {
 					$option = Tx_Extbase_Utility_Localization::translate($option);
 				}
 				$html[]   = '<option value="' . $key . '"' . $selected . '>' . $option . '</option>';
 			}
 
-			return '<select name="tx_scheduler[' . $fieldName . ']">' . implode(PHP_EOL, $html) . '</select>';
+			$code = '<select name="tx_scheduler[' . $this->prefix . $fieldName . ']">' . implode(PHP_EOL, $html) . '</select>';
+
+			$this->addField($fields, $fieldName, $code);
 		}
 
 	}
