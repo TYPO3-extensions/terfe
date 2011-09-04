@@ -29,6 +29,25 @@
 	class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 
 		/**
+		 * @var tx_terdoc_api
+		 */
+		protected $terDocApi;
+
+
+		/**
+		 * Initialize the service
+		 * 
+		 * @return void
+		 */
+		public function __construct() {
+			if (t3lib_extMgm::isLoaded('ter_doc')) {
+				require_once(t3lib_extMgm::extPath('ter_doc') . 'class.tx_terdoc_api.php');
+				$this->terDocApi = tx_terdoc_api::getInstance();
+			}
+		}
+
+
+		/**
 		 * Get documentation url
 		 *
 		 * @param string $extension Extension key
@@ -40,7 +59,10 @@
 				throw new Exception('Extension key and version string are required to build a documentation url');
 			}
 
-				// TODO: Get url from ter_doc extension
+			if (!empty($this->terDocApi)) {
+				return $this->terDocApi->getDocumentationLink($extension, $version);
+			}
+
 			return '';
 		}
 
