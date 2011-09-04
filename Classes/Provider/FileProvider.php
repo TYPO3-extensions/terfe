@@ -211,18 +211,22 @@
 						'cgl_compliance'        => NULL,
 						'cgl_compliance_note'   => NULL,
 						'download_counter'      => (int) $version->downloadcounter,
-						'manual'                => NULL, // TODO: Implement
-						'name'                  => (string) $version->authorname,
-						'email'                 => (string) $version->authoremail,
-						'company'               => (string) $version->authorcompany,
-						'username'              => (string) $version->ownerusername,
+						'manual'                => NULL,
 						'repository'            => NULL,
 						'review_state'          => NULL,
 						'file_hash'             => (string) $version->t3xfilemd5,
 						'relations'             => array(),
 					);
 
-						// Dependencies
+						// Author
+					$versions[$versionString]['author'] = array(
+						'name'     => (string) $version->authorname,
+						'email'    => (string) $version->authoremail,
+						'company'  => (string) $version->authorcompany,
+						'username' => (string) $version->ownerusername,
+					);
+
+						// Relations
 					$dependencies = unserialize((string) $version->dependencies);
 					foreach ($dependencies as $dependency) {
 						if (empty($dependency['extensionKey'])) {

@@ -208,18 +208,22 @@
 					'cgl_compliance'        => $extension['CGLcompliance'],
 					'cgl_compliance_note'   => $extension['CGLcompliance_note'],
 					'download_counter'      => (int) $extension['downloadcounter'],
-					'manual'                => NULL, // TODO: Implement
-					'name'                  => $extension['authorname'],
-					'email'                 => $extension['authoremail'],
-					'company'               => $extension['authorcompany'],
-					'username'              => $extension['ownerusername'],
+					'manual'                => NULL,
 					'repository'            => $extension['repository'],
 					'review_state'          => $extension['reviewstate'],
 					'file_hash'             => $extension['t3xfilemd5'],
 					'relations'             => array(),
 				);
 
-					// Dependencies
+					// Author
+				$extensions[$extension['extkey']]['versions'][$versionString]['author'] = array(
+					'name'     => $extension['authorname'],
+					'email'    => $extension['authoremail'],
+					'company'  => $extension['authorcompany'],
+					'username' => $extension['ownerusername'],
+				);
+
+					// Relations
 				$dependencies = unserialize($extension['dependencies']);
 				foreach ($dependencies as $relationType => $relations) {
 					foreach ($relations as $relationKey => $versionRange) {

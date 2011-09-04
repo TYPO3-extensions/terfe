@@ -211,8 +211,10 @@
 				$modified = TRUE;
 
 					// Online documentation
-				$documentationUrl = $this->documentationService->getDocumentationUrl($extensionRow['ext_key'], $versionRow['version_string']);
-				$version->setManual($documentationUrl);
+				if (!$version->getManual()) {
+					$documentationUrl = $this->documentationService->getDocumentationUrl($extensionRow['ext_key'], $versionRow['version_string']);
+					$version->setManual($documentationUrl);
+				}
 
 					// Relations
 				foreach ($versionRow['relations'] as $relationRow) {
@@ -221,8 +223,8 @@
 				}
 
 					// Author
-				if (!empty($versionRow['authors'])) {
-					$authorRow = reset($versionRow['authors']);
+				if (!empty($versionRow['author'])) {
+					$authorRow = $versionRow['author'];
 					if ($this->authorRepository->countByEmail($authorRow['email'])) {
 						$author = $this->authorRepository->findOneByEmail($authorRow['email']);
 					} else {
