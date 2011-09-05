@@ -125,14 +125,19 @@
 				$visibleFileName = basename($filename);
 			}
 
-				// Send headers
-			header('Cache-Control: no-cache, must-revalidate');
+				// Send file
+			header('Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0');
 			header('Expires: Sat, 10 Jan 1970 00:00:00 GMT');
+			header('Pragma: public');
+			header('Content-Description: File Transfer');
 			header('Content-Disposition: attachment; filename=' . (string) $visibleFileName);
 			header('Content-type: x-application/octet-stream');
 			header('Content-Transfer-Encoding: binary');
-
-				// Send file contents
+			if (self::isAbsolutePath($filename)) {
+				header('Content-Length: ' . filesize($filename));
+			}
+			ob_clean();
+			flush();
 			readfile($filename);
 			exit;
 		}
@@ -152,14 +157,17 @@
 				return FALSE;
 			}
 
-				// Send headers
-			header('Cache-Control: no-cache, must-revalidate');
+				// Send file content
+			header('Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0');
 			header('Expires: Sat, 10 Jan 1970 00:00:00 GMT');
+			header('Pragma: public');
+			header('Content-Description: File Transfer');
 			header('Content-Disposition: attachment; filename=' . (string) $fileName);
 			header('Content-type: x-application/octet-stream');
 			header('Content-Transfer-Encoding: binary');
-
-				// Send file contents
+			header('Content-Length: ' . strlen($content));
+			ob_clean();
+			flush();
 			echo $content;
 			exit;
 		}
@@ -226,10 +234,21 @@
 		 * @return boolean TRUE if success
 		 */
 		public static function copyFile($fromFileName, $toFileName, $overwrite = FALSE) {
+			if (empty($fromFileName) || empty($toFileName)) {
+				return FALSE;
+			}
+
+				// Check if target directory exists
+			if (!self::fileExists(dirname($toFileName))) {
+				return FALSE;
+			}
+
+				// Get local url
 			if (self::isLocalUrl($fromFileName)) {
 				$fromFileName = self::getAbsolutePathFromUrl($fromFileName);
 			}
 
+				// Get file content
 			$fromFile = t3lib_div::getURL($fromFileName);
 
 				// Check files

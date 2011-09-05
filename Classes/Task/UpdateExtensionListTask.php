@@ -88,11 +88,6 @@
 		 */
 		protected $authorRepository;
 
-		/**
-		 * @var Tx_TerFe2_Service_Documentation
-		 */
-		protected $documentationService;
-
 
 		/**
 		 * Initialize task
@@ -114,7 +109,6 @@
 			$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->authorRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
-			$this->documentationService = $this->objectManager->get('Tx_TerFe2_Service_Documentation');
 
 				// Set registry name to current provider name
 			$this->registry->setName(get_class($this) . '_' . $this->providerName);
@@ -199,12 +193,6 @@
 				$version->setExtension($extension);
 				$version->setExtensionProvider($this->providerName);
 				$modified = TRUE;
-
-					// Online documentation
-				if (!$version->getManual()) {
-					$documentationUrl = $this->documentationService->getDocumentationUrl($extensionRow['ext_key'], $versionRow['version_string']);
-					$version->setManual($documentationUrl);
-				}
 
 					// Relations
 				foreach ($versionRow['relations'] as $relationRow) {

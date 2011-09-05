@@ -36,7 +36,7 @@
 
 		/**
 		 * Initialize the service
-		 * 
+		 *
 		 * @return void
 		 */
 		public function __construct() {

@@ -133,6 +133,7 @@
 			<label index="delete">Delete</label>
 			<label index="download_t3x">Download T3X file</label>
 			<label index="download_zip">Download ZIP file</label>
+			<label index="read_manual">Manual</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -1,3 +1,5 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
 <f:layout name="Default" />
 
 <f:section name="main">
@@ -5,7 +7,7 @@
 
 	<div class="extension">
 		<h3>
-			<span class="icon"><terfe2:extensionIcon extension="{extension}" version="{extension.lastVersion}" alt="{extension.lastVersion.title}"></terfe2:extensionIcon></span>
+			<span class="icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span>
 			{extension.lastVersion.title} ({extension.extKey})
 		</h3>
 		<p class="description">{extension.lastVersion.description}</p>
@@ -19,6 +21,7 @@
 	<ul>
 		<li><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></li>
 		<li><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></li>
+		<li><f:translate key="read_manual"/>: <terfe2:documentationLink version="{extension.lastVersion}" /></li>
 	</ul>
 
 	<ul>

@@ -5,7 +5,7 @@
 		<f:for each="{extensions}" as="extension">
 			<div class="tx_terfe2_extension">
 				<h3>
-					<span class="tx_terfe2_icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}"></terfe2:extensionIcon></span>
+					<span class="tx_terfe2_icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span>
 					<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action>
 				</h3>
 				<p class="tx_terfe2_description">{extension.lastVersion.description}</p>

@@ -139,7 +139,7 @@
 		public function getFileName(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
 			$extension = $version->getExtension()->getExtKey();
 			$version = $version->getVersionString();
-			$this->generateFileName($extension, $version, $fileType);
+			return $this->generateFileName($extension, $version, $fileType);
 		}
 
 

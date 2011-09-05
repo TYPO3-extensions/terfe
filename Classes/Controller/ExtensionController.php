@@ -77,7 +77,7 @@
 			$topRatedCount = (!empty($this->settings['topRatedCount']) ? $this->settings['topRatedCount'] : 10);
 			$topRatedExtensions = $this->extensionRepository->findTopRated($topRatedCount);
 			$this->view->assign('topRatedExtensions', $topRatedExtensions);
-/*
+
 				// Get all categories
 			$categories = $this->categoryRepository->findAll();
 			$this->view->assign('categories', $categories);
@@ -85,7 +85,7 @@
 				// Get all tags
 			$tags = $this->tagRepository->findAll();
 			$this->view->assign('tags', $tags);
-*/
+
 				// Get random authors
 			$randomAuthorCount = (!empty($this->settings['randomAuthorCount']) ? $this->settings['randomAuthorCount'] : 10);
 			$randomAuthors = $this->authorRepository->findRandom($randomAuthorCount);

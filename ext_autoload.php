@@ -49,6 +49,7 @@
 		'tx_terfe2_viewhelpers_cdataviewhelper'                            => $extensionClassesPath . 'ViewHelpers/CdataViewHelper.php',
 		'tx_terfe2_viewhelpers_chartviewhelper'                            => $extensionClassesPath . 'ViewHelpers/ChartViewHelper.php',
 		'tx_terfe2_viewhelpers_datetimeviewhelper'                         => $extensionClassesPath . 'ViewHelpers/DateTimeViewHelper.php',
+		'tx_terfe2_viewhelpers_documentationlinkviewhelper'                => $extensionClassesPath . 'ViewHelpers/DocumentationLinkViewHelper.php',
 		'tx_terfe2_viewhelpers_extensioniconviewhelper'                    => $extensionClassesPath . 'ViewHelpers/ExtensionIconViewHelper.php',
 		'tx_terfe2_viewhelpers_rawviewhelper'                              => $extensionClassesPath . 'ViewHelpers/RawViewHelper.php',
 	);

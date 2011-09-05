@@ -111,17 +111,18 @@
 		 */
 		public function getIconUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
 			$filename = $this->getFileName($version, $fileType);
+			$localName = $this->imageCachePath . basename($filename);
 
 				// Check local cache first
-			if (Tx_TerFe2_Utility_File::fileExists($this->imageCachePath . $filename)) {
-				return t3lib_div::locationHeaderUrl($this->imageCachePath . $filename);
+			if (Tx_TerFe2_Utility_File::fileExists($localName)) {
+				return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($localName);
 			}
 
 				// Get icon from concrete extension provider
-			$iconUrl = $this->getFileUrl($filename);
+			$iconUrl = $this->getFileUrl($version, $fileType);
 
 				// Copy icon to local cache
-			Tx_TerFe2_Utility_File::copyFile($iconUrl, $this->imageCachePath . $filename);
+			Tx_TerFe2_Utility_File::copyFile($iconUrl, $localName);
 
 			return $iconUrl;
 		}
