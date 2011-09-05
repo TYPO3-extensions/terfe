@@ -125,7 +125,7 @@
 				$visibleFileName = basename($filename);
 			}
 
-				// Set headers
+				// Send headers
 			header('Cache-Control: no-cache, must-revalidate');
 			header('Expires: Sat, 10 Jan 1970 00:00:00 GMT');
 			header('Content-Disposition: attachment; filename=' . (string) $visibleFileName);
@@ -134,6 +134,33 @@
 
 				// Send file contents
 			readfile($filename);
+			exit;
+		}
+
+
+		/**
+		 * Transfers file content to client browser
+		 *
+		 * This function must be called before any HTTP headers have been sent
+		 *
+		 * @param string $content File content
+		 * @param string $visibleFileName File name for downloaded file
+		 * @return boolean FALSE if something wents wrong
+		 */
+		public static function transferFileContent($content, $fileName) {
+			if (empty($content) || empty($fileName)) {
+				return FALSE;
+			}
+
+				// Send headers
+			header('Cache-Control: no-cache, must-revalidate');
+			header('Expires: Sat, 10 Jan 1970 00:00:00 GMT');
+			header('Content-Disposition: attachment; filename=' . (string) $fileName);
+			header('Content-type: x-application/octet-stream');
+			header('Content-Transfer-Encoding: binary');
+
+				// Send file contents
+			echo $content;
 			exit;
 		}
 
