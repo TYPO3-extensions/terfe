@@ -1,7 +1,0 @@
-# ======================================================================
-# JSON output configuration ot the extension "ter_fe2"
-# ======================================================================
-plugin.tx_terfe2.jsonOutput {
-  # cat=TER Frontend - JSON/json/100; type=int+; label=Type number of the JSON page object
-  typeNum = 95832
-}
