@@ -44,6 +44,8 @@
 		'tx_terfe2_utility_array'                                          => $extensionClassesPath . 'Utility/Array.php',
 		'tx_terfe2_utility_file'                                           => $extensionClassesPath . 'Utility/File.php',
 		'tx_terfe2_utility_typoscript'                                     => $extensionClassesPath . 'Utility/TypoScript.php',
+		'Tx_TerFe2_view_extension_listjson'                                => $extensionClassesPath . 'View/Extension/ListJson.php',
+		'Tx_TerFe2_view_extension_listlatestjson'                          => $extensionClassesPath . 'View/Extension/ListLatestJson.php',
 		'tx_terfe2_viewhelpers_cdataviewhelper'                            => $extensionClassesPath . 'ViewHelpers/CdataViewHelper.php',
 		'tx_terfe2_viewhelpers_chartviewhelper'                            => $extensionClassesPath . 'ViewHelpers/ChartViewHelper.php',
 		'tx_terfe2_viewhelpers_datetimeviewhelper'                         => $extensionClassesPath . 'ViewHelpers/DateTimeViewHelper.php',

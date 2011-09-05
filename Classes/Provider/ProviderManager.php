@@ -55,6 +55,10 @@
 		 * @return Tx_TerFe2_Provider_ProviderInterface Extension provider
 		 */
 		public function getProvider($name) {
+			if (empty($name)) {
+				throw new Exception('No empty name allowed for an extension provider');
+			}
+
 			$name = strtolower(trim($name));
 
 			if (!empty($this->providers[$name])) {

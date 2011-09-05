@@ -64,5 +64,18 @@
 			return Tx_Extbase_Utility_Localization::translate($label, $extensionKey, $arguments);
 		}
 
+
+		/**
+		 * Send flash message and redirect to given action
+		 * 
+		 * @param string $action Name of the action
+		 * @param string $messageIdentifier Identifier of the message to send
+		 * @return void
+		 */
+		protected function redirectWithMessage($action, $messageIdentifier) {
+			$this->flashMessageContainer->add($this->translate('msg.' . $messageIdentifier));
+			$this->redirect($action);
+		}
+
 	}
 ?>

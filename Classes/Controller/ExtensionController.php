@@ -68,7 +68,28 @@
 		 * @return void
 		 */
 		public function indexAction() {
-			// TODO: Implement functionality
+				// Get latest extensions
+			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 10);
+			$latestExtensions = $this->extensionRepository->findNewAndUpdated($latestCount);
+			$this->view->assign('latestExtensions', $latestExtensions);
+
+				// Get top rated extensions
+			$topRatedCount = (!empty($this->settings['topRatedCount']) ? $this->settings['topRatedCount'] : 10);
+			$topRatedExtensions = $this->extensionRepository->findTopRated($topRatedCount);
+			$this->view->assign('topRatedExtensions', $topRatedExtensions);
+/*
+				// Get all categories
+			$categories = $this->categoryRepository->findAll();
+			$this->view->assign('categories', $categories);
+
+				// Get all tags
+			$tags = $this->tagRepository->findAll();
+			$this->view->assign('tags', $tags);
+*/
+				// Get random authors
+			$randomAuthorCount = (!empty($this->settings['randomAuthorCount']) ? $this->settings['randomAuthorCount'] : 10);
+			$randomAuthors = $this->authorRepository->findRandom($randomAuthorCount);
+			$this->view->assign('randomAuthors', $randomAuthors);
 		}
 
 
@@ -149,8 +170,7 @@
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
 			$this->extensionRepository->add($newExtension);
-			$this->flashMessageContainer->add($this->translate('msg.extension_created'));
-			$this->redirect('index');
+			$this->redirectWithMessage('index', 'extension_created');
 		}
 
 
@@ -187,20 +207,56 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->remove($extension);
-			$this->flashMessageContainer->add($this->translate('msg.extension_deleted'));
-			$this->redirect('index');
+			$this->redirectWithMessage('index', 'extension_deleted');
 		}
 
 
 		/**
-		 * Check file hash and increment counter while downloading
+		 * Check file hash, increment download counter and send file to client browser
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing version object
 		 * @param string $format Format of the file output
 		 * @return void
 		 */
 		public function downloadAction(Tx_TerFe2_Domain_Model_Version $version, $format = 't3x') {
-			// TODO: Implement functionality
+				// Get extension provider
+			$providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
+			$provider = $providerManager->getProvider($version->getExtensionProvider());
+
+				// Get url to file
+			$fileUrl = $provider->getFileUrl($version, $format);
+			if (empty($fileUrl)) {
+				$this->redirectWithMessage('index', 'file_not_found');
+			}
+
+				// Check file hash
+			$fileHash = Tx_TerFe2_Utility_File::getFileHash($fileUrl);
+			if ($fileHash != $version->getFileHash()) {
+				$this->redirectWithMessage('index', 'file_hash_not_equal');
+			}
+
+				// Check session if user has already downloaded this file today
+			$extensionKey = $version->getExtension()->getExtKey();
+			$session = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
+			$downloads = $session->get('downloads');
+			if (empty($downloads) || !in_array($extensionKey, $downloads)) {
+					// Add +1 to download counter and save immediately
+				$version->incrementDownloadCounter();
+				$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+				$persistenceManager->persistAll();
+
+					// Add extension key to session
+				$downloads[] = $extensionKey;
+				$session->add('downloads', $downloads);
+			}
+
+				// Send file to browser
+			if (!Tx_TerFe2_Utility_File::transferFile($fileUrl)) {
+				$this->redirectWithMessage('index', 'could_not_transfer_file');
+			}
+
+				// Fallback
+			$this->redirect('index');
 		}
 
 	}
