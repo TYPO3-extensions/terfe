@@ -32,29 +32,32 @@
 		 * Build an array from an object
 		 * 
 		 * @param object $object The object
+		 * @param boolean $excludeEmpty Return only non-empty values
 		 * @return array Array of all attributes
 		 */
-		public static function objectToArray($object) {
+		public static function objectToArray($object, $excludeEmpty = TRUE) {
 			if (empty($object)) {
 				return array();
 			}
 
 			$attributesArray = array();
-			$className       = get_class($object);
-			$classVars       = get_class_vars($className);
-			$classMethods    = get_class_methods($className);
+			$classMethods = get_class_methods(get_class($object));
 
-			foreach($classVars as $attributeName => $attributeValue) {
-				if (strpos($attributeName, '_') === 0) {
-					continue;
-				}
-
-				$method = 'get' . ucfirst($attributeName);
-				if (!in_array($method, $classMethods)) {
+			foreach($classMethods as $method) {
+				if (strpos($method, '_') === 0 || strpos($method, 'get') !== 0) {
 					continue;
 				}
 
 				$value = $object->$method();
+				if ($excludeEmpty && empty($value)) {
+					continue;
+				}
+
+				if ($value instanceof Tx_Extbase_Persistence_LazyLoadingProxy) {
+						// TODO: Implement a clean way to get attributes from concrete object
+					$value = '__lazy__';
+				}
+
 				if ($value instanceof Tx_Extbase_Persistence_ObjectStorage) {
 					$valueArray = array();
 					foreach($value as $model) {
@@ -71,6 +74,12 @@
 					$value = $value->toArray();
 				}
 
+				if (is_object($value)) {
+					$value = (string) $value;
+				}
+
+				$attributeName = substr($method, 3);
+				$attributeName[0] = strtolower($attributeName[0]);
 				$attributesArray[$attributeName] = $value;
 			}
 

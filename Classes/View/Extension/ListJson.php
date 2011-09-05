@@ -42,7 +42,7 @@
 				$extensions = $this->variables['extensions']->toArray();
 			}
 			if (!empty($extensions)) {
-				foreach ($this->variables['extensions'] as $extension) {
+				foreach ($extensions as $extension) {
 					$jsonArray[] = $extension->toArray();
 				}
 			}
