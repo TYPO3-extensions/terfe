@@ -154,7 +154,7 @@
 			}
 
 				// Create ZIP archive
-			self::createArchive($zipFile, $files);
+			self::createZipArchive($zipFile, $files);
 
 			return TRUE;
 		}

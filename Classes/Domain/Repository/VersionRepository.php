@@ -24,28 +24,32 @@
 	 ******************************************************************/
 
 	/**
-	 * Additional field provider for the create zip archives task
+	 * Repository for Tx_TerFe2_Domain_Model_Version
 	 */
-	class Tx_TerFe2_Task_CreateZipArchivesTaskAdditionalFieldProvider extends Tx_TerFe2_Task_AbstractAdditionalFieldProvider {
+	class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
 
 		/**
-		 * Add some input fields to configure the task
+		 * Get all versions without zip file
 		 *
-		 * @return void
+		 * @param integer $offset Offset to start with
+		 * @param integer $count Extension count to load
+		 * @return Tx_Extbase_Persistence_QueryResult Query result
 		 */
-		protected function addAdditionalFields() {
-			$this->addInputField('zipFilePath', 'fileadmin/extensionFiles/');
-		}
-
-
-		/**
-		 * Checks the given values
-		 *
-		 * @param array $submittedData Submitted user data
-		 * @return boolean TRUE if validation was ok
-		 */
-		protected function checkAdditionalFields(array $submittedData) {
-			return (!empty($submittedData['zipFilePath']) && is_string($submittedData['zipFilePath']));
+		public function findWithoutZipFile($offset = 0, $count = 0) {
+			$query = $this->createQuery();
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$query->matching($query->logicalOr(
+				$query->equals('zipFile', ''),
+				$query->equals('zipFile', NULL)
+			));
+			if (!empty($offset)) {
+				$query->setOffset((int) $offset);
+			}
+			if (!empty($count)) {
+				$query->setLimit((int) $count);
+			}
+			return $query->execute();
 		}
 
 	}

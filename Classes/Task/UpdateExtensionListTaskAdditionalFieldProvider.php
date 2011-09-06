@@ -51,7 +51,7 @@
 		 * @return boolean TRUE if validation was ok
 		 */
 		protected function checkAdditionalFields(array $submittedData) {
-			return (!empty($submittedData['providerName']));
+			return (!empty($submittedData['providerName']) && is_string($submittedData['providerName']));
 		}
 
 	}

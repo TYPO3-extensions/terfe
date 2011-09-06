@@ -51,18 +51,40 @@
 		/**
 		 * Returns absolute path to given directory
 		 *
+		 * @param string $path Path to the file / directory
+		 * @param boolean $create Create if not exists
 		 * @return string Absolute path
 		 */
-		public static function getAbsoluteDirectory($path) {
+		public static function getAbsoluteDirectory($path, $create = TRUE) {
 			if (empty($path)) {
 				return PATH_site;
 			}
 
-			if (!self::fileExists(PATH_site . $path)) {
-				t3lib_div::mkdir_deep(PATH_site . $path);
+			if ($create && !self::fileExists(PATH_site . $path)) {
+				t3lib_div::mkdir_deep(PATH_site, $path);
 			}
 
 			return PATH_site . rtrim($path, '/') . '/';
+		}
+
+
+		/**
+		 * Returns absolute path to given directory
+		 *
+		 * @param string $path Path to the file / directory
+		 * @return string Relative path
+		 */
+		public static function getRelativeDirectory($path) {
+			if (empty($path)) {
+				return '';
+			}
+
+			$path = str_replace(PATH_site, '', $path);
+			if (is_dir($path)) {
+				$path = rtrim($path, '/') . '/';
+			}
+
+			return $path;
 		}
 
 
@@ -326,7 +348,7 @@
 		 */
 		public static function getUrlFromAbsolutePath($path) {
 			$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
-			return $hostUrl . str_ireplace(PATH_site, '', $path);
+			return $hostUrl . str_replace(PATH_site, '', $path);
 		}
 
 

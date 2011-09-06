@@ -40,7 +40,7 @@
 		 * @return void
 		 */
 		protected function initializeController() {
-			$this->categoryRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
+			$this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
 		}
 
 

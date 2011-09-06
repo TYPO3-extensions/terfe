@@ -20,7 +20,9 @@
 
 	<ul>
 		<li><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></li>
-		<li><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></li>
+		<f:if condition="{extension.lastVersion.zipFile}">
+			<li><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></li>
+		</f:if>
 		<li><f:translate key="read_manual"/>: <terfe2:documentationLink version="{extension.lastVersion}" /></li>
 	</ul>
 

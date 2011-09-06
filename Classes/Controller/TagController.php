@@ -46,7 +46,7 @@
 		 * @return void
 		 */
 		protected function initializeController() {
-			$this->tagRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_TagRepository');
+			$this->tagRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_TagRepository');
 		}
 
 

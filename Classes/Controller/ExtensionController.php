@@ -48,6 +48,21 @@
 		 */
 		protected $authorRepository;
 
+		/**
+		 * @var Tx_TerFe2_Provider_ProviderManager
+		 */
+		protected $providerManager;
+
+		/**
+		 * @var Tx_TerFe2_Persistence_Session
+		 */
+		protected $session;
+
+		/**
+		 * @var Tx_Extbase_Persistence_Manager
+		 */
+		protected $persistenceManager;
+
 
 		/**
 		 * Initializes the controller
@@ -55,10 +70,13 @@
 		 * @return void
 		 */
 		protected function initializeController() {
-			$this->extensionRepository = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_ExtensionRepository');
-			$this->categoryRepository  = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_CategoryRepository');
-			$this->tagRepository       = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_TagRepository');
-			$this->authorRepository    = t3lib_div::makeInstance('Tx_TerFe2_Domain_Repository_AuthorRepository');
+			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			$this->categoryRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
+			$this->tagRepository       = $this->objectManager->get('Tx_TerFe2_Domain_Repository_TagRepository');
+			$this->authorRepository    = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
+			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
+			$this->session             = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
+			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 		}
 
 
@@ -219,31 +237,35 @@
 		 * @return void
 		 */
 		public function downloadAction(Tx_TerFe2_Domain_Model_Version $version, $format = 't3x') {
-				// Get extension provider
-			$providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
-			$provider = $providerManager->getProvider($version->getExtensionProvider());
+			if ($format === 't3x') {
+				$provider = $this->providerManager->getProvider($version->getExtensionProvider());
+				$fileUrl = $provider->getFileUrl($version, $format);
+			} else if ($format === 'zip') {
+				$fileUrl = PATH_site . $version->getZipFile();
+			} else {
+				throw new Exception('A download action for the format "' . $format . '" is not implemented');
+			}
 
-				// Get url to file
-			$fileUrl = $provider->getFileUrl($version, $format);
-			if (empty($fileUrl)) {
+				// Check if file exists
+			if (empty($fileUrl) || !Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
 				$this->redirectWithMessage('index', 'file_not_found');
 			}
 
-				// Check file hash
-			$fileHash = Tx_TerFe2_Utility_File::getFileHash($fileUrl);
-			if ($fileHash != $version->getFileHash()) {
-				$this->redirectWithMessage('index', 'file_hash_not_equal');
+				// Check file hash of t3x packages
+			if ($format === 't3x') {
+				$fileHash = Tx_TerFe2_Utility_File::getFileHash($fileUrl);
+				if ($fileHash != $version->getFileHash()) {
+					$this->redirectWithMessage('index', 'file_hash_not_equal');
+				}
 			}
 
 				// Check session if user has already downloaded this file today
 			$extensionKey = $version->getExtension()->getExtKey();
-			$session = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
-			$downloads = $session->get('downloads');
+			$downloads = $this->session->get('downloads');
 			if (empty($downloads) || !in_array($extensionKey, $downloads)) {
 					// Add +1 to download counter and save immediately
 				$version->incrementDownloadCounter();
-				$persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
-				$persistenceManager->persistAll();
+				$this->persistenceManager->persistAll();
 
 					// Add extension key to session
 				$downloads[] = $extensionKey;

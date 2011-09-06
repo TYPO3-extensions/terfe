@@ -78,7 +78,7 @@
 
 		/**
 		 * Execute the task
-		 * 
+		 *
 		 * @param integer $lastRun Timestamp of the last run
 		 * @param integer $offset Starting point
 		 * @param integer $count Element count to process at once
@@ -97,15 +97,16 @@
 				// Get extension structure from provider
 			$provider = $this->providerManager->getProvider($this->providerName);
 			$extensions = $provider->getExtensions($lastRun, $offset, $count);
-
-				// Build extensions...
-			if (!empty($extensions)) {
-				foreach ($extensions as $extensionRow) {
-					$this->createOrUpdateExtension($extensionRow);
-				}
+			if (empty($extensions)) {
+				return FALSE;
 			}
 
-			return !empty($extensions);
+				// Build extensions...
+			foreach ($extensions as $extensionRow) {
+				$this->createOrUpdateExtension($extensionRow);
+			}
+
+			return TRUE;
 		}
 
 
@@ -172,7 +173,7 @@
 
 		/**
 		 * Check whether a storage page is configured or not
-		 * 
+		 *
 		 * @return TRUE if a storage page was found
 		 */
 		protected function storagePageConfigured() {

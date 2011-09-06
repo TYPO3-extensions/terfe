@@ -192,35 +192,41 @@
 		protected $manual;
 
 		/**
-		 * media
+		 * Media references
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Media>
 		 */
 		protected $media;
 
 		/**
-		 * experience
+		 * Experiences
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Experience>
 		 */
 		protected $experience;
 
 		/**
-		 * softwareRelation
+		 * Software relations
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation>
 		 */
 		protected $softwareRelation;
 
 		/**
-		 * extension
+		 * Parent extension object
 		 * @var Tx_TerFe2_Domain_Model_Extension
 		 * @lazy
 		 */
 		protected $extension;
 
 		/**
-		 * Extension Provider
+		 * Extension provider
 		 * @var string
 		 */
 		protected $extensionProvider;
+
+		/**
+		 * Path to the zip file
+		 * @var string
+		 */
+		protected $zipFile;
 
 
 		/**
@@ -956,6 +962,27 @@
 		 */
 		public function getExtensionProvider() {
 			return $this->extensionProvider;
+		}
+
+
+		/**
+		 * Setter for zipFile
+		 *
+		 * @param string $zipFile Set zip file path
+		 * @return void
+		 */
+		public function setZipFile($zipFile) {
+			$this->zipFile = $zipFile;
+		}
+
+
+		/**
+		 * Getter for zipFile
+		 *
+		 * @return string Zip file path
+		 */
+		public function getZipFile() {
+			return $this->zipFile;
 		}
 
 	}
