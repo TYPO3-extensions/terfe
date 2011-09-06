@@ -26,7 +26,7 @@
 	/**
 	 * Update extension list task
 	 */
-	class Tx_TerFe2_Task_UpdateExtensionListTask extends tx_scheduler_Task {
+	class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask {
 
 		/**
 		 * @var string
@@ -34,39 +34,9 @@
 		public $providerName = 'extensionmanager';
 
 		/**
-		 * @var integer
-		 */
-		public $extensionsPerRun = 10;
-
-		/**
-		 * @va string
-		 */
-		public $clearCachePages;
-
-		/**
-		 * @var array
-		 */
-		protected $settings;
-
-		/**
-		 * @var Tx_Extbase_Configuration_ConfigurationManager
-		 */
-		protected $configurationManager;
-
-		/**
-		 * @var Tx_Extbase_Object_ObjectManager
-		 */
-		protected $objectManager;
-
-		/**
 		 * @var Tx_TerFe2_Provider_ProviderManager
 		 */
 		protected $providerManager;
-
-		/**
-		 * @var Tx_TerFe2_Persistence_Registry
-		 */
-		protected $registry;
 
 		/**
 		 * @var Tx_TerFe2_Object_ObjectBuilder
@@ -95,20 +65,11 @@
 		 * @return void
 		 */
 		public function initializeTask() {
-			$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-
-				// Configuration is required to be loaded in object manager for persistence mapping
-			$this->settings = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2');
-			$this->configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
-			$this->configurationManager->setConfiguration($this->settings);
-
-				// Load default objects
-			$this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
-			$this->registry = $this->objectManager->get('Tx_TerFe2_Persistence_Registry');
-			$this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
-			$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
+			$this->objectBuilder       = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
+			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
-			$this->authorRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
+			$this->authorRepository    = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
 
 				// Set registry name to current provider name
 			$this->registry->setName(get_class($this) . '_' . $this->providerName);
@@ -116,22 +77,18 @@
 
 
 		/**
-		 * Public method, usually called by scheduler.
-		 *
+		 * Execute the task
+		 * 
+		 * @param integer $lastRun Timestamp of the last run
+		 * @param integer $offset Starting point
+		 * @param integer $count Element count to process at once
 		 * @return boolean TRUE on success
 		 */
-		public function execute() {
-			$this->initializeTask();
-
+		protected function executeTask($lastRun, $offset, $count) {
 				// Check storage page
 			if (!$this->storagePageConfigured()) {
 				throw new Exception('Please configure "plugin.tx_terfe2.persistence.storagePid" in TypoScript setup');
 			}
-
-				// Get process information
-			$lastRun = (int) $this->registry->get('lastRun');
-			$offset  = (int) $this->registry->get('offset');
-			$count   = (int) $this->extensionsPerRun;
 
 				// TODO: Remove testing values
 			$lastRun = 1306920788;
@@ -148,17 +105,7 @@
 				}
 			}
 
-				// Add new values to registry
-			$offset = (!empty($extensions) ? $offset + $count : 0);
-			$this->registry->add('lastRun', $GLOBALS['EXEC_TIME']);
-			$this->registry->add('offset', $offset);
-
-				// Clear page cache
-			if (!empty($extensions) && !empty($this->clearCachePages)) {
-				$this->clearPageCache($this->clearCachePages);
-			}
-
-			return TRUE;
+			return !empty($extensions);
 		}
 
 
@@ -238,18 +185,6 @@
 				return TRUE;
 			}
 			return FALSE;
-		}
-
-
-		/**
-		 * Clear cache of given pages
-		 *
-		 * @param string $pages List of page ids
-		 * @return void
-		 */
-		protected function clearPageCache($pages) {
-			$pages = t3lib_div::intExplode(',', $pages, TRUE);
-			Tx_Extbase_Utility_Cache::clearPageCache($pages);
 		}
 
 
