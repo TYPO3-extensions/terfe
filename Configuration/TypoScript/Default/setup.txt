@@ -40,11 +40,11 @@ page.includeCSS.tx_terfe2 = EXT:ter_fe2/Resources/Public/Stylesheet/Default.css
 
 ## jQuery
 [globalVar = LIT:1 = {$plugin.tx_terfe2.libraries.jquery.load}]
-  page.includeJSlibs.jquery = EXT:torr_configuration/Resources/Public/Javascript/jquery.min.js
+  page.includeJSlibs.jquery = EXT:ter_fe2/Resources/Public/Javascript/jquery-1.6.2.min.js
 [global]
 
 ## jqPlot
 [globalVar = LIT:1 = {$plugin.tx_terfe2.libraries.jqplot.load}]
-	page.includeCSS.jqplot = EXT:torr_configuration/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.css
-  page.includeJSlibs.jqplot = EXT:torr_configuration/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.js
+	page.includeCSS.jqplot = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.css
+  page.includeJSlibs.jqplot = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.js
 [global]

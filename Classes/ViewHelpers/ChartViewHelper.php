@@ -25,7 +25,7 @@
 
 	/**
 	 * Chart view helper
-	 * 
+	 *
 	 * For documentation and examples visit http://www.jqplot.com
 	 */
 	class Tx_TerFe2_ViewHelpers_ChartViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
@@ -40,36 +40,65 @@
 		 */
 		protected $chart = '
 			<div id="%1$s" style="height:%2$s;width:%3$s;"></div>
-			<script type="text/javascript">$.jqplot("%1$s", %4$s, {%5$s});</script>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$.jqplot(\'%1$s\', [[%4$s]], {%5$s});
+				});
+			</script>
 		';
-
 
 
 		/**
 		 * Renders a jqPlot chart
 		 *
-		 * @param array $points Array of points on chart
+		 * @param object $object The object to get chart from
+		 * @param string $type The type of information to render
 		 * @param integer $height Height of the chart
 		 * @param integer $width Width of the chart
 		 * @param string $color Color of the line
 		 * @return string Chart
 		 */
-		public function render($points = NULL, $height = 300, $width = 400, $color = '#FFA500') {
-			if ($points === NULL) {
-				$points = $this->renderChildren();
+		public function render($object = NULL, $type = 'downloads', $height = 300, $width = 400, $color = '#FFA500') {
+			if ($object === NULL) {
+				$object = $this->renderChildren();
 			}
 
-			if (!is_array($points)) {
-				throw new Exception('Chart points have no valid format');
+			$points = array();
+			$type = trim(strtolower($type));
+			if ($object instanceof Tx_TerFe2_Domain_Model_Extension) {
+				$points = $this->getExtensionPoints($object, $type);
 			}
 
 			$id = uniqid('chart_');
 			$height = (int) $height . 'px';
 			$width = (int) $width . 'px';
-			$points = json_encode(array(array($points)));
-			$options = 'series:[{color:"' . $color . '"}]';
+			$points = implode(',', $points);
+			$options = '
+				series:[{color:\'' . $color . '\'}]
+			';
 
 			return sprintf($this->chart, $id, $height, $width, $points, $options);
+		}
+
+
+		/**
+		 * Returns the points by type for an extension model
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension Extension object
+		 * @param string $type Type of the information to get
+		 * @return array Points to render in chart
+		 */
+		protected function getExtensionPoints(Tx_TerFe2_Domain_Model_Extension $extension, $type) {
+			$result = array();
+
+			if ($type === 'downloads') {
+				$versions = $extension->getVersions();
+				foreach ($versions as $version) {
+					$result[] = "['" . $version->getVersionNumber() . "'," . (int) $version->getDownloadCounter() . "]";
+				}
+			}
+
+			return $result;
 		}
 
 	}
