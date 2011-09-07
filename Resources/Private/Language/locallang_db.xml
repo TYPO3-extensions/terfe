@@ -11,11 +11,14 @@
 			<label index="tx_terfe2_domain_model_extension.forge_link">Forge Link</label>
 			<label index="tx_terfe2_domain_model_extension.hudson_link">Hudson Link</label>
 			<label index="tx_terfe2_domain_model_extension.last_update">Last update</label>
+			<label index="tx_terfe2_domain_model_extension.last_maintained">Last maintained</label>
 			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
 			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
 			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
 			<label index="tx_terfe2_domain_model_extension.last_version">Last Version</label>
 			<label index="tx_terfe2_domain_model_extension.frontend_user">Frontend User</label>
+			<label index="tx_terfe2_domain_model_extension.insecure">Mark as insecure</label>
+			<label index="tx_terfe2_domain_model_extension.insecure.check">Last version was insecure, requires update</label>
 
 			<label index="tx_terfe2_domain_model_category">Category</label>
 			<label index="tx_terfe2_domain_model_category.title">Title</label>

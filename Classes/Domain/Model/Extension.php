@@ -84,6 +84,12 @@
 		 */
 		protected $frontendUser;
 
+		/**
+		 * Last version is insecure, requires update
+		 * @var boolean
+		 */
+		protected $insecure;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -336,6 +342,27 @@
 		 */
 		public function getFrontendUser() {
 			return $this->frontendUser;
+		}
+
+
+		/**
+		 * Setter for insecure
+		 *
+		 * @param boolean $insecure Insecure state
+		 * @return void
+		 */
+		public function setInsecure($insecure) {
+			$this->insecure = $insecure;
+		}
+
+
+		/**
+		 * Getter for insecure
+		 *
+		 * @return boolean Last version was insecure
+		 */
+		public function getInsecure() {
+			return $this->insecure;
 		}
 
 	}

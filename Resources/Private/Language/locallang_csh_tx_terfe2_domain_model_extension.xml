@@ -7,16 +7,17 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="ext_key.description">extKey</label>
-			<label index="forge_link.description">forgeLink</label>
-			<label index="hudson_link.description">hudsonLink</label>
-			<label index="last_upload.description">lastUpload</label>
-			<label index="last_maintained.description">lastMaintained</label>
-			<label index="categories.description">category</label>
-			<label index="tags.description">tag</label>
-			<label index="versions.description">version</label>
-			<label index="last_version.description">lastVersion</label>
-			<label index="frontend_user.description">frontendUser</label>
+			<label index="ext_key.description">Extension key</label>
+			<label index="forge_link.description">Link to forge</label>
+			<label index="hudson_link.description">Link to hudson</label>
+			<label index="last_upload.description">Date of last upload</label>
+			<label index="last_maintained.description">Date of last maintainence</label>
+			<label index="categories.description">All categories</label>
+			<label index="tags.description">All tags</label>
+			<label index="versions.description">All versions</label>
+			<label index="last_version.description">Last version</label>
+			<label index="frontend_user.description">Frontend user</label>
+			<label index="insecure.description">Last version is insecure, requires update</label>
 		</languageKey>
 	</data>
 </T3locallang>

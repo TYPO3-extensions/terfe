@@ -42,3 +42,8 @@ div.tx_terfe2_tag {
   margin-bottom: 12px;
   padding: 0 6px;
 }
+
+div.tx_terfe2_extension_insecure {
+  border: 1px dashed red;
+  background: #FFC0CB;
+}
