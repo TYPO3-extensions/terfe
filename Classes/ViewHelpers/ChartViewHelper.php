@@ -42,7 +42,7 @@
 			<div id="%1$s" style="height:%2$s;width:%3$s;"></div>
 			<script type="text/javascript">
 				$(document).ready(function(){
-					$.jqplot(\'%1$s\', [[%4$s]], {%5$s});
+					$.jqplot(\'%1$s\', %4$s, {%5$s});
 				});
 			</script>
 		';
@@ -72,7 +72,7 @@
 			$id = uniqid('chart_');
 			$height = (int) $height . 'px';
 			$width = (int) $width . 'px';
-			$points = implode(',', $points);
+			$points = json_encode(array($points));
 			$options = '
 				series:[{color:\'' . $color . '\'}]
 			';
@@ -94,7 +94,7 @@
 			if ($type === 'downloads') {
 				$versions = $extension->getVersions();
 				foreach ($versions as $version) {
-					$result[] = "['" . $version->getVersionNumber() . "'," . (int) $version->getDownloadCounter() . "]";
+					$result[] = /*array((string) $version->getVersionString(),*/ (int) $version->getDownloadCounter()/*)*/;
 				}
 			}
 
