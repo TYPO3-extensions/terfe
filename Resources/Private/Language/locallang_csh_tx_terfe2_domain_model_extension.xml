@@ -17,7 +17,6 @@
 			<label index="versions.description">All versions</label>
 			<label index="last_version.description">Last version</label>
 			<label index="frontend_user.description">Frontend user</label>
-			<label index="insecure.description">Last version is insecure, require update</label>
 		</languageKey>
 	</data>
 </T3locallang>

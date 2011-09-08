@@ -755,7 +755,7 @@
 		/**
 		 * Setter for reviewState
 		 *
-		 * @param string $reviewState Review state
+		 * @param integer $reviewState Review state
 		 * @return void
 		 */
 		public function setReviewState($reviewState) {
@@ -766,10 +766,10 @@
 		/**
 		 * Getter for reviewState
 		 *
-		 * @return string Review state
+		 * @return integer Review state
 		 */
 		public function getReviewState() {
-			return $this->reviewState;
+			return (int) $this->reviewState;
 		}
 
 

@@ -3,7 +3,7 @@
 <f:if condition="{extensions}">
 	<f:then>
 		<f:for each="{extensions}" as="extension">
-			<div class="tx_terfe2_extension <f:if condition='{extension.insecure}'>tx_terfe2_extension_insecure</f:if>">
+			<div class="tx_terfe2_extension <f:if condition='{extension.lastVersion.reviewState} < 0'>tx_terfe2_extension_insecure</f:if>">
 				<h3>
 					<span class="tx_terfe2_icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span>
 					<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action>
