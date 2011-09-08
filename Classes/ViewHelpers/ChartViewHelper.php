@@ -47,59 +47,92 @@
 			</script>
 		';
 
+		/**
+		 * @var array
+		 */
+		protected $axisOptions = array(
+			'xaxis:{renderer:$.jqplot.CategoryAxisRenderer}',
+		);
+
+		/**
+		 * @var array
+		 */
+		protected $gridOptions = array(
+			'drawGridLines: true',
+			'gridLineColor: "#cccccc"',
+			'background:    "#fffdf6"',
+			'borderColor:   "#4D4D4D"',
+			'borderWidth:   1.0',
+			'shadow:        false',
+		);
+
 
 		/**
 		 * Renders a jqPlot chart
 		 *
 		 * @param object $object The object to get chart from
-		 * @param string $type The type of information to render
+		 * @param string $method The render method
+		 * @param string $title Title of the chart
 		 * @param integer $height Height of the chart
 		 * @param integer $width Width of the chart
 		 * @param string $color Color of the line
 		 * @return string Chart
 		 */
-		public function render($object = NULL, $type = 'downloads', $height = 300, $width = 400, $color = '#FFA500') {
+		public function render($object = NULL, $method = 'downloadsByVersion', $title = '', $height = 300, $width = 400, $color = '#4D4D4D') {
 			if ($object === NULL) {
 				$object = $this->renderChildren();
 			}
 
-			$points = array();
-			$type = trim(strtolower($type));
-			if ($object instanceof Tx_TerFe2_Domain_Model_Extension) {
-				$points = $this->getExtensionPoints($object, $type);
+				// Check object type
+			if (!$object instanceof Tx_Extbase_DomainObject_DomainObjectInterface) {
+				throw new Exception('Charts can only be rendered for domain objects yet');
 			}
 
+				// Check given method name
+			if (empty($method)) {
+				throw new Exception('Can not render a chart without render method');
+			}
+
+				// Get method name
+			$method = 'get' . ucfirst(trim($method));
+			if (!method_exists($this, $method)) {
+				throw new Exception('No method with name "' . $method . '" defined in chart view helper');
+			}
+
+				// Get chart options
 			$id = uniqid('chart_');
 			$height = (int) $height . 'px';
 			$width = (int) $width . 'px';
-			$points = json_encode(array($points));
+			$lines = json_encode($this->$method($object));
 			$options = '
-				series:[{color:\'' . $color . '\'}]
+				title:\'' . $title . '\',
+				series:[{color:\'' . $color . '\'}],
+				axes:{' . implode(',', $this->axisOptions) . '},
+				grid: {' . implode(',', $this->gridOptions) . '}
 			';
 
-			return sprintf($this->chart, $id, $height, $width, $points, $options);
+			return sprintf($this->chart, $id, $height, $width, $lines, $options);
 		}
 
 
 		/**
-		 * Returns the points by type for an extension model
+		 * Returns downloads by version
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension Extension object
-		 * @param string $type Type of the information to get
-		 * @return array Points to render in chart
+		 * @return array Lines to render in chart
 		 */
-		protected function getExtensionPoints(Tx_TerFe2_Domain_Model_Extension $extension, $type) {
-			$result = array();
+		protected function getDownloadsByVersion(Tx_TerFe2_Domain_Model_Extension $extension) {
+			$points = array();
+			$versions = $extension->getVersionsByDate();
 
-			if ($type === 'downloads') {
-				$versions = $extension->getVersions();
-				foreach ($versions as $version) {
-					$result[] = /*array((string) $version->getVersionString(),*/ (int) $version->getDownloadCounter()/*)*/;
-				}
+			foreach ($versions as $version) {
+				$points[] = array((string) $version->getVersionString(), (int) $version->getDownloadCounter());
 			}
 
-			return $result;
+			return array($points);
 		}
+
+
 
 	}
 ?>

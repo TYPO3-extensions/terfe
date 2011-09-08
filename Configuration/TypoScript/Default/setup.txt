@@ -46,5 +46,6 @@ page.includeCSS.tx_terfe2 = EXT:ter_fe2/Resources/Public/Stylesheet/Default.css
 ## jqPlot
 [globalVar = LIT:1 = {$plugin.tx_terfe2.libraries.jqplot.load}]
 	page.includeCSS.jqplot = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.css
-  page.includeJSlibs.jqplot = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.js
+  page.includeJSlibs.jqplot1 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.js
+  page.includeJSlibs.jqplot2 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js
 [global]

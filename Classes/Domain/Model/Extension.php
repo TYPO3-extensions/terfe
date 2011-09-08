@@ -203,7 +203,7 @@
 		/**
 		 * Getter for categories
 		 *
-		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Category> categories
+		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Category> Categories
 		 */
 		public function getCategories() {
 			return $this->categories;
@@ -213,7 +213,7 @@
 		/**
 		 * Adds a category
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to be added
+		 * @param Tx_TerFe2_Domain_Model_Category $category The category to be added
 		 * @return void
 		 */
 		public function addCategory(Tx_TerFe2_Domain_Model_Category $category) {
@@ -224,7 +224,7 @@
 		/**
 		 * Removes a category
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to be removed
+		 * @param Tx_TerFe2_Domain_Model_Category $category The category to be removed
 		 * @return void
 		 */
 		public function removeCategory(Tx_TerFe2_Domain_Model_Category $category) {
@@ -235,7 +235,7 @@
 		/**
 		 * Getter for tags
 		 *
-		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag> tags
+		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag> Tags
 		 */
 		public function getTags() {
 			return $this->tags;
@@ -245,7 +245,7 @@
 		/**
 		 * Adds a Tag
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to be added
+		 * @param Tx_TerFe2_Domain_Model_Tag $tag The tag to be added
 		 * @return void
 		 */
 		public function addTag(Tx_TerFe2_Domain_Model_Tag $tag) {
@@ -256,7 +256,7 @@
 		/**
 		 * Removes a Tag
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to be removed
+		 * @param Tx_TerFe2_Domain_Model_Tag $tag The tag to be removed
 		 * @return void
 		 */
 		public function removeTag(Tx_TerFe2_Domain_Model_Tag $tag) {
@@ -267,7 +267,7 @@
 		/**
 		 * Getter for versions
 		 *
-		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version> versions
+		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version> Versions
 		 */
 		public function getVersions() {
 			return $this->versions;
@@ -275,9 +275,24 @@
 
 
 		/**
+		 * Get versions sorted by upload date
+		 *
+		 * @return array Versions
+		 */
+		public function getVersionsByDate() {
+			$versions = array();
+			foreach ($this->versions as $version) {
+				$versions[$version->getUploadDate()] = $version;
+			}
+			ksort($versions);
+			return $versions;
+		}
+
+
+		/**
 		 * Adds a Version
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Version $version The Version to be added
+		 * @param Tx_TerFe2_Domain_Model_Version $version The version to be added
 		 * @return void
 		 */
 		public function addVersion(Tx_TerFe2_Domain_Model_Version $version) {
