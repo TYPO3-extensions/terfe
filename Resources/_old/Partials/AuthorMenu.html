@@ -1,0 +1,14 @@
+<ul class="tx_terfe2_authors">
+	<f:if condition="{authors}">
+		<f:then>
+			<f:for each="{authors}" as="author">
+				<li class="tx_terfe2_author">
+					<f:link.action controller="Author" action="show" arguments="{author : author}">{author.name}</f:link.action>
+				</li>
+			</f:for>
+		</f:then>
+		<f:else>
+			<f:translate key="msg.no_entries_found"/>
+		</f:else>
+	</f:if>
+</ul>

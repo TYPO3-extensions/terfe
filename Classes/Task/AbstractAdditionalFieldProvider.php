@@ -63,6 +63,8 @@
 
 			$this->addInputField('elementsPerRun', 10);
 			$this->addInputField('clearCachePages', 0);
+			$this->addDateField('forceLastRun', '');
+			$this->addInputField('forceOffset', '');
 			$this->addAdditionalFields();
 
 			return $this->structure;
@@ -102,11 +104,19 @@
 		 * @return boolean TRUE if validation was ok (or selected class is not relevant), FALSE otherwise
 		 */
 		public function validateAdditionalFields(array &$submittedData, tx_scheduler_Module $parentObject) {
-			$result = $this->checkAdditionalFields($submittedData);
-			if (empty($result)) {
+			if (!$this->checkAdditionalFields($submittedData)) {
 				return FALSE;
 			}
-			return (!empty($submittedData['elementsPerRun']) && is_numeric($submittedData['elementsPerRun']));
+			if (empty($submittedData['elementsPerRun']) || !is_numeric($submittedData['elementsPerRun'])) {
+				return FALSE;
+			}
+			if (!empty($submittedData['forceLastRun']) && !is_string($submittedData['forceLastRun'])) {
+				return FALSE;
+			}
+			if (!empty($submittedData['forceOffset']) && !is_numeric($submittedData['forceOffset'])) {
+				return FALSE;
+			}
+			return TRUE;
 		}
 
 
@@ -164,6 +174,52 @@
 
 			$this->structure[$fieldName] = array(
 				'code'  => '<select name="tx_scheduler[' . $fieldName . ']">' . implode(PHP_EOL, $html) . '</select>',
+				'label' => 'LLL:' . $this->languageFile . ':tx_terfe2_task_' . $fieldName,
+			);
+		}
+
+
+		/**
+		 * Adds the structure of a checkbox field
+		 * 
+		 * @param string $fieldName Name of the field
+		 * @param mixed $defaultValue Default value of the field
+		 * @return void
+		 */
+		protected function addCheckboxField($fieldName, $defaultValue = FALSE) {
+			if ($this->editMode && isset($this->values[$fieldName])) {
+				$defaultValue = (bool) $this->values[$fieldName];
+			}
+
+			$this->structure[$fieldName] = array(
+				'code'  => '<input type="checkbox" name="tx_scheduler[' . $fieldName . ']"' . ($defaultValue ? ' checked="checked"' : '') . ' />',
+				'label' => 'LLL:' . $this->languageFile . ':tx_terfe2_task_' . $fieldName,
+			);
+		}
+
+
+		/**
+		 * Adds the structure of a date field
+		 * 
+		 * @param string $fieldName Name of the field
+		 * @param mixed $defaultValue Default value of the field
+		 * @return void
+		 */
+		protected function addDateField($fieldName, $defaultValue = '') {
+			if ($this->editMode && isset($this->values[$fieldName])) {
+				$defaultValue = $this->values[$fieldName];
+			}
+
+			$icon = t3lib_iconWorks::getSpriteIcon(
+				'actions-edit-pick-date',
+				array(
+					'style' => 'cursor:pointer;',
+					'id' => 'picker-tceforms-datetimefield-' . $fieldName,
+				)
+			);
+
+			$this->structure[$fieldName] = array(
+				'code'  => '<input type="text" name="tx_scheduler[' . $fieldName . ']" id="tceforms-datetimefield-' . $fieldName . ' value="' . htmlspecialchars($defaultValue) . '" />' . $icon,
 				'label' => 'LLL:' . $this->languageFile . ':tx_terfe2_task_' . $fieldName,
 			);
 		}

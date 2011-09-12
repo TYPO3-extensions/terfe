@@ -39,6 +39,16 @@
 		public $clearCachePages = 0;
 
 		/**
+		 * @var integer
+		 */
+		public $forceLastRun = 0;
+
+		/**
+		 * @var integer
+		 */
+		public $forceOffset = 0;
+
+		/**
 		 * @var array
 		 */
 		protected $settings;
@@ -82,8 +92,16 @@
 
 				// Get process information
 			$lastRun = (int) $this->registry->get('lastRun');
-			$offset = (int) $this->registry->get('offset');
-			$count = (int) $this->elementsPerRun;
+			$offset  = (int) $this->registry->get('offset');
+			$count   = (int) $this->elementsPerRun;
+
+				// Force values
+			if (!empty($this->forceLastRun)) {
+				$lastRun = Tx_TerFe2_Utility_Datetime::getTimestampFromString($this->forceLastRun);
+			}
+			if (!empty($this->forceOffset)) {
+				$offset = (int) $this->forceOffset;
+			}
 
 				// Run task
 			$result = $this->executeTask($lastRun, $offset, $count);

@@ -113,13 +113,13 @@
 
 
 		/**
-		 * Add value
+		 * Set value
 		 *
 		 * @param string $key Name of the value
 		 * @param mixed $value Value content
 		 * @return void
 		 */
-		public function add($key, $value) {
+		public function set($key, $value) {
 			if (empty($key)) {
 				throw new Exception('Empty keys are not allowed');
 			}
@@ -130,6 +130,18 @@
 			if ($this->saveImmediately()) {
 				$this->save();
 			}
+		}
+
+
+		/**
+		 * Add value
+		 *
+		 * @param string $key Name of the value
+		 * @param mixed $value Value content
+		 * @return void
+		 */
+		public function add($key, $value) {
+			$this->set($key, $value);
 		}
 
 

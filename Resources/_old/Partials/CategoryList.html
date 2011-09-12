@@ -1,0 +1,14 @@
+<f:if condition="{categories}">
+	<f:then>
+		<f:for each="{categories}" as="category">
+			<div class="tx_terfe2_category">
+				<h3>{category.title}</h3>
+				<p><f:link.action controller="Category" action="edit" arguments="{category : category}"><f:translate key="edit"/></f:link.action></p>
+				<p><f:link.action controller="Category" action="delete" arguments="{category : category}"><f:translate key="delete"/></f:link.action></p>
+			</div>
+		</f:for>
+	</f:then>
+	<f:else>
+		<f:translate key="msg.no_entries_found"/>
+	</f:else>
+</f:if>

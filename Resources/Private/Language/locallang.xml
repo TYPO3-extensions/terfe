@@ -62,6 +62,8 @@
 
 			<label index="tx_terfe2_task_elementsPerRun">Element count to process at once</label>
 			<label index="tx_terfe2_task_clearCachePages">Clear cache of these pages after run</label>
+			<label index="tx_terfe2_task_forceLastRun">Force last run time</label>
+			<label index="tx_terfe2_task_forceOffset">Force offset</label>
 			<label index="tx_terfe2_task_providerName">Fetch extensions from this source</label>
 			<label index="tx_terfe2_task_zipFilePath">Relative path to zip file diretory</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>

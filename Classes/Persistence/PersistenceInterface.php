@@ -45,6 +45,16 @@
 
 
 		/**
+		 * Set value
+		 *
+		 * @param string $key Name of the value
+		 * @param mixed $value Value content
+		 * @return void
+		 */
+		public function set($key, $value);
+
+
+		/**
 		 * Add value
 		 *
 		 * @param string $key Name of the value
