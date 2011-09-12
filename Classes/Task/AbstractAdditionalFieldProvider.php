@@ -58,7 +58,7 @@
 		 * @return array Array containing all the information pertaining to the additional fields
 		 */
 		public function getAdditionalFields(array &$taskInfo, $task, tx_scheduler_Module $parentObject) {
-			if (!empty($task) {
+			if (!empty($task)) {
 				$this->values = get_object_vars($task);
 			}
 			if (!empty($parentObject->CMD)) {
