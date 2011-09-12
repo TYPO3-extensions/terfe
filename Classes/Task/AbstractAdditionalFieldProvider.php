@@ -58,8 +58,12 @@
 		 * @return array Array containing all the information pertaining to the additional fields
 		 */
 		public function getAdditionalFields(array &$taskInfo, $task, tx_scheduler_Module $parentObject) {
-			$this->values = get_object_vars($task);
-			$this->editMode = ($parentObject->CMD === 'edit');
+			if (!empty($task) {
+				$this->values = get_object_vars($task);
+			}
+			if (!empty($parentObject->CMD)) {
+				$this->editMode = ($parentObject->CMD === 'edit');
+			}
 
 			$this->addInputField('elementsPerRun', 10);
 			$this->addInputField('clearCachePages', 0);
@@ -87,10 +91,12 @@
 		 * @return void
 		 */
 		public function saveAdditionalFields(array $submittedData, tx_scheduler_Task $task) {
-			$attributes = get_object_vars($task);
-			foreach ($attributes as $key => $value) {
-				if (isset($submittedData[$key])) {
-					$task->$key = $submittedData[$key];
+			if (!empty($task)) {
+				$attributes = get_object_vars($task);
+				foreach ($attributes as $key => $value) {
+					if (isset($submittedData[$key])) {
+						$task->$key = $submittedData[$key];
+					}
 				}
 			}
 		}
@@ -167,7 +173,7 @@
 			foreach ($options as $key => $option) {
 				$selected = ($key === $defaultValue ? ' selected="selected"' : '');
 				if ($key !== $option) {
-					$option = Tx_Extbase_Utility_Localization::translate($option);
+					$option = Tx_Extbase_Utility_Localization::translate($option, '');
 				}
 				$html[] = '<option value="' . htmlspecialchars($key) . '"' . $selected . '>' . htmlspecialchars($option) . '</option>';
 			}
