@@ -90,10 +90,6 @@
 				throw new Exception('Please configure "plugin.tx_terfe2.persistence.storagePid" in TypoScript setup');
 			}
 
-				// TODO: Remove testing values
-			$lastRun = 1306920788;
-			$offset  = 0;
-
 				// Get extension structure from provider
 			$provider = $this->providerManager->getProvider($this->providerName);
 			$extensions = $provider->getExtensions($lastRun, $offset, $count);

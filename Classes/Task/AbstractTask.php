@@ -39,14 +39,14 @@
 		public $clearCachePages = 0;
 
 		/**
-		 * @var integer
+		 * @var string
 		 */
-		public $forceLastRun = 0;
+		public $forceLastRun = '';
 
 		/**
 		 * @var integer
 		 */
-		public $forceOffset = 0;
+		public $forceOffset = NULL;
 
 		/**
 		 * @var array
@@ -99,7 +99,7 @@
 			if (!empty($this->forceLastRun)) {
 				$lastRun = Tx_TerFe2_Utility_Datetime::getTimestampFromString($this->forceLastRun);
 			}
-			if (!empty($this->forceOffset)) {
+			if (is_numeric($this->forceOffset)) {
 				$offset = (int) $this->forceOffset;
 			}
 
@@ -116,6 +116,7 @@
 				$this->clearPageCache($this->clearCachePages);
 			}
 
+
 			return TRUE;
 		}
 
@@ -126,13 +127,13 @@
 		 * @return void
 		 */
 		public function initializeTask() {
-			
+
 		}
 
 
 		/**
 		 * Execute the task, implement in concrete task
-		 * 
+		 *
 		 * @param integer $lastRun Timestamp of the last run
 		 * @param integer $offset Starting point
 		 * @param integer $count Element count to process at once

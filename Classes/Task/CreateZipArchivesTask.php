@@ -71,9 +71,6 @@
 		 * @return boolean TRUE on success
 		 */
 		protected function executeTask($lastRun, $offset, $count) {
-				// TODO: Remove testing values
-			$offset = 0;
-
 				// Get all versions without zip file
 			$versions = $this->versionRepository->findWithoutZipFile($offset, $count);
 			if (empty($versions)) {

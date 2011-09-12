@@ -133,7 +133,7 @@
 
 		/**
 		 * Adds the structure of an input field
-		 * 
+		 *
 		 * @param string $fieldName Name of the field
 		 * @param mixed $defaultValue Default value of the field
 		 * @return void
@@ -181,7 +181,7 @@
 
 		/**
 		 * Adds the structure of a checkbox field
-		 * 
+		 *
 		 * @param string $fieldName Name of the field
 		 * @param mixed $defaultValue Default value of the field
 		 * @return void
@@ -200,7 +200,7 @@
 
 		/**
 		 * Adds the structure of a date field
-		 * 
+		 *
 		 * @param string $fieldName Name of the field
 		 * @param mixed $defaultValue Default value of the field
 		 * @return void
@@ -219,7 +219,7 @@
 			);
 
 			$this->structure[$fieldName] = array(
-				'code'  => '<input type="text" name="tx_scheduler[' . $fieldName . ']" id="tceforms-datetimefield-' . $fieldName . ' value="' . htmlspecialchars($defaultValue) . '" />' . $icon,
+				'code'  => '<input type="text" name="tx_scheduler[' . $fieldName . ']" id="tceforms-datetimefield-' . $fieldName . '" value="' . htmlspecialchars($defaultValue) . '" />' . $icon,
 				'label' => 'LLL:' . $this->languageFile . ':tx_terfe2_task_' . $fieldName,
 			);
 		}
