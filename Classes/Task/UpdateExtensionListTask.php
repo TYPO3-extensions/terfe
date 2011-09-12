@@ -85,6 +85,11 @@
 		 * @return boolean TRUE on success
 		 */
 		protected function executeTask($lastRun, $offset, $count) {
+				// Check static setup
+			if (empty($this->settings['settings.'])) {
+				throw new Exception('Please include static setup "TER Frontend - Default Configuration (ter_fe2)" on root page');
+			}
+
 				// Check storage page
 			if (!$this->storagePageConfigured()) {
 				throw new Exception('Please configure "plugin.tx_terfe2.persistence.storagePid" in TypoScript setup');
@@ -194,7 +199,7 @@
 			$title = ucfirst($this->providerName);
 			if (!empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$this->providerName]['title'])) {
 				$title = $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$this->providerName]['title'];
-				$title = Tx_Extbase_Utility_Localization::translate($title);
+				$title = Tx_Extbase_Utility_Localization::translate($title, '');
 			}
 			return ' ' . $title . ' ';
 		}

@@ -70,8 +70,8 @@
 			<label index="tx_terfe2_domain_model_version.review_state">Review state</label>
 			<label index="tx_terfe2_domain_model_version.manual">Manual</label>
 			<label index="tx_terfe2_domain_model_version.media">Media</label>
-			<label index="tx_terfe2_domain_model_version.experience">Experience</label>
-			<label index="tx_terfe2_domain_model_version.software_relation">Software Relation</label>
+			<label index="tx_terfe2_domain_model_version.experiences">Experiences</label>
+			<label index="tx_terfe2_domain_model_version.software_relations">Software Relations</label>
 
 			<label index="tx_terfe2_domain_model_media">Media</label>
 			<label index="tx_terfe2_domain_model_media.title">Title</label>

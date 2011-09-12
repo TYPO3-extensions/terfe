@@ -36,8 +36,8 @@
 			<label index="tx_terfe2_domain_model_version.modify_tables">Information which existing DB tables will be modified</label>
 			<label index="tx_terfe2_domain_model_version.manual">Relation to manual object of ter_doc extension</label>
 			<label index="tx_terfe2_domain_model_version.media">Media references</label>
-			<label index="tx_terfe2_domain_model_version.experience">Experiences</label>
-			<label index="tx_terfe2_domain_model_version.software_relation">Software relations</label>
+			<label index="tx_terfe2_domain_model_version.experiences">Experiences</label>
+			<label index="tx_terfe2_domain_model_version.software_relations">Software relations</label>
 			<label index="tx_terfe2_domain_model_version.zip_file">Zip file path</label>
 			<label index="tx_terfe2_domain_model_media">Any type of media associated to an extension</label>
 			<label index="tx_terfe2_domain_model_media.title">Title of the media</label>
@@ -133,6 +133,9 @@
 			<label index="edit_author">Edit Author</label>
 			<label index="create_author">Create new Author</label>
 			<label index="single_author">Show single Author</label>
+			<label index="author">Author</label>
+			<label index="relations">Relations</label>
+			<label index="categories">Categories</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_detail">Back to details</label>

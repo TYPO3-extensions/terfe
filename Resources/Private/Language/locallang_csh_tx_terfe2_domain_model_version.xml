@@ -33,8 +33,8 @@
 			<label index="review_state.description">Review state</label>
 			<label index="manual.description">Relation to manual object of ter_doc extension</label>
 			<label index="media.description">Media references</label>
-			<label index="experience.description">Experiences</label>
-			<label index="software_relation.description">Software relations</label>
+			<label index="experiences.description">Experiences</label>
+			<label index="software_relations.description">Software relations</label>
 			<label index="zip_file.description">Path to the zip file of this version</label>
 		</languageKey>
 	</data>

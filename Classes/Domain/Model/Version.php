@@ -201,13 +201,13 @@
 		 * Experiences
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Experience>
 		 */
-		protected $experience;
+		protected $experiences;
 
 		/**
 		 * Software relations
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation>
 		 */
-		protected $softwareRelation;
+		protected $softwareRelations;
 
 		/**
 		 * Parent extension object
@@ -233,9 +233,9 @@
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
 		 */
 		public function __construct() {
-			$this->media            = new Tx_Extbase_Persistence_ObjectStorage();
-			$this->experience       = new Tx_Extbase_Persistence_ObjectStorage();
-			$this->softwareRelation = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->media             = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->experiences       = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->softwareRelations = new Tx_Extbase_Persistence_ObjectStorage();
 		}
 
 
@@ -840,86 +840,86 @@
 		/**
 		 * Setter for experience
 		 *
-		 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Experience> $experience experience
+		 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Experience> $experiences Experiences
 		 * @return void
 		 */
-		public function setExperience(Tx_Extbase_Persistence_ObjectStorage $experience) {
-			$this->experience = $experience;
+		public function setExperiences(Tx_Extbase_Persistence_ObjectStorage $experiences) {
+			$this->experiences = $experiences;
 		}
 
 
 		/**
 		 * Getter for experience
 		 *
-		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Experience> experience
+		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Experience> Experiences
 		 */
-		public function getExperience() {
-			return $this->experience;
+		public function getExperiences() {
+			return $this->experiences;
 		}
 
 
 		/**
 		 * Adds a Experience
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Experience $experience The Experience to be added
+		 * @param Tx_TerFe2_Domain_Model_Experience $experience The experience to be added
 		 * @return void
 		 */
 		public function addExperience(Tx_TerFe2_Domain_Model_Experience $experience) {
-			$this->experience->attach($experience);
+			$this->experiences->attach($experience);
 		}
 
 
 		/**
 		 * Removes a Experience
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Experience $experience The Experience to be removed
+		 * @param Tx_TerFe2_Domain_Model_Experience $experience The experience to be removed
 		 * @return void
 		 */
 		public function removeExperience(Tx_TerFe2_Domain_Model_Experience $experience) {
-			$this->experience->detach($experience);
+			$this->experiences->detach($experience);
 		}
 
 
 		/**
-		 * Setter for softwareRelation
+		 * Setter for softwareRelations
 		 *
-		 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation> $softwareRelation softwareRelation
+		 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation> $softwareRelations Relations
 		 * @return void
 		 */
-		public function setSoftwareRelation(Tx_Extbase_Persistence_ObjectStorage $softwareRelation) {
-			$this->softwareRelation = $softwareRelation;
+		public function setSoftwareRelations(Tx_Extbase_Persistence_ObjectStorage $softwareRelations) {
+			$this->softwareRelations = $softwareRelations;
 		}
 
 
 		/**
-		 * Getter for softwareRelation
+		 * Getter for softwareRelations
 		 *
-		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation> softwareRelation
+		 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation> Relations
 		 */
-		public function getSoftwareRelation() {
-			return $this->softwareRelation;
+		public function getSoftwareRelations() {
+			return $this->softwareRelations;
 		}
 
 
 		/**
-		 * Adds a Relation
+		 * Adds a relation
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Relation $softwareRelation The Relation to be added
+		 * @param Tx_TerFe2_Domain_Model_Relation $softwareRelation The relation to be added
 		 * @return void
 		 */
 		public function addSoftwareRelation(Tx_TerFe2_Domain_Model_Relation $softwareRelation) {
-			$this->softwareRelation->attach($softwareRelation);
+			$this->softwareRelations->attach($softwareRelation);
 		}
 
 
 		/**
-		 * Removes a Relation
+		 * Removes a relation
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Relation $softwareRelation The Relation to be removed
+		 * @param Tx_TerFe2_Domain_Model_Relation $softwareRelation The relation to be removed
 		 * @return void
 		 */
 		public function removeSoftwareRelation(Tx_TerFe2_Domain_Model_Relation $softwareRelation) {
-			$this->softwareRelation->detach($softwareRelation);
+			$this->softwareRelations->detach($softwareRelation);
 		}
 
 

@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_version'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_version']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experience,software_relation,zip_file',
+			'showRecordFieldList' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,zip_file',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experience,software_relation,zip_file'),
+			'1' => array('showitem' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,zip_file'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -316,9 +316,9 @@
 					),
 				),
 			),
-			'experience' => array(
+			'experiences' => array(
 				'exclude' => 0,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.experience',
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.experiences',
 				'config'  => array(
 					'type'          => 'inline',
 					'foreign_table' => 'tx_terfe2_domain_model_experience',
@@ -330,9 +330,9 @@
 					),
 				),
 			),
-			'software_relation' => array(
+			'software_relations' => array(
 				'exclude' => 0,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.software_relation',
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.software_relations',
 				'config'  => array(
 					'type'          => 'inline',
 					'foreign_table' => 'tx_terfe2_domain_model_relation',
