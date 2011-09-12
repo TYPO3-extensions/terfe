@@ -1,0 +1,6 @@
+<f:if condition="{relations}">
+	<f:for each="{relations}" as="{relation}" iteration="relationIteration">
+		<f:link.action controller="Extension" action="showByRelation" arguments="{relation : relation}">{relation.relationKey}</f:link.action>
+		<f:if condition="{relationIteration.isFirst}"><f:then></f:then><f:else>, </f:else></f:if>
+	</f:for>
+</f:if>

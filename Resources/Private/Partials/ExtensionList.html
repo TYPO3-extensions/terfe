@@ -1,0 +1,38 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
+<f:if condition="{extensions}">
+	<f:then>
+		<f:for each="{extensions}" as="extension">
+			<div class="tx_terfe2_list_entry <f:if condition='{extension.lastVersion.reviewState} < 0'>tx_terfe2_list_entry_marked</f:if>">
+				<h5>
+					<span class="tx_terfe2_list_entry_icon">
+						<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" />
+					</span>
+					<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action>
+					<span class="tx_terfe2_extension_list_downloads">
+						<f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}" class="bu">[t3x]</f:link.action>
+						<f:if condition="{extension.lastVersion.zipFile}">
+							<f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}" class="bu">[t3x]</f:link.action>
+						</f:if>
+					</span>
+				</h5>
+				<div class="tx_terfe2_list_entry_content">
+					<div class="tx_terfe2_extension_list_description">{extension.lastVersion.description}</div>
+					<div>
+						<div class="tx_terfe2_extension_list_information">
+							<span class="tx_terfe2_extension_list_label"><f:translate key="author"/>: </span>{extension.lastVersion.author.name}<br />
+							<span class="tx_terfe2_extension_list_label"><f:translate key="relations"/>: </span><f:render partial="InlineCategoryList" arguments="{relations: extension.lastVersion.softwareRelations}"/><br />
+							<span class="tx_terfe2_extension_list_label"><f:translate key="categories"/>: </span><f:render partial="InlineCategoryList" arguments="{catgories: extension.categories}"/><br />
+						</div>
+						<div class="tx_terfe2_extension_list_chart">
+							<terfe2:chart object="{extension}" method="downloadsByVersion" height="100" width="150" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</f:for>
+	</f:then>
+	<f:else>
+		<f:translate key="msg.no_entries_found"/>
+	</f:else>
+</f:if>
