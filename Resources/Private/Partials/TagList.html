@@ -1,0 +1,14 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
+<f:if condition="{tags}">
+	<f:then>
+		<ul>
+			<f:for each="{tags}" as="tag">
+				<li><f:link.action controller="Tag" action="show" arguments="{tag : tag}">{tag.title}</f:link.action></li>
+			</f:for>
+		</ul>
+	</f:then>
+	<f:else>
+		<f:translate key="msg.no_entries_found"/>
+	</f:else>
+</f:if>

@@ -2,35 +2,33 @@
 
 <f:if condition="{extensions}">
 	<f:then>
-		<f:for each="{extensions}" as="extension">
-			<div class="tx_terfe2_list_entry <f:if condition='{extension.lastVersion.reviewState} < 0'>tx_terfe2_list_entry_marked</f:if>">
-				<h5>
-					<span class="tx_terfe2_list_entry_icon">
-						<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" />
-					</span>
-					<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title} ({extension.extKey})</f:link.action>
-					<span class="tx_terfe2_extension_list_downloads">
-						<f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}" class="bu">[t3x]</f:link.action>
-						<f:if condition="{extension.lastVersion.zipFile}">
-							<f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}" class="bu">[t3x]</f:link.action>
-						</f:if>
-					</span>
-				</h5>
-				<div class="tx_terfe2_list_entry_content">
-					<div class="tx_terfe2_extension_list_description">{extension.lastVersion.description}</div>
-					<div>
-						<div class="tx_terfe2_extension_list_information">
-							<span class="tx_terfe2_extension_list_label"><f:translate key="author"/>: </span>{extension.lastVersion.author.name}<br />
-							<span class="tx_terfe2_extension_list_label"><f:translate key="relations"/>: </span><f:render partial="InlineCategoryList" arguments="{relations: extension.lastVersion.softwareRelations}"/><br />
-							<span class="tx_terfe2_extension_list_label"><f:translate key="categories"/>: </span><f:render partial="InlineCategoryList" arguments="{catgories: extension.categories}"/><br />
-						</div>
-						<div class="tx_terfe2_extension_list_chart">
-							<terfe2:chart object="{extension}" method="downloadsByVersion" height="100" width="150" />
+		<div class="b-news-list3">
+			<f:for each="{extensions}" as="extension">
+				<div class="extension-row">
+					<div class="cl">
+						<div class="news-container">
+							<div class="b-news-head">
+								<h4>
+									<span class="extension-icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span>
+									<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title}</f:link.action>
+									<span class="b-news-head-date"><f:translate key="version"/> {extension.lastVersion.versionString} - <terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime> | <strong><terfe2:format content="{extension.lastVersion.state}" function="ucfirst" /></strong></span>
+								</h4>
+								<div class="b-news-facts">
+									<span class="label"><f:translate key="extension"/>:</span>
+									{extension.extKey}
+									<br /><span class="label"><f:translate key="category"/>:</span>
+									<f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/>
+									<!-- <br /><span class="label"><f:translate key="author"/>:</span>
+									<f:link.action controller="Extension" action="listByAuthor" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action><br /> -->
+								</div>
+							</div>
+							<p class="b-wi-text"><terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}</terfe2:crop></p>
+							<span class="bu bu-mini"><f:translate key="details"/></span>
 						</div>
 					</div>
 				</div>
-			</div>
-		</f:for>
+			</f:for>
+		</div>
 	</f:then>
 	<f:else>
 		<f:translate key="msg.no_entries_found"/>

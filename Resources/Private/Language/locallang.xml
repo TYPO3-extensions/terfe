@@ -135,7 +135,11 @@
 			<label index="single_author">Show single Author</label>
 			<label index="author">Author</label>
 			<label index="relations">Relations</label>
-			<label index="categories">Categories</label>
+			<label index="category">Category</label>
+			<label index="download">Download</label>
+			<label index="details">Details</label>
+			<label index="extension">Extension</label>
+			<label index="version">Version</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_detail">Back to details</label>

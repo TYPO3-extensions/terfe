@@ -2,66 +2,17 @@ div.tx_terfe2 {
 
 }
 
-div.tx_terfe2_messages {
-
+div.extension-row {
+	border: 1px solid #C8C8C8;
+	padding: 16px 15px 16px 15px;
+	margin-bottom: 25px;
 }
 
-div.tx_terfe2_content {
-
+div.extension-row span.b-news-head-date {
+	color: #555555;
 }
 
-div.tx_terfe2_list_entry {
-	border: 1px solid #c8c8c8;
-	border-width: 0 1px 1px;
-	overflow: hidden;
-	margin: 0 0 17px 0;
-}
-
-div.tx_terfe2_list_entry h5 {
-	color: #000;
-	font-size: 12px;
-	font-weight: normal;
-	margin: 0;
-	border-top: 1px solid #c8c8c8;
-	padding: 6px 6px 5px 0;
-	cursor: pointer;
-	background: #EEE url(typo3conf/ext/t3org_template/i/header.png) repeat-x 0 0;
-	line-height: 18px;
-	-o-user-select: none;
-	-webkit-user-select: none;
-	-moz-user-select: -moz-none;
-	-khtml-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-div.tx_terfe2_list_entry h5 a {
-	font-weight: bold;
-	text-decoration: none;
-	border-bottom: none;
-	color: #000;
-	margin-left: 6px;
-}
-
-div.tx_terfe2_list_entry_content {
-	border-top: 1px solid #C8C8C8;
-	padding: 13px 15px 13px 25px;
-	overflow: hidden;
-}
-
-span.tx_terfe2_list_entry_icon {
-	display: block;
-	float: left;
-	margin: 1px 0 0 9px;
-	height: 20px;
-	width: 20px;
-}
-
-span.tx_terfe2_extension_list_downloads {
-	float: right;
-	margin-top: -4px;
-}
-
-span.tx_terfe2_extension_list_downloads a {
-
+span.label {
+	width: 64px;
+	display: inline-block;
 }

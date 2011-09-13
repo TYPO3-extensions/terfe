@@ -105,9 +105,13 @@
 			$this->view->assign('tags', $tags);
 
 				// Get random authors
-			$randomAuthorCount = (!empty($this->settings['randomAuthorCount']) ? $this->settings['randomAuthorCount'] : 10);
+			/*$randomAuthorCount = (!empty($this->settings['randomAuthorCount']) ? $this->settings['randomAuthorCount'] : 10);
 			$randomAuthors = $this->authorRepository->findRandom($randomAuthorCount);
-			$this->view->assign('randomAuthors', $randomAuthors);
+			$this->view->assign('randomAuthors', $randomAuthors);*/
+
+				// Get authors
+			$authors = $this->authorRepository->findAll();
+			$this->view->assign('authors', $authors);
 		}
 
 
