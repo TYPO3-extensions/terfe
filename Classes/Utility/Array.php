@@ -60,21 +60,17 @@
 
 				if ($value instanceof Tx_Extbase_Persistence_ObjectStorage) {
 					$valueArray = array();
-					foreach($value as $model) {
-						$valueArray[] = $model->toArray();
+					foreach($value as $storedObject) {
+						$valueArray[] = self::objectToArray($storedObject, $excludeEmpty);
 					}
 					$value = $valueArray;
 				}
 
-				if ($value instanceof Tx_TerFe2_Domain_Model_AbstractEntity) {
-					$value = $value->toArray();
-				}
-
-				if ($value instanceof Tx_TerFe2_Domain_Model_AbstractValueObject) {
-					$value = $value->toArray();
-				}
-
 				if (is_object($value)) {
+					$value = self::objectToArray($value, $excludeEmpty);
+				}
+
+				if (!is_string($value) && !is_array($value)) {
 					$value = (string) $value;
 				}
 
