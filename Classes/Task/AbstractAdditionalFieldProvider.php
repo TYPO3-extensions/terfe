@@ -48,6 +48,11 @@
 		 */
 		protected $languageFile = 'EXT:ter_fe2/Resources/Private/Language/locallang.xml';
 
+		/**
+		 * @var string
+		 */
+		protected $labelPrefix = 'tx_terfe2_task_';
+
 
 		/**
 		 * Add some input fields to configure the task
@@ -151,7 +156,7 @@
 
 			$this->structure[$fieldName] = array(
 				'code'  => '<input type="text" name="tx_scheduler[' . $fieldName . ']" value="' . htmlspecialchars($defaultValue) . '" />',
-				'label' => 'LLL:' . $this->languageFile . ':tx_terfe2_task_' . $fieldName,
+				'label' => 'LLL:' . $this->languageFile . ':' . $this->labelPrefix . $fieldName,
 			);
 		}
 
@@ -180,7 +185,7 @@
 
 			$this->structure[$fieldName] = array(
 				'code'  => '<select name="tx_scheduler[' . $fieldName . ']">' . implode(PHP_EOL, $html) . '</select>',
-				'label' => 'LLL:' . $this->languageFile . ':tx_terfe2_task_' . $fieldName,
+				'label' => 'LLL:' . $this->languageFile . ':' . $this->labelPrefix . $fieldName,
 			);
 		}
 
@@ -199,7 +204,7 @@
 
 			$this->structure[$fieldName] = array(
 				'code'  => '<input type="checkbox" name="tx_scheduler[' . $fieldName . ']"' . ($defaultValue ? ' checked="checked"' : '') . ' />',
-				'label' => 'LLL:' . $this->languageFile . ':tx_terfe2_task_' . $fieldName,
+				'label' => 'LLL:' . $this->languageFile . ':' . $this->labelPrefix . $fieldName,
 			);
 		}
 
@@ -226,7 +231,7 @@
 
 			$this->structure[$fieldName] = array(
 				'code'  => '<input type="text" name="tx_scheduler[' . $fieldName . ']" id="tceforms-datetimefield-' . $fieldName . '" value="' . htmlspecialchars($defaultValue) . '" />' . $icon,
-				'label' => 'LLL:' . $this->languageFile . ':tx_terfe2_task_' . $fieldName,
+				'label' => 'LLL:' . $this->languageFile . ':' . $this->labelPrefix . $fieldName,
 			);
 		}
 
