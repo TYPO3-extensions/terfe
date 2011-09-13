@@ -24,7 +24,7 @@
 	 ******************************************************************/
 
 	/**
-	 * Extension provider using local files
+	 * Builder for domain objects
 	 */
 	class Tx_TerFe2_Object_ObjectBuilder implements t3lib_Singleton {
 
