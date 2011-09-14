@@ -21,20 +21,20 @@
 	$TCA['tt_content']['types']['list']['subtypes_addlist'][$extIdent] = 'pi_flexform';
 	t3lib_extMgm::addPiFlexFormValue($extIdent, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_list.xml');
 
-		// Domain models and their label field
+		// Domain models and their label / search fields
 	$models = array(
-		'extension'    => 'ext_key',
-		'category'     => 'title',
-		'tag'          => 'title',
-		'version'      => 'title',
-		'media'        => 'title',
-		'experience'   => 'date_time',
-		'relation'     => 'relation_key',
-		'author'       => 'name',
+		'extension'  => array('ext_key', 'ext_key'),
+		'category'   => array('title', 'title,description'),
+		'tag'        => array('title', 'title'),
+		'version'    => array('title', 'title,description,state,em_category'),
+		'media'      => array('title', 'title,type,language,source,description'),
+		'experience' => array('date_time', 'comment'),
+		'relation'   => array('relation_key', 'relation_type,relation_key'),
+		'author'     => array('name', 'name,email,username'),
 	);
 
 		// Add entities and value objects
-	foreach ($models as $modelName => $labelField) {
+	foreach ($models as $modelName => $modelConfiguration) {
 			// Add help text to the Backend form
 		t3lib_extMgm::addLLrefForTCAdescr(
 			'tx_terfe2_domain_model_' . $modelName,
@@ -48,7 +48,8 @@
 		$TCA['tx_terfe2_domain_model_' . $modelName] = array (
 			'ctrl' => array (
 				'title'                    => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_' . $modelName,
-				'label'                    => $labelField,
+				'label'                    => $modelConfiguration[0],
+				'searchFields'             => $modelConfiguration[1],
 				'tstamp'                   => 'tstamp',
 				'crdate'                   => 'crdate',
 				'versioningWS'             => 2,
@@ -59,7 +60,7 @@
 				'transOrigDiffSourceField' => 'l18n_diffsource',
 				'delete'                   => 'deleted',
 				'enablecolumns'            => array(
-					'disabled'              => 'hidden'
+					'disabled'                 => 'hidden'
 				),
 				'dynamicConfigFile'        => t3lib_extMgm::extPath($_EXTKEY)    . 'Configuration/TCA/' . ucfirst($modelName) . '.php',
 				'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/' . $modelName . '.gif'
