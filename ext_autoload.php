@@ -50,6 +50,7 @@
 		'tx_terfe2_utility_datetime'                                       => $extensionClassesPath . 'Utility/Datetime.php',
 		'tx_terfe2_utility_file'                                           => $extensionClassesPath . 'Utility/File.php',
 		'tx_terfe2_utility_typoscript'                                     => $extensionClassesPath . 'Utility/TypoScript.php',
+		'tx_terfe2_utility_version'                                        => $extensionClassesPath . 'Utility/Version.php',
 		'Tx_TerFe2_view_extension_listjson'                                => $extensionClassesPath . 'View/Extension/ListJson.php',
 		'Tx_TerFe2_view_extension_listlatestjson'                          => $extensionClassesPath . 'View/Extension/ListLatestJson.php',
 		'tx_terfe2_viewhelpers_cdataviewhelper'                            => $extensionClassesPath . 'ViewHelpers/CdataViewHelper.php',

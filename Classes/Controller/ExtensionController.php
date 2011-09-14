@@ -171,6 +171,21 @@
 
 
 		/**
+		 * Action that displays a single extension by extension key
+		 *
+		 * @param string $extensionKey The extension key
+		 * @return void
+		 */
+		public function showByExtensionKey($extensionKey) {
+			if (empty($extensionKey) || !is_string($extensionKey)) {
+				throw new Exception('No valid extension key given');
+			}
+			$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
+			$this->showAction($extension);
+		}
+
+
+		/**
 		 * Displays a form for creating a new extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $newExtension New extension object
@@ -273,7 +288,7 @@
 
 					// Add extension key to session
 				$downloads[] = $extensionKey;
-				$session->add('downloads', $downloads);
+				$this->session->add('downloads', $downloads);
 			}
 
 				// Send file to browser

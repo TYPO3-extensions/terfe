@@ -902,6 +902,29 @@
 
 
 		/**
+		 * Get filtered relations
+		 *
+		 * @return array Relations
+		 */
+		public function getFilteredSoftwareRelations() {
+			if (empty($this->softwareRelations)) {
+				return array();
+			}
+
+			$relations = array();
+
+			foreach ($this->softwareRelations as $relation) {
+				$relationKey = $relation->getRelationKey();
+				if (!empty($relationKey)) {
+					$relations[] = $relation;
+				}
+			}
+
+			return $relations;
+		}
+
+
+		/**
 		 * Adds a relation
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Relation $softwareRelation The relation to be added

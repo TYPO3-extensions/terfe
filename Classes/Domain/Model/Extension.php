@@ -353,5 +353,35 @@
 			return $this->frontendUser;
 		}
 
+
+		/**
+		 * Returns all votes for the extension
+		 *
+		 * @return array Vote counts
+		 */
+		public function getVotes() {
+			$votes = array(
+				'positive' => 0,
+				'negative' => 0,
+			);
+
+			foreach ($this->versions as $version) {
+				$experiences = $version->getExperiences();
+				if (!is_array($experiences)) {
+					continue;
+				}
+				foreach ($experiences as $experience) {
+					$rating = (int) $experience->getRating();
+					if ($rating > 0) {
+						$votes['positive'] += $rating;
+					} else {
+						$votes['negative'] += $rating;
+					}
+				}
+			}
+
+			return $votes;
+		}
+
 	}
 ?>

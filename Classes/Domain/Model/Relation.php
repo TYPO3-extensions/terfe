@@ -36,13 +36,6 @@
 		protected $relationType;
 
 		/**
-		 * Core, extension or system
-		 * @var string
-		 * @validate NotEmpty
-		 */
-		protected $softwareType;
-
-		/**
 		 * Extension key, php, mysql or something else
 		 * @var string
 		 * @validate NotEmpty
@@ -84,27 +77,6 @@
 
 
 		/**
-		 * Setter for softwareType
-		 *
-		 * @param string $softwareType Core, extension or system
-		 * @return void
-		 */
-		public function setSoftwareType($softwareType) {
-			$this->softwareType = $softwareType;
-		}
-
-
-		/**
-		 * Getter for softwareType
-		 *
-		 * @return string Core, extension or system
-		 */
-		public function getSoftwareType() {
-			return $this->softwareType;
-		}
-
-
-		/**
 		 * Setter for relationKey
 		 *
 		 * @param string $relationKey extension key, php, mysql or something else
@@ -121,7 +93,10 @@
 		 * @return string extension key, php, mysql or something else
 		 */
 		public function getRelationKey() {
-			return $this->relationKey;
+			if (empty($this->relationKey)) {
+				return '';
+			}
+			return strtolower(trim($this->relationKey));
 		}
 
 
@@ -142,7 +117,7 @@
 		 * @return integer Minimum required version
 		 */
 		public function getMinimumVersion() {
-			return $this->minimumVersion;
+			return (int) $this->minimumVersion;
 		}
 
 
@@ -163,7 +138,81 @@
 		 * @return integer Maximum allowed version
 		 */
 		public function getMaximumVersion() {
-			return $this->maximumVersion;
+			return (int) $this->maximumVersion;
+		}
+
+
+		/**
+		 * Returns minumum and maximum version as string
+		 *
+		 * @return string Version
+		 */
+		public function getVersionString() {
+			$version = array();
+
+			if (!empty($this->minimumVersion)) {
+				$version[] = Tx_TerFe2_Utility_Version::versionFromInteger($this->minimumVersion);
+			}
+
+			if (!empty($this->maximumVersion)) {
+				$version[] = Tx_TerFe2_Utility_Version::versionFromInteger($this->maximumVersion);
+			}
+
+			return (!empty($version) ? implode(' - ', $version) : '');
+		}
+
+
+		/**
+		 * Get software type
+		 *
+		 * @return string core, system or extension
+		 */
+		public function getType() {
+			$key = $this->getRelationKey();
+
+			if (empty($key)) {
+				return '';
+			}
+
+			if ($key === 'cms' || $key === 'typo3') {
+				return 'core';
+			}
+
+			if ($key === 'php') {
+				return 'system';
+			}
+
+			return 'extension';
+		}
+
+
+		/**
+		 * Is core relation
+		 *
+		 * @return boolean TRUE if related to core
+		 */
+		public function getIsCore() {
+			return ($this->getType() == 'core');
+		}
+
+
+		/**
+		 * Is system relation
+		 *
+		 * @return boolean TRUE if related to system
+		 */
+		public function getIsSystem() {
+			return ($this->getType() == 'system');
+		}
+
+
+		/**
+		 * Is extension relation
+		 *
+		 * @return boolean TRUE if related to an extension
+		 */
+		public function getIsExtension() {
+			return ($this->getType() == 'extension');
 		}
 
 	}

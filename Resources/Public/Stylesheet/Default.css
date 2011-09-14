@@ -19,22 +19,31 @@ div.extension-head h4 {
 	margin-top: 0;
 }
 
+div.extension-head a {
+
+}
+
 span.extension-icon {
 
 }
 
 span.extension-date {
 	float: right;
-	font-size: 10px;
+	font-size: 11px;
 	color: #555555;
 }
 
 div.extension-description {
 	margin-bottom: 7px;
 	overflow: auto;
-	width: 62%;
+	width: 64%;
 	float: left;
-	padding: 6px 18px 0 0;
+	padding: 6px 0 0 0;
+	margin: 0 18px 0 0;
+}
+
+div.extension-buttons {
+	padding-top: 12px;
 }
 
 span.extension-button {
@@ -43,7 +52,7 @@ span.extension-button {
 	padding: 0 8px;
 	color: white;
 	font-size: 11px;
-	background: url(../Images/button.png) no-repeat 0 0;
+	background: url(../Images/button.png) left top no-repeat;
 	cursor: pointer;
 	text-decoration: none;
 	display: inline-block;
@@ -51,35 +60,46 @@ span.extension-button {
 	border: 1px solid #E87C0C;
 }
 
+span.extension-button a {
+	text-decoration: none;
+	border-bottom: none;
+	color: #ffffff;
+}
+
+span.extension-button-right {
+	float: right;
+	margin-left: 12px;
+}
+
 div.extension-info {
-	width: 35%;
+	width: 33%;
 	float: left;
 	font-size: 11px;
 }
 
 div.extension-info a {
-	vertical-align: baseline;
+
 }
 
 div.extension-info table {
 	margin: 0;
 }
 
-div.extension-info table td {
+div.extension-info td {
 	border: none;
 	padding: 6px 0 5px 0;
 }
 
-div.extension-info table tr {
+div.extension-info tr {
 	border-top: 1px solid #D1D1D1;
 	padding: 6px 0;
 }
 
-div.extension-info table tr:first-child {
+div.extension-regular div.extension-info tr:first-child {
 	border: none;
 }
 
-div.extension-info table td.extension-label {
+div.extension-info td.extension-label {
 	width: 60px;
 }
 
@@ -89,4 +109,12 @@ br.tx_terfe2-clear {
 	padding: 0;
 	margin: 0;
 	clear: both;
+}
+
+span.extension-plus {
+	color: #009C21;
+}
+
+span.extension-minus {
+	color: #EE1B00;
 }

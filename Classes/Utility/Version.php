@@ -24,41 +24,25 @@
 	 ******************************************************************/
 
 	/**
-	 * Format view helper
+	 * Utilities to manage versions
 	 */
-	class Tx_TerFe2_ViewHelpers_FormatViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+	class Tx_TerFe2_Utility_Version {
 
 		/**
-		 * Disable the escaping interceptor
-		 */
-		protected $escapingInterceptorEnabled = FALSE;
-
-
-		/**
-		 * Formats content with given function
+		 * Build version from integer
 		 *
-		 * @param string $function Function to format the content
-		 * @param mixed $content Content
-		 * @return string Formated content
+		 * @param integer $version The numeric version
+		 * @return string Version string
 		 */
-		public function render($function, $content = NULL) {
-			if ($content === NULL) {
-				$content = $this->renderChildren();
+		public static function versionFromInteger($version) {
+			if (empty($version)) {
+				return '';
 			}
 
-			if (empty($function) || !function_exists($function)) {
-				throw new Exception('Function "' . $function . '" not found to modify content');
-			}
+			$parts = t3lib_div::trimExplode('0', (string) $version, TRUE);
+			$parts = array_pad($parts, 3, 0);
 
-			if (!is_string($content) && !is_array($content)) {
-				throw new Exception('"' . ucfirst(gettype($content)) . '" is not an allowed type in format view helper');
-			}
-
-			if (is_array($content)) {
-				return call_user_func_array($function, $content);
-			}
-
-			return call_user_func($function, $content);
+			return implode('.', $parts);
 		}
 
 	}
