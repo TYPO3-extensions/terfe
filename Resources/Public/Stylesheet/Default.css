@@ -8,11 +8,85 @@ div.extension-row {
 	margin-bottom: 25px;
 }
 
-div.extension-row span.b-news-head-date {
+div.extension-head {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #D1D1D1;
+}
+
+div.extension-head h4 {
+	margin-top: 0;
+}
+
+span.extension-icon {
+
+}
+
+span.extension-date {
+	float: right;
+	font-size: 10px;
 	color: #555555;
 }
 
-span.label {
-	width: 64px;
+div.extension-description {
+	margin-bottom: 7px;
+	overflow: auto;
+	width: 62%;
+	float: left;
+	padding: 6px 18px 0 0;
+}
+
+span.extension-button {
+	height: 19px;
+	line-height: 20px;
+	padding: 0 8px;
+	color: white;
+	font-size: 11px;
+	background: url(../Images/button.png) no-repeat 0 0;
+	cursor: pointer;
+	text-decoration: none;
 	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #E87C0C;
+}
+
+div.extension-info {
+	width: 35%;
+	float: left;
+	font-size: 11px;
+}
+
+div.extension-info a {
+	vertical-align: baseline;
+}
+
+div.extension-info table {
+	margin: 0;
+}
+
+div.extension-info table td {
+	border: none;
+	padding: 6px 0 5px 0;
+}
+
+div.extension-info table tr {
+	border-top: 1px solid #D1D1D1;
+	padding: 6px 0;
+}
+
+div.extension-info table tr:first-child {
+	border: none;
+}
+
+div.extension-info table td.extension-label {
+	width: 60px;
+}
+
+br.tx_terfe2-clear {
+	height: 0;
+	line-height: 0;
+	padding: 0;
+	margin: 0;
+	clear: both;
 }

@@ -37,7 +37,7 @@
 		/**
 		 * Formats content with given function
 		 *
-		 * @param string $content Content format
+		 * @param mixed $content Content
 		 * @param string $function Function to format the content
 		 * @return string Formated content
 		 */
@@ -48,6 +48,14 @@
 
 			if (empty($function) || !function_exists($function)) {
 				throw new Exception('Function "' . $function . '" not found to modify content');
+			}
+
+			if (!is_string($content) && !is_array($content)) {
+				throw new Exception('"' . ucfirst(gettype($content)) . '" is not an allowed type in format view helper');
+			}
+
+			if (is_array($content)) {
+				return call_user_func_array($function, $content);
 			}
 
 			return call_user_func($function, $content);

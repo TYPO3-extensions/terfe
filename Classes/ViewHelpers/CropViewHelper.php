@@ -37,6 +37,8 @@
 		/**
 		 * Returns cropped content
 		 *
+		 * Notice: Use Tx_Fluid_ViewHelpers_Format_CropViewHelper for 4.6 and above
+		 * 
 		 * @param string $content Content to return
 		 * @param integer $length Text length
 		 * @param boolean $keepWords Crop complete words
@@ -53,7 +55,12 @@
 				return $content;
 			}
 
-			$languageObject = (isset($GLOBALS['LANG']) ? $GLOBALS['LANG'] : t3lib_div::makeInstance('language'));
+			if (isset($GLOBALS['LANG'])) {
+				$languageObject = $GLOBALS['LANG'];
+			} else {
+				$languageObject = t3lib_div::makeInstance('language');
+				$languageObject->init('en');
+			}
 
 			if ($length < 0) {
 				$content = $languageObject->csConvObj->substr($languageObject->charSet, $content, $length);
