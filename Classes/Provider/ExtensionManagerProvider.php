@@ -43,6 +43,10 @@
 		 */
 		protected $mirrorService;
 
+		/**
+		 * @var string
+		 */
+		protected $fileCachePath = '';
 
 
 		/**
@@ -59,6 +63,11 @@
 				// Set repository id
 			if (!empty($this->configuration['repositoryId'])) {
 				$this->repositoryId = (int) $this->configuration['repositoryId'];
+			}
+
+				// Set local file cache path
+			if (!empty($this->configuration['fileCachePath'])) {
+				$this->fileCachePath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->configuration['fileCachePath']);
 			}
 
 				// Get repository for extension manager cache entries
@@ -108,6 +117,17 @@
 		 */
 		public function getFileUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
 			$filename = $this->getFileName($version, $fileType);
+			$localName = '';
+
+				// Get local filename for t3x files
+			if (!empty($this->fileCachePath) && $fileType === 't3x') {
+				$localName = $this->fileCachePath . basename($filename);
+			}
+
+				// Check local cache first
+			if (!empty($localName) && $fileType === 't3x' && Tx_TerFe2_Utility_File::fileExists($localName)) {
+				return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($localName);
+			}
 
 				// Get filename on mirror server
 			$filename = $this->mirrorService->getUrlToFile($filename);
@@ -118,6 +138,12 @@
 				// Check if file exists
 			if (!Tx_TerFe2_Utility_File::fileExists($filename)) {
 				throw new Exception('File "' . $filename . '" not found');
+			}
+
+				// Copy file to local cache and return it
+			if (!empty($localName)) {
+				Tx_TerFe2_Utility_File::copyFile($filename, $localName);
+				return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($localName);
 			}
 
 				// Get local url from absolute path

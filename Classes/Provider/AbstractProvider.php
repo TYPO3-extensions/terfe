@@ -51,7 +51,7 @@
 		/**
 		 * @var string
 		 */
-		protected $imageCachePath = 'typo3temp/pics/';
+		protected $imageCachePath = 'typo3temp/tx_terfe2/images/';
 
 
 		/**

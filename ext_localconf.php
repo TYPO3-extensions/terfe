@@ -30,6 +30,7 @@
 		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_extensionmanagerprovider.name',
 		'configuration' => array(
 			'repositoryId'      => 1,
+			'fileCachePath'     => 'typo3temp/tx_terfe2/files/',
 		),
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['file'] = array(

@@ -260,6 +260,12 @@
 				return FALSE;
 			}
 
+				// Check if file already exists
+			$toFileExists = self::fileExists($toFileName);
+			if ($toFileExists && !$overwrite) {
+				return FALSE;
+			}
+
 				// Check if target directory exists
 			if (!self::fileExists(dirname($toFileName))) {
 				return FALSE;
@@ -272,14 +278,12 @@
 
 				// Get file content
 			$fromFile = t3lib_div::getURL($fromFileName);
-
-				// Check files
-			if ($fromFile === FALSE || ($toFileExists && !$overwrite)) {
+			if ($fromFile === FALSE) {
 				return FALSE;
 			}
 
-				// Remove existing
-			if (self::fileExists($toFileName) && $overwrite) {
+				// Remove existing when successfully fetched new file
+			if ($toFileExists) {
 				unlink($toFileName);
 			}
 
