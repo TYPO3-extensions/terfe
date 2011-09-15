@@ -31,7 +31,7 @@
 			<label index="tx_terfe2_domain_model_version.description">Description</label>
 			<label index="tx_terfe2_domain_model_version.author">Author</label>
 			<label index="tx_terfe2_domain_model_version.version_number">Version Number</label>
-			<label index="tx_terfe2_domain_model_version.version_string">Version Number</label>
+			<label index="tx_terfe2_domain_model_version.version_string">Version String</label>
 			<label index="tx_terfe2_domain_model_version.upload_date">Upload Date</label>
 			<label index="tx_terfe2_domain_model_version.upload_comment">Upload Comment</label>
 			<label index="tx_terfe2_domain_model_version.download_counter">Download Counter</label>
