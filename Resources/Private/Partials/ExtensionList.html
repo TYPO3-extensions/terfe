@@ -37,11 +37,6 @@
 								<td><span class="extension-plus">+&nbsp;{extension.votes.positive}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="extension-minus">-&nbsp;{extension.votes.negative}</span></td>
 							</tr>
 						</table>
-
-						<!-- Downloads chart -->
-						<div class="extension-chart">
-
-						</div>
 					</div>
 				</div>
 				<div class="extension-additional" style="display:none;">
@@ -82,7 +77,7 @@
 							</tr>
 							<tr>
 								<td class="extension-label"><f:translate key="tags"/>:</td>
-								<td>TODO: InlineTagList</td>
+								<td><f:render partial="InlineTagList" arguments="{tags: extension.tags}"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><f:translate key="downloads_by_version"/>:<terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="200" renderOnLoad="0" /></td>

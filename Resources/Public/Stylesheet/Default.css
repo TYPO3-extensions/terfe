@@ -117,3 +117,19 @@ span.extension-plus {
 span.extension-minus {
 	color: #EE1B00;
 }
+
+
+/**
+ * jqPlot styles
+ */
+div.jqplot-highlighter-tooltip {
+	background: #ffffff;
+	color: #F58006;
+	padding: 0 3px;
+	font-size: 11px;
+	border: 1px solid #9E9E9E;
+	font-weight: bold;
+	-webkit-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+	-moz-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+	box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+}

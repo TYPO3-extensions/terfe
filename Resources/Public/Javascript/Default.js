@@ -16,6 +16,16 @@ jQuery(document).ready(function($) {
 			borderColor:   '#4D4D4D',
 			borderWidth:   1.0,
 			shadow:        false
+		},
+		highlighter: {
+			show: true,
+			sizeAdjust: 5,
+			tooltipLocation: 'ne',
+			tooltipOffset: 6,
+			tooltipAxes: 'y'
+		},
+		cursor: {
+			show: false
 		}
 	};
 
