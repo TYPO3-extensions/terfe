@@ -92,14 +92,13 @@ div.extension-info td {
 
 div.extension-info tr {
 	border-top: 1px solid #D1D1D1;
-	padding: 6px 0;
 }
 
 div.extension-regular div.extension-info tr:first-child {
 	border: none;
 }
 
-div.extension-info td.extension-label {
+td.extension-label {
 	width: 60px;
 }
 

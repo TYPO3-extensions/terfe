@@ -7,7 +7,7 @@
 				<div class="extension-head">
 					<h4>
 						<span class="extension-icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span>
-						<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title}</f:link.action>
+						<f:link.action controller="Extension" action="show" arguments="{extension : extension}" class="extension-row-toggle">{extension.lastVersion.title}</f:link.action>
 						<span class="extension-date"><f:translate key="version"/> {extension.lastVersion.versionString} - <terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime> | <strong><terfe2:format content="{extension.lastVersion.state}" function="ucfirst" /></strong></span>
 					</h4>
 				</div>
@@ -44,7 +44,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="extension-additional" style="display:block;"> <!-- TODO "display: none" -->
+				<div class="extension-additional" style="display:none;">
 					<div class="extension-description">
 						<!-- Images -->
 						<div class="extension-images">
@@ -65,6 +65,12 @@
 									<p>TODO: Version history from old upload comments</p>
 								</div>
 							</div>
+							<h5 class="a-h closed"><span><f:translate key="changelog"/></span></h5>
+							<div class="a-body">
+								<div class="a-content">
+									<p>TODO: Changelog from file</p>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="extension-info">
@@ -78,12 +84,15 @@
 								<td class="extension-label"><f:translate key="tags"/>:</td>
 								<td>TODO: InlineTagList</td>
 							</tr>
+							<tr>
+								<td colspan="2"><f:translate key="downloads_by_version"/>:<terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="200" renderOnLoad="0" /></td>
+							</tr>
 						</table>
 					</div>
 				</div>
 				<br class="tx_terfe2-clear" />
 				<div class="extension-buttons">
-					<span class="extension-button"><f:translate key="details"/></span>
+					<span class="extension-button extension-row-toggle"><f:translate key="details"/></span>
 					<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></span>
 					<f:if condition="{extension.lastVersion.zipFile}">
 						<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>

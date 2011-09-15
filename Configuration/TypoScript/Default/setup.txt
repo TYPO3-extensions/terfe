@@ -38,16 +38,18 @@ plugin.tx_terfe2 {
 # ======================================================================
 # Page object configuration of the extension "ter_fe2"
 # ======================================================================
-page.includeCSS.tx_terfe2 = EXT:ter_fe2/Resources/Public/Stylesheet/Default.css
-
 ## jQuery
 [globalVar = LIT:1 = {$plugin.tx_terfe2.libraries.jquery.load}]
-  page.includeJSlibs.jquery = EXT:ter_fe2/Resources/Public/Javascript/jquery-1.6.2.min.js
+  page.includeJSFooterlibs.jquery = EXT:ter_fe2/Resources/Public/Javascript/jquery-1.6.2.min.js
 [global]
 
 ## jqPlot
 [globalVar = LIT:1 = {$plugin.tx_terfe2.libraries.jqplot.load}]
 	page.includeCSS.jqplot = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.css
-  page.includeJSlibs.jqplot1 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.js
-  page.includeJSlibs.jqplot2 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js
+  page.includeJSFooterlibs.jqplot1 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.js
+  page.includeJSFooterlibs.jqplot2 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js
 [global]
+
+## Default files
+page.includeCSS.tx_terfe2 = EXT:ter_fe2/Resources/Public/Stylesheet/Default.css
+page.includeJSFooterlibs.tx_terfe2 = EXT:ter_fe2/Resources/Public/Javascript/Default.js

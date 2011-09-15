@@ -144,6 +144,7 @@
 			<label index="upload_comment">Upload comment</label>
 			<label index="version_history">Version history</label>
 			<label index="tags">Tags</label>
+			<label index="changelog">Changelog</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_detail">Back to details</label>

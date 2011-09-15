@@ -39,32 +39,19 @@
 		 * @var string
 		 */
 		protected $chart = '
-			<div id="%1$s" style="height:%2$s;width:%3$s;"></div>
+			<div id="%1$s" style="height:%2$s;width:%3$s;" class="chart-container"></div>
 			<script type="text/javascript">
-				$(document).ready(function(){
-					$.jqplot(\'%1$s\', %4$s, {%5$s});
-				});
+				if (typeof(charts) == \'undefined\') {
+					var charts = [];
+				}
+				charts[\'%1$s\'] = {
+					lines: %4$s,
+					options: {%5$s},
+					isShy: %6$s,
+					isRendered: false
+				};
 			</script>
 		';
-
-		/**
-		 * @var array
-		 */
-		protected $axisOptions = array(
-			'xaxis:{renderer:$.jqplot.CategoryAxisRenderer}',
-		);
-
-		/**
-		 * @var array
-		 */
-		protected $gridOptions = array(
-			'drawGridLines: true',
-			'gridLineColor: "#cccccc"',
-			'background:    "#fffdf6"',
-			'borderColor:   "#4D4D4D"',
-			'borderWidth:   1.0',
-			'shadow:        false',
-		);
 
 
 		/**
@@ -76,9 +63,10 @@
 		 * @param integer $height Height of the chart
 		 * @param integer $width Width of the chart
 		 * @param string $color Color of the line
+		 * @param boolean $renderOnLoad Render chart when DOM is ready
 		 * @return string Chart
 		 */
-		public function render($object = NULL, $method = 'downloadsByVersion', $title = '', $height = 300, $width = 400, $color = '#4D4D4D') {
+		public function render($object = NULL, $method = 'downloadsByVersion', $title = '', $height = 300, $width = 400, $color = '#4D4D4D', $renderOnLoad = TRUE) {
 			if ($object === NULL) {
 				$object = $this->renderChildren();
 			}
@@ -100,18 +88,17 @@
 			}
 
 				// Get chart options
-			$id = uniqid('chart_');
+			$id = uniqid('chart-');
 			$height = (int) $height . 'px';
 			$width = (int) $width . 'px';
 			$lines = json_encode($this->$method($object));
 			$options = '
-				title:\'' . $title . '\',
-				series:[{color:\'' . $color . '\'}],
-				axes:{' . implode(',', $this->axisOptions) . '},
-				grid: {' . implode(',', $this->gridOptions) . '}
+				title: \'' . $title . '\',
+				series: [{color:\'' . $color . '\'}]
 			';
+			$isShy = (empty($renderOnLoad) ? 'true' : 'false');
 
-			return sprintf($this->chart, $id, $height, $width, $lines, $options);
+			return sprintf($this->chart, $id, $height, $width, $lines, $options, $isShy);
 		}
 
 
