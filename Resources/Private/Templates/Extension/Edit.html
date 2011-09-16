@@ -1,5 +1,24 @@
 <f:layout name="Default" />
 
 <f:section name="main">
+	<h2><f:translate key="edit_extension"/></h2>
 
+	<f:form method="post" action="update" controller="Extension" name="extension" object="{extension}">
+
+		<label for="title"><f:translate key="tx_terfe2_domain_model_version.title" /></label><br />
+		<f:form.textbox size="40" property="lastVersion.title" /><br /><br />
+
+		<label for="description"><f:translate key="tx_terfe2_domain_model_version.description" /></label><br />
+		<f:form.textarea rows="5" cols="40" property="lastVersion.description" /><br /><br />
+
+		<label for="forgeLink"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></label><br />
+		<f:form.textbox size="40" property="forgeLink" /><br />
+
+		<label for="hudsonLink"><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></label><br />
+		<f:form.textbox size="40" property="hudsonLink" /><br /><br />
+
+		<f:form.submit value="{f:translate(key:'edit')}" />
+	</f:form>
+
+	<f:link.action controller="Extension" action="show" arguments="{extension : extension}"><f:translate key="back_to_detail"/></f:link.action>
 </f:section>

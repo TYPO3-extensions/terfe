@@ -51,12 +51,23 @@
 
 
 		/**
-		 * Index action, displays all tags
+		 * List action, displays all tags
 		 *
 		 * @return void
 		 */
-		public function indexAction() {
+		public function listAction() {
 			$this->view->assign('tags', $this->tagRepository->findAll());
+		}
+
+
+		/**
+		 * Action that displays a single tag
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Category $tag The tag to display
+		 * @return void
+		 */
+		public function showAction(Tx_TerFe2_Domain_Model_Tag $tag) {
+			$this->view->assign('tag', $tag);
 		}
 
 

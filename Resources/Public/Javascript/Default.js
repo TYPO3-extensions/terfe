@@ -1,9 +1,10 @@
-jQuery(document).ready(function($) {
-
-	/**
-	 * Default chart options
-	 */
-	var defaultChartOptions = {
+/**
+ * Returns default chart options
+ * 
+ * @return object Chart options
+ */
+function getDefaultChartOptions() {
+	return {
 		axes: {
 			xaxis: {
 				renderer: $.jqplot.CategoryAxisRenderer
@@ -12,7 +13,7 @@ jQuery(document).ready(function($) {
 		grid: {
 			drawGridLines: true,
 			gridLineColor: '#cccccc',
-			background:    '#fffdf6',
+			background:    '#ffffff',
 			borderColor:   '#4D4D4D',
 			borderWidth:   1.0,
 			shadow:        false
@@ -28,16 +29,19 @@ jQuery(document).ready(function($) {
 			show: false
 		}
 	};
+}
 
+
+(function($) {
 
 	/**
 	 * Render chart
 	 *
-	 * @param string containerId ID of the chart container
 	 * @param boolean renderShy Render shy charts
 	 * @return void
 	 */
-	function renderChart(containerId, renderShy) {
+	$.fn.renderChart = function(renderShy) {
+		var containerId = $(this).attr('id');
 		if (!containerId || typeof(charts) === 'undefined' || typeof(charts[containerId]) === 'undefined') {
 			return;
 		}
@@ -47,7 +51,7 @@ jQuery(document).ready(function($) {
 			return;
 		}
 
-		var options = defaultChartOptions;
+		var options = getDefaultChartOptions();
 		options.title = chart.options.title;
 		options.series = chart.options.series;
 
@@ -62,8 +66,8 @@ jQuery(document).ready(function($) {
 	 * @param mixed element Object or selector
 	 * @return void
 	 */
-	function toggleExtensionDetails(element) {
-		var $element = $(element);
+	$.fn.toggleExtensionDetails = function() {
+		var $element = $(this);
 		var counter = 0;
 
 			// Find extension row container
@@ -80,25 +84,27 @@ jQuery(document).ready(function($) {
 
 			// Toggle visibility
 		if ($toggleElement.css('display') === 'none') {
-			$toggleElement.show();
+			$toggleElement.fadeIn('fast');
 
 				// Render chart
 			var $chart = $toggleElement.find('div.chart-container');
 			if (typeof($chart) !== 'undefined') {
-				renderChart($chart.attr('id'), true);
+				$chart.renderChart(true);
 			}
 		} else {
-			$toggleElement.hide();
+			$toggleElement.fadeOut('fast');
 		}
 	}
 
+})(jQuery);
+
+
+jQuery(document).ready(function($) {
 
 	/**
 	 * Process all charts
 	 */
-	$('div.chart-container').each(function(index, element) {
-		renderChart($(element).attr('id'), false);
-	});
+	$('div.chart-container').renderChart(false);
 
 
 	/**
@@ -106,7 +112,7 @@ jQuery(document).ready(function($) {
 	 */
 	$('.extension-row-toggle').click(function(event) {
 		event.preventDefault();
-		toggleExtensionDetails($(this));
+		$(this).toggleExtensionDetails();
 	});
 
 });

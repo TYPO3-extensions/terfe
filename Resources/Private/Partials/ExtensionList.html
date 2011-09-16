@@ -4,6 +4,8 @@
 	<f:then>
 		<f:for each="{extensions}" as="extension">
 			<div class="extension-row">
+
+				<!-- Headline -->
 				<div class="extension-head">
 					<h4>
 						<span class="extension-icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span>
@@ -11,14 +13,17 @@
 						<span class="extension-date"><f:translate key="version"/> {extension.lastVersion.versionString} - <terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime> | <strong><terfe2:format content="{extension.lastVersion.state}" function="ucfirst" /></strong></span>
 					</h4>
 				</div>
+
+				<!-- Content area -->
 				<div class="extension-regular">
+
 					<!-- Description -->
 					<div class="extension-description">
 						<p><terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}</terfe2:crop></p>
 					</div>
 
+					<!-- General information -->
 					<div class="extension-info">
-						<!-- General information -->
 						<table>
 							<tr>
 								<td class="extension-label"><f:translate key="extension"/>:</td>
@@ -26,7 +31,7 @@
 							</tr>
 							<tr>
 								<td class="extension-label"><f:translate key="author"/>:</td>
-								<td><f:link.action controller="Extension" action="listByAuthor" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action></td>
+								<td><f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action></td>
 							</tr>
 							<tr>
 								<td class="extension-label"><f:translate key="category"/>:</td>
@@ -38,8 +43,11 @@
 							</tr>
 						</table>
 					</div>
+
 				</div>
 				<div class="extension-additional" style="display:none;">
+
+					<!-- Additional description -->
 					<div class="extension-description">
 						<!-- Images -->
 						<div class="extension-images">
@@ -66,14 +74,29 @@
 									<p>TODO: Changelog from file</p>
 								</div>
 							</div>
+							<h5 class="a-h closed"><span><f:translate key="files"/></span></h5>
+							<div class="a-body">
+								<div class="a-content">
+									<p>TODO: File links (scrollable div), will be displayed in new window (target)</p>
+								</div>
+							</div>
 						</div>
 					</div>
+
+					<!-- Additional information -->
 					<div class="extension-info">
-						<!-- Additional information -->
 						<table>
 							<tr>
 								<td class="extension-label"><f:translate key="relations"/>:</td>
 								<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
+							</tr>
+							<!-- <tr>
+								<td class="extension-label"><f:translate key="reverse_relations"/>:</td>
+								<td>TODO: Related to this</td>
+							</tr> -->
+							<tr>
+								<td class="extension-label"><f:translate key="manual"/>:</td>
+								<td>TODO: Manual link</td>
 							</tr>
 							<tr>
 								<td class="extension-label"><f:translate key="tags"/>:</td>
@@ -84,8 +107,11 @@
 							</tr>
 						</table>
 					</div>
+
 				</div>
 				<br class="tx_terfe2-clear" />
+
+				<!-- Buttons -->
 				<div class="extension-buttons">
 					<span class="extension-button extension-row-toggle"><f:translate key="details"/></span>
 					<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></span>
@@ -93,6 +119,7 @@
 						<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
 					</f:if>
 				</div>
+
 			</div>
 		</f:for>
 	</f:then>

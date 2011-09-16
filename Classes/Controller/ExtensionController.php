@@ -117,6 +117,8 @@
 
 		/**
 		 * List action, displays all extensions
+		 * 
+		 * Note: Required for RSS / JSON output
 		 *
 		 * @return void
 		 */
@@ -127,6 +129,8 @@
 
 		/**
 		 * List latest action, displays new and updated extensions
+		 * 
+		 * Note: Required for RSS / JSON output
 		 *
 		 * @return void
 		 */
@@ -138,50 +142,27 @@
 
 
 		/**
-		 * List by category action, displays all extensions in a category
-		 *
-		 * @param Tx_TerFe2_Domain_Model_Category $category The category to search in
-		 * @return void
-		 */
-		public function listByCategoryAction(Tx_TerFe2_Domain_Model_Category $category) {
-			$this->view->assign('extensions', $this->extensionRepository->findByCategory($category));
-		}
-
-
-		/**
-		 * List by tag action, displays all extensions with a tag
-		 *
-		 * @param Tx_TerFe2_Domain_Model_Tag $tag The tag to search for
-		 * @return void
-		 */
-		public function listByTagAction(Tx_TerFe2_Domain_Model_Tag $tag) {
-			$this->view->assign('extensions', $this->extensionRepository->findByTag($tag));
-		}
-
-
-		/**
 		 * Action that displays a single extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to display
+		 * @param string $extensionKey Extension key
 		 * @return void
+		 * @dontvalidate $extension
+		 * @dontvalidate $extensionKey
 		 */
-		public function showAction(Tx_TerFe2_Domain_Model_Extension $extension) {
-			$this->view->assign('extension', $extension);
-		}
-
-
-		/**
-		 * Action that displays a single extension by extension key
-		 *
-		 * @param string $extensionKey The extension key
-		 * @return void
-		 */
-		public function showByExtensionKey($extensionKey) {
-			if (empty($extensionKey) || !is_string($extensionKey)) {
-				throw new Exception('No valid extension key given');
+		public function showAction(Tx_TerFe2_Domain_Model_Extension $extension = NULL, $extensionKey = NULL) {
+			if (!empty($extensionKey)) {
+				if (!is_string($extensionKey)) {
+					throw new Exception('No valid extension key given');
+				}
+				$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
 			}
-			$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
-			$this->showAction($extension);
+
+			if ($extension === NULL || !$extension instanceof Tx_TerFe2_Domain_Model_Extension) {
+				throw new Exception('Extension object is not valid');
+			}
+
+			$this->view->assign('extension', $extension);
 		}
 
 

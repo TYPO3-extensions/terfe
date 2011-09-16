@@ -13,7 +13,7 @@ plugin.tx_terfe2 {
 		randomAuthorCount = 10
 
 		# cat=TER Frontend/settings/130; type=int+; label=Crop description at this count of signs
-		descriptionLength = 200
+		descriptionLength = 350
 
 		# cat=TER Frontend/settings/130; type=string; label=Date format
 		dateFormat = F j, Y

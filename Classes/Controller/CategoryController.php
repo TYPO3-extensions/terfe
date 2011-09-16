@@ -45,12 +45,23 @@
 
 
 		/**
-		 * Index action, displays all categories
+		 * List action, displays all categories
 		 *
 		 * @return void
 		 */
-		public function indexAction() {
+		public function listAction() {
 			$this->view->assign('categories', $this->categoryRepository->findAll());
+		}
+
+
+		/**
+		 * Action that displays a single category
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Category $category The category to display
+		 * @return void
+		 */
+		public function showAction(Tx_TerFe2_Domain_Model_Category $category) {
+			$this->view->assign('category', $category);
 		}
 
 

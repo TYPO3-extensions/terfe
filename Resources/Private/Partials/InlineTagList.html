@@ -1,5 +1,5 @@
 <f:if condition="{tags}">
 	<f:for each="{tags}" as="tag" iteration="tagIteration">
-		<f:link.action controller="Extension" action="listByTag" arguments="{tag : tag}">{tag.title}</f:link.action><f:if condition="{tagIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
+		<f:link.action controller="Tag" action="show" arguments="{tag : tag}">{tag.title}</f:link.action><f:if condition="{tagIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
 	</f:for>
 </f:if>

@@ -45,11 +45,11 @@
 
 
 		/**
-		 * Index action, displays all authors
+		 * List action, displays all authors
 		 *
 		 * @return void
 		 */
-		public function indexAction() {
+		public function listAction() {
 			$this->view->assign('authors', $this->authorRepository->findAll());
 		}
 
@@ -62,31 +62,6 @@
 		 */
 		public function showAction(Tx_TerFe2_Domain_Model_Author $author) {
 			$this->view->assign('author', $author);
-		}
-
-
-		/**
-		 * Displays a form for creating a new author
-		 *
-		 * @param Tx_TerFe2_Domain_Model_Author $newAuthor New author object
-		 * @return void
-		 * @dontvalidate $newAuthor
-		 */
-		public function newAction(Tx_TerFe2_Domain_Model_Author $newAuthor = NULL) {
-			$this->view->assign('newAuthor', $newAuthor);
-		}
-
-
-		/**
-		 * Creates a new author
-		 *
-		 * @param Tx_TerFe2_Domain_Model_Author $newAuthor New author object
-		 * @return void
-		 */
-		public function createAction(Tx_TerFe2_Domain_Model_Author $newAuthor) {
-			$this->authorRepository->add($newAuthor);
-			$this->flashMessageContainer->add($this->translate('msg.author_created'));
-			$this->redirect('index');
 		}
 
 
@@ -111,19 +86,6 @@
 		public function updateAction(Tx_TerFe2_Domain_Model_Author $author) {
 			$this->authorRepository->update($author);
 			$this->flashMessageContainer->add($this->translate('msg.author_updated'));
-			$this->redirect('index');
-		}
-
-
-		/**
-		 * Deletes an existing author
-		 *
-		 * @param Tx_TerFe2_Domain_Model_Author $author The author to delete
-		 * @return void
-		 */
-		public function deleteAction(Tx_TerFe2_Domain_Model_Author $author) {
-			$this->authorRepository->remove($author);
-			$this->flashMessageContainer->add($this->translate('msg.author_deleted'));
 			$this->redirect('index');
 		}
 

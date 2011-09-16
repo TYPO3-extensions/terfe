@@ -1,3 +1,6 @@
+/**
+ * Plugin styles
+ */
 div.tx_terfe2 {
 
 }
@@ -5,7 +8,7 @@ div.tx_terfe2 {
 div.extension-row {
 	border: 1px solid #C8C8C8;
 	padding: 16px 15px 16px 15px;
-	margin-bottom: 25px;
+	margin-bottom: 30px;
 }
 
 div.extension-head {

@@ -8,16 +8,16 @@
 		$_EXTKEY,
 		'Pi1',
 		array(
-			'Extension' => 'index, list, listLatest, listByCategory, listByTag, show, showByExtensionKey, new, create, edit, update, delete, createVersion, download',
-			'Category'  => 'index, new, create, edit, update, delete',
-			'Tag'       => 'index, new, create, edit, update, delete',
-			'Author'    => 'index, new, create, edit, update, delete, show',
+			'Extension' => 'index, show, new, create, edit, update, delete, download, list, listLatest',
+			'Category'  => 'list, new, create, edit, update, delete, show',
+			'Tag'       => 'list, new, create, edit, update, delete, show',
+			'Author'    => 'list, edit, update, show',
 		),
 		array(
-			'Extension' => 'create, update, delete, createVersion',
+			'Extension' => 'create, update, delete',
 			'Category'  => 'create, update, delete',
-			'Tag'       => 'create, update, delete',
-			'Author'    => 'create, update, delete',
+			'Tag'       => 'create, delete',
+			'Author'    => 'update',
 		)
 	);
 
