@@ -137,17 +137,22 @@ div.jqplot-highlighter-tooltip {
 	box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
 }
 
-div#tx_terfe2_tab_extensions div.tab-content {
+div.tx_terfe2 div.tab-content {
 	border: none;
 	padding: 6px;
 }
 
-div#tx_terfe2_tab_extensions div.extension-images {
-	margin-bottom: 10px;
+div.tx_terfe2 div.extension-images {
+	margin-bottom: 20px;
 }
-div#tx_terfe2_tab_extensions div.extension-images img {
+
+div.tx_terfe2 div.extension-images img {
 	padding: 1px;
 	margin: 0 9px 0 0;
 	box-shadow: 0 2px 5px rgba(128, 128, 128, 0.5);
 	border: 1px solid #CCCCCC;
+}
+
+div.tx_terfe2 div.tab-content {
+	border: none;
 }

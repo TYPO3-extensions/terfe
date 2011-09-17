@@ -51,10 +51,22 @@
 					<div class="extension-description">
 						<!-- Images -->
 						<div class="extension-images">
-
+							<!-- @todo replace dummy images with real media -->
+							<img src="http://www.t3blog.com/typo3temp/pics/weisserring_9879c169ea.jpg" width="150" />
+							<img src="http://www.t3blog.com/typo3temp/pics/fissler_4f8902cf99.jpg" width="150" />
 						</div>
 
 						<!-- Comments / changelog -->
+						<div class="lastUploadComment">
+							<h4><f:translate key="last_upload_comment"/></h4>
+							<p>{extension.lastVersion.uploadComment}</p>
+						</div>
+
+						<div class="detailLink">
+							<f:link.action action="show" arguments="{extension: extension}">Detail page</f:link.action>
+						</div>
+
+						<!--
 						<div class="accordion ">
 							<h5 class="a-h open"><span><f:translate key="upload_comment"/></span></h5>
 							<div class="a-body">
@@ -73,7 +85,7 @@
 								<div class="a-content">
 									<p>TODO: Changelog from file</p>
 								</div>
-							</div>
+							</div>-->
 							<!--
 							<h5 class="a-h closed"><span><f:translate key="files"/></span></h5>
 							<div class="a-body">
@@ -82,7 +94,7 @@
 								</div>
 							</div>
 							-->
-						</div>
+						<!--</div>-->
 					</div>
 
 					<!-- Additional information -->
