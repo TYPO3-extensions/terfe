@@ -36,7 +36,7 @@
 		/**
 		 * @var string
 		 */
-		protected $extensionListFile = 'typo3temp/extensions.xml.gz';
+		protected $extensionListFile = 'typo3temp/1.extensions.xml.gz';
 
 
 		/**
