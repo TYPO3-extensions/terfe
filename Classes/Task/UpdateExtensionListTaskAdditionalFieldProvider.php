@@ -41,6 +41,7 @@
 				}
 			}
 			$this->addSelectField('providerName', $providers, 'extensionmanager');
+			$this->addCheckboxField('createExtensions', FALSE);
 		}
 
 

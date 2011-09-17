@@ -34,6 +34,11 @@
 		public $providerName = 'extensionmanager';
 
 		/**
+		 * @var boolean
+		 */
+		public $createExtensions = FALSE;
+
+		/**
 		 * @var Tx_TerFe2_Provider_ProviderManager
 		 */
 		protected $providerManager;
@@ -123,12 +128,14 @@
 				// Extension
 			if ($this->extensionRepository->countByExtKey($extensionRow['ext_key'])) {
 				$extension = $this->extensionRepository->findOneByExtKey($extensionRow['ext_key']);
-			} else {
-					// TODO: Remove this later, only existing extensions (created in FE) are allowed
+			} else if (!empty($this->createExtensions)) {
 				$extension = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Extension', $extensionRow);
 				$extension->setLastUpload(new DateTime());
 				$extension->setLastMaintained(new DateTime());
 				$modified = TRUE;
+			} else {
+					// TODO: Log or throw an error for this event
+				return;
 			}
 
 				// Versions
