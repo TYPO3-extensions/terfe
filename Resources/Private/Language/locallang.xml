@@ -65,11 +65,11 @@
 			<label index="tx_terfe2_task_forceLastRun">Force last run time</label>
 			<label index="tx_terfe2_task_forceOffset">Force offset</label>
 			<label index="tx_terfe2_task_providerName">Fetch extensions from this source</label>
-			<label index="tx_terfe2_task_zipFilePath">Relative path to zip file diretory</label>
+			<label index="tx_terfe2_task_extensionFilePath">Relative path to extension files directory</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
-			<label index="tx_terfe2_task_createziparchivestask.name">Convert t3x to zip</label>
-			<label index="tx_terfe2_task_createziparchivestask.description">Create zip archives from t3x files</label>
+			<label index="tx_terfe2_task_createextensionfilestask.name">Create extension related files</label>
+			<label index="tx_terfe2_task_createextensionfilestask.description">Create extension related files like zip file or images</label>
 			<label index="tx_terfe2_provider_extensionmanagerprovider.name">Local Extension Manager</label>
 			<label index="tx_terfe2_provider_fileprovider.name">Local Filesystem</label>
 			<label index="tx_terfe2_provider_soapprovider.name">SOAP Server</label>

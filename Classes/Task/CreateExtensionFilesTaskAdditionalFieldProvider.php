@@ -24,9 +24,9 @@
 	 ******************************************************************/
 
 	/**
-	 * Additional field provider for the create zip archives task
+	 * Additional field provider for the create extension files task
 	 */
-	class Tx_TerFe2_Task_CreateZipArchivesTaskAdditionalFieldProvider extends Tx_TerFe2_Task_AbstractAdditionalFieldProvider {
+	class Tx_TerFe2_Task_CreateExtensionFilesTaskAdditionalFieldProvider extends Tx_TerFe2_Task_AbstractAdditionalFieldProvider {
 
 		/**
 		 * Add some input fields to configure the task
@@ -34,7 +34,7 @@
 		 * @return void
 		 */
 		protected function addAdditionalFields() {
-			$this->addInputField('zipFilePath', 'fileadmin/extensionFiles/');
+			
 		}
 
 
@@ -45,7 +45,7 @@
 		 * @return boolean TRUE if validation was ok
 		 */
 		protected function checkAdditionalFields(array $submittedData) {
-			return (!empty($submittedData['zipFilePath']) && is_string($submittedData['zipFilePath']));
+			return TRUE;
 		}
 
 	}

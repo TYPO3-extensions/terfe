@@ -29,20 +29,17 @@
 	class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
 
 		/**
-		 * Get all versions without zip file
+		 * Get all versions where media was not created for
 		 *
 		 * @param integer $offset Offset to start with
 		 * @param integer $count Extension count to load
 		 * @return Tx_Extbase_Persistence_QueryResult Query result
 		 */
-		public function findWithoutZipFile($offset = 0, $count = 0) {
+		public function findForMediaCreation($offset = 0, $count = 0) {
 			$query = $this->createQuery();
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
-			$query->matching($query->logicalOr(
-				$query->equals('zipFile', ''),
-				$query->equals('zipFile', NULL)
-			));
+			$query->matching($query->equals('mediaCreated', FALSE));
 			if (!empty($offset)) {
 				$query->setOffset((int) $offset);
 			}

@@ -10,6 +10,20 @@ plugin.tx_terfe2 {
 		descriptionLength = {$plugin.tx_terfe2.settings.descriptionLength}
 		dateFormat        = {$plugin.tx_terfe2.settings.dateFormat}
 		mediaRootPath     = {$plugin.tx_terfe2.settings.mediaRootPath}
+
+		smallImage {
+			maxW          = {$plugin.tx_terfe2.settings.smallImage.maxW}
+			maxH          = {$plugin.tx_terfe2.settings.smallImage.maxH}
+			quality       = {$plugin.tx_terfe2.settings.smallImage.quality}
+			ext           = {$plugin.tx_terfe2.settings.smallImage.ext}
+		}
+
+		largeImage {
+			maxW          = {$plugin.tx_terfe2.settings.largeImage.maxW}
+			maxH          = {$plugin.tx_terfe2.settings.largeImage.maxH}
+			quality       = {$plugin.tx_terfe2.settings.largeImage.quality}
+			ext           = {$plugin.tx_terfe2.settings.largeImage.ext}
+		}
 	}
 
 	## Storage settings

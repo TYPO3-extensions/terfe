@@ -3,46 +3,74 @@
 # ======================================================================
 plugin.tx_terfe2 {
 	settings {
-		# cat=TER Frontend/settings/100; type=int+; label=Count of latest Extensions
+		# cat=TER Frontend/settings/100; type=int+; label=Latest count: Count of latest Extensions
 		latestCount = 10
 
-		# cat=TER Frontend/settings/110; type=int+; label=Count of top rated Extensions
+		# cat=TER Frontend/settings/110; type=int+; label=Top rated count: Count of top rated Extensions
 		topRatedCount = 10
 
-		# cat=TER Frontend/settings/120; type=int+; label=Count of random Authors
+		# cat=TER Frontend/settings/120; type=int+; label=Random author count: Count of random Authors
 		randomAuthorCount = 10
 
-		# cat=TER Frontend/settings/130; type=int+; label=Crop description at this count of signs
+		# cat=TER Frontend/settings/130; type=int+; label=Description length: Crop description at this count of signs
 		descriptionLength = 350
 
-		# cat=TER Frontend/settings/130; type=string; label=Date format
+		# cat=TER Frontend/settings/140; type=string; label=Date format: Date format
 		dateFormat = F j, Y
 
-		# cat=TER Frontend/settings/130; type=string; label=Media root path
-		mediaRootPath = uploads/ter_fe2/
+		# cat=TER Frontend/settings/150; type=string; label=Media root path: Media root path for zip files and images
+		mediaRootPath = fileadmin/extensionFiles/
+
+		smallImage {
+			# cat=TER Frontend/settings/200; type=int+; label=Small image maxW: Maximal width for small images
+			maxW = 200
+
+			# cat=TER Frontend/settings/210; type=int+; label=Small image maxH: Maximal height for small images
+			maxH = 160
+
+			# cat=TER Frontend/settings/220; type=int+; label=Small image quality: Quality of small images
+			quality = 70
+
+			# cat=TER Frontend/settings/230; type=string; label=Small image format: Output format of small images
+			ext = jpg
+		}
+
+		largeImage {
+			# cat=TER Frontend/settings/240; type=int+; label=Large image maxW: Maximal width for large images in fullscreen mode
+			maxW = 1024
+
+			# cat=TER Frontend/settings/250; type=int+; label=Large image maxH: Maximal height for large images in fullscreen mode
+			maxH = 768
+
+			# cat=TER Frontend/settings/260; type=int+; label=Large image quality: Quality of large images
+			quality = 70
+
+			# cat=TER Frontend/settings/270; type=string; label=Large image format: Output format of large images
+			ext = jpg
+		}
 	}
 
 	persistence {
-		# cat=TER Frontend/persistence/200; type=int+; label=General storage PID for the TER Frontend Index
+		# cat=TER Frontend/persistence/300; type=int+; label=Storage PID: General storage PID for the TER Frontend Index
 		storagePid = 0
 	}
 
 	view {
-		# cat=TER Frontend/view/300; type=string; label=Path to template root
+		# cat=TER Frontend/view/400; type=string; label=Template root path: Path to template root
 		templateRootPath = EXT:ter_fe2/Resources/Private/Templates/
 
-		# cat=TER Frontend/view/310; type=string; label=Path to template partials
+		# cat=TER Frontend/view/410; type=string; label=Partial root path: Path to template partials
 		partialRootPath = EXT:ter_fe2/Resources/Private/Partials/
 
-		# cat=TER Frontend/view/320; type=string; label=Path to template layouts
+		# cat=TER Frontend/view/420; type=string; label=Layout root path: Path to template layouts
 		layoutRootPath = EXT:ter_fe2/Resources/Private/Layouts/
 	}
 
 	libraries {
-		# cat=TER Frontend/libraries/400; type=string; label=Load jQuery
+		# cat=TER Frontend/libraries/500; type=string; label=Load jQuery: Load jQuery libraray into footer 
 		jquery.load = 1
 
-		# cat=TER Frontend/libraries/400; type=string; label=Load jqPlot
+		# cat=TER Frontend/libraries/510; type=string; label=Load jqPlot: Load jqPlot libraray into footer
 		jqplot.load = 1
 	}
 

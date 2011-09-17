@@ -51,7 +51,7 @@
 		/**
 		 * @var array
 		 */
-		protected $settings;
+		protected $setup;
 
 		/**
 		 * @var Tx_Extbase_Configuration_ConfigurationManager
@@ -79,9 +79,9 @@
 			$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 
 				// Configuration is required to be loaded in object manager for persistence mapping
-			$this->settings = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2');
+			$this->setup = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2');
 			$this->configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
-			$this->configurationManager->setConfiguration($this->settings);
+			$this->configurationManager->setConfiguration($this->setup);
 
 				// Load registry
 			$this->registry = $this->objectManager->get('Tx_TerFe2_Persistence_Registry');

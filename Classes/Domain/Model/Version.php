@@ -223,10 +223,10 @@
 		protected $extensionProvider;
 
 		/**
-		 * Path to the zip file
-		 * @var string
+		 * Media was created for this version
+		 * @var boolean
 		 */
-		protected $zipFile;
+		protected $mediaCreated;
 
 
 		/**
@@ -989,23 +989,23 @@
 
 
 		/**
-		 * Setter for zipFile
+		 * Setter for mediaCreated
 		 *
-		 * @param string $zipFile Set zip file path
+		 * @param boolean $mediaCreated Media was created
 		 * @return void
 		 */
-		public function setZipFile($zipFile) {
-			$this->zipFile = $zipFile;
+		public function setMediaCreated($mediaCreated) {
+			$this->mediaCreated = $mediaCreated;
 		}
 
 
 		/**
-		 * Getter for zipFile
+		 * Getter for mediaCreated
 		 *
-		 * @return string Zip file path
+		 * @return boolean Media was created
 		 */
-		public function getZipFile() {
-			return $this->zipFile;
+		public function getMediaCreated() {
+			return $this->mediaCreated;
 		}
 
 	}

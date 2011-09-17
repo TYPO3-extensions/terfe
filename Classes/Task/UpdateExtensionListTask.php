@@ -91,7 +91,7 @@
 		 */
 		protected function executeTask($lastRun, $offset, $count) {
 				// Check static setup
-			if (empty($this->settings['settings.'])) {
+			if (empty($this->setup['settings.'])) {
 				throw new Exception('Please include static setup "TER Frontend - Default Configuration (ter_fe2)" on root page');
 			}
 
@@ -186,7 +186,7 @@
 		 */
 		protected function storagePageConfigured() {
 			$setup = Tx_TerFe2_Utility_TypoScript::getSetup('config.tx_extbase.persistence');
-			$setup = Tx_Extbase_Utility_Arrays::arrayMergeRecursiveOverrule($setup, $this->settings['persistence.'], FALSE, FALSE);
+			$setup = Tx_Extbase_Utility_Arrays::arrayMergeRecursiveOverrule($setup, $this->setup['persistence.'], FALSE, FALSE);
 			if (!empty($setup['storagePid'])) {
 				return TRUE;
 			}

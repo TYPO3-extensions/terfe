@@ -237,13 +237,21 @@
 		 * @return void
 		 */
 		public function downloadAction(Tx_TerFe2_Domain_Model_Version $version, $format = 't3x') {
+			if ($format !== 't3x' && $format !== 'zip') {
+				throw new Exception('A download action for the format "' . $format . '" is not implemented');
+			}
+
+				// Get file path
+			$provider = $this->providerManager->getProvider($version->getExtensionProvider());
 			if ($format === 't3x') {
-				$provider = $this->providerManager->getProvider($version->getExtensionProvider());
 				$fileUrl = $provider->getFileUrl($version, $format);
 			} else if ($format === 'zip') {
-				$fileUrl = PATH_site . $version->getZipFile();
-			} else {
-				throw new Exception('A download action for the format "' . $format . '" is not implemented');
+				if (empty($this->settings['mediaRootPath'])) {
+					throw new Exception('No directory for extension media files configured');
+				}
+				$extKey = $version->getExtension()->getExtKey();
+				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->settings['mediaRootPath'] . $extKey);
+				$fileUrl = $extensionMediaPath . basename($provider->getFileName($version, $format));
 			}
 
 				// Check if file exists

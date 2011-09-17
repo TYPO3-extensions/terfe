@@ -57,11 +57,11 @@
 	);
 
 		// Register create zip archives task
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_CreateZipArchivesTask'] = array(
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_CreateExtensionFilesTask'] = array(
 		'extension'        => $_EXTKEY,
-		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_createziparchivestask.name',
-		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_createziparchivestask.description',
-		'additionalFields' => 'tx_terfe2_task_createziparchivestaskadditionalfieldprovider',
+		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_createextensionfilestask.name',
+		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_createextensionfilestask.description',
+		'additionalFields' => 'tx_terfe2_task_createextensionfilestaskadditionalfieldprovider',
 	);
 
 		// Register extension list update task
