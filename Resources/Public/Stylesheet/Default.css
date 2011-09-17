@@ -141,3 +141,13 @@ div#tx_terfe2_tab_extensions div.tab-content {
 	border: none;
 	padding: 6px;
 }
+
+div#tx_terfe2_tab_extensions div.extension-images {
+	margin-bottom: 10px;
+}
+div#tx_terfe2_tab_extensions div.extension-images img {
+	padding: 1px;
+	margin: 0 9px 0 0;
+	box-shadow: 0 2px 5px rgba(128, 128, 128, 0.5);
+	border: 1px solid #CCCCCC;
+}
