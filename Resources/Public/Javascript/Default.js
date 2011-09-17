@@ -1,6 +1,6 @@
 /**
  * Returns default chart options
- * 
+ *
  * @return object Chart options
  */
 function getDefaultChartOptions() {
@@ -68,16 +68,9 @@ function getDefaultChartOptions() {
 	 */
 	$.fn.toggleExtensionDetails = function() {
 		var $element = $(this);
-		var counter = 0;
-
-			// Find extension row container
-		while (!$element.hasClass('extension-row') && counter < 5) {
-			$element = $element.parent();
-			counter++;
-		}
 
 			// Stop here without correct element
-		$toggleElement = $element.find('div.extension-additional');
+		$toggleElement = $element.closest('div.extension-row').find('div.extension-additional');
 		if (typeof($element) === 'undefined') {
 			return;
 		}
