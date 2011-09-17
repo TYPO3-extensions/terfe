@@ -52,7 +52,7 @@
 			$query = $this->createQuery();
 			$query->setLimit((int) $latestCount);
 			$query->setOrderings(
-				array('lastUpload' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
+				array('lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
 			);
 			return $query->execute();
 		}
