@@ -268,16 +268,18 @@
 			}
 
 				// Check session if user has already downloaded this file today
-			$extensionKey = $version->getExtension()->getExtKey();
-			$downloads = $this->session->get('downloads');
-			if (empty($downloads) || !in_array($extensionKey, $downloads)) {
-					// Add +1 to download counter and save immediately
-				$version->incrementDownloadCounter();
-				$this->persistenceManager->persistAll();
+			if (!empty($this->settings['enableDownloadCounter'])) {
+				$extensionKey = $version->getExtension()->getExtKey();
+				$downloads = $this->session->get('downloads');
+				if (empty($downloads) || !in_array($extensionKey, $downloads)) {
+						// Add +1 to download counter and save immediately
+					$version->incrementDownloadCounter();
+					$this->persistenceManager->persistAll();
 
-					// Add extension key to session
-				$downloads[] = $extensionKey;
-				$this->session->add('downloads', $downloads);
+						// Add extension key to session
+					$downloads[] = $extensionKey;
+					$this->session->add('downloads', $downloads);
+				}
 			}
 
 				// Send file to browser

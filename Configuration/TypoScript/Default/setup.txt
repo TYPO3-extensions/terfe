@@ -10,6 +10,7 @@ plugin.tx_terfe2 {
 		descriptionLength = {$plugin.tx_terfe2.settings.descriptionLength}
 		dateFormat        = {$plugin.tx_terfe2.settings.dateFormat}
 		mediaRootPath     = {$plugin.tx_terfe2.settings.mediaRootPath}
+		countDownloads    = {$plugin.tx_terfe2.settings.countDownloads}
 
 		terConnection {
 			wsdl          = {$plugin.tx_terfe2.settings.terConnection.wsdl}

@@ -21,6 +21,9 @@ plugin.tx_terfe2 {
 		# cat=TER Frontend/settings/150; type=string; label=Media root path: Media root path for zip files and images
 		mediaRootPath = fileadmin/extensionFiles/
 
+		# cat=TER Frontend/settings/155; type=string; label=Count downloads: Count extension downloads via download action
+		countDownloads = 0
+
 		terConnection {
 			# cat=TER Frontend/settings/160; type=string; label=TER WSDL URI: WSDL URI to connect TER server
 			wsdl = http://typo3.org/wsdl/tx_ter_wsdl.php
