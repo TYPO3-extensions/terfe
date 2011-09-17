@@ -56,8 +56,6 @@ plugin.tx_terfe2 {
 	}
 }
 
-config.tx_extbase.persistence.classes.Tx_Extbase_Domain_Model_FrontendUser.mapping.recordType =
-
 
 # ======================================================================
 # Page object configuration of the extension "ter_fe2"
