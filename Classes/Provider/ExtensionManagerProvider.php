@@ -208,6 +208,7 @@
 					// Extension
 				$extensions[$extension['extkey']]['ext_key'] = $extension['extkey'];
 				$extensions[$extension['extkey']]['downloads'] = (int) $extension['alldownloadcounter'];
+				$extensions[$extension['extkey']]['frontend_user'] = $extension['ownerusername'];
 
 					// Versions
 				$versionString = $extension['version'];
@@ -238,7 +239,6 @@
 					'repository'            => $extension['repository'],
 					'review_state'          => $extension['reviewstate'],
 					'file_hash'             => $extension['t3xfilemd5'],
-					'frontend_user'         => $extension['ownerusername'],
 					'relations'             => array(),
 				);
 
