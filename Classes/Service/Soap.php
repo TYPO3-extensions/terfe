@@ -75,7 +75,7 @@
 
 		/**
 		 * Set connection object
-		 * 
+		 *
 		 * @param SoapClient $soapConnection SOAP connection object
 		 * @return void
 		 */
@@ -86,7 +86,7 @@
 
 		/**
 		 * Returns current connection object
-		 * 
+		 *
 		 * @return SoapClient
 		 */
 		public function getConnection() {
@@ -96,7 +96,7 @@
 
 		/**
 		 * Set authentication header
-		 * 
+		 *
 		 * @param SoapHeader $soapHeader SOAP header
 		 * @return void
 		 */
@@ -107,7 +107,7 @@
 
 		/**
 		 * Returns current authentication header
-		 * 
+		 *
 		 * @return SoapHeader
 		 */
 		public function getAuthenticationHeader() {

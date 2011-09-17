@@ -1,0 +1,23 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+
+	<!-- check if a frontend user is logged in -->
+	<f:if condition="{loggedIn}">
+		<f:then>
+
+			<f:form action="update" controller="Registerkey" name="extension" object="{extension}">
+
+				<label><f:translate key="extensionKey" />:</label>
+				<f:form.textbox property="extKey" /><br />
+
+				<f:form.submit value="{f:translate(key: 'save')}" />
+
+			</f:form>
+
+		</f:then>
+		<f:else>
+			Please log in to manage your extension or to register a new extension key.
+		</f:else>
+	</f:if>
+</f:section>

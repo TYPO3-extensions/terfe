@@ -168,6 +168,15 @@
 			<label index="download_t3x">Download [t3x]</label>
 			<label index="download_zip">Download [zip]</label>
 			<label index="downloads_by_version">Downloads by Version</label>
+
+			<label index="extensionKey">Extension key</label>
+			<label index="submit">Submit</label>
+			<label index="save">Save</label>
+			<label index="extensionTitle">Title</label>
+			<label index="extensionDescription">Description</label>
+			<label index="transferToUser">Transfer to user</label>
+			<label index="edit">Edit extension key</label>
+			<label index="delete">Delete extension key</label>
 		</languageKey>
 	</data>
 </T3locallang>

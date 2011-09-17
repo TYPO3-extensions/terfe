@@ -1,0 +1,46 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+
+	<!-- check if a frontend user is logged in -->
+	<f:if condition="{loggedIn}">
+		<f:then>
+
+			<table>
+				<thead>
+					<tr>
+						<td><f:translate key="extensionKey" /></td>
+						<td><f:translate key="transferToUser" /></td>
+						<td><f:translate key="edit" /></td>
+						<td><f:translate key="delete" /></td>
+					</tr>
+				</thead>
+				<tbody>
+					<f:for each="{extensions}" as="extension">
+						<tr>
+							<td>
+								{extension.extKey}
+							</td>
+							<td>
+								<f:form action="transfer" controller="Registerkey" name="transferKey" object="{extension}">
+									<f:form.textbox name="newUser" value="" />
+									<f:form.submit value="Transfer" />
+								</f:form>
+							</td>
+							<td>
+								<f:link.action action="edit" controller="Registerkey" arguments="{extension: extension}">icon edit</f:link.action>
+							</td>
+							<td>
+								<f:link.action action="delete" controller="Registerkey" arguments="{extension: extension}">icon delete</f:link.action>
+							</td>
+						</tr>
+					</f:for>
+				</tbody>
+			</table>
+
+		</f:then>
+		<f:else>
+			Please log in to manager your extension or to register a new extension key.
+		</f:else>
+	</f:if>
+</f:section>

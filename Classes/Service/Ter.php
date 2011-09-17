@@ -29,38 +29,45 @@
 	class Tx_TerFe2_Service_Ter {
 
 		/**
-		 * @var Tx_TerFe2_Service_Soap
-		 */
-		protected $soapService;
-
-		/**
 		 * @var array
 		 */
 		protected $userData = array();
 
+		/**
+		 * @var string
+		 */
+		protected $wsdlUrl;
+
 
 		/**
 		 * Load TER connection
-		 * 
+		 *
 		 * @return void
 		 */
 		public function __construct($wsdlUrl, $username, $password) {
-			$this->soapService = Tx_TerFe2_Service_Soap::connect($wsdlUrl, '', '', TRUE);
+			$this->wsdlUrl = $wsdlUrl;
 			$this->userData = array(
 				'username' => $username,
 				'password' => $password,
 			);
 		}
 
+		/**
+		 * @return SoapClient
+		 */
+		protected function getSoapService() {
+			return Tx_TerFe2_Service_Soap::connect($this->wsdlUrl, '', '', TRUE);
+		}
+
 
 		/**
 		 * Check if an extension key is valid
-		 * 
+		 *
 		 * @param string $extensionKey Extension key
 		 * @return boolean TRUE if extension key is valid
 		 */
 		public function checkExtensionKey($extensionKey) {
-			$result = $this->soapService->checkExtensionKey($this->userData, $extensionKey);
+			$result = $this->getSoapService()->checkExtensionKey($this->userData, $extensionKey);
 				// 10501 = TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST
 			return (!empty($result['resultCode']) && $result['resultCode'] === '10501');
 		}
@@ -68,12 +75,13 @@
 
 		/**
 		 * Register extension
-		 * 
+		 *
 		 * @param array $extensionData Extension information
 		 * @return boolean TRUE if success
 		 */
 		public function registerExtension(array $extensionData) {
-			$result = $this->soapService->checkExtensionKey($this->userData, $extensionData);
+			$result = $this->getSoapService()->registerExtensionKey($this->userData, $extensionData);
+
 				// TODO: Implement a result check
 			return TRUE;
 		}
@@ -81,14 +89,14 @@
 
 		/**
 		 * Assign extension key to an other user
-		 * 
+		 *
 		 * @param string $extensionKey Extension key
 		 * @param string $username New username
 		 * @param string $error Contains the error
 		 * @return boolean TRUE if success
 		 */
 		public function assignExtensionKey($extensionKey, $username, &$error = '') {
-			$result = $this->soapService->modifyExtensionKey($this->userData, array(
+			$result = $this->getSoapService()->modifyExtensionKey($this->userData, array(
 				'extensionKey'  => $extensionKey,
 				'ownerUsername' => $username,
 			));
@@ -97,7 +105,7 @@
 				return FALSE;
 			}
 				// 102 = TX_TER_ERROR_GENERAL_USERNOTFOUND
-			if ($result['resultCode'] === '102' {
+			if ($result['resultCode'] === '102') {
 				$error = 'user_not_found';
 				return FALSE;
 			}
@@ -108,12 +116,12 @@
 
 		/**
 		 * Remove an extension kex from system
-		 * 
+		 *
 		 * @param string $extensionKey Extension key
 		 * @return boolean TRUE if success
 		 */
 		public function deleteExtensionKey($extensionKey) {
-			$result = $this->soapService->deleteExtensionKey($this->userData, $extensionKey);
+			$result = $this->getSoapService()->deleteExtensionKey($this->userData, $extensionKey);
 				// 10000 = TX_TER_RESULT_GENERAL_OK
 			return (!empty($result['resultCode']) && $result['resultCode'] === '10000');
 		}

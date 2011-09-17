@@ -11,84 +11,27 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.type>
+					<!-- add switchable controller action to decide between list and register key -->
+					<switchableControllerActions>
 						<TCEforms>
-							<exclude>1</exclude>
-							<label>LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type</label>
+							<label>Controller selection</label>
 							<config>
-								<!-- <onChange>reload</onChange> -->
 								<type>select</type>
-								<size>1</size>
-								<minitems>1</minitems>
-								<maxitems>1</maxitems>
 								<items type="array">
 									<numIndex index="0" type="array">
-										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.list</numIndex>
-										<numIndex index="1">list</numIndex>
+										<numIndex index="0">TER Frontend</numIndex>
+										<numIndex index="1">Extension->index;Extension->list;Extension->listLatest;Extension->show;Extension->new;Extension->create;Extension->edit;Extension->update;Extension->delete;Extension->download;</numIndex>
 									</numIndex>
 									<numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.detail</numIndex>
-										<numIndex index="1">detail</numIndex>
-									</numIndex>
-									<numIndex index="2" type="array">
-										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.search</numIndex>
-										<numIndex index="1">search</numIndex>
-									</numIndex>
-									<numIndex index="3" type="array">
-										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.manageCategories</numIndex>
-										<numIndex index="1">manageCategories</numIndex>
-									</numIndex>
-									<numIndex index="4" type="array">
-										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.manageExperiences</numIndex>
-										<numIndex index="1">manageExperiences</numIndex>
-									</numIndex>
-									<numIndex index="5" type="array">
-										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.manageExtensions</numIndex>
-										<numIndex index="1">manageExtensions</numIndex>
-									</numIndex>
-									<numIndex index="6" type="array">
-										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.type.manageTags</numIndex>
-										<numIndex index="1">manageTags</numIndex>
+										<numIndex index="0">Register extension key</numIndex>
+										<numIndex index="1">Registerkey->index;Registerkey->create;Registerkey->edit;Registerkey->manage;Registerkey->update</numIndex>
 									</numIndex>
 								</items>
 							</config>
 						</TCEforms>
-					</settings.type>
+					</switchableControllerActions>
 				</el>
 			</ROOT>
 		</sDEF>
-		<sLIST>
-			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_list</sheetTitle>
-				</TCEforms>
-				<type>array</type>
-				<el>
-
-				</el>
-			</ROOT>
-		</sLIST>
-		<sDETAIL>
-			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_detail</sheetTitle>
-				</TCEforms>
-				<type>array</type>
-				<el>
-
-				</el>
-			</ROOT>
-		</sDETAIL>
-		<sSEARCH>
-			<ROOT>
-				<TCEforms>
-					<sheetTitle>LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_search</sheetTitle>
-				</TCEforms>
-				<type>array</type>
-				<el>
-
-				</el>
-			</ROOT>
-		</sSEARCH>
 	</sheets>
 </T3DataStructure>
