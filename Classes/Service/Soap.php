@@ -45,9 +45,10 @@
 		 * @param string $wsdlUrl URL of the wsdl
 		 * @param string $username Login with this username
 		 * @param string $password Login with this password
-		 * @return void
+		 * @param boolean $returnExceptions Return exception in case of errors
+		 * @return SoapClient
 		 */
-		public function connect($wsdlUrl, $username = '', $password = '') {
+		public function connect($wsdlUrl, $username = '', $password = '', $returnExceptions = FALSE) {
 			if (empty($wsdlUrl)) {
 				throw new Exception('No valid wsdl URL given');
 			}
@@ -59,7 +60,7 @@
 				// Create connection
 			$this->soapConnection = new SoapClient($wsdlUrl, array(
 				'trace'      => 1,
-				'exceptions' => 0,
+				'exceptions' => (int) $returnExceptions,
 			));
 
 				// Get authentication header
@@ -67,6 +68,50 @@
 				$headerData = array('username' => $username, 'password' => $password);
 				$this->authenticationHeader = new SoapHeader('', 'HeaderLogin', (object) $headerData, TRUE);
 			}
+
+			return $this->soapConnection;
+		}
+
+
+		/**
+		 * Set connection object
+		 * 
+		 * @param SoapClient $soapConnection SOAP connection object
+		 * @return void
+		 */
+		public function setConnection(SoapClient $soapConnection) {
+			$this->soapConnection = $soapConnection;
+		}
+
+
+		/**
+		 * Returns current connection object
+		 * 
+		 * @return SoapClient
+		 */
+		public function getConnection() {
+			return $this->soapConnection;
+		}
+
+
+		/**
+		 * Set authentication header
+		 * 
+		 * @param SoapHeader $soapHeader SOAP header
+		 * @return void
+		 */
+		public function setAuthenticationHeader(SoapHeader $authenticationHeader) {
+			$this->authenticationHeader;
+		}
+
+
+		/**
+		 * Returns current authentication header
+		 * 
+		 * @return SoapHeader
+		 */
+		public function getAuthenticationHeader() {
+			return $this->authenticationHeader;
 		}
 
 

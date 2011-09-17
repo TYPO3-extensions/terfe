@@ -14,7 +14,7 @@ CREATE TABLE tx_terfe2_domain_model_extension (
 	tags int(11) unsigned DEFAULT '0' NOT NULL,
 	versions int(11) unsigned DEFAULT '0' NOT NULL,
 	last_version int(11) unsigned DEFAULT '0' NOT NULL,
-	frontend_user int(11) unsigned DEFAULT '0' NOT NULL,
+	frontend_user tinytext,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

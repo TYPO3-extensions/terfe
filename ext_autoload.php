@@ -42,6 +42,7 @@
 		'tx_terfe2_service_image'                                          => $extensionClassesPath . 'Service/Image.php',
 		'tx_terfe2_service_mirror'                                         => $extensionClassesPath . 'Service/Mirror.php',
 		'tx_terfe2_service_soap'                                           => $extensionClassesPath . 'Service/Soap.php',
+		'tx_terfe2_service_ter'                                            => $extensionClassesPath . 'Service/Ter.php',
 		'tx_terfe2_task_abstracttask'                                      => $extensionClassesPath . 'Task/AbstractTask.php',
 		'tx_terfe2_task_abstractadditionalfieldprovider'                   => $extensionClassesPath . 'Task/AbstractAdditionalFieldProvider.php',
 		'tx_terfe2_task_createextensionfilestask'                          => $extensionClassesPath . 'Task/CreateExtensionFilesTask.php',

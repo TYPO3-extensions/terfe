@@ -21,6 +21,17 @@ plugin.tx_terfe2 {
 		# cat=TER Frontend/settings/150; type=string; label=Media root path: Media root path for zip files and images
 		mediaRootPath = fileadmin/extensionFiles/
 
+		terConnection {
+			# cat=TER Frontend/settings/160; type=string; label=TER WSDL URI: WSDL URI to connect TER server
+			wsdl = http://typo3.org/wsdl/tx_ter_wsdl.php
+
+			# cat=TER Frontend/settings/170; type=string; label=TER Username: Username to connect TER server
+			username =
+
+			# cat=TER Frontend/settings/180; type=string; label=TER Password: Password to connect TER server
+			password =
+		}
+
 		smallImage {
 			# cat=TER Frontend/settings/200; type=int+; label=Small image maxW: Maximal width for small images
 			maxW = 200

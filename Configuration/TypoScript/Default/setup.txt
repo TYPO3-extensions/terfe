@@ -11,6 +11,12 @@ plugin.tx_terfe2 {
 		dateFormat        = {$plugin.tx_terfe2.settings.dateFormat}
 		mediaRootPath     = {$plugin.tx_terfe2.settings.mediaRootPath}
 
+		terConnection {
+			wsdl          = {$plugin.tx_terfe2.settings.terConnection.wsdl}
+			username      = {$plugin.tx_terfe2.settings.terConnection.username}
+			password      = {$plugin.tx_terfe2.settings.terConnection.password}
+		}
+
 		smallImage {
 			maxW          = {$plugin.tx_terfe2.settings.smallImage.maxW}
 			maxH          = {$plugin.tx_terfe2.settings.smallImage.maxH}

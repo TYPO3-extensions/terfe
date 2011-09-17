@@ -238,6 +238,7 @@
 					'repository'            => $extension['repository'],
 					'review_state'          => $extension['reviewstate'],
 					'file_hash'             => $extension['t3xfilemd5'],
+					'frontend_user'         => $extension['ownerusername'],
 					'relations'             => array(),
 				);
 

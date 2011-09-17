@@ -80,7 +80,7 @@
 
 		/**
 		 * Frontend user
-		 * @var Tx_Extbase_Domain_Model_FrontendUser
+		 * @var string
 		 */
 		protected $frontendUser;
 
@@ -336,10 +336,10 @@
 		/**
 		 * Setter for frontendUser
 		 *
-		 * @param Tx_Extbase_Domain_Model_FrontendUser $frontendUser Frontend user
+		 * @param string $frontendUser Frontend user
 		 * @return void
 		 */
-		public function setFrontendUser(Tx_Extbase_Domain_Model_FrontendUser $frontendUser) {
+		public function setFrontendUser($frontendUser) {
 			$this->frontendUser = $frontendUser;
 		}
 
@@ -347,7 +347,7 @@
 		/**
 		 * Getter for frontendUser
 		 *
-		 * @return Tx_Extbase_Domain_Model_FrontendUser Frontend user
+		 * @return string Frontend user
 		 */
 		public function getFrontendUser() {
 			return $this->frontendUser;

@@ -215,6 +215,7 @@
 						'repository'            => NULL,
 						'review_state'          => NULL,
 						'file_hash'             => (string) $version->t3xfilemd5,
+						'frontend_user'         => (string) $version->ownerusername,
 						'relations'             => array(),
 					);
 

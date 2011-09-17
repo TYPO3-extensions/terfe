@@ -31,7 +31,7 @@
 		/**
 		 * @var string
 		 */
-		protected $dateTimeFormat = 'H:i d-m-Y';
+		protected static $dateTimeFormat = 'H:i d-m-Y';
 
 
 		/**
@@ -41,7 +41,7 @@
 		 * @return void
 		 */
 		public static function setDateTimeFormat($format) {
-			$this->dateTimeFormat = $format;
+			self::$dateTimeFormat = $format;
 		}
 
 
@@ -57,7 +57,7 @@
 
 				// Try TYPO3 standard date / time input format
 			if ($timestamp === FALSE) {
-				$timestamp = DateTime::createFromFormat($this->dateTimeFormat, $string);
+				$timestamp = DateTime::createFromFormat(self::$dateTimeFormat, $string);
 			}
 
 				// Try configured date / time input format
