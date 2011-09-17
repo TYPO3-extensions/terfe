@@ -126,7 +126,7 @@
 			$this->tagRepository->update($tag);
 			// TODO: Update extension too
 			$this->flashMessageContainer->add($this->translate('msg.tag_updated'));
-			$this->redirect('index');
+			$this->redirect('list');
 		}
 
 
@@ -140,7 +140,7 @@
 			$this->tagRepository->remove($tag);
 			// TODO: Remove from extension too
 			$this->flashMessageContainer->add($this->translate('msg.tag_deleted'));
-			$this->redirect('index');
+			$this->redirect('list');
 		}
 
 	}

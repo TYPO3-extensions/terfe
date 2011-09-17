@@ -85,8 +85,7 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Author $author) {
 			$this->authorRepository->update($author);
-			$this->flashMessageContainer->add($this->translate('msg.author_updated'));
-			$this->redirect('index');
+			$this->redirectWithMessage('list', 'author_updated');
 		}
 
 	}

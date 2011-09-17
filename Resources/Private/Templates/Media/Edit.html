@@ -1,0 +1,14 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+	<h2><f:translate key="edit_tag"/></h2>
+
+	<f:form method="post" action="update" name="media" object="{media}">
+		<label for="title"><f:translate key="tx_terfe2_domain_model_media.title" /></label><br />
+		<f:form.textbox property="title" /><br /><br />
+
+		<f:form.submit value="{f:translate(key:'edit')}" />
+	</f:form>
+
+	<f:link.action controller="Media" action="list"><f:translate key="back_to_list"/></f:link.action>
+</f:section>
