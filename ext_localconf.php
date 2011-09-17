@@ -40,7 +40,7 @@
 		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_fileprovider.name',
 		'configuration' => array(
 			'extensionRootPath' => 'fileadmin/ter/',
-			'extensionListFile' => 'fileadmin/ter/extensions.xml.gz',
+			'extensionListFile' => 'typo3temp/extensions.xml.gz',
 		),
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['soap'] = array(
