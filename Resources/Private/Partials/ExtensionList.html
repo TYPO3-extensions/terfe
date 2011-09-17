@@ -66,10 +66,12 @@
 						</div>
 
 						<!-- Comments / changelog -->
+						<f:if condition="{extension.lastVersion.uploadComment}">
 						<div class="lastUploadComment">
 							<h4><f:translate key="last_upload_comment"/></h4>
 							<p>{extension.lastVersion.uploadComment}</p>
 						</div>
+						</f:if>
 
 						<div class="detailLink">
 							<f:link.action action="show" arguments="{extension: extension}"><f:translate key="link.extension_details" /></f:link.action>
