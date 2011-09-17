@@ -56,19 +56,29 @@
 					<!-- Images and other media -->
 					<div class="extension-images">
 						<f:if condition="{extension.lastVersion.media}">
+
+							<!-- display images -->
 							<f:for each="{extension.lastVersion.media}" as="media">
 								<f:if condition="{media.type} == 0">
-									<f:then>
-										<!-- add shadowbox effect to images -->
-										<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
-											<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
-										</a>
-									</f:then>
-									<f:else>
-										other medias are not yet implemented !!
-									</f:else>
+									<!-- add shadowbox effect to images -->
+									<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
+										<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
+									</a>
 								</f:if>
 							</f:for>
+
+							<!-- display links -->
+							<f:for each="{extension.lastVersion.media}" as="media">
+								<f:if condition="{media.type} == 2">
+									<p class="extension-link-external">
+										<f:link.external target="_blank" uri="{media.source}">{media.title}</f:link.external>
+										<f:if condition="{media.description}">
+											- {media.description}
+										</f:if>
+									</p>
+								</f:if>
+							</f:for>
+
 						</f:if>
 					</div>
 
@@ -107,9 +117,11 @@
 			<li>
 				<a href="#tx_terfe2_tab_versionhistory"><f:translate key="version_history"/></a>
 			</li>
+			<!--
 			<li>
 				<a href="#tx_terfe2_tab_changelog"><f:translate key="changelog"/></a>
 			</li>
+			-->
 		</ul>
 		<div class="tab-panes">
 			<div class="csc-default show-tab" id="tx_terfe2_tab_uploadcomments">
@@ -127,16 +139,18 @@
 					</f:for>
 				</div>
 			</div>
+			<!--
 			<div class="csc-default show-tab" id="tx_terfe2_tab_changelog">
 				<div class="tab-content ">
 					<p>TODO: Changelog from file</p>
 				</div>
 			</div>
+			-->
 		</div>
 	</div>
 
 		</div>
 
-		<f:link.action controller="Extension" action="edit" arguments="{extension : extension}"><f:translate key="edit"/></f:link.action>
+		<!--<f:link.action controller="Extension" action="edit" arguments="{extension : extension}"><f:translate key="edit"/></f:link.action>-->
 	</div>
 </f:section>

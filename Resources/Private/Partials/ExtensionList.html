@@ -54,16 +54,12 @@
 						<div class="extension-images">
 							<f:if condition="{extension.lastVersion.media}">
 								<f:for each="{extension.lastVersion.media}" as="media">
+									<!-- display only images in the list view -->
 									<f:if condition="{media.type} == 0">
-										<f:then>
-											<!-- add shadowbox effect to images -->
-											<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
-												<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
-											</a>
-										</f:then>
-										<f:else>
-											other medias are not yet implemented !!
-										</f:else>
+										<!-- add shadowbox effect to images -->
+										<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
+											<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
+										</a>
 									</f:if>
 								</f:for>
 							</f:if>
