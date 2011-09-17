@@ -79,18 +79,30 @@
 					'maxitems' => 1,
 					'eval'     => 'required',
 					'items'    => array (
-						array('-- Label --', 0),
+						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_media.type.0', 0),
+						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_media.type.1', 1),
+						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_media.type.2', 2),
 					),
 				),
 			),
 			'language' => array(
 				'exclude' => 1,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_media.language',
-				'config'  => array(
-					'type' => 'input',
-					'size' => 30,
-					'eval' => 'trim,required',
+				'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('',0),
 				),
+				'itemsProcFunc' => 'tx_staticinfotables_div->selectItemsTCA',
+				'itemsProcFunc_config' => array(
+					'table' => 'static_countries',
+					'indexField' => 'cn_iso_3',
+				),
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+				'default' => ''
+			)
 			),
 			'source' => array(
 				'exclude' => 1,

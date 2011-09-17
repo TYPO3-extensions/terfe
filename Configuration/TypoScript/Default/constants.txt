@@ -19,7 +19,7 @@ plugin.tx_terfe2 {
 		dateFormat = F j, Y
 
 		# cat=TER Frontend/settings/130; type=string; label=Media root path
-		mediaRootPath = uploads/
+		mediaRootPath = uploads/ter_fe2/
 	}
 
 	persistence {

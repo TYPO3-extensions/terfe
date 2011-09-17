@@ -76,6 +76,9 @@
 			<label index="tx_terfe2_domain_model_media">Media</label>
 			<label index="tx_terfe2_domain_model_media.title">Title</label>
 			<label index="tx_terfe2_domain_model_media.type">Type</label>
+			<label index="tx_terfe2_domain_model_media.type.0">Picture</label>
+			<label index="tx_terfe2_domain_model_media.type.1">Video</label>
+			<label index="tx_terfe2_domain_model_media.type.2">Link</label>
 			<label index="tx_terfe2_domain_model_media.language">Language</label>
 			<label index="tx_terfe2_domain_model_media.source">Source</label>
 			<label index="tx_terfe2_domain_model_media.description">Description</label>

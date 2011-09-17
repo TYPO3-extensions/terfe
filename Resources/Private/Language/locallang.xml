@@ -65,7 +65,6 @@
 			<label index="tx_terfe2_task_forceLastRun">Force last run time</label>
 			<label index="tx_terfe2_task_forceOffset">Force offset</label>
 			<label index="tx_terfe2_task_providerName">Fetch extensions from this source</label>
-			<label index="tx_terfe2_task_createExtensions">Create new extensions if not exist</label>
 			<label index="tx_terfe2_task_zipFilePath">Relative path to zip file diretory</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
@@ -153,6 +152,7 @@
 			<label index="version">Version</label>
 			<label index="votes">Votes</label>
 			<label index="upload_comment">Upload comment</label>
+			<label index="last_upload_comment">Last upload comment</label>
 			<label index="version_history">Version history</label>
 			<label index="tags">Tags</label>
 			<label index="changelog">Changelog</label>

@@ -52,11 +52,24 @@
 
 				<!-- Additional description -->
 				<div class="extension-description">
-					<!-- Images -->
+
+					<!-- Images and other media -->
 					<div class="extension-images">
-						<!-- @todo replace dummy images with real media -->
-						<img src="http://www.t3blog.com/typo3temp/pics/weisserring_9879c169ea.jpg" width="150" />
-						<img src="http://www.t3blog.com/typo3temp/pics/fissler_4f8902cf99.jpg" width="150" />
+						<f:if condition="{extension.lastVersion.media}">
+							<f:for each="{extension.lastVersion.media}" as="media">
+								<f:if condition="{media.type} == 0">
+									<f:then>
+										<!-- add shadowbox effect to images -->
+										<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
+											<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
+										</a>
+									</f:then>
+									<f:else>
+										other medias are not yet implemented !!
+									</f:else>
+								</f:if>
+							</f:for>
+						</f:if>
 					</div>
 
 				</div>
@@ -108,7 +121,7 @@
 				<div class="tab-content ">
 					<f:for each="{extension.versions}" as="version">
 						<p>
-							Version: {version.versionString} - <terfe2:dateTime format="{settings.dateFormat}">{version.uploadDate}</terfe2:dateTime><br />
+							<f:translate key="version" /> {version.versionString} - <terfe2:dateTime format="{settings.dateFormat}">{version.uploadDate}</terfe2:dateTime><br />
 							{version.uploadComment}
 						</p>
 					</f:for>
