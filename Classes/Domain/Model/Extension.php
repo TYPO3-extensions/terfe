@@ -231,6 +231,26 @@
 			$this->categories->detach($category);
 		}
 
+		/**
+		 * Removes all categories
+		 *
+		 * @return void
+		 */
+		public function removeAllCategories() {
+
+			/**
+			 * @see The removeAll function is not removing all objects so I added this feature like
+			 * seen on: http://www.php.net/manual/en/splobjectstorage.detach.php
+			 */
+
+			$this->categories->rewind();
+			while($this->categories->valid()) {
+				$tempObject = $this->categories->current();
+				$this->categories->next();
+				$this->categories->detach($tempObject);
+			}
+		}
+
 
 		/**
 		 * Getter for tags
@@ -401,7 +421,7 @@
 
 		/**
 		 * Get sum of all version downloads
-		 * 
+		 *
 		 * @return integer All downloads
 		 */
 		public function getAllDownloads() {
