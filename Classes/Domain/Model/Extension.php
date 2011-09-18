@@ -290,6 +290,21 @@
 
 
 		/**
+		 * Get versions reverse sorted by upload date
+		 *
+		 * @return array Versions
+		 */
+		public function getReverseVersionsByDate() {
+			$versions = array();
+			foreach ($this->versions as $version) {
+				$versions[$version->getUploadDate()] = $version;
+			}
+			krsort($versions);
+			return $versions;
+		}
+
+
+		/**
 		 * Adds a Version
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $version The version to be added
@@ -381,6 +396,23 @@
 			}
 
 			return $votes;
+		}
+
+
+		/**
+		 * Get sum of all version downloads
+		 * 
+		 * @return integer All downloads
+		 */
+		public function getAllDownloads() {
+			$downloads = 0;
+			$versions = $this->getVersions();
+
+			foreach ($versions as $version) {
+				$downloads += (int) $version->getDownloadCounter();
+			}
+
+			return $downloads;
 		}
 
 	}
