@@ -12,7 +12,7 @@
 				<thead>
 					<tr>
 						<th colspan="3"><f:translate key="extensionKey" /></th>
-						<th width="33%"><f:translate key="transferToUser" /></th>
+						<th class="transfer-colum"><f:translate key="transferToUser" /></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -25,18 +25,18 @@
 							<td style="border-right: 0;">
 								{extension.extKey}
 							</td>
-							<td style="border-right: 0; border-left: 0; width:40px;">
+							<td class="no-borders">
 								<f:link.action class="url bu bu-mini" action="edit" controller="Registerkey" arguments="{extension: extension}"><f:translate key="modifiy-button" /></f:link.action>
 							</td>
-							<td style="border-left: 0; width:40px;">
+							<td class="no-border-left">
 								<f:link.action class="url bu bu-mini delete-gray" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
 							</td>
 							<td>
-								<div class="b-form-inputs" style="margin: 0;">
+								<div class="b-form-inputs">
 									<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST">
 										<f:form.hidden name="extension" value="{extension}" />
-										<f:form.textbox style="float:left;width:130px;" name="newUser" value="" />
-										<f:form.submit class="bu bu-mini" style="margin-left:5px; height:22px;" value="Transfer" />
+										<f:form.textbox class="manage-keys-input" name="newUser" value="" />
+										<f:form.submit class="bu bu-mini manage-keys-submit" value="Transfer" />
 									</f:form>
 								</div>
 							</td>

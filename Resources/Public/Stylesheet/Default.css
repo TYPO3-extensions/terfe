@@ -157,8 +157,39 @@ div.tx_terfe2 div.tab-content {
 	border: none;
 }
 
+/**
+ * Registerkeys
+ */
+
 table.manage-keys .tr-even td {
 	background: none repeat scroll 0 0 #F3F3F3;
+}
+
+table.manage-keys td.no-borders {
+	border-right: 0;
+	border-left: 0;
+	width:40px;
+}
+table.manage-keys td.no-border-left {
+	border-left: 0;
+	width:40px;
+}
+
+table.manage-keys td div.b-form-inputs {
+	margin: 0;
+}
+
+table.manage-keys td div.b-form-inputs input.manage-keys-input {
+	float: left;
+	width: 130px;
+}
+table.manage-keys td div.b-form-inputs input.manage-keys-submit {
+	margin-left: 5px;
+	height: 22px;
+}
+
+table.manage-keys thead tr th.transfer-colum {
+	width: 33%;
 }
 
 #page table.manage-keys a.delete-gray {
