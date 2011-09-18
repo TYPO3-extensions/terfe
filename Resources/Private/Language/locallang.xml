@@ -168,9 +168,10 @@
 			<label index="create">Create</label>
 			<label index="edit">Edit</label>
 			<label index="delete">Delete</label>
-			<label index="download">Download</label>
-			<label index="download_t3x">Download [t3x]</label>
-			<label index="download_zip">Download [zip]</label>
+			<label index="expand_details">Expand details</label>
+			<label index="downloads">Downloads</label>
+			<label index="download_t3x">Download T3X</label>
+			<label index="download_zip">Download ZIP</label>
 			<label index="downloads_by_version">Downloads by Version</label>
 			<label index="last_uploaded">Last uploaded</label>
 			<label index="expand_details">Collapse Version history</label>
