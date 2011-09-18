@@ -43,8 +43,13 @@
 				return (bool) file_exists($filename);
 			}
 
-			$result = @fopen($filename, 'r');
-			return ($result !== FALSE);
+			$handle = @fopen($filename, 'r');
+			if ($handle !== FALSE) {
+				@fclose($handle);
+				return TRUE;
+			}
+
+			return FALSE;
 		}
 
 
