@@ -315,7 +315,11 @@
 
 			$rollbackFiles = array();
 
+			if (empty($newDirectoryName)) {
+				$newDirectoryName = end(explode('/', rtrim($fromDirectory, '/')));
+			}
 			$newDirectory = rtrim($toParentDirectory, '/') . '/' . rtrim($newDirectoryName, '/') . '/';
+			$newDirectoryExists = self:fileExists($newDirectory);
 			$newDirectory = self::getAbsoluteDirectory($newDirectory);
 
 			$files = self::getFiles($fromDirectory, '', 0, TRUE);
@@ -324,6 +328,9 @@
 				if (!self::copyFile($filename, $newDirectory . $newFilename, $overwrite)) {
 					foreach ($rollbackFiles as $rollbackFile) {
 						unlink($rollbackFile);
+					}
+					if (!$newDirectoryExists) {
+						self::removeDirectory($newDirectory);
 					}
 					return FALSE;
 				}
