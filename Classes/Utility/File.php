@@ -65,6 +65,10 @@
 				return PATH_site;
 			}
 
+			if (self::isAbsolutePath($path)) {
+				$path = self::getRelativeDirectory($path);
+			}
+
 			if ($create && !self::fileExists(PATH_site . $path)) {
 				t3lib_div::mkdir_deep(PATH_site, $path);
 			}
@@ -319,6 +323,7 @@
 				$newDirectoryName = end(explode('/', rtrim($fromDirectory, '/')));
 			}
 			$newDirectory = rtrim($toParentDirectory, '/') . '/' . rtrim($newDirectoryName, '/') . '/';
+			$newDirectory = self::getAbsoluteDirectory($newDirectory, FALSE);
 			$newDirectoryExists = self:fileExists($newDirectory);
 			$newDirectory = self::getAbsoluteDirectory($newDirectory);
 
