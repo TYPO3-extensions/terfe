@@ -24,7 +24,7 @@
 									</numIndex>
 									<numIndex index="1" type="array">
 										<numIndex index="0">Register extension key</numIndex>
-										<numIndex index="1">Registerkey->index;Registerkey->create;Registerkey->edit;Registerkey->manage;Registerkey->update</numIndex>
+										<numIndex index="1">Registerkey->index;Registerkey->create;Registerkey->edit;Registerkey->manage;Registerkey->update;Registerkey->delete;Registerkey->transfer</numIndex>
 									</numIndex>
 								</items>
 							</config>

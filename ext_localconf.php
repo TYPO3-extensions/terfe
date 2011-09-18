@@ -13,7 +13,7 @@
 			'Tag'         => 'list, new, create, edit, update, delete, show',
 			'Author'      => 'list, edit, update, show',
 			'Media'       => 'list, new, create, edit, update, delete, show',
-			'Registerkey' => 'index, create, manage, update, edit',
+			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
 		),
 		array(
 			'Extension' => 'create, update, delete',
@@ -21,7 +21,7 @@
 			'Tag'       => 'create, delete',
 			'Author'    => 'update',
 			'Media'     => 'create, delete',
-			'Registerkey' => 'index, create, manage, update, edit',
+			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
 		)
 	);
 

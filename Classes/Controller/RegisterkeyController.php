@@ -181,6 +181,19 @@
 		 * @return void
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+
+				// get ter connection
+			$terConnection = $this->getTerConnection();
+
+				// deleted in ter, then delete the key in the ter_fe2 extension table
+			if ($terConnection->deleteExtensionKey($extension->getExtKey())) {
+				$this->extensionRepository->remove($extension);
+				$this->flashMessageContainer->add('Extension ' . $extension->getExtKey() . ' deleted!!');
+			} else {
+				$this->flashMessageContainer->add('Extension ' . $extension->getExtKey() . ' could not be deleted!!');
+			}
+
+
 			$this->redirect('manage', 'Registerkey');
 		}
 
