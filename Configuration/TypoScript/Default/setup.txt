@@ -5,6 +5,7 @@ plugin.tx_terfe2 {
 	## General settings
 	settings {
 		latestCount       = {$plugin.tx_terfe2.settings.latestCount}
+		listCount         = {$plugin.tx_terfe2.settings.listCount}
 		topRatedCount     = {$plugin.tx_terfe2.settings.topRatedCount}
 		randomAuthorCount = {$plugin.tx_terfe2.settings.randomAuthorCount}
 		descriptionLength = {$plugin.tx_terfe2.settings.descriptionLength}

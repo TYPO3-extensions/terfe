@@ -284,17 +284,18 @@
 
 				// Remove existing when successfully fetched new file
 			if ($toFileExists) {
-				unlink($toFileName);
+				self::removeFile($toFileName);
 			}
 
 				// Copy file to new name
 			$result = t3lib_div::writeFile($toFileName, $fromFile);
+			
 			return ($result !== FALSE);
 		}
 
 
 		/**
-		 * Move a file or folder
+		 * Move a file
 		 *
 		 * @param string $fromFileName Existing file
 		 * @param string $toFileName File name of the new file
@@ -304,9 +305,35 @@
 		public static function moveFile($fromFileName, $toFileName, $overwrite = FALSE) {
 			$result = self::copyFile($fromFileName, $toFileName, $overwrite);
 			if ($result && self::isAbsolutePath($fromFileName)) {
-				unlink($fromFileName);
+				self::removeFile($fromFileName);
 			}
 			return $result;
+		}
+
+
+		/**
+		 * Remove a file
+		 * 
+		 * @param string $filename Path to the file
+		 * @return boolean TRUE if success
+		 */
+		public static function removeFile($filename) {
+			if (self::fileExists($filename)) {
+				return unlink($filename);
+			}
+			return TRUE;
+		}
+
+
+		/**
+		 * Remove a directory and all contents
+		 * 
+		 * @param string $directory Directory path
+		 * @param boolean $removeNonEmpty Remove non empty directories
+		 * @return TRUE if success
+		 */
+		public static function removeDirectory($directory, $removeNonEmpty = TRUE) {
+			return t3lib_div::rmdir($directory, (bool) $removeNonEmpty);
 		}
 
 

@@ -86,23 +86,27 @@
 		 * @return void
 		 */
 		public function indexAction() {
+				// Get all extensions
+			$extensions = $this->extensionRepository->findAll();
+			$this->view->assign('extensions', $extensions);
+
 				// Get latest extensions
-			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 10);
+			/*$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 10);
 			$latestExtensions = $this->extensionRepository->findNewAndUpdated($latestCount);
-			$this->view->assign('latestExtensions', $latestExtensions);
+			$this->view->assign('latestExtensions', $latestExtensions);*/
 
 				// Get top rated extensions
-			$topRatedCount = (!empty($this->settings['topRatedCount']) ? $this->settings['topRatedCount'] : 10);
+			/*$topRatedCount = (!empty($this->settings['topRatedCount']) ? $this->settings['topRatedCount'] : 10);
 			$topRatedExtensions = $this->extensionRepository->findTopRated($topRatedCount);
-			$this->view->assign('topRatedExtensions', $topRatedExtensions);
+			$this->view->assign('topRatedExtensions', $topRatedExtensions);*/
 
 				// Get all categories
 			$categories = $this->categoryRepository->findAll();
 			$this->view->assign('categories', $categories);
 
 				// Get all tags
-			$tags = $this->tagRepository->findAll();
-			$this->view->assign('tags', $tags);
+			/*$tags = $this->tagRepository->findAll();
+			$this->view->assign('tags', $tags);*/
 
 				// Get random authors
 			/*$randomAuthorCount = (!empty($this->settings['randomAuthorCount']) ? $this->settings['randomAuthorCount'] : 10);

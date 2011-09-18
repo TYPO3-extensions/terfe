@@ -3,6 +3,9 @@
 # ======================================================================
 plugin.tx_terfe2 {
 	settings {
+		# cat=TER Frontend/settings/90; type=int+; label=List count: Count of Extensions per page in list view
+		listCount = 10
+
 		# cat=TER Frontend/settings/100; type=int+; label=Latest count: Count of latest Extensions
 		latestCount = 10
 
@@ -81,7 +84,7 @@ plugin.tx_terfe2 {
 	}
 
 	libraries {
-		# cat=TER Frontend/libraries/500; type=string; label=Load jQuery: Load jQuery libraray into footer 
+		# cat=TER Frontend/libraries/500; type=string; label=Load jQuery: Load jQuery libraray into footer
 		jquery.load = 1
 
 		# cat=TER Frontend/libraries/510; type=string; label=Load jqPlot: Load jqPlot libraray into footer

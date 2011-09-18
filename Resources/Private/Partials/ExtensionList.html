@@ -1,152 +1,155 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
+{namespace p=Tx_Paginate_ViewHelpers}
 
 <f:if condition="{extensions}">
 	<f:then>
-		<f:for each="{extensions}" as="extension">
-			<div class="extension-row">
+		<p:widget.paginate objects="{extensions}" as="paginateExtensions" configuration="{margin: 2, itemsPerPage: settings.listCount, insertAbove: 1, insertBelow: 1}">
+			<f:for each="{paginateExtensions}" as="extension">
+				<div class="extension-row">
 
-				<!-- Headline -->
-				<div class="extension-head">
-					<h4>
-						<span class="extension-icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span>
-						<f:link.action controller="Extension" action="show" arguments="{extension : extension}" class="extension-row-toggle">{extension.lastVersion.title}</f:link.action>
-						<span class="extension-date"><f:translate key="version"/> {extension.lastVersion.versionString} - <terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime> | <strong><terfe2:format content="{extension.lastVersion.state}" function="ucfirst" /></strong></span>
-					</h4>
-				</div>
-
-				<!-- Content area -->
-				<div class="extension-regular">
-
-					<!-- Description -->
-					<div class="extension-description">
-						<p><terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}</terfe2:crop></p>
+					<!-- Headline -->
+					<div class="extension-head">
+						<h4>
+							<span class="extension-icon"><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span>
+							<f:link.action controller="Extension" action="show" arguments="{extension : extension}" class="extension-row-toggle">{extension.lastVersion.title}</f:link.action>
+							<span class="extension-date"><f:translate key="version"/> {extension.lastVersion.versionString} - <terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime> | <strong><terfe2:format content="{extension.lastVersion.state}" function="ucfirst" /></strong></span>
+						</h4>
 					</div>
 
-					<!-- General information -->
-					<div class="extension-info">
-						<table>
-							<tr>
-								<td class="extension-label"><f:translate key="extension"/>:</td>
-								<td>{extension.extKey}</td>
-							</tr>
-							<tr>
-								<td class="extension-label"><f:translate key="author"/>:</td>
-								<td><f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action></td>
-							</tr>
-							<tr>
-								<td class="extension-label"><f:translate key="category"/>:</td>
-								<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
-							</tr>
-							<tr>
-								<td class="extension-label"><f:translate key="votes"/>:</td>
-								<td><span class="extension-plus">+&nbsp;{extension.votes.positive}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="extension-minus">-&nbsp;{extension.votes.negative}</span></td>
-							</tr>
-						</table>
+					<!-- Content area -->
+					<div class="extension-regular">
+
+						<!-- Description -->
+						<div class="extension-description">
+							<p><terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}</terfe2:crop></p>
+						</div>
+
+						<!-- General information -->
+						<div class="extension-info">
+							<table>
+								<tr>
+									<td class="extension-label"><f:translate key="extension"/>:</td>
+									<td>{extension.extKey}</td>
+								</tr>
+								<tr>
+									<td class="extension-label"><f:translate key="author"/>:</td>
+									<td><f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action></td>
+								</tr>
+								<tr>
+									<td class="extension-label"><f:translate key="category"/>:</td>
+									<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
+								</tr>
+								<tr>
+									<td class="extension-label"><f:translate key="votes"/>:</td>
+									<td><span class="extension-plus">+&nbsp;{extension.votes.positive}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="extension-minus">-&nbsp;{extension.votes.negative}</span></td>
+								</tr>
+							</table>
+						</div>
+
 					</div>
+					<div class="extension-additional" style="display:none;">
 
-				</div>
-				<div class="extension-additional" style="display:none;">
+						<!-- Additional description -->
+						<div class="extension-description">
 
-					<!-- Additional description -->
-					<div class="extension-description">
+							<!-- Images and other media -->
+							<div class="extension-images">
+								<f:if condition="{extension.lastVersion.media}">
+									<f:for each="{extension.lastVersion.media}" as="media">
+										<!-- display only images in the list view -->
+										<f:if condition="{media.type} == 0">
+											<!-- add shadowbox effect to images -->
+											<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
+												<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
+											</a>
+										</f:if>
+									</f:for>
+								</f:if>
+							</div>
 
-						<!-- Images and other media -->
-						<div class="extension-images">
-							<f:if condition="{extension.lastVersion.media}">
-								<f:for each="{extension.lastVersion.media}" as="media">
-									<!-- display only images in the list view -->
-									<f:if condition="{media.type} == 0">
-										<!-- add shadowbox effect to images -->
-										<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
-											<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
-										</a>
-									</f:if>
-								</f:for>
+							<!-- Comments / changelog -->
+							<f:if condition="{extension.lastVersion.uploadComment}">
+							<div class="lastUploadComment">
+								<h4><f:translate key="last_upload_comment"/></h4>
+								<p>{extension.lastVersion.uploadComment}</p>
+							</div>
 							</f:if>
-						</div>
 
-						<!-- Comments / changelog -->
-						<f:if condition="{extension.lastVersion.uploadComment}">
-						<div class="lastUploadComment">
-							<h4><f:translate key="last_upload_comment"/></h4>
-							<p>{extension.lastVersion.uploadComment}</p>
-						</div>
-						</f:if>
-
-						<div class="detailLink">
-							<f:link.action action="show" arguments="{extension: extension}"><f:translate key="link.extension_details" /></f:link.action>
-						</div>
-
-						<!--
-						<div class="accordion ">
-							<h5 class="a-h open"><span><f:translate key="upload_comment"/></span></h5>
-							<div class="a-body">
-								<div class="a-content">
-									<p>{extension.lastVersion.uploadComment}</p>
-								</div>
+							<div class="detailLink">
+								<f:link.action action="show" arguments="{extension: extension}"><f:translate key="link.extension_details" /></f:link.action>
 							</div>
-							<h5 class="a-h closed"><span><f:translate key="version_history"/></span></h5>
-							<div class="a-body">
-								<div class="a-content">
-									<p>TODO: Version history from old upload comments</p>
-								</div>
-							</div>
-							<h5 class="a-h closed"><span><f:translate key="changelog"/></span></h5>
-							<div class="a-body">
-								<div class="a-content">
-									<p>TODO: Changelog from file</p>
-								</div>
-							</div>-->
+
 							<!--
-							<h5 class="a-h closed"><span><f:translate key="files"/></span></h5>
-							<div class="a-body">
-								<div class="a-content">
-									<p>TODO: File links (scrollable div), will be displayed in new window (target)</p>
+							<div class="accordion ">
+								<h5 class="a-h open"><span><f:translate key="upload_comment"/></span></h5>
+								<div class="a-body">
+									<div class="a-content">
+										<p>{extension.lastVersion.uploadComment}</p>
+									</div>
 								</div>
-							</div>
-							-->
-						<!--</div>-->
-					</div>
+								<h5 class="a-h closed"><span><f:translate key="version_history"/></span></h5>
+								<div class="a-body">
+									<div class="a-content">
+										<p>TODO: Version history from old upload comments</p>
+									</div>
+								</div>
+								<h5 class="a-h closed"><span><f:translate key="changelog"/></span></h5>
+								<div class="a-body">
+									<div class="a-content">
+										<p>TODO: Changelog from file</p>
+									</div>
+								</div>-->
+								<!--
+								<h5 class="a-h closed"><span><f:translate key="files"/></span></h5>
+								<div class="a-body">
+									<div class="a-content">
+										<p>TODO: File links (scrollable div), will be displayed in new window (target)</p>
+									</div>
+								</div>
+								-->
+							<!--</div>-->
+						</div>
 
-					<!-- Additional information -->
-					<div class="extension-info">
-						<table>
-							<tr>
-								<td class="extension-label"><f:translate key="relations"/>:</td>
-								<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
-							</tr>
-							<!-- <tr>
-								<td class="extension-label"><f:translate key="reverse_relations"/>:</td>
-								<td>TODO: Related to this</td>
-							</tr> -->
-							<tr>
-								<td class="extension-label"><f:translate key="manual"/>:</td>
-								<td><terfe2:documentationLink>{extension.lastVersion}</terfe2:documentationLink></td>
-							</tr>
-							<!-- <tr>
-								<td class="extension-label"><f:translate key="tags"/>:</td>
-								<td><f:render partial="InlineTagList" arguments="{tags: extension.tags}"/></td>
-							</tr> -->
-							<tr>
-								<td colspan="2"><f:translate key="downloads_by_version"/>:<terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="200" renderOnLoad="0" /></td>
-							</tr>
-						</table>
+						<!-- Additional information -->
+						<div class="extension-info">
+							<table>
+								<tr>
+									<td class="extension-label"><f:translate key="relations"/>:</td>
+									<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
+								</tr>
+								<!-- <tr>
+									<td class="extension-label"><f:translate key="reverse_relations"/>:</td>
+									<td>TODO: Related to this</td>
+								</tr> -->
+								<tr>
+									<td class="extension-label"><f:translate key="manual"/>:</td>
+									<td><terfe2:documentationLink>{extension.lastVersion}</terfe2:documentationLink></td>
+								</tr>
+								<!-- <tr>
+									<td class="extension-label"><f:translate key="tags"/>:</td>
+									<td><f:render partial="InlineTagList" arguments="{tags: extension.tags}"/></td>
+								</tr> -->
+								<tr>
+									<td colspan="2"><f:translate key="downloads_by_version"/>:<terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="200" renderOnLoad="0" /></td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
+					<br class="tx_terfe2-clear" />
+
+					<!-- Buttons -->
+					<div class="extension-buttons">
+						<span class="extension-button extension-row-toggle"><f:translate key="details"/></span>
+						<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
+						<f:if condition="{extension.lastVersion.mediaCreated}">
+							<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
+						</f:if>
 					</div>
 
 				</div>
-				<br class="tx_terfe2-clear" />
-
-				<!-- Buttons -->
-				<div class="extension-buttons">
-					<span class="extension-button extension-row-toggle"><f:translate key="details"/></span>
-					<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
-					<f:if condition="{extension.lastVersion.mediaCreated}">
-						<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
-					</f:if>
-				</div>
-
-			</div>
-		</f:for>
+			</f:for>
+		</p:widget.paginate>
 	</f:then>
 	<f:else>
 		<f:translate key="msg.no_entries_found"/>
