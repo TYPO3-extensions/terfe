@@ -32,7 +32,7 @@
 								<f:link.action action="edit" controller="Registerkey" arguments="{extension: extension}">icon edit</f:link.action>
 							</td>
 							<td>
-								<f:link.action action="delete" controller="Registerkey" arguments="{extension: extension}">icon delete</f:link.action>
+								<f:link.action onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}">icon delete</f:link.action>
 							</td>
 						</tr>
 					</f:for>
