@@ -1,6 +1,6 @@
-/**
- * Plugin styles
- */
+
+
+
 div.tx_terfe2 {
 
 }
@@ -11,10 +11,42 @@ div.extension-row {
 	margin-bottom: 30px;
 }
 
-div.extension-head {
-	border: 0;
+div.ter-toggle {
+	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1302px -76px;
+	margin: 0 0 5px 18px;
+	padding: 0 0 0 25px;
+	color: #8c8c8c;
+	font-size: 11px;
+	cursor: pointer;
+}
+div.ter-toggle-showLess {
+	background-position: -791px -674px;
+}
+
+div.ter-toggle span {
+	background: #fff;
+	position: relative;
+	z-index: 2;
+	padding: 0 5px 0 0;
+}
+div.ter-toggle hr {
+	position: relative;
+	top: -9px;
+	position: relative;
+	z-index: 1;
 	margin: 0;
-	padding: 0;
+}
+
+.ter-toggle-show {
+	display: none;
+}
+
+/**
+ * Extension list
+ */
+div.ter-ext-list-row {
+	margin: 0 0 15px 0;
+	padding: 0 0 10px 0;
 	border-bottom: 1px solid #D1D1D1;
 }
 
@@ -41,47 +73,30 @@ div.extension-description {
 	overflow: auto;
 	width: 63%;
 	float: left;
-	padding: 6px 0 0 0;
-	margin: 0 18px 0 0;
+	width: 370px;
+	margin: 6px 0 7px 30px;
+	color: #8c8c8c;
 }
 
-div.extension-buttons {
-	padding-top: 12px;
-}
-
-span.extension-button {
-	height: 19px;
-	line-height: 20px;
-	padding: 0 8px;
-	color: white;
-	font-size: 11px;
-	background: url(../Images/button.png) left top no-repeat;
-	cursor: pointer;
-	text-decoration: none;
-	display: inline-block;
-	vertical-align: middle;
-	border: 1px solid #E87C0C;
-}
-
-span.extension-button a {
-	text-decoration: none;
-	border-bottom: none;
-	color: #ffffff;
-}
-
-span.extension-button-right {
+div.ter-ext-list-row-info {
 	float: right;
-	margin-left: 12px;
+	width: 270px;
+	font-size: 11px;
+	margin: 4px 0 0 0;
 }
 
 div.extension-info {
 	width: 33%;
 	float: left;
-	font-size: 11px;
+	width: 370px;
+	line-height: 22px;
 }
 
 div.extension-info a {
 
+div.ter-ext-list-row-buttons {
+	float: right;
+	width: 270px;
 }
 
 div.extension-info table {
@@ -153,8 +168,11 @@ div.tx_terfe2 div.extension-images img {
 	border: 1px solid #CCCCCC;
 }
 
-div.tx_terfe2 div.tab-content {
-	border: none;
+div.ter-ext-list-lastUploadComment b {
+	font-size: 11px;
+	font-weight: normal;
+	display: block;
+	margin: 0 0 4px 0;
 }
 
 /**
