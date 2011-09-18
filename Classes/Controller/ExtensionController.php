@@ -232,11 +232,12 @@
 		/**
 		 * Check file hash, increment download counter and send file to client browser
 		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
 		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing version object
 		 * @param string $format Format of the file output
 		 * @return void
 		 */
-		public function downloadAction(Tx_TerFe2_Domain_Model_Version $version, $format = 't3x') {
+		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $version, $format = 't3x') {
 			if ($format !== 't3x' && $format !== 'zip') {
 				throw new Exception('A download action for the format "' . $format . '" is not implemented');
 			}
@@ -249,7 +250,7 @@
 				if (empty($this->settings['mediaRootPath'])) {
 					throw new Exception('No directory for extension media files configured');
 				}
-				$extKey = $version->getExtension()->getExtKey();
+				$extKey = $extension->getExtKey();
 				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->settings['mediaRootPath'] . $extKey);
 				$fileUrl = $extensionMediaPath . basename($provider->getFileName($version, $format));
 			}
@@ -269,7 +270,7 @@
 
 				// Check session if user has already downloaded this file today
 			if (!empty($this->settings['enableDownloadCounter'])) {
-				$extensionKey = $version->getExtension()->getExtKey();
+				$extensionKey = $extension->getExtKey();
 				$downloads = $this->session->get('downloads');
 				if (empty($downloads) || !in_array($extensionKey, $downloads)) {
 						// Add +1 to download counter and save immediately

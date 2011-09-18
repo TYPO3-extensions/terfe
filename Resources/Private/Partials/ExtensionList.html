@@ -139,9 +139,9 @@
 				<!-- Buttons -->
 				<div class="extension-buttons">
 					<span class="extension-button extension-row-toggle"><f:translate key="details"/></span>
-					<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></span>
+					<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
 					<f:if condition="{extension.lastVersion.mediaCreated}">
-						<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
+						<span class="extension-button extension-button-right"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
 					</f:if>
 				</div>
 
