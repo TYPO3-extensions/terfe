@@ -1,108 +1,135 @@
-/**
- * Plugin styles
- */
 div.tx_terfe2 {
 
 }
 
-div.extension-row {
-	border: 1px solid #C8C8C8;
-	padding: 16px 15px 16px 15px;
-	margin-bottom: 30px;
+div.tx_terfe2 div.tab-content {
+	border: none;
+	margin: 15px 0;
+	padding: 0;
 }
 
-div.extension-head {
-	border: 0;
-	margin: 0;
-	padding: 0;
+/**
+ * Extension list
+ */
+div.ter-ext-list-row {
+	margin: 0 0 15px 0;
+	padding: 0 0 10px 0;
 	border-bottom: 1px solid #D1D1D1;
 }
 
-div.extension-head h4 {
-	margin-top: 0;
+div.ter-ext-list-row-head {
 }
 
-div.extension-head a {
-
+div.ter-ext-list-row-head a {
+	font-weight: bold;
 }
 
-span.extension-icon {
-
+span.ter-ext-list-row-icon img {
+	position: relative;
+	top: 4px;
+	margin: 0 8px 0 0;
+	border: 1px solid #D1D1D1;
 }
-
-span.extension-date {
+span.ter-ext-list-row-state {
+	display: block;
 	float: right;
-	font-size: 11px;
-	color: #555555;
+	text-transform: uppercase;
+	margin: 0 10px 0 0;
+}
+span.ter-ext-list-row-state-obsolete {
+	color: #8c8c8c;
+}
+span.ter-ext-list-row-state-stable {
+	color: #3db900;
+	font-weight: bold;
+}
+span.ter-ext-list-row-state-beta {
+	color: #f4bd00;
+	font-weight: bold;
+}
+span.ter-ext-list-row-state-alpha {
+	color: #f14400;
+	font-weight: bold;
 }
 
-div.extension-description {
-	margin-bottom: 7px;
+
+div.ter-ext-list-row-description {
 	overflow: auto;
-	width: 63%;
 	float: left;
-	padding: 6px 0 0 0;
-	margin: 0 18px 0 0;
+	width: 60%;
+	margin: 6px 0 7px 30px;
+	color: #8c8c8c;
 }
 
-div.extension-buttons {
-	padding-top: 12px;
-}
-
-span.extension-button {
-	height: 19px;
-	line-height: 20px;
-	padding: 0 8px;
-	color: white;
-	font-size: 11px;
-	background: url(../Images/button.png) left top no-repeat;
-	cursor: pointer;
-	text-decoration: none;
-	display: inline-block;
-	vertical-align: middle;
-	border: 1px solid #E87C0C;
-}
-
-span.extension-button a {
-	text-decoration: none;
-	border-bottom: none;
-	color: #ffffff;
-}
-
-span.extension-button-right {
+div.ter-ext-list-row-info {
 	float: right;
-	margin-left: 12px;
-}
-
-div.extension-info {
 	width: 33%;
-	float: left;
 	font-size: 11px;
 }
 
-div.extension-info a {
-
+div.ter-ext-list-row-details {
+	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1302px -76px;
+	margin: 0 0 5px 18px;
+	padding: 0 0 0 25px;
+	color: #8c8c8c;
+	font-size: 11px;
+	cursor: pointer;
 }
 
-div.extension-info table {
+div.ter-ext-list-row-details span {
+	background: #fff;
+	position: relative;
+	z-index: 2;
+	padding: 0 5px 0 0;
+}
+div.ter-ext-list-row-details hr {
+	position: relative;
+	top: -9px;
+	position: relative;
+	z-index: 1;
+}
+
+div.ter-ext-list-row-meta {
+	margin: 0 0 0 30px;
+	font-size: 11px;
+	color: #8c8c8c;
+	float: left;
+	width: 60%;
+	line-height: 22px;
+}
+
+div.ter-ext-list-row-meta b {
+	font-weight: normal;
+	color: #000;
+	padding: 0 10px 0 0;
+}
+
+div.ter-ext-list-row-buttons {
+	float: right;
+	width: 33%;
+}
+
+div.ter-ext-list-row-buttons a {
+	color: #fff;
+	text-decoration: none;
+}
+
+div.ter-ext-list-row-info a {
+	color: #000;
+}
+
+div.ter-ext-list-row-info table {
 	margin: 0;
 }
 
-div.extension-info td {
+div.ter-ext-list-row-info td {
 	border: none;
-	padding: 6px 0 5px 0;
+	padding: 2px 0;
 }
 
-div.extension-info tr {
-	border-top: 1px solid #D1D1D1;
-}
-
-div.extension-regular div.extension-info tr:first-child {
-	border: none;
-}
-
-td.extension-label {
-	width: 60px;
+td.ter-ext-list-row-label {
+	width: 100px;
+	color: #8c8c8c;
 }
 
 br.tx_terfe2-clear {
@@ -113,11 +140,11 @@ br.tx_terfe2-clear {
 	clear: both;
 }
 
-span.extension-plus {
+span.ter-ext-list-row-plus {
 	color: #009C21;
 }
 
-span.extension-minus {
+span.ter-ext-list-row-minus {
 	color: #EE1B00;
 }
 
@@ -137,22 +164,52 @@ div.jqplot-highlighter-tooltip {
 	box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
 }
 
-div.tx_terfe2 div.tab-content {
-	border: none;
-	padding: 6px;
-}
-
-div.tx_terfe2 div.extension-images {
+div.tx_terfe2 div.ter-ext-list-row-images {
 	margin-bottom: 20px;
 }
 
-div.tx_terfe2 div.extension-images img {
+div.tx_terfe2 div.ter-ext-list-row-images img {
 	padding: 1px;
 	margin: 0 9px 0 0;
 	box-shadow: 0 2px 5px rgba(128, 128, 128, 0.5);
 	border: 1px solid #CCCCCC;
 }
 
-div.tx_terfe2 div.tab-content {
-	border: none;
+div.ter-ext-list-lastUploadComment h4 {
+	font-size: 11px;
 }
+
+
+/**
+ * Extension details
+ */
+#ter-ext-single            { clear: both; }
+.ter-ext-icon              { float: left; width: 30px; display: inline; }
+.ter-ext-title             { float: left; width: 610px; }
+.ter-ext-status            { float: right; }
+.ter-ext-singlecontent     { }
+.ter-ext-singledescription { float: left; width: 415px; margin-right: 30px; }
+.ter-ext-singldetails      { float: right; width: 270px; }
+.ter-ext-singleversion     { float: left; width: 125px; }
+.ter-ext-singleupdate      { float: left; width: 155px; }
+.ter-ext-singledownload    { float: left; width: 125px; }
+.ter-ext-singlecontent     { width: 267px; }
+.ter-ext-singledetails     { width: 267px; }
+#ter-ext-single .ter-ext-singledetails-info td      { border: none; padding: 0 10px; }
+.ter-ext-single-versionhistory .col1 { width: 85px; }
+.ter-ext-single-versionhistory .col2 { width: 520px; }
+.ter-ext-single-versionhistory .col3 { width: 85px; text-align: right; }
+.ter-ext-singledetails-label        { width:100px;  }
+.ter-ext-singledetails-label span   { width: 75px; }
+#ter-ext-single .ter-ext-single-versionhistory  td  { border:none; padding: 0; }
+.ter-ext-single-versionhistory .bu a { color: #ffffff; text-decoration: none; }
+.ter-ext-singlelinks        { border-top: 1px solid #d1d1d1; padding-top:10px; }
+.ter-ext-singleback         { float: left; }
+.ter-ext-singledownloadzip  { float: right; margin-left: 10px;}
+.ter-ext-singledownloadt3x  { float: right; }
+.ter-ext-singledetails-label,
+.ter-ext-singledetails-label span { color: #8c8c8c; font-size: 11px; }
+.ter-ext-singledetails-value {  color: #000000; font-size: 11px; }
+.ter-ext-list-row-details   { margin-top: 28px; }
+div.ter-ext-list-row-details span       { background: #fff; position: relative; z-index: 2; padding: 0 5px 0 0;}
+div.ter-ext-list-row-details hr { position: relative; top: -9px; position: relative; z-index: 1; }
