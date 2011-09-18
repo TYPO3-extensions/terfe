@@ -295,11 +295,46 @@
 
 
 		/**
+		 * Copy a directory
+		 *
+		 * @param string $fromDirectory Existing directory
+		 * @param string $toParentDirectory Name of the new parent directory
+		 * @param string $newDirectoryName Name of the new directory
+		 * @param boolean $overwrite A directory with new name will be overwritten if set
+		 * @return boolean TRUE if success
+		 */
+		public static function copyDirectory($fromDirectory, $toParentDirectory, $newDirectoryName = '', $overwrite = FALSE) {
+			if (!self::fileExists($toParentDirectory)) {
+				return FALSE;
+			}
+
+			$rollbackFiles = array();
+
+			$newDirectory = rtrim($toParentDirectory, '/') . '/' . rtrim($newDirectoryName, '/') . '/';
+			$newDirectory = self::getAbsoluteDirectory($newDirectory);
+
+			$files = self::getFiles($fromDirectory, '', 0, TRUE);
+			foreach ($files as $filename) {
+				$newFilename = str_replace($fromDirectory, '', $filename);
+				if (!self::copyFile($filename, $newDirectory . $newFilename, $overwrite)) {
+					foreach ($rollbackFiles as $rollbackFile) {
+						unlink($rollbackFile);
+					}
+					return FALSE;
+				}
+				$rollbackFiles[] = $newDirectory . $newFilename;
+			}
+
+			return TRUE;
+		}
+
+
+		/**
 		 * Move a file
 		 *
 		 * @param string $fromFileName Existing file
 		 * @param string $toFileName File name of the new file
-		 * @param boolean $overwrite Existing A file with new name will be overwritten if set
+		 * @param boolean $overwrite A file with new name will be overwritten if set
 		 * @return boolean TRUE if success
 		 */
 		public static function moveFile($fromFileName, $toFileName, $overwrite = FALSE) {
@@ -308,6 +343,23 @@
 				self::removeFile($fromFileName);
 			}
 			return $result;
+		}
+
+
+		/**
+		 * Move a directory
+		 *
+		 * @param string $fromDirectory Existing directory
+		 * @param string $toParentDirectory Name of the new parent directory
+		 * @param string $newDirectoryName Name of the new directory
+		 * @param boolean $overwrite A directory with new name will be overwritten if set
+		 * @return boolean TRUE if success
+		 */
+		public static function moveDirectory($fromDirectory, $toParentDirectory, $newDirectoryName = '', $overwrite = FALSE) {
+			if (!self::copyDirectory($fromDirectory, $toParentDirectory, $newDirectoryName, $overwrite)) {
+				return FALSE;
+			}
+			return self::removeDirectory($fromDirectory, TRUE);
 		}
 
 
