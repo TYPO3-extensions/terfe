@@ -313,7 +313,7 @@
 		 * @return boolean TRUE if success
 		 */
 		public static function copyDirectory($fromDirectory, $toParentDirectory, $newDirectoryName = '', $overwrite = FALSE) {
-			$rollbackFiles = array();
+			/*$rollbackFiles = array();
 
 			if (empty($newDirectoryName)) {
 				$newDirectoryName = end(explode('/', rtrim($fromDirectory, '/')));
@@ -322,6 +322,21 @@
 			$newDirectory = self::getAbsoluteDirectory($newDirectory, FALSE);
 			$newDirectoryExists = self::fileExists($newDirectory);
 			$newDirectory = self::getAbsoluteDirectory($newDirectory);
+
+			if ($recursive) {
+				$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($fromDirectory));
+			} else {
+				$files = new DirectoryIterator($fromDirectory);
+			}
+
+			foreach ($files as $file) {
+				if ($file->isFile()) {
+					$filename = $file->getPathname();
+				} else if ($file->isDir()) {
+					$dirname = $file->getPathname();
+				}
+			}
+
 
 			$files = self::getFiles($fromDirectory, '', 0, TRUE);
 			foreach ($files as $filename) {
@@ -338,7 +353,7 @@
 				$rollbackFiles[] = $newDirectory . $newFilename;
 			}
 
-			return TRUE;
+			return TRUE;*/
 		}
 
 
@@ -420,7 +435,7 @@
 		 * @return boolean TRUE if given path is absolute
 		 */
 		public static function isAbsolutePath($path) {
-			return (strpos(PATH_site, $path) === 0);
+			return (strpos($path, PATH_site) === 0);
 		}
 
 
