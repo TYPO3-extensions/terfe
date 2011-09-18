@@ -9,7 +9,13 @@
 			<f:form action="update" controller="Registerkey" name="extension" object="{extension}">
 
 				<label><f:translate key="extensionKey" />:</label>
-				<f:form.textbox property="extKey" /><br />
+				<f:form.textbox readonly="TRUE" property="extKey" /><br />
+
+				<div class="category-container">
+					<f:for each="{categories}" as="category">
+						<f:form.checkbox name="categories[{category.object}]" value="{category.object}" checked="{category.isChecked}" /> {category.object.title}<br />
+					</f:for>
+				</div>
 
 				<f:form.submit value="{f:translate(key: 'save')}" />
 

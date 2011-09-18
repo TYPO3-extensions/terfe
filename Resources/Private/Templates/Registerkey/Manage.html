@@ -22,7 +22,8 @@
 								{extension.extKey}
 							</td>
 							<td>
-								<f:form action="transfer" controller="Registerkey" name="transferKey" object="{extension}">
+								<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST">
+									<f:form.hidden name="extension" value="{extension}" />
 									<f:form.textbox name="newUser" value="" />
 									<f:form.submit value="Transfer" />
 								</f:form>

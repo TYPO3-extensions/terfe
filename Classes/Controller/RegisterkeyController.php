@@ -34,6 +34,11 @@
 		protected $extensionRepository;
 
 		/**
+		 * @var Tx_TerFe2_Domain_Repository_CategoryRepository
+		 */
+		protected $categoryRepository;
+
+		/**
 		 * @var Tx_Extbase_Domain_Repository_FrontendUserRepository
 		 */
 		protected $frontendUserRepository;
@@ -45,6 +50,7 @@
 		 */
 		protected function initializeController() {
 			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			$this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
 			$this->frontendUserRepository = $this->objectManager->get('Tx_Extbase_Domain_Repository_FrontendUserRepository');
 		}
 
@@ -70,18 +76,20 @@
 		 * @return void
 		 */
 		public function indexAction() {
+			$categories = $this->categoryRepository->findAll();
+			$this->view->assign('categories', $categories);
 		}
 
 		/**
 		 * save a new key
 		 *
 		 * @todo translate label in flashmessage container
-		 * @param string $userId
 		 * @param string $userName
 		 * @param string $extensionKey
+		 * @param mixed $categories
 		 * @return void
 		 */
-		public function createAction($userId, $userName, $extensionKey) {
+		public function createAction($userName, $extensionKey, $categories) {
 
 				// remove spaces from extensionKey if there are some
 			$extensionKey = trim($extensionKey);
@@ -109,6 +117,16 @@
 					$extension->setExtKey($extensionKey);
 					$extension->setFrontendUser($userName);
 
+						// add categories
+					foreach($categories as $category) {
+						if (isset($category['__identity']) && is_numeric($category['__identity'])) {
+							$myCat = $this->categoryRepository->findByUid(intval($category['__identity']));
+							if($myCat != NULL) {
+								$extension->addCategory($myCat);
+							}
+						}
+					}
+
 					$this->extensionRepository->add($extension);
 					$this->flashMessageContainer->add('Extension key registered');
 					$this->redirect('manage', 'Registerkey');
@@ -135,6 +153,23 @@
 		 * @return void
 		 */
 		public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+
+			// remove categories that are already set
+			$setCategories = $extension->getCategories();
+
+			// get all categories
+			/** @var $categories Tx_Extbase_Persistence_QueryResult */
+			$categories = $this->categoryRepository->findAll();
+
+			$categoryArray = array();
+			foreach ($categories as $key => $category) {
+				$categoryArray[] = array(
+					'object' => $category,
+					'isChecked' => $setCategories->contains($category),
+				);
+			}
+
+			$this->view->assign('categories', $categoryArray);
 			$this->view->assign('extension', $extension);
 		}
 
@@ -143,40 +178,108 @@
 		 *
 		 * @todo translate label in flashmessage container
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension
+		 * @param mixed $categories
 		 * @return void
 		 */
-		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $categories) {
 
 				// get ter connection object
 			$terConnection = $this->getTerConnection();
 
-				// check if the new extension key exists in the ter
-			if ($terConnection->checkExtensionKey($extension->getExtKey())) {
+				// check if the extension key changed
+			if ( $extension->_isDirty('extKey')) {
+					// if the extension key changed, check if the new one is in the ter
+				if ( $terConnection->checkExtensionKey($extension->getExtKey())) {
+
+					$error = '';
+					if ($terConnection->assignExtensionKey($extension->getExtKey(), $GLOBALS['TSFE']->fe_user->user['username'], $error)) {
+
+							// update categories
+						$this->extensionRepository->update($extension);
+
+						$this->extensionRepository->update($extension);
+						$this->flashMessageContainer->add('Extension updated');
+						$this->redirect('manage', 'Registerkey');
+					} else {
+						$this->flashMessageContainer->add('Could not update extension');
+					}
+
+
+				} else {
+					$this->flashMessageContainer->add('Extension key already exists!!');
+				}
+
+			} else {
+
+					// update categories
+				$extension = $this->updateCategories($extension, $categories);
+
 				$this->extensionRepository->update($extension);
 				$this->flashMessageContainer->add('Extension updated');
 				$this->redirect('manage', 'Registerkey');
-			} else {
-				$this->flashMessageContainer->add('Extension Key exists');
-				$this->redirect('edit', 'Registerkey', null, array('extension' => $extension));
+
 			}
+
+			$this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
+		}
+
+		/**
+		 * Update the categories of an existing extension
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension
+		 * @param mixed $categories
+		 * @return Tx_TerFe2_Domain_Model_Extension
+		 */
+		protected function updateCategories(Tx_TerFe2_Domain_Model_Extension $extension, $categories) {
+
+				// remove all categories
+			$extension->removeAllCategories();
+
+				// add categories
+			foreach($categories as $category) {
+				if (isset($category['__identity']) && is_numeric($category['__identity'])) {
+					$myCat = $this->categoryRepository->findByUid(intval($category['__identity']));
+					if($myCat != NULL) {
+						$extension->addCategory($myCat);
+					}
+				}
+			}
+
+			return $extension;
 		}
 
 		/**
 		 * transfer extension key to another user
 		 *
-		 * @param string $username
+		 * @param string $newUser
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension
 		 * @return void
 		 */
-		public function transferAction(string $username, Tx_TerFe2_Domain_Model_Extension $extension) {
+		public function transferAction($newUser, Tx_TerFe2_Domain_Model_Extension $extension) {
 
-			// use assignExtensionKey to check if the new user is valid, only transfer key if user is valid
+				// container for the error message
+			$error = '';
+
+				// get ter connection
+			$terConnection = $this->getTerConnection();
+
+				// is it possible to assign the key to a new user
+			if ($terConnection->assignExtensionKey($extension->getExtKey(), $newUser, $error)) {
+				$extension->setFrontendUser($newUser);
+				$this->extensionRepository->update($extension);
+				$this->flashMessageContainer->add('Transfered the extension ' . $extension->getExtKey() . ' to ' .$newUser );
+			} else {
+				$this->flashMessageContainer->add('Error transfering the extension ' . $extension->getExtKey() . ' Error: ' . $error);
+			}
+
+			$this->redirect('manage', 'Registerkey');
 
 		}
 
 		/**
 		 * delete extension key from ter
 		 *
+		 * @todo currently we delete without asking again
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension
 		 * @return void
 		 */
