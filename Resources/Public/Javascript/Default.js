@@ -77,7 +77,7 @@ function getDefaultChartOptions() {
 		$toggleElement = $element.closest('div.ter-ext-list-row');
 
 		var $chart = $toggleElement.find('div.chart-container');
-console.log($chart);
+
 		// Render chart
 		if (typeof($chart) !== 'undefined') {
 			$chart.renderChart(true);

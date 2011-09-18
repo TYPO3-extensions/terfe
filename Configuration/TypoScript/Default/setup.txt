@@ -69,7 +69,7 @@ plugin.tx_terfe2 {
 ## jqPlot
 [globalVar = LIT:1 = {$plugin.tx_terfe2.libraries.jqplot.load}]
   page.includeCSS.jqplot = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.css
-  page.includeJSFooterlibs.jqplot1 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.min.js
+  page.includeJSFooterlibs.jqplot1 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/jquery.jqplot.js
   page.includeJSFooterlibs.jqplot2 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/plugins/jqplot.highlighter.min.js
   page.includeJSFooterlibs.jqplot3 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/plugins/jqplot.cursor.min.js
   page.includeJSFooterlibs.jqplot4 = EXT:ter_fe2/Resources/Public/Javascript/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js
