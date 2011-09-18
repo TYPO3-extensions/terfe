@@ -1,0 +1,11 @@
+<table>
+	<f:for each="{extension.reverseVersionsByDate}" as="version">
+		<tr>
+			<td class="col1"><strong>{version.versionString}</strong></td>
+			<td class="col2"><p>{version.uploadComment}</p></td>
+			<td class="col3"><div>
+				<f:link.action controller="Extension" action="download" arguments="{extension : version.extension, version : version, format : 't3x'}"><span class="bu"><f:translate key="download"/></span></f:link.action>
+			</div></td>
+		</tr>
+	</f:for>
+</table>

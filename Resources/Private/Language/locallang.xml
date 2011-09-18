@@ -147,7 +147,9 @@
 			<label index="relations">Relations</label>
 			<label index="reverse_relations">Relation of</label>
 			<label index="category">Category</label>
+			<label index="categories">Categories</label>
 			<label index="download">Download</label>
+			<label index="downloads">Downloads</label>
 			<label index="details">Details</label>
 			<label index="extension">Extension</label>
 			<label index="version">Version</label>
@@ -161,13 +163,17 @@
 			<label index="manual">Manual</label>
 
 			<label index="back_to_list">Back to list</label>
+			<label index="back_to_extension_list">Back to Extension List</label>
 			<label index="back_to_detail">Back to details</label>
 			<label index="create">Create</label>
 			<label index="edit">Edit</label>
 			<label index="delete">Delete</label>
+			<label index="download">Download</label>
 			<label index="download_t3x">Download [t3x]</label>
 			<label index="download_zip">Download [zip]</label>
 			<label index="downloads_by_version">Downloads by Version</label>
+			<label index="last_uploaded">Last uploaded</label>
+			<label index="expand_details">Collapse Version history</label>
 
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>
