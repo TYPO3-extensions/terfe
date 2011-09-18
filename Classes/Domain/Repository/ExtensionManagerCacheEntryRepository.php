@@ -34,7 +34,7 @@
 		 * @param integer $lastUpdateDate Date of the last update
 		 * @param integer $offset Offset to start with
 		 * @param integer $count Extension count to load
-		 * @return Tx_Extbase_Persistence_QueryResult Query result
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findLastUpdated($lastUpdateDate, $offset = 0, $count = 0) {
 			$query = $this->createQuery();

@@ -32,7 +32,7 @@
 		 * Returns random objects from db
 		 *
 		 * @param integer $limit Limit of the results
-		 * @return Tx_Extbase_Persistence_QueryResult Query result
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findRandom($limit) {
 			$query = $this->createQuery();

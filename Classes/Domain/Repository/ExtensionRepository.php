@@ -31,7 +31,7 @@
 		/**
 		 * Returns all extensions
 		 *
-		 * @return array An array of extensions
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findAll() {
 			$query = $this->createQuery();
@@ -46,7 +46,7 @@
 		 * Returns new and updated extensions
 		 *
 		 * @param integer $latestCount Count of extensions
-		 * @return array An array of extensions
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findNewAndUpdated($latestCount) {
 			$query = $this->createQuery();
@@ -63,7 +63,7 @@
 		 *
 		 * @param integer $topRatedCount Count of extensions
 		 * @param boolean $rawResult Return raw data
-		 * @return array An array of extensions
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findTopRated($topRatedCount, $rawResult = FALSE) {
 			$query = $this->createQuery();
@@ -80,7 +80,7 @@
 		 * Returns all extensions in a category
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Category $category The Category to search in
-		 * @return array An array of extensions
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findByCategory(Tx_TerFe2_Domain_Model_Category $category) {
 			$query = $this->createQuery();
@@ -96,7 +96,7 @@
 		 * Returns all extensions with a tag
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to search for
-		 * @return array An array of extensions
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findByTag(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$query = $this->createQuery();
@@ -112,7 +112,7 @@
 		 * Returns all extensions by an author
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Author $author The Author to search for
-		 * @return array An array of extensions
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findByAuthor(Tx_TerFe2_Domain_Model_Author $author) {
 			$query = $this->createQuery();

@@ -110,7 +110,7 @@
 			$this->view->assign('randomAuthors', $randomAuthors);*/
 
 				// Get authors
-			$authors = $this->authorRepository->findAll();
+			$authors = $this->authorRepository->findByLatestExtensionVersion();
 			$this->view->assign('authors', $authors);
 		}
 

@@ -28,5 +28,25 @@
 	 */
 	class Tx_TerFe2_Domain_Repository_AuthorRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
 
+		/**
+		 * Returns the authors from latest extension versions
+		 * 
+		 * @return Tx_Extbase_Persistence_ObjectStorage Author objects
+		 */
+		public function findByLatestExtensionVersion() {
+			$query = $this->createQuery();
+			$statement = '
+				SELECT * FROM tx_terfe2_domain_model_author WHERE tx_terfe2_domain_model_author.uid IN (
+					SELECT author FROM tx_terfe2_domain_model_version
+					RIGHT JOIN tx_terfe2_domain_model_extension ON (
+						tx_terfe2_domain_model_version.uid = tx_terfe2_domain_model_extension.last_version
+					)
+				)
+			';
+
+			$query->statement($statement);
+			return $query->execute();
+		}
+
 	}
 ?>

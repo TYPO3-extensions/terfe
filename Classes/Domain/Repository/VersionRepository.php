@@ -33,7 +33,7 @@
 		 *
 		 * @param integer $offset Offset to start with
 		 * @param integer $count Extension count to load
-		 * @return Tx_Extbase_Persistence_QueryResult Query result
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findForMediaCreation($offset = 0, $count = 0) {
 			$query = $this->createQuery();
