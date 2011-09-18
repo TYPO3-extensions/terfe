@@ -184,6 +184,10 @@
 			<label index="transferToUser">Transfer to user</label>
 			<label index="edit">Edit extension key</label>
 			<label index="delete">Delete extension key</label>
+			<label index="modifiy-button">Modifiy</label>
+			<label index="delete-button">Delete</label>
+			<label index="register-extension-key">Register extension key</label>
+			<label index="manage-extension-keys">Manage extension keys</label>
 		</languageKey>
 	</data>
 </T3locallang>
