@@ -63,6 +63,7 @@
 		'tx_terfe2_viewhelpers_datetimeviewhelper'                         => $extensionClassesPath . 'ViewHelpers/DateTimeViewHelper.php',
 		'tx_terfe2_viewhelpers_documentationlinkviewhelper'                => $extensionClassesPath . 'ViewHelpers/DocumentationLinkViewHelper.php',
 		'tx_terfe2_viewhelpers_extensioniconviewhelper'                    => $extensionClassesPath . 'ViewHelpers/ExtensionIconViewHelper.php',
+		'tx_terfe2_viewhelpers_extensionimageviewhelper'                   => $extensionClassesPath . 'ViewHelpers/ExtensionImageViewHelper.php',
 		'tx_terfe2_viewhelpers_formatviewhelper'                           => $extensionClassesPath . 'ViewHelpers/FormatViewHelper.php',
 		'tx_terfe2_viewhelpers_rawviewhelper'                              => $extensionClassesPath . 'ViewHelpers/RawViewHelper.php',
 	);
