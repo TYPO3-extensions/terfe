@@ -42,15 +42,15 @@
 									<td><span class="ter-ext-list-row-plus">+&nbsp;{extension.votes.positive}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="ter-ext-list-row-minus">-&nbsp;{extension.votes.negative}</span></td>
 								</tr> -->
 								<!-- Additional information -->
-								<tr>
+								<tr class="ter-toggle-show">
 									<td class="ter-ext-list-row-label"><f:translate key="relations"/>:</td>
 									<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
-								</tr>
+								</tr class="ter-toggle-show">
 								<!-- <tr>
 									<td class="ter-ext-list-row-label"><f:translate key="reverse_relations"/>:</td>
 									<td>TODO: Related to this</td>
 								</tr> -->
-								<tr>
+								<tr class="ter-toggle-show">
 									<td class="ter-ext-list-row-label"><f:translate key="manual"/>:</td>
 									<td><terfe2:documentationLink>{extension.lastVersion}</terfe2:documentationLink></td>
 								</tr>
@@ -58,14 +58,14 @@
 									<td class="ter-ext-list-row-label"><f:translate key="tags"/>:</td>
 									<td><f:render partial="InlineTagList" arguments="{tags: extension.tags}"/></td>
 								</tr> -->
-								<tr>
+								<tr class="ter-toggle-show">
 									<td colspan="2"><f:translate key="downloads_by_version"/>:<terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="200" renderOnLoad="0" /></td>
 								</tr>
 							</table>
 						</div>
 
 					</div>
-					<div class="ter-ext-list-row-additional" style="display:none;">
+					<div class="ter-ext-list-row-additional ter-toggle-show">
 
 						<!-- Additional description -->
 						<div class="ter-ext-list-row-description">
