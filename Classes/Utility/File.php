@@ -313,10 +313,6 @@
 		 * @return boolean TRUE if success
 		 */
 		public static function copyDirectory($fromDirectory, $toParentDirectory, $newDirectoryName = '', $overwrite = FALSE) {
-			if (!self::fileExists($toParentDirectory)) {
-				return FALSE;
-			}
-
 			$rollbackFiles = array();
 
 			if (empty($newDirectoryName)) {
