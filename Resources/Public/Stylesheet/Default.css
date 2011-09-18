@@ -8,6 +8,10 @@ div.tx_terfe2 div.tab-content {
 	padding: 0;
 }
 
+.ter-toggle-show {
+	display: none;
+}
+
 /**
  * Extension list
  */
