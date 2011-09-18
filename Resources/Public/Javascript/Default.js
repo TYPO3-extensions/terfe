@@ -70,23 +70,20 @@ function getDefaultChartOptions() {
 		var $element = $(this);
 
 			// Stop here without correct element
-		$toggleElement = $element.closest('div.extension-row').find('div.extension-additional');
 		if (typeof($element) === 'undefined') {
 			return;
 		}
 
-			// Toggle visibility
-		if ($toggleElement.css('display') === 'none') {
-			$toggleElement.fadeIn('fast');
+		$toggleElement = $element.closest('div.ter-ext-list-row');
 
-				// Render chart
-			var $chart = $toggleElement.find('div.chart-container');
-			if (typeof($chart) !== 'undefined') {
-				$chart.renderChart(true);
-			}
-		} else {
-			$toggleElement.fadeOut('fast');
+		var $chart = $toggleElement.find('div.chart-container');
+console.log($chart);
+		// Render chart
+		if (typeof($chart) !== 'undefined') {
+			$chart.renderChart(true);
 		}
+
+		$toggleElement.find('.ter-toggle-show').fadeToggle('fast');
 	}
 
 })(jQuery);
@@ -103,7 +100,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * Add click event handler to all toggle elements
 	 */
-	$('.extension-row-toggle').click(function(event) {
+	$('.ter-toggle').click(function(event) {
 		event.preventDefault();
 		$(this).toggleExtensionDetails();
 	});
