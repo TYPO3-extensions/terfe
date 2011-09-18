@@ -324,7 +324,7 @@
 			}
 			$newDirectory = rtrim($toParentDirectory, '/') . '/' . rtrim($newDirectoryName, '/') . '/';
 			$newDirectory = self::getAbsoluteDirectory($newDirectory, FALSE);
-			$newDirectoryExists = self:fileExists($newDirectory);
+			$newDirectoryExists = self::fileExists($newDirectory);
 			$newDirectory = self::getAbsoluteDirectory($newDirectory);
 
 			$files = self::getFiles($fromDirectory, '', 0, TRUE);
