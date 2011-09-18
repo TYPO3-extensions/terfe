@@ -188,6 +188,7 @@
 			<label index="delete-button">Delete</label>
 			<label index="register-extension-key">Register extension key</label>
 			<label index="manage-extension-keys">Manage extension keys</label>
+			<label index="modifiy-extension-key">Modifiy extension keys</label>
 		</languageKey>
 	</data>
 </T3locallang>

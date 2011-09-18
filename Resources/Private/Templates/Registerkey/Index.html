@@ -2,6 +2,10 @@
 
 <f:section name="main">
 
+	<h2><f:translate key="register-extension-key" /></h2>
+
+	<hr />
+
 	<!-- check if a frontend user is logged in -->
 	<f:if condition="{loggedIn}">
 		<f:then>
@@ -9,18 +13,39 @@
 			<f:form action="create" controller="Registerkey" method="post">
 				<f:form.hidden name="userName" value="{userName}"/>
 
-				<label><f:translate key="extensionKey" />:</label>
-				<f:form.textfield name="extensionKey" value="" /><br />
+				<div class="register-wrapper">
 
-				<label><f:translate key="category" />:</label>
-				<div class="category-container">
-					<f:for each="{categories}" as="category">
-						<f:form.checkbox name="categories[{category}]" value="{category}" /> <label>{category.title}</label>
-						<br />
-					</f:for>
+					<div class="registerkey-label">
+						<label><f:translate key="extensionKey" /></label>
+						<p>
+							TODO: Some text here!!!
+						</p>
+					</div>
+
+					<div class="register-input b-form-inputs">
+						<f:form.textfield name="extensionKey" value="" />
+					</div>
 				</div>
 
-				<f:form.submit value="{f:translate(key: 'submit')}" />
+				<hr style="clear:both;" />
+
+				<div class="register-wrapper">
+
+					<div class="registerkey-label">
+						<label><f:translate key="category" /></label>
+					</div>
+
+					<div class="register-input">
+						<div class="category-container">
+							<f:for each="{categories}" as="category">
+								<f:form.checkbox name="categories[{category}]" value="{category}" /> <label>{category.title}</label>
+								<br />
+							</f:for>
+						</div>
+					</div>
+				</div>
+
+				<f:form.submit class="bu bu-mini" value="{f:translate(key: 'save')}" />
 			</f:form>
 
 		</f:then>

@@ -192,8 +192,19 @@ table.manage-keys thead tr th.transfer-colum {
 	width: 33%;
 }
 
-#page table.manage-keys a.delete-gray {
-	background: url("../Images/button.png") no-repeat scroll 0 -70px transparent;
-	color: #000;
-	border: 1px solid #C0C0C0;
+div.tx_terfe2 div.register-wrapper {
+	clear:both;
+	display: block;
 }
+
+div.tx_terfe2 div.registerkey-label {
+	float:left;
+	width: 33%;
+}
+
+div.tx_terfe2 div.register-input {
+	float: left;
+	width: 66%;
+	margin:  0;
+}
+
