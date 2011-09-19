@@ -293,6 +293,15 @@ div.tx_terfe2 div.register-input {
 	margin:  0;
 }
 
+div.tx_terfe2 p.registerkey-help {
+	color: #8C8C8C;
+}
+
+div.tx_terfe2 div.category-container div.category {
+	float: left;
+	width: 150px;
+}
+
 
 
 /**
