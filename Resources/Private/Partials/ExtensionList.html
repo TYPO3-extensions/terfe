@@ -59,7 +59,7 @@
 									<td><f:render partial="InlineTagList" arguments="{tags: extension.tags}"/></td>
 								</tr> -->
 								<tr class="ter-toggle-show">
-									<td colspan="2"><f:translate key="downloads_by_version"/>:<terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="200" renderOnLoad="0" /></td>
+									<td colspan="2"><f:translate key="downloads_by_version"/>:<terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="200" pointCount="10" renderOnLoad="0" /></td>
 								</tr>
 							</table>
 						</div>
@@ -113,9 +113,9 @@
 					</div>
 
 					<div class="ter-ext-list-row-buttons">
-						<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></span>
+						<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
 						<f:if condition="{extension.lastVersion.mediaCreated}">
-							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
+							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
 						</f:if>
 					</div>
 					<br class="tx_terfe2-clear" />

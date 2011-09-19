@@ -244,7 +244,7 @@
 			 */
 
 			$this->categories->rewind();
-			while($this->categories->valid()) {
+			while ($this->categories->valid()) {
 				$tempObject = $this->categories->current();
 				$this->categories->next();
 				$this->categories->detach($tempObject);

@@ -1,16 +1,22 @@
-
-
-
-div.tx_terfe2 {
-
+/**
+ * jqPlot styles
+ */
+div.jqplot-highlighter-tooltip {
+	background: #ffffff;
+	color: #F58006;
+	padding: 0 3px;
+	font-size: 11px;
+	border: 1px solid #9E9E9E;
+	font-weight: bold;
+	-webkit-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+	-moz-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+	box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
 }
 
-div.extension-row {
-	border: 1px solid #C8C8C8;
-	padding: 16px 15px 16px 15px;
-	margin-bottom: 30px;
-}
 
+/**
+ * Single extension
+ */
 div.ter-toggle {
 	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1302px -76px;
 	margin: 0 0 5px 18px;
@@ -19,6 +25,7 @@ div.ter-toggle {
 	font-size: 11px;
 	cursor: pointer;
 }
+
 div.ter-toggle-showLess {
 	background-position: -791px -674px;
 }
@@ -29,10 +36,10 @@ div.ter-toggle span {
 	z-index: 2;
 	padding: 0 5px 0 0;
 }
+
 div.ter-toggle hr {
 	position: relative;
 	top: -9px;
-	position: relative;
 	z-index: 1;
 	margin: 0;
 }
@@ -40,6 +47,7 @@ div.ter-toggle hr {
 .ter-toggle-show {
 	display: none;
 }
+
 
 /**
  * Extension list
@@ -94,6 +102,8 @@ div.extension-info {
 
 div.extension-info a {
 
+}
+
 div.ter-ext-list-row-buttons {
 	float: right;
 	width: 270px;
@@ -110,6 +120,10 @@ div.extension-info td {
 
 div.extension-info tr {
 	border-top: 1px solid #D1D1D1;
+}
+
+td.ter-ext-list-row-label {
+	width: 75px;
 }
 
 div.extension-regular div.extension-info tr:first-child {
@@ -136,43 +150,17 @@ span.extension-minus {
 	color: #EE1B00;
 }
 
-
-/**
- * jqPlot styles
- */
-div.jqplot-highlighter-tooltip {
-	background: #ffffff;
-	color: #F58006;
-	padding: 0 3px;
-	font-size: 11px;
-	border: 1px solid #9E9E9E;
-	font-weight: bold;
-	-webkit-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
-	-moz-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
-	box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
-}
-
-div.tx_terfe2 div.tab-content {
-	border: none;
-	padding: 6px;
-}
-
-div.tx_terfe2 div.extension-images {
-	margin-bottom: 20px;
-}
-
-div.tx_terfe2 div.extension-images img {
-	padding: 1px;
-	margin: 0 9px 0 0;
-	box-shadow: 0 2px 5px rgba(128, 128, 128, 0.5);
-	border: 1px solid #CCCCCC;
-}
-
 div.ter-ext-list-lastUploadComment b {
 	font-size: 11px;
 	font-weight: normal;
 	display: block;
 	margin: 0 0 4px 0;
+}
+
+div.ter-ext-list-row .bu a {
+	color: #fff;
+	text-decoration: none;
+	border-bottom: none;
 }
 
 /**

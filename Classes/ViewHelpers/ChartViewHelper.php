@@ -63,10 +63,11 @@
 		 * @param integer $height Height of the chart
 		 * @param integer $width Width of the chart
 		 * @param string $color Color of the line
+		 * @param integer $pointCount Count of points to render in one line
 		 * @param boolean $renderOnLoad Render chart when DOM is ready
 		 * @return string Chart
 		 */
-		public function render($object = NULL, $method = 'downloadsByVersion', $title = '', $height = 300, $width = 400, $color = '#4D4D4D', $renderOnLoad = TRUE) {
+		public function render($object = NULL, $method = 'downloadsByVersion', $title = '', $height = 300, $width = 400, $color = '#4D4D4D', $pointCount = 10, $renderOnLoad = TRUE) {
 			if ($object === NULL) {
 				$object = $this->renderChildren();
 			}
@@ -91,7 +92,7 @@
 			$id = uniqid('chart-');
 			$height = (int) $height . 'px';
 			$width = (int) $width . 'px';
-			$lines = json_encode($this->$method($object));
+			$lines = json_encode($this->$method($object, (int) $pointCount));
 			$options = '
 				title: \'' . $title . '\',
 				series: [{color:\'' . $color . '\'}]
@@ -106,17 +107,25 @@
 		 * Returns downloads by version
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension Extension object
+		 * @param integer $pointCount Count of points to render in one line
 		 * @return array Lines to render in chart
 		 */
-		protected function getDownloadsByVersion(Tx_TerFe2_Domain_Model_Extension $extension) {
+		protected function getDownloadsByVersion(Tx_TerFe2_Domain_Model_Extension $extension, $pointCount = 10) {
 			$points = array();
-			$versions = $extension->getVersionsByDate();
+			$versions = $extension->getReverseVersionsByDate();
+			$counter = 0;
 
 			foreach ($versions as $version) {
+				if ($counter === $pointCount) {
+					break;
+				}
+				$counter++;
 				$points[] = array((string) $version->getVersionString(), (int) $version->getDownloadCounter());
 			}
 
-			return array($points);
+			krsort($points);
+
+			return array(array_values($points));
 		}
 
 
