@@ -3,7 +3,8 @@
 
 <f:if condition="{extensions}">
 	<f:then>
-		<p:widget.paginate templateFilePath="EXT:t3org_template/html/plugin/paginate/Templates/ViewHelpers/Widget/Paginate/Index.html" objects="{extensions}" as="paginateExtensions" configuration="{margin: 2, itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
+		<!-- templateFilePath="EXT:t3org_template/html/plugin/paginate/Templates/ViewHelpers/Widget/Paginate/Index.html" -->
+		<p:widget.paginate objects="{extensions}" as="paginateExtensions" configuration="{margin: 2, itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
 			<f:for each="{paginateExtensions}" as="extension">
 				<div class="ter-ext-list-row ter-toggle-from-here cl">
 
@@ -72,7 +73,7 @@
 								</tr> -->
 								<tr class="ter-toggle-show">
 									<th><f:translate key="downloads_by_version"/></th>
-									<td><terfe2:chart object="{extension}" method="downloadsByVersion" height="100" width="170" renderOnLoad="0" /></td>
+									<td><terfe2:chart object="{extension}" method="downloadsByVersion" height="100" width="170" pointCount="10" renderOnLoad="0" /></td>
 								</tr>
 							</table>
 						</div>
@@ -111,9 +112,9 @@
 					</div>
 
 					<div class="ter-ext-list-row-buttons">
-						<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion}"><f:translate key="download_t3x"/></f:link.action></span>
+						<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
 						<f:if condition="{extension.lastVersion.mediaCreated}">
-							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
+							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
 						</f:if>
 					</div>
 
