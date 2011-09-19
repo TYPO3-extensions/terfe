@@ -16,7 +16,7 @@
 			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
 		),
 		array(
-			'Extension'   => 'index, create, update, delete',
+			'Extension'   => 'index, create, update, delete, download',
 			'Category'    => 'create, update, delete',
 			'Tag'         => 'create, delete',
 			'Author'      => 'update',
