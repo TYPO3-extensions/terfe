@@ -74,10 +74,16 @@
 				$version = $this->renderChildren();
 			}
 
-			$imageUrl = 'clear.gif';
+			$imageUrl = '';
 			$provider = $version->getExtensionProvider();
 			if (!empty($provider)) {
 				$imageUrl = $this->providerManager->getProvider($provider)->getIconUrl($version, $fileType);
+			}
+
+			if (empty($imageUrl)) {
+				$imageUrl = 'typo3/clear.gif';
+				$this->tag->addAttribute('height', 16);
+				$this->tag->addAttribute('width', 16);
 			}
 
 			$this->tag->addAttribute('src', $imageUrl);

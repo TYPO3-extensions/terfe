@@ -188,8 +188,9 @@
 			while (!Tx_TerFe2_Utility_File::fileExists($mirrorUrl . $filename)) {
 				$attempts++;
 				if ($attempts > $maxAttempts) {
-					throw new Exception('File "' . $filename . '" could not be found on ' . $maxAttempts . ' mirrors, break');
-					break;
+					// throw new Exception('File "' . $filename . '" could not be found on ' . $maxAttempts . ' mirrors, break');
+					// break;
+					return '';
 				}
 				$mirrorUrl = $this->getMirror(TRUE);
 			}

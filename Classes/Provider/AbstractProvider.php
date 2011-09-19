@@ -122,7 +122,9 @@
 			$iconUrl = $this->getFileUrl($version, $fileType);
 
 				// Copy icon to local cache
-			Tx_TerFe2_Utility_File::copyFile($iconUrl, $localName);
+			if (!empty($iconUrl)) {
+				Tx_TerFe2_Utility_File::copyFile($iconUrl, $localName);
+			}
 
 			return $iconUrl;
 		}

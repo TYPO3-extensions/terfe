@@ -135,11 +135,6 @@
 				$filename = Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($filename);
 			}
 
-				// Check if file exists
-			if (!Tx_TerFe2_Utility_File::fileExists($filename)) {
-				throw new Exception('File "' . $filename . '" not found');
-			}
-
 				// Copy file to local cache and return it
 			if (!empty($localName)) {
 				Tx_TerFe2_Utility_File::copyFile($filename, $localName);
