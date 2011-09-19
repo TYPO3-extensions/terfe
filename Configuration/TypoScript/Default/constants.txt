@@ -10,7 +10,7 @@ plugin.tx_terfe2 {
 		latestCount = 10
 
 		# cat=TER Frontend/settings/105; type=int+; label=Latest count: Count of entries in author list
-		authorListCount = 10
+		authorListCount = 25
 
 		# cat=TER Frontend/settings/110; type=int+; label=Top rated count: Count of top rated Extensions
 		topRatedCount = 10
@@ -67,11 +67,6 @@ plugin.tx_terfe2 {
 
 			# cat=TER Frontend/settings/270; type=string; label=Large image format: Output format of large images
 			ext = jpg
-		}
-
-		paginate {
-			# cat=TER Frontend/settings/280; type=string; label=Paginate template: Template file for paginate widget
-			templateFile =
 		}
 	}
 

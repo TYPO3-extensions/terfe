@@ -33,10 +33,6 @@ plugin.tx_terfe2 {
 			quality       = {$plugin.tx_terfe2.settings.largeImage.quality}
 			ext           = {$plugin.tx_terfe2.settings.largeImage.ext}
 		}
-
-		paginate {
-			templateFile  = {$plugin.tx_terfe2.settings.paginate.template}
-		}
 	}
 
 	## Storage settings

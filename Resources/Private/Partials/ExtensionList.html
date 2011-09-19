@@ -3,7 +3,6 @@
 
 <f:if condition="{extensions}">
 	<f:then>
-		<!-- templateFilePath="EXT:t3org_template/html/plugin/paginate/Templates/ViewHelpers/Widget/Paginate/Index.html" -->
 		<p:widget.paginate objects="{extensions}" as="paginateExtensions" configuration="{margin: 2, itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
 			<f:for each="{paginateExtensions}" as="extension">
 				<div class="ter-ext-list-row ter-toggle-from-here cl">
