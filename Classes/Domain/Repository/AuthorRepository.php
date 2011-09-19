@@ -35,16 +35,38 @@
 		 */
 		public function findByLatestExtensionVersion() {
 			$query = $this->createQuery();
-			$statement = '
-				SELECT * FROM tx_terfe2_domain_model_author WHERE tx_terfe2_domain_model_author.uid IN (
-					SELECT author FROM tx_terfe2_domain_model_version
-					RIGHT JOIN tx_terfe2_domain_model_extension ON (
+			$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
+
+				// Workaround for the subselect while Extbase doesn't support this
+				// See: http://lists.typo3.org/pipermail/typo3-project-typo3v4mvc/2010-July/005870.html
+			$backend = $this->objectManager->get('Tx_Extbase_Persistence_Storage_Typo3DbBackend');
+			$parameters = array();
+			$statementParts = $backend->parseQuery($query, $parameters);
+
+			$statementParts['where'][] = '
+				tx_terfe2_domain_model_author.uid IN (
+					SELECT author FROM tx_terfe2_domain_model_version RIGHT JOIN tx_terfe2_domain_model_extension ON (
 						tx_terfe2_domain_model_version.uid = tx_terfe2_domain_model_extension.last_version
 					)
 				)
 			';
 
-			$query->statement($statement);
+			$statement = $backend->buildQuery($statementParts, $parameters);
+			$query->statement($statement, $parameters);
+			$rows = $query->execute();
+			unset($query);
+
+				// Workaround to enable paginate
+			$uids = array();
+			foreach ($rows as $row) {
+				$uids[] = (int) $row['uid'];
+			}
+			$query = $this->createQuery();
+			$query->setOrderings(
+				array('name' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+			);
+			$query->matching($query->in('uid', $uids));
+
 			return $query->execute();
 		}
 

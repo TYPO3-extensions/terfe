@@ -10,16 +10,16 @@
 		</tr>
 		<tr>
 			<td><f:translate key="tx_terfe2_domain_model_author.email" />:</td>
-			<td>{author.email}</td>
+			<td><f:link.email email="{author.email}" /></td>
 		</tr>
 		<tr>
 			<td><f:translate key="tx_terfe2_domain_model_author.company" />:</td>
 			<td>{author.company}</td>
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td><f:translate key="tx_terfe2_domain_model_author.forge_link" />:</td>
-			<td>{author.forgeLink}</td>
-		</tr>
+			<td><f:link.external uri="{author.forgeLink}" target="_blank">{author.forgeLink}</f:link.external></td>
+		</tr> -->
 	</table>
 	<f:link.action controller="Extension" action="index"><f:translate key="back_to_extension_list"/></f:link.action>
 </f:section>
