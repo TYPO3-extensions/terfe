@@ -165,11 +165,9 @@
 				$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
 			}
 
-			if ($extension === NULL || !$extension instanceof Tx_TerFe2_Domain_Model_Extension) {
-				throw new Exception('Extension object is not valid');
+			if ($extension !== NULL && $extension instanceof Tx_TerFe2_Domain_Model_Extension) {
+				$this->view->assign('extension', $extension);
 			}
-
-			$this->view->assign('extension', $extension);
 		}
 
 

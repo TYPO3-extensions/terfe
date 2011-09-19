@@ -96,6 +96,7 @@
 			<label index="msg.no_entries_found">No entries found</label>
 			<label index="msg.could_not_transfer_file">File download is broken</label>
 			<label index="msg.sorting_manipulated">Sorting form was manipulated</label>
+			<label index="msg.extension_not_found">Extension not found</label>
 
 			<label index="header.latest_extensions">Latest Extensions</label>
 			<label index="header.top_rated_extensions">Top rated Extensions</label>
