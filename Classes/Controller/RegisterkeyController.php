@@ -143,7 +143,7 @@
 
 		/**
 		 * Manage registered extensions
-		 * 
+		 *
 		 * @return void
 		 */
 		public function manageAction() {
@@ -188,6 +188,14 @@
 		 * @return void
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $categories) {
+			/**
+			 * TODO: Modification of the extension key is currently not allowed
+			 */
+			if ($extension->_isDirty('extKey')) {
+				$this->redirect('index', 'Registerkey');
+			}
+
+
 				// Check if the extension key has changed
 			if ($extension->_isDirty('extKey')) {
 					// If extension key has changed, check if the new one is in the ter
