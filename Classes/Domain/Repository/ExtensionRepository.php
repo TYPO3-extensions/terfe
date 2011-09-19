@@ -139,7 +139,7 @@
 					$query->greaterThanOrEqual('lastVersion.versionNumber', (int) $versionNumber)
 				)
 			);
-			return $query->count();
+			return $query->execute()->count();
 		}
 
 	}
