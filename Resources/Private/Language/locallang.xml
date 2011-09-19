@@ -95,6 +95,7 @@
 			<label index="msg.file_hash_not_equal">File was changed and is therefore corrupt</label>
 			<label index="msg.no_entries_found">No entries found</label>
 			<label index="msg.could_not_transfer_file">File download is broken</label>
+			<label index="msg.sorting_manipulated">Sorting form was manipulated</label>
 
 			<label index="header.latest_extensions">Latest Extensions</label>
 			<label index="header.top_rated_extensions">Top rated Extensions</label>
@@ -116,6 +117,19 @@
 			<label index="link.all_media">All Tags</label>
 			<label index="link.all_authors">All Authors</label>
 			<label index="link.extension_details">Details</label>
+
+			<label index="tab.extensions">Extensions</label>
+			<label index="tab.categories">Categories</label>
+			<label index="tab.tags">Tags</label>
+			<label index="tab.authors">Authors</label>
+
+			<label index="sorting.updated">Last update</label>
+			<label index="sorting.downloads">Downloads</label>
+			<label index="sorting.title">Title</label>
+			<label index="sorting.votes">Votes</label>
+
+			<label index="direction.asc">Ascending</label>
+			<label index="direction.desc">Descending</label>
 
 			<label index="list_all_extensions">List of all extensions</label>
 			<label index="list_latest_extensions">List of new and updated extensions</label>
@@ -161,6 +175,8 @@
 			<label index="changelog">Changelog</label>
 			<label index="files">Files</label>
 			<label index="manual">Manual</label>
+			<label index="sort_extensions_by">Sort by</label>
+			<label index="submit_ordering_form">Sort</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_extension_list">Back to Extension List</label>
@@ -177,7 +193,7 @@
 			<label index="last_uploaded">Last uploaded</label>
 			<label index="last_updated">Last updated</label>
 			<label index="expand_version_history">Expand version history</label>
-			<label index="collapse_version_history">Collapse version history</label>
+			<label index="collapsee_version_history">Collapse version history</label>
 
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>

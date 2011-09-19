@@ -15,23 +15,23 @@ plugin.tx_terfe2 {
 		countDownloads    = {$plugin.tx_terfe2.settings.countDownloads}
 
 		terConnection {
-			wsdl          = {$plugin.tx_terfe2.settings.terConnection.wsdl}
-			username      = {$plugin.tx_terfe2.settings.terConnection.username}
-			password      = {$plugin.tx_terfe2.settings.terConnection.password}
+			wsdl            = {$plugin.tx_terfe2.settings.terConnection.wsdl}
+			username        = {$plugin.tx_terfe2.settings.terConnection.username}
+			password        = {$plugin.tx_terfe2.settings.terConnection.password}
 		}
 
 		smallImage {
-			maxW          = {$plugin.tx_terfe2.settings.smallImage.maxW}
-			maxH          = {$plugin.tx_terfe2.settings.smallImage.maxH}
-			quality       = {$plugin.tx_terfe2.settings.smallImage.quality}
-			ext           = {$plugin.tx_terfe2.settings.smallImage.ext}
+			maxW            = {$plugin.tx_terfe2.settings.smallImage.maxW}
+			maxH            = {$plugin.tx_terfe2.settings.smallImage.maxH}
+			quality         = {$plugin.tx_terfe2.settings.smallImage.quality}
+			ext             = {$plugin.tx_terfe2.settings.smallImage.ext}
 		}
 
 		largeImage {
-			maxW          = {$plugin.tx_terfe2.settings.largeImage.maxW}
-			maxH          = {$plugin.tx_terfe2.settings.largeImage.maxH}
-			quality       = {$plugin.tx_terfe2.settings.largeImage.quality}
-			ext           = {$plugin.tx_terfe2.settings.largeImage.ext}
+			maxW            = {$plugin.tx_terfe2.settings.largeImage.maxW}
+			maxH            = {$plugin.tx_terfe2.settings.largeImage.maxH}
+			quality         = {$plugin.tx_terfe2.settings.largeImage.quality}
+			ext             = {$plugin.tx_terfe2.settings.largeImage.ext}
 		}
 	}
 

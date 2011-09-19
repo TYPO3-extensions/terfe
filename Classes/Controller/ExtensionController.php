@@ -83,12 +83,15 @@
 		/**
 		 * Index action, shows an overview
 		 *
+		 * @param string $sorting Sort extensions by this key
+		 * @param string $direction Sorting order
 		 * @return void
 		 */
-		public function indexAction() {
+		public function indexAction($sorting = 'updated', $direction = 'desc') {
 				// Get all extensions
-			$extensions = $this->extensionRepository->findAll();
-			$this->view->assign('extensions', $extensions);
+			$this->view->assign('extensions', $this->getExtensions($sorting, $direction));
+			$this->view->assign('sorting',    $sorting);
+			$this->view->assign('direction',  $direction);
 
 				// Get latest extensions
 			/*$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 10);
@@ -121,7 +124,7 @@
 
 		/**
 		 * List action, displays all extensions
-		 * 
+		 *
 		 * Note: Required for RSS / JSON output
 		 *
 		 * @return void
@@ -133,7 +136,7 @@
 
 		/**
 		 * List latest action, displays new and updated extensions
-		 * 
+		 *
 		 * Note: Required for RSS / JSON output
 		 *
 		 * @return void
@@ -294,6 +297,31 @@
 
 				// Fallback
 			$this->redirect('index');
+		}
+
+
+		/**
+		 * Returns all extensions by
+		 *
+		 * @param string $sorting Sort extensions by this key
+		 * @param string $direction Sorting order
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		protected function getExtensions(&$sorting, &$direction) {
+			$sortings = array(
+				'updated'   => 'lastVersion.uploadDate',
+				'downloads' => 'versions.downloadCounter',
+				'title'     => 'lastVersion.title',
+			);
+			$directions = array(
+				'desc'      => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING,
+				'asc'       => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING,
+			);
+			if (empty($sortings[$sorting]) || empty($directions[$direction])) {
+				$sorting   = 'updated';
+				$direction = 'desc';
+			}
+			return $this->extensionRepository->findAllBySortingAndDirection($sortings[$sorting], $directions[$direction]);
 		}
 
 	}

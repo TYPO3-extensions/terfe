@@ -16,11 +16,11 @@
 			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
 		),
 		array(
-			'Extension' => 'create, update, delete',
-			'Category'  => 'create, update, delete',
-			'Tag'       => 'create, delete',
-			'Author'    => 'update',
-			'Media'     => 'create, delete',
+			'Extension'   => 'index, create, update, delete',
+			'Category'    => 'create, update, delete',
+			'Tag'         => 'create, delete',
+			'Author'      => 'update',
+			'Media'       => 'create, delete',
 			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
 		)
 	);

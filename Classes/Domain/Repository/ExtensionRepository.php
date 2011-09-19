@@ -125,6 +125,20 @@
 
 
 		/**
+		 * Returns all extensions sorted by given sorting and direction
+		 *
+		 * @param string $sorting Sort extensions by this key
+		 * @param string $direction Sorting order
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		public function findAllBySortingAndDirection($sorting, $direction) {
+			$query = $this->createQuery();
+			$query->setOrderings(array($sorting => $direction));
+			return $query->execute();
+		}
+
+
+		/**
 		 * Returns count of extensions with given extKey and versionNumber
 		 *
 		 * @param string $extKey Extension Key
