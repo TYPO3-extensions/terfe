@@ -1,33 +1,24 @@
+
 /**
- * jqPlot styles
+ * Default styles for TER
  */
-div.jqplot-highlighter-tooltip {
-	background: #ffffff;
-	color: #F58006;
-	padding: 0 3px;
-	font-size: 11px;
-	border: 1px solid #9E9E9E;
-	font-weight: bold;
-	-webkit-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
-	-moz-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
-	box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+
+div.tx_terfe2 .tab-content {
+	padding: 15px 0;
+	border: 0;
 }
 
-
-/**
- * Single extension
- */
 div.ter-toggle {
-	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1302px -76px;
-	margin: 0 0 5px 18px;
-	padding: 0 0 0 25px;
+	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1314px -75px;
+	margin: 0 0 5px 0;
+	padding: 0 0 0 12px;
 	color: #8c8c8c;
 	font-size: 11px;
 	cursor: pointer;
 }
 
 div.ter-toggle-showLess {
-	background-position: -791px -674px;
+	background-position: -802px -674px;
 }
 
 div.ter-toggle span {
@@ -48,6 +39,71 @@ div.ter-toggle hr {
 	display: none;
 }
 
+img.ter-ext-icon {
+	position: relative;
+	top: 4px;
+	margin: 0 8px 0 0;
+	border: 1px solid #D1D1D1;
+}
+
+div.ter-ext-info {
+	font-size: 11px;
+}
+
+div.ter-ext-info a {
+	color: #000;
+}
+
+div.ter-ext-info table {
+	margin: 0;
+}
+
+div.ter-ext-info table td,
+div.ter-ext-info table th {
+	border: none;
+	padding: 2px 0;
+}
+
+div.ter-ext-info table th {
+	width: 100px;
+	color: #8c8c8c;
+	background: none;
+	font-weight: normal;
+}
+
+span.ter-ext-state {
+	display: block;
+	float: right;
+	text-transform: uppercase;
+	margin: 0 10px 0 0;
+}
+span.ter-ext-state-obsolete {
+	color: #8c8c8c;
+}
+span.ter-ext-state-stable {
+	color: #3db900;
+	font-weight: bold;
+}
+span.ter-ext-state-beta {
+	color: #f4bd00;
+	font-weight: bold;
+}
+span.ter-ext-state-alpha {
+	color: #f14400;
+	font-weight: bold;
+}
+
+div.ter-ext-meta {
+	font-size: 11px;
+	color: #8c8c8c;
+	line-height: 22px;
+}
+
+div.ter-ext-meta b {
+	font-weight: normal;
+	color: #000;
+	padding: 0 10px 0 0;
+}
 
 /**
  * Extension list
@@ -58,28 +114,15 @@ div.ter-ext-list-row {
 	border-bottom: 1px solid #D1D1D1;
 }
 
-div.extension-head h4 {
-	margin-top: 0;
+div.ter-ext-list-row-head {
 }
 
-div.extension-head a {
-
+div.ter-ext-list-row-head a {
+	font-weight: bold;
 }
 
-span.extension-icon {
-
-}
-
-span.extension-date {
-	float: right;
-	font-size: 11px;
-	color: #555555;
-}
-
-div.extension-description {
-	margin-bottom: 7px;
+div.ter-ext-list-row-description {
 	overflow: auto;
-	width: 63%;
 	float: left;
 	width: 370px;
 	margin: 6px 0 7px 30px;
@@ -89,19 +132,43 @@ div.extension-description {
 div.ter-ext-list-row-info {
 	float: right;
 	width: 270px;
-	font-size: 11px;
 	margin: 4px 0 0 0;
 }
 
-div.extension-info {
-	width: 33%;
-	float: left;
-	width: 370px;
-	line-height: 22px;
+div.ter-ext-list-row-details {
+	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1302px -76px;
+	margin: 0 0 5px 18px;
+	padding: 0 0 0 25px;
+	color: #8c8c8c;
+	font-size: 11px;
+	cursor: pointer;
 }
 
-div.extension-info a {
+div.ter-ext-list-row-details span {
+	background: #fff;
+	position: relative;
+	z-index: 2;
+	padding: 0 5px 0 0;
+}
 
+div.ter-ext-list-row-details hr {
+	position: relative;
+	top: -9px;
+	position: relative;
+	z-index: 1;
+}
+
+div.ter-ext-list-row-lastUploadComment b {
+	display: block;
+	font-weight: normal;
+	margin: 0 0 4px 0;
+	font-size: 11px;
+}
+
+div.ter-ext-list-row-meta {
+	margin: 0 0 0 30px;
+	float: left;
+	width: 370px;
 }
 
 div.ter-ext-list-row-buttons {
@@ -109,59 +176,78 @@ div.ter-ext-list-row-buttons {
 	width: 270px;
 }
 
-div.extension-info table {
-	margin: 0;
+div.ter-ext-list-row-buttons a {
+	color: #fff;
+	text-decoration: none;
 }
 
-div.extension-info td {
-	border: none;
-	padding: 6px 0 5px 0;
-}
-
-div.extension-info tr {
-	border-top: 1px solid #D1D1D1;
-}
-
-td.ter-ext-list-row-label {
-	width: 75px;
-}
-
-div.extension-regular div.extension-info tr:first-child {
-	border: none;
-}
-
-td.extension-label {
-	width: 60px;
-}
-
-br.tx_terfe2-clear {
-	height: 0;
-	line-height: 0;
-	padding: 0;
-	margin: 0;
-	clear: both;
-}
-
-span.extension-plus {
+span.ter-ext-list-row-plus {
 	color: #009C21;
 }
 
-span.extension-minus {
+span.ter-ext-list-row-minus {
 	color: #EE1B00;
 }
+div.ter-ext-list-row div.ter-toggle {
+	margin-left: 30px;
+}
 
-div.ter-ext-list-lastUploadComment b {
-	font-size: 11px;
-	font-weight: normal;
+
+/**
+ * Extension details
+ */
+#ter-ext-single h2 {
+	display: inline;
+}
+#ter-ext-single img.img.ter-ext-icon {
+	top: 2px;
+}
+.ter-ext-single-description {
+	float: left;
+	width: 400px;
+	margin: 25px 30px 0 0;
+}
+.ter-ext-single-info {
+	float: right;
+	width: 270px;
+	margin: 23px 0 0 0;
+}
+div.ter-ext-single-lastUploadComment b {
 	display: block;
+	font-weight: normal;
 	margin: 0 0 4px 0;
+	font-size: 11px;
+	color: #8c8c8c;
+}
+.ter-ext-single-versionhistory .col1 {
+	width: 85px;
+}
+.ter-ext-single-versionhistory .col3 {
+	width: 100px;
+	text-align: right;
+}
+.ter-ext-single-versionhistory table {
+	margin: 0;
+}
+.ter-ext-single-versionhistory table td {
+	border: none;
+	padding: 0;
+}
+.ter-ext-single-links {
+	border-top: 1px solid #d1d1d1;
+	padding-top: 10px;
+}
+.ter-ext-single-back {
+	float: left;
+}
+.ter-ext-single-downloadzip {
+	float: right;
+	margin-left: 10px;
+}
+.ter-ext-single-downloadt3x {
+	float: right;
 }
 
-div.ter-ext-list-row .bu a {
-	color: #fff;
-	text-decoration: none;
-	border-bottom: none;
-}
 
 /**
  * Registerkeys
@@ -178,7 +264,7 @@ table.manage-keys td.no-borders {
 }
 table.manage-keys td.no-border-left {
 	border-left: 0;
-	width:40px;
+	width: 40px;
 }
 
 table.manage-keys td div.b-form-inputs {
@@ -199,7 +285,7 @@ table.manage-keys thead tr th.transfer-colum {
 }
 
 div.tx_terfe2 div.register-wrapper {
-	clear:both;
+	clear: both;
 	display: block;
 }
 
@@ -214,3 +300,19 @@ div.tx_terfe2 div.register-input {
 	margin:  0;
 }
 
+
+
+/**
+ * jqPlot styles
+ */
+div.jqplot-highlighter-tooltip {
+	background: #ffffff;
+	color: #F58006;
+	padding: 0 3px;
+	font-size: 11px;
+	border: 1px solid #9E9E9E;
+	font-weight: bold;
+	-webkit-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+	-moz-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+	box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+}
