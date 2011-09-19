@@ -74,12 +74,14 @@ function getDefaultChartOptions() {
 			return;
 		}
 
-			// Toggle visibility
-		$toggleElement = $element.closest('div.ter-ext-list-row');
+		$toggleElement = $element.closest('.ter-toggle-from-here');
+
+		$toggleElement.find('.ter-toggle-hide').toggle();
 		$toggleElement.find('.ter-toggle-show').fadeToggle('fast');
 
+		var $chart = $toggleElement.find('.chart-container');
+
 		// Render chart
-		var $chart = $toggleElement.find('div.chart-container');
 		if (typeof($chart) !== 'undefined') {
 			$chart.renderChart(true);
 		}
