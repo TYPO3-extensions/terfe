@@ -256,13 +256,19 @@
 					throw new Exception('No directory for extension media files configured');
 				}
 				$extKey = $extension->getExtKey();
-				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->settings['mediaRootPath'] . $extKey);
+				$extensionMediaPath = rtrim($this->settings['mediaRootPath'], '/') . '/';
+				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($extensionMediaPath . $extKey);
 				$fileUrl = $extensionMediaPath . basename($provider->getFileName($version, $format));
 			}
 
 				// Check if file exists
 			if (empty($fileUrl) || !Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
-				$this->redirectWithMessage('index', 'file_not_found');
+				if (Tx_TerFe2_Utility_File::isAbsolutePath($fileUrl)) {
+					$fileUrl = Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($fileUrl);
+				}
+				$this->flashMessageContainer->add($this->translate('msg.file_not_found') . ': ' . $fileUrl);
+				$this->redirect('index');
+				//$this->redirectWithMessage('index', 'file_not_found');
 			}
 
 				// Check file hash of t3x packages
