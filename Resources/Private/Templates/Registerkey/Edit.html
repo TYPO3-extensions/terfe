@@ -36,7 +36,9 @@
 					<div class="register-input">
 						<div class="category-container">
 							<f:for each="{categories}" as="category">
-								<f:form.checkbox name="categories[{category.object}]" value="{category.object}" checked="{category.isChecked}" /> {category.object.title}<br />
+								<div class="category">
+									<f:form.checkbox name="categories[{category.object}]" value="{category.object}" checked="{category.isChecked}" /> {category.object.title}<br />
+								</div>
 							</f:for>
 						</div>
 					</div>
