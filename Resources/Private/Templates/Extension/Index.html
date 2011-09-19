@@ -2,7 +2,7 @@
 
 <f:section name="main">
 	<div class="b-tabs">
-		<ul class="tabs orange-tabs">
+		<ul class="tabs lite-tabs">
 			<li>
 				<a href="#tx_terfe2_tab_extensions">Extensions</a>
 			</li>
@@ -17,25 +17,19 @@
 			</li>
 		</ul>
 		<div class="tab-panes">
-			<div class="csc-default show-tab" id="tx_terfe2_tab_extensions">
-				<div class="tab-content ">
-					<f:render partial="ExtensionList" arguments="{extensions: extensions}"/>
-				</div>
+			<div class="tab-content lite-tab-panes-black">
+				<f:render partial="ExtensionList" arguments="{extensions: extensions}"/>
 			</div>
-			<div class="csc-default show-tab" id="tx_terfe2_tab_categories">
-				<div class="tab-content ">
-					<f:render partial="CategoryList" arguments="{categories: categories}"/>
-				</div>
+			<div class="tab-content lite-tab-panes-black">
+				<f:render partial="CategoryList" arguments="{categories: categories}"/>
 			</div>
-			<!--<div class="csc-default show-tab" id="tx_terfe2_tab_tags">
-				<div class="tab-content ">
-					<f:render partial="TagList" arguments="{tags: tags}"/>
-				</div>
-			</div>-->
-			<div class="csc-default show-tab" id="tx_terfe2_tab_authors">
-				<div class="tab-content ">
-					<f:render partial="AuthorList" arguments="{authors: authors}"/>
-				</div>
+			<!--
+			<div class="tab-content lite-tab-panes-black">
+				<f:render partial="TagList" arguments="{tags: tags}"/>
+			</div>
+			-->
+			<div class="tab-content lite-tab-panes-black">
+				<f:render partial="AuthorList" arguments="{authors: authors}"/>
 			</div>
 		</div>
 	</div>

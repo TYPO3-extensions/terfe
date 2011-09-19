@@ -1,13 +1,6 @@
-
 /**
  * Default styles for TER
  */
-
-div.tx_terfe2 .tab-content {
-	padding: 15px 0;
-	border: 0;
-}
-
 div.ter-toggle {
 	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1314px -75px;
 	margin: 0 0 5px 0;
