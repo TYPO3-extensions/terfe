@@ -3,101 +3,104 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<div id="ter-ext-single">
+	<div id="ter-ext-single" class="ter-toggle-from-here">
 
-		<div class="ter-ext-singleheader">
-			<div class="ter-ext-icon"><span><terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" /></span></div>
-			<div class="ter-ext-title">
-				<h2>
-					<f:translate key="single_extension" />
-					{extension.lastVersion.title}
-				</h2>
-			</div>
-			<div class="ter-ext-status">
-				<f:if condition="{0 : extension.lastVersion.state} == {0 : 'stable'}">
-					<span style="color:green"><terfe2:format function="strtoupper">{extension.lastVersion.state}</terfe2:format></span>
-				</f:if>
-				<f:if condition="{0 : extension.lastVersion.state} == {0 : 'beta'}">
-					<span style="color:yellow"><terfe2:format function="strtoupper">{extension.lastVersion.state}</terfe2:format></span>
-				</f:if>
-				<f:if condition="{0 : extension.lastVersion.state} == {0 : 'alpha'}">
-					<span style="color:red"><terfe2:format function="strtoupper">{extension.lastVersion.state}</terfe2:format></span>
-				</f:if>
-				<f:if condition="{0 : extension.lastVersion.state} == {0 : 'obsolete'}">
-					<span style="color:black"><terfe2:format function="strtoupper">{extension.lastVersion.state}</terfe2:format></span>
-				</f:if>
-			</div>
-			<div class="cl"></div>
+		<div class="ter-ext-single-header">
+			<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" class="ter-ext-icon" />
+			<h2>
+				<f:translate key="single_extension" />
+				{extension.lastVersion.title}
+			</h2>
+			<span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span>
 		</div>
 
-		<div class="ter-ext-singlecontent">
-			<div class="ter-ext-singledescription"><p>{extension.lastVersion.description}</p>
-				<div class="ter-ext-singledescription-footer cl">
-					<div class="ter-ext-singleversion">
-						<span class="ter-ext-singledetails-label"><f:translate key="version" />: </span><span class="ter-ext-singledetails-value">{extension.lastVersion.versionString}</span>
-					</div>
-					<div class="ter-ext-singleupdate">
-						<span class=".ter-ext-singledetails-label"><f:translate key="last_uploaded" />: </span><span class="ter-ext-singledetails-value"><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></span>
-					</div>
-					<div class="ter-ext-singledownloads">
-						<span class=".ter-ext-singledetails-label"><f:translate key="downloads" />: </span><span class="ter-ext-singledetails-value">{extension.allDownloads}</span>
-					</div>
+		<div class="ter-ext-single-content cl">
+			<div class="ter-ext-single-description">
+				<p>{extension.lastVersion.description}</p>
+
+				<!-- Comments / changelog -->
+				<f:if condition="{extension.lastVersion.uploadComment}">
+				<div class="ter-ext-single-lastUploadComment">
+					<b><f:translate key="last_upload_comment"/></b>
+					<p>{extension.lastVersion.uploadComment}</p>
+				</div>
+				</f:if>
+
+				<div class="ter-ext-single-meta ter-ext-meta">
+					<f:translate key="version" />: <b>{extension.lastVersion.versionString}</b>
+					<f:translate key="last_uploaded" />: <b><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></b>
+					<f:translate key="downloads" />: <b>{extension.allDownloads}</b>
 				</div>
 			</div>
 
-			<div class="ter-ext-singledetails">
-				<table class="ter-ext-singledetails-info">
+			<div class="ter-ext-single-info ter-ext-info">
+				<table>
 					<tr>
-						<td class="ter-ext-singledetails-label">
-							<span><f:translate key="extensionKey"/></span>
-						</td>
-						<td class="ter-ext-singledetails-value">{extension.extKey}</td>
+						<th><f:translate key="extensionKey"/></th>
+						<td>{extension.extKey}</td>
 					</tr>
 					<tr>
-						<td class="ter-ext-singledetails-label">
-							<span><f:translate key="author"/></span>
-						</td>
-						<td class="ter-ext-singledetails-value"><f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action></td>
+						<th><f:translate key="author"/></th>
+						<td><f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action></td>
 					</tr>
 					<tr>
-						<td class="ter-ext-singledetails-label"><span><f:translate key="categories"/></span></td>
-						<td class="ter-ext-singledetails-value"><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
+						<th><f:translate key="category"/></th>
+						<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
 					</tr>
 					<tr>
-						<td class="ter-ext-singledetails-label"><span><f:translate key="relations"/></span></td>
-						<td class="ter-ext-singledetails-value"><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/>
-						</td>
+						<th><f:translate key="relations"/></th>
+						<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
 					</tr>
 					<tr>
-						<td class="ter-ext-singledetails-label"><span><f:translate key="manual"/></span></td>
-						<td class="ter-ext-singledetails-value"><terfe2:documentationLink>{extension.lastVersion}</terfe2:documentationLink></td>
+						<th><f:translate key="manual"/></th>
+						<td><terfe2:documentationLink>{extension.lastVersion}</terfe2:documentationLink></td>
 					</tr>
 					<tr>
-						<td class="ter-ext-singledetails-label"><span><f:translate key="downloads_by_version"/></span></td>
-						<td class="ter-ext-singledetails-value">
-							<terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="200" pointCount="10" renderOnLoad="1"/>
-						</td>
+						<th><f:translate key="downloads_by_version"/></th>
+						<td><terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="170" renderOnLoad="1"/></td>
 					</tr>
 				</table>
 			</div>
-			<div class="cl"></div>
+
 		</div>
-		<!-- <div class="ter-toggle"><span class="i-video i-arr-up-or"></span><span>Collapse Version</span></div> -->
-		<div class="ter-ext-list-row-details ter-toggle"><span><f:translate key="expand_details" /></span>
+
+		<!-- Images and other media -->
+		<div class="ter-ext-single-images">
+			<f:if condition="{extension.lastVersion.media}">
+				<f:for each="{extension.lastVersion.media}" as="media">
+					<!-- display only images in the list view -->
+					<f:if condition="{media.type} == 0">
+						<!-- add shadowbox effect to images -->
+						<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
+							<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
+						</a>
+					</f:if>
+				</f:for>
+			</f:if>
+		</div>
+
+		<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
+			<span><f:translate key="expand_version_history" /></span>
 			<hr/>
 		</div>
-		<div class="ter-ext-single-versionhistory">
+
+		<div class="ter-toggle-showLess ter-toggle ter-toggle-show">
+			<span><f:translate key="collapse_version_history" /></span>
+			<hr/>
+		</div>
+
+		<div class="ter-ext-single-versionhistory ter-toggle-show">
 			<f:render partial="ExtensionUploadHistoryList" arguments="{extension: extension}" />
 		</div>
 
-		<div class="ter-ext-singlelinks cl">
-			<div class="ter-ext-singleback">
+		<div class="ter-ext-single-links cl">
+			<div class="ter-ext-single-back">
 				<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
 			</div>
-			<div class="ter-ext-singledownloadzip">
+			<div class="ter-ext-single-downloadzip">
 				<f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><span class="bu"><f:translate key="download_t3x"/></f:link.action></span>
 			</div>
-			<div class="ter-ext-singledownloadt3x">
+			<div class="ter-ext-single-downloadt3x">
 				<f:if condition="{extension.lastVersion.mediaCreated}">
 					<f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 'zip'}"><span class="bu"><f:translate key="download_zip"/></span></f:link.action>
 				</f:if>

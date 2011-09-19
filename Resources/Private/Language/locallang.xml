@@ -115,7 +115,7 @@
 			<label index="link.all_tags">All Tags</label>
 			<label index="link.all_media">All Tags</label>
 			<label index="link.all_authors">All Authors</label>
-			<label index="link.extension_details">Show details »</label>
+			<label index="link.extension_details">Details</label>
 
 			<label index="list_all_extensions">List of all extensions</label>
 			<label index="list_latest_extensions">List of new and updated extensions</label>
@@ -169,12 +169,15 @@
 			<label index="edit">Edit</label>
 			<label index="delete">Delete</label>
 			<label index="expand_details">Expand details</label>
+			<label index="collapse_details">Collapse details</label>
 			<label index="downloads">Downloads</label>
 			<label index="download_t3x">Download T3X</label>
 			<label index="download_zip">Download ZIP</label>
-			<label index="downloads_by_version">Downloads by Version</label>
+			<label index="downloads_by_version">Downloads by version</label>
 			<label index="last_uploaded">Last uploaded</label>
-			<label index="expand_details">Collapse Version history</label>
+			<label index="last_updated">Last updated</label>
+			<label index="expand_version_history">Expand version history</label>
+			<label index="collapse_version_history">Collapse version history</label>
 
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>
