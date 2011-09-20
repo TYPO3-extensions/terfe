@@ -235,10 +235,10 @@ div.ter-ext-single-lastUploadComment b {
 }
 .ter-ext-single-downloadzip {
 	float: right;
-	margin-left: 10px;
 }
 .ter-ext-single-downloadt3x {
 	float: right;
+	margin-right: 10px;
 }
 
 

@@ -35,7 +35,8 @@
 			<label index="media.description">Media references</label>
 			<label index="experiences.description">Experiences</label>
 			<label index="software_relations.description">Software relations</label>
-			<label index="zip_file.description">Path to the zip file of this version</label>
+			<label index="has_zip_file.description">ZIP file was created for this version</label>
+			<label index="has_images.description">Images were rendered for this version</label>
 		</languageKey>
 	</data>
 </T3locallang>

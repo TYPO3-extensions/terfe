@@ -30,7 +30,7 @@
 								</div>
 								</f:if>
 
-								<p><f:link.action class="bu bu-mini" action="show" arguments="{extension: extension}"><f:translate key="link.extension_details" /></f:link.action></p>
+								<p><f:link.action controller="Extension" action="show" arguments="{extension: extension}" class="bu bu-mini"><f:translate key="link.extension_details" /></f:link.action></p>
 							</div>
 						</div>
 
@@ -96,7 +96,7 @@
 
 					<div class="ter-ext-list-row-buttons">
 						<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
-						<f:if condition="{extension.lastVersion.mediaCreated}">
+						<f:if condition="{extension.lastVersion.hasZipFile}">
 							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
 						</f:if>
 					</div>

@@ -223,10 +223,16 @@
 		protected $extensionProvider;
 
 		/**
-		 * Media was created for this version
+		 * Has zip file
 		 * @var boolean
 		 */
-		protected $mediaCreated;
+		protected $hasZipFile;
+
+		/**
+		 * Has images
+		 * @var boolean
+		 */
+		protected $hasImages;
 
 
 		/**
@@ -989,23 +995,44 @@
 
 
 		/**
-		 * Setter for mediaCreated
+		 * Setter for hasZipFile
 		 *
-		 * @param boolean $mediaCreated Media was created
+		 * @param boolean $hasZipFile Has zip file
 		 * @return void
 		 */
-		public function setMediaCreated($mediaCreated) {
-			$this->mediaCreated = $mediaCreated;
+		public function setHasZipFile($hasZipFile) {
+			$this->hasZipFile = $hasZipFile;
 		}
 
 
 		/**
-		 * Getter for mediaCreated
+		 * Getter for hasZipFile
 		 *
-		 * @return boolean Media was created
+		 * @return boolean Has zip file
 		 */
-		public function getMediaCreated() {
-			return $this->mediaCreated;
+		public function getHasZipFile() {
+			return $this->hasZipFile;
+		}
+
+
+		/**
+		 * Setter for hasImages
+		 *
+		 * @param boolean $hasImages Has images
+		 * @return void
+		 */
+		public function setHasImages($hasImages) {
+			$this->hasImages = $hasImages;
+		}
+
+
+		/**
+		 * Getter for hasImages
+		 *
+		 * @return boolean Has images
+		 */
+		public function getHasImages() {
+			return $this->hasImages;
 		}
 
 	}

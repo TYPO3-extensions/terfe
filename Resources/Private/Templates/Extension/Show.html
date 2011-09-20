@@ -3,7 +3,7 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
-	<f:if condition="">
+	<f:if condition="{extension}">
 		<f:then>
 			<div id="ter-ext-single" class="ter-toggle-from-here">
 
@@ -100,12 +100,12 @@
 						<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
 					</div>
 					<div class="ter-ext-single-downloadzip">
-						<f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><span class="bu"><f:translate key="download_t3x"/></f:link.action></span>
-					</div>
-					<div class="ter-ext-single-downloadt3x">
-						<f:if condition="{extension.lastVersion.mediaCreated}">
+						<f:if condition="{extension.lastVersion.hasZipFile}">
 							<f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 'zip'}"><span class="bu"><f:translate key="download_zip"/></span></f:link.action>
 						</f:if>
+					</div>
+					<div class="ter-ext-single-downloadt3x">
+						<f:link.action controller="Extension" action="download" arguments="{extension : extension, version : extension.lastVersion, format : 't3x'}"><span class="bu"><f:translate key="download_t3x"/></f:link.action></span>
 					</div>
 				</div>
 

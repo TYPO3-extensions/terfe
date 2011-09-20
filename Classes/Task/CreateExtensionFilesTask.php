@@ -97,13 +97,15 @@
 				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->mediaRootPath . $extKey);
 
 					// Create zip file
-				$this->createZipFile($version, $extensionMediaPath);
+				if ($this->createZipFile($version, $extensionMediaPath)) {
+					$version->setHasZipFile(TRUE);
+				}
 
 					// Create images
-				$this->createImages($version, $extensionMediaPath);
+				if ($this->createImages($version, $extensionMediaPath)) {
+					$version->setHasImages(TRUE);
+				}
 
-					// Mark version as processed
-				$version->setMediaCreated(TRUE);
 				$this->persistenceManager->persistAll();
 			}
 
@@ -130,6 +132,11 @@
 			$t3xFileName = $provider->getFileUrl($version, 't3x');
 			$zipFileName = $extensionMediaPath . basename($provider->getFileName($version, 'zip'));
 
+				// Check if zip file already exists
+			if (Tx_TerFe2_Utility_File::fileExists($zipFileName)) {
+				return TRUE;
+			}
+
 				// Check file hash
 			$fileHash = Tx_TerFe2_Utility_File::getFileHash($t3xFileName);
 			if ($fileHash != $version->getFileHash()) {
@@ -137,11 +144,7 @@
 			}
 
 				// Create zip file
-			if (!Tx_TerFe2_Utility_File::fileExists($zipFileName)) {
-				return Tx_TerFe2_Utility_Archive::convertT3xToZip($t3xFileName, $zipFileName);
-			}
-
-			return TRUE;
+			return Tx_TerFe2_Utility_Archive::convertT3xToZip($t3xFileName, $zipFileName);
 		}
 
 
