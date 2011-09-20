@@ -26,7 +26,7 @@
 	/**
 	 * Persistence handler interface
 	 */
-	interface Tx_TerFe2_Persistence_PersistenceInterface extends t3lib_Singleton {
+	interface Tx_TerFe2_Persistence_PersistenceInterface {
 
 		/**
 		 * Load content

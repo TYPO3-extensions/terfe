@@ -97,7 +97,7 @@
 
 				// Force values
 			if (!empty($this->forceLastRun)) {
-				$lastRun = Tx_TerFe2_Utility_Datetime::getTimestampFromString($this->forceLastRun);
+				$lastRun = Tx_TerFe2_Utility_Datetime::getTimestampFromDate($this->forceLastRun);
 			}
 			if (is_numeric($this->forceOffset)) {
 				$offset = (int) $this->forceOffset;
@@ -153,6 +153,25 @@
 				$pages = t3lib_div::intExplode(',', $pages, TRUE);
 				Tx_Extbase_Utility_Cache::clearPageCache($pages);
 			}
+		}
+
+
+		/**
+		 * Returns additional information
+		 *
+		 * @return string
+		 */
+		public function getAdditionalInformation() {
+				// Load registry
+			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+			$registry = $objectManager->get('Tx_TerFe2_Persistence_Registry');
+			$registry->setName(get_class($this));
+
+				// Get process information
+			$lastRun = (int) $registry->get('lastRun');
+			$offset  = (int) $registry->get('offset');
+
+			return ' Last run: ' . Tx_TerFe2_Utility_Datetime::getDateFromTimestamp($lastRun) . ' | Offset: ' . $offset . ' ';
 		}
 
 	}

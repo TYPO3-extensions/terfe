@@ -198,17 +198,28 @@
 
 
 		/**
-		 * Returns the name of selected extension provider
+		 * Returns additional information
 		 *
 		 * @return string
 		 */
 		public function getAdditionalInformation() {
+				// Get title
 			$title = ucfirst($this->providerName);
 			if (!empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$this->providerName]['title'])) {
 				$title = $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$this->providerName]['title'];
 				$title = Tx_Extbase_Utility_Localization::translate($title, '');
 			}
-			return ' ' . $title . ' ';
+
+				// Load registry
+			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+			$registry = $objectManager->get('Tx_TerFe2_Persistence_Registry');
+			$registry->setName(get_class($this) . '_' . $this->providerName);
+
+				// Get process information
+			$lastRun = (int) $registry->get('lastRun');
+			$offset  = (int) $registry->get('offset');
+
+			return ' Provider: ' . $title . ' | Last run: ' . Tx_TerFe2_Utility_Datetime::getDateFromTimestamp($lastRun) . ' | Offset: ' . $offset . ' ';
 		}
 
 	}

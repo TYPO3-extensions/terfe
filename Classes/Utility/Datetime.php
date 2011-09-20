@@ -51,7 +51,7 @@
 		 * @param string $string Date / time
 		 * @return integer Unix timestamp
 		 */
-		public static function getTimestampFromString($string) {
+		public static function getTimestampFromDate($string) {
 				// Try with strtotime
 			$timestamp = strtotime($string);
 
@@ -73,6 +73,17 @@
 			}
 
 			return (int) $timestamp;
+		}
+
+
+		/**
+		 * Convert a timestamp to date string
+		 *
+		 * @param intger $timestamp The timstamp to format
+		 * @return string The date
+		 */
+		public static function getDateFromTimestamp($timestamp) {
+			return date(self::$dateTimeFormat, (int) $timestamp);
 		}
 
 	}
