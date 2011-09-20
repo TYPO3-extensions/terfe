@@ -70,17 +70,21 @@ span.ter-ext-state {
 	text-transform: uppercase;
 	margin: 0 10px 0 0;
 }
+
 span.ter-ext-state-obsolete {
 	color: #8c8c8c;
 }
+
 span.ter-ext-state-stable {
 	color: #3db900;
 	font-weight: bold;
 }
+
 span.ter-ext-state-beta {
 	color: #f4bd00;
 	font-weight: bold;
 }
+
 span.ter-ext-state-alpha {
 	color: #f14400;
 	font-weight: bold;
@@ -108,6 +112,7 @@ div.ter-ext-list-row {
 }
 
 div.ter-ext-list-row-head {
+
 }
 
 div.ter-ext-list-row-head a {
@@ -119,7 +124,6 @@ div.ter-ext-list-row-description {
 	float: left;
 	width: 370px;
 	margin: 6px 0 7px 30px;
-	color: #8c8c8c;
 }
 
 div.ter-ext-list-row-info {
@@ -153,9 +157,10 @@ div.ter-ext-list-row-details hr {
 
 div.ter-ext-list-row-lastUploadComment b {
 	display: block;
-	font-weight: bold;
+	font-weight: normal;
 	margin: 0 0 4px 0;
-	font-size: 12px;
+	font-size: 11px;
+	color: #8c8c8c;
 }
 
 div.ter-ext-list-row-meta {
@@ -192,19 +197,23 @@ div.ter-ext-list-row div.ter-toggle {
 #ter-ext-single h2 {
 	display: inline;
 }
+
 #ter-ext-single img.img.ter-ext-icon {
 	top: 2px;
 }
+
 .ter-ext-single-description {
 	float: left;
 	width: 400px;
 	margin: 25px 30px 0 0;
 }
+
 .ter-ext-single-info {
 	float: right;
 	width: 270px;
 	margin: 23px 0 0 0;
 }
+
 div.ter-ext-single-lastUploadComment b {
 	display: block;
 	font-weight: normal;
@@ -212,30 +221,38 @@ div.ter-ext-single-lastUploadComment b {
 	font-size: 11px;
 	color: #8c8c8c;
 }
+
 .ter-ext-single-versionhistory .col1 {
 	width: 85px;
 }
+
 .ter-ext-single-versionhistory .col3 {
 	width: 100px;
 	text-align: right;
 }
+
 .ter-ext-single-versionhistory table {
 	margin: 0;
 }
+
 .ter-ext-single-versionhistory table td {
 	border: none;
 	padding: 0;
 }
+
 .ter-ext-single-links {
 	border-top: 1px solid #d1d1d1;
 	padding-top: 10px;
 }
+
 .ter-ext-single-back {
 	float: left;
 }
+
 .ter-ext-single-downloadzip {
 	float: right;
 }
+
 .ter-ext-single-downloadt3x {
 	float: right;
 	margin-right: 10px;
