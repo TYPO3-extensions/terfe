@@ -1,3 +1,5 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
 <f:layout name="Default" />
 
 <f:section name="main">
@@ -11,7 +13,7 @@
 			</tr>
 			<tr>
 				<th><f:translate key="tx_terfe2_domain_model_category.description" />:</td>
-				<td><f:link.email email="{category.description}" /></td>
+				<td><terfe2:raw>{category.description}</terfe2:raw></td>
 			</tr>
 		</table>
 	</div>

@@ -74,9 +74,9 @@
 				'exclude'  => 1,
 				'label'    => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_category.description',
 				'config'   => array(
-					'type'  => 'input',
-					'size'  => 30,
-					'eval'  => 'trim',
+					'type'  => 'text',
+					'cols'  => 30,
+					'rows'  => '5',
 				),
 			),
 		),

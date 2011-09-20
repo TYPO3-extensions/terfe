@@ -49,7 +49,7 @@ CREATE TABLE tx_terfe2_domain_model_category (
 
 	extensions int(11) unsigned DEFAULT '0' NOT NULL,
 	title tinytext,
-	description tinytext,
+	description text,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
