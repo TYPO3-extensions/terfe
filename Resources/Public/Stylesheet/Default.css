@@ -326,6 +326,27 @@ div.tx_terfe2 hr {
 }
 
 
+/**
+ * Authors
+ */
+div.ter-author-info {
+	font-size: 11px;
+	padding: 17px 0 0 0;
+}
+
+div.ter-author-info table th {
+	background: none;
+	color: #8C8C8C;
+	font-weight: normal;
+	width: 100px;
+}
+
+div.ter-author-info table td,
+div.ter-author-info table th {
+	border: medium none;
+	padding: 2px 0;
+}
+
 
 /**
  * jqPlot styles

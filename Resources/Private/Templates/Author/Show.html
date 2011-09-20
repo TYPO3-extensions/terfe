@@ -3,23 +3,32 @@
 <f:section name="main">
 	<h2><f:translate key="single_author"/></h2>
 
-	<table cellpadding="4" style="border:1px solid black;">
-		<tr>
-			<td><f:translate key="tx_terfe2_domain_model_author.name" />:</td>
-			<td>{author.name}</td>
-		</tr>
-		<tr>
-			<td><f:translate key="tx_terfe2_domain_model_author.email" />:</td>
-			<td><f:link.email email="{author.email}" /></td>
-		</tr>
-		<tr>
-			<td><f:translate key="tx_terfe2_domain_model_author.company" />:</td>
-			<td>{author.company}</td>
-		</tr>
-		<!-- <tr>
-			<td><f:translate key="tx_terfe2_domain_model_author.forge_link" />:</td>
-			<td><f:link.external uri="{author.forgeLink}" target="_blank">{author.forgeLink}</f:link.external></td>
-		</tr> -->
-	</table>
-	<f:link.action controller="Extension" action="index"><f:translate key="back_to_extension_list"/></f:link.action>
+	<div class="ter-author-info">
+		<table>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_author.name" />:</td>
+				<td>{author.name}</td>
+			</tr>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_author.email" />:</td>
+				<td><f:link.email email="{author.email}" /></td>
+			</tr>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_author.company" />:</td>
+				<td>{author.company}</td>
+			</tr>
+			<!-- <tr>
+				<td><f:translate key="tx_terfe2_domain_model_author.forge_link" />:</td>
+				<td><f:link.external uri="{author.forgeLink}" target="_blank">{author.forgeLink}</f:link.external></td>
+			</tr> -->
+		</table>
+	</div>
+
+	<hr />
+
+	<div class="ter-author-single-links cl">
+		<div class="ter-author-single-back">
+			<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
+		</div>
+	</div>
 </f:section>

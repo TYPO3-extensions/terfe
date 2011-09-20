@@ -101,11 +101,11 @@
 					</div>
 					<div class="ter-ext-single-downloadzip">
 						<f:if condition="{extension.lastVersion.hasZipFile}">
-							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionSlug : extension.lastVersion.versionString, format : 'zip'}"><span class="bu"><f:translate key="download_zip"/></span></f:link.action>
+							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><span class="bu"><f:translate key="download_zip"/></span></f:link.action>
 						</f:if>
 					</div>
 					<div class="ter-ext-single-downloadt3x">
-						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionSlug : extension.lastVersion.versionString, format : 't3x'}"><span class="bu"><f:translate key="download_t3x"/></f:link.action></span>
+						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><span class="bu"><f:translate key="download_t3x"/></f:link.action></span>
 					</div>
 				</div>
 

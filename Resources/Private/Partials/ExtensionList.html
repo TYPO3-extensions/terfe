@@ -95,9 +95,9 @@
 					</div>
 
 					<div class="ter-ext-list-row-buttons">
-						<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, versionSlug : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
+						<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
 						<f:if condition="{extension.lastVersion.hasZipFile}">
-							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, versionSlug : extension.lastVersion.versionString, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
+							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
 						</f:if>
 					</div>
 

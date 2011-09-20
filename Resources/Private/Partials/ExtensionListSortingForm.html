@@ -1,24 +1,24 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
 <div class="ter-sorting-form">
-	<f:form method="POST" controller="Extension" action="index" name="filters">
+	<form method="get" action="{f:uri.action(controller:'Extension', action:'index', noCacheHash: 1)}">
 		<f:translate key="sort_extensions_by" />
 		<span class="ter-ordering-form-sorting">
-			<f:form.select name="sorting" options="{
+			<f:form.select name="tx_terfe2_pi1[sorting]" options="{
 				updated: '{f:translate(key:\'sorting.updated\')}',
 				downloads: '{f:translate(key:\'sorting.downloads\')}',
 				title: '{f:translate(key:\'sorting.title\')}'
 			}" value="{sorting}" />
 		</span>
 		<span class="ter-ordering-form-direction">
-			<f:form.select name="direction" options="{
+			<f:form.select name="tx_terfe2_pi1[direction]" options="{
 				desc: '{f:translate(key:\'direction.desc\')}',
 				asc: '{f:translate(key:\'direction.asc\')}'
 			}" value="{direction}" />
 		</span>
 		<span class="ter-ordering-form-submit">
-			<f:form.submit name="submit" value="{f:translate(key:'submit_ordering_form')}" class="bu" />
+			<f:form.submit value="{f:translate(key:'submit_ordering_form')}" class="bu" />
 		</span>
-	</f:form>
+	</form>
 </div>
 <br class="cl" />

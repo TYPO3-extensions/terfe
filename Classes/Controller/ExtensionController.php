@@ -244,16 +244,16 @@
 		 * Check file hash, increment download counter and send file to client browser
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
-		 * @param String $versionSlug An existing version string
+		 * @param String $versionString An existing version string
 		 * @param string $format Format of the file output
 		 * @return void
 		 */
-		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, $versionSlug, $format = 't3x') {
+		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, $versionString, $format = 't3x') {
 			if ($format !== 't3x' && $format !== 'zip') {
 				throw new Exception('A download action for the format "' . $format . '" is not implemented');
 			}
 
-			$version = $this->versionRepository->findByExtensionAndVersionString($extension, $versionSlug);
+			$version = $this->versionRepository->findByExtensionAndVersionString($extension, $versionString);
 			if (!$version) {
 				throw new Exception('Invalid version request', 1316542246);
 			}
