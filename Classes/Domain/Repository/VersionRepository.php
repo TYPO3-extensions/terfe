@@ -54,5 +54,26 @@
 			return $query->execute();
 		}
 
+		/**
+		 * Get a version with the given extension and a related version string
+		 *
+		 * @param $extension
+		 * @param $versionString
+		 * @return 
+		 */
+		public function findByExtensionAndVersionString($extension, $versionString) {
+
+			$query = $this->createQuery();
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$query->matching(
+				$query->logicalAnd(
+					$query->equals('extension', $extension),
+					$query->equals('versionString', $versionString)
+				)
+			);
+			return $query->execute()->getFirst();
+		}
+
 	}
 ?>

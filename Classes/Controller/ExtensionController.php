@@ -49,6 +49,11 @@
 		protected $authorRepository;
 
 		/**
+		 * @var Tx_TerFe2_Domain_Repository_VersionRepository
+		 */
+		protected $versionRepository;
+
+		/**
 		 * @var Tx_TerFe2_Provider_ProviderManager
 		 */
 		protected $providerManager;
@@ -73,6 +78,7 @@
 			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->categoryRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
 			$this->tagRepository       = $this->objectManager->get('Tx_TerFe2_Domain_Repository_TagRepository');
+			$this->versionRepository   = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 			$this->authorRepository    = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
 			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
 			$this->session             = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
@@ -238,13 +244,18 @@
 		 * Check file hash, increment download counter and send file to client browser
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
-		 * @param Tx_TerFe2_Domain_Model_Version $newVersion An existing version object
+		 * @param String $versionSlug An existing version string
 		 * @param string $format Format of the file output
 		 * @return void
 		 */
-		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $version, $format = 't3x') {
+		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, $versionSlug, $format = 't3x') {
 			if ($format !== 't3x' && $format !== 'zip') {
 				throw new Exception('A download action for the format "' . $format . '" is not implemented');
+			}
+
+			$version = $this->versionRepository->findByExtensionAndVersionString($extension, $versionSlug);
+			if (!$version) {
+				throw new Exception('Invalid version request', 1316542246);
 			}
 
 				// Get file path
