@@ -9,18 +9,71 @@
 	<div class="b-tabs">
 		<ul class="tabs lite-tabs">
 			<li>
-				<a href="#tx_terfe2_tab_registerkey">
-					<f:translate key="register-extension-key" />
+				<a href="#tx_terfe2_tab_managekeys">
+					<f:translate key="manage-extension-keys" />
 				</a>
 			</li>
 			<li>
-				<a href="#tx_terfe2_tab_managekeys">
-					<f:translate key="manage-extension-keys" />
+				<a href="#tx_terfe2_tab_registerkey">
+					<f:translate key="register-extension-key" />
 				</a>
 			</li>
 		</ul>
 
 		<div class="tab-panes">
+
+			<!-- open manage tab -->
+			<div class="tab-content lite-tab-panes-black">
+
+				<f:if condition="{loggedIn}">
+					<f:then>
+
+						<table class="manage-keys">
+							<thead>
+								<tr>
+									<th colspan="3"><f:translate key="extensionKey" /></th>
+									<th class="transfer-colum"><f:translate key="transferToUser" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								<f:for each="{extensions}" as="extension">
+
+									<!-- cycle values for rows -->
+									<f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
+
+									<tr class="{columCycle}">
+										<td style="border-right: 0;">
+											{extension.extKey}
+										</td>
+										<td class="no-borders">
+											<f:link.action class="url bu bu-mini" action="edit" controller="Registerkey" arguments="{extension: extension}"><f:translate key="modifiy-button" /></f:link.action>
+										</td>
+										<td class="no-border-left">
+											<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
+										</td>
+										<td>
+											<div class="b-form-inputs">
+												<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST">
+													<f:form.hidden name="extension" value="{extension}" />
+													<f:form.textbox class="manage-keys-input" name="newUser" value="" />
+													<f:form.submit class="bu bu-mini manage-keys-submit" value="Transfer" />
+												</f:form>
+											</div>
+										</td>
+									</tr>
+
+									</f:cycle>
+								</f:for>
+							</tbody>
+						</table>
+
+					</f:then>
+					<f:else>
+						Please log in to manager your extension or to register a new extension key.
+					</f:else>
+				</f:if>
+			</div>
+			<!-- closing manage tab -->
 
 			<!-- opening register tab -->
 			<div class="tab-content lite-tab-panes-black">
@@ -76,59 +129,6 @@
 
 			</div>
 			<!-- closing register tab -->
-
-			<!-- open manage tab -->
-			<div class="tab-content lite-tab-panes-black">
-
-				<f:if condition="{loggedIn}">
-					<f:then>
-
-						<table class="manage-keys">
-							<thead>
-								<tr>
-									<th colspan="3"><f:translate key="extensionKey" /></th>
-									<th class="transfer-colum"><f:translate key="transferToUser" /></th>
-								</tr>
-							</thead>
-							<tbody>
-								<f:for each="{extensions}" as="extension">
-
-									<!-- cycle values for rows -->
-									<f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
-
-									<tr class="{columCycle}">
-										<td style="border-right: 0;">
-											{extension.extKey}
-										</td>
-										<td class="no-borders">
-											<f:link.action class="url bu bu-mini" action="edit" controller="Registerkey" arguments="{extension: extension}"><f:translate key="modifiy-button" /></f:link.action>
-										</td>
-										<td class="no-border-left">
-											<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
-										</td>
-										<td>
-											<div class="b-form-inputs">
-												<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST">
-													<f:form.hidden name="extension" value="{extension}" />
-													<f:form.textbox class="manage-keys-input" name="newUser" value="" />
-													<f:form.submit class="bu bu-mini manage-keys-submit" value="Transfer" />
-												</f:form>
-											</div>
-										</td>
-									</tr>
-
-									</f:cycle>
-								</f:for>
-							</tbody>
-						</table>
-
-					</f:then>
-					<f:else>
-						Please log in to manager your extension or to register a new extension key.
-					</f:else>
-				</f:if>
-			</div>
-			<!-- closing manage tab -->
 
 		</div>
 	</div>

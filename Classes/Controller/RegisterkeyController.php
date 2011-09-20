@@ -86,8 +86,15 @@
 		 * @return void
 		 */
 		public function indexAction() {
+				// get categories for regster key
 			$categories = $this->categoryRepository->findAll();
 			$this->view->assign('categories', $categories);
+
+				// get extensions by user if a user is logged in
+			if (!empty($this->frontendUser)) {
+				$extensions = $this->extensionRepository->findByFrontendUser($this->frontendUser['username']);
+				$this->view->assign('extensions', $extensions);
+			}
 		}
 
 
@@ -132,7 +139,7 @@
 
 					$this->extensionRepository->add($extension);
 					$this->flashMessageContainer->add('Extension key registered');
-					$this->redirect('manage', 'Registerkey');
+					$this->redirect('index', 'Registerkey');
 				}
 			}
 
@@ -144,6 +151,7 @@
 		/**
 		 * Manage registered extensions
 		 *
+		 * @obsolete
 		 * @return void
 		 */
 		public function manageAction() {
@@ -205,7 +213,7 @@
 							// Update categories
 						$this->extensionRepository->update($extension);
 						$this->flashMessageContainer->add('Extension updated');
-						$this->redirect('manage', 'Registerkey');
+						$this->redirect('index', 'Registerkey');
 					} else {
 						// TODO: Show different message by $error code
 						$this->flashMessageContainer->add('Could not update extension');
@@ -218,7 +226,7 @@
 				$extension = $this->updateCategories($extension, $categories);
 				$this->extensionRepository->update($extension);
 				$this->flashMessageContainer->add('Extension updated');
-				$this->redirect('manage', 'Registerkey');
+				$this->redirect('index', 'Registerkey');
 			}
 
 			$this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
@@ -269,7 +277,7 @@
 				$this->flashMessageContainer->add('Error transfering the extension ' . $extension->getExtKey() . ' Error: ' . $error);
 			}
 
-			$this->redirect('manage', 'Registerkey');
+			$this->redirect('index', 'Registerkey');
 
 		}
 
@@ -291,7 +299,7 @@
 			}
 
 
-			$this->redirect('manage', 'Registerkey');
+			$this->redirect('index', 'Registerkey');
 		}
 
 
