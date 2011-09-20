@@ -102,7 +102,7 @@ div.ter-ext-meta b {
  * Extension list
  */
 div.ter-ext-list-row {
-	margin: 0 0 15px 0;
+	margin: 0 0 20px 0;
 	padding: 0 0 10px 0;
 	border-bottom: 1px solid #D1D1D1;
 }
@@ -153,9 +153,9 @@ div.ter-ext-list-row-details hr {
 
 div.ter-ext-list-row-lastUploadComment b {
 	display: block;
-	font-weight: normal;
+	font-weight: bold;
 	margin: 0 0 4px 0;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 div.ter-ext-list-row-meta {
