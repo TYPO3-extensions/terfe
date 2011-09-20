@@ -168,22 +168,31 @@
 		 */
 		public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 
-			// Remove categories that are already set
-			$setCategories = $extension->getCategories();
+				// check if the extension belongs to the current user
+			if ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
 
-			// Get all categories
-			$categories = $this->categoryRepository->findAll();
+					// Remove categories that are already set
+				$setCategories = $extension->getCategories();
 
-			$categoryArray = array();
-			foreach ($categories as $key => $category) {
-				$categoryArray[] = array(
-					'object' => $category,
-					'isChecked' => $setCategories->contains($category),
-				);
+				// Get all categories
+				$categories = $this->categoryRepository->findAll();
+
+				$categoryArray = array();
+				foreach ($categories as $key => $category) {
+					$categoryArray[] = array(
+						'object' => $category,
+						'isChecked' => $setCategories->contains($category),
+					);
+				}
+
+				$this->view->assign('categories', $categoryArray);
+				$this->view->assign('extension', $extension);
+			} else {
+				$this->flashMessageContainer->add('This extension does not belong to you!!');
+				$this->redirect('index', 'Registerkey');
 			}
 
-			$this->view->assign('categories', $categoryArray);
-			$this->view->assign('extension', $extension);
+
 		}
 
 
@@ -196,40 +205,48 @@
 		 * @return void
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $categories) {
-			/**
-			 * TODO: Modification of the extension key is currently not allowed
-			 */
-			if ($extension->_isDirty('extKey')) {
-				$this->redirect('index', 'Registerkey');
-			}
 
+			// check if the extension belongs to the current user
+			if ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
 
-				// Check if the extension key has changed
-			if ($extension->_isDirty('extKey')) {
-					// If extension key has changed, check if the new one is in the ter
-				if ($this->terConnection->checkExtensionKey($extension->getExtKey())) {
-					$error = '';
-					if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $this->frontendUser['username'], $error)) {
-							// Update categories
-						$this->extensionRepository->update($extension);
-						$this->flashMessageContainer->add('Extension updated');
-						$this->redirect('index', 'Registerkey');
+				/**
+				 * TODO: Modification of the extension key is currently not allowed
+				 */
+				if ($extension->_isDirty('extKey')) {
+					$this->redirect('index', 'Registerkey');
+				}
+
+					// Check if the extension key has changed
+				if ($extension->_isDirty('extKey')) {
+						// If extension key has changed, check if the new one is in the ter
+					if ($this->terConnection->checkExtensionKey($extension->getExtKey())) {
+						$error = '';
+						if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $this->frontendUser['username'], $error)) {
+								// Update categories
+							$this->extensionRepository->update($extension);
+							$this->flashMessageContainer->add('Extension updated');
+							$this->redirect('index', 'Registerkey');
+						} else {
+							// TODO: Show different message by $error code
+							$this->flashMessageContainer->add('Could not update extension');
+						}
 					} else {
-						// TODO: Show different message by $error code
-						$this->flashMessageContainer->add('Could not update extension');
+						$this->flashMessageContainer->add('Extension key already exists!!');
 					}
 				} else {
-					$this->flashMessageContainer->add('Extension key already exists!!');
+						// Update categories
+					$extension = $this->updateCategories($extension, $categories);
+					$this->extensionRepository->update($extension);
+					$this->flashMessageContainer->add('Extension updated');
+					$this->redirect('index', 'Registerkey');
 				}
+
+				$this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
+
 			} else {
-					// Update categories
-				$extension = $this->updateCategories($extension, $categories);
-				$this->extensionRepository->update($extension);
-				$this->flashMessageContainer->add('Extension updated');
+				$this->flashMessageContainer->add('This extension does not belong to you!!');
 				$this->redirect('index', 'Registerkey');
 			}
-
-			$this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
 		}
 
 
@@ -241,6 +258,7 @@
 		 * @return Tx_TerFe2_Domain_Model_Extension
 		 */
 		protected function updateCategories(Tx_TerFe2_Domain_Model_Extension $extension, $categories) {
+
 				// Remove all categories
 			$extension->removeAllCategories();
 
@@ -266,15 +284,23 @@
 		 * @return void
 		 */
 		public function transferAction($newUser, Tx_TerFe2_Domain_Model_Extension $extension) {
-			$error = '';
 
-				// Is it possible to assign the key to a new user
-			if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $newUser, $error)) {
-				$extension->setFrontendUser($newUser);
-				$this->extensionRepository->update($extension);
-				$this->flashMessageContainer->add('Transfered the extension ' . $extension->getExtKey() . ' to ' .$newUser );
+				// check if the extension belongs to the current user
+			if ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+
+				$error = '';
+
+					// Is it possible to assign the key to a new user
+				if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $newUser, $error)) {
+					$extension->setFrontendUser($newUser);
+					$this->extensionRepository->update($extension);
+					$this->flashMessageContainer->add('Transfered the extension ' . $extension->getExtKey() . ' to ' .$newUser );
+				} else {
+					$this->flashMessageContainer->add('Error transfering the extension ' . $extension->getExtKey() . ' Error: ' . $error);
+				}
+
 			} else {
-				$this->flashMessageContainer->add('Error transfering the extension ' . $extension->getExtKey() . ' Error: ' . $error);
+				$this->flashMessageContainer->add('This extension does not belong to you!!');
 			}
 
 			$this->redirect('index', 'Registerkey');
@@ -290,14 +316,21 @@
 		 * @return void
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
-				// Deleted in ter, then delete the key in the ter_fe2 extension table
-			if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {
-				$this->extensionRepository->remove($extension);
-				$this->flashMessageContainer->add('Extension ' . $extension->getExtKey() . ' deleted!!');
-			} else {
-				$this->flashMessageContainer->add('Extension ' . $extension->getExtKey() . ' could not be deleted!!');
-			}
 
+				// check if the extension belongs to the current user
+			if ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+
+					// Deleted in ter, then delete the key in the ter_fe2 extension table
+				if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {
+					$this->extensionRepository->remove($extension);
+					$this->flashMessageContainer->add('Extension ' . $extension->getExtKey() . ' deleted!!');
+				} else {
+					$this->flashMessageContainer->add('Extension ' . $extension->getExtKey() . ' could not be deleted!!');
+				}
+
+			} else {
+				$this->flashMessageContainer->add('This extension does not belong to you!!');
+			}
 
 			$this->redirect('index', 'Registerkey');
 		}

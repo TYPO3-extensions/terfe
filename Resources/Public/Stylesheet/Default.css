@@ -284,10 +284,11 @@ table.manage-keys td div.b-form-inputs {
 table.manage-keys td div.b-form-inputs input.manage-keys-input {
 	float: left;
 	width: 130px;
+	height: 12px;
 }
 table.manage-keys td div.b-form-inputs input.manage-keys-submit {
 	margin-left: 5px;
-	height: 22px;
+	height: 22px !important;
 }
 
 table.manage-keys thead tr th.transfer-colum {
@@ -307,7 +308,7 @@ div.tx_terfe2 div.registerkey-label {
 div.tx_terfe2 div.register-input {
 	float: left;
 	width: 66%;
-	margin:  0;
+	margin: 0 0 10px;
 }
 
 div.tx_terfe2 p.registerkey-help {
@@ -317,6 +318,11 @@ div.tx_terfe2 p.registerkey-help {
 div.tx_terfe2 div.category-container div.category {
 	float: left;
 	width: 150px;
+}
+
+div.tx_terfe2 hr {
+	clear: both;
+	margin-bottom: 10px;
 }
 
 
