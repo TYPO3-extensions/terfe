@@ -349,6 +349,28 @@ div.ter-author-info table th {
 
 
 /**
+ * Categories
+ */
+div.ter-category-info {
+	font-size: 11px;
+	padding: 17px 0 0 0;
+}
+
+div.ter-category-info table th {
+	background: none;
+	color: #8C8C8C;
+	font-weight: normal;
+	width: 100px;
+}
+
+div.ter-category-info table td,
+div.ter-category-info table th {
+	border: medium none;
+	padding: 2px 0;
+}
+
+
+/**
  * jqPlot styles
  */
 div.jqplot-highlighter-tooltip {

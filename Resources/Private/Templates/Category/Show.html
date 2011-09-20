@@ -1,5 +1,26 @@
 <f:layout name="Default" />
 
 <f:section name="main">
-	<!-- TODO -->
+	<h2><f:translate key="single_category"/></h2>
+
+	<div class="ter-category-info">
+		<table>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_category.title" />:</td>
+				<td>{category.title}</td>
+			</tr>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_category.description" />:</td>
+				<td><f:link.email email="{category.description}" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<hr />
+
+	<div class="ter-category-single-links cl">
+		<div class="ter-category-single-back">
+			<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
+		</div>
+	</div>
 </f:section>

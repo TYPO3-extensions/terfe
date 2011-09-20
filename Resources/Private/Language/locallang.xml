@@ -16,8 +16,8 @@
 			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
 			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
 			<label index="tx_terfe2_domain_model_category">Frontend category of the extension</label>
-			<label index="tx_terfe2_domain_model_category.title">Title of the category</label>
-			<label index="tx_terfe2_domain_model_category.description">Description of the category</label>
+			<label index="tx_terfe2_domain_model_category.title">Category title</label>
+			<label index="tx_terfe2_domain_model_category.description">Description</label>
 			<label index="tx_terfe2_domain_model_tag">Tag for the extension</label>
 			<label index="tx_terfe2_domain_model_tag.title">Title of the tag</label>
 			<label index="tx_terfe2_domain_model_version">Single version of an extension</label>
