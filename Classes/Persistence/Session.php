@@ -38,7 +38,7 @@
 				throw new Exception('Could not load session without frontend user');
 			}
 			if (!$this->isLoaded) {
-				$this->content = $GLOBALS['TSFE']->fe_user->getKey('ses', $this->name);
+				$this->content = $GLOBALS['TSFE']->fe_user->getKey('ses', $this->getName());
 				$this->setIsLoaded(TRUE);
 			}
 		}
@@ -53,7 +53,7 @@
 			if (empty($GLOBALS['TSFE']->fe_user)) {
 				throw new Exception('Could not save session without frontend user');
 			}
-			$GLOBALS['TSFE']->fe_user->setKey('ses', $this->name, $this->content);
+			$GLOBALS['TSFE']->fe_user->setKey('ses', $this->getName(), $this->content);
 			$GLOBALS['TSFE']->storeSessionData();
 		}
 

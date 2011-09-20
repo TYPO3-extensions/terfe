@@ -66,6 +66,9 @@
 		 * @return string Name of the persistence
 		 */
 		public function getName() {
+			if (empty($this->name)) {
+				$this->setName(get_class($this));
+			}
 			return $this->name;
 		}
 

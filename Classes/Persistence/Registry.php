@@ -42,7 +42,7 @@
 		public function load() {
 			if (!$this->isLoaded()) {
 				$this->registry = t3lib_div::makeInstance('t3lib_Registry');
-				$this->content  = $this->registry->get($this->name, 'content');
+				$this->content  = $this->registry->get($this->getName(), 'content');
 				$this->setIsLoaded(TRUE);
 			}
 		}
@@ -57,7 +57,7 @@
 			if (empty($this->registry)) {
 				$this->registry = t3lib_div::makeInstance('t3lib_Registry');
 			}
-			$this->registry->set($this->name, 'content', $this->content);
+			$this->registry->set($this->getName(), 'content', $this->content);
 		}
 
 	}

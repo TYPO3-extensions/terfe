@@ -81,7 +81,7 @@
 			}
 
 			if (empty($imageUrl)) {
-				$imageUrl = 'typo3/clear.gif';
+				$imageUrl = t3lib_div::locationHeaderUrl('typo3/clear.gif');
 				$this->tag->addAttribute('height', 16);
 				$this->tag->addAttribute('width', 16);
 			}
