@@ -39,7 +39,12 @@
 			$query = $this->createQuery();
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
-			$query->matching($query->equals('mediaCreated', FALSE));
+			$query->matching(
+				$query->logicalOr(
+					$query->equals('hasZipFile', FALSE),
+					$query->equals('hasImages', FALSE)
+				)
+			);
 			if (!empty($offset)) {
 				$query->setOffset((int) $offset);
 			}
