@@ -74,6 +74,7 @@
 			$this->addInputField('clearCachePages', 0);
 			$this->addDateField('forceLastRun', '');
 			$this->addInputField('forceOffset', '');
+			$this->addCheckboxField('ignoreEmpty', FALSE);
 			$this->addAdditionalFields();
 
 			return $this->structure;

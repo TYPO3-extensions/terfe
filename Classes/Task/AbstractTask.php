@@ -49,6 +49,11 @@
 		public $forceOffset = NULL;
 
 		/**
+		 * @var boolean
+		 */
+		public $ignoreEmpty = FALSE;
+
+		/**
 		 * @var array
 		 */
 		protected $setup;
@@ -107,7 +112,7 @@
 			$result = $this->executeTask($lastRun, $offset, $count);
 
 				// Add new values to registry
-			$offset = (!empty($result) ? $offset + $count : 0);
+			$offset = ((!empty($result) || !empty($this->ignoreEmpty)) ? $offset + $count : 0);
 			$this->registry->add('lastRun', $GLOBALS['EXEC_TIME']);
 			$this->registry->add('offset', $offset);
 

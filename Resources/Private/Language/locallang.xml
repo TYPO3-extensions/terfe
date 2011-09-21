@@ -64,6 +64,7 @@
 			<label index="tx_terfe2_task_clearCachePages">Clear cache of these pages after run</label>
 			<label index="tx_terfe2_task_forceLastRun">Force last run time</label>
 			<label index="tx_terfe2_task_forceOffset">Force offset</label>
+			<label index="tx_terfe2_task_ignoreEmpty">Proceed with empty result set</label>
 			<label index="tx_terfe2_task_providerName">Fetch extensions from this source</label>
 			<label index="tx_terfe2_task_createExtensions">Create extensions if not exist</label>
 			<label index="tx_terfe2_task_extensionFilePath">Relative path to extension files directory</label>
