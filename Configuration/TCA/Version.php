@@ -6,10 +6,10 @@
 	$TCA['tx_terfe2_domain_model_version'] = array(
 		'ctrl'      => $TCA['tx_terfe2_domain_model_version']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,has_zip_file,has_images',
+			'showRecordFieldList' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,file_hash,extension_provider,has_zip_file,has_images',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,has_zip_file,has_images'),
+			'1' => array('showitem' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,file_hash,extension_provider,has_zip_file,has_images'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -355,13 +355,21 @@
 				),
 			),
 			'file_hash' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.file_hash',
 				'config'  => array(
-					'type' => 'passthrough',
+					'type'    => 'input',
+					'size'    => 30,
+					'eval'    => 'trim',
 				),
 			),
 			'extension_provider' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.extension_provider',
 				'config'  => array(
-					'type' => 'passthrough',
+					'type'    => 'input',
+					'size'    => 30,
+					'eval'    => 'trim',
 				),
 			),
 			'has_zip_file' => array(
