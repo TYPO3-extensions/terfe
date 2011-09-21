@@ -66,8 +66,26 @@
 		 * @param string $extensionKey Extension key
 		 * @return boolean TRUE if extension key is valid
 		 */
-		public function checkExtensionKey($extensionKey) {
+		public function checkExtensionKey($extensionKey, &$error) {
 			$result = $this->getSoapService()->checkExtensionKey($this->userData, $extensionKey);
+
+				// if the result is empty
+			if (empty($result['resultCode'])) {
+				$error = 'result_empty';
+				return FALSE;
+			}
+
+				// result code invalid 10502 = TX_TER_RESULT_EXTENSIONKEYNOTVALID
+			if ($result['resultCode'] === '10502') {
+				$error = 'key_invalid';
+				return FALSE;
+			}
+				// key exists 10500 = TX_TER_RESULT_EXTENSIONKEYALREADYEXISTS
+			if ($result['resultCode'] === '10500') {
+				$error = 'key_exists';
+				return FALSE;
+			}
+
 				// 10501 = TX_TER_RESULT_EXTENSIONKEYDOESNOTEXIST
 			return (!empty($result['resultCode']) && $result['resultCode'] === '10501');
 		}

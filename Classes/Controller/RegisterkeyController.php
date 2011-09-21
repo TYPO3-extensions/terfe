@@ -113,7 +113,7 @@
 			$extensionKey = trim($extensionKey);
 
 				// Check if the extension exists in the ter
-			if ($this->terConnection->checkExtensionKey($extensionKey)) {
+			if ($this->terConnection->checkExtensionKey($extensionKey, $error)) {
 				$extensionData = array(
 					'extensionKey' => $extensionKey,
 					'title' => $extensionKey,
@@ -141,9 +141,10 @@
 					$this->flashMessageContainer->add($this->translate('registerkey.key_registered'));
 					$this->redirect('index', 'Registerkey');
 				}
+			} else {
+				$this->flashMessageContainer->add($this->resolveWSErrorMessage($error));
 			}
 
-			$this->flashMessageContainer->add($this->translate('registerkey.key_exists'));
 			$this->redirect('index', 'Registerkey', NULL, array());
 		}
 
@@ -219,7 +220,7 @@
 					// Check if the extension key has changed
 				if ($extension->_isDirty('extKey')) {
 						// If extension key has changed, check if the new one is in the ter
-					if ($this->terConnection->checkExtensionKey($extension->getExtKey())) {
+					if ($this->terConnection->checkExtensionKey($extension->getExtKey(), $error)) {
 						$error = '';
 						if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $this->frontendUser['username'], $error)) {
 								// Update categories
@@ -231,7 +232,7 @@
 							$this->flashMessageContainer->add($this->translate('registerkey.key_update_failed'));
 						}
 					} else {
-						$this->flashMessageContainer->add($this->translate('registerkey.key_exists'));
+						$this->flashMessageContainer->add($this->translate($this->resolveWSErrorMessage($error)));
 					}
 				} else {
 						// Update categories
@@ -296,7 +297,9 @@
 					$this->extensionRepository->update($extension);
 					$this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)));
 				} else {
-					$this->flashMessageContainer->add($this->translate('registerkey.transferError', array($extension->getExtKey(), $error)));
+					$this->flashMessageContainer->add(
+                        $this->translate('registerkey.transferError', array($extension->getExtKey(), $this->resolveWSErrorMessage($error)))
+                    );
 				}
 
 			} else {
@@ -311,7 +314,6 @@
 		/**
 		 * Delete an extension key from ter server
 		 *
-		 * @todo currently we delete without asking again
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to delete
 		 * @return void
 		 */
@@ -359,6 +361,17 @@
 				// Create connection
 			$wsdl = $this->settings['terConnection']['wsdl'];
 			return $this->objectManager->create('Tx_TerFe2_Service_Ter', $wsdl, $username, $password);
+		}
+
+
+		/**
+		 * resolve the error key and get the corresponding translation
+		 *
+		 * @param string $error
+		 * @return string $message already translated
+		 */
+		protected function resolveWSErrorMessage($error) {
+			return $this->translate('registerkey.error.'.$error);
 		}
 
 	}

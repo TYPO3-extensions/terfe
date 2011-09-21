@@ -209,6 +209,11 @@
 			<label index="registerkey.transferError">Error transfering the extension %s Error: %s</label>
 			<label index="registerkey.keyTransfered">Transfered the extension %s to %s</label>
 
+			<label index="registerkey.error.user_not_found">User can not be found!!</label>
+			<label index="registerkey.error.key_invalid">Extension key is invalid!!</label>
+			<label index="registerkey.error.key_exists">Extension key exists!!</label>
+			<label index="registerkey.error.result_empty">Unknown Error!!</label>
+
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>
 			<label index="save">Save</label>
