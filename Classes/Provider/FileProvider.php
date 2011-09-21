@@ -29,14 +29,14 @@
 	class Tx_TerFe2_Provider_FileProvider extends Tx_TerFe2_Provider_AbstractProvider {
 
 		/**
-		 * @var string
+		 * @var Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository
 		 */
-		protected $extensionRootPath = 'fileadmin/ter/';
+		protected $extensionRepository;
 
 		/**
 		 * @var string
 		 */
-		protected $extensionListFile = 'typo3temp/1.extensions.xml.gz';
+		protected $extensionRootPath = 'fileadmin/ter/';
 
 
 		/**
@@ -45,15 +45,19 @@
 		 * @return void
 		 */
 		public function initializeProvider() {
-				// Set extension root path
-			if (!empty($this->configuration['extensionRootPath'])) {
-				$this->extensionRootPath = rtrim($this->configuration['extensionRootPath'], '/ ') . '/';
+				// Check if extension manager is loaded
+			if (!t3lib_extMgm::isLoaded('em')) {
+				throw new Exception('Required system extension "em" is not loaded');
 			}
 
-				// Set extension list file
-			if (!empty($this->configuration['extensionListFile'])) {
-				$this->extensionListFile = $this->configuration['extensionListFile'];
+				// Set extension root path
+			if (!empty($this->configuration['extensionRootPath'])) {
+				$this->extensionRootPath = $this->configuration['extensionRootPath'];
 			}
+			$this->extensionRootPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->extensionRootPath);
+
+				// Get repository for extension manager cache entries
+			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository');
 		}
 
 
@@ -67,25 +71,26 @@
 		 */
 		public function getExtensions($lastRun, $offset, $count) {
 				// Get extension list
-			$filename = PATH_site . $this->extensionListFile;
-			$extensions = $this->getExtensionsFromFile($filename, $lastRun, $offset, $count);
+			$extensions = $this->extensionRepository->findLastUpdated($lastRun, $offset, $count);
 			if (empty($extensions)) {
 				return array();
 			}
 
 				// Load missing information from ext_emconf.php
 			foreach ($extensions as $extensionKey => $extension) {
-				foreach ($extension['versions'] as $versionKey => $version) {
-					$info = $this->getExtensionInfo($extension['ext_key'], $version['version_string'], $version['file_hash']);
-					foreach ($info as $key => $value) {
-						if (empty($version[$key])) {
-							$extensions[$extensionKey]['versions'][$versionKey][$key] = $value;
-						}
+				$info = $this->getExtensionInfo($extension['extkey'], $extension['version'], $extension['t3xfilemd5']);
+				if (empty($info) || !is_array($info)) {
+					unset($extensions[$extensionKey]);
+					continue;
+				}
+				foreach ($info as $key => $value) {
+					if (empty($extension[$key])) {
+						$extensions[$extensionKey][$key] = $value;
 					}
 				}
 			}
 
-			return $extensions;
+			return $this->buildExtensionStructure($extensions);
 		}
 
 
@@ -98,11 +103,15 @@
 		 */
 		public function getFileUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
 			$filename = $this->getFileName($version, $fileType);
-			$filename = PATH_site . $this->extensionRootPath . $filename;
+			$filename = $this->extensionRootPath . $filename;
 
 				// Check if file exists
 			if (!Tx_TerFe2_Utility_File::fileExists($filename)) {
-				throw new Exception('File "' . $filename . '" not found');
+				if ($fileType === 't3x' || $fileType === 'zip') {
+					throw new Exception('File "' . $filename . '" not found');
+				}
+					// TODO: Log the missing file
+				return '';
 			}
 
 				// Get local url from absolute path
@@ -143,123 +152,6 @@
 
 
 		/**
-		 * Parse compressed extension list file and return updated extensions
-		 *
-		 * @param string $filename File name
-		 * @param integer $lastRun Timestamp of last update
-		 * @param integer $offset Offset to start with
-		 * @param integer $count Extension count to load
-		 * @return array All extension information
-		 */
-		protected function getExtensionsFromFile($filename, $lastRun = 0, $offset = 0, $count = 0) {
-			if (empty($filename) || !Tx_TerFe2_Utility_File::fileExists($filename)) {
-				throw new Exception('Given extension file does not exist');
-			}
-
-			$lastRun = (int) $lastRun;
-			$filename = 'compress.zlib://' . $filename;
-			$xmlContent = t3lib_div::getURL($filename);
-			$xml = new SimpleXMLElement($xmlContent);
-			if (empty($xml->extension)) {
-				throw new Exception('No extensions found in file');
-			}
-
-			$extensions = array();
-			$amount = 0;
-			$versionCount = 0;
-			foreach ($xml->extension as $extension) {
-					// Versions
-				$versions = array();
-				foreach ($extension->version as $version) {
-						// Check last update
-					$uploadDate = (int) $version->lastuploaddate;
-					if ($uploadDate <= $lastRun) {
-						continue;
-					}
-						// Check offset
-					$amount++;
-					if ($amount < $offset) {
-						continue;
-					}
-						// Check count
-					$versionCount++;
-					if ($versionCount > $count) {
-						break 2;
-					}
-
-					$versionString = (string) $version->attributes()->version;
-					$versions[$versionString] = array(
-						'title'                 => (string) $version->title,
-						'description'           => (string) $version->description,
-						'version_number'        => t3lib_div::int_from_ver($versionString),
-						'version_string'        => $versionString,
-						'upload_date'           => $uploadDate,
-						'upload_comment'        => (string) $version->uploadcomment,
-						'state'                 => (string) $version->state,
-						'em_category'           => (string) $version->category,
-						'load_order'            => NULL,
-						'priority'              => NULL,
-						'shy'                   => NULL,
-						'internal'              => NULL,
-						'do_not_load_in_fe'     => NULL,
-						'uploadfolder'          => NULL,
-						'clear_cache_on_load'   => NULL,
-						'module'                => NULL,
-						'create_dirs'           => NULL,
-						'modify_tables'         => NULL,
-						'lock_type'             => NULL,
-						'cgl_compliance'        => NULL,
-						'cgl_compliance_note'   => NULL,
-						'download_counter'      => (int) $version->downloadcounter,
-						'manual'                => NULL,
-						'repository'            => NULL,
-						'review_state'          => NULL,
-						'file_hash'             => (string) $version->t3xfilemd5,
-						'relations'             => array(),
-					);
-
-						// Author
-					$versions[$versionString]['author'] = array(
-						'name'     => (string) $version->authorname,
-						'email'    => (string) $version->authoremail,
-						'company'  => (string) $version->authorcompany,
-						'username' => (string) $version->ownerusername,
-					);
-
-						// Relations
-					$dependencies = unserialize((string) $version->dependencies);
-					foreach ($dependencies as $dependency) {
-						if (empty($dependency['extensionKey'])) {
-							continue;
-						}
-						$versionArray = $this->getVersionByRange($dependency['versionRange']);
-						$versions[$versionString]['relations'][] = array(
-							'relation_type'   => $dependency['kind'],
-							'software_type'   => NULL,
-							'relation_key'    => $dependency['extensionKey'],
-							'minimum_version' => $versionArray[0],
-							'maximum_version' => $versionArray[1],
-						);
-					}
-				}
-
-					// Extension
-				if (!empty($versions)) {
-					$extensionKey = (string) $extension->attributes()->extensionkey;
-					$extensions[$extensionKey] = array(
-						'ext_key'       => $extensionKey,
-						'downloads'     => (int) $extension->downloadcounter,
-						'frontend_user' => (string) $extension->ownerusername,
-						'versions'      => $versions,
-					);
-				}
-			}
-
-			return $extensions;
-		}
-
-
-		/**
 		 * Returns the content of an ext_emconf.php file
 		 *
 		 * @param string $extension Extension key
@@ -273,10 +165,11 @@
 
 				// Fetch file from extension root path
 			$filename = $this->generateFileName($extension, $version, 't3x');
-			$filename = PATH_site . $this->extensionRootPath . $filename;
+			$filename = $this->extensionRootPath . $filename;
 			$content = t3lib_div::getURL($filename);
 			if (empty($content)) {
-				throw new Exception('Could not fetch file "' . $filename . '"');
+					// TODO: Log the missing file
+				return array();
 			}
 
 				// Check file hash
@@ -317,6 +210,89 @@
 			}
 
 			return $emConf;
+		}
+
+
+		/**
+		 * Build multidimensional array of extension information
+		 *
+		 * @param array $extensionRows Extension rows from repository
+		 * @return array All extension information
+		 */
+		protected function buildExtensionStructure(array $extensionRows) {
+			if (empty($extensionRows)) {
+				return array();
+			}
+
+			$states = tx_em_Tools::getDefaultState(NULL);
+			$states = array_flip($states);
+			$categories = tx_em_Tools::getDefaultCategory(NULL);
+			$categories = array_flip($categories);
+
+			$extensions = array();
+			foreach ($extensionRows as $extension) {
+					// Extension
+				$extensions[$extension['extkey']]['ext_key'] = $extension['extkey'];
+				$extensions[$extension['extkey']]['downloads'] = (int) $extension['alldownloadcounter'];
+				$extensions[$extension['extkey']]['frontend_user'] = $extension['ownerusername'];
+
+					// Versions
+				$versionString = $extension['version'];
+				$extensions[$extension['extkey']]['versions'][$versionString] = array(
+					'title'                 => $extension['title'],
+					'description'           => $extension['description'],
+					'version_number'        => $extension['intversion'],
+					'version_string'        => $versionString,
+					'upload_date'           => $extension['lastuploaddate'],
+					'upload_comment'        => $extension['uploadcomment'],
+					'state'                 => $states[(int) $extension['state']],
+					'em_category'           => $categories[(int) $extension['category']],
+					'load_order'            => $extension['loadOrder'],
+					'priority'              => $extension['priority'],
+					'shy'                   => $extension['shy'],
+					'internal'              => $extension['internal'],
+					'do_not_load_in_fe'     => $extension['doNotLoadInFE'],
+					'uploadfolder'          => $extension['uploadfolder'],
+					'clear_cache_on_load'   => $extension['clearcacheonload'],
+					'module'                => $extension['module'],
+					'create_dirs'           => $extension['createDirs'],
+					'modify_tables'         => $extension['modify_tables'],
+					'lock_type'             => $extension['lockType'],
+					'cgl_compliance'        => $extension['CGLcompliance'],
+					'cgl_compliance_note'   => $extension['CGLcompliance_note'],
+					'download_counter'      => (int) $extension['downloadcounter'],
+					'manual'                => NULL,
+					'repository'            => $extension['repository'],
+					'review_state'          => $extension['reviewstate'],
+					'file_hash'             => $extension['t3xfilemd5'],
+					'relations'             => array(),
+				);
+
+					// Author
+				$extensions[$extension['extkey']]['versions'][$versionString]['author'] = array(
+					'name'     => $extension['authorname'],
+					'email'    => $extension['authoremail'],
+					'company'  => $extension['authorcompany'],
+					'username' => $extension['ownerusername'],
+				);
+
+					// Relations
+				$dependencies = unserialize($extension['dependencies']);
+				foreach ($dependencies as $relationType => $relations) {
+					foreach ($relations as $relationKey => $versionRange) {
+						$version = $this->getVersionByRange($versionRange);
+						$extensions[$extension['extkey']]['versions'][$versionString]['relations'][] = array(
+							'relation_type'   => $relationType,
+							'software_type'   => '',
+							'relation_key'    => $relationKey,
+							'minimum_version' => $version[0],
+							'maximum_version' => $version[1],
+						);
+					}
+				}
+			}
+
+			return $extensions;
 		}
 
 	}

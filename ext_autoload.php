@@ -28,7 +28,7 @@
 		'tx_terfe2_domain_repository_tagrepository'                        => $extensionClassesPath . 'Domain/Repository/TagRepository.php',
 		'tx_terfe2_domain_repository_versionrepository'                    => $extensionClassesPath . 'Domain/Repository/VersionRepository.php',
 		'tx_terfe2_provider_abstractprovider'                              => $extensionClassesPath . 'Provider/AbstractProvider.php',
-		'tx_terfe2_provider_extensionmanagerprovider'                      => $extensionClassesPath . 'Provider/ExtensionManagerProvider.php',
+		'tx_terfe2_provider_mirrorprovider'                                => $extensionClassesPath . 'Provider/MirrorProvider.php',
 		'tx_terfe2_provider_fileprovider'                                  => $extensionClassesPath . 'Provider/FileProvider.php',
 		'tx_terfe2_provider_providerinterface'                             => $extensionClassesPath . 'Provider/ProviderInterface.php',
 		'tx_terfe2_provider_providermanager'                               => $extensionClassesPath . 'Provider/ProviderManager.php',

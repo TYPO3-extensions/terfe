@@ -237,7 +237,7 @@ div.ter-ext-single-lastUploadComment b {
 
 .ter-ext-single-versionhistory table td {
 	border: none;
-	padding: 0;
+	padding: 0 0 6px 0;
 }
 
 .ter-ext-single-links {
@@ -251,11 +251,11 @@ div.ter-ext-single-lastUploadComment b {
 
 .ter-ext-single-downloadzip {
 	float: right;
+	margin-left: 10px;
 }
 
 .ter-ext-single-downloadt3x {
 	float: right;
-	margin-right: 10px;
 }
 
 

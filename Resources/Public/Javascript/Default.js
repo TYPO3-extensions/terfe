@@ -21,7 +21,7 @@ function getDefaultChartOptions() {
 		highlighter: {
 			show: true,
 			sizeAdjust: 5,
-			tooltipLocation: 'ne',
+			tooltipLocation: 'n',
 			tooltipOffset: 6,
 			tooltipAxes: 'y'
 		},

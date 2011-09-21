@@ -99,11 +99,11 @@
 					<div class="ter-ext-single-back">
 						<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
 					</div>
-					<div class="ter-ext-single-downloadzip">
-						<f:if condition="{extension.lastVersion.hasZipFile}">
+					<f:if condition="{extension.lastVersion.hasZipFile}">
+						<div class="ter-ext-single-downloadzip">
 							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><span class="bu"><f:translate key="download_zip"/></span></f:link.action>
-						</f:if>
-					</div>
+						</div>
+					</f:if>
 					<div class="ter-ext-single-downloadt3x">
 						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><span class="bu"><f:translate key="download_t3x"/></f:link.action></span>
 					</div>

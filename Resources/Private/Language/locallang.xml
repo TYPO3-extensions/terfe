@@ -71,7 +71,7 @@
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
 			<label index="tx_terfe2_task_createextensionfilestask.name">Create extension related files</label>
 			<label index="tx_terfe2_task_createextensionfilestask.description">Create extension related files like zip file or images</label>
-			<label index="tx_terfe2_provider_extensionmanagerprovider.name">Local Extension Manager</label>
+			<label index="tx_terfe2_provider_mirrorprovider.name">Mirror Servers</label>
 			<label index="tx_terfe2_provider_fileprovider.name">Local Filesystem</label>
 			<label index="tx_terfe2_provider_soapprovider.name">SOAP Server</label>
 

@@ -29,9 +29,9 @@
 	if (!isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders'])) {
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders'] = array();
 	}
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['extensionmanager'] = array(
-		'class' => 'Tx_TerFe2_Provider_ExtensionManagerProvider',
-		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_extensionmanagerprovider.name',
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['mirrors'] = array(
+		'class' => 'Tx_TerFe2_Provider_MirrorProvider',
+		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_mirrorprovider.name',
 		'configuration' => array(
 			'repositoryId'      => 1,
 			'fileCachePath'     => 'typo3temp/tx_terfe2/files/',
@@ -42,7 +42,6 @@
 		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_fileprovider.name',
 		'configuration' => array(
 			'extensionRootPath' => 'fileadmin/ter/',
-			'extensionListFile' => 'typo3temp/1.extensions.xml.gz',
 		),
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['soap'] = array(
