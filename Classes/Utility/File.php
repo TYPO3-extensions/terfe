@@ -298,7 +298,7 @@
 
 				// Copy file to new name
 			$result = t3lib_div::writeFile($toFileName, $fromFile);
-			
+
 			return ($result !== FALSE);
 		}
 
@@ -307,53 +307,43 @@
 		 * Copy a directory
 		 *
 		 * @param string $fromDirectory Existing directory
-		 * @param string $toParentDirectory Name of the new parent directory
-		 * @param string $newDirectoryName Name of the new directory
+		 * @param string $toDirectory Name of the new directory
 		 * @param boolean $overwrite A directory with new name will be overwritten if set
 		 * @return boolean TRUE if success
 		 */
-		public static function copyDirectory($fromDirectory, $toParentDirectory, $newDirectoryName = '', $overwrite = FALSE) {
-			/*$rollbackFiles = array();
+		public static function copyDirectory($fromDirectory, $toDirectory, $overwrite = FALSE) {
+			$rollback = FALSE;
 
-			if (empty($newDirectoryName)) {
-				$newDirectoryName = end(explode('/', rtrim($fromDirectory, '/')));
-			}
-			$newDirectory = rtrim($toParentDirectory, '/') . '/' . rtrim($newDirectoryName, '/') . '/';
-			$newDirectory = self::getAbsoluteDirectory($newDirectory, FALSE);
-			$newDirectoryExists = self::fileExists($newDirectory);
-			$newDirectory = self::getAbsoluteDirectory($newDirectory);
-
-			if ($recursive) {
-				$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($fromDirectory));
+				// Get directories
+			$fromDirectory = rtrim(self::getAbsoluteDirectory($fromDirectory), '/');
+			$toDirectory   = self::getAbsoluteDirectory($toDirectory);
+			$toDirectory  .= substr($fromDirectory, strrpos($fromDirectory, '/') + 1);
+			if (!self::fileExists($toDirectory) || $overwrite === TRUE) {
+				$toDirectory = self::getAbsoluteDirectory($toDirectory);
 			} else {
-				$files = new DirectoryIterator($fromDirectory);
+				return FALSE;
 			}
 
-			foreach ($files as $file) {
-				if ($file->isFile()) {
-					$filename = $file->getPathname();
-				} else if ($file->isDir()) {
-					$dirname = $file->getPathname();
+				// Fetch directory content
+			$elements = new DirectoryIterator($fromDirectory);
+			foreach ($elements as $element) {
+				if ($element->isFile() || ($element->isDir() && !$element->isDot())) {
+					$method = ($element->isFile() ? 'copyFile' : 'copyDirectory');
+					$toName = $toDirectory . $element->getBasename();
+					if (!self::$method($element->getPathname(), $toName, $overwrite)) {
+						$rollback = TRUE;
+						break;
+					}
 				}
 			}
 
-
-			$files = self::getFiles($fromDirectory, '', 0, TRUE);
-			foreach ($files as $filename) {
-				$newFilename = str_replace($fromDirectory, '', $filename);
-				if (!self::copyFile($filename, $newDirectory . $newFilename, $overwrite)) {
-					foreach ($rollbackFiles as $rollbackFile) {
-						unlink($rollbackFile);
-					}
-					if (!$newDirectoryExists) {
-						self::removeDirectory($newDirectory);
-					}
-					return FALSE;
-				}
-				$rollbackFiles[] = $newDirectory . $newFilename;
+				// Rollback
+			if ($rollback) {
+				self::removeDirectory($toDirectory);
+				return FALSE;
 			}
 
-			return TRUE;*/
+			return TRUE;
 		}
 
 
@@ -378,22 +368,21 @@
 		 * Move a directory
 		 *
 		 * @param string $fromDirectory Existing directory
-		 * @param string $toParentDirectory Name of the new parent directory
-		 * @param string $newDirectoryName Name of the new directory
+		 * @param string $toParentDirectory Name of the new directory
 		 * @param boolean $overwrite A directory with new name will be overwritten if set
 		 * @return boolean TRUE if success
 		 */
-		public static function moveDirectory($fromDirectory, $toParentDirectory, $newDirectoryName = '', $overwrite = FALSE) {
-			if (!self::copyDirectory($fromDirectory, $toParentDirectory, $newDirectoryName, $overwrite)) {
+		public static function moveDirectory($fromDirectory, $toDirectory, $overwrite = FALSE) {
+			if (!self::copyDirectory($fromDirectory, $toDirectory, $overwrite)) {
 				return FALSE;
 			}
-			return self::removeDirectory($fromDirectory, TRUE);
+			return self::removeDirectory($fromDirectory);
 		}
 
 
 		/**
 		 * Remove a file
-		 * 
+		 *
 		 * @param string $filename Path to the file
 		 * @return boolean TRUE if success
 		 */
@@ -407,7 +396,7 @@
 
 		/**
 		 * Remove a directory and all contents
-		 * 
+		 *
 		 * @param string $directory Directory path
 		 * @param boolean $removeNonEmpty Remove non empty directories
 		 * @return TRUE if success
