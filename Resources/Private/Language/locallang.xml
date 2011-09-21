@@ -197,6 +197,18 @@
 			<label index="expand_version_history">Expand version history</label>
 			<label index="collapsee_version_history">Collapse version history</label>
 
+			<label index="registerkey.notloggedin">Please log in to manage your extension or to register a new extension key.</label>
+			<label index="registerkey.key_registered">Extension key registered</label>
+			<label index="registerkey.notyourextension">This extension does not belong to you!!</label>
+			<label index="registerkey.key_exists">Extension Key exists</label>
+			<label index="registerkey.key_update_failed">Could not update extension!!</label>
+			<label index="registerkey.key_updated">Extension updated!!</label>
+			<label index="registerkey.cannotbedeleted">Extension %s could not be deleted!!</label>
+			<label index="registerkey.deleted">Extension %s deleted!!</label>
+			<label index="registerkey.noWsdl">No WSDL URI configured to connect to TER server</label>
+			<label index="registerkey.transferError">Error transfering the extension %s Error: %s</label>
+			<label index="registerkey.keyTransfered">Transfered the extension %s to %s</label>
+
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>
 			<label index="save">Save</label>

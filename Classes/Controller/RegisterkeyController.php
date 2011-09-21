@@ -138,12 +138,12 @@
 					}
 
 					$this->extensionRepository->add($extension);
-					$this->flashMessageContainer->add('Extension key registered');
+					$this->flashMessageContainer->add($this->translate('registerkey.key_registered'));
 					$this->redirect('index', 'Registerkey');
 				}
 			}
 
-			$this->flashMessageContainer->add('Extension Key exists');
+			$this->flashMessageContainer->add($this->translate('registerkey.key_exists'));
 			$this->redirect('index', 'Registerkey', NULL, array());
 		}
 
@@ -188,7 +188,7 @@
 				$this->view->assign('categories', $categoryArray);
 				$this->view->assign('extension', $extension);
 			} else {
-				$this->flashMessageContainer->add('This extension does not belong to you!!');
+				$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
 				$this->redirect('index', 'Registerkey');
 			}
 
@@ -224,27 +224,27 @@
 						if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $this->frontendUser['username'], $error)) {
 								// Update categories
 							$this->extensionRepository->update($extension);
-							$this->flashMessageContainer->add('Extension updated');
+							$this->flashMessageContainer->add($this->translate('registerkey.key_updated'));
 							$this->redirect('index', 'Registerkey');
 						} else {
 							// TODO: Show different message by $error code
-							$this->flashMessageContainer->add('Could not update extension');
+							$this->flashMessageContainer->add($this->translate('registerkey.key_update_failed'));
 						}
 					} else {
-						$this->flashMessageContainer->add('Extension key already exists!!');
+						$this->flashMessageContainer->add($this->translate('registerkey.key_exists'));
 					}
 				} else {
 						// Update categories
 					$extension = $this->updateCategories($extension, $categories);
 					$this->extensionRepository->update($extension);
-					$this->flashMessageContainer->add('Extension updated');
+					$this->flashMessageContainer->add($this->translate('registerkey.key_updated'));
 					$this->redirect('index', 'Registerkey');
 				}
 
 				$this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
 
 			} else {
-				$this->flashMessageContainer->add('This extension does not belong to you!!');
+				$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
 				$this->redirect('index', 'Registerkey');
 			}
 		}
@@ -294,13 +294,13 @@
 				if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $newUser, $error)) {
 					$extension->setFrontendUser($newUser);
 					$this->extensionRepository->update($extension);
-					$this->flashMessageContainer->add('Transfered the extension ' . $extension->getExtKey() . ' to ' .$newUser );
+					$this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)));
 				} else {
-					$this->flashMessageContainer->add('Error transfering the extension ' . $extension->getExtKey() . ' Error: ' . $error);
+					$this->flashMessageContainer->add($this->translate('registerkey.transferError', array($extension->getExtKey(), $error)));
 				}
 
 			} else {
-				$this->flashMessageContainer->add('This extension does not belong to you!!');
+				$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
 			}
 
 			$this->redirect('index', 'Registerkey');
@@ -323,13 +323,13 @@
 					// Deleted in ter, then delete the key in the ter_fe2 extension table
 				if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {
 					$this->extensionRepository->remove($extension);
-					$this->flashMessageContainer->add('Extension ' . $extension->getExtKey() . ' deleted!!');
+					$this->flashMessageContainer->add($this->translate('registerkey.deleted', array($extension->getExtKey())));
 				} else {
-					$this->flashMessageContainer->add('Extension ' . $extension->getExtKey() . ' could not be deleted!!');
+					$this->flashMessageContainer->add($this->translate('registerkey.cannotbedeleted', array($extension->getExtKey())));
 				}
 
 			} else {
-				$this->flashMessageContainer->add('This extension does not belong to you!!');
+				$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
 			}
 
 			$this->redirect('index', 'Registerkey');
@@ -353,7 +353,7 @@
 
 				// Check the wsdl uri
 			if (empty($this->settings['terConnection']['wsdl'])) {
-				throw new Exception('No WSDL URI configured to connect to TER server');
+				throw new Exception($this->translate('registerkey.noWsdl'));
 			}
 
 				// Create connection
