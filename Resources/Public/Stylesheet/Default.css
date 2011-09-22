@@ -1,6 +1,10 @@
 /**
  * Default styles for TER
  */
+div.tx_terfe2 {
+	position: relative; /* needed for sorting selectbox */
+}
+
 div.ter-toggle {
 	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1314px -75px;
 	margin: 0 0 5px 0;
@@ -36,7 +40,6 @@ img.ter-ext-icon {
 	position: relative;
 	top: 4px;
 	margin: 0 8px 0 0;
-	border: 1px solid #D1D1D1;
 }
 
 div.ter-ext-info {
@@ -65,131 +68,99 @@ div.ter-ext-info table th {
 }
 
 span.ter-ext-state {
-	display: block;
-	float: right;
-	text-transform: uppercase;
-	margin: 0 10px 0 0;
+	padding: 0 0 0 5px;
+	font-weight: bold;
+	text-transform: capitalize;
 }
 
 span.ter-ext-state-obsolete {
 	color: #8c8c8c;
+	font-weight: normal;
 }
 
 span.ter-ext-state-stable {
 	color: #3db900;
-	font-weight: bold;
 }
 
 span.ter-ext-state-beta {
 	color: #f4bd00;
-	font-weight: bold;
 }
 
 span.ter-ext-state-alpha {
 	color: #f14400;
-	font-weight: bold;
-}
-
-div.ter-ext-meta {
-	font-size: 11px;
-	color: #8c8c8c;
-	line-height: 22px;
-}
-
-div.ter-ext-meta b {
-	font-weight: normal;
-	color: #000;
-	padding: 0 10px 0 0;
 }
 
 /**
  * Extension list
  */
-div.ter-ext-list-row {
-	margin: 0 0 20px 0;
-	padding: 0 0 10px 0;
-	border-bottom: 1px solid #D1D1D1;
+#ter-ext-list-sort {
+	position: absolute;
+	top: -40px;
+	right: 0;
 }
 
-div.ter-ext-list-row-head {
-
+div.ter-ext-list-row {
+	padding: 10px 0;
+	border-top: 1px solid #D1D1D1;
+	position: relative;
+}
+div.ter-ext-list-row:hover {
+	background: url(../../../../t3org_template/i/ter/bg_row_hover.png) repeat-x left bottom;
 }
 
 div.ter-ext-list-row-head a {
 	font-weight: bold;
 }
 
+span.ter-ext-list-row-key {
+	display: block;
+	float: right;
+	margin: 0 10px 0 0;
+	color: #8C8C8C;
+	font-size: 11px;
+}
+
 div.ter-ext-list-row-description {
 	overflow: auto;
 	float: left;
-	width: 370px;
-	margin: 6px 0 7px 30px;
+	width: 340px;
+	margin: 5px 0 7px 30px;
+}
+
+div.ter-ext-list-meta {
+	color: #8C8C8C;
+	font-size: 11px;
+	margin: 0 0 5px 0;
 }
 
 div.ter-ext-list-row-info {
 	float: right;
-	width: 270px;
-	margin: 4px 0 0 0;
+	width: 300px;
+	margin: 3px 0 0 0;
 }
 
-div.ter-ext-list-row-details {
-	background: url(../../../../t3org_template/i/i-arrows.png) no-repeat -1302px -76px;
-	margin: 0 0 5px 18px;
-	padding: 0 0 0 25px;
-	color: #8c8c8c;
-	font-size: 11px;
-	cursor: pointer;
+div.ter-ext-list-row-downloads {
+	display: none;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
 }
-
-div.ter-ext-list-row-details span {
-	background: #fff;
-	position: relative;
-	z-index: 2;
-	padding: 0 5px 0 0;
-}
-
-div.ter-ext-list-row-details hr {
-	position: relative;
-	top: -9px;
-	position: relative;
-	z-index: 1;
-}
-
-div.ter-ext-list-row-lastUploadComment b {
+div.ter-ext-list-row:hover div.ter-ext-list-row-downloads {
 	display: block;
-	font-weight: normal;
-	margin: 0 0 4px 0;
-	font-size: 11px;
-	color: #8c8c8c;
 }
-
-div.ter-ext-list-row-meta {
-	margin: 0 0 0 30px;
-	float: left;
-	width: 370px;
+.ter-download-icon {
+	display: block;
+	font-size: 0;
+	height: 27px;
+	line-height: 0;
+	width: 20px;
 }
-
-div.ter-ext-list-row-buttons {
-	float: right;
-	width: 270px;
+.ter-download-icon-t3x {
+	background: url(../../../../t3org_template/i/ter/icon_t3x.png) no-repeat;
 }
-
-div.ter-ext-list-row-buttons a {
-	color: #fff;
-	text-decoration: none;
+.ter-download-icon-zip {
+	background: url(../../../../t3org_template/i/ter/icon_t3x.png) no-repeat;
 }
-
-span.ter-ext-list-row-plus {
-	color: #009C21;
-}
-
-span.ter-ext-list-row-minus {
-	color: #EE1B00;
-}
-div.ter-ext-list-row div.ter-toggle {
-	margin-left: 30px;
-}
-
 
 /**
  * Extension details
@@ -198,64 +169,56 @@ div.ter-ext-list-row div.ter-toggle {
 	display: inline;
 }
 
-#ter-ext-single img.img.ter-ext-icon {
+#ter-ext-single img.ter-ext-icon {
 	top: 2px;
 }
 
 .ter-ext-single-description {
 	float: left;
-	width: 400px;
-	margin: 25px 30px 0 0;
+	width: 390px;
+	margin: 15px 30px 0 0;
 }
 
 .ter-ext-single-info {
 	float: right;
-	width: 270px;
-	margin: 23px 0 0 0;
+	width: 280px;
+	margin: 13px 0 0 0;
+}
+div.ter-ext-info table tr.ter-ext-single-info-key th,
+div.ter-ext-info table tr.ter-ext-single-info-key td {
+	margin: 10px 0 0 0;
 }
 
-div.ter-ext-single-lastUploadComment b {
-	display: block;
-	font-weight: normal;
-	margin: 0 0 4px 0;
-	font-size: 11px;
-	color: #8c8c8c;
+.ter-ext-single-download {
+	padding: 0 0 10px 0;
+	border-bottom: 1px solid #D1D1D1;
 }
-
-.ter-ext-single-versionhistory .col1 {
-	width: 85px;
+.ter-ext-single-download a {
+	font-weight: bold;
 }
-
-.ter-ext-single-versionhistory .col3 {
-	width: 100px;
-	text-align: right;
+.ter-ext-single-filesize {
+	color: #8C8C8C;
+	font-size: 10px;
+	line-height: 12px;
+}
+.ter-ext-single-download .ter-download-icon {
+	float: left;
+	margin: 2px 15px 0 0;
 }
 
 .ter-ext-single-versionhistory table {
 	margin: 0;
 }
-
 .ter-ext-single-versionhistory table td {
 	border: none;
 	padding: 0 0 6px 0;
 }
-
-.ter-ext-single-links {
-	border-top: 1px solid #d1d1d1;
-	padding-top: 10px;
+.ter-ext-single-versionhistory .col1 {
+	width: 85px;
 }
-
-.ter-ext-single-back {
-	float: left;
-}
-
-.ter-ext-single-downloadzip {
-	float: right;
-	margin-left: 10px;
-}
-
-.ter-ext-single-downloadt3x {
-	float: right;
+.ter-ext-single-versionhistory .col3 {
+	width: 100px;
+	text-align: right;
 }
 
 

@@ -1,37 +1,9 @@
 <f:layout name="Default" />
 
 <f:section name="main">
-	<div class="b-tabs">
-		<ul class="tabs lite-tabs">
-			<li>
-				<a href="#tx_terfe2_tab_extensions"><f:translate key="tab.extensions" /></a>
-			</li>
-			<li>
-				<a href="#tx_terfe2_tab_categories"><f:translate key="tab.categories" /></a>
-			</li>
-			<!--<li>
-				<a href="#tx_terfe2_tab_tags"><f:translate key="tab.tags" /></a>
-			</li>-->
-			<li>
-				<a href="#tx_terfe2_tab_authors"><f:translate key="tab.authors" /></a>
-			</li>
-		</ul>
-		<div class="tab-panes">
-			<div class="tab-content lite-tab-panes-black">
-				<f:render partial="ExtensionListSortingForm" arguments="{sorting : sorting, direction : direction}" />
-				<f:render partial="ExtensionList" arguments="{extensions : extensions}" />
-			</div>
-			<div class="tab-content lite-tab-panes-black">
-				<f:render partial="CategoryList" arguments="{categories : categories}" />
-			</div>
-			<!--
-			<div class="tab-content lite-tab-panes-black">
-				<f:render partial="TagList" arguments="{tags : tags}" />
-			</div>
-			-->
-			<div class="tab-content lite-tab-panes-black">
-				<f:render partial="AuthorList" arguments="{authors: authors}" />
-			</div>
-		</div>
-	</div>
+	<f:render partial="ExtensionListSortingForm" arguments="{sorting : sorting, direction : direction}" />
+	<f:render partial="ExtensionList" arguments="{extensions : extensions}" />
+	<!-- <f:render partial="CategoryList" arguments="{categories : categories}" />
+	<f:render partial="TagList" arguments="{tags : tags}" />
+	<f:render partial="AuthorList" arguments="{authors: authors}" /> -->
 </f:section>

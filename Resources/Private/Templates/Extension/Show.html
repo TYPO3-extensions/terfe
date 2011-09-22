@@ -13,7 +13,6 @@
 						<f:translate key="single_extension" />
 						{extension.lastVersion.title}
 					</h2>
-					<span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span>
 				</div>
 
 				<div class="ter-ext-single-content cl">
@@ -22,22 +21,42 @@
 
 						<!-- Comments / changelog -->
 						<f:if condition="{extension.lastVersion.uploadComment}">
-						<div class="ter-ext-single-lastUploadComment">
-							<b><f:translate key="last_upload_comment"/></b>
-							<p>{extension.lastVersion.uploadComment}</p>
-						</div>
+							<div class="ter-ext-single-lastUploadComment">
+								<h3><f:translate key="last_upload_comment"/></h3>
+								<p>{extension.lastVersion.uploadComment}</p>
+							</div>
 						</f:if>
 
-						<div class="ter-ext-single-meta ter-ext-meta">
-							<f:translate key="version" />: <b>{extension.lastVersion.versionString}</b>
-							<f:translate key="last_uploaded" />: <b><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></b>
-							<f:translate key="downloads" />: <b>{extension.allDownloads}</b>
+						<h3><f:translate key="download"/></h3>
+						<f:if condition="{extension.lastVersion.hasZipFile}">
+							<div class="ter-ext-single-download">
+								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
+								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><f:translate key="download_zip"/></f:link.action>
+								<div class="ter-ext-single-filesize"><f:translate key="filesize"/>: 21Kb TODO</div>
+							</div>
+						</f:if>
+						<div class="ter-ext-single-download">
+							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
+							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action>
+							<div class="ter-ext-single-filesize"><f:translate key="filesize"/>: 21Kb TODO</div>
 						</div>
 					</div>
 
 					<div class="ter-ext-single-info ter-ext-info">
 						<table>
 							<tr>
+								<th><f:translate key="version"/></th>
+								<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
+							</tr>
+							<tr>
+								<th><f:translate key="last_uploaded"/></th>
+								<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
+							</tr>
+							<tr>
+								<th><f:translate key="downloads"/></th>
+								<td>{extension.allDownloads}</td>
+							</tr>
+							<tr class="ter-ext-single-info-key">
 								<th><f:translate key="extensionKey"/></th>
 								<td>{extension.extKey}</td>
 							</tr>
@@ -59,7 +78,7 @@
 							</tr>
 							<tr>
 								<th><f:translate key="downloads_by_version"/></th>
-								<td><terfe2:chart object="{extension}" method="downloadsByVersion" height="120" width="170" pointCount="{settings.defaultPointCount}" renderOnLoad="1"/></td>
+								<td><terfe2:chart object="{extension}" method="downloadsByVersion" height="100" width="170" pointCount="{settings.defaultPointCount}" renderOnLoad="1"/></td>
 							</tr>
 						</table>
 					</div>
@@ -81,13 +100,14 @@
 					</f:if>
 				</div>
 
+				<h3><f:translate key="version_history" /></h3>
+
 				<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
-					<span><f:translate key="expand_version_history" /></span>
+					<span><f:translate key="expand_details" /></span>
 					<hr/>
 				</div>
-
 				<div class="ter-toggle-showLess ter-toggle ter-toggle-show">
-					<span><f:translate key="collapse_version_history" /></span>
+					<span><f:translate key="collapse_details" /></span>
 					<hr/>
 				</div>
 
@@ -95,19 +115,7 @@
 					<f:render partial="ExtensionUploadHistoryList" arguments="{extension: extension}" />
 				</div>
 
-				<div class="ter-ext-single-links cl">
-					<div class="ter-ext-single-back">
-						<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
-					</div>
-					<f:if condition="{extension.lastVersion.hasZipFile}">
-						<div class="ter-ext-single-downloadzip">
-							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><span class="bu"><f:translate key="download_zip"/></span></f:link.action>
-						</div>
-					</f:if>
-					<div class="ter-ext-single-downloadt3x">
-						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><span class="bu"><f:translate key="download_t3x"/></f:link.action></span>
-					</div>
-				</div>
+				<f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
 
 			</div>
 		</f:then>

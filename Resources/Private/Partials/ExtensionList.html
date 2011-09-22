@@ -5,13 +5,13 @@
 	<f:then>
 		<p:widget.paginate objects="{extensions}" as="paginateExtensions" configuration="{margin: 2, itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
 			<f:for each="{paginateExtensions}" as="extension">
-				<div class="ter-ext-list-row ter-toggle-from-here cl">
+				<div class="ter-ext-list-row cl">
 
 					<!-- Headline -->
 					<div class="ter-ext-list-row-head">
 						<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" class="ter-ext-icon" />
-						<f:link.action controller="Extension" action="show" arguments="{extension : extension}" class="ter-toggle">{extension.lastVersion.title}</f:link.action>
-						<span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span>
+						<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title}</f:link.action>
+						<span class="ter-ext-list-row-key">{extension.extKey}</span>
 					</div>
 
 					<!-- Content area -->
@@ -19,85 +19,37 @@
 
 						<!-- Description -->
 						<div class="ter-ext-list-row-description">
-							<p><terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}</terfe2:crop></p>
-
-							<div class="ter-toggle-show">
-								<!-- Comments / changelog -->
-								<f:if condition="{extension.lastVersion.uploadComment}">
-								<div class="ter-ext-list-row-lastUploadComment">
-									<b><f:translate key="last_upload_comment"/></b>
-									<p>{extension.lastVersion.uploadComment}</p>
-								</div>
-								</f:if>
-
-								<p><f:link.action controller="Extension" action="show" arguments="{extension: extension}" class="bu bu-mini"><f:translate key="link.extension_details" /></f:link.action></p>
+							<div class="ter-ext-list-meta">
+								<f:translate key="by"/> <f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action>
+								| <f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/>
 							</div>
+							<terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}</terfe2:crop>
 						</div>
 
 						<!-- General information -->
 						<div class="ter-ext-list-row-info ter-ext-info">
 							<table>
 								<tr>
-									<th><f:translate key="extensionKey"/></th>
-									<td>{extension.extKey}</td>
+									<th><f:translate key="version"/></th>
+									<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
 								</tr>
 								<tr>
-									<th><f:translate key="author"/></th>
-									<td><f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action></td>
+									<th><f:translate key="last_updated"/></th>
+									<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
 								</tr>
 								<tr>
-									<th><f:translate key="category"/></th>
-									<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
-								</tr>
-								<!-- <tr>
-									<th><f:translate key="votes"/></th>
-									<td><span class="ter-ext-list-row-plus">+&nbsp;{extension.votes.positive}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class="ter-ext-list-row-minus">-&nbsp;{extension.votes.negative}</span></td>
-								</tr> -->
-								<!-- Additional information -->
-								<tr class="ter-toggle-show">
-									<th><f:translate key="relations"/></th>
-									<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
-								</tr>
-								<!-- <tr>
-									<th><f:translate key="reverse_relations"/></th>
-									<td>TODO: Related to this</td>
-								</tr> -->
-								<tr class="ter-toggle-show">
-									<th><f:translate key="manual"/></th>
-									<td><terfe2:documentationLink>{extension.lastVersion}</terfe2:documentationLink></td>
-								</tr>
-								<!-- <tr>
-									<th><f:translate key="tags"/></th>
-									<td><f:render partial="InlineTagList" arguments="{tags: extension.tags}"/></td>
-								</tr> -->
-								<tr class="ter-toggle-show">
-									<th><f:translate key="downloads_by_version"/></th>
-									<td><terfe2:chart object="{extension}" method="downloadsByVersion" height="100" width="170" pointCount="{settings.defaultPointCount}" renderOnLoad="0" /></td>
+									<th><f:translate key="downloads"/></th>
+									<td>{extension.allDownloads}</td>
 								</tr>
 							</table>
 						</div>
 
 					</div>
 
-					<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
-						<span><f:translate key="expand_details"/></span>
-						<hr />
-					</div>
-					<div class="ter-toggle-showLess ter-toggle ter-toggle-show">
-						<span><f:translate key="collapse_details"/></span>
-						<hr />
-					</div>
-
-					<div class="ter-ext-list-row-meta ter-ext-meta">
-						<f:translate key="version"/>: <b>{extension.lastVersion.versionString}</b>
-						<f:translate key="last_updated"/>: <b><terfe2:dateTime format="{settings.dateFormat}"> {extension.lastVersion.uploadDate}</terfe2:dateTime></b>
-						<f:translate key="downloads"/>: <b>{extension.allDownloads}</b>
-					</div>
-
-					<div class="ter-ext-list-row-buttons">
-						<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action></span>
+					<div class="ter-ext-list-row-downloads">
+						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
 						<f:if condition="{extension.lastVersion.hasZipFile}">
-							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><f:translate key="download_zip"/></f:link.action></span>
+							<span class="bu bu-mini"><f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action></span>
 						</f:if>
 					</div>
 

@@ -160,8 +160,9 @@
 			<label index="create_author">Create new Author</label>
 			<label index="single_author">Show single Author</label>
 
+			<label index="by">by</label>
 			<label index="author">Author</label>
-			<label index="relations">Relations</label>
+			<label index="relations">Dependencies</label>
 			<label index="reverse_relations">Relation of</label>
 			<label index="category">Category</label>
 			<label index="categories">Categories</label>
@@ -187,16 +188,16 @@
 			<label index="create">Create</label>
 			<label index="edit">Edit</label>
 			<label index="delete">Delete</label>
-			<label index="expand_details">Expand details</label>
-			<label index="collapse_details">Collapse details</label>
+			<label index="expand_details">Expand</label>
+			<label index="collapse_details">Collapse</label>
 			<label index="downloads">Downloads</label>
-			<label index="download_t3x">Download T3X</label>
-			<label index="download_zip">Download ZIP</label>
+			<label index="download_t3x">Download T3X Package</label>
+			<label index="download_zip">Download ZIP Archive</label>
 			<label index="downloads_by_version">Downloads by version</label>
+			<label index="filesize">Size</label>
 			<label index="last_uploaded">Last uploaded</label>
 			<label index="last_updated">Last updated</label>
-			<label index="expand_version_history">Expand version history</label>
-			<label index="collapsee_version_history">Collapse version history</label>
+			<label index="version_history">Versions history</label>
 
 			<label index="registerkey.notloggedin">Please log in to manage your extension or to register a new extension key.</label>
 			<label index="registerkey.key_registered">Extension key registered</label>
