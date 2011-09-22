@@ -73,4 +73,12 @@
 		'additionalFields' => 'tx_terfe2_task_updateextensionlisttaskadditionalfieldprovider',
 	);
 
+		// Register update downloads task
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_UpdateDownloadsTask'] = array(
+		'extension'        => $_EXTKEY,
+		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_updatedownloadstask.name',
+		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_updatedownloadstask.description',
+		'additionalFields' => 'tx_terfe2_task_updatedownloadstaskadditionalfieldprovider',
+	);
+
 ?>

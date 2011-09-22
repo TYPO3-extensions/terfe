@@ -84,6 +84,12 @@
 		 */
 		protected $frontendUser;
 
+		/**
+		 * Sum of all version downloads
+		 * @var integer
+		 */
+		protected $downloads;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -333,6 +339,7 @@
 		public function addVersion(Tx_TerFe2_Domain_Model_Version $version) {
 			$this->versions->attach($version);
 			$this->setLastVersion($version);
+			$this->addDownloads((int) $version->getDownloadCounter());
 		}
 
 
@@ -420,8 +427,43 @@
 
 
 		/**
+		 * Set all downloads sum
+		 * 
+		 * @param integer $downloadCount Count of downloads
+		 * @return void
+		 */
+		public function setDownloads($downloadCount) {
+			$this->downloads = (int) $downloadCount;
+		}
+
+
+		/**
+		 * Add downloads to all downloads sum
+		 * 
+		 * @param integer $downloadCount Count of downloads to add
+		 * @return void
+		 */
+		public function addDownloads($downloadCount) {
+			$this->downloads += (int) $downloadCount;
+		}
+
+
+		/**
 		 * Get sum of all version downloads
 		 *
+		 * @return integer All downloads
+		 */
+		public function getDownloads() {
+			return (int) $this->downloads;
+		}
+
+
+		/**
+		 * Get sum of all version downloads
+		 *
+		 * TODO: Remove deprecated method
+		 * 
+		 * @deprecated
 		 * @return integer All downloads
 		 */
 		public function getAllDownloads() {
@@ -434,6 +476,7 @@
 
 			return $downloads;
 		}
+
 
 	}
 ?>

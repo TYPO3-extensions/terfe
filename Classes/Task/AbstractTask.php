@@ -49,9 +49,9 @@
 		public $forceOffset = NULL;
 
 		/**
-		 * @var boolean
+		 * @var integer
 		 */
-		public $ignoreEmpty = FALSE;
+		public $ignoreEmptyUntil = NULL;
 
 		/**
 		 * @var array
@@ -112,7 +112,11 @@
 			$result = $this->executeTask($lastRun, $offset, $count);
 
 				// Add new values to registry
-			$offset = ((!empty($result) || !empty($this->ignoreEmpty)) ? $offset + $count : 0);
+			if (!empty($result) || (!empty($this->ignoreEmptyUntil) && $offset < (int) $this->ignoreEmptyUntil)) {
+				$offset += $count;
+			} else {
+				$offset = 0;
+			}
 			$this->registry->add('lastRun', $GLOBALS['EXEC_TIME']);
 			$this->registry->add('offset', $offset);
 

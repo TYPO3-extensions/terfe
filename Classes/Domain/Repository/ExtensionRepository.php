@@ -125,6 +125,24 @@
 
 
 		/**
+		 * Returns all extensions limited by offset and count
+		 *
+		 * @param string $offset Offset to start with
+		 * @param string $count Count of results
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		public function findByOffsetAndCount($offset, $count) {
+			$query = $this->createQuery();
+			$query->setOffset((int) $offset);
+			$query->setLimit((int) $count);
+			$query->setOrderings(
+				array('lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
+			);
+			return $query->execute();
+		}
+
+
+		/**
 		 * Returns all extensions sorted by given sorting and direction
 		 *
 		 * @param string $sorting Sort extensions by this key

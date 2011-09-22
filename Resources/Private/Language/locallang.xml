@@ -15,11 +15,15 @@
 			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
 			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
 			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
+			<label index="tx_terfe2_domain_model_extension.downloads">Downloads of all versions</label>
+
 			<label index="tx_terfe2_domain_model_category">Frontend category of the extension</label>
 			<label index="tx_terfe2_domain_model_category.title">Category title</label>
 			<label index="tx_terfe2_domain_model_category.description">Description</label>
+
 			<label index="tx_terfe2_domain_model_tag">Tag for the extension</label>
 			<label index="tx_terfe2_domain_model_tag.title">Title of the tag</label>
+
 			<label index="tx_terfe2_domain_model_version">Single version of an extension</label>
 			<label index="tx_terfe2_domain_model_version.title">Title of the extension</label>
 			<label index="tx_terfe2_domain_model_version.icon">The filename of the extension icon.</label>
@@ -39,21 +43,25 @@
 			<label index="tx_terfe2_domain_model_version.experiences">Experiences</label>
 			<label index="tx_terfe2_domain_model_version.software_relations">Software relations</label>
 			<label index="tx_terfe2_domain_model_version.zip_file">Zip file path</label>
+
 			<label index="tx_terfe2_domain_model_media">Any type of media associated to an extension</label>
 			<label index="tx_terfe2_domain_model_media.title">Title of the media</label>
 			<label index="tx_terfe2_domain_model_media.type">Media type (link, image, video, pdf)</label>
 			<label index="tx_terfe2_domain_model_media.language">Short language parameter (en, de, dk, etc.)</label>
 			<label index="tx_terfe2_domain_model_media.source">Filename or url</label>
 			<label index="tx_terfe2_domain_model_media.description">Short description of this media attachment</label>
+
 			<label index="tx_terfe2_domain_model_experience">User experience with an extension</label>
 			<label index="tx_terfe2_domain_model_experience.date_time">Timestamp of the experience</label>
 			<label index="tx_terfe2_domain_model_experience.comment">Comment</label>
 			<label index="tx_terfe2_domain_model_experience.rating">User rating</label>
+
 			<label index="tx_terfe2_domain_model_relation">Any type of relation of an extension</label>
 			<label index="tx_terfe2_domain_model_relation.relation_type">Dependancy, conflict or suggest</label>
 			<label index="tx_terfe2_domain_model_relation.software_type">Core, extension or system</label>
 			<label index="tx_terfe2_domain_model_relation.tx_terfe2_key">extension key, php, mysql or something else</label>
 			<label index="tx_terfe2_domain_model_relation.version">Version of the field "key", e.g. key "php" and version "5.2"</label>
+
 			<label index="tx_terfe2_domain_model_author">Author of the extension</label>
 			<label index="tx_terfe2_domain_model_author.name">Name of the author</label>
 			<label index="tx_terfe2_domain_model_author.email">Email address</label>
@@ -64,12 +72,14 @@
 			<label index="tx_terfe2_task_clearCachePages">Clear cache of these pages after run</label>
 			<label index="tx_terfe2_task_forceLastRun">Force last run time</label>
 			<label index="tx_terfe2_task_forceOffset">Force offset</label>
-			<label index="tx_terfe2_task_ignoreEmpty">Proceed with empty result set</label>
+			<label index="tx_terfe2_task_ignoreEmptyUntil">Proceed with empty result up to an offset of</label>
 			<label index="tx_terfe2_task_providerName">Fetch extensions from this source</label>
 			<label index="tx_terfe2_task_createExtensions">Create extensions if not exist</label>
 			<label index="tx_terfe2_task_extensionFilePath">Relative path to extension files directory</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
+			<label index="tx_terfe2_task_updatedownloadstask.name">Update download count</label>
+			<label index="tx_terfe2_task_updatedownloadstask.description">Update the number of downloads for the latest versions</label>
 			<label index="tx_terfe2_task_createextensionfilestask.name">Create extension related files</label>
 			<label index="tx_terfe2_task_createextensionfilestask.description">Create extension related files like zip file or images</label>
 			<label index="tx_terfe2_provider_mirrorprovider.name">Mirror Servers</label>

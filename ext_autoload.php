@@ -47,6 +47,8 @@
 		'tx_terfe2_task_abstractadditionalfieldprovider'                   => $extensionClassesPath . 'Task/AbstractAdditionalFieldProvider.php',
 		'tx_terfe2_task_createextensionfilestask'                          => $extensionClassesPath . 'Task/CreateExtensionFilesTask.php',
 		'tx_terfe2_task_createextensionfilestaskadditionalfieldprovider'   => $extensionClassesPath . 'Task/CreateExtensionFilesTaskAdditionalFieldProvider.php',
+		'tx_terfe2_task_updatedownloadstask'                               => $extensionClassesPath . 'Task/UpdateDownloadsTask.php',
+		'tx_terfe2_task_updatedownloadstaskadditionalfieldprovider'        => $extensionClassesPath . 'Task/UpdateDownloadsTaskAdditionalFieldProvider.php',
 		'tx_terfe2_task_updateextensionlisttask'                           => $extensionClassesPath . 'Task/UpdateExtensionListTask.php',
 		'tx_terfe2_task_updateextensionlisttaskadditionalfieldprovider'    => $extensionClassesPath . 'Task/UpdateExtensionListTaskAdditionalFieldProvider.php',
 		'tx_terfe2_utility_archive'                                        => $extensionClassesPath . 'Utility/Archive.php',
