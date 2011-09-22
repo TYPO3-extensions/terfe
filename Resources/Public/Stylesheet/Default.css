@@ -105,7 +105,7 @@ div.ter-ext-list-row {
 	position: relative;
 }
 div.ter-ext-list-row:hover {
-	background: url(../../../../t3org_template/i/ter/bg_row_hover.png) repeat-x left bottom;
+	background: url(../Images/bg_row_hover.png) repeat-x left bottom;
 }
 
 div.ter-ext-list-row-head a {
@@ -156,10 +156,10 @@ div.ter-ext-list-row:hover div.ter-ext-list-row-downloads {
 	width: 20px;
 }
 .ter-download-icon-t3x {
-	background: url(../../../../t3org_template/i/ter/icon_t3x.png) no-repeat;
+	background: url(../Icons/t3x.png) no-repeat;
 }
 .ter-download-icon-zip {
-	background: url(../../../../t3org_template/i/ter/icon_t3x.png) no-repeat;
+	background: url(../Icons/t3x.png) no-repeat;
 }
 
 /**
