@@ -234,6 +234,18 @@
 		 */
 		protected $hasImages;
 
+		/**
+		 * File size of the t3x file
+		 * @var integer
+		 */
+		protected $t3xFileSize;
+
+		/**
+		 * File size of the zip file
+		 * @var integer
+		 */
+		protected $zipFileSize;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -1033,6 +1045,48 @@
 		 */
 		public function getHasImages() {
 			return $this->hasImages;
+		}
+
+
+		/**
+		 * Setter for t3xFileSize
+		 *
+		 * @param integer $t3xFileSize File size
+		 * @return void
+		 */
+		public function setT3xFileSize($t3xFileSize) {
+			$this->t3xFileSize = (int) $t3xFileSize;
+		}
+
+
+		/**
+		 * Getter for t3xFileSize
+		 *
+		 * @return integer File size
+		 */
+		public function getT3xFileSize() {
+			return (int) $this->t3xFileSize;
+		}
+
+
+		/**
+		 * Setter for zipFileSize
+		 *
+		 * @param integer $zipFileSize File size
+		 * @return void
+		 */
+		public function setZipFileSize($zipFileSize) {
+			$this->zipFileSize = (int) $zipFileSize;
+		}
+
+
+		/**
+		 * Getter for zipFileSize
+		 *
+		 * @return integer File size
+		 */
+		public function getZipFileSize() {
+			return (int) $this->zipFileSize;
 		}
 
 	}

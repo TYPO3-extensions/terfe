@@ -388,6 +388,16 @@
 					'default' => 0,
 				),
 			),
+			't3x_file_size' => array(
+				'config' => array(
+					'type' => 'passthrough',
+				),
+			),
+			'zip_file_size' => array(
+				'config' => array(
+					'type' => 'passthrough',
+				),
+			),
 		),
 	);
 ?>

@@ -97,7 +97,9 @@
 				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->mediaRootPath . $extKey);
 
 					// Create zip file
-				if ($this->createZipFile($version, $extensionMediaPath)) {
+				$zipFile = $this->createZipFile($version, $extensionMediaPath);
+				if (!empty($zipFile)) {
+					$version->setZipFileSize(filesize($zipFile));
 					$version->setHasZipFile(TRUE);
 				}
 
@@ -121,11 +123,11 @@
 		 * 
 		 * @param Tx_TerFe2_Domain_Model_Version $version Path to t3x file
 		 * @param string $extensionMediaPath Path to media files
-		 * @return boolean TRUE if success
+		 * @return string Name of the zip file
 		 */
 		protected function createZipFile(Tx_TerFe2_Domain_Model_Version $version, $extensionMediaPath) {
 			if (empty($extensionMediaPath)) {
-				return FALSE;
+				return '';
 			}
 
 			$provider = $this->providerManager->getProvider($version->getExtensionProvider());
@@ -134,7 +136,7 @@
 
 				// Check if zip file already exists
 			if (Tx_TerFe2_Utility_File::fileExists($zipFileName)) {
-				return TRUE;
+				return $zipFileName;
 			}
 
 				// Check file hash
@@ -144,7 +146,12 @@
 			}
 
 				// Create zip file
-			return Tx_TerFe2_Utility_Archive::convertT3xToZip($t3xFileName, $zipFileName);
+			$result = Tx_TerFe2_Utility_Archive::convertT3xToZip($t3xFileName, $zipFileName);
+			if (!empty($result)) {
+				return $zipFileName;
+			}
+
+			return '';
 		}
 
 

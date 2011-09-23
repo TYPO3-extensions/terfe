@@ -166,7 +166,8 @@
 				// Fetch file from extension root path
 			$filename = $this->generateFileName($extension, $version, 't3x');
 			$filename = $this->extensionRootPath . $filename;
-			$content = t3lib_div::getURL($filename);
+			$content  = t3lib_div::getURL($filename);
+			$filesize = strlen($content);
 			if (empty($content)) {
 					// TODO: Log the missing file
 				return array();
@@ -208,6 +209,9 @@
 					unset($emConf[$key]);
 				}
 			}
+
+				// Add file size
+			$emConf['t3xfilesize'] = (int) $filesize;
 
 			return $emConf;
 		}
@@ -265,6 +269,7 @@
 					'repository'            => $extension['repository'],
 					'review_state'          => $extension['reviewstate'],
 					'file_hash'             => $extension['t3xfilemd5'],
+					't3x_file_size'         => $extension['t3xfilesize'],
 					'relations'             => array(),
 				);
 

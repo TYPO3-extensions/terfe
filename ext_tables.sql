@@ -150,6 +150,8 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	extension_provider tinytext,
 	has_zip_file tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	has_images tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	t3x_file_size bigint(15) unsigned DEFAULT '0' NOT NULL,
+	zip_file_size bigint(15) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

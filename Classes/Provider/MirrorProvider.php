@@ -121,7 +121,8 @@
 
 				// Fetch file from server
 			$filename = $this->generateFileName($extension, $version, 't3x');
-			$content = $this->mirrorService->getFile($filename);
+			$content  = $this->mirrorService->getFile($filename);
+			$filesize = strlen($content);
 
 				// Check file hash
 			if ($fileHash !== md5($content)) {
@@ -142,6 +143,9 @@
 				$emConf = $extension['EM_CONF'];
 			}
 			unset($extension);
+
+				// Add file size
+			$emConf['t3xfilesize'] = (int) $filesize;
 
 			return $emConf;
 		}
