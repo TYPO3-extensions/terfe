@@ -35,12 +35,12 @@ $EM_CONF[$_EXTKEY] = array(
 			'cms' => '',
 			'extbase' => '',
 			'fluid' => '',
-			'paginate' => '',
 		),
 		'conflicts' => array(
 		),
 		'suggests' => array(
 			'em' => '',
+			'paginate' => '',
 		),
 	),
 	'suggests' => array(
