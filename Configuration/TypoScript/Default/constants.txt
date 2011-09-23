@@ -34,7 +34,7 @@ plugin.tx_terfe2 {
 		defaultPointCount = 5
 
 		# cat=TER Frontend/settings/156; type=int+; label=Version history count: Count of versions to show in history
-		versionHistoryCount = 5
+		versionHistoryCount = 3
 
 		# cat=TER Frontend/settings/157; type=int+; label=Skip latest version: Skip latest version in version history
 		skipLatestVersion = 1
