@@ -54,15 +54,15 @@
 			return $query->execute();
 		}
 
+
 		/**
 		 * Get a version with the given extension and a related version string
 		 *
-		 * @param $extension
-		 * @param $versionString
-		 * @return 
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
+		 * @param string $versionString The version string
+		 * @return Tx_TerFe2_Domain_Model_Version Version object
 		 */
-		public function findByExtensionAndVersionString($extension, $versionString) {
-
+		public function findOneByExtensionAndVersionString(Tx_TerFe2_Domain_Model_Extension $extension, $versionString) {
 			$query = $this->createQuery();
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
@@ -73,6 +73,43 @@
 				)
 			);
 			return $query->execute()->getFirst();
+		}
+
+
+		/**
+		 * Get version history
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
+		 * @param integer $count Count of versions to return
+		 * @param boolean $skipLatest Skip latest version
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		public function getVersionHistory($extension, $count = 0, $skipLatest = TRUE) {
+			$query = $this->createQuery();
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$query->setOrderings(
+				array('uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
+			);
+
+			if (!empty($skipLatest)) {
+				$query->matching(
+					$query->logicalAnd(
+						$query->equals('extension', $extension),
+						$query->logicalNot(
+							$query->equals('uid', (int) $extension->getLastVersion()->getUid())
+						)
+					)
+				);
+			} else {
+				$query->matching($query->equals('extension', $extension));
+			}
+
+			if (!empty($count)) {
+				$query->setLimit((int) $count);
+			}
+
+			return $query->execute();
 		}
 
 	}

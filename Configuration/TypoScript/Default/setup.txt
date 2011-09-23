@@ -4,41 +4,43 @@
 plugin.tx_terfe2 {
 	## General settings
 	settings {
-		latestCount       = {$plugin.tx_terfe2.settings.latestCount}
-		listCount         = {$plugin.tx_terfe2.settings.listCount}
-		authorListCount   = {$plugin.tx_terfe2.settings.authorListCount}
-		topRatedCount     = {$plugin.tx_terfe2.settings.topRatedCount}
-		randomAuthorCount = {$plugin.tx_terfe2.settings.randomAuthorCount}
-		descriptionLength = {$plugin.tx_terfe2.settings.descriptionLength}
-		dateFormat        = {$plugin.tx_terfe2.settings.dateFormat}
-		mediaRootPath     = {$plugin.tx_terfe2.settings.mediaRootPath}
-		countDownloads    = {$plugin.tx_terfe2.settings.countDownloads}
-		defaultPointCount = {$plugin.tx_terfe2.settings.defaultPointCount}
+		latestCount           = {$plugin.tx_terfe2.settings.latestCount}
+		listCount             = {$plugin.tx_terfe2.settings.listCount}
+		authorListCount       = {$plugin.tx_terfe2.settings.authorListCount}
+		topRatedCount         = {$plugin.tx_terfe2.settings.topRatedCount}
+		randomAuthorCount     = {$plugin.tx_terfe2.settings.randomAuthorCount}
+		descriptionLength     = {$plugin.tx_terfe2.settings.descriptionLength}
+		dateFormat            = {$plugin.tx_terfe2.settings.dateFormat}
+		mediaRootPath         = {$plugin.tx_terfe2.settings.mediaRootPath}
+		countDownloads        = {$plugin.tx_terfe2.settings.countDownloads}
+		defaultPointCount     = {$plugin.tx_terfe2.settings.defaultPointCount}
+		versionHistoryCount   = {$plugin.tx_terfe2.settings.versionHistoryCount}
+		skipLatestVersion     = {$plugin.tx_terfe2.settings.skipLatestVersion}
 
 		terConnection {
-			wsdl            = {$plugin.tx_terfe2.settings.terConnection.wsdl}
-			username        = {$plugin.tx_terfe2.settings.terConnection.username}
-			password        = {$plugin.tx_terfe2.settings.terConnection.password}
+			wsdl                = {$plugin.tx_terfe2.settings.terConnection.wsdl}
+			username            = {$plugin.tx_terfe2.settings.terConnection.username}
+			password            = {$plugin.tx_terfe2.settings.terConnection.password}
 		}
 
 		smallImage {
-			maxW            = {$plugin.tx_terfe2.settings.smallImage.maxW}
-			maxH            = {$plugin.tx_terfe2.settings.smallImage.maxH}
-			quality         = {$plugin.tx_terfe2.settings.smallImage.quality}
-			ext             = {$plugin.tx_terfe2.settings.smallImage.ext}
+			maxW                = {$plugin.tx_terfe2.settings.smallImage.maxW}
+			maxH                = {$plugin.tx_terfe2.settings.smallImage.maxH}
+			quality             = {$plugin.tx_terfe2.settings.smallImage.quality}
+			ext                 = {$plugin.tx_terfe2.settings.smallImage.ext}
 		}
 
 		largeImage {
-			maxW            = {$plugin.tx_terfe2.settings.largeImage.maxW}
-			maxH            = {$plugin.tx_terfe2.settings.largeImage.maxH}
-			quality         = {$plugin.tx_terfe2.settings.largeImage.quality}
-			ext             = {$plugin.tx_terfe2.settings.largeImage.ext}
+			maxW                = {$plugin.tx_terfe2.settings.largeImage.maxW}
+			maxH                = {$plugin.tx_terfe2.settings.largeImage.maxH}
+			quality             = {$plugin.tx_terfe2.settings.largeImage.quality}
+			ext                 = {$plugin.tx_terfe2.settings.largeImage.ext}
 		}
 	}
 
 	## Storage settings
 	persistence {
-		storagePid = {$plugin.tx_terfe2.persistence.storagePid}
+		storagePid            = {$plugin.tx_terfe2.persistence.storagePid}
 
 		classes {
 			## Add model for extension manager cache entries (cache_extensions)
@@ -53,9 +55,9 @@ plugin.tx_terfe2 {
 
 	## View specific settings
 	view {
-		templateRootPath = {$plugin.tx_terfe2.view.templateRootPath}
-		partialRootPath  = {$plugin.tx_terfe2.view.partialRootPath}
-		layoutRootPath   = {$plugin.tx_terfe2.view.layoutRootPath}
+		templateRootPath      = {$plugin.tx_terfe2.view.templateRootPath}
+		partialRootPath       = {$plugin.tx_terfe2.view.partialRootPath}
+		layoutRootPath        = {$plugin.tx_terfe2.view.layoutRootPath}
 	}
 }
 

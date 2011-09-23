@@ -30,8 +30,14 @@ plugin.tx_terfe2 {
 		# cat=TER Frontend/settings/155; type=bool; label=Count downloads: Count extension downloads via download action
 		countDownloads = 0
 
-		# cat=TER Frontend/settings/155; type=int+; label=Default point count: Count fo points to show in chart
+		# cat=TER Frontend/settings/155; type=int+; label=Default point count: Count of points to show in chart
 		defaultPointCount = 5
+
+		# cat=TER Frontend/settings/156; type=int+; label=Version history count: Count of versions to show in history
+		versionHistoryCount = 5
+
+		# cat=TER Frontend/settings/157; type=int+; label=Skip latest version: Skip latest version in version history
+		skipLatestVersion = 1
 
 		terConnection {
 			# cat=TER Frontend/settings/160; type=string; label=TER WSDL URI: WSDL URI to connect TER server

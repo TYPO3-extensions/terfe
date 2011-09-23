@@ -171,8 +171,13 @@
 				$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
 			}
 
+			$versionHistoryCount = (!empty($this->settings['versionHistoryCount']) ? $this->settings['versionHistoryCount'] : 5);
+			$skipLatestVersion   = (isset($this->settings['skipLatestVersion'])    ? $this->settings['skipLatestVersion']   : TRUE);
+
 			if ($extension !== NULL && $extension instanceof Tx_TerFe2_Domain_Model_Extension) {
+				$versionHistory = $this->versionRepository->getVersionHistory($extension, $versionHistoryCount, $skipLatestVersion);
 				$this->view->assign('extension', $extension);
+				$this->view->assign('versionHistory', $versionHistory);
 			}
 		}
 
@@ -253,7 +258,7 @@
 				throw new Exception('A download action for the format "' . $format . '" is not implemented');
 			}
 
-			$version = $this->versionRepository->findByExtensionAndVersionString($extension, $versionString);
+			$version = $this->versionRepository->findOneByExtensionAndVersionString($extension, $versionString);
 			if (!$version) {
 				throw new Exception('Invalid version request', 1316542246);
 			}
