@@ -33,6 +33,11 @@
 		 */
 		protected $categoryRepository;
 
+		/**
+		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
+		 */
+		protected $extensionRepository;
+
 
 		/**
 		 * Initializes the controller
@@ -40,7 +45,8 @@
 		 * @return void
 		 */
 		protected function initializeController() {
-			$this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
+			$this->categoryRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
+			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 		}
 
 
@@ -62,6 +68,8 @@
 		 */
 		public function showAction(Tx_TerFe2_Domain_Model_Category $category) {
 			$this->view->assign('category', $category);
+			$categoryExtensions = $this->extensionRepository->findByCategory($category);
+			$this->view->assign('categoryExtensions', $categoryExtensions);
 		}
 
 

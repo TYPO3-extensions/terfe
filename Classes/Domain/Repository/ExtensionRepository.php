@@ -31,13 +31,16 @@
 		/**
 		 * Returns all extensions
 		 *
+		 * @param string $offset Offset to start with
+		 * @param string $count Count of result
+		 * @param string $ordering Ordering <-> Direction
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
-		public function findAll() {
-			$query = $this->createQuery();
-			$query->setOrderings(
-				array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
-			);
+		public function findAll($offset = 0, $count = 0, $ordering = array()) {
+			if (empty($ordering)) {
+				$ordering = array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING);
+			}
+			$query = $this->createQuery($offset, $count, $ordering);
 			return $query->execute();
 		}
 
@@ -48,13 +51,9 @@
 		 * @param integer $latestCount Count of extensions
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
-		public function findNewAndUpdated($latestCount) {
-			$query = $this->createQuery();
-			$query->setLimit((int) $latestCount);
-			$query->setOrderings(
-				array('lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
-			);
-			return $query->execute();
+		public function findLatest($latestCount = 0) {
+			$ordering = array('lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
+			return $this->findAll(0, $latestCount, $ordering);
 		}
 
 
@@ -62,17 +61,11 @@
 		 * Returns top rated extensions
 		 *
 		 * @param integer $topRatedCount Count of extensions
-		 * @param boolean $rawResult Return raw data
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
-		public function findTopRated($topRatedCount, $rawResult = FALSE) {
-			$query = $this->createQuery();
-			$query->getQuerySettings()->setReturnRawQueryResult($rawResult);
-			$query->setLimit((int) $topRatedCount);
-			$query->setOrderings(
-				array('lastVersion.experience.rating' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
-			);
-			return $query->execute();
+		public function findTopRated($topRatedCount = 0) {
+			$ordering = array('lastVersion.experience.rating' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING);
+			return $this->findAll(0, $topRatedCount, $ordering);
 		}
 
 
@@ -85,9 +78,6 @@
 		public function findByCategory(Tx_TerFe2_Domain_Model_Category $category) {
 			$query = $this->createQuery();
 			$query->matching($query->contains('categories', $category));
-			$query->setOrderings(
-				array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
-			);
 			return $query->execute();
 		}
 
@@ -101,9 +91,6 @@
 		public function findByTag(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$query = $this->createQuery();
 			$query->matching($query->contains('tags', $tag));
-			$query->setOrderings(
-				array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
-			);
 			return $query->execute();
 		}
 
@@ -115,29 +102,29 @@
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findByAuthor(Tx_TerFe2_Domain_Model_Author $author) {
+			$statement = '
+				SELECT extension FROM tx_terfe2_domain_model_version
+				WHERE tx_terfe2_domain_model_version.author = ' . (int) $author->getUid() . '
+			';
+
+				// Workaround while extbase doesn't support JOIN
 			$query = $this->createQuery();
-			$query->matching($query->contains('versions.author', $author));
+			$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
+			$query->statement($statement, array());
+			$rows = $query->execute();
+			unset($query);
+
+				// Workaround to enable paginate
+			$uids = array();
+			foreach ($rows as $row) {
+				$uids[] = (int) $row['extension'];
+			}
+			$query = $this->createQuery();
 			$query->setOrderings(
 				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
 			);
-			return $query->execute();
-		}
+			$query->matching($query->in('uid', $uids));
 
-
-		/**
-		 * Returns all extensions limited by offset and count
-		 *
-		 * @param string $offset Offset to start with
-		 * @param string $count Count of results
-		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
-		 */
-		public function findByOffsetAndCount($offset, $count) {
-			$query = $this->createQuery();
-			$query->setOffset((int) $offset);
-			$query->setLimit((int) $count);
-			$query->setOrderings(
-				array('lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
-			);
 			return $query->execute();
 		}
 

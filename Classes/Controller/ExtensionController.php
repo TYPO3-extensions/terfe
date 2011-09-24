@@ -99,28 +99,9 @@
 			$this->view->assign('sorting',    $sorting);
 			$this->view->assign('direction',  $direction);
 
-				// Get latest extensions
-			/*$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 10);
-			$latestExtensions = $this->extensionRepository->findNewAndUpdated($latestCount);
-			$this->view->assign('latestExtensions', $latestExtensions);*/
-
-				// Get top rated extensions
-			/*$topRatedCount = (!empty($this->settings['topRatedCount']) ? $this->settings['topRatedCount'] : 10);
-			$topRatedExtensions = $this->extensionRepository->findTopRated($topRatedCount);
-			$this->view->assign('topRatedExtensions', $topRatedExtensions);*/
-
 				// Get all categories
 			$categories = $this->categoryRepository->findAll();
 			$this->view->assign('categories', $categories);
-
-				// Get all tags
-			/*$tags = $this->tagRepository->findAll();
-			$this->view->assign('tags', $tags);*/
-
-				// Get random authors
-			/*$randomAuthorCount = (!empty($this->settings['randomAuthorCount']) ? $this->settings['randomAuthorCount'] : 10);
-			$randomAuthors = $this->authorRepository->findRandom($randomAuthorCount);
-			$this->view->assign('randomAuthors', $randomAuthors);*/
 
 				// Get authors
 			$authors = $this->authorRepository->findByLatestExtensionVersion();

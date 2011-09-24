@@ -70,9 +70,7 @@
 		 * @return boolean TRUE on success
 		 */
 		protected function executeTask($lastRun, $offset, $count) {
-
-				// Get given count of versions
-			$versions = $this->versionRepository->findByOffsetAndCount($offset, $count);
+			$versions = $this->versionRepository->findAll($offset, $count);
 			if (empty($versions)) {
 				return FALSE;
 			}

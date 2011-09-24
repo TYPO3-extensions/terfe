@@ -18,6 +18,14 @@
 		</table>
 	</div>
 
+	<f:if condition="{settings.show.categoryExtensions}">
+		<h3><f:translate key="category_extensions"/></h3>
+
+		<div class="ter-category-extensions">
+			<f:render partial="ExtensionList" arguments="{extensions : categoryExtensions}" />
+		</div>
+	</f:if>
+
 	<hr />
 
 	<div class="ter-category-single-links cl">

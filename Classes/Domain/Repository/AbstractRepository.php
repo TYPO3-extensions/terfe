@@ -29,14 +29,40 @@
 	abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase_Persistence_Repository {
 
 		/**
+		 * Returns a query for objects of this repository
+		 *
+		 * @param string $offset Offset to start with
+		 * @param string $count Count of result
+		 * @param array $ordering Ordering <-> Direction
+		 * @return Tx_Extbase_Persistence_QueryInterface
+		 */
+		public function createQuery($offset = 0, $count = 0, $ordering = array()) {
+			$query = parent::createQuery();
+
+			if (!empty($offset)) {
+				$query->setOffset((int) $offset);
+			}
+
+			if (!empty($count)) {
+				$query->setLimit((int) $count);
+			}
+
+			if (!empty($ordering)) {
+				$query->setOrderings($ordering);
+			}
+
+			return $query;
+		}
+
+
+		/**
 		 * Returns random objects from db
 		 *
 		 * @param integer $limit Limit of the results
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findRandom($limit) {
-			$query = $this->createQuery();
-			$query->setLimit((int) $limit);
+			$query = $this->createQuery(0, $limit);
 
 				// Workaround for random ordering while Extbase doesn't support this
 				// See: http://lists.typo3.org/pipermail/typo3-project-typo3v4mvc/2010-July/005870.html
@@ -59,8 +85,7 @@
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findAllBySortingAndDirection($sorting, $direction) {
-			$query = $this->createQuery();
-			$query->setOrderings(array($sorting => $direction));
+			$query = $this->createQuery(0, 0, array($sorting => $direction));
 			return $query->execute();
 		}
 

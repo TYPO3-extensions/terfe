@@ -37,17 +37,11 @@
 		 * @return array Objects
 		 */
 		public function findLastUpdated($lastUpdateDate, $offset = 0, $count = 0) {
-			$query = $this->createQuery();
+			$query = $this->createQuery($offset, $count);
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
 			$query->matching($query->greaterThan('lastuploaddate', (int) $lastUpdateDate));
-			if (!empty($offset)) {
-				$query->setOffset((int) $offset);
-			}
-			if (!empty($count)) {
-				$query->setLimit((int) $count);
-			}
 			return $query->execute();
 		}
 
@@ -60,8 +54,7 @@
 		 * @return array Objects
 		 */
 		public function findOneByExtKeyAndVersionString($extKey, $versionString) {
-			$query = $this->createQuery();
-			$query->setLimit(1);
+			$query = $this->createQuery(0, 1);
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->getQuerySettings()->setReturnRawQueryResult(TRUE);

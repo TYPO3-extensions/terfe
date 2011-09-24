@@ -36,6 +36,11 @@ plugin.tx_terfe2 {
 			quality             = {$plugin.tx_terfe2.settings.largeImage.quality}
 			ext                 = {$plugin.tx_terfe2.settings.largeImage.ext}
 		}
+
+		show {
+			authorExtensions    = {$plugin.tx_terfe2.settings.show.authorExtensions}
+			categoryExtensions  = {$plugin.tx_terfe2.settings.show.categoryExtensions}
+		}
 	}
 
 	## Storage settings

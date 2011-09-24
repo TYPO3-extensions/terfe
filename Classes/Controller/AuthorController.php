@@ -33,6 +33,11 @@
 		 */
 		protected $authorRepository;
 
+		/**
+		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
+		 */
+		protected $extensionRepository;
+
 
 		/**
 		 * Initializes the controller
@@ -40,7 +45,8 @@
 		 * @return void
 		 */
 		protected function initializeController() {
-			$this->authorRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
+			$this->authorRepository    = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
+			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 		}
 
 
@@ -62,6 +68,8 @@
 		 */
 		public function showAction(Tx_TerFe2_Domain_Model_Author $author) {
 			$this->view->assign('author', $author);
+			$authorExtensions = $this->extensionRepository->findByAuthor($author);
+			$this->view->assign('authorExtensions', $authorExtensions);
 		}
 
 

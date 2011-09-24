@@ -11,6 +11,7 @@
 			<label index="tx_terfe2_domain_model_extension.forge_link">Forge Link</label>
 			<label index="tx_terfe2_domain_model_extension.hudson_link">Hudson Link</label>
 			<label index="tx_terfe2_domain_model_extension.last_update">Last update</label>
+			<label index="tx_terfe2_domain_model_extension.last_upload">Last upload</label>
 			<label index="tx_terfe2_domain_model_extension.last_maintained">Last maintained</label>
 			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
 			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
@@ -74,6 +75,7 @@
 			<label index="tx_terfe2_domain_model_version.media">Media</label>
 			<label index="tx_terfe2_domain_model_version.experiences">Experiences</label>
 			<label index="tx_terfe2_domain_model_version.software_relations">Software Relations</label>
+			<label index="tx_terfe2_domain_model_version.author">Author</label>
 			<label index="tx_terfe2_domain_model_version.file_hash">File hash</label>
 			<label index="tx_terfe2_domain_model_version.extension_provider">Extension Provider</label>
 			<label index="tx_terfe2_domain_model_version.has_zip_file">Has zip file</label>

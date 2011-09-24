@@ -36,7 +36,7 @@
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findForMediaCreation($offset = 0, $count = 0) {
-			$query = $this->createQuery();
+			$query = $this->createQuery($offset, $count);
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->matching(
@@ -45,12 +45,6 @@
 					$query->equals('hasImages', FALSE)
 				)
 			);
-			if (!empty($offset)) {
-				$query->setOffset((int) $offset);
-			}
-			if (!empty($count)) {
-				$query->setLimit((int) $count);
-			}
 			return $query->execute();
 		}
 
@@ -63,8 +57,7 @@
 		 * @return Tx_TerFe2_Domain_Model_Version Version object
 		 */
 		public function findOneByExtensionAndVersionString(Tx_TerFe2_Domain_Model_Extension $extension, $versionString) {
-			$query = $this->createQuery();
-			$query->setLimit(1);
+			$query = $this->createQuery(0, 1);
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->matching(
@@ -78,24 +71,6 @@
 
 
 		/**
-		 * Returns all versions limited by offset and count
-		 *
-		 * @param string $offset Offset to start with
-		 * @param string $count Count of results
-		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
-		 */
-		public function findByOffsetAndCount($offset, $count) {
-			$query = $this->createQuery();
-			$query->setOffset((int) $offset);
-			$query->setLimit((int) $count);
-			$query->setOrderings(
-				array('uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
-			);
-			return $query->execute();
-		}
-
-
-		/**
 		 * Get version history
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
@@ -104,12 +79,10 @@
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function getVersionHistory($extension, $count = 0, $skipLatest = TRUE) {
-			$query = $this->createQuery();
+			$ordering = array('uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
+			$query = $this->createQuery(0, $count, $ordering);
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
-			$query->setOrderings(
-				array('uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
-			);
 
 			if (!empty($skipLatest)) {
 				$query->matching(
@@ -122,10 +95,6 @@
 				);
 			} else {
 				$query->matching($query->equals('extension', $extension));
-			}
-
-			if (!empty($count)) {
-				$query->setLimit((int) $count);
 			}
 
 			return $query->execute();

@@ -66,7 +66,7 @@
 			<label index="tx_terfe2_domain_model_author.name">Name of the author</label>
 			<label index="tx_terfe2_domain_model_author.email">Email address</label>
 			<label index="tx_terfe2_domain_model_author.company">Company name</label>
-			<label index="tx_terfe2_domain_model_author.forge_link">Link to forge profile</label>
+			<label index="tx_terfe2_domain_model_author.forge_link">Forge profile</label>
 
 			<label index="tx_terfe2_task_elementsPerRun">Element count to process at once</label>
 			<label index="tx_terfe2_task_clearCachePages">Clear cache of these pages after run</label>
@@ -157,6 +157,7 @@
 			<label index="edit_category">Edit Category</label>
 			<label index="create_category">Create new Category</label>
 			<label index="single_category">Show single Category</label>
+			<label index="category_extensions">Extensions in this category</label>
 
 			<label index="new_tag">Create new Tag for extension</label>
 			<label index="edit_tag">Edit Tag</label>
@@ -170,6 +171,7 @@
 			<label index="edit_author">Edit Author</label>
 			<label index="create_author">Create new Author</label>
 			<label index="single_author">Show single Author</label>
+			<label index="author_extensions">Extensions of this author</label>
 
 			<label index="by">by</label>
 			<label index="author">Author</label>
