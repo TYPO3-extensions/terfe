@@ -50,5 +50,19 @@
 			return $query->execute();
 		}
 
+
+		/**
+		 * Returns all objects ordered by given sorting and direction
+		 *
+		 * @param string $sorting Sort result by this key
+		 * @param string $direction Sorting order
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		public function findAllBySortingAndDirection($sorting, $direction) {
+			$query = $this->createQuery();
+			$query->setOrderings(array($sorting => $direction));
+			return $query->execute();
+		}
+
 	}
 ?>

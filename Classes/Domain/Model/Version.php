@@ -82,10 +82,16 @@
 		protected $uploadComment;
 
 		/**
-		 * How many downloads for this version
+		 * Count of downloads for this version
 		 * @var integer
 		 */
 		protected $downloadCounter;
+
+		/**
+		 * Count of downloads for this version made in frontend
+		 * @var integer
+		 */
+		protected $frontendDownloadCounter;
 
 		/**
 		 * State of the extension (beta, stable, obsolete, etc.)
@@ -427,31 +433,70 @@
 		/**
 		 * Setter for downloadCounter
 		 *
-		 * @param integer $downloadCounter How many downloads for this version
+		 * @param integer $downloadCounter Count of downloads
 		 * @return void
 		 */
 		public function setDownloadCounter($downloadCounter) {
-			$this->downloadCounter = $downloadCounter;
+			$this->downloadCounter = (int) $downloadCounter;
 		}
 
 
 		/**
 		 * Increment downloadCounter
 		 *
+		 * @param integer $downloads Count of downloads
+		 * @param boolean $frontend Downloads were made in frontend
 		 * @return void
 		 */
-		public function incrementDownloadCounter() {
-			$this->downloadCounter++;
+		public function incrementDownloadCounter($downloads = 1, $frontend = TRUE) {
+			if (!empty($frontend)) {
+				$this->frontendDownloadCounter += (int) $downloads;
+			} else {
+				$this->downloadCounter += (int) $downloads;
+			}
 		}
 
 
 		/**
 		 * Getter for downloadCounter
 		 *
-		 * @return integer How many downloads for this version
+		 * @return integer Count of downloads
 		 */
 		public function getDownloadCounter() {
-			return $this->downloadCounter;
+			return (int) $this->downloadCounter;
+		}
+
+
+		/**
+		 * Setter for frontendDownloadCounter
+		 *
+		 * @param integer $frontendDownloadCounter Download count
+		 * @return void
+		 */
+		public function setFrontendDownloadCounter($frontendDownloadCounter) {
+			$this->frontendDownloadCounter = (int) $frontendDownloadCounter;
+		}
+
+
+		/**
+		 * Getter for frontendDownloadCounter
+		 *
+		 * @return integer Download count
+		 */
+		public function getFrontendDownloadCounter() {
+			return (int) $this->frontendDownloadCounter;
+		}
+
+
+		/**
+		 * Returns all downloads
+		 *
+		 * @return integer All downloads from external source and frontend
+		 */
+		public function getAllDownloads() {
+			$frontendDownloads = $this->getFrontendDownloadCounter();
+			$downloads = $this->getDownloadCounter();
+			return ($frontendDownloads + $downloads);
 		}
 
 

@@ -33,8 +33,8 @@
 		'class' => 'Tx_TerFe2_Provider_MirrorProvider',
 		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_mirrorprovider.name',
 		'configuration' => array(
-			'repositoryId'      => 1,
-			'fileCachePath'     => 'typo3temp/tx_terfe2/files/',
+			'repositoryId'  => 1,
+			'fileCachePath' => 'typo3temp/tx_terfe2/files/',
 		),
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['file'] = array(
@@ -48,12 +48,13 @@
 		'class' => 'Tx_TerFe2_Provider_SoapProvider',
 		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_soapprovider.name',
 		'configuration' => array(
-			'wsdlUrl'           => '',
-			'username'          => '',
-			'password'          => '',
-			'getExtensionsFunc' => 'getExtensions',
-			'getFileUrlFunc'    => 'getFileUrl',
-			'getFileNameFunc'   => 'getFileName',
+			'wsdlUrl'              => '',
+			'username'             => '',
+			'password'             => '',
+			'getExtensionsFunc'    => 'getExtensions',
+			'getFileUrlFunc'       => 'getFileUrl',
+			'getFileNameFunc'      => 'getFileName',
+			'getDownloadCountFunc' => 'getDownloads',
 		),
 	);
 

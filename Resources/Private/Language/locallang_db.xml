@@ -36,6 +36,7 @@
 			<label index="tx_terfe2_domain_model_version.upload_date">Upload Date</label>
 			<label index="tx_terfe2_domain_model_version.upload_comment">Upload Comment</label>
 			<label index="tx_terfe2_domain_model_version.download_counter">Download Counter</label>
+			<label index="tx_terfe2_domain_model_version.frontend_download_counter">Frontend Download Counter</label>
 			<label index="tx_terfe2_domain_model_version.state">Status</label>
 			<label index="tx_terfe2_domain_model_version.state.alpha">Alpha</label>
 			<label index="tx_terfe2_domain_model_version.state.beta">Beta</label>

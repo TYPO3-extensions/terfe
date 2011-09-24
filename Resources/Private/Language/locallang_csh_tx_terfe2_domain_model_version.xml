@@ -15,6 +15,7 @@
 			<label index="upload_date.description">Upload date and time</label>
 			<label index="upload_comment.description">The user comment for this version</label>
 			<label index="download_counter.description">Shows how many times this version was downloaded</label>
+			<label index="frontend_download_counter.description">Shows how many times this version was downloaded in frontend</label>
 			<label index="state.description">State of the extension (beta, stable, obsolete, etc.)</label>
 			<label index="em_category.description">The category of the extension manager (frontend plugin, backend module, etc.)</label>
 			<label index="load_order.description">Loading order in Extension Manager</label>

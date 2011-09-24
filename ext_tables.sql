@@ -127,6 +127,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	upload_date int(11) DEFAULT '0' NOT NULL,
 	upload_comment text,
 	download_counter int(11) DEFAULT '0' NOT NULL,
+	frontend_download_counter int(11) DEFAULT '0' NOT NULL,
 	state tinytext,
 	em_category tinytext,
 	load_order tinytext,

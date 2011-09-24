@@ -31,7 +31,7 @@
 		/**
 		 * @var Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository
 		 */
-		protected $extensionRepository;
+		protected $extensionManagerRepository;
 
 		/**
 		 * @var string
@@ -57,7 +57,7 @@
 			$this->extensionRootPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->extensionRootPath);
 
 				// Get repository for extension manager cache entries
-			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository');
+			$this->extensionManagerRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionManagerCacheEntryRepository');
 		}
 
 
@@ -71,7 +71,7 @@
 		 */
 		public function getExtensions($lastRun, $offset, $count) {
 				// Get extension list
-			$extensions = $this->extensionRepository->findLastUpdated($lastRun, $offset, $count);
+			$extensions = $this->extensionManagerRepository->findLastUpdated($lastRun, $offset, $count);
 			if (empty($extensions)) {
 				return array();
 			}
@@ -130,6 +130,25 @@
 			$extension = $version->getExtension()->getExtKey();
 			$version = $version->getVersionString();
 			return $this->generateFileName($extension, $version, $fileType);
+		}
+
+
+		/**
+		 * Returns the download count for given version
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
+		 * @return integer Download count
+		 */
+		public function getDownloadCount(Tx_TerFe2_Domain_Model_Version $version) {
+			$extensionKey = $version->getExtension()->getExtKey();
+			$versionString = $version->getVersionString();
+
+			$entry = $this->extensionManagerRepository->findOneByExtKeyAndVersionString($extensionKey, $versionString);
+			if (!empty($entry['downloadcounter'])) {
+				return (int) $entry['downloadcounter'];
+			}
+
+			return 0;
 		}
 
 

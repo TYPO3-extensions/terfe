@@ -34,7 +34,7 @@
 		 * @return void
 		 */
 		protected function addAdditionalFields() {
-			
+			$this->addCheckboxField('forceRecalculation', FALSE);
 		}
 
 

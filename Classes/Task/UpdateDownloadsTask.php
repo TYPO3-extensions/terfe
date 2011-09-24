@@ -29,9 +29,24 @@
 	class Tx_TerFe2_Task_UpdateDownloadsTask extends Tx_TerFe2_Task_AbstractTask {
 
 		/**
-		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
+		 * @var boolean
 		 */
-		protected $extensionRepository;
+		public $forceRecalculation = FALSE;
+
+		/**
+		 * @var Tx_TerFe2_Domain_Repository_VersionRepository
+		 */
+		protected $versionRepository;
+
+		/**
+		 * @var Tx_TerFe2_Provider_ProviderManager
+		 */
+		protected $providerManager;
+
+		/**
+		 * @var Tx_Extbase_Persistence_Manager
+		 */
+		protected $persistenceManager;
 
 
 		/**
@@ -40,7 +55,9 @@
 		 * @return void
 		 */
 		public function initializeTask() {
-			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+			$this->versionRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
+			$this->providerManager    = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
+			$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 		}
 
 
@@ -53,13 +70,28 @@
 		 * @return boolean TRUE on success
 		 */
 		protected function executeTask($lastRun, $offset, $count) {
-				// Get all unprocessed versions
-			$versions = $this->extensionRepository->findByOffsetAndCount($offset, $count);
+
+				// Get given count of versions
+			$versions = $this->versionRepository->findByOffsetAndCount($offset, $count);
 			if (empty($versions)) {
 				return FALSE;
 			}
 
-				// TODO...
+			foreach ($versions as $version) {
+				$provider = $version->getExtensionProvider();
+				if (!empty($provider)) {
+					$downloads = $this->providerManager->getProvider($provider)->getDownloadCount($version);
+				}
+
+				if (!empty($downloads)) {
+					$version->setDownloadCounter($downloads);
+					$this->persistenceManager->persistAll();
+				}
+
+				if (!empty($this->forceRecalculation) || !empty($downloads)) {
+					$version->getExtension()->recalculateDownloads();
+				}
+			}
 
 			return TRUE;
 		}

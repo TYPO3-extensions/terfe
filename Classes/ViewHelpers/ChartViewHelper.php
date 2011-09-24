@@ -120,7 +120,7 @@
 					break;
 				}
 				$counter++;
-				$points[] = array((string) $version->getVersionString(), (int) $version->getDownloadCounter());
+				$points[] = array((string) $version->getVersionString(), (int) $version->getAllDownloads());
 			}
 
 			krsort($points);

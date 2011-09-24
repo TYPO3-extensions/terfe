@@ -296,7 +296,7 @@
 			}
 
 				// Check session if user has already downloaded this file today
-			if (!empty($this->settings['enableDownloadCounter'])) {
+			if (!empty($this->settings['countDownloads'])) {
 				$extensionKey = $extension->getExtKey();
 				$downloads = $this->session->get('downloads');
 				if (empty($downloads) || !in_array($extensionKey, $downloads)) {
@@ -330,7 +330,7 @@
 		protected function getExtensions(&$sorting, &$direction) {
 			$sortings = array(
 				'updated'   => 'lastVersion.uploadDate',
-				'downloads' => 'versions.downloadCounter',
+				'downloads' => 'downloads',
 				'title'     => 'lastVersion.title',
 			);
 			$directions = array(

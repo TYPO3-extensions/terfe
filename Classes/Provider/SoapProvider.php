@@ -44,6 +44,11 @@
 		protected $getFileNameFunc;
 
 		/**
+		 * @var string
+		 */
+		protected $getDownloadCountFunc;
+
+		/**
 		 * @var Tx_TerFe2_Service_Soap
 		 */
 		protected $soapService;
@@ -77,6 +82,11 @@
 				// Set getFileNameFunc
 			if (!empty($this->configuration['getFileNameFunc'])) {
 				$this->getFileNameFunc = $this->configuration['getFileNameFunc'];
+			}
+
+				// Set getDownloadCountFunc
+			if (!empty($this->configuration['getDownloadCountFunc'])) {
+				$this->getDownloadCountFunc = $this->configuration['getDownloadCountFunc'];
 			}
 		}
 
@@ -148,6 +158,28 @@
 				throw new Exception('Could not get filename from soap server');
 			}
 			return (string) $result['filename'];
+		}
+
+
+		/**
+		 * Returns the download count for given version
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
+		 * @return integer Download count
+		 */
+		public function getDownloadCount(Tx_TerFe2_Domain_Model_Version $version) {
+			if (empty($this->getDownloadCountFunc)) {
+				throw new Exception('No configuration for "getDownloadCountFunc" found');
+			}
+			$parameters = array(
+				'extension' => (string) $version->getExtension()->getExtKey(),
+				'version'   => (string) $version->getVersionString(),
+			);
+			$result = $this->soapService->call($this->getDownloadCountFunc, $parameters);
+			if (!isset($result['downloads'])) {
+				throw new Exception('Could not get download count from soap server');
+			}
+			return (int) $result['downloads'];
 		}
 
 	}

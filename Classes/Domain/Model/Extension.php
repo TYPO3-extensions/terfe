@@ -339,7 +339,7 @@
 		public function addVersion(Tx_TerFe2_Domain_Model_Version $version) {
 			$this->versions->attach($version);
 			$this->setLastVersion($version);
-			$this->addDownloads((int) $version->getDownloadCounter());
+			$this->addDownloads((int) $version->getAllDownloads());
 		}
 
 
@@ -428,23 +428,23 @@
 
 		/**
 		 * Set all downloads sum
-		 * 
-		 * @param integer $downloadCount Count of downloads
+		 *
+		 * @param integer $downloads Count of downloads
 		 * @return void
 		 */
-		public function setDownloads($downloadCount) {
-			$this->downloads = (int) $downloadCount;
+		public function setDownloads($downloads) {
+			$this->downloads = (int) $downloads;
 		}
 
 
 		/**
 		 * Add downloads to all downloads sum
-		 * 
-		 * @param integer $downloadCount Count of downloads to add
+		 *
+		 * @param integer $downloads Count of downloads to add
 		 * @return void
 		 */
-		public function addDownloads($downloadCount) {
-			$this->downloads += (int) $downloadCount;
+		public function addDownloads($downloads) {
+			$this->downloads += (int) $downloads;
 		}
 
 
@@ -459,22 +459,21 @@
 
 
 		/**
-		 * Get sum of all version downloads
+		 * Recalculate sum of all downloads
 		 *
-		 * TODO: Remove deprecated method
-		 * 
-		 * @deprecated
-		 * @return integer All downloads
+		 * @return void
 		 */
-		public function getAllDownloads() {
+		public function recalculateDownloads() {
 			$downloads = 0;
 			$versions = $this->getVersions();
 
 			foreach ($versions as $version) {
-				$downloads += (int) $version->getDownloadCounter();
+				$downloads += (int) $version->getAllDownloads();
 			}
 
-			return $downloads;
+			if (!empty($downloads)) {
+				$this->setDownloads($downloads);
+			}
 		}
 
 

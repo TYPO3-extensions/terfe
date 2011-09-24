@@ -64,6 +64,7 @@
 		 */
 		public function findOneByExtensionAndVersionString(Tx_TerFe2_Domain_Model_Extension $extension, $versionString) {
 			$query = $this->createQuery();
+			$query->setLimit(1);
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->matching(
@@ -73,6 +74,24 @@
 				)
 			);
 			return $query->execute()->getFirst();
+		}
+
+
+		/**
+		 * Returns all versions limited by offset and count
+		 *
+		 * @param string $offset Offset to start with
+		 * @param string $count Count of results
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		public function findByOffsetAndCount($offset, $count) {
+			$query = $this->createQuery();
+			$query->setOffset((int) $offset);
+			$query->setLimit((int) $count);
+			$query->setOrderings(
+				array('uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING)
+			);
+			return $query->execute();
 		}
 
 
