@@ -1,6 +1,4 @@
 - Caching
-- File-Utility: CopyDirectory
-- Downloads auf Mirrors ausrollen
 - TER-Suche
 - RSS-Feed einbinden
 - Donation
@@ -14,5 +12,5 @@
 - Datei-Ansicht
 - Autor verwalten
 - Votings
-- Liste mit uu bewertenden Extensions
+- Liste mit zu bewertenden Extensions
 - TODOs im Quelltext
