@@ -54,13 +54,13 @@
 		 * @param string $version Version string
 		 * @return string Url to documentation
 		 */
-		public function getDocumentationUrl($extension, $version) {
-			if (empty($extension) || empty($version)) {
+		public function getDocumentationUrl($extensionKey, $versionString) {
+			if (empty($extensionKey) || empty($versionString)) {
 				throw new Exception('Extension key and version string are required to build a documentation url');
 			}
 
 			if (!empty($this->terDocApi)) {
-				return $this->terDocApi->getDocumentationLink($extension, $version);
+				return $this->terDocApi->getDocumentationLink($extensionKey, $versionString);
 			}
 
 			return '';
