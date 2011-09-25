@@ -26,12 +26,12 @@
 	/**
 	 * Cache for extension files
 	 */
-	class Tx_TerFe2_Cache_FileCache {
+	class Tx_TerFe2_Cache_FileCache implements t3lib_Singleton {
 
 		/**
 		 * @var string
 		 */
-		protected static $cacheDirectory;
+		protected $cacheDirectory;
 
 
 		/**
@@ -39,13 +39,13 @@
 		 *
 		 * @return void
 		 */
-		public static function loadCacheDirectory() {
+		public function loadCacheDirectory() {
 			$cacheDirectory = '';
 			// TODO: Load cache directory from settings
 			if (empty($cacheDirectory)) {
 				throw new Exception('An empty cache directory is not allowed');
 			}
-			self::$cacheDirectory = Tx_TerFe2_Utility_File::getAbsoluteDirectory($cacheDirectory);
+			$this->cacheDirectory = Tx_TerFe2_Utility_File::getAbsoluteDirectory($cacheDirectory);
 		}
 
 
@@ -54,8 +54,8 @@
 		 *
 		 * @return string Path of the cache directory
 		 */
-		public static function getCacheDirectory() {
-			return self::$cacheDirectory;
+		public function getCacheDirectory() {
+			return $this->cacheDirectory;
 		}
 
 
@@ -65,14 +65,11 @@
 		 * @param string $filename Name of the file
 		 * @return string Local filename
 		 */
-		public static function getFile($filename) {
+		public function getFile($filename) {
 			if (empty($filename)) {
 				return '';
 			}
-			if (empty(self::$cacheDirectory)) {
-				self::loadCacheDirectory();
-			}
-			$filename = self::$cacheDirectory . $filename;
+			$filename = $this->cacheDirectory . $filename;
 			if (Tx_TerFe2_Utility_File::fileExists($filename)) {
 				return $filename;
 			}
@@ -86,8 +83,8 @@
 		 * @param string $filename Name of the file
 		 * @return string Url to local file
 		 */
-		public static function getUrl($filename) {
-			$filename = self::getFile($filename);
+		public function getUrl($filename) {
+			$filename = $this->getFile($filename);
 			if (!empty($filename)) {
 				return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($filename);
 			}
@@ -102,9 +99,9 @@
 		 * @param string $filename Name of the file
 		 * @return string Local filename
 		 */
-		public static function getExtensionFile($extensionKey, $filename) {
-			$filename = self::getExtensionFilename($extensionKey, $filename);
-			return self::getFile($filename);
+		public function getExtensionFile($extensionKey, $filename) {
+			$filename = $this->getExtensionFilename($extensionKey, $filename);
+			return $this->getFile($filename);
 		}
 
 
@@ -115,17 +112,14 @@
 		 * @param string $filename Name of the file
 		 * @return string Local filename
 		 */
-		public static function addFile($fileUrl, $filename) {
+		public function addFile($fileUrl, $filename) {
 			if (empty($fileUrl) || empty($filename)) {
 				return '';
-			}
-			if (empty(self::$cacheDirectory)) {
-				self::loadCacheDirectory();
 			}
 			if (!Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
 				return '';
 			}
-			$filename = self::$cacheDirectory . $filename;
+			$filename = $this->cacheDirectory . $filename;
 			if (Tx_TerFe2_Utility_File::copyFile($fileUrl, $filename)) {
 				return $filename;
 			}
@@ -141,9 +135,9 @@
 		 * @param string $filename Name of the file
 		 * @return string Local filename
 		 */
-		public static function addExtensionFile($extensionKey, $fileUrl, $filename) {
-			$filename = self::getExtensionFilename($extensionKey, $filename);
-			return self::addFile($fileUrl, $filename);
+		public function addExtensionFile($extensionKey, $fileUrl, $filename) {
+			$filename = $this->getExtensionFilename($extensionKey, $filename);
+			return $this->addFile($fileUrl, $filename);
 		}
 
 
@@ -153,14 +147,11 @@
 		 * @param string $filename Name of the file
 		 * @return boolean TRUE if success
 		 */
-		public static function removeFile($filename) {
+		public function removeFile($filename) {
 			if (empty($filename)) {
 				return FALSE;
 			}
-			if (empty(self::$cacheDirectory)) {
-				self::loadCacheDirectory();
-			}
-			$filename = self::$cacheDirectory . $filename;
+			$filename = $this->cacheDirectory . $filename;
 			if (!Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
 				return FALSE;
 			}
@@ -175,9 +166,9 @@
 		 * @param string $filename Name of the file
 		 * @return string Local filename
 		 */
-		public static function addExtensionFile($extensionKey, $filename) {
-			$filename = self::getExtensionFilename($extensionKey, $filename);
-			return self::removeFile($filename);
+		public function addExtensionFile($extensionKey, $filename) {
+			$filename = $this->getExtensionFilename($extensionKey, $filename);
+			return $this->removeFile($filename);
 		}
 
 
@@ -188,7 +179,7 @@
 		 * @param string $filename Name of the file
 		 * @return string Extension filename
 		 */
-		protected static function getExtensionFilename($extensionKey, $filename) {
+		protected function getExtensionFilename($extensionKey, $filename) {
 			if (empty($extensionKey) || empty($filename)) {
 				return '';
 			}
