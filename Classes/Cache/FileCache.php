@@ -37,11 +37,10 @@
 		/**
 		 * Set cache directory path
 		 *
+		 * @param string $cacheDirectory Path to cache directory
 		 * @return void
 		 */
-		public function loadCacheDirectory() {
-			$cacheDirectory = '';
-			// TODO: Load cache directory from settings
+		public function setCacheDirectory($cacheDirectory) {
 			if (empty($cacheDirectory)) {
 				throw new Exception('An empty cache directory is not allowed');
 			}
@@ -66,27 +65,9 @@
 		 * @return string Local filename
 		 */
 		public function getFile($filename) {
-			if (empty($filename)) {
-				return '';
-			}
-			$filename = $this->cacheDirectory . $filename;
+			$filename = $this->getFilePath($filename);
 			if (Tx_TerFe2_Utility_File::fileExists($filename)) {
 				return $filename;
-			}
-			return '';
-		}
-
-
-		/**
-		 * Get url to file
-		 *
-		 * @param string $filename Name of the file
-		 * @return string Url to local file
-		 */
-		public function getUrl($filename) {
-			$filename = $this->getFile($filename);
-			if (!empty($filename)) {
-				return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($filename);
 			}
 			return '';
 		}
@@ -113,13 +94,10 @@
 		 * @return string Local filename
 		 */
 		public function addFile($fileUrl, $filename) {
-			if (empty($fileUrl) || empty($filename)) {
+			if (empty($fileUrl)) {
 				return '';
 			}
-			if (!Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
-				return '';
-			}
-			$filename = $this->cacheDirectory . $filename;
+			$filename = $this->getFilePath($filename);
 			if (Tx_TerFe2_Utility_File::copyFile($fileUrl, $filename)) {
 				return $filename;
 			}
@@ -148,10 +126,7 @@
 		 * @return boolean TRUE if success
 		 */
 		public function removeFile($filename) {
-			if (empty($filename)) {
-				return FALSE;
-			}
-			$filename = $this->cacheDirectory . $filename;
+			$filename = $this->getFilePath($filename);
 			if (!Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
 				return FALSE;
 			}
@@ -166,9 +141,27 @@
 		 * @param string $filename Name of the file
 		 * @return string Local filename
 		 */
-		public function addExtensionFile($extensionKey, $filename) {
+		public function removeExtensionFile($extensionKey, $filename) {
 			$filename = $this->getExtensionFilename($extensionKey, $filename);
 			return $this->removeFile($filename);
+		}
+
+
+		/**
+		 * Returns the filename of a file
+		 *
+		 * @param string $filename Name of the file
+		 * @return string Absolute path to file
+		 */
+		protected function getFilePath($filename) {
+			if (empty($filename)) {
+				return '';
+			}
+			$cacheDirectory = $this->getCacheDirectory();
+			if (empty($cacheDirectory)) {
+				throw new Exception('No cache directory defined');
+			}
+			return $cacheDirectory . $filename;
 		}
 
 
