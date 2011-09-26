@@ -31,11 +31,13 @@
 						<f:if condition="{extension.lastVersion.hasZipFile}">
 							<div class="ter-ext-single-download">
 								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
+								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><f:translate key="download_zip"/></f:link.action>
 								<div class="ter-ext-single-filesize"><f:translate key="filesize"/>: <terfe2:filesize filesize="{extension.lastVersion.zipFileSize}" format="kb" />Kb</div>
 							</div>
 						</f:if>
 						<div class="ter-ext-single-download">
 							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
+							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action>
 							<div class="ter-ext-single-filesize"><f:translate key="filesize"/>: <terfe2:filesize filesize="{extension.lastVersion.t3xFileSize}" format="kb" />Kb</div>
 						</div>
 					</div>

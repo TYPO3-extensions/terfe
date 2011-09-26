@@ -203,7 +203,6 @@
 			<label index="delete">Delete</label>
 			<label index="expand_details">Expand</label>
 			<label index="collapse_details">Collapse</label>
-			<label index="downloads">Downloads</label>
 			<label index="download_t3x">Download T3X Package</label>
 			<label index="download_zip">Download ZIP Archive</label>
 			<label index="downloads_by_version">Downloads by version</label>
