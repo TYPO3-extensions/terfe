@@ -1,15 +1,14 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
-{namespace p=Tx_Paginate_ViewHelpers}
 
 <f:if condition="{authors}">
 	<f:then>
-		<p:widget.paginate objects="{authors}" as="paginateAuthors" configuration="{margin: 2, itemsPerPage: settings.authorListCount, insertAbove: 0, insertBelow: 1}">
+		<f:widget.paginate objects="{authors}" as="paginateAuthors" configuration="{itemsPerPage: settings.authorListCount, insertAbove: 0, insertBelow: 1}">
 			<ul>
 				<f:for each="{paginateAuthors}" as="author">
 					<li><f:link.action controller="Author" action="show" arguments="{author : author}">{author.name}</f:link.action></li>
 				</f:for>
 			</ul>
-		</p:widget.paginate>
+		</f:widget.paginate>
 	</f:then>
 	<f:else>
 		<f:translate key="msg.no_entries_found"/>

@@ -1,9 +1,8 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
-{namespace p=Tx_Paginate_ViewHelpers}
 
 <f:if condition="{extensions}">
 	<f:then>
-		<p:widget.paginate objects="{extensions}" as="paginateExtensions" configuration="{margin: 2, itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
+		<f:widget.paginate objects="{extensions}" as="paginateExtensions" configuration="{itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
 			<f:for each="{paginateExtensions}" as="extension">
 				<div class="ter-ext-list-row cl">
 
@@ -20,8 +19,10 @@
 						<!-- Description -->
 						<div class="ter-ext-list-row-description">
 							<div class="ter-ext-list-meta">
-								<f:translate key="by"/> <f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action>
-								| <f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/>
+								<f:translate key="by"/> {extension.lastVersion.author.name}
+								<f:if condition="{extension.categories}">
+									| <f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/>
+								</f:if>
 							</div>
 							<terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}</terfe2:crop>
 						</div>
@@ -55,7 +56,7 @@
 
 				</div>
 			</f:for>
-		</p:widget.paginate>
+		</f:widget.paginate>
 	</f:then>
 	<f:else>
 		<f:translate key="msg.no_entries_found" />

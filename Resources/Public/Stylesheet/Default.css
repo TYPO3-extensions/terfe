@@ -161,6 +161,10 @@ div.ter-ext-list-row:hover div.ter-ext-list-row-downloads {
 .ter-download-icon-zip {
 	background: url(../Icons/zip.png) no-repeat;
 }
+div.tx_terfe2 .b-pager {
+	border-top: 1px solid #D1D1D1;
+	padding: 20px 0 0 0;
+}
 
 /**
  * Extension details
