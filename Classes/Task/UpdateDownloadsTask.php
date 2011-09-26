@@ -83,11 +83,11 @@
 
 				if (!empty($downloads)) {
 					$version->setDownloadCounter($downloads);
-					$this->persistenceManager->persistAll();
 				}
 
 				if (!empty($this->forceRecalculation) || !empty($downloads)) {
 					$version->getExtension()->recalculateDownloads();
+					$this->persistenceManager->persistAll();
 				}
 			}
 
