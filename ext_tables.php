@@ -47,7 +47,7 @@
 			// Add table configuration
 		$TCA['tx_terfe2_domain_model_' . $modelName] = array (
 			'ctrl' => array (
-				'title'                    => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_' . $modelName,
+				'title'                    => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_' . $modelName,
 				'label'                    => $modelConfiguration[0],
 				'searchFields'             => $modelConfiguration[1],
 				'tstamp'                   => 'tstamp',
