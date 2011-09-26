@@ -2,13 +2,11 @@
 
 <div id="ter-ext-list-sort">
 	<form method="get" action="{f:uri.action(controller:'Extension', action:'index', noCacheHash: 1)}">
-		<span class="ter-ordering-form-sorting">
-			<f:form.select name="tx_terfe2_pi1[sorting]" options="{
-				NULL: '{f:translate(key:\'sort_extensions_by\')}',
-				updated: '{f:translate(key:\'sorting.updated\')}',
-				downloads: '{f:translate(key:\'sorting.downloads\')}',
-				title: '{f:translate(key:\'sorting.title\')}'
-			}" />
-		</span>
+		<f:form.select name="tx_terfe2_pi1[sorting]" class="jsSubmit" options="{
+			NULL: '{f:translate(key:\'sort_extensions_by\')}',
+			updated: '{f:translate(key:\'sorting.updated\')}',
+			downloads: '{f:translate(key:\'sorting.downloads\')}',
+			title: '{f:translate(key:\'sorting.title\')}'
+		}" />
 	</form>
 </div>
