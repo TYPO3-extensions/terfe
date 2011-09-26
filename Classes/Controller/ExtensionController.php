@@ -90,14 +90,12 @@
 		 * Index action, shows an overview
 		 *
 		 * @param string $sorting Sort extensions by this key
-		 * @param string $direction Sorting order
 		 * @return void
 		 */
-		public function indexAction($sorting = 'updated', $direction = 'desc') {
+		public function indexAction($sorting = 'updated') {
 				// Get all extensions
-			$this->view->assign('extensions', $this->getExtensions($sorting, $direction));
+			$this->view->assign('extensions', $this->getExtensions($sorting));
 			$this->view->assign('sorting',    $sorting);
-			$this->view->assign('direction',  $direction);
 
 				// Get all categories
 			$categories = $this->categoryRepository->findAll();
@@ -305,24 +303,25 @@
 		 * Returns all extensions by
 		 *
 		 * @param string $sorting Sort extensions by this key
-		 * @param string $direction Sorting order
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
-		protected function getExtensions(&$sorting, &$direction) {
+		protected function getExtensions(&$sorting) {
+				// Sorting
 			$sortings = array(
 				'updated'   => 'lastVersion.uploadDate',
 				'downloads' => 'downloads',
 				'title'     => 'lastVersion.title',
 			);
-			$directions = array(
-				'desc'      => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING,
-				'asc'       => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING,
-			);
-			if (empty($sortings[$sorting]) || empty($directions[$direction])) {
-				$sorting   = 'updated';
-				$direction = 'desc';
+			if (empty($sortings[$sorting])) {
+				$sorting = 'updated';
 			}
-			return $this->extensionRepository->findAllBySortingAndDirection($sortings[$sorting], $directions[$direction]);
+
+				// Direction
+			$desc = Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING;
+			$asc  = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
+			$direction = ($sorting === 'title' ? $asc : $desc);
+
+			return $this->extensionRepository->findAllBySortingAndDirection($sortings[$sorting], $direction);
 		}
 
 	}
