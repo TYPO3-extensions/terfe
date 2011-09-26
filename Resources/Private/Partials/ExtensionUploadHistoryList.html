@@ -1,11 +1,15 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
 <table>
 	<f:for each="{versionHistory}" as="version">
-		<tr>
-			<td class="col1"><strong>{version.versionString}</strong></td>
-			<td class="col2"><p>{version.uploadComment}</p></td>
-			<td class="col3"><div>
-				<f:link.action controller="Extension" action="download" arguments="{extension : version.extension, versionString : version.versionString, format : 't3x'}" class="bu"><f:translate key="download"/></f:link.action>
-			</div></td>
-		</tr>
+		<f:if condition="{version} != {version.extension.lastVersion}">
+			<tr>
+				<td class="col1"><strong>{version.versionString}</strong></td>
+				<td class="col2">{version.uploadComment}</td>
+				<!-- <td class="col3">
+					<f:link.action controller="Extension" action="download" arguments="{extension : version.extension, versionString : version.versionString, format : 't3x'}" class="bu"><f:translate key="download"/></f:link.action>
+				</td> -->
+			</tr>
+		</f:if>
 	</f:for>
 </table>

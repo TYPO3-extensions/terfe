@@ -4,7 +4,7 @@
 plugin.tx_terfe2 {
 	settings {
 		# cat=TER Frontend/settings/1000; type=int+; label=List count: Count of Extensions per page in list view
-		listCount = 10
+		listCount = 20
 
 		# cat=TER Frontend/settings/1010; type=int+; label=Latest count: Count of latest Extensions
 		latestCount = 10
