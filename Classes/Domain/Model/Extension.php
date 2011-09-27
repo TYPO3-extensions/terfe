@@ -331,6 +331,16 @@
 
 
 		/**
+		 * Returns the count of versions
+		 *
+		 * @return integer Version count
+		 */
+		public function getVersionCount() {
+			return (!empty($this->versions) ? count($this->versions) : 0);
+		}
+
+
+		/**
 		 * Adds a Version
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $version The version to be added

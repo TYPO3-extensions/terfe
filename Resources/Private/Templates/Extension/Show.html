@@ -100,23 +100,27 @@
 					</f:if>
 				</div>
 
-				<h3><f:translate key="version_history" /></h3>
+				<f:if condition="{extension.versionCount} > 1">
+					<h3><f:translate key="version_history" /></h3>
 
-				<div class="ter-ext-single-versionhistory ter-toggle-hide">
-					<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory}" />
-				</div>
-				<div class="ter-ext-single-versionhistory ter-toggle-show">
-					<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByDate}" />
-				</div>
+					<div class="ter-ext-single-versionhistory ter-toggle-hide">
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory}" />
+					</div>
+					<div class="ter-ext-single-versionhistory ter-toggle-show">
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByDate}" />
+					</div>
 
-				<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
-					<span><f:translate key="expand_details" /></span>
-					<hr/>
-				</div>
-				<div class="ter-toggle-showLess ter-toggle ter-toggle-show">
-					<span><f:translate key="collapse_details" /></span>
-					<hr/>
-				</div>
+					<f:if condition="{extension.versionCount} > 4">
+						<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
+							<span><f:translate key="expand_details" /></span>
+							<hr/>
+						</div>
+						<div class="ter-toggle-showLess ter-toggle ter-toggle-show">
+							<span><f:translate key="collapse_details" /></span>
+							<hr/>
+						</div>
+					</f:if>
+				</f:if>
 
 				<f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
 
