@@ -105,4 +105,11 @@ jQuery(document).ready(function($) {
 		$(this).toggleExtensionDetails();
 	});
 
+	/**
+	 * Submit form after selecting selectbox option
+	 */
+	$("select.jsSubmit").change(function(){
+		$(this).closest("form").submit();
+	});
+
 });
