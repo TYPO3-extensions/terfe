@@ -126,7 +126,7 @@
 				Tx_TerFe2_Utility_File::copyFile($iconUrl, $localName);
 			}
 
-			return $localName;
+			return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($localName);
 		}
 
 
