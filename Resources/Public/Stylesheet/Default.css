@@ -149,7 +149,7 @@ div.ter-ext-list-row:hover div.ter-ext-list-row-downloads {
 	display: block;
 }
 .ter-download-icon {
-	display: block;
+	display: inline-block;
 	font-size: 0;
 	height: 27px;
 	line-height: 0;
