@@ -154,6 +154,7 @@ div.ter-ext-list-row:hover div.ter-ext-list-row-downloads {
 	height: 27px;
 	line-height: 0;
 	width: 20px;
+	margin: 0 0 0 8px;
 }
 .ter-download-icon-t3x {
 	background: url(../Icons/t3x.png) no-repeat;
@@ -195,6 +196,7 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
 
 .ter-ext-single-download {
 	padding: 0 0 10px 0;
+	margin: 0 0 10px 0;
 	border-bottom: 1px solid #D1D1D1;
 }
 .ter-ext-single-download a {
