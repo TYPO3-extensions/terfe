@@ -62,17 +62,17 @@
 							</tr>
 							<tr>
 								<th><f:translate key="author"/></th>
-								<td><f:link.action controller="Author" action="show" arguments="{author : extension.lastVersion.author}">{extension.lastVersion.author.name}</f:link.action></td>
+								<td>{extension.lastVersion.author.name}</td>
 							</tr>
 							<tr>
 								<th><f:translate key="category"/></th>
 								<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
 							</tr>
-							<tr>
+							<tr class="ter-ext-single-info-relations">
 								<th><f:translate key="relations"/></th>
 								<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
 							</tr>
-							<tr>
+							<tr class="ter-ext-single-info-manual">
 								<th><f:translate key="manual"/></th>
 								<td><terfe2:documentationLink>{extension.lastVersion}</terfe2:documentationLink></td>
 							</tr>

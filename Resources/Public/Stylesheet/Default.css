@@ -193,6 +193,15 @@ div.ter-ext-info table tr.ter-ext-single-info-key th,
 div.ter-ext-info table tr.ter-ext-single-info-key td {
 	margin: 10px 0 0 0;
 }
+.ter-ext-single-info-relations a {
+	text-decoration: none;
+}
+.ter-ext-single-info-relations a:hover {
+	text-decoration: underline;
+}
+.ter-ext-single-info-manual span {
+	color: #000 !important;
+}
 
 .ter-ext-single-download {
 	padding: 0 0 10px 0;
