@@ -2,6 +2,10 @@
 
 <f:if condition="{extensions}">
 	<f:then>
+		<div class="ter-ext-list-count">
+			<f:translate key="extensions_found" arguments="{0: '{f:count(subject : extensions)}'}" />
+		</div>
+
 		<f:widget.paginate objects="{extensions}" as="paginateExtensions" configuration="{itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
 			<f:for each="{paginateExtensions}" as="extension">
 				<div class="ter-ext-list-row cl">

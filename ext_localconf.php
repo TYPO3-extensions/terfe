@@ -81,5 +81,4 @@
 		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_updatedownloadstask.description',
 		'additionalFields' => 'tx_terfe2_task_updatedownloadstaskadditionalfieldprovider',
 	);
-
 ?>

@@ -3,8 +3,8 @@
 		die ('Access denied.');
 	}
 
-	$TCA['tx_terfe2_domain_model_tag'] = array(
-		'ctrl'      => $TCA['tx_terfe2_domain_model_tag']['ctrl'],
+	$GLOBALS['TCA']['tx_terfe2_domain_model_tag'] = array(
+		'ctrl'      => $GLOBALS['TCA']['tx_terfe2_domain_model_tag']['ctrl'],
 		'interface' => array(
 			'showRecordFieldList' => 'title,extensions',
 		),

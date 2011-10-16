@@ -87,23 +87,38 @@
 
 
 		/**
-		 * Index action, shows an overview
+		 * Index action, displays extension list
 		 *
-		 * @param string $sorting Sort extensions by this key
+		 * @param array $search Search params for extension list
 		 * @return void
+		 * @dontvalidate $search
 		 */
-		public function indexAction($sorting = 'updated') {
-				// Get all extensions
-			$this->view->assign('extensions', $this->getExtensions($sorting));
-			$this->view->assign('sorting',    $sorting);
+		public function indexAction(array $search = array()) {
+				// Get extension list
+			if (!empty($this->settings['show']['extensionSearch'])) {
+				$this->view->assign('extensions', $this->getExtensions($search));
+				$this->view->assign('search',     $search);
+			} else {
+				$this->view->assign('extensions', $this->extensionRepository->findAll());
+			}
 
 				// Get all categories
-			$categories = $this->categoryRepository->findAll();
-			$this->view->assign('categories', $categories);
+			if (!empty($this->settings['show']['categoryOverview'])) {
+				$categories = $this->categoryRepository->findAll();
+				$this->view->assign('categories', $categories);
+			}
+
+				// Get all tags
+			if (!empty($this->settings['show']['tagOverview'])) {
+				$tags = $this->tagRepository->findAll();
+				$this->view->assign('tags', $tags);
+			}
 
 				// Get authors
-			$authors = $this->authorRepository->findByLatestExtensionVersion();
-			$this->view->assign('authors', $authors);
+			if (!empty($this->settings['show']['authorOverview'])) {
+				$authors = $this->authorRepository->findByLatestExtensionVersion();
+				$this->view->assign('authors', $authors);
+			}
 		}
 
 
@@ -300,28 +315,64 @@
 
 
 		/**
-		 * Returns all extensions by
+		 * Returns all / filtered extensions
 		 *
-		 * @param string $sorting Sort extensions by this key
+		 * @param array $options Options for extension list
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
-		protected function getExtensions(&$sorting) {
+		protected function getExtensions(array &$options) {
+				// Direction
+			$desc = Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING;
+			$asc  = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
+			$direction = $desc;
+			if (!empty($options['direction'])) {
+				$direction = ($options['direction'] === 'asc' ? $asc : $desc);
+			}
+
+				// Get last needle
+			$session = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
+			$lastNeedle = $session->get('lastNeedle');
+
 				// Sorting
 			$sortings = array(
 				'updated'   => 'lastVersion.uploadDate',
 				'downloads' => 'downloads',
 				'title'     => 'lastVersion.title',
 			);
-			if (empty($sortings[$sorting])) {
-				$sorting = 'updated';
+			$sorting = $sortings['updated'];
+			if (!empty($options['sorting'])) {
+					// Set direction to ASC when sorting by title
+				if (!empty($sortings[$options['sorting']])) {
+					$sorting = $sortings[$options['sorting']];
+					if (empty($options['direction'])) {
+						$direction = $desc;
+						if ($options['sorting'] === 'title') {
+							$direction = $asc;
+							$options['direction'] = 'asc';
+						}
+					}
+				}
+					// Sort by downloads when searching
+				if (!empty($options['needle']) && (empty($lastNeedle) || $lastNeedle !== $options['needle'])) {
+					$sorting = $sortings['downloads'];
+					$options['sorting'] = 'downloads';
+					$direction = $desc;
+				}
 			}
 
-				// Direction
-			$desc = Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING;
-			$asc  = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
-			$direction = ($sorting === 'title' ? $asc : $desc);
+				// Set new needle
+			$session->set('lastNeedle', $options['needle']);
 
-			return $this->extensionRepository->findAllBySortingAndDirection($sortings[$sorting], $direction);
+				// Ordering
+			$ordering = array($sorting => $direction);
+
+				// Return sorted list of all extensions
+			if (empty($options['needle'])) {
+				return $this->extensionRepository->findAll(0, 0, $ordering);
+			}
+
+				// Return search result
+			return $this->extensionRepository->findBySearchWordsAndFilters($options['needle'], array(), $ordering);
 		}
 
 	}

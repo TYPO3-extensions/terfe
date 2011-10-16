@@ -36,7 +36,7 @@
 		 * @param array $ordering Ordering <-> Direction
 		 * @return Tx_Extbase_Persistence_QueryInterface
 		 */
-		public function createQuery($offset = 0, $count = 0, $ordering = array()) {
+		public function createQuery($offset = 0, $count = 0, array $ordering = array()) {
 			$query = parent::createQuery();
 
 			if (!empty($offset)) {
@@ -78,14 +78,15 @@
 
 
 		/**
-		 * Returns all objects ordered by given sorting and direction
+		 * Returns all objects
 		 *
-		 * @param string $sorting Sort result by this key
-		 * @param string $direction Sorting order
+		 * @param string $offset Offset to start with
+		 * @param string $count Count of result
+		 * @param string $ordering Ordering <-> Direction
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
-		public function findAllBySortingAndDirection($sorting, $direction) {
-			$query = $this->createQuery(0, 0, array($sorting => $direction));
+		public function findAll($offset = 0, $count = 0, array $ordering = array()) {
+			$query = $this->createQuery($offset, $count, $ordering);
 			return $query->execute();
 		}
 

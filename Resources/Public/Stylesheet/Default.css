@@ -90,13 +90,53 @@ span.ter-ext-state-alpha {
 	color: #f14400;
 }
 
+
+/**
+ * Search form
+ */
+div.ter-ext-list-search {
+	background: none repeat scroll 0 0 #FCFCFC;
+	border: 1px solid #DADADA;
+	padding: 8px 10px;
+	position: relative;
+}
+
+input#ter-ext-list-search-needle {
+	background: url(../Images/buttons.png) repeat-x scroll 0 -94px transparent;
+	border: 1px solid #DBDBDB;
+	font-size: 11px;
+	padding: 4px;
+	width: 415px;
+	margin-right: 5px;
+	margin-top: -1px;
+}
+
+span.ter-ext-list-search-sorting {
+	float: right;
+	height: 23px;
+	line-height: 23px;
+}
+
+span.ter-ext-list-search-sorting select {
+	border: 1px solid #CCCCCC;
+	border-top: 1px solid #AAAAAA;
+	background: none;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 11px;
+	text-decoration: none;
+	vertical-align: middle;
+	outline: none;
+}
+
+
 /**
  * Extension list
  */
-#ter-ext-list-sort {
-	position: absolute;
-	top: -40px;
-	right: 0;
+div.ter-ext-list-count {
+	color: #B9B9B9;
+	font-size: 11px;
+	padding: 18px 0 9px 0;
 }
 
 div.ter-ext-list-row {
@@ -106,6 +146,9 @@ div.ter-ext-list-row {
 }
 div.ter-ext-list-row:hover {
 	background: url(../Images/bg_row_hover.png) repeat-x left bottom;
+}
+div.ter-ext-list-row-first {
+	border-top: none;
 }
 
 div.ter-ext-list-row-head a {
@@ -166,6 +209,7 @@ div.tx_terfe2 .b-pager {
 	border-top: 1px solid #D1D1D1;
 	padding: 20px 0 0 0;
 }
+
 
 /**
  * Extension details
@@ -240,7 +284,6 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
 /**
  * Registerkeys
  */
-
 table.manage-keys .tr-even td {
 	background: none repeat scroll 0 0 #F3F3F3;
 }

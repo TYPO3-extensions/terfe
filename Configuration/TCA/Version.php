@@ -3,8 +3,8 @@
 		die ('Access denied.');
 	}
 
-	$TCA['tx_terfe2_domain_model_version'] = array(
-		'ctrl'      => $TCA['tx_terfe2_domain_model_version']['ctrl'],
+	$GLOBALS['TCA']['tx_terfe2_domain_model_version'] = array(
+		'ctrl'      => $GLOBALS['TCA']['tx_terfe2_domain_model_version']['ctrl'],
 		'interface' => array(
 			'showRecordFieldList' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,frontend_download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,author,file_hash,extension_provider,has_zip_file,has_images',
 		),

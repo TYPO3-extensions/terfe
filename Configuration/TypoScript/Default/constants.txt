@@ -79,11 +79,26 @@ plugin.tx_terfe2 {
 		}
 
 		show {
-			# cat=TER Frontend/settings/5000; type=boolean; label=Show author extensions: Show all extensions of an author on detail view
+			# cat=TER Frontend/settings/5000; type=boolean; label=Show extension search: Show extension search above extension list
+			extensionSearch = 1
+
+			# cat=TER Frontend/settings/5010; type=boolean; label=Show author extensions: Show all extensions of an author on detail view
 			authorExtensions = 0
 
-			# cat=TER Frontend/settings/5010; type=boolean; label=Show category extensions: Show all extensions of a category on detail view
+			# cat=TER Frontend/settings/5020; type=boolean; label=Show author overview: Show all authors in index list
+			authorOverview = 0
+
+			# cat=TER Frontend/settings/5030; type=boolean; label=Show category extensions: Show all extensions of a category on detail view
 			categoryExtensions = 0
+
+			# cat=TER Frontend/settings/5040; type=boolean; label=Show category overview: Show all categories in index list
+			categoryOverview = 0
+
+			# cat=TER Frontend/settings/5050; type=boolean; label=Show tag extensions: Show all extensions of a tag on detail view
+			tagExtensions = 0
+
+			# cat=TER Frontend/settings/5060; type=boolean; label=Show tag overview: Show all tags in index list
+			tagOverview = 0
 		}
 	}
 

@@ -118,14 +118,15 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	extension int(11) unsigned DEFAULT '0' NOT NULL,
-	title tinytext,
-	description text,
+	extension_key tinytext DEFAULT '' NOT NULL,
+	title tinytext DEFAULT '' NOT NULL,
+	description text DEFAULT '' NOT NULL,
 	file_hash varchar(50) DEFAULT '' NOT NULL,
 	author int(11) unsigned DEFAULT '0' NOT NULL,
 	version_number int(11) DEFAULT '0' NOT NULL,
 	version_string tinytext,
 	upload_date int(11) DEFAULT '0' NOT NULL,
-	upload_comment text,
+	upload_comment text DEFAULT '' NOT NULL,
 	download_counter int(11) DEFAULT '0' NOT NULL,
 	frontend_download_counter int(11) DEFAULT '0' NOT NULL,
 	state tinytext,
@@ -148,6 +149,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	media int(11) unsigned DEFAULT '0' NOT NULL,
 	experiences int(11) unsigned DEFAULT '0' NOT NULL,
 	software_relations int(11) unsigned DEFAULT '0' NOT NULL,
+	software_relation_list text DEFAULT '' NOT NULL,
 	extension_provider tinytext,
 	has_zip_file tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	has_images tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -174,7 +176,8 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	l18n_diffsource mediumblob NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	FULLTEXT (extension_key,title,description,upload_comment,software_relation_list)
 );
 
 

@@ -17,8 +17,8 @@
 
 		// Add flexform to field list of the Backend form
 	$extIdent = strtolower(t3lib_div::underscoredToUpperCamelCase($_EXTKEY)) . '_pi1';
-	$TCA['tt_content']['types']['list']['subtypes_excludelist'][$extIdent] = 'layout,select_key,recursive';
-	$TCA['tt_content']['types']['list']['subtypes_addlist'][$extIdent] = 'pi_flexform';
+	$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$extIdent] = 'layout,select_key,recursive';
+	$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$extIdent] = 'pi_flexform';
 	t3lib_extMgm::addPiFlexFormValue($extIdent, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_list.xml');
 
 		// Domain models and their label / search fields
@@ -45,7 +45,7 @@
 		t3lib_extMgm::allowTableOnStandardPages('tx_terfe2_domain_model_' . $modelName);
 
 			// Add table configuration
-		$TCA['tx_terfe2_domain_model_' . $modelName] = array (
+		$GLOBALS['TCA']['tx_terfe2_domain_model_' . $modelName] = array (
 			'ctrl' => array (
 				'title'                    => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_' . $modelName,
 				'label'                    => $modelConfiguration[0],
@@ -64,7 +64,7 @@
 				),
 				'dynamicConfigFile'        => t3lib_extMgm::extPath($_EXTKEY)    . 'Configuration/TCA/' . ucfirst($modelName) . '.php',
 				'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/' . $modelName . '.gif'
-			)
+			),
 		);
 	}
 ?>

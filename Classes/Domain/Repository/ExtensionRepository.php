@@ -36,11 +36,13 @@
 		 * @param string $ordering Ordering <-> Direction
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
-		public function findAll($offset = 0, $count = 0, $ordering = array()) {
+		public function findAll($offset = 0, $count = 0, array $ordering = array()) {
 			if (empty($ordering)) {
 				$ordering = array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING);
 			}
 			$query = $this->createQuery($offset, $count, $ordering);
+				// Filter empty title
+			$query->matching($query->logicalNot($query->equals('lastVersion.title', '')));
 			return $query->execute();
 		}
 
@@ -123,6 +125,47 @@
 			$query->setOrderings(
 				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
 			);
+			$query->matching($query->in('uid', $uids));
+
+			return $query->execute();
+		}
+
+
+		/**
+		 * Search extensions by search words and filters
+		 *
+		 * TODO:
+		 * - Implement filters
+		 * - Use real relevance ordering from uid order
+		 *
+		 * @param string $needle Search string
+		 * @param array $filters Filter extension list
+		 * @param array $ordering $ordering Ordering <-> Direction
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		public function findBySearchWordsAndFilters($searchWords = NULL, array $filters = NULL, array $ordering = NULL) {
+			$statement = '
+				SELECT DISTINCT extension, MATCH (extension_key,title,description,upload_comment,software_relation_list) AGAINST (?) AS score
+				FROM tx_terfe2_domain_model_version
+				WHERE MATCH (extension_key,title,description,upload_comment,software_relation_list) AGAINST (?)
+				GROUP BY extension
+				ORDER BY score DESC
+			';
+
+				// Workaround while extbase doesn't support MATCH
+			$query = $this->createQuery();
+			$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
+			$query->statement($statement, array($searchWords, $searchWords));
+			$rows = $query->execute();
+			unset($query);
+
+				// Workaround to enable paginate
+			$uids = array();
+			foreach ($rows as $row) {
+				$uids[] = (int) $row['extension'];
+			}
+			$query = $this->createQuery();
+			$query->setOrderings($ordering);
 			$query->matching($query->in('uid', $uids));
 
 			return $query->execute();

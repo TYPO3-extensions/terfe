@@ -38,8 +38,13 @@ plugin.tx_terfe2 {
 		}
 
 		show {
+			extensionSearch     = {$plugin.tx_terfe2.settings.show.extensionSearch}
 			authorExtensions    = {$plugin.tx_terfe2.settings.show.authorExtensions}
+			authorOverview      = {$plugin.tx_terfe2.settings.show.authorOverview}
 			categoryExtensions  = {$plugin.tx_terfe2.settings.show.categoryExtensions}
+			categoryOverview    = {$plugin.tx_terfe2.settings.show.categoryOverview}
+			tagExtensions       = {$plugin.tx_terfe2.settings.show.tagExtensions}
+			tagOverview         = {$plugin.tx_terfe2.settings.show.tagOverview}
 		}
 	}
 
