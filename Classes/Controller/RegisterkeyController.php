@@ -25,9 +25,9 @@
 	 ******************************************************************/
 
 	/**
-	 * Controller for the extension object
+	 * Controller for the extension key registration
 	 */
-	class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_AbstractController {
+	class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_AbstractTerBasedController {
 
 		/**
 		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
@@ -39,16 +39,6 @@
 		 */
 		protected $categoryRepository;
 
-		/**
-		 * @var Tx_TerFe2_Service_Ter
-		 */
-		protected $terConnection;
-
-		/**
-		 * @var array
-		 */
-		protected $frontendUser = array();
-
 
 		/**
 		 * Initializes the controller
@@ -58,25 +48,6 @@
 		protected function initializeController() {
 			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 			$this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
-			$this->frontendUser = (!empty($GLOBALS['TSFE']->fe_user->user) ? $GLOBALS['TSFE']->fe_user->user : array());
-			$this->terConnection = $this->getTerConnection();
-		}
-
-
-		/**
-		 * Initializes the view, check if a user is logged in and assign the loggedIn var
-		 *
-		 * @return void
-		 */
-		public function initializeView() {
-				// Check if a user is logged in
-			if (!empty($this->frontendUser)) {
-				$this->view->assign('loggedIn', TRUE);
-				$this->view->assign('userName', $this->frontendUser['username']);
-				$this->view->assign('userId',   $this->frontendUser['uid']);
-			} else {
-				$this->view->assign('loggedIn', FALSE);
-			}
 		}
 
 
@@ -339,39 +310,13 @@
 
 
 		/**
-		 * Create a connection to the ter server
-		 *
-		 * @return Tx_TerFe2_Service_Ter Connection to ter server
-		 */
-		protected function getTerConnection() {
-				// Check the settings if a overwrite username and password are set
-			if (empty($this->settings['terConnection']['username']) || empty($this->settings['terConnection']['password'])) {
-				$username = $this->frontendUser['username'];
-				$password = $this->frontendUser['password'];
-			} else {
-				$username = $this->settings['terConnection']['username'];
-				$password = $this->settings['terConnection']['password'];
-			}
-
-				// Check the wsdl uri
-			if (empty($this->settings['terConnection']['wsdl'])) {
-				throw new Exception($this->translate('registerkey.noWsdl'));
-			}
-
-				// Create connection
-			$wsdl = $this->settings['terConnection']['wsdl'];
-			return $this->objectManager->create('Tx_TerFe2_Service_Ter', $wsdl, $username, $password);
-		}
-
-
-		/**
 		 * resolve the error key and get the corresponding translation
 		 *
 		 * @param string $error
 		 * @return string $message already translated
 		 */
 		protected function resolveWSErrorMessage($error) {
-			return $this->translate('registerkey.error.'.$error);
+			return $this->translate('registerkey.error.' . $error);
 		}
 
 	}

@@ -8,6 +8,13 @@ function getDefaultChartOptions() {
 		axes: {
 			xaxis: {
 				renderer: $.jqplot.CategoryAxisRenderer
+			},
+			yaxis: {
+				min: 0,
+				numberTicks: 5,
+				tickOptions: {
+					formatString: '%d'
+				}
 			}
 		},
 		grid: {

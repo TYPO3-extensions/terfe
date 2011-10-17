@@ -3,10 +3,13 @@
 
 	return array(
 		'tx_terfe2_controller_abstractcontroller'                          => $extensionClassesPath . 'Controller/AbstractController.php',
+		'tx_terfe2_controller_abstractterbasedcontroller'                  => $extensionClassesPath . 'Controller/AbstractTerBasedController.php',
 		'tx_terfe2_controller_authorcontroller'                            => $extensionClassesPath . 'Controller/AuthorController.php',
 		'tx_terfe2_controller_categorycontroller'                          => $extensionClassesPath . 'Controller/CategoryController.php',
 		'tx_terfe2_controller_extensioncontroller'                         => $extensionClassesPath . 'Controller/ExtensionController.php',
 		'tx_terfe2_controller_mediacontroller'                             => $extensionClassesPath . 'Controller/MediaController.php',
+		'tx_terfe2_controller_registerkeycontroller'                       => $extensionClassesPath . 'Controller/RegisterkeyController.php',
+		'tx_terfe2_controller_reviewcontroller'                            => $extensionClassesPath . 'Controller/ReviewController.php',
 		'tx_terfe2_controller_tagcontroller'                               => $extensionClassesPath . 'Controller/TagController.php',
 		'tx_terfe2_domain_model_abstractentity'                            => $extensionClassesPath . 'Domain/Model/AbstractEntity.php',
 		'tx_terfe2_domain_model_abstractvalueobject'                       => $extensionClassesPath . 'Domain/Model/AbstractValueObject.php',

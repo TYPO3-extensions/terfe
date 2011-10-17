@@ -44,11 +44,11 @@
 
 		/**
 		 * Override in concrete controller to initialize it
-		 * 
+		 *
 		 * @return void
 		 */
 		protected function initializeController() {
-			
+
 		}
 
 
@@ -67,7 +67,7 @@
 
 		/**
 		 * Send flash message and redirect to given action
-		 * 
+		 *
 		 * @param string $action Name of the action
 		 * @param string $messageIdentifier Identifier of the message to send
 		 * @return void

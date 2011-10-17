@@ -157,6 +157,7 @@
 			<label index="edit_extension">Edit Extension</label>
 			<label index="single_extension">Show single Extension</label>
 			<label index="create_extension">Create new Extension</label>
+			<label index="extension_administration">Extension administration</label>
 
 			<label index="new_category">Create new Category</label>
 			<label index="edit_category">Edit Category</label>

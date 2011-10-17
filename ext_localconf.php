@@ -14,6 +14,7 @@
 			'Author'      => 'list, edit, update, show',
 			'Media'       => 'list, new, create, edit, update, delete, show',
 			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
+			'Review'      => 'index,edit,update',
 		),
 		array(
 			'Extension'   => 'index, create, update, delete, download',
@@ -22,6 +23,7 @@
 			'Author'      => 'update',
 			'Media'       => 'create, delete',
 			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
+			'Review'      => 'index,edit,update',
 		)
 	);
 
