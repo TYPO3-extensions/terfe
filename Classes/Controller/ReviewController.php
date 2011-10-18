@@ -87,38 +87,44 @@
 		/**
 		 * Displays a form to edit an existing extension
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension object
 		 * @param Tx_TerFe2_Domain_Model_Version $version Version to modify
 		 * @param integer $reviewState Review state
+		 * @param boolean $inherit Inherit changes to all versions before current
 		 * @return void
-		 * @dontvalidate $extension
 		 * @dontvalidate $version
 		 * @dontvalidate $reviewState
+		 * @dontvalidate $inherit
 		 */
-		public function editAction(Tx_TerFe2_Domain_Model_Extension $extension = NULL, Tx_TerFe2_Domain_Model_Version $version = NULL, $reviewState = NULL) {
-
+		public function editAction(Tx_TerFe2_Domain_Model_Version $version = NULL, $reviewState = NULL, $inherit = FALSE) {
+			$this->view->assign('version', $version);
+			$this->view->assign('reviewState', $reviewState);
 		}
 
 
 		/**
 		 * Updates an existing extension
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension object
 		 * @param Tx_TerFe2_Domain_Model_Version $version Version to modify
 		 * @param integer $reviewState Review state
+		 * @param boolean $inherit Inherit changes to all versions before current
 		 * @return void
 		 */
-		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Version $version, $reviewState) {
+		public function updateAction(Tx_TerFe2_Domain_Model_Version $version, $reviewState, $inherit = FALSE) {
 			$reviewStateDataArr = array (
-				'extensionKey' => (string) $extension->getExtKey(),
+				'extensionKey' => (string) $version->getExtension()->getExtKey(),
 				'version'      => (string) $version->getVersionString(),
 				'reviewState'  => (int) $reviewState,
 			);
 
 			if ($soapClientObj->setReviewState($accountDataArr, $reviewStateDataArr)) {
-				$version->setReviewState((int) $reviewState);
+				if (empty($inherit)) {
+					$version->setReviewState((int) $reviewState);
+				} else {
+					$versions = $this->versionRepository->findAllBelowVersion($version->getExtension(), $version->getVersionNumber());
+				}
+				$this->persistenceManager->persistAll();
 			} else {
-				$this->flashMessageContainer->add('');
+				$this->flashMessageContainer->add('msg.reviewstate_not_enabled');
 			}
 		}
 

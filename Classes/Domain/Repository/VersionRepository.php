@@ -100,5 +100,29 @@
 			return $query->execute();
 		}
 
+
+		/**
+		 * Retuns all versions before the given one
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
+		 * @param integer $versionNumber Version number
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		public function findAllBelowVersion($extension, $versionNumber) {
+			$ordering = array('uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
+			$query = $this->createQuery(0, $count, $ordering);
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+
+			$query->matching(
+				$query->logicalAnd(
+					$query->equals('extension', $extension),
+					$query->lessThanOrEqual('versionNumber', (int) $versionNumber)
+				)
+			);
+
+			return $query->execute();
+		}
+
 	}
 ?>
