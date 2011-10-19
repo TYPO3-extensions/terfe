@@ -150,7 +150,7 @@
 
 
 		/**
-		 * Remove an extension kex from system
+		 * Remove an extension key from the system
 		 *
 		 * @param string $extensionKey Extension key
 		 * @return boolean TRUE if success
@@ -159,6 +159,20 @@
 			$result = $this->getSoapService()->deleteExtensionKey($this->userData, $extensionKey);
 				// 10000 = TX_TER_RESULT_GENERAL_OK
 			return (!empty($result['resultCode']) && $result['resultCode'] === '10000');
+		}
+
+		/**
+		 * Get a list of registered extension by user
+		 */
+		public function getExtensionKeyList() {
+			$result = $this->getSoapService()->getExtensionKeys($this->userData, array('username' => $this->userData['username']));
+
+				// 10000 = TX_TER_RESULT_GENERAL_OK
+			if (!empty($result['simpleResult']['resultCode']) && $result['simpleResult']['resultCode'] === '10000') {
+				return $result['extensionKeyData'];
+			} else {
+				return NULL;
+			}
 		}
 
 	}
