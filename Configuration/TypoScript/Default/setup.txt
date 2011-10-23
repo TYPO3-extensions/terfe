@@ -45,6 +45,7 @@ plugin.tx_terfe2 {
 			categoryOverview    = {$plugin.tx_terfe2.settings.show.categoryOverview}
 			tagExtensions       = {$plugin.tx_terfe2.settings.show.tagExtensions}
 			tagOverview         = {$plugin.tx_terfe2.settings.show.tagOverview}
+			reviewForm          = {$plugin.tx_terfe2.settings.show.reviewForm}
 		}
 	}
 

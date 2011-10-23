@@ -93,7 +93,7 @@
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Category $newCategory) {
 			$this->categoryRepository->add($newCategory);
-			$this->redirectWithMessage('list', 'category_created');
+			$this->redirectWithMessage($this->translate('msg.category_created'), 'list');
 		}
 
 
@@ -117,7 +117,7 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Category $category) {
 			$this->categoryRepository->update($category);
-			$this->redirectWithMessage('list', 'category_updated');
+			$this->redirectWithMessage($this->translate('msg.category_updated'), 'list');
 		}
 
 
@@ -129,7 +129,7 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Category $category) {
 			$this->categoryRepository->remove($category);
-			$this->redirectWithMessage('list', 'category_deleted');
+			$this->redirectWithMessage($this->translate('msg.category_deleted'), 'list');
 		}
 
 	}

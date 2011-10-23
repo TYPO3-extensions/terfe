@@ -161,5 +161,32 @@
 			return (!empty($result['resultCode']) && $result['resultCode'] === '10000');
 		}
 
+
+		/**
+		 * Set review state of an extension version
+		 *
+		 * @param string $extensionKey The extension key
+		 * @param string $versionString Version as string
+		 * @param integer $reviewState New review state
+		 * @param string $error Contains the error
+		 * @return boolean TRUE if success
+		 */
+		public function setReviewState($extensionKey, $versionString, $reviewState, &$error = '') {
+			$parameters = array(
+				'extensionKey' => $extensionKey,
+				'version'      => $versionString,
+				'reviewState'  => $reviewState,
+			);
+
+			try {
+				$this->getSoapService()->setReviewState($this->userData, $parameters);
+			} catch (SoapFault $exception) {
+				$error = $exception->faultstring;
+				return FALSE;
+			}
+
+			return TRUE;
+		}
+
 	}
 ?>

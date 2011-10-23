@@ -29,21 +29,6 @@
 	class Tx_TerFe2_Controller_ReviewController extends Tx_TerFe2_Controller_AbstractTerBasedController {
 
 		/**
-		 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
-		 */
-		protected $extensionRepository;
-
-		/**
-		 * @var Tx_TerFe2_Domain_Repository_VersionRepository
-		 */
-		protected $versionRepository;
-
-		/**
-		 * @var Tx_TerFe2_Provider_ProviderManager
-		 */
-		protected $providerManager;
-
-		/**
 		 * @var Tx_Extbase_Persistence_Manager
 		 */
 		protected $persistenceManager;
@@ -55,77 +40,52 @@
 		 * @return void
 		 */
 		protected function initializeController() {
-			$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
-			$this->versionRepository   = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
-			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
-			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+			$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 		}
 
 
 		/**
-		 * Display the version overview
+		 * Set unsecure flag of all given versions
 		 *
-		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to display
-		 * @param string $extensionKey Extension key
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to update
+		 * @param array $unsecureVersions Version UIDs
 		 * @return void
-		 * @dontvalidate $extension
-		 * @dontvalidate $extensionKey
 		 */
-		public function indexAction(Tx_TerFe2_Domain_Model_Extension $extension = NULL, $extensionKey = NULL) {
-			if (!empty($extensionKey)) {
-				if (!is_string($extensionKey)) {
-					throw new Exception('No valid extension key given');
+		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, array $unsecureVersions) {
+			$extensionKey = $extension->getExtKey();
+			$versions = $extension->getVersions();
+			$persist = FALSE;
+
+			foreach ($versions as $version) {
+				$versionString = $version->getVersionString();
+				$actionParameters = array('extension' => $extension);
+
+				$reviewState = 0;
+				if (in_array($version->getUid(), $unsecureVersions)) {
+					$reviewState = -1;
 				}
-				$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
-			}
-			if ($extension !== NULL && $extension instanceof Tx_TerFe2_Domain_Model_Extension) {
-				$this->view->assign('extension', $extension);
-			}
-		}
 
+				if ($reviewState === $version->getReviewState()) {
+					continue;
+				}
 
-		/**
-		 * Displays a form to edit an existing extension
-		 *
-		 * @param Tx_TerFe2_Domain_Model_Version $version Version to modify
-		 * @param integer $reviewState Review state
-		 * @param boolean $inherit Inherit changes to all versions before current
-		 * @return void
-		 * @dontvalidate $version
-		 * @dontvalidate $reviewState
-		 * @dontvalidate $inherit
-		 */
-		public function editAction(Tx_TerFe2_Domain_Model_Version $version = NULL, $reviewState = NULL, $inherit = FALSE) {
-			$this->view->assign('version', $version);
-			$this->view->assign('reviewState', $reviewState);
-		}
-
-
-		/**
-		 * Updates an existing extension
-		 *
-		 * @param Tx_TerFe2_Domain_Model_Version $version Version to modify
-		 * @param integer $reviewState Review state
-		 * @param boolean $inherit Inherit changes to all versions before current
-		 * @return void
-		 */
-		public function updateAction(Tx_TerFe2_Domain_Model_Version $version, $reviewState, $inherit = FALSE) {
-			$reviewStateDataArr = array (
-				'extensionKey' => (string) $version->getExtension()->getExtKey(),
-				'version'      => (string) $version->getVersionString(),
-				'reviewState'  => (int) $reviewState,
-			);
-
-			if ($soapClientObj->setReviewState($accountDataArr, $reviewStateDataArr)) {
-				if (empty($inherit)) {
-					$version->setReviewState((int) $reviewState);
+				$error = '';
+				if ($this->terConnection->setReviewState($extensionKey, $versionString, $reviewState, $error)) {
+					$version->setReviewState($reviewState);
+					$persist = TRUE;
 				} else {
-					$versions = $this->versionRepository->findAllBelowVersion($version->getExtension(), $version->getVersionNumber());
+					$message = $this->translate('msg.reviewstate_not_enabled', array($versionString, $error));
+					$this->redirectWithMessage($message, 'show', 'Extension', NULL, $actionParameters);
+					return;
 				}
-				$this->persistenceManager->persistAll();
-			} else {
-				$this->flashMessageContainer->add('msg.reviewstate_not_enabled');
 			}
+
+			if ($persist) {
+				$this->persistenceManager->persistAll();
+				$this->redirectWithMessage($this->translate('msg.reviewstate_enabled'), 'show', 'Extension', NULL, $actionParameters);
+			}
+
+			$this->redirectWithMessage($this->translate('msg.reviewstate_not_changed'), 'show', 'Extension', NULL, $actionParameters);
 		}
 
 	}

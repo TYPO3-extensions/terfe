@@ -99,8 +99,8 @@
 				$this->mediaRepository->add($newMedia);
 				$extension->addMedia($newMedia);
 			}
-			$this->flashMessageContainer->add($this->translate('msg.media_created'));
-			$this->redirect('show', 'Extension', NULL, array('extension' => $extension));
+			$actionParameters = array('extension' => $extension);
+			$this->redirectWithMessage($this->translate('msg.media_created'), 'show', 'Extension', NULL, $actionParameters);
 		}
 
 
@@ -125,7 +125,7 @@
 		public function updateAction(Tx_TerFe2_Domain_Model_Media $media) {
 			$this->mediaRepository->update($media);
 			// TODO: Update extension too
-			$this->redirectWithMessage('list', 'media_updated');
+			$this->redirectWithMessage($this->translate('msg.media_updated'), 'list');
 		}
 
 
@@ -138,7 +138,7 @@
 		public function deleteAction(Tx_TerFe2_Domain_Model_Media $media) {
 			$this->mediaRepository->remove($media);
 			// TODO: Remove from extension too
-			$this->redirectWithMessage('list', 'media_deleted');
+			$this->redirectWithMessage($this->translate('msg.media_deleted'), 'list');
 		}
 
 	}

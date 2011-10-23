@@ -283,6 +283,75 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
 
 
 /**
+ * Review form
+ */
+div.ter-ext-single-versions {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	border: 1px solid #D1D1D1;
+	height: 94px;
+	width: 140px;
+	display: block;
+	margin-bottom: 12px;
+}
+
+div.ter-ext-single-versions table {
+	height: auto;
+	width: auto;
+	margin: 0;
+	padding: 0;
+}
+
+div.ter-ext-single-versions tr {
+	background: none;
+	padding: 0;
+	margin: 0;
+	font-size: 11px;
+	line-height: 14px;
+	text-align: left;
+}
+
+div.ter-ext-single-versions tr.even {
+	background-color: #F7F7F7;
+}
+
+div.ter-ext-single-versions td {
+	padding: 0;
+	margin: 0;
+	border: none;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+div.ter-ext-single-versions td.ter-ext-single-versions-label {
+	padding: 1px 3px;
+}
+
+div.ter-ext-single-versions td.ter-ext-single-versions-label label {
+	cursor: pointer;
+	display: block;
+	min-width: 94px;
+	overflow: hidden;
+}
+
+* html div.ter-ext-single-versions td.ter-ext-single-versions-label label {
+	width: 94px;
+}
+
+div.ter-ext-single-versions td.ter-ext-single-versions-input {
+	padding: 1px 3px;
+}
+
+div.ter-ext-single-versions td.ter-ext-single-versions-input input {
+	height: 13px;
+	vertical-align: middle;
+	width: 13px;
+	margin: 4px 5px 4px 2px;
+	cursor: pointer;
+}
+
+
+/**
  * Registerkeys
  */
 table.manage-keys .tr-even td {

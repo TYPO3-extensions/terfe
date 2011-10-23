@@ -68,13 +68,48 @@
 		/**
 		 * Send flash message and redirect to given action
 		 *
+		 * @param string $message Identifier of the message to send
 		 * @param string $action Name of the action
-		 * @param string $messageIdentifier Identifier of the message to send
+		 * @param string $controller Unqualified object name of the controller
+		 * @param string $extension Name of the extension containing the controller
+		 * @param array $arguments Arguments to pass to the target action
 		 * @return void
 		 */
-		protected function redirectWithMessage($action, $messageIdentifier) {
-			$this->flashMessageContainer->add($this->translate('msg.' . $messageIdentifier));
-			$this->redirect($action);
+		protected function redirectWithMessage($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL) {
+			$this->flashMessageContainer->add($message);
+			$this->clearPageCache($GLOBALS['TSFE']->id);
+			$this->redirect($action, $controller, $extension, $arguments);
+		}
+
+
+		/**
+		 * Send flash message and forward to given action
+		 *
+		 * @param string $message Identifier of the message to send
+		 * @param string $action Name of the action
+		 * @param string $controller Unqualified object name of the controller
+		 * @param string $extension Name of the extension containing the controller
+		 * @param array $arguments Arguments to pass to the target action
+		 * @return void
+		 */
+		protected function forwardWithMessage($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL) {
+			$this->flashMessageContainer->add($message);
+			$this->clearPageCache($GLOBALS['TSFE']->id);
+			$this->forward($action, $controller, $extension, $arguments);
+		}
+
+
+		/**
+		 * Clear cache of given pages
+		 *
+		 * @param string $pages List of page ids
+		 * @return void
+		 */
+		protected function clearPageCache($pages) {
+			if (!empty($pages)) {
+				$pages = t3lib_div::intExplode(',', $pages, TRUE);
+				Tx_Extbase_Utility_Cache::clearPageCache($pages);
+			}
 		}
 
 	}

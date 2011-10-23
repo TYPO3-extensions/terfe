@@ -111,6 +111,29 @@
 			<label index="tx_terfe2_domain_model_author.username">Username</label>
 			<label index="tx_terfe2_domain_model_author.versions">Versions</label>
 
+			<label index="tx_terfe2_task_elementsPerRun">Element count to process at once</label>
+			<label index="tx_terfe2_task_clearCachePages">Clear cache of these pages after run</label>
+			<label index="tx_terfe2_task_forceLastRun">Force last run time</label>
+			<label index="tx_terfe2_task_forceOffset">Force offset</label>
+			<label index="tx_terfe2_task_ignoreEmptyUntil">Proceed with empty result up to an offset of</label>
+			<label index="tx_terfe2_task_providerName">Fetch extensions from this source</label>
+			<label index="tx_terfe2_task_createExtensions">Create extensions if not exist</label>
+			<label index="tx_terfe2_task_extensionFilePath">Relative path to extension files directory</label>
+			<label index="tx_terfe2_task_forceRecalculation">Force recalculation of extension downloads</label>
+			<label index="tx_terfe2_task_validityTime">Entries are valid for this time (seconds)</label>
+			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
+			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
+			<label index="tx_terfe2_task_updatedownloadstask.name">Update download count</label>
+			<label index="tx_terfe2_task_updatedownloadstask.description">Update the number of downloads for the latest versions</label>
+			<label index="tx_terfe2_task_createextensionfilestask.name">Create extension related files</label>
+			<label index="tx_terfe2_task_createextensionfilestask.description">Create extension related files like zip file or images</label>
+			<label index="tx_terfe2_task_searchindextask.name">Update search index</label>
+			<label index="tx_terfe2_task_searchindextask.description">Update search index with new versions</label>
+
+			<label index="tx_terfe2_provider_mirrorprovider.name">Mirror Servers</label>
+			<label index="tx_terfe2_provider_fileprovider.name">Local Filesystem</label>
+			<label index="tx_terfe2_provider_soapprovider.name">SOAP Server</label>
+
 			<label index="tt_content.flexform_pi1.s_def">General</label>
 			<label index="tt_content.flexform_pi1.s_def.type">Type</label>
 			<label index="tt_content.flexform_pi1.s_def.type.list">List</label>
@@ -127,6 +150,9 @@
 			<label index="tt_content.flexform_pi1.s_list">List</label>
 			<label index="tt_content.flexform_pi1.s_detail">Detail</label>
 			<label index="tt_content.flexform_pi1.s_search">Search</label>
+
+			<label index="newContentElement.wizardItem.title">TER Frontend Index</label>
+			<label index="newContentElement.wizardItem.description">Adds the TER Frontend Index to current page.</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -198,7 +198,7 @@
 		 */
 		public function createAction(Tx_TerFe2_Domain_Model_Extension $newExtension) {
 			$this->extensionRepository->add($newExtension);
-			$this->redirectWithMessage('index', 'extension_created');
+			$this->redirectWithMessage($this->translate('msg.extension_created'), 'index');
 		}
 
 
@@ -222,8 +222,8 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->update($extension);
-			$this->flashMessageContainer->add($this->translate('msg.extension_updated'));
-			$this->redirect('show', NULL, NULL, array('extension' => $extension->getUid()));
+			$actionParameters = array('extension' => $extension);
+			$this->redirectWithMessage($this->translate('msg.extension_updated'), 'show', NULL, NULL, $actionParameters);
 		}
 
 
@@ -235,7 +235,7 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->remove($extension);
-			$this->redirectWithMessage('index', 'extension_deleted');
+			$this->redirectWithMessage($this->translate('msg.extension_deleted'), 'index');
 		}
 
 
@@ -276,16 +276,15 @@
 				if (Tx_TerFe2_Utility_File::isAbsolutePath($fileUrl)) {
 					$fileUrl = Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($fileUrl);
 				}
-				$this->flashMessageContainer->add($this->translate('msg.file_not_found') . ': ' . $fileUrl);
-				$this->redirect('index');
-				//$this->redirectWithMessage('index', 'file_not_found');
+				$this->redirectWithMessage($this->translate('msg.file_not_found') . ': ' . $fileUrl, 'index');
+				// $this->redirectWithMessage($this->translate('msg.file_not_found'), 'index');
 			}
 
 				// Check file hash of t3x packages
 			if ($format === 't3x') {
 				$fileHash = Tx_TerFe2_Utility_File::getFileHash($fileUrl);
 				if ($fileHash != $version->getFileHash()) {
-					$this->redirectWithMessage('index', 'file_hash_not_equal');
+					$this->redirectWithMessage($this->translate('msg.file_hash_not_equal'), 'index');
 				}
 			}
 
@@ -306,7 +305,7 @@
 
 				// Send file to browser
 			if (!Tx_TerFe2_Utility_File::transferFile($fileUrl)) {
-				$this->redirectWithMessage('index', 'could_not_transfer_file');
+				$this->redirectWithMessage($this->translate('msg.could_not_transfer_file'), 'index');
 			}
 
 				// Fallback

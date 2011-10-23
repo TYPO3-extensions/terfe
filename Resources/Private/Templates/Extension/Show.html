@@ -124,6 +124,10 @@
 
 				<f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
 
+				<f:if condition="{settings.show.reviewForm}">
+					<f:render partial="ReviewForm" arguments="{extension: extension}"/>
+				</f:if>
+
 			</div>
 		</f:then>
 		<f:else>

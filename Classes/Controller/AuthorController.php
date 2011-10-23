@@ -93,7 +93,7 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Author $author) {
 			$this->authorRepository->update($author);
-			$this->redirectWithMessage('list', 'author_updated');
+			$this->redirectWithMessage($this->translate('msg.author_updated'), 'list');
 		}
 
 	}

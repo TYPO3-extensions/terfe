@@ -67,4 +67,20 @@
 			),
 		);
 	}
+
+		// Add plugin to new content element wizard
+	t3lib_extMgm::addPageTSConfig("
+		mod.wizards.newContentElement.wizardItems.special {\n
+			elements." . $extIdent . " {\n
+				icon        = " . t3lib_extMgm::extRelPath($_EXTKEY) . "Resources/Public/Images/Wizard.gif\n
+				title       = LLL:EXT:" . $_EXTKEY . "/Resources/Private/Language/locallang_db.xml:newContentElement.wizardItem.title\n
+				description = LLL:EXT:" . $_EXTKEY . "/Resources/Private/Language/locallang_db.xml:newContentElement.wizardItem.description\n\n
+				tt_content_defValues {\n
+					CType = list\n
+					list_type = " . $extIdent . "\n
+				}\n
+			}\n\n
+			show := addToList(" . $extIdent . ")\n
+		}
+	");
 ?>

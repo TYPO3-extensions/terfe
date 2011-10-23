@@ -43,6 +43,11 @@
 		 */
 		protected $terSettings = array();
 
+		/**
+		 * @var array
+		 */
+		protected $terAccount = array();
+
 
 		/**
 		 * Initialize action
@@ -53,6 +58,7 @@
 			parent::initializeAction();
 			$this->frontendUser  = (!empty($GLOBALS['TSFE']->fe_user->user) ? $GLOBALS['TSFE']->fe_user->user : array());
 			$this->terSettings   = (!empty($this->settings['terConnection']) ? $this->settings['terConnection'] : array());
+			$this->terAccount    = $this->getTerAccount();
 			$this->terConnection = $this->getTerConnection();
 		}
 
@@ -73,27 +79,40 @@
 
 
 		/**
-		 * Create a connection to the TER server
+		 * Returns the account data from current frontend user
 		 *
-		 * @return Tx_TerFe2_Service_Ter The TER connection
+		 * @return array Frontend user account data
 		 */
-		protected function getTerConnection() {
-				// Get username and password
+		protected function getTerAccount() {
 			$username = $this->frontendUser['username'];
 			$password = $this->frontendUser['password'];
+
 			if (!empty($this->terSettings['username']) && !empty($this->terSettings['password'])) {
 				$username = $settings['username'];
 				$password = $settings['password'];
 			}
 
+			return array(
+				'username' => $username,
+				'password' => $password,
+			);
+		}
+
+
+		/**
+		 * Create a connection to the TER server
+		 *
+		 * @return Tx_TerFe2_Service_Ter The TER connection
+		 */
+		protected function getTerConnection() {
 				// Check the wsdl uri
 			if (empty($this->terSettings['wsdl'])) {
-				throw new Exception($this->translate('registerkey.noWsdl'));
+				throw new Exception('No wsdl set to connect to TER server');
 			}
 
 				// Create connection
 			$wsdl = $this->terSettings['wsdl'];
-			return $this->objectManager->create('Tx_TerFe2_Service_Ter', $wsdl, $username, $password);
+			return $this->objectManager->create('Tx_TerFe2_Service_Ter', $wsdl, $this->terAccount['username'], $this->terAccount['password']);
 		}
 
 	}

@@ -68,28 +68,6 @@
 			<label index="tx_terfe2_domain_model_author.company">Company name</label>
 			<label index="tx_terfe2_domain_model_author.forge_link">Forge profile</label>
 
-			<label index="tx_terfe2_task_elementsPerRun">Element count to process at once</label>
-			<label index="tx_terfe2_task_clearCachePages">Clear cache of these pages after run</label>
-			<label index="tx_terfe2_task_forceLastRun">Force last run time</label>
-			<label index="tx_terfe2_task_forceOffset">Force offset</label>
-			<label index="tx_terfe2_task_ignoreEmptyUntil">Proceed with empty result up to an offset of</label>
-			<label index="tx_terfe2_task_providerName">Fetch extensions from this source</label>
-			<label index="tx_terfe2_task_createExtensions">Create extensions if not exist</label>
-			<label index="tx_terfe2_task_extensionFilePath">Relative path to extension files directory</label>
-			<label index="tx_terfe2_task_forceRecalculation">Force recalculation of extension downloads</label>
-			<label index="tx_terfe2_task_validityTime">Entries are valid for this time (seconds)</label>
-			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
-			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
-			<label index="tx_terfe2_task_updatedownloadstask.name">Update download count</label>
-			<label index="tx_terfe2_task_updatedownloadstask.description">Update the number of downloads for the latest versions</label>
-			<label index="tx_terfe2_task_createextensionfilestask.name">Create extension related files</label>
-			<label index="tx_terfe2_task_createextensionfilestask.description">Create extension related files like zip file or images</label>
-			<label index="tx_terfe2_task_searchindextask.name">Update search index</label>
-			<label index="tx_terfe2_task_searchindextask.description">Update search index with new versions</label>
-			<label index="tx_terfe2_provider_mirrorprovider.name">Mirror Servers</label>
-			<label index="tx_terfe2_provider_fileprovider.name">Local Filesystem</label>
-			<label index="tx_terfe2_provider_soapprovider.name">SOAP Server</label>
-
 			<label index="msg.extension_created">Extension created</label>
 			<label index="msg.extension_updated">Extension updated</label>
 			<label index="msg.extension_deleted">Extension deleted</label>
@@ -112,7 +90,9 @@
 			<label index="msg.could_not_transfer_file">File download is broken</label>
 			<label index="msg.sorting_manipulated">Sorting form was manipulated</label>
 			<label index="msg.extension_not_found">Extension not found</label>
-			<label index="msg.reviewstate_not_enabled">The review state could not be set on TER server</label>
+			<label index="msg.reviewstate_enabled">The review state has been set</label>
+			<label index="msg.reviewstate_not_enabled">The review state could not be set for version "%s". Message: "%s"</label>
+			<label index="msg.reviewstate_not_changed">The review state has not changed</label>
 
 			<label index="header.latest_extensions">Latest Extensions</label>
 			<label index="header.top_rated_extensions">Top rated Extensions</label>
@@ -122,6 +102,7 @@
 			<label index="header.quicklinks">Quicklinks</label>
 			<label index="header.json_output">JSON Output</label>
 			<label index="header.rss_output">RSS Output</label>
+			<label index="header.review_form">Extension review</label>
 
 			<label index="link.latest_extensions">Latest Extensions</label>
 			<label index="link.latest_extensions.rss">Latest Extensions (RSS)</label>
@@ -165,6 +146,7 @@
 			<label index="create_category">Create new Category</label>
 			<label index="single_category">Show single Category</label>
 			<label index="category_extensions">Extensions in this category</label>
+			<label index="update_review">Update</label>
 
 			<label index="new_tag">Create new Tag for extension</label>
 			<label index="edit_tag">Edit Tag</label>
@@ -218,7 +200,9 @@
 			<label index="filesize">Size</label>
 			<label index="last_uploaded">Last uploaded</label>
 			<label index="last_updated">Last updated</label>
-			<label index="version_history">Versions history</label>
+			<label index="version_history">Version history</label>
+			<label index="versions">Versions</label>
+			<label index="review_versions">Unsecure versions</label>
 
 			<label index="registerkey.notloggedin">Please log in to manage your extension or to register a new extension key.</label>
 			<label index="registerkey.key_registered">Extension key registered</label>

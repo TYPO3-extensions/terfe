@@ -14,7 +14,7 @@
 			'Author'      => 'list, edit, update, show',
 			'Media'       => 'list, new, create, edit, update, delete, show',
 			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
-			'Review'      => 'index,edit,update',
+			'Review'      => 'update',
 		),
 		array(
 			'Extension'   => 'index, create, update, delete, download',
@@ -23,7 +23,7 @@
 			'Author'      => 'update',
 			'Media'       => 'create, delete',
 			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
-			'Review'      => 'index,edit,update',
+			'Review'      => 'update',
 		)
 	);
 
@@ -33,7 +33,7 @@
 	}
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['mirrors'] = array(
 		'class' => 'Tx_TerFe2_Provider_MirrorProvider',
-		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_mirrorprovider.name',
+		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_provider_mirrorprovider.name',
 		'configuration' => array(
 			'repositoryId'  => 1,
 			'fileCachePath' => 'typo3temp/tx_terfe2/files/',
@@ -41,14 +41,14 @@
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['file'] = array(
 		'class' => 'Tx_TerFe2_Provider_FileProvider',
-		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_fileprovider.name',
+		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_provider_fileprovider.name',
 		'configuration' => array(
 			'extensionRootPath' => 'fileadmin/ter/',
 		),
 	);
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$_EXTKEY]['extensionProviders']['soap'] = array(
 		'class' => 'Tx_TerFe2_Provider_SoapProvider',
-		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_provider_soapprovider.name',
+		'title' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_provider_soapprovider.name',
 		'configuration' => array(
 			'wsdlUrl'              => '',
 			'username'             => '',
@@ -63,24 +63,24 @@
 		// Register create zip archives task
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_CreateExtensionFilesTask'] = array(
 		'extension'        => $_EXTKEY,
-		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_createextensionfilestask.name',
-		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_createextensionfilestask.description',
+		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_createextensionfilestask.name',
+		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_createextensionfilestask.description',
 		'additionalFields' => 'tx_terfe2_task_createextensionfilestaskadditionalfieldprovider',
 	);
 
 		// Register extension list update task
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_UpdateExtensionListTask'] = array(
 		'extension'        => $_EXTKEY,
-		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.name',
-		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_updateextensionlisttask.description',
+		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_updateextensionlisttask.name',
+		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_updateextensionlisttask.description',
 		'additionalFields' => 'tx_terfe2_task_updateextensionlisttaskadditionalfieldprovider',
 	);
 
 		// Register update downloads task
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_UpdateDownloadsTask'] = array(
 		'extension'        => $_EXTKEY,
-		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_updatedownloadstask.name',
-		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xml:tx_terfe2_task_updatedownloadstask.description',
+		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_updatedownloadstask.name',
+		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_updatedownloadstask.description',
 		'additionalFields' => 'tx_terfe2_task_updatedownloadstaskadditionalfieldprovider',
 	);
 ?>

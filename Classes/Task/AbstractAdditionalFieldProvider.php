@@ -46,7 +46,7 @@
 		/**
 		 * @var string
 		 */
-		protected $languageFile = 'EXT:ter_fe2/Resources/Private/Language/locallang.xml';
+		protected $languageFile = 'EXT:ter_fe2/Resources/Private/Language/locallang_db.xml';
 
 		/**
 		 * @var string
