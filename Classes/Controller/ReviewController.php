@@ -48,10 +48,11 @@
 		 * Set unsecure flag of all given versions
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to update
-		 * @param array $unsecureVersions Version UIDs
+		 * @param mixed $unsecureVersions Version UIDs or empty string of no version was selected
 		 * @return void
 		 */
-		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, array $unsecureVersions) {
+		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $unsecureVersions) {
+			$unsecureVersions = (is_array($unsecureVersions) ? $unsecureVersions : array());
 			$extensionKey = $extension->getExtKey();
 			$versions = $extension->getVersions();
 			$persist = FALSE;
