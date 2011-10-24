@@ -101,7 +101,7 @@ plugin.tx_terfe2 {
 			tagOverview = 0
 
 			# cat=TER Frontend/settings/5070; type=boolean; label=Show review form: Show review form in detail view
-			reviewForm = 1
+			reviewForm = 0
 		}
 	}
 

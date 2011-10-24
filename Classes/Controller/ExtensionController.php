@@ -90,13 +90,14 @@
 		 * Index action, displays extension list
 		 *
 		 * @param array $search Search params for extension list
+		 * @param array $restoreSearch Restore last search from session
 		 * @return void
 		 * @dontvalidate $search
 		 */
-		public function indexAction(array $search = array()) {
+		public function indexAction(array $search = array(), $restoreSearch = FALSE) {
 				// Get extension list
 			if (!empty($this->settings['show']['extensionSearch'])) {
-				$this->view->assign('extensions', $this->getExtensions($search));
+				$this->view->assign('extensions', $this->getExtensions($search, $restoreSearch));
 				$this->view->assign('search',     $search);
 			} else {
 				$this->view->assign('extensions', $this->extensionRepository->findAll());
@@ -317,9 +318,19 @@
 		 * Returns all / filtered extensions
 		 *
 		 * @param array $options Options for extension list
+		 * @param array $restoreSearch Restore last search from session
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
-		protected function getExtensions(array &$options) {
+		protected function getExtensions(array &$options, $restoreSearch = FALSE) {
+				// Get last search
+			$session = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
+			$lastSearch = $session->get('lastSearch');
+
+				// Revert last search if set
+			if (!empty($restoreSearch) && !empty($lastSearch)) {
+				$options = $lastSearch;
+			}
+
 				// Direction
 			$desc = Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING;
 			$asc  = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
@@ -327,10 +338,6 @@
 			if (!empty($options['direction'])) {
 				$direction = ($options['direction'] === 'asc' ? $asc : $desc);
 			}
-
-				// Get last needle
-			$session = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
-			$lastNeedle = $session->get('lastNeedle');
 
 				// Sorting
 			$sortings = array(
@@ -352,15 +359,23 @@
 					}
 				}
 					// Sort by downloads when searching
-				if (!empty($options['needle']) && (empty($lastNeedle) || $lastNeedle !== $options['needle'])) {
+				if (!empty($options['needle']) && (empty($lastSearch['needle']) || $lastSearch['needle'] !== $options['needle'])) {
 					$sorting = $sortings['downloads'];
 					$options['sorting'] = 'downloads';
 					$direction = $desc;
 				}
 			}
 
-				// Set new needle
-			$session->set('lastNeedle', $options['needle']);
+				// Set new search params
+			$searchParams = array();
+			if (!empty($options['needle'])) {
+				$searchParams = array(
+					'needle'    => $options['needle'],
+					'sorting'   => $sorting,
+					'direction' => $direction,
+				);
+			}
+			$session->set('lastSearch', $searchParams);
 
 				// Ordering
 			$ordering = array($sorting => $direction);

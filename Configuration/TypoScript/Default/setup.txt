@@ -45,7 +45,7 @@ plugin.tx_terfe2 {
 			categoryOverview    = {$plugin.tx_terfe2.settings.show.categoryOverview}
 			tagExtensions       = {$plugin.tx_terfe2.settings.show.tagExtensions}
 			tagOverview         = {$plugin.tx_terfe2.settings.show.tagOverview}
-			reviewForm          = {$plugin.tx_terfe2.settings.show.reviewForm}
+			# reviewForm        = (see condition at file end)
 		}
 	}
 
@@ -93,3 +93,11 @@ plugin.tx_terfe2 {
 ## Default files
 page.includeCSS.tx_terfe2 = EXT:ter_fe2/Resources/Public/Stylesheet/Default.css
 page.includeJSFooterlibs.tx_terfe2 = EXT:ter_fe2/Resources/Public/Javascript/Default.js
+
+
+# ======================================================================
+# Show review form only for allowed usergroup
+# ======================================================================
+[usergroup = {$plugin.tx_ter_pi1.reviewersFrontendUsergroupUid}] || [globalVar = LIT:1 = {$plugin.tx_terfe2.settings.show.reviewForm}]
+	plugin.tx_terfe2.settings.show.reviewForm = 1
+[global]
