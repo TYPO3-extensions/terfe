@@ -24,14 +24,14 @@
 	 ******************************************************************/
 
 	/**
-	 * Update download counts
+	 * Update version details
 	 */
-	class Tx_TerFe2_Task_UpdateDownloadsTask extends Tx_TerFe2_Task_AbstractTask {
+	class Tx_TerFe2_Task_UpdateDetailsTask extends Tx_TerFe2_Task_AbstractTask {
 
 		/**
 		 * @var boolean
 		 */
-		public $forceRecalculation = FALSE;
+		public $recalculateDownloads = FALSE;
 
 		/**
 		 * @var Tx_TerFe2_Domain_Repository_VersionRepository
@@ -55,9 +55,10 @@
 		 * @return void
 		 */
 		public function initializeTask() {
-			$this->versionRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 			$this->providerManager    = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
+			$this->objectBuilder      = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
 			$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+			$this->versionRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 		}
 
 
@@ -77,16 +78,24 @@
 
 			foreach ($versions as $version) {
 				$provider = $version->getExtensionProvider();
+				$persist = FALSE;
+
+				$attributes = array();
 				if (!empty($provider)) {
-					$downloads = $this->providerManager->getProvider($provider)->getDownloadCount($version);
+					$attributes = $this->providerManager->getProvider($provider)->getVersionDetails($version);
 				}
 
-				if (!empty($downloads)) {
-					$version->setDownloadCounter($downloads);
+				if (!empty($attributes)) {
+					$version = $this->objectBuilder->update($version, $attributes);
+					$persist = TRUE;
 				}
 
-				if (!empty($this->forceRecalculation) || !empty($downloads)) {
+				if (!empty($this->recalculateDownloads)) {
 					$version->getExtension()->recalculateDownloads();
+					$persist = TRUE;
+				}
+
+				if ($persist) {
 					$this->persistenceManager->persistAll();
 				}
 			}

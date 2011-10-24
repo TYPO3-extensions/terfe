@@ -99,12 +99,12 @@
 		public function getFileName(Tx_TerFe2_Domain_Model_Version $version, $fileType);
 
 		/**
-		 * Returns the download count for given version
+		 * Returns all information about an extension version
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
-		 * @return integer Download count
+		 * @return array Version details
 		 */
-		public function getDownloadCount(Tx_TerFe2_Domain_Model_Version $version);
+		public function getVersionDetails(Tx_TerFe2_Domain_Model_Version $version);
 
 	}
 ?>

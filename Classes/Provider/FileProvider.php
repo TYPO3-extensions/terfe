@@ -134,21 +134,21 @@
 
 
 		/**
-		 * Returns the download count for given version
+		 * Returns all information about an extension version
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
-		 * @return integer Download count
+		 * @return array Version details
 		 */
-		public function getDownloadCount(Tx_TerFe2_Domain_Model_Version $version) {
+		public function getVersionDetails(Tx_TerFe2_Domain_Model_Version $version) {
 			$extensionKey = $version->getExtension()->getExtKey();
 			$versionString = $version->getVersionString();
 
 			$entry = $this->extensionManagerRepository->findOneByExtKeyAndVersionString($extensionKey, $versionString);
-			if (!empty($entry['downloadcounter'])) {
-				return (int) $entry['downloadcounter'];
+			if (!empty($entry) && is_array($entry)) {
+				return $entry;
 			}
 
-			return 0;
+			return array();
 		}
 
 

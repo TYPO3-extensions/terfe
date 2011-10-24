@@ -162,24 +162,24 @@
 
 
 		/**
-		 * Returns the download count for given version
+		 * Returns all information about an extension version
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
-		 * @return integer Download count
+		 * @return array Version details
 		 */
-		public function getDownloadCount(Tx_TerFe2_Domain_Model_Version $version) {
-			if (empty($this->getDownloadCountFunc)) {
-				throw new Exception('No configuration for "getDownloadCountFunc" found');
+		public function getVersionDetails(Tx_TerFe2_Domain_Model_Version $version) {
+			if (empty($this->getVersionDetailsFunc)) {
+				throw new Exception('No configuration for "getVersionDetailsFunc" found');
 			}
 			$parameters = array(
 				'extension' => (string) $version->getExtension()->getExtKey(),
 				'version'   => (string) $version->getVersionString(),
 			);
-			$result = $this->soapService->call($this->getDownloadCountFunc, $parameters);
-			if (!isset($result['downloads'])) {
-				throw new Exception('Could not get download count from soap server');
+			$result = $this->soapService->call($this->getVersionDetailsFunc, $parameters);
+			if (empty($result) || !is_array($result)) {
+				throw new Exception('Could not get version details from soap server');
 			}
-			return (int) $result['downloads'];
+			return $result;
 		}
 
 	}

@@ -26,7 +26,7 @@
 	/**
 	 * Additional field provider for the update downloads task
 	 */
-	class Tx_TerFe2_Task_UpdateDownloadsTaskAdditionalFieldProvider extends Tx_TerFe2_Task_AbstractAdditionalFieldProvider {
+	class Tx_TerFe2_Task_UpdateDetailsTaskAdditionalFieldProvider extends Tx_TerFe2_Task_AbstractAdditionalFieldProvider {
 
 		/**
 		 * Add some input fields to configure the task
@@ -34,7 +34,7 @@
 		 * @return void
 		 */
 		protected function addAdditionalFields() {
-			$this->addCheckboxField('forceRecalculation', FALSE);
+			$this->addCheckboxField('recalculateDownloads', FALSE);
 		}
 
 
