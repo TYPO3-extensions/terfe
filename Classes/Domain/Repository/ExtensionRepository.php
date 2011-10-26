@@ -160,12 +160,13 @@
 			unset($query);
 
 				// Workaround to enable paginate
-			$uids = array();
+			$uids = array(0);
 			foreach ($rows as $row) {
 				$uids[] = (int) $row['extension'];
 			}
 			$query = $this->createQuery();
 			$query->setOrderings($ordering);
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->matching($query->in('uid', $uids));
 
 			return $query->execute();
