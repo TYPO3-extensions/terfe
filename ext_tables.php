@@ -62,11 +62,21 @@
 				'enablecolumns'            => array(
 					'disabled'                 => 'hidden'
 				),
-				'dynamicConfigFile'        => t3lib_extMgm::extPath($_EXTKEY)    . 'Configuration/TCA/' . ucfirst($modelName) . '.php',
-				'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/' . $modelName . '.gif'
+				'dynamicConfigFile'        => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/' . ucfirst($modelName) . '.php',
+				'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/' . $modelName . '.gif',
 			),
 		);
 	}
+
+		// Add table configuration for the search index table
+	$GLOBALS['TCA']['tx_terfe2_domain_model_search'] = array (
+		'ctrl' => array (
+			'hideTable'         => TRUE,
+			'tstamp'            => 'tstamp',
+			'crdate'            => 'crdate',
+			'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Search.php',
+		),
+	);
 
 		// Add plugin to new content element wizard
 	t3lib_extMgm::addPageTSConfig("

@@ -216,23 +216,11 @@
 		protected $softwareRelations;
 
 		/**
-		 * Software relations (for search index)
-		 * @var string
-		 */
-		protected $softwareRelationList;
-
-		/**
 		 * Parent extension object
 		 * @var Tx_TerFe2_Domain_Model_Extension
 		 * @lazy
 		 */
 		protected $extension;
-
-		/**
-		 * Key of the extension
-		 * @var string
-		 */
-		protected $extensionKey;
 
 		/**
 		 * Extension provider
@@ -1024,42 +1012,6 @@
 
 
 		/**
-		 * Build softwareRelationList
-		 *
-		 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation> $softwareRelations Relations
-		 * @return void
-		 */
-		public function buildSoftwareRelationList(Tx_Extbase_Persistence_ObjectStorage $softwareRelations) {
-			$relations = array();
-			foreach ($softwareRelations as $relation) {
-				$relations[] = $relation->getRelationKey();
-			}
-			$this->setSoftwareRelationList(implode(',', $relations));
-		}
-
-
-		/**
-		 * Setter for softwareRelationList
-		 *
-		 * @param string $softwareRelationList Software relations
-		 * @return void
-		 */
-		public function setSoftwareRelationList($softwareRelationList) {
-			$this->softwareRelationList = $softwareRelationList;
-		}
-
-
-		/**
-		 * Getter for softwareRelationList
-		 *
-		 * @return string Software relations
-		 */
-		public function getSoftwareRelationList() {
-			return $this->softwareRelationList;
-		}
-
-
-		/**
 		 * Setter for extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension extension
@@ -1067,7 +1019,6 @@
 		 */
 		public function setExtension(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extension = $extension;
-			$this->setExtensionKey($extension->getExtKey());
 		}
 
 
@@ -1078,27 +1029,6 @@
 		 */
 		public function getExtension() {
 			return $this->extension;
-		}
-
-
-		/**
-		 * Setter for extensionKey
-		 *
-		 * @param string $extensionKey Key of the extension
-		 * @return void
-		 */
-		public function setExtensionKey($extensionKey) {
-			$this->extensionKey = $extensionKey;
-		}
-
-
-		/**
-		 * Getter for extensionKey
-		 *
-		 * @return string Key of the extension
-		 */
-		public function getExtensionKey() {
-			return $this->extensionKey;
 		}
 
 

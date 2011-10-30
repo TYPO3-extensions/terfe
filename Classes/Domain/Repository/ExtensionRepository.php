@@ -29,6 +29,21 @@
 	class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
 
 		/**
+		 * @var Tx_TerFe2_Domain_Repository_SearchRepository
+		 */
+		protected $searchRepository;
+
+
+		/**
+		 * @param Tx_TerFe2_Domain_Repository_SearchRepository $searchRepository
+		 * @return void
+		 */
+		public function injectSearchRepository(Tx_TerFe2_Domain_Repository_SearchRepository $searchRepository) {
+			$this->searchRepository = $searchRepository;
+		}
+
+
+		/**
 		 * Returns all extensions
 		 *
 		 * @param string $offset Offset to start with
@@ -104,24 +119,12 @@
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findByAuthor(Tx_TerFe2_Domain_Model_Author $author) {
-			$statement = '
-				SELECT extension FROM tx_terfe2_domain_model_version
-				WHERE tx_terfe2_domain_model_version.author = ' . (int) $author->getUid() . '
-			';
-
-				// Workaround while extbase doesn't support JOIN
-			$query = $this->createQuery();
-			$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
-			$query->statement($statement, array());
-			$rows = $query->execute();
-			unset($query);
+			$uids = $this->searchRepository->findUidsByAuthor($author);
 
 				// Workaround to enable paginate
-			$uids = array();
-			foreach ($rows as $row) {
-				$uids[] = (int) $row['extension'];
-			}
 			$query = $this->createQuery();
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->setOrderings(
 				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
 			);
@@ -144,29 +147,13 @@
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findBySearchWordsAndFilters($searchWords = NULL, array $filters = NULL, array $ordering = NULL) {
-			$statement = '
-				SELECT DISTINCT extension, MATCH (extension_key,title,description,upload_comment,software_relation_list) AGAINST (?) AS score
-				FROM tx_terfe2_domain_model_version
-				WHERE MATCH (extension_key,title,description,upload_comment,software_relation_list) AGAINST (?)
-				GROUP BY extension
-				ORDER BY score DESC
-			';
-
-				// Workaround while extbase doesn't support MATCH
-			$query = $this->createQuery();
-			$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
-			$query->statement($statement, array($searchWords, $searchWords));
-			$rows = $query->execute();
-			unset($query);
+			$uids = $this->searchRepository->findUidsBySearchWordsAndFilters($searchWords, $filters);
 
 				// Workaround to enable paginate
-			$uids = array(0);
-			foreach ($rows as $row) {
-				$uids[] = (int) $row['extension'];
-			}
 			$query = $this->createQuery();
-			$query->setOrderings($ordering);
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$query->setOrderings($ordering);
 			$query->matching($query->in('uid', $uids));
 
 			return $query->execute();

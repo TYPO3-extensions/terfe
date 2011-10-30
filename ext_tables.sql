@@ -118,7 +118,6 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	extension int(11) unsigned DEFAULT '0' NOT NULL,
-	extension_key tinytext,
 	title tinytext,
 	description text,
 	file_hash varchar(50) DEFAULT '' NOT NULL,
@@ -149,7 +148,6 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	media int(11) unsigned DEFAULT '0' NOT NULL,
 	experiences int(11) unsigned DEFAULT '0' NOT NULL,
 	software_relations int(11) unsigned DEFAULT '0' NOT NULL,
-	software_relation_list text,
 	extension_provider tinytext,
 	has_zip_file tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	has_images tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -176,8 +174,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	l18n_diffsource mediumblob NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid),
-	FULLTEXT (extension_key,title,description,upload_comment,software_relation_list)
+	KEY parent (pid)
 );
 
 
@@ -327,6 +324,36 @@ CREATE TABLE tx_terfe2_domain_model_author (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)
+);
+
+
+# ======================================================================
+# Table configuration for table "tx_terfe2_domain_model_search"
+# ======================================================================
+CREATE TABLE tx_terfe2_domain_model_search (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	extension_key tinytext,
+	title tinytext,
+	description text,
+	author_list text,
+	upload_comment text,
+	version_string tinytext,
+	state tinytext,
+	em_category tinytext,
+	software_relation_list text,
+	category_list text,
+	tag_list text,
+	version_uid int(11) unsigned DEFAULT '0' NOT NULL,
+	extension_uid int(11) unsigned DEFAULT '0' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	FULLTEXT (extension_key,title,description,author_list,upload_comment,version_string,state,em_category,software_relation_list,category_list,tag_list)
 );
 
 

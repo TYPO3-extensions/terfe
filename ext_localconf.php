@@ -83,4 +83,12 @@
 		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_updatedetailstask.description',
 		'additionalFields' => 'tx_terfe2_task_updatedetailstaskadditionalfieldprovider',
 	);
+
+		// Register search index task
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_SearchIndexTask'] = array(
+		'extension'        => $_EXTKEY,
+		'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_searchindextask.name',
+		'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_searchindextask.description',
+		'additionalFields' => 'tx_terfe2_task_searchindextaskadditionalfieldprovider',
+	);
 ?>
