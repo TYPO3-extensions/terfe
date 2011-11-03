@@ -134,7 +134,7 @@
 				$extension->setLastMaintained(new DateTime());
 				$modified = TRUE;
 			} else {
-					// TODO: Log or throw an error for this event
+				Tx_TerFe2_Utility_Log::addMessage('Extension "' . $extensionRow['ext_key'] . '" not found and not created', 'ter_fe2', 2);
 				return;
 			}
 

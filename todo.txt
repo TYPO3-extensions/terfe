@@ -1,5 +1,4 @@
 - Caching
-- TER-Suche
 - RSS-Feed einbinden
 - Donation
 - Tags

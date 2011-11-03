@@ -33,7 +33,6 @@
 		 *
 		 * TODO:
 		 * - Implement filters
-		 * - Use real relevance ordering from uid order
 		 *
 		 * @param string $needle Search string
 		 * @param array $filters Filter extension list

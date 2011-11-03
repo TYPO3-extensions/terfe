@@ -72,7 +72,6 @@
 		/**
 		 * Register a new extension
 		 *
-		 * @todo translate label in flashmessage container
 		 * @param string $userName Username of the registered user
 		 * @param string $extensionKey Extension key
 		 * @param mixed $categories Categories
@@ -171,7 +170,6 @@
 		/**
 		 * Update an existing extension
 		 *
-		 * @todo translate label in flashmessage container
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to modify
 		 * @param mixed $categories Categories to add / remove
 		 * @return void

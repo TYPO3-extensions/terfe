@@ -138,7 +138,6 @@
 		 * Search extensions by search words and filters
 		 *
 		 * TODO:
-		 * - Implement filters
 		 * - Use real relevance ordering from uid order
 		 *
 		 * @param string $needle Search string

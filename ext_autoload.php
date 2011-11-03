@@ -62,6 +62,7 @@
 		'tx_terfe2_utility_array'                                          => $extensionClassesPath . 'Utility/Array.php',
 		'tx_terfe2_utility_datetime'                                       => $extensionClassesPath . 'Utility/Datetime.php',
 		'tx_terfe2_utility_file'                                           => $extensionClassesPath . 'Utility/File.php',
+		'tx_terfe2_utility_log'                                            => $extensionClassesPath . 'Utility/Log.php',
 		'tx_terfe2_utility_typoscript'                                     => $extensionClassesPath . 'Utility/TypoScript.php',
 		'tx_terfe2_utility_version'                                        => $extensionClassesPath . 'Utility/Version.php',
 		'tx_terfe2_view_extension_listjson'                                => $extensionClassesPath . 'View/Extension/ListJson.php',

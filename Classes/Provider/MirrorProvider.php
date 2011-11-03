@@ -126,7 +126,7 @@
 
 				// Check file hash
 			if ($fileHash !== md5($content)) {
-					// TODO: Log the file hash missmatch
+				Tx_TerFe2_Utility_Log::addMessage('File hash missmatch of file "' . $filename . '"', 'ter_fe2', 2);
 				return array();
 			}
 

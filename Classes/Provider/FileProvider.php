@@ -110,7 +110,8 @@
 				if ($fileType === 't3x' || $fileType === 'zip') {
 					throw new Exception('File "' . $filename . '" not found');
 				}
-					// TODO: Log the missing file
+
+				Tx_TerFe2_Utility_Log::addMessage('File "' . $filename . '" not found', 'ter_fe2', 2);
 				return '';
 			}
 
@@ -188,13 +189,13 @@
 			$content  = t3lib_div::getURL($filename);
 			$filesize = strlen($content);
 			if (empty($content)) {
-					// TODO: Log the missing file
+				Tx_TerFe2_Utility_Log::addMessage('File "' . $filename . '" could not be fetched', 'ter_fe2', 2);
 				return array();
 			}
 
 				// Check file hash
 			if ($fileHash !== md5($content)) {
-					// TODO: Log the file hash missmatch
+				Tx_TerFe2_Utility_Log::addMessage('File hash missmatch of file "' . $filename . '"', 'ter_fe2', 2);
 				return array();
 			}
 
