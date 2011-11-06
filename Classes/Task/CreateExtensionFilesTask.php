@@ -91,16 +91,22 @@
 			$currentDir = getcwd();
 			chdir(PATH_site);
 
+				// Create ZIP file only for last version
+			$lastVersionOnly = !empty($this->setup['settings.']['onlyLatestVersionZip']);
+
 			foreach ($versions as $version) {
 					// Get media path for the extension
 				$extKey = $version->getExtension()->getExtKey();
+				$lastVersion = $version->getExtension()->getLastVersion();
 				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->mediaRootPath . $extKey);
 
 					// Create zip file
-				$zipFile = $this->createZipFile($version, $extensionMediaPath);
-				if (!empty($zipFile)) {
-					$version->setZipFileSize(filesize($zipFile));
-					$version->setHasZipFile(TRUE);
+				if (!$lastVersionOnly || ($lastVersion === $version)) {
+					$zipFile = $this->createZipFile($version, $extensionMediaPath);
+					if (!empty($zipFile)) {
+						$version->setZipFileSize(filesize($zipFile));
+						$version->setHasZipFile(TRUE);
+					}
 				}
 
 					// Create images
@@ -120,7 +126,7 @@
 
 		/**
 		 * Create a zip file for given version
-		 * 
+		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $version Path to t3x file
 		 * @param string $extensionMediaPath Path to media files
 		 * @return string Name of the zip file
@@ -157,7 +163,7 @@
 
 		/**
 		 * Create images for given version
-		 * 
+		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $version Path to t3x file
 		 * @param string $extensionMediaPath Path to media files
 		 * @return boolean TRUE if success

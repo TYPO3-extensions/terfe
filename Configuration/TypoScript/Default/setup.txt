@@ -16,6 +16,7 @@ plugin.tx_terfe2 {
 		defaultPointCount     = {$plugin.tx_terfe2.settings.defaultPointCount}
 		versionHistoryCount   = {$plugin.tx_terfe2.settings.versionHistoryCount}
 		skipLatestVersion     = {$plugin.tx_terfe2.settings.skipLatestVersion}
+		onlyLatestVersionZip  = {$plugin.tx_terfe2.settings.onlyLatestVersionZip}
 
 		terConnection {
 			wsdl                = {$plugin.tx_terfe2.settings.terConnection.wsdl}

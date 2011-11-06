@@ -39,6 +39,9 @@ plugin.tx_terfe2 {
 		# cat=TER Frontend/settings/1110; type=boolean; label=Skip latest version: Skip latest version in version history
 		skipLatestVersion = 1
 
+		# cat=TER Frontend/settings/1120; type=boolean; label=Only latest version zip: Create ZIP file only for latest version
+		onlyLatestVersionZip = 1
+
 		terConnection {
 			# cat=TER Frontend/settings/2000; type=string; label=TER WSDL URI: WSDL URI to connect TER server
 			wsdl = http://typo3.org/wsdl/tx_ter_wsdl.php
