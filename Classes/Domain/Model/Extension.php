@@ -301,29 +301,14 @@
 
 
 		/**
-		 * Get versions sorted by upload date
+		 * Get versions reverse sorted by version number
 		 *
 		 * @return array Versions
 		 */
-		public function getVersionsByDate() {
+		public function getReverseVersionsByVersionNumber() {
 			$versions = array();
 			foreach ($this->versions as $version) {
-				$versions[$version->getUploadDate()] = $version;
-			}
-			ksort($versions);
-			return $versions;
-		}
-
-
-		/**
-		 * Get versions reverse sorted by upload date
-		 *
-		 * @return array Versions
-		 */
-		public function getReverseVersionsByDate() {
-			$versions = array();
-			foreach ($this->versions as $version) {
-				$versions[$version->getUploadDate()] = $version;
+				$versions[$version->getVersionNumber()] = $version;
 			}
 			krsort($versions);
 			return $versions;

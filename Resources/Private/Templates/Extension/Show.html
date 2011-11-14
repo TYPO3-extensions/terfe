@@ -107,7 +107,7 @@
 						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory}" />
 					</div>
 					<div class="ter-ext-single-versionhistory ter-toggle-show">
-						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByDate}" />
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber}" />
 					</div>
 
 					<f:if condition="{extension.versionCount} > 4">
