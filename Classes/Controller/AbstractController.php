@@ -112,5 +112,18 @@
 			}
 		}
 
+
+		/**
+		 * Adds the base uri if not already in place.
+		 *
+		 * WORKAROUND for #33788
+		 *
+		 * @param string $uri The URI
+		 * @return void
+		 */
+		protected function addBaseUriIfNecessary($uri) {
+			return t3lib_div::locationHeaderUrl($uri);
+		}
+
 	}
 ?>

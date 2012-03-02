@@ -38,6 +38,16 @@
 		 */
 		protected $wsdlUrl;
 
+		/**
+		 * @var Tx_Extbase_Object_ObjectManager
+		 */
+		protected $objectManager;
+
+		/**
+		 * @var Tx_TerFe2_Service_Soap
+		 */
+		protected $soapService;
+
 
 		/**
 		 * Load TER connection
@@ -50,13 +60,9 @@
 				'username' => $username,
 				'password' => $password,
 			);
-		}
-
-		/**
-		 * @return SoapClient
-		 */
-		protected function getSoapService() {
-			return Tx_TerFe2_Service_Soap::connect($this->wsdlUrl, '', '', TRUE);
+			$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+			$this->soapService = $objectManager->get('Tx_TerFe2_Service_Soap');
+			$this->soapService->connect($this->wsdlUrl, '', '', TRUE);
 		}
 
 
@@ -67,7 +73,7 @@
 		 * @return boolean TRUE if extension key is valid
 		 */
 		public function checkExtensionKey($extensionKey, &$error) {
-			$result = $this->getSoapService()->checkExtensionKey($this->userData, $extensionKey);
+			$result = $this->soapService->checkExtensionKey($this->userData, $extensionKey);
 
 				// if the result is empty
 			if (empty($result['resultCode'])) {
@@ -98,7 +104,7 @@
 		 * @return boolean TRUE if success
 		 */
 		public function registerExtension(array $extensionData) {
-			$result = $this->getSoapService()->registerExtensionKey($this->userData, $extensionData);
+			$result = $this->soapService->registerExtensionKey($this->userData, $extensionData);
 
 			// if the result is empty
 			if (empty($result['resultCode'])) {
@@ -131,7 +137,7 @@
 		 * @return boolean TRUE if success
 		 */
 		public function assignExtensionKey($extensionKey, $username, &$error = '') {
-			$result = $this->getSoapService()->modifyExtensionKey($this->userData, array(
+			$result = $this->soapService->modifyExtensionKey($this->userData, array(
 				'extensionKey'  => $extensionKey,
 				'ownerUsername' => $username,
 			));
@@ -156,7 +162,7 @@
 		 * @return boolean TRUE if success
 		 */
 		public function deleteExtensionKey($extensionKey) {
-			$result = $this->getSoapService()->deleteExtensionKey($this->userData, $extensionKey);
+			$result = $this->soapService->deleteExtensionKey($this->userData, $extensionKey);
 				// 10000 = TX_TER_RESULT_GENERAL_OK
 			return (!empty($result['resultCode']) && $result['resultCode'] === '10000');
 		}
@@ -179,7 +185,7 @@
 			);
 
 			try {
-				$this->getSoapService()->setReviewState($this->userData, $parameters);
+				$this->soapService->setReviewState($this->userData, $parameters);
 			} catch (SoapFault $exception) {
 				$error = $exception->faultstring;
 				return FALSE;

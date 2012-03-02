@@ -112,7 +112,7 @@
 
 				// Create connection
 			$wsdl = $this->terSettings['wsdl'];
-			return $this->objectManager->create('Tx_TerFe2_Service_Ter', $wsdl, $this->terAccount['username'], $this->terAccount['password']);
+			return $this->objectManager->get('Tx_TerFe2_Service_Ter', $wsdl, $this->terAccount['username'], $this->terAccount['password']);
 		}
 
 	}

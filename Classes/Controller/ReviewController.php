@@ -77,7 +77,6 @@
 				} else {
 					$message = $this->translate('msg.reviewstate_not_enabled', array($versionString, $error));
 					$this->redirectWithMessage($message, 'show', 'Extension', NULL, $actionParameters);
-					return;
 				}
 			}
 

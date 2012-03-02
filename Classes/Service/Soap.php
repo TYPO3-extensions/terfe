@@ -122,7 +122,7 @@
 		 * @param array $params Parameters
 		 * @return array Result of the SOAP call
 		 */
-		public function call($methodName, array $params = array()) {
+		public function __call($methodName, array $params = array()) {
 				// Check for existing connection
 			if (empty($this->soapConnection)) {
 				throw new Exception('Create SOAP connection first');

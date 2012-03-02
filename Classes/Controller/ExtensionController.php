@@ -83,6 +83,15 @@
 			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
 			$this->session             = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
 			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+
+				// Show insecure extensions only for reviewers
+			if (!empty($this->settings['reviewerGroupUid']) && $GLOBALS['TSFE']->loginUser) {
+				$reviewerGroupUid = (int) $this->settings['reviewerGroupUid'];
+				$currentGroupUids = $GLOBALS['TSFE']->fe_user->user['usergroup'];
+				if (t3lib_div::inList($currentGroupUids, $reviewerGroupUid)) {
+					$this->extensionRepository->setShowInsecure(TRUE);
+				}
+			}
 		}
 
 

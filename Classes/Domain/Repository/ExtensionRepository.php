@@ -33,6 +33,11 @@
 		 */
 		protected $searchRepository;
 
+		/**
+		 * @var boolean
+		 */
+		protected $showInsecure = FALSE;
+
 
 		/**
 		 * @param Tx_TerFe2_Domain_Repository_SearchRepository $searchRepository
@@ -40,6 +45,47 @@
 		 */
 		public function injectSearchRepository(Tx_TerFe2_Domain_Repository_SearchRepository $searchRepository) {
 			$this->searchRepository = $searchRepository;
+		}
+
+
+		/**
+		 * Allow the listing of insecure extensions or not
+		 *
+		 * @param boolean $showInsecure
+		 * @return void
+		 */
+		public function setShowInsecure($showInsecure) {
+			$this->showInsecure = (bool) $showInsecure;
+		}
+
+
+		/**
+		 * Returns the showInsecure state
+		 *
+		 * @return boolean
+		 */
+		public function getShowInsecure() {
+			return (bool) $this->showInsecure;
+		}
+
+
+		/**
+		 * Build basis constraint
+		 *
+		 * @param Tx_Extbase_Persistence_QueryInterface $query
+		 * @param Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint
+		 * @return Tx_Extbase_Persistence_QueryInterface
+		 */
+		protected function match(Tx_Extbase_Persistence_QueryInterface $query, Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint) {
+			if ($this->showInsecure) {
+				$query->matching($constraint);
+				return;
+			}
+
+			$query->matching($query->logicalAnd(
+				$query->greaterThanOrEqual('lastVersion.reviewState', 0),
+				$constraint
+			));
 		}
 
 
@@ -57,7 +103,7 @@
 			}
 			$query = $this->createQuery($offset, $count, $ordering);
 				// Filter empty title
-			$query->matching($query->logicalNot($query->equals('lastVersion.title', '')));
+			$this->match($query, $query->logicalNot($query->equals('lastVersion.title', '')));
 			return $query->execute();
 		}
 
@@ -94,7 +140,7 @@
 		 */
 		public function findByCategory(Tx_TerFe2_Domain_Model_Category $category) {
 			$query = $this->createQuery();
-			$query->matching($query->contains('categories', $category));
+			$this->match($query, $query->contains('categories', $category));
 			return $query->execute();
 		}
 
@@ -107,7 +153,7 @@
 		 */
 		public function findByTag(Tx_TerFe2_Domain_Model_Tag $tag) {
 			$query = $this->createQuery();
-			$query->matching($query->contains('tags', $tag));
+			$this->match($query, $query->contains('tags', $tag));
 			return $query->execute();
 		}
 
@@ -128,7 +174,7 @@
 			$query->setOrderings(
 				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
 			);
-			$query->matching($query->in('uid', $uids));
+			$this->match($query, $query->in('uid', $uids));
 
 			return $query->execute();
 		}
@@ -153,7 +199,7 @@
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->setOrderings($ordering);
-			$query->matching($query->in('uid', $uids));
+			$this->match($query, $query->in('uid', $uids));
 
 			return $query->execute();
 		}
@@ -168,12 +214,10 @@
 		 */
 		public function countByExtKeyAndVersionNumber($extKey, $versionNumber) {
 			$query = $this->createQuery();
-			$query->matching(
-				$query->logicalAnd(
-					$query->equals('extKey', $extKey),
-					$query->greaterThanOrEqual('lastVersion.versionNumber', (int) $versionNumber)
-				)
-			);
+			$this->match($query, $query->logicalAnd(
+				$query->equals('extKey', $extKey),
+				$query->greaterThanOrEqual('lastVersion.versionNumber', (int) $versionNumber)
+			));
 			return $query->execute()->count();
 		}
 
