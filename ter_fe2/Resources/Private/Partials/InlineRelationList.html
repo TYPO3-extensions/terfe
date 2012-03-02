@@ -1,0 +1,15 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
+<f:if condition="{relations}">
+	<f:for each="{relations}" as="relation" iteration="relationIteration">
+		<f:if condition="{relation.isExtension}">
+				<f:link.action controller="Extension" action="show" arguments="{extensionKey : relation.relationKey}">{relation.relationKey}</f:link.action><f:if condition="{relation.versionString}"> ({relation.versionString})</f:if><f:if condition="{relationIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
+		</f:if>
+		<f:if condition="{relation.isSystem}">
+			<terfe2:format function="strtoupper">{relation.relationKey}</terfe2:format><f:if condition="{relation.versionString}"> ({relation.versionString})</f:if><f:if condition="{relationIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
+		</f:if>
+		<f:if condition="{relation.isCore}">
+			TYPO3<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if><f:if condition="{relationIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
+		</f:if>
+	</f:for>
+</f:if>

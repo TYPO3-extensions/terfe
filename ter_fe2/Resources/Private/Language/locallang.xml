@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the TER Frontend Index extension in the FRONTEND</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_terfe2_domain_model_extension">Extension container</label>
+			<label index="tx_terfe2_domain_model_extension.ext_key">Extension key</label>
+			<label index="tx_terfe2_domain_model_extension.forge_link">Link to forge</label>
+			<label index="tx_terfe2_domain_model_extension.hudson_link">Link to hudson</label>
+			<label index="tx_terfe2_domain_model_extension.last_update">Last update</label>
+			<label index="tx_terfe2_domain_model_extension.last_maintained">Last maintained</label>
+			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
+			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
+			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
+			<label index="tx_terfe2_domain_model_extension.downloads">Downloads of all versions</label>
+
+			<label index="tx_terfe2_domain_model_category">Frontend category of the extension</label>
+			<label index="tx_terfe2_domain_model_category.title">Category title</label>
+			<label index="tx_terfe2_domain_model_category.description">Description</label>
+
+			<label index="tx_terfe2_domain_model_tag">Tag for the extension</label>
+			<label index="tx_terfe2_domain_model_tag.title">Title of the tag</label>
+
+			<label index="tx_terfe2_domain_model_version">Single version of an extension</label>
+			<label index="tx_terfe2_domain_model_version.title">Title of the extension</label>
+			<label index="tx_terfe2_domain_model_version.icon">The filename of the extension icon.</label>
+			<label index="tx_terfe2_domain_model_version.description">Description of the extension</label>
+			<label index="tx_terfe2_domain_model_version.filename">Path to extension file</label>
+			<label index="tx_terfe2_domain_model_version.author">author</label>
+			<label index="tx_terfe2_domain_model_version.version_number">The version number in format "x.x.x"</label>
+			<label index="tx_terfe2_domain_model_version.upload_date">Upload date and time</label>
+			<label index="tx_terfe2_domain_model_version.upload_comment">The user comment for this version</label>
+			<label index="tx_terfe2_domain_model_version.download_counter">How many downloads for this version</label>
+			<label index="tx_terfe2_domain_model_version.state">Status of the extension (beta, stable, obsolete, etc.)</label>
+			<label index="tx_terfe2_domain_model_version.em_category">The category of the extension manager (frontend plugin, backend module, etc.)</label>
+			<label index="tx_terfe2_domain_model_version.load_order">Loading order in Extension Manager</label>
+			<label index="tx_terfe2_domain_model_version.modify_tables">Information which existing DB tables will be modified</label>
+			<label index="tx_terfe2_domain_model_version.manual">Relation to manual object of ter_doc extension</label>
+			<label index="tx_terfe2_domain_model_version.media">Media references</label>
+			<label index="tx_terfe2_domain_model_version.experiences">Experiences</label>
+			<label index="tx_terfe2_domain_model_version.software_relations">Software relations</label>
+			<label index="tx_terfe2_domain_model_version.zip_file">Zip file path</label>
+
+			<label index="tx_terfe2_domain_model_media">Any type of media associated to an extension</label>
+			<label index="tx_terfe2_domain_model_media.title">Title of the media</label>
+			<label index="tx_terfe2_domain_model_media.type">Media type (link, image, video, pdf)</label>
+			<label index="tx_terfe2_domain_model_media.language">Short language parameter (en, de, dk, etc.)</label>
+			<label index="tx_terfe2_domain_model_media.source">Filename or url</label>
+			<label index="tx_terfe2_domain_model_media.description">Short description of this media attachment</label>
+
+			<label index="tx_terfe2_domain_model_experience">User experience with an extension</label>
+			<label index="tx_terfe2_domain_model_experience.date_time">Timestamp of the experience</label>
+			<label index="tx_terfe2_domain_model_experience.comment">Comment</label>
+			<label index="tx_terfe2_domain_model_experience.rating">User rating</label>
+
+			<label index="tx_terfe2_domain_model_relation">Any type of relation of an extension</label>
+			<label index="tx_terfe2_domain_model_relation.relation_type">Dependancy, conflict or suggest</label>
+			<label index="tx_terfe2_domain_model_relation.software_type">Core, extension or system</label>
+			<label index="tx_terfe2_domain_model_relation.tx_terfe2_key">extension key, php, mysql or something else</label>
+			<label index="tx_terfe2_domain_model_relation.version">Version of the field "key", e.g. key "php" and version "5.2"</label>
+
+			<label index="tx_terfe2_domain_model_author">Author of the extension</label>
+			<label index="tx_terfe2_domain_model_author.name">Name of the author</label>
+			<label index="tx_terfe2_domain_model_author.email">Email address</label>
+			<label index="tx_terfe2_domain_model_author.company">Company name</label>
+			<label index="tx_terfe2_domain_model_author.forge_link">Forge profile</label>
+
+			<label index="msg.extension_created">Extension created</label>
+			<label index="msg.extension_updated">Extension updated</label>
+			<label index="msg.extension_deleted">Extension deleted</label>
+			<label index="msg.category_created">Category created</label>
+			<label index="msg.category_updated">Category updated</label>
+			<label index="msg.category_deleted">Category deleted</label>
+			<label index="msg.tag_created">Tag created</label>
+			<label index="msg.tag_updated">Tag updated</label>
+			<label index="msg.tag_deleted">Tag deleted</label>
+			<label index="msg.author_created">Author created</label>
+			<label index="msg.author_updated">Author updated</label>
+			<label index="msg.author_deleted">Author deleted</label>
+			<label index="msg.media_created">Tag created</label>
+			<label index="msg.media_updated">Tag updated</label>
+			<label index="msg.media_deleted">Tag deleted</label>
+			<label index="msg.file_not_valid">Given file is not valid</label>
+			<label index="msg.file_not_found">File not found</label>
+			<label index="msg.file_hash_not_equal">File was changed and is therefore corrupt</label>
+			<label index="msg.no_entries_found">No entries found</label>
+			<label index="msg.could_not_transfer_file">File download is broken</label>
+			<label index="msg.sorting_manipulated">Sorting form was manipulated</label>
+			<label index="msg.extension_not_found">Extension not found</label>
+			<label index="msg.reviewstate_enabled">The review state has been set</label>
+			<label index="msg.reviewstate_not_enabled">The review state could not be set for version "%s". Message: "%s"</label>
+			<label index="msg.reviewstate_not_changed">The review state has not changed</label>
+
+			<label index="header.latest_extensions">Latest Extensions</label>
+			<label index="header.top_rated_extensions">Top rated Extensions</label>
+			<label index="header.categories">All categories</label>
+			<label index="header.tags">All tags</label>
+			<label index="header.random_authors">Random Authors</label>
+			<label index="header.quicklinks">Quicklinks</label>
+			<label index="header.json_output">JSON Output</label>
+			<label index="header.rss_output">RSS Output</label>
+			<label index="header.review_form">Extension review</label>
+
+			<label index="link.latest_extensions">Latest Extensions</label>
+			<label index="link.latest_extensions.rss">Latest Extensions (RSS)</label>
+			<label index="link.latest_extensions.json">Latest Extensions (JSON)</label>
+			<label index="link.all_extensions">All Extensions</label>
+			<label index="link.all_extensions.rss">All Extensions (RSS)</label>
+			<label index="link.all_extensions.json">All Extensions (JSON)</label>
+			<label index="link.all_categories">All Categories</label>
+			<label index="link.all_tags">All Tags</label>
+			<label index="link.all_media">All Tags</label>
+			<label index="link.all_authors">All Authors</label>
+			<label index="link.extension_details">Details</label>
+
+			<label index="tab.extensions">Extensions</label>
+			<label index="tab.categories">Categories</label>
+			<label index="tab.tags">Tags</label>
+			<label index="tab.authors">Authors</label>
+
+			<label index="sorting">Sort by</label>
+			<label index="sorting.auto">Automatically</label>
+			<label index="sorting.updated">Last update</label>
+			<label index="sorting.downloads">Downloads</label>
+			<label index="sorting.title">Title</label>
+			<label index="sorting.votes">Votes</label>
+
+			<label index="direction.asc">Ascending</label>
+			<label index="direction.desc">Descending</label>
+
+			<label index="list_all_extensions">List of all extensions</label>
+			<label index="list_latest_extensions">List of new and updated extensions</label>
+			<label index="list_extensions_by_tag">List of extensions by tag</label>
+			<label index="list_extensions_by_category">List of extensions by category</label>
+			<label index="new_extension">New Extension</label>
+			<label index="edit_extension">Edit Extension</label>
+			<label index="single_extension">Show single Extension</label>
+			<label index="create_extension">Create new Extension</label>
+			<label index="extension_administration">Extension administration</label>
+
+			<label index="new_category">Create new Category</label>
+			<label index="edit_category">Edit Category</label>
+			<label index="create_category">Create new Category</label>
+			<label index="single_category">Show single Category</label>
+			<label index="category_extensions">Extensions in this category</label>
+			<label index="update_review">Update</label>
+
+			<label index="new_tag">Create new Tag for extension</label>
+			<label index="edit_tag">Edit Tag</label>
+			<label index="create_tag">Create new Tag</label>
+
+			<label index="new_media">Create new Media for extension</label>
+			<label index="edit_media">Edit Media</label>
+			<label index="create_media">Create new Media</label>
+
+			<label index="new_author">Create new Author</label>
+			<label index="edit_author">Edit Author</label>
+			<label index="create_author">Create new Author</label>
+			<label index="single_author">Show single Author</label>
+			<label index="author_extensions">Extensions of this author</label>
+
+			<label index="by">by</label>
+			<label index="author">Author</label>
+			<label index="relations">Dependencies</label>
+			<label index="reverse_relations">Relation of</label>
+			<label index="category">Category</label>
+			<label index="categories">Categories</label>
+			<label index="download">Download</label>
+			<label index="downloads">Downloads</label>
+			<label index="details">Details</label>
+			<label index="extension">Extension</label>
+			<label index="version">Version</label>
+			<label index="votes">Votes</label>
+			<label index="upload_comment">Upload comment</label>
+			<label index="last_upload_comment">Last upload comment</label>
+			<label index="version_history">Version history</label>
+			<label index="tags">Tags</label>
+			<label index="changelog">Changelog</label>
+			<label index="files">Files</label>
+			<label index="manual">Manual</label>
+			<label index="sort_extensions_by">Sort by</label>
+			<label index="submit_ordering_form">Sort</label>
+			<label index="search">Search</label>
+			<label index="extensions_found">%d extensions found</label>
+
+			<label index="back_to_list">Back to list</label>
+			<label index="back_to_extension_list">Back to Extension List</label>
+			<label index="back_to_detail">Back to details</label>
+			<label index="create">Create</label>
+			<label index="edit">Edit</label>
+			<label index="delete">Delete</label>
+			<label index="expand_details">Expand</label>
+			<label index="collapse_details">Collapse</label>
+			<label index="download_t3x">Download T3X Package</label>
+			<label index="download_zip">Download ZIP Archive</label>
+			<label index="downloads_by_version">Downloads by version</label>
+			<label index="filesize">Size</label>
+			<label index="last_uploaded">Last uploaded</label>
+			<label index="last_updated">Last updated</label>
+			<label index="version_history">Version history</label>
+			<label index="versions">Versions</label>
+			<label index="review_versions">Insecure versions</label>
+
+			<label index="registerkey.notloggedin">Please log in to manage your extension or to register a new extension key.</label>
+			<label index="registerkey.key_registered">Extension key registered</label>
+			<label index="registerkey.notyourextension">This extension does not belong to you!!</label>
+			<label index="registerkey.key_exists">Extension Key exists</label>
+			<label index="registerkey.key_update_failed">Could not update extension!!</label>
+			<label index="registerkey.key_updated">Extension updated!!</label>
+			<label index="registerkey.cannotbedeleted">Extension %s could not be deleted!!</label>
+			<label index="registerkey.deleted">Extension %s deleted!!</label>
+			<label index="registerkey.noWsdl">No WSDL URI configured to connect to TER server</label>
+			<label index="registerkey.transferError">Error transfering the extension %s Error: %s</label>
+			<label index="registerkey.keyTransfered">Transfered the extension %s to %s</label>
+
+			<label index="registerkey.error.user_not_found">User can not be found!!</label>
+			<label index="registerkey.error.key_invalid">Extension key is invalid!!</label>
+			<label index="registerkey.error.key_exists">Extension key exists!!</label>
+			<label index="registerkey.error.result_empty">Unknown Error!!</label>
+
+			<label index="extensionKey">Extension key</label>
+			<label index="submit">Submit</label>
+			<label index="save">Save</label>
+			<label index="extensionTitle">Title</label>
+			<label index="extensionDescription">Description</label>
+			<label index="transferToUser">Transfer to user</label>
+			<label index="edit">Edit extension key</label>
+			<label index="delete">Delete extension key</label>
+			<label index="modifiy-button">Modifiy</label>
+			<label index="delete-button">Delete</label>
+			<label index="register-extension-key">Register extension key</label>
+			<label index="manage-extension-keys">Manage extension keys</label>
+			<label index="modifiy-extension-key">Modifiy extension keys</label>
+		</languageKey>
+	</data>
+</T3locallang>

@@ -1,0 +1,137 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+	<f:if condition="{extension}">
+		<f:then>
+			<div id="ter-ext-single" class="ter-toggle-from-here">
+
+				<div class="ter-ext-single-header">
+					<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" class="ter-ext-icon" />
+					<h2>
+						<f:translate key="single_extension" />
+						{extension.lastVersion.title}
+					</h2>
+				</div>
+
+				<div class="ter-ext-single-content cl">
+					<div class="ter-ext-single-description">
+						<p>{extension.lastVersion.description}</p>
+
+						<!-- Comments / changelog -->
+						<f:if condition="{extension.lastVersion.uploadComment}">
+							<div class="ter-ext-single-lastUploadComment">
+								<h3><f:translate key="last_upload_comment"/></h3>
+								<p>{extension.lastVersion.uploadComment}</p>
+							</div>
+						</f:if>
+
+						<h3><f:translate key="download"/></h3>
+						<f:if condition="{extension.lastVersion.hasZipFile}">
+							<div class="ter-ext-single-download">
+								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
+								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><f:translate key="download_zip"/></f:link.action>
+								<div class="ter-ext-single-filesize"><f:translate key="filesize"/>: <terfe2:filesize filesize="{extension.lastVersion.zipFileSize}" format="kb" />Kb</div>
+							</div>
+						</f:if>
+						<div class="ter-ext-single-download">
+							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
+							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action>
+							<div class="ter-ext-single-filesize"><f:translate key="filesize"/>: <terfe2:filesize filesize="{extension.lastVersion.t3xFileSize}" format="kb" />Kb</div>
+						</div>
+					</div>
+
+					<div class="ter-ext-single-info ter-ext-info">
+						<table>
+							<tr>
+								<th><f:translate key="version"/></th>
+								<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
+							</tr>
+							<tr>
+								<th><f:translate key="last_uploaded"/></th>
+								<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
+							</tr>
+							<tr>
+								<th><f:translate key="downloads"/></th>
+								<td>{extension.downloads}</td>
+							</tr>
+							<tr class="ter-ext-single-info-key">
+								<th><f:translate key="extensionKey"/></th>
+								<td>{extension.extKey}</td>
+							</tr>
+							<tr>
+								<th><f:translate key="author"/></th>
+								<td>{extension.lastVersion.author.name}</td>
+							</tr>
+							<tr>
+								<th><f:translate key="category"/></th>
+								<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
+							</tr>
+							<tr class="ter-ext-single-info-relations">
+								<th><f:translate key="relations"/></th>
+								<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
+							</tr>
+							<tr class="ter-ext-single-info-manual">
+								<th><f:translate key="manual"/></th>
+								<td><terfe2:documentationLink>{extension.lastVersion}</terfe2:documentationLink></td>
+							</tr>
+							<tr>
+								<th><f:translate key="downloads_by_version"/></th>
+								<td><terfe2:chart object="{extension}" method="downloadsByVersion" height="100" width="170" pointCount="{settings.defaultPointCount}" renderOnLoad="1"/></td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+
+				<!-- Images and other media -->
+				<div class="ter-ext-single-images">
+					<f:if condition="{extension.lastVersion.media}">
+						<f:for each="{extension.lastVersion.media}" as="media">
+							<!-- display only images in the list view -->
+							<f:if condition="{media.type} == 0">
+								<!-- add shadowbox effect to images -->
+								<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
+									<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
+								</a>
+							</f:if>
+						</f:for>
+					</f:if>
+				</div>
+
+				<f:if condition="{extension.versionCount} > 1">
+					<h3><f:translate key="version_history" /></h3>
+
+					<div class="ter-ext-single-versionhistory ter-toggle-hide">
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory}" />
+					</div>
+					<div class="ter-ext-single-versionhistory ter-toggle-show">
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber}" />
+					</div>
+
+					<f:if condition="{extension.versionCount} > 4">
+						<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
+							<span><f:translate key="expand_details" /></span>
+							<hr/>
+						</div>
+						<div class="ter-toggle-showLess ter-toggle ter-toggle-show">
+							<span><f:translate key="collapse_details" /></span>
+							<hr/>
+						</div>
+					</f:if>
+				</f:if>
+
+				<f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey" arguments="{restoreSearch: 1}"><f:translate key="back_to_extension_list" /></f:link.action>
+
+				<f:if condition="{settings.show.reviewForm}">
+					<f:render partial="ReviewForm" arguments="{extension: extension}"/>
+				</f:if>
+
+			</div>
+		</f:then>
+		<f:else>
+			<p><f:translate key="msg.extension_not_found" /></p>
+		</f:else>
+	</f:if>
+</f:section>

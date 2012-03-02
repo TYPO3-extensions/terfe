@@ -1,0 +1,41 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+		<langChildren>0</langChildren>
+	</meta>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<!-- add switchable controller action to decide between list and register key -->
+					<switchableControllerActions>
+						<TCEforms>
+							<label>Controller selection</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.switchableControllerActions.0</numIndex>
+										<numIndex index="1">Extension->index;Extension->list;Extension->listLatest;Extension->show;Extension->new;Extension->create;Extension->edit;Extension->update;Extension->delete;Extension->download;Category->list;Category->new;Category->create;Category->edit;Category->update;Category->delete;Category->show;Tag->list;Tag->new;Tag->create;Tag->edit;Tag->update;Tag->delete;Tag->show;Author->list;Author->edit;Author->update;Author->show;Media->list;Media->new;Media->create;Media->edit;Media->update;Media->delete;Media->show;</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.switchableControllerActions.1</numIndex>
+										<numIndex index="1">Registerkey->index;Registerkey->create;Registerkey->edit;Registerkey->manage;Registerkey->update;Registerkey->delete;Registerkey->transfer</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.switchableControllerActions.2</numIndex>
+										<numIndex index="1">Review->index;Review->edit;Review->update;</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</switchableControllerActions>
+				</el>
+			</ROOT>
+		</sDEF>
+	</sheets>
+</T3DataStructure>
