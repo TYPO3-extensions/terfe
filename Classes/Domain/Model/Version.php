@@ -995,7 +995,8 @@
 		 */
 		public function addSoftwareRelation(Tx_TerFe2_Domain_Model_Relation $softwareRelation) {
 			$this->softwareRelations->attach($softwareRelation);
-			$this->buildSoftwareRelationList($this->softwareRelations);
+			// @todo implement the missing method
+			//$this->buildSoftwareRelationList($this->softwareRelations);
 		}
 
 
@@ -1007,7 +1008,8 @@
 		 */
 		public function removeSoftwareRelation(Tx_TerFe2_Domain_Model_Relation $softwareRelation) {
 			$this->softwareRelations->detach($softwareRelation);
-			$this->buildSoftwareRelationList($this->softwareRelations);
+			// @todo implement the missing method
+			// $this->buildSoftwareRelationList($this->softwareRelations);
 		}
 
 
