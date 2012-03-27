@@ -435,6 +435,9 @@
 		 * @return string Absolute path to file
 		 */
 		public static function getAbsolutePathFromUrl($url) {
+			if(isset($GLOBALS['TSFE']->baseUrl) && $GLOBALS['TSFE']->baseUrl != "") {
+				return PATH_site . str_ireplace($GLOBALS['TSFE']->baseUrl, '', $url);
+			}
 			$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
 			return PATH_site . str_ireplace($hostUrl, '', $url);
 		}
@@ -447,6 +450,9 @@
 		 * @return string Url to file
 		 */
 		public static function getUrlFromAbsolutePath($path) {
+			if(isset($GLOBALS['TSFE']->baseUrl) && $GLOBALS['TSFE']->baseUrl != "") {
+				return $GLOBALS['TSFE']->baseUrl . str_replace(PATH_site, '', $path);
+			}
 			$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
 			return $hostUrl . str_replace(PATH_site, '', $path);
 		}

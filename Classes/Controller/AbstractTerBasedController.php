@@ -86,12 +86,10 @@
 		protected function getTerAccount() {
 			$username = $this->frontendUser['username'];
 			$password = $this->frontendUser['password'];
-
 			if (!empty($this->terSettings['username']) && !empty($this->terSettings['password'])) {
-				$username = $settings['username'];
-				$password = $settings['password'];
+				$username = $this->terSettings['username'];
+				$password = $this->terSettings['password'];
 			}
-
 			return array(
 				'username' => $username,
 				'password' => $password,
