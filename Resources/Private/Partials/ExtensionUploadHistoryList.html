@@ -1,13 +1,12 @@
 <table>
 	<f:for each="{versionHistory}" as="version">
 		<f:if condition="{version} != {version.extension.lastVersion}">
-			<tr>
-				<td class="col1"><strong>{version.versionString}</strong></td>
-				<td class="col2">{version.uploadComment}</td>
-				<!-- <td class="col3">
-					<f:link.action controller="Extension" action="download" arguments="{extension : version.extension, versionString : version.versionString, format : 't3x'}" class="bu"><f:translate key="download"/></f:link.action>
-				</td> -->
-			</tr>
+			<f:if condition="{version.reviewState} > -1">
+				<tr>
+					<td class="col1"><strong>{version.versionString}</strong></td>
+					<td class="col2">{version.uploadComment}</td>
+				</tr>
+			</f:if>
 		</f:if>
 	</f:for>
 </table>

@@ -15,9 +15,6 @@
 				<div class="register-wrapper">
 					<div class="registerkey-label">
 						<label><f:translate key="extensionKey" /></label>
-						<p class="registerkey-help">
-							TODO: Some text here!!!
-						</p>
 					</div>
 
 					<div class="register-input b-form-inputs">
@@ -26,26 +23,12 @@
 				</div>
 
 				<hr style="clear:both;" />
-
 				<div class="register-wrapper">
-
-					<div class="registerkey-label" style="">
-						<label><f:translate key="category" /></label>
+					<div class="registerkey-label">
+						<label>&nbsp;</label>
 					</div>
-
-					<div class="register-input">
-						<div class="category-container">
-							<f:for each="{categories}" as="category">
-								<div class="category">
-									<f:form.checkbox name="categories[{category.object}]" value="{category.object}" checked="{category.isChecked}" /> {category.object.title}<br />
-								</div>
-							</f:for>
-						</div>
-					</div>
-
+					<f:form.submit class="bu bu-mini" value="{f:translate(key: 'save')}" />
 				</div>
-
-				<f:form.submit class="bu bu-mini" value="{f:translate(key: 'save')}" />
 
 			</f:form>
 

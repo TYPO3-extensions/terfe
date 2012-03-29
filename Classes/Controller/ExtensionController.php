@@ -85,13 +85,23 @@
 			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 
 				// Show insecure extensions only for reviewers
+			$this->extensionRepository->setShowInsecure($this->isReviewer());
+		}
+		
+		/**
+		 * Checks wether FE User is reviewer or not
+		 * 
+		 * @return boolean
+		 */
+		protected function isReviewer() {
 			if (!empty($this->settings['reviewerGroupUid']) && $GLOBALS['TSFE']->loginUser) {
 				$reviewerGroupUid = (int) $this->settings['reviewerGroupUid'];
 				$currentGroupUids = $GLOBALS['TSFE']->fe_user->user['usergroup'];
 				if (t3lib_div::inList($currentGroupUids, $reviewerGroupUid)) {
-					$this->extensionRepository->setShowInsecure(TRUE);
+					return TRUE;
 				}
 			}
+			return FALSE;
 		}
 
 
@@ -182,6 +192,7 @@
 				$versionHistory = $this->versionRepository->getVersionHistory($extension, $versionHistoryCount, $skipLatestVersion);
 				$this->view->assign('extension', $extension);
 				$this->view->assign('versionHistory', $versionHistory);
+				$this->view->assign('isReviewer', $this->isReviewer());
 			}
 		}
 
@@ -264,7 +275,7 @@
 
 			$version = $this->versionRepository->findOneByExtensionAndVersionString($extension, $versionString);
 			if (!$version) {
-				throw new Exception(sprintf('Invalid version request (%s, %s)', $extension, $versionString), 1316542246);
+				throw new Exception('Invalid version request', 1316542246);
 			}
 
 				// Get file path

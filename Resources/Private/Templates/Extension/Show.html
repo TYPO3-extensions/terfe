@@ -125,7 +125,9 @@
 				<f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey" arguments="{restoreSearch: 1}"><f:translate key="back_to_extension_list" /></f:link.action>
 
 				<f:if condition="{settings.show.reviewForm}">
-					<f:render partial="ReviewForm" arguments="{extension: extension}"/>
+					<f:if condition="{isReviewer}">
+						<f:render partial="ReviewForm" arguments="{extension: extension}"/>
+					</f:if>
 				</f:if>
 
 			</div>
