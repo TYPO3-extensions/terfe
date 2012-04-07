@@ -42,10 +42,10 @@
 											{extension.extKey}<br />
                                             <span class="b-comment-date"><f:if condition="{extension.versionCount} < 1"><f:then>
                                                 <f:translate key="tx_terfe2_domain_model_extension.versions.no" />
-                                            </f:then><f:else><f:if condition="{extension.versionCount} &gt; 1"><f:then>
-                                                <f:translate key="tx_terfe2_domain_model_extension.versions.one" />
-                                            </f:then><f:else>
+                                            </f:then><f:else><f:if condition="{extension.versionCount} > 1"><f:then>
                                                 <f:translate key="tx_terfe2_domain_model_extension.versions.multiple" arguments="{0: extension.versionCount}" />
+                                            </f:then><f:else>
+                                                <f:translate key="tx_terfe2_domain_model_extension.versions.one" />
                                             </f:else></f:if></f:else></f:if>
                                             <f:if condition="{extension.lastVersion}">
                                                 ({extension.lastVersion.versionString})
