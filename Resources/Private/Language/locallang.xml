@@ -206,20 +206,26 @@
 
 			<label index="registerkey.notloggedin">Please log in to manage your extension or to register a new extension key.</label>
 			<label index="registerkey.key_registered">Extension key registered</label>
-			<label index="registerkey.notyourextension">This extension does not belong to you!!</label>
+			<label index="registerkey.notyourextension">This extension does not belong to you.</label>
 			<label index="registerkey.key_exists">Extension Key exists</label>
-			<label index="registerkey.key_update_failed">Could not update extension!!</label>
-			<label index="registerkey.key_updated">Extension updated!!</label>
-			<label index="registerkey.cannotbedeleted">Extension %s could not be deleted!!</label>
-			<label index="registerkey.deleted">Extension %s deleted!!</label>
+			<label index="registerkey.key_update_failed">Could not update extension.</label>
+			<label index="registerkey.key_updated">Extension updated.</label>
+            <label index="registerkey.cannotbedeleted.title">Unknown error</label>
+			<label index="registerkey.cannotbedeleted.message">Extension %s could not be deleted.</label>
+			<label index="registerkey.deleted">Extension %s deleted.</label>
 			<label index="registerkey.noWsdl">No WSDL URI configured to connect to TER server</label>
 			<label index="registerkey.transferError">Error transfering the extension %s Error: %s</label>
 			<label index="registerkey.keyTransfered">Transfered the extension %s to %s</label>
 
-			<label index="registerkey.error.user_not_found">User can not be found!!</label>
-			<label index="registerkey.error.key_invalid">Extension key is invalid!!</label>
-			<label index="registerkey.error.key_exists">Extension key exists!!</label>
-			<label index="registerkey.error.result_empty">Unknown Error!!</label>
+			<label index="registerkey.error.user_not_found">The given user could not be found.</label>
+			<label index="registerkey.error.key_invalid.title">Extension key is invalid.</label>
+            <label index="registerkey.error.key_invalid.message"> Please pay attention to the rules below the form.</label>
+			<label index="registerkey.error.key_exists.title">An extension with this key already exists.</label>
+            <label index="registerkey.error.key_exists.message"></label>
+			<label index="registerkey.error.result_empty.title">An unknown error occured.</label>
+            <label index="registerkey.error.result_empty.message">Please try again later.</label>
+            <label index="registerkey.error.not_register.title">An unknown error occured.</label>
+            <label index="registerkey.error.not_register.message">Your key could not be registered.</label>
 
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>

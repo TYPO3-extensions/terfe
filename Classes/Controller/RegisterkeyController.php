@@ -74,10 +74,9 @@
 		 *
 		 * @param string $userName Username of the registered user
 		 * @param string $extensionKey Extension key
-		 * @param mixed $categories Categories
 		 * @return void
 		 */
-		public function createAction($userName, $extensionKey, $categories) {
+		public function createAction($userName, $extensionKey/*, $categories*/) {
 
 				// Remove spaces from extensionKey if there are some
 			$extensionKey = trim($extensionKey);
@@ -98,21 +97,35 @@
 					$extension->setFrontendUser($userName);
 
 						// Add categories
-					foreach ($categories as $category) {
-						if (isset($category['__identity']) && is_numeric($category['__identity'])) {
-							$myCat = $this->categoryRepository->findByUid((int) $category['__identity']);
-							if ($myCat != NULL) {
-								$extension->addCategory($myCat);
-							}
-						}
-					}
+//					foreach ($categories as $category) {
+//						if (isset($category['__identity']) && is_numeric($category['__identity'])) {
+//							$myCat = $this->categoryRepository->findByUid((int) $category['__identity']);
+//							if ($myCat != NULL) {
+//								$extension->addCategory($myCat);
+//							}
+//						}
+//					}
 
 					$this->extensionRepository->add($extension);
-					$this->flashMessageContainer->add($this->translate('registerkey.key_registered'));
+                    $this->flashMessageContainer->add(
+                        '',
+                        $this->translate('registerkey.key_registered'),
+                        t3lib_FlashMessage::OK
+                    );
 					$this->redirect('index', 'Registerkey');
-				}
+				} else {
+                    $this->flashMessageContainer->add(
+                        $this->resolveWSErrorMessage('not_register.message'),
+                        $this->resolveWSErrorMessage('not_register.title'),
+                        t3lib_FlashMessage::ERROR
+                    );
+                }
 			} else {
-				$this->flashMessageContainer->add($this->resolveWSErrorMessage($error));
+				$this->flashMessageContainer->add(
+                    $this->resolveWSErrorMessage($error.'.message'),
+                    $this->resolveWSErrorMessage($error.'.title'),
+                    t3lib_FlashMessage::ERROR
+                );
 			}
 
 			$this->redirect('index', 'Registerkey', NULL, array());
@@ -319,7 +332,11 @@
 							$this->flashMessageContainer->add($this->translate('registerkey.key_update_failed'));
 						}
 					} else {
-						$this->flashMessageContainer->add($this->translate($this->resolveWSErrorMessage($error)));
+                        $this->flashMessageContainer->add(
+                            $this->resolveWSErrorMessage($error.'.message'),
+                            $this->resolveWSErrorMessage($error.'.title'),
+                            t3lib_FlashMessage::ERROR
+                        );
 					}
 				} else {
 						// Update categories
@@ -385,7 +402,7 @@
 					$this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)));
 				} else {
 					$this->flashMessageContainer->add(
-                        $this->translate('registerkey.transferError', array($extension->getExtKey(), $this->resolveWSErrorMessage($error)))
+                        $this->translate('registerkey.transferError', array($extension->getExtKey(), $this->resolveWSErrorMessage($error.'_message')))
                     );
 				}
 
@@ -412,9 +429,17 @@
 					// Deleted in ter, then delete the key in the ter_fe2 extension table
 				if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {
 					$this->extensionRepository->remove($extension);
-					$this->flashMessageContainer->add($this->translate('registerkey.deleted', array($extension->getExtKey())));
+					$this->flashMessageContainer->add(
+                        '',
+                        $this->translate('registerkey.deleted', array($extension->getExtKey())),
+                        t3lib_FlashMessage::OK
+                    );
 				} else {
-					$this->flashMessageContainer->add($this->translate('registerkey.cannotbedeleted', array($extension->getExtKey())));
+					$this->flashMessageContainer->add(
+                        $this->translate('registerkey.cannotbedeleted.message', array($extension->getExtKey())),
+                        $this->translate('registerkey.cannotbedeleted.title', array($extension->getExtKey())),
+                        t3lib_FlashMessage::ERROR
+                    );
 				}
 
 			} else {

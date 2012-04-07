@@ -27,7 +27,7 @@
 						<table class="manage-keys">
 							<thead>
 								<tr>
-									<th colspan="3"><f:translate key="extensionKey" /></th>
+									<th colspan="2"><f:translate key="extensionKey" /></th>
 									<th class="transfer-colum"><f:translate key="transferToUser" /></th>
 								</tr>
 							</thead>
@@ -40,9 +40,6 @@
 									<tr class="{columCycle}">
 										<td style="border-right: 0;">
 											{extension.extKey}
-										</td>
-										<td class="no-borders">
-											<f:link.action class="url bu bu-mini" action="edit" controller="Registerkey" arguments="{extension: extension}"><f:translate key="modifiy-button" /></f:link.action>
 										</td>
 										<td class="no-border-left">
 											<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
@@ -103,26 +100,19 @@
 
 							<hr />
 
-							<div class="register-wrapper">
-
-								<div class="registerkey-label">
-									<label><f:translate key="category" /></label>
-								</div>
-
-								<div class="register-input">
-									<div class="category-container">
-										<f:for each="{categories}" as="category">
-											<div class="category">
-												<f:form.checkbox name="categories[{category}]" value="{category}" /> <label>{category.title}</label>
-											</div>
-										</f:for>
-									</div>
-								</div>
-							</div>
-
+                            <div class="registerkey-label">
+                                <label>&nbsp;</label>
+                            </div>
 							<f:form.submit class="bu bu-mini" value="{f:translate(key: 'save')}" />
 						</f:form>
 
+                        <h4>Please make sure that the extension key you register follows the following rules</h4>
+                        <ul>
+                            <li>Allowed characters are: a-z (lowercase), 0-9 and '_' (underscore)</li>
+                            <li>The key must not being with one of the following prefixes: tx,u,user_,pages,tt_,sys_,ts_language_,csh_</li>
+                            <li>Extension keys cannot start or end with 0-9 and '_' (underscore)</li>
+                            <li>An extension key must have minimum 3, maximum 30 characters (not counting underscores)</li>
+                        </ul>
 					</f:then>
 					<f:else>
 						<f:translate key="registerkey.notloggedin" />
