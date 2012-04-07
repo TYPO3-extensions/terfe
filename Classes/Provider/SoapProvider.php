@@ -108,7 +108,7 @@
 				'offset'  => (int) $offset,
 				'count'   => (int) $count,
 			);
-			$result = $this->soapService->call($this->getExtensionsFunc, $parameters);
+			$result = $this->soapService->__call($this->getExtensionsFunc, $parameters);
 			return (!empty($result['extensions']) ? $result['extensions'] : array());
 		}
 
@@ -129,7 +129,7 @@
 				'version'   => (string) $version->getVersionString(),
 				'fileType'  => (string) $fileType,
 			);
-			$result = $this->soapService->call($this->getFileUrlFunc, $parameters);
+			$result = $this->soapService->__call($this->getFileUrlFunc, $parameters);
 			if (empty($result['url'])) {
 				throw new Exception('Could not get url to file from soap server');
 			}
@@ -153,7 +153,7 @@
 				'version'   => (string) $version->getVersionString(),
 				'fileType'  => (string) $fileType,
 			);
-			$result = $this->soapService->call($this->getFileNameFunc, $parameters);
+			$result = $this->soapService->__call($this->getFileNameFunc, $parameters);
 			if (empty($result['filename'])) {
 				throw new Exception('Could not get filename from soap server');
 			}
@@ -175,7 +175,7 @@
 				'extension' => (string) $version->getExtension()->getExtKey(),
 				'version'   => (string) $version->getVersionString(),
 			);
-			$result = $this->soapService->call($this->getVersionDetailsFunc, $parameters);
+			$result = $this->soapService->__call($this->getVersionDetailsFunc, $parameters);
 			if (empty($result) || !is_array($result)) {
 				throw new Exception('Could not get version details from soap server');
 			}

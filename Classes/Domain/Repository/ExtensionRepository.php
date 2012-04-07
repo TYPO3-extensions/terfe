@@ -36,7 +36,7 @@
 		/**
 		 * @var boolean
 		 */
-		protected $showInsecure = FALSE;
+		protected $showInsecure = TRUE;
 
 
 		/**
@@ -90,12 +90,25 @@
 
 
 		/**
+		 * Returns one extension by extension key respecting the reviewstate
+		 *
+		 * @param $extensionKey
+		 * @return object
+		 */
+		public function findOneByExtKey($extensionKey) {
+			$query = $this->createQuery(0, 1);
+			$this->match($query, $query->equals('extKey', $extensionKey));
+			return $query->execute()->getFirst();
+		}
+
+
+		/**
 		 * Returns all extensions
 		 *
-		 * @param string $offset Offset to start with
-		 * @param string $count Count of result
-		 * @param string $ordering Ordering <-> Direction
-		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 * @param int $offset
+		 * @param int $count
+		 * @param array $ordering
+		 * @return array|Tx_Extbase_Persistence_QueryResultInterface
 		 */
 		public function findAll($offset = 0, $count = 0, array $ordering = array()) {
 			if (empty($ordering)) {

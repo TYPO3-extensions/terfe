@@ -96,7 +96,8 @@
 			$this->initializeTask();
 
 				// Get process information
-			$lastRun = (int) $this->registry->get('lastRun');
+			// temporary fix to get a consitent state on preview.typo3.org
+			$lastRun = 0;//(int) $this->registry->get('lastRun');
 			$offset  = (int) $this->registry->get('offset');
 			$count   = (int) $this->elementsPerRun;
 
