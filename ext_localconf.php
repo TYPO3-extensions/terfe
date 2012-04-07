@@ -18,7 +18,7 @@
 			'Review'      => 'update',
 		),
 		array(
-			'Extension'   => 'index, create, update, delete, download',
+			'Extension'   => 'create, update, delete, download',
 			'Category'    => 'create, update, delete',
 			'Tag'         => 'create, delete',
 			'Author'      => 'update',
