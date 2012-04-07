@@ -27,8 +27,8 @@
 						<table class="manage-keys">
 							<thead>
 								<tr>
-									<th colspan="2"><f:translate key="extensionKey" /></th>
-									<th class="transfer-colum"><f:translate key="transferToUser" /></th>
+									<th colspan="2" class="colA4"><f:translate key="extensionKey" /></th>
+									<th class="transfer-colum" class="colC1"><f:translate key="transferToUser" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -41,7 +41,7 @@
 										<td style="border-right: 0;">
 											{extension.extKey}
 										</td>
-										<td class="no-border-left">
+										<td class="no-border-left a-r">
 											<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
 										</td>
 										<td>
