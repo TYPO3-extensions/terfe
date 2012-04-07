@@ -402,12 +402,18 @@
 					$this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)));
 				} else {
 					$this->flashMessageContainer->add(
-                        $this->translate('registerkey.transferError', array($extension->getExtKey(), $this->resolveWSErrorMessage($error.'_message')))
+                        $this->resolveWSErrorMessage($error),
+                        $this->translate('registerkey.transferError.title', array($extension->getExtKey())),
+                        t3lib_FlashMessage::ERROR
                     );
 				}
 
 			} else {
-				$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
+				$this->flashMessageContainer->add(
+                    '',
+                    $this->translate('registerkey.notyourextension'),
+                    t3lib_FlashMessage::ERROR
+                );
 			}
 
 			$this->redirect('index', 'Registerkey');

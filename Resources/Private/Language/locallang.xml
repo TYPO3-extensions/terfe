@@ -214,10 +214,12 @@
 			<label index="registerkey.cannotbedeleted.message">Extension %s could not be deleted.</label>
 			<label index="registerkey.deleted">Extension %s deleted.</label>
 			<label index="registerkey.noWsdl">No WSDL URI configured to connect to TER server</label>
-			<label index="registerkey.transferError">Error transfering the extension %s Error: %s</label>
+			<label index="registerkey.transferError.title">Error transfering the extension %s</label>
+            <label index="registerkey.transferError.message">Error: %s</label>
 			<label index="registerkey.keyTransfered">Transfered the extension %s to %s</label>
 
 			<label index="registerkey.error.user_not_found">The given user could not be found.</label>
+            <label index="registerkey.error.key_not_found">The given extension could not be found.</label>
 			<label index="registerkey.error.key_invalid.title">Extension key is invalid.</label>
             <label index="registerkey.error.key_invalid.message"> Please pay attention to the rules below the form.</label>
 			<label index="registerkey.error.key_exists.title">An extension with this key already exists.</label>

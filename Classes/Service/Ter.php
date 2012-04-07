@@ -141,6 +141,7 @@
 				'extensionKey'  => $extensionKey,
 				'ownerUsername' => $username,
 			));
+
 			if (empty($result['resultCode'])) {
 				$error = 'no_result';
 				return FALSE;
@@ -150,6 +151,21 @@
 				$error = 'user_not_found';
 				return FALSE;
 			}
+
+            // 102 = TX_TER_ERROR_GENERAL_USERNOTFOUND
+            if ($result['resultCode'] === '102') {
+                $error = 'user_not_found';
+                return FALSE;
+            }
+
+            // 602 = TX_TER_ERROR_MODIFYEXTENSIONKEY_KEYDOESNOTEXIST
+            if ($result['resultCode'] === '602') {
+                $error = 'key_not_found';
+                return FALSE;
+            }
+
+
+
 				// 10000 = TX_TER_RESULT_GENERAL_OK
 			return ($result['resultCode'] === '10000');
 		}
