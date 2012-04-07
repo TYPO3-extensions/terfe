@@ -8,7 +8,7 @@
 		$_EXTKEY,
 		'Pi1',
 		array(
-			'Extension'   => 'index, show, new, create, edit, update, delete, download, list, listLatest',
+			'Extension'   => 'index, search, show, new, create, edit, update, delete, download, list, listLatest',
 			'Category'    => 'list, new, create, edit, update, delete, show',
 			'Tag'         => 'list, new, create, edit, update, delete, show',
 			'Author'      => 'list, edit, update, show',
@@ -18,7 +18,7 @@
 			'Review'      => 'update',
 		),
 		array(
-			'Extension'   => 'create, update, delete, download',
+			'Extension'   => 'search, create, update, delete, download',
 			'Category'    => 'create, update, delete',
 			'Tag'         => 'create, delete',
 			'Author'      => 'update',
