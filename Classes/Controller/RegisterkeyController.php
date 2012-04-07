@@ -429,8 +429,14 @@
 		 */
 		public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 
-				// check if the extension belongs to the current user
-			if ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+            if($extension->getVersionCount() > 0) {
+                $this->flashMessageContainer->add(
+                    $this->translate('registerkey.deleting_prohibited', array($extension->getExtKey())),
+                    '',
+                    t3lib_FlashMessage::ERROR
+                );
+
+            } elseif ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
 
 					// Deleted in ter, then delete the key in the ter_fe2 extension table
 				if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {

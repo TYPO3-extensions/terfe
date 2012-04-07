@@ -53,7 +53,10 @@
                                             </span>
 										</td>
 										<td class="no-border-left a-r">
-											<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
+                                            <f:if condition="{extension.versionCount} < 1"><f:then>
+											    <f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
+                                            </f:then><f:else>&nbsp;</f:else>
+                                            </f:if>
 										</td>
 										<td>
 											<div class="b-form-inputs">

@@ -220,6 +220,7 @@
 			<label index="registerkey.transferError.title">Error transfering the extension %s</label>
             <label index="registerkey.transferError.message">Error: %s</label>
 			<label index="registerkey.keyTransfered">Transfered the extension %s to %s</label>
+            <label index="registerkey.deleting_prohibited">You can't delete extension key with versions.</label>
 
 			<label index="registerkey.error.user_not_found">The given user could not be found.</label>
             <label index="registerkey.error.key_not_found">The given extension could not be found.</label>
