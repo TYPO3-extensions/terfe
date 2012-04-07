@@ -60,7 +60,7 @@
 										</td>
 										<td>
 											<div class="b-form-inputs">
-												<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST">
+												<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST" onsubmit="if (confirm('Are you sure? You might not be able to get your transfered key back.')) return true; else return false;">
 													<f:form.hidden name="extension" value="{extension}" />
 													<f:form.textbox class="manage-keys-input" name="newUser" value="" />
 													<f:form.submit class="bu bu-mini manage-keys-submit" value="Transfer" />
