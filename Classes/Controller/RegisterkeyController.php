@@ -57,9 +57,9 @@
 		 * @return void
 		 */
 		public function indexAction() {
-				// get categories for regster key
-			$categories = $this->categoryRepository->findAll();
-			$this->view->assign('categories', $categories);
+				// get categories for register key
+//			$categories = $this->categoryRepository->findAll();
+//			$this->view->assign('categories', $categories);
 
 				// get extensions by user if a user is logged in
 			if (!empty($this->frontendUser)) {
@@ -72,11 +72,10 @@
 		/**
 		 * Register a new extension
 		 *
-		 * @param string $userName Username of the registered user
 		 * @param string $extensionKey Extension key
 		 * @return void
 		 */
-		public function createAction($userName, $extensionKey/*, $categories*/) {
+		public function createAction($extensionKey/*, $categories*/) {
 
 				// Remove spaces from extensionKey if there are some
 			$extensionKey = trim($extensionKey);
@@ -94,7 +93,7 @@
 						// Create extension model
 					$extension = $this->objectManager->create('Tx_TerFe2_Domain_Model_Extension');
 					$extension->setExtKey($extensionKey);
-					$extension->setFrontendUser($userName);
+					$extension->setFrontendUser($this->frontendUser['username']);
 
 						// Add categories
 //					foreach ($categories as $category) {
