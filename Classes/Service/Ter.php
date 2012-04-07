@@ -194,5 +194,36 @@
 			return TRUE;
 		}
 
+		/**
+         * Returns an array of the users extensions
+         *
+		 * @param $error
+		 * @return bool
+		 */
+		public function getExtensionKeysByUser(&$error) {
+            $parameter = array('username' => $this->userData['username']);
+            $response = $this->soapService->getExtensionKeys($this->userData, $parameter);
+            $result = $response['simpleResult'];
+            $extensionKeys = $response['extensionKeyData'];
+
+
+            if (empty($result['resultCode'])) {
+                $error = 'no_result';
+                return FALSE;
+            }
+            // 102 = TX_TER_ERROR_GENERAL_USERNOTFOUND
+            if ($result['resultCode'] === '102') {
+                $error = 'user_not_found';
+                return FALSE;
+            }
+
+            if ($result['resultCode'] !== '10000') {
+                $error = 'user_not_found';
+                return FALSE;
+            } else {
+                return $extensionKeys;
+            }
+        }
+
 	}
 ?>

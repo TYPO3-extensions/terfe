@@ -234,6 +234,17 @@
 			<label index="register-extension-key">Register extension key</label>
 			<label index="manage-extension-keys">Manage extension keys</label>
 			<label index="modifiy-extension-key">Modifiy extension keys</label>
+
+            <label index="registerkey.error.not_register.title">An unknown error occured.</label>
+            <label index="registerkey.error.not_register.message">Your key could not be registered.</label>
+            <label index="registerkey.error.nothing_found">No extension keys for your account have been found.</label>
+
+            <label index="registerkey.salvage.success">%d extension keys have been salvaged.</label>
+            <label index="registerkey.salvage.pass.title">No extension keys could be salvaged.</label>
+            <label index="registerkey.salvage.pass.message">%d extensions have been found, but all of them were already migrated.</label>
+            <label index="registerkey.salvage.pass.message">One extension has been found, but it was already migrated.</label>
+
+
 		</languageKey>
 	</data>
 </T3locallang>

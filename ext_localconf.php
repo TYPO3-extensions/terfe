@@ -13,7 +13,8 @@
 			'Tag'         => 'list, new, create, edit, update, delete, show',
 			'Author'      => 'list, edit, update, show',
 			'Media'       => 'list, new, create, edit, update, delete, show',
-			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
+//			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
+            'Registerkey' => 'index, create, manage, transfer, delete, salvage',
 			'Review'      => 'update',
 		),
 		array(
@@ -22,7 +23,8 @@
 			'Tag'         => 'create, delete',
 			'Author'      => 'update',
 			'Media'       => 'create, delete',
-			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
+//			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
+            'Registerkey' => 'index, create, manage, transfer, delete, salvage',
 			'Review'      => 'update',
 		)
 	);

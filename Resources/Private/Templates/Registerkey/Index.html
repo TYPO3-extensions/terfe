@@ -63,6 +63,15 @@
 							</tbody>
 						</table>
 
+                        <h4>Missing some of your keys?</h4>
+                        <p>
+                            Extension keys without any uploaded version have not been migrated from the old typo3.org.
+                        </p>
+                        <p>
+                            If you still wish to use these keys you can recover them by using the button below.
+                        </p>
+                        <div class="a-r"><f:link.action class="bu bu-mini" action="salvage" controller="Registerkey">Salvage Extension Keys</f:link.action></div>
+
 					</f:then>
 					<f:else>
 						<f:translate key="registerkey.notloggedin" />

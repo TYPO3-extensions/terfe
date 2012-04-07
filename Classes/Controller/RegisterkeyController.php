@@ -118,6 +118,124 @@
 			$this->redirect('index', 'Registerkey', NULL, array());
 		}
 
+        /**
+         * an action to salvage the keys that were registered on the old TYPO3.org, but never had uploads
+         *
+         * @author Christian Zenker <christian.zenker@599media.de>
+         */
+        public function salvageAction() {
+            $error = null;
+            $registeredExtensions = $this->terConnection->getExtensionKeysByUser($error);
+            if($error) {
+                $this->flashMessageContainer->add(
+                    $this->resolveWSErrorMessage($error),
+                    '',
+                    t3lib_FlashMessage::ERROR
+                );
+            } elseif(!is_array($registeredExtensions)) {
+                $this->flashMessageContainer->add(
+                    $this->resolveWSErrorMessage('result_empty.message'),
+                    $this->resolveWSErrorMessage('result_empty.title'),
+                    t3lib_FlashMessage::ERROR
+                );
+            } elseif(empty($registeredExtensions)) {
+                $this->flashMessageContainer->add(
+                    $this->resolveWSErrorMessage('nothing_found'),
+                    '',
+                    t3lib_FlashMessage::WARNING
+                );
+            } else {
+
+                $countSkipped = 0;
+                $countSalvaged = 0;
+
+                // get an array of the already existent extension keys
+                $existingExtensionKeys = $this->getExistingExtensionsByList($registeredExtensions);
+
+                foreach($registeredExtensions as $extension) {
+                    $extensionKey = $extension['extensionkey'];
+                    if(in_array($extensionKey, $existingExtensionKeys)) {
+                        // if: key already exists
+//                        $this->flashMessageContainer->add(
+//                            sprintf('%s already exists.', $extensionKey),
+//                            '',
+//                            t3lib_FlashMessage::NOTICE
+//                        );
+                        $countSkipped++;
+                    } else {
+                        $extensionModel = $this->objectManager->create('Tx_TerFe2_Domain_Model_Extension');
+                        $extensionModel->setExtKey($extensionKey);
+                        $extensionModel->setFrontendUser($extension['ownerusername']);
+
+                        $this->extensionRepository->add($extensionModel);
+//                        $this->flashMessageContainer->add(
+//                            '',
+//                            sprintf('%s salvaged.', $extensionKey ),
+//                            t3lib_FlashMessage::OK
+//                        );
+
+                        $countSalvaged++;
+                    }
+                }
+                if($countSalvaged > 0) {
+                    $this->flashMessageContainer->add(
+                        $this->translate('registerkey.salvage.success', array($countSalvaged)),
+                        '',
+                        t3lib_FlashMessage::OK
+                    );
+                } elseif($countSkipped == 1) {
+                    $this->flashMessageContainer->add(
+                        $this->translate('registerkey.salvage.pass1.message'),
+                        $this->translate('registerkey.salvage.pass.title'),
+                        t3lib_FlashMessage::WARNING
+                    );
+                } elseif($countSkipped > 1) {
+                    $this->flashMessageContainer->add(
+                        $this->translate('registerkey.salvage.pass.message', array($countSkipped)),
+                        $this->translate('registerkey.salvage.pass.title'),
+                        t3lib_FlashMessage::WARNING
+                    );
+                } else {
+                    $this->flashMessageContainer->add(
+                        $this->resolveWSErrorMessage('nothing_found'),
+                        '',
+                        t3lib_FlashMessage::WARNING
+                    );
+                }
+
+
+            }
+
+
+
+            $this->redirect('index', 'Registerkey');
+        }
+
+        protected function getExistingExtensionsByList($extensions) {
+		/**
+             * @var array that just holds the given extensionkeys and no meta data
+             */
+            $keys = array();
+            foreach($extensions as $extension) {
+                $keys[] = $extension['extensionkey'];
+            }
+
+            if(empty($keys)) {
+                return array();
+            }
+
+
+            // query database for existing keys
+            $e = $this->extensionRepository->findByExtKeys($keys);
+            // strip only the keys from the model
+            $existingExtensionKeys = array();
+            foreach($e as $extension) {
+                $existingExtensionKeys[] = $extension->getExtKey();
+            }
+
+            return $existingExtensionKeys;
+        }
+
 
 		/**
 		 * Manage registered extensions
