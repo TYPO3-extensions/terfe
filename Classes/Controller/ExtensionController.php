@@ -188,7 +188,10 @@
 			$versionHistoryCount = (!empty($this->settings['versionHistoryCount']) ? $this->settings['versionHistoryCount'] : 5);
 			$skipLatestVersion   = (isset($this->settings['skipLatestVersion'])    ? $this->settings['skipLatestVersion']   : TRUE);
 
-			if ($extension !== NULL && $extension instanceof Tx_TerFe2_Domain_Model_Extension) {
+			if ($extension !== NULL &&
+				$extension instanceof Tx_TerFe2_Domain_Model_Extension &&
+				($this->isReviewer() || $extension->getLastVersion()->getReviewState() > -1)
+			) {
 				$versionHistory = $this->versionRepository->getVersionHistory($extension, $versionHistoryCount, $skipLatestVersion);
 				$this->view->assign('extension', $extension);
 				$this->view->assign('versionHistory', $versionHistory);
