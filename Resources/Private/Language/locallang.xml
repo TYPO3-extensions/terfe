@@ -209,6 +209,7 @@
 
 			<label index="registerkey.notloggedin">Please log in to manage your extension or to register a new extension key.</label>
 			<label index="registerkey.key_registered">Extension key registered</label>
+            <label index="registerkey.newuserempty">The name of the new user must not be empty.</label>
 			<label index="registerkey.notyourextension">This extension does not belong to you.</label>
 			<label index="registerkey.key_exists">Extension Key exists</label>
 			<label index="registerkey.key_update_failed">Could not update extension.</label>

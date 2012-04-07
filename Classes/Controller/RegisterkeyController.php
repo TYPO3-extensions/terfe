@@ -389,8 +389,16 @@
 		 */
 		public function transferAction($newUser, Tx_TerFe2_Domain_Model_Extension $extension) {
 
-				// check if the extension belongs to the current user
-			if ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+            $newUser = trim($newUser);
+            if($newUser == '') {
+                $this->flashMessageContainer->add(
+                    '',
+                    $this->translate('registerkey.newuserempty'),
+                    t3lib_FlashMessage::ERROR
+                );
+            } elseif ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+
+                // check if the extension belongs to the current user
 
 				$error = '';
 
