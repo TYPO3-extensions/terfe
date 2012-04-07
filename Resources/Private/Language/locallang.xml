@@ -15,6 +15,9 @@
 			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
 			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
 			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
+            <label index="tx_terfe2_domain_model_extension.versions.no">no versions</label>
+            <label index="tx_terfe2_domain_model_extension.versions.one">1 version</label>
+            <label index="tx_terfe2_domain_model_extension.versions.multiple">%d versions</label>
 			<label index="tx_terfe2_domain_model_extension.downloads">Downloads of all versions</label>
 
 			<label index="tx_terfe2_domain_model_category">Frontend category of the extension</label>
