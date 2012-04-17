@@ -68,8 +68,15 @@
 								<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
 							</tr>
 							<tr class="ter-ext-single-info-relations">
-								<th><f:translate key="relations"/></th>
-								<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations}"/></td>
+								<th><f:translate key="dependencies"/></th>
+								<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations, relationType: 'depends'}"/></td>
+							</tr>
+							<tr class="ter-ext-single-info-relations">
+								<th><f:translate key="conflicts"/>
+								</th>
+								<td>
+									<f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations, relationType: 'conflicts'}"/>
+								</td>
 							</tr>
 							<tr class="ter-ext-single-info-manual">
 								<th><f:translate key="manual"/></th>

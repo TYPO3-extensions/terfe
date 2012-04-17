@@ -167,7 +167,9 @@
 
 			<label index="by">by</label>
 			<label index="author">Author</label>
-			<label index="relations">Dependencies</label>
+			<label index="relations">Relations</label>
+			<label index="dependencies">Dependencies</label>
+			<label index="conflicts">Conflicts</label>
 			<label index="reverse_relations">Relation of</label>
 			<label index="category">Category</label>
 			<label index="categories">Categories</label>
