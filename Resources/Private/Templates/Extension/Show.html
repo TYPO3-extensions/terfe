@@ -106,17 +106,10 @@
 					</f:if>
 				</div>
 
-				<f:if condition="{extension.versionCount} > 1">
+				<f:if condition="{versionHistory->f:count()} >= 1">
 					<h3><f:translate key="version_history" /></h3>
 
-					<div class="ter-ext-single-versionhistory ter-toggle-hide">
-						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory}" />
-					</div>
-					<div class="ter-ext-single-versionhistory ter-toggle-show">
-						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber}" />
-					</div>
-
-					<f:if condition="{extension.versionCount} > 4">
+					<f:if condition="{extension.versionCountWithPositiveReview} >= 4">
 						<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
 							<span><f:translate key="expand_details" /></span>
 							<hr/>
@@ -126,6 +119,14 @@
 							<hr/>
 						</div>
 					</f:if>
+					
+					<div class="ter-ext-single-versionhistory ter-toggle-hide">
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory}" />
+					</div>
+					<div class="ter-ext-single-versionhistory ter-toggle-show">
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber}" />
+					</div>
+
 				</f:if>
 
 				<f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey" arguments="{restoreSearch: 1}"><f:translate key="back_to_extension_list" /></f:link.action>

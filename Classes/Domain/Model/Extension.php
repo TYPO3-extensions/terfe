@@ -90,6 +90,12 @@
 		 */
 		protected $downloads;
 
+		/**
+		 * Sum of all review with positive review
+		 * @var integer
+		 */
+		protected $versionCountWithPositiveReview;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -307,11 +313,19 @@
 		 */
 		public function getReverseVersionsByVersionNumber() {
 			$versions = array();
+
 			foreach ($this->versions as $version) {
-				$versions[$version->getVersionNumber()] = $version;
+				if ($version->getReviewState() > -1)
+					$versions[$version->getVersionNumber()] = $version;
 			}
+
 			krsort($versions);
+			$this->versionCountWithPositiveReview = count($versions);
 			return $versions;
+		}
+
+		public function getVersionCountWithPositiveReview() {
+			return (int) $this->versionCountWithPositiveReview;
 		}
 
 

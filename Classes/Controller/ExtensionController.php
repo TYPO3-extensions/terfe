@@ -87,10 +87,10 @@
 				// Show insecure extensions only for reviewers
 			$this->extensionRepository->setShowInsecure($this->isReviewer());
 		}
-		
+
 		/**
 		 * Checks wether FE User is reviewer or not
-		 * 
+		 *
 		 * @return boolean
 		 */
 		protected function isReviewer() {
@@ -203,6 +203,7 @@
 				($this->isReviewer() || $extension->getLastVersion()->getReviewState() > -1)
 			) {
 				$versionHistory = $this->versionRepository->getVersionHistory($extension, $versionHistoryCount, $skipLatestVersion);
+
 				$this->view->assign('extension', $extension);
 				$this->view->assign('versionHistory', $versionHistory);
 				$this->view->assign('isReviewer', $this->isReviewer());

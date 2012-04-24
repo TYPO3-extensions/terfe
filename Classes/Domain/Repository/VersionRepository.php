@@ -87,6 +87,7 @@
 			if (!empty($skipLatest)) {
 				$query->matching(
 					$query->logicalAnd(
+						$query->greaterThan('reviewState', -1),
 						$query->equals('extension', $extension),
 						$query->logicalNot(
 							$query->equals('uid', (int) $extension->getLastVersion()->getUid())
