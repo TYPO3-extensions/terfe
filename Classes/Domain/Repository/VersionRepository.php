@@ -125,5 +125,26 @@
 			return $query->execute();
 		}
 
+
+		/**
+		 * Get a version with the given extension key and version string
+		 *
+		 * @param string $extension The extension object
+		 * @param string $versionString The version string
+		 * @return Tx_TerFe2_Domain_Model_Version Version object
+		 */
+		public function findOneByExtensionKeyAndVersionString($extensionKey, $versionString) {
+			$query = $this->createQuery(0, 1);
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$query->matching(
+				$query->logicalAnd(
+					$query->equals('extension.extKey', $extensionKey),
+					$query->equals('versionString', $versionString)
+				)
+			);
+			return $query->execute()->getFirst();
+		}
+
 	}
 ?>
