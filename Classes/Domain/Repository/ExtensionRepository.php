@@ -234,24 +234,24 @@
 			return $query->execute()->count();
 		}
 
-        /**
-         * get domain models given by an array of extension keys
-         *
-         * Unknown keys are silently ignored. So check later if you have all the models you need.
-         *
-         * @param array $extKeys
-         * @return \Tx_Extbase_Persistence_QueryResultInterface
-         */
-        public function findByExtKeys(array $extKeys) {
 
-            // Workaround to enable paginate
-            $query = $this->createQuery();
-            $query->getQuerySettings()->setRespectStoragePage(FALSE);
-            $query->getQuerySettings()->setRespectSysLanguage(FALSE);
-            $query->matching($query->in('ext_key', $extKeys));
+		/**
+		 * Get domain models given by an array of extension keys
+		 *
+		 * Unknown keys are silently ignored. So check later if you have all the models you need.
+		 *
+		 * @param array $extKeys
+		 * @return Tx_Extbase_Persistence_QueryResultInterface
+		 */
+		public function findByExtKeys(array $extKeys) {
+				// Workaround to enable paginate
+			$query = $this->createQuery();
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$query->matching($query->in('ext_key', $extKeys));
 
-            return $query->execute();
-        }
+			return $query->execute();
+		}
 
 	}
 ?>
