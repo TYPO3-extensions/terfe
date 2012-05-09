@@ -125,6 +125,11 @@
 		protected function createOrUpdateExtension(array $extensionRow) {
 			$modified = FALSE;
 
+			if (empty($extensionRow['ext_key'])) {
+				Tx_TerFe2_Utility_Log::addMessage('Extension key was empty for extension "' . $extensionRow['title'] . '"', 'ter_fe2', 2);
+				return;
+			}
+
 				// Extension
 			if ($this->extensionRepository->countByExtKey($extensionRow['ext_key'])) {
 				$extension = $this->extensionRepository->findOneByExtKey($extensionRow['ext_key']);
@@ -159,7 +164,7 @@
 					// Author
 				if (!empty($versionRow['author'])) {
 					$authorRow = $versionRow['author'];
-					if ($this->authorRepository->countByEmail($authorRow['email'])) {
+					if (!empty($authorRow['email']) && $this->authorRepository->countByEmail($authorRow['email'])) {
 						$author = $this->authorRepository->findOneByEmail($authorRow['email']);
 					} else {
 						$author = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Author', $authorRow);
