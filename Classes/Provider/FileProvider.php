@@ -210,18 +210,10 @@
 
 				// Remap keys
 			$keyMap = array(
-				'version'            => 'version_string',
-				'category'           => 'em_category',
-				'loadOrder'          => 'load_order',
-				'doNotLoadInFE'      => 'do_not_load_in_fe',
-				'clearcacheonload'   => 'clear_cache_on_load',
-				'createDirs'         => 'create_dirs',
-				'lockType'           => 'lock_type',
-				'CGLcompliance'      => 'cgl_compliance',
-				'CGLcompliance_note' => 'cgl_compliance_note',
-				'author'             => 'name',
-				'author_email'       => 'email',
-				'author_company'     => 'company',
+				'clearCacheOnLoad' => 'clearcacheonload',
+				'author'           => 'authorname',
+				'author_email'     => 'authoremail',
+				'author_company'   => 'authorcompany',
 			);
 			foreach ($emConf as $key => $value) {
 				if (!empty($keyMap[$key])) {
