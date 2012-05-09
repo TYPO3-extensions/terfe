@@ -88,6 +88,7 @@
 			$this->extensionRepository->setShowInsecure($this->isReviewer());
 		}
 
+
 		/**
 		 * Checks wether FE User is reviewer or not
 		 *
@@ -115,41 +116,42 @@
 			$this->searchAction();
 		}
 
-        /**
-         * search action (USER_INT)
-         *
-         * @param array $search Search params for extension list
-         * @param array $restoreSearch Restore last search from session
-         * @return void
-         * @dontvalidate $search
-         */
-        public function searchAction(array $search = array(), $restoreSearch = FALSE) {
-            // Get extension list
-            if (!empty($this->settings['show']['extensionSearch'])) {
-                $this->view->assign('extensions', $this->getExtensions($search, $restoreSearch));
-                $this->view->assign('search',     $search);
-            } else {
-                $this->view->assign('extensions', $this->extensionRepository->findAll());
-            }
 
-            // Get all categories
-            if (!empty($this->settings['show']['categoryOverview'])) {
-                $categories = $this->categoryRepository->findAll();
-                $this->view->assign('categories', $categories);
-            }
+		/**
+		 * search action (USER_INT)
+		 *
+		 * @param array $search Search params for extension list
+		 * @param array $restoreSearch Restore last search from session
+		 * @return void
+		 * @dontvalidate $search
+		 */
+		public function searchAction(array $search = array(), $restoreSearch = FALSE) {
+			// Get extension list
+			if (!empty($this->settings['show']['extensionSearch'])) {
+				$this->view->assign('extensions', $this->getExtensions($search, $restoreSearch));
+				$this->view->assign('search', $search);
+			} else {
+				$this->view->assign('extensions', $this->extensionRepository->findAll());
+			}
 
-            // Get all tags
-            if (!empty($this->settings['show']['tagOverview'])) {
-                $tags = $this->tagRepository->findAll();
-                $this->view->assign('tags', $tags);
-            }
+			// Get all categories
+			if (!empty($this->settings['show']['categoryOverview'])) {
+				$categories = $this->categoryRepository->findAll();
+				$this->view->assign('categories', $categories);
+			}
 
-            // Get authors
-            if (!empty($this->settings['show']['authorOverview'])) {
-                $authors = $this->authorRepository->findByLatestExtensionVersion();
-                $this->view->assign('authors', $authors);
-            }
-        }
+			// Get all tags
+			if (!empty($this->settings['show']['tagOverview'])) {
+				$tags = $this->tagRepository->findAll();
+				$this->view->assign('tags', $tags);
+			}
+
+			// Get authors
+			if (!empty($this->settings['show']['authorOverview'])) {
+				$authors = $this->authorRepository->findByLatestExtensionVersion();
+				$this->view->assign('authors', $authors);
+			}
+		}
 
 
 		/**
