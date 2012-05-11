@@ -192,6 +192,20 @@
 			return $query->execute();
 		}
 
+		/**
+		 * 
+		 * @param string $frontendUser
+		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
+		 */
+		public function findByFrontendUser($frontendUser) {
+			$query = $this->createQuery();
+			$query->setOrderings(
+				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+			);
+			
+			$this->match($query, $query->like('frontendUser', $frontendUser));
+			return $query->execute();
+		}
 
 		/**
 		 * Search extensions by search words and filters
