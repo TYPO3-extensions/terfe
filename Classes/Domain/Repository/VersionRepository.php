@@ -79,7 +79,7 @@
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function getVersionHistory($extension, $count = 0, $skipLatest = TRUE) {
-			$ordering = array('uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
+			$ordering = array('versionNumber' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
 			$query = $this->createQuery(0, $count, $ordering);
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
