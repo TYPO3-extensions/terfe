@@ -49,6 +49,10 @@ plugin.tx_terfe2 {
 			tagOverview         = {$plugin.tx_terfe2.settings.show.tagOverview}
 			# reviewForm        = (see condition at file end)
 		}
+
+		pages {
+			extensionDetailPID	= {$plugin.tx_terfe2.settings.pages.extensionDetailPID}
+		}
 	}
 
 	## Storage settings

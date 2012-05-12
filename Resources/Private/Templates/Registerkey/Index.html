@@ -39,7 +39,15 @@
 
 									<tr class="{columCycle}">
 										<td style="border-right: 0;">
-											{extension.extKey}<br />
+											<f:if condition="{extension.versionCount} < 1">
+												<f:then>
+													{extension.extKey}
+												</f:then>
+												<f:else>
+													<f:link.action pageUid="{settings.pages.extensionDetailPID}" controller="Extension" action="show" arguments="{extension : extension}">{extension.extKey}</f:link.action>
+												</f:else>
+											</f:if>
+											<br />
                                             <span class="b-comment-date"><f:if condition="{extension.versionCount} < 1"><f:then>
                                                 <f:translate key="tx_terfe2_domain_model_extension.versions.no" />
                                             </f:then><f:else><f:if condition="{extension.versionCount} > 1"><f:then>

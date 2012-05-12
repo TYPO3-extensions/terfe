@@ -106,6 +106,11 @@ plugin.tx_terfe2 {
 			# cat=TER Frontend/settings/5070; type=boolean; label=Show review form: Show review form in detail view
 			reviewForm = 0
 		}
+
+		pages {
+			# cat=TER Frontend/settings/5500; type=int+; label=Detail PID: PID of extension detail view
+			extensionDetailPID = 23
+		}
 	}
 
 	persistence {
