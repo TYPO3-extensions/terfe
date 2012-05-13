@@ -5,6 +5,12 @@
 				<tr>
 					<td class="col1"><strong>{version.versionString}</strong></td>
 					<td class="col2">{version.uploadComment}</td>
+					<td class="col3">
+						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
+						<f:if condition="{version.hasZipFile}">
+							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
+						</f:if>
+					</td>
 				</tr>
 			</f:if>
 		</f:if>

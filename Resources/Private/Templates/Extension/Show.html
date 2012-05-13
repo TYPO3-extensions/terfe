@@ -121,10 +121,10 @@
 					</f:if>
 					
 					<div class="ter-ext-single-versionhistory ter-toggle-hide">
-						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory}" />
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory, extension: extension}" />
 					</div>
 					<div class="ter-ext-single-versionhistory ter-toggle-show">
-						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber}" />
+						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber, extension: extension}" />
 					</div>
 
 				</f:if>
