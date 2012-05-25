@@ -39,11 +39,13 @@
 				return '';
 			}
 
-			$parts = t3lib_div::trimExplode('0', (string) $version, TRUE);
-			$parts = array_pad($parts, 3, 0);
-
-			return implode('.', $parts);
+			$versionString = str_pad($version, 9, '0', STR_PAD_LEFT);
+			$parts = array(
+				substr($versionString, 0, 3),
+				substr($versionString, 3, 3),
+				substr($versionString, 6, 3)
+			);
+			return intval($parts[0]) . '.' . intval($parts[1]) . '.' . intval($parts[2]);
 		}
-
 	}
 ?>
