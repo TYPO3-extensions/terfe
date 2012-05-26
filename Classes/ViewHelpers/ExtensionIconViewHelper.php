@@ -80,7 +80,7 @@
 				$imageUrl = $this->providerManager->getProvider($provider)->getIconUrl($version, $fileType);
 			}
 
-			if (empty($imageUrl) || !file_exists($imageUrl)) {
+			if (empty($imageUrl) || !file_exists(Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($imageUrl))) {
 				$imageUrl = t3lib_div::locationHeaderUrl('typo3/clear.gif');
 				$this->tag->addAttribute('height', 16);
 				$this->tag->addAttribute('width', 16);
