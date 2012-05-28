@@ -31,7 +31,7 @@
 		/**
 		 * @var boolean
 		 */
-		public $recalculateDownloads = FALSE;
+		public $recalculateDownloads = TRUE;
 
 		/**
 		 * @var Tx_TerFe2_Domain_Repository_VersionRepository
