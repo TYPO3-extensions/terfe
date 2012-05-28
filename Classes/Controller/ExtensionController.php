@@ -291,7 +291,7 @@
 
 			$version = $this->versionRepository->findOneByExtensionAndVersionString($extension, $versionString);
 			if (!$version) {
-				throw new Exception('Invalid version request', 1316542246);
+				$this->redirectWithMessage($this->translate('msg.version_not_found'), 'show', NULL, NULL, array('extension' => $extension));
 			}
 
 				// Get file path
