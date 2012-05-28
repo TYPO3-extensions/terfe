@@ -186,7 +186,7 @@
 		protected $cglComplianceNote;
 
 		/**
-		 * Review state
+		 * Review state (-1=insecure, 0=standard, 1=reviewed)
 		 * @var integer
 		 */
 		protected $reviewState;
