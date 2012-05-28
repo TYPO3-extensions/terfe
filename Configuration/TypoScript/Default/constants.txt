@@ -28,7 +28,7 @@ plugin.tx_terfe2 {
 		mediaRootPath = fileadmin/extensionFiles/
 
 		# cat=TER Frontend/settings/1080; type=boolean; label=Count downloads: Count extension downloads via download action
-		countDownloads = 0
+		countDownloads = 1
 
 		# cat=TER Frontend/settings/1090; type=int+; label=Default point count: Count of points to show in chart
 		defaultPointCount = 5
