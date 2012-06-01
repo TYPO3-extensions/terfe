@@ -235,6 +235,8 @@
             <label index="registerkey.error.result_empty.message">Please try again later.</label>
             <label index="registerkey.error.not_register.title">An unknown error occured.</label>
             <label index="registerkey.error.not_register.message">Your key could not be registered.</label>
+			<label index="registerkey.error.no_admin.title">Permission denied.</label>
+            <label index="registerkey.error.no_admin.message">You must be an admin to call this action.</label>
 
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>

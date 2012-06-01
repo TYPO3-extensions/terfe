@@ -30,6 +30,10 @@
 										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.switchableControllerActions.2</numIndex>
 										<numIndex index="1">Review->index;Review->edit;Review->update;</numIndex>
 									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.switchableControllerActions.3</numIndex>
+										<numIndex index="1">Registerkey->admin;Registerkey->edit;Registerkey->update;Registerkey->delete;Registerkey->transfer;</numIndex>
+									</numIndex>
 								</items>
 							</config>
 						</TCEforms>

@@ -146,6 +146,7 @@
 			<label index="tt_content.flexform_pi1.s_def.switchableControllerActions.0">TER Frontend</label>
 			<label index="tt_content.flexform_pi1.s_def.switchableControllerActions.1">Extension Key Registation</label>
 			<label index="tt_content.flexform_pi1.s_def.switchableControllerActions.2">Extension Review</label>
+			<label index="tt_content.flexform_pi1.s_def.switchableControllerActions.3">Extension Key Admin</label>
 
 			<label index="tt_content.flexform_pi1.s_list">List</label>
 			<label index="tt_content.flexform_pi1.s_detail">Detail</label>

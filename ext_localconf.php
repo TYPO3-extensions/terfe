@@ -14,7 +14,7 @@
 			'Author'      => 'list, edit, update, show',
 			'Media'       => 'list, new, create, edit, update, delete, show',
 //			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
-            'Registerkey' => 'index, create, manage, transfer, delete, salvage',
+            'Registerkey' => 'index, admin, create, manage, transfer, delete, salvage',
 			'Review'      => 'update',
 		),
 		array(
@@ -24,7 +24,7 @@
 			'Author'      => 'update',
 			'Media'       => 'create, delete',
 //			'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
-            'Registerkey' => 'index, create, manage, transfer, delete, salvage',
+            'Registerkey' => 'index, admin, create, manage, transfer, delete, salvage',
 			'Review'      => 'update',
 		)
 	);
