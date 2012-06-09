@@ -63,6 +63,15 @@
 								<th><f:translate key="author"/></th>
 								<td>{extension.lastVersion.author.name}</td>
 							</tr>
+							<f:if condition="{isReviewer}">
+							<tr>
+								<th>Owner:</th>
+								<td> Name: {owner.name}
+									<br />Email: {owner.email}
+									<br />Username: {owner.username}
+								</td>
+							</tr>
+							</f:if>
 							<tr>
 								<th><f:translate key="category"/></th>
 								<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>

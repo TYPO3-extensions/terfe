@@ -68,6 +68,10 @@
 		 */
 		protected $persistenceManager;
 
+		/**
+		 * @var Tx_Ajaxlogin_Domain_Repository_UserRepository
+		 */
+		protected $ownerRepository;
 
 		/**
 		 * Initializes the controller
@@ -80,6 +84,7 @@
 			$this->tagRepository       = $this->objectManager->get('Tx_TerFe2_Domain_Repository_TagRepository');
 			$this->versionRepository   = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 			$this->authorRepository    = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
+			$this->ownerRepository     = $this->objectManager->get('Tx_Ajaxlogin_Domain_Repository_UserRepository');
 			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
 			$this->session             = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
 			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
@@ -197,7 +202,7 @@
 				}
 				$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
 			}
-
+			$owner = $this->ownerRepository->findOneByUsername($extension->getFrontendUser());
 			$versionHistoryCount = (!empty($this->settings['versionHistoryCount']) ? $this->settings['versionHistoryCount'] : 5);
 			$skipLatestVersion   = (isset($this->settings['skipLatestVersion'])    ? $this->settings['skipLatestVersion']   : TRUE);
 
@@ -206,7 +211,7 @@
 				($this->isReviewer() || $extension->getLastVersion()->getReviewState() > -1)
 			) {
 				$versionHistory = $this->versionRepository->getVersionHistory($extension, $versionHistoryCount, $skipLatestVersion);
-
+				$this->view->assign('owner', $owner);
 				$this->view->assign('extension', $extension);
 				$this->view->assign('versionHistory', $versionHistory);
 				$this->view->assign('isReviewer', $this->isReviewer());
