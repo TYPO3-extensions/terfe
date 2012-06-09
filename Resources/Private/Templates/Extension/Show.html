@@ -109,7 +109,8 @@
 				<f:if condition="{versionHistory->f:count()} >= 1">
 					<h3><f:translate key="version_history" /></h3>
 
-					<f:if condition="{extension.versionCountWithPositiveReview} >= 4">
+					<f:if condition="{extension.reverseVersionsWithPositiveReviewsByVersionNumber->f:count()} > 4">
+					<f:then>
 						<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
 							<span><f:translate key="expand_details" /></span>
 							<hr/>
@@ -118,13 +119,35 @@
 							<span><f:translate key="collapse_details" /></span>
 							<hr/>
 						</div>
+					</f:then>
+					<f:else>
+						<f:if condition="{settings.show.reviewForm}">
+							<f:if condition="{extension.reverseVersionsByVersionNumber->f:count()} > 4">
+								<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
+									<span><f:translate key="expand_details" /></span>
+									<hr/>
+								</div>
+								<div class="ter-toggle-showLess ter-toggle ter-toggle-show">
+									<span><f:translate key="collapse_details" /></span>
+									<hr/>
+								</div>
+							</f:if>
+						</f:if>
+					</f:else>
 					</f:if>
-					
+
 					<div class="ter-ext-single-versionhistory ter-toggle-hide">
 						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory, extension: extension}" />
 					</div>
 					<div class="ter-ext-single-versionhistory ter-toggle-show">
-						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber, extension: extension}" />
+						<f:if condition="{settings.show.reviewForm}">
+						<f:then>
+							<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber, extension: extension}" />
+						</f:then>
+						<f:else>
+							<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsWithPositiveReviewsByVersionNumber, extension: extension}" />
+						</f:else>
+						</f:if>
 					</div>
 
 				</f:if>

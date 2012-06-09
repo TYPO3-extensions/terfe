@@ -286,18 +286,15 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
  * Review form
  */
 div.ter-ext-single-versions {
-	overflow-y: scroll;
-	overflow-x: hidden;
 	border: 1px solid #D1D1D1;
-	height: 94px;
-	width: 140px;
+	width: 150px;
 	display: block;
 	margin-bottom: 12px;
 }
 
 div.ter-ext-single-versions table {
 	height: auto;
-	width: auto;
+	width: 100%;
 	margin: 0;
 	padding: 0;
 }

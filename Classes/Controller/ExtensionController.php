@@ -86,6 +86,7 @@
 
 				// Show insecure extensions only for reviewers
 			$this->extensionRepository->setShowInsecure($this->isReviewer());
+			$this->versionRepository->setShowInsecure($this->isReviewer());
 		}
 
 

@@ -29,6 +29,21 @@
 	class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
 
 		/**
+		 * @var boolean
+		 */
+		protected $showInsecure = TRUE;
+
+		/**
+		 * Allow the listing of insecure extensions or not
+		 *
+		 * @param boolean $showInsecure
+		 * @return void
+		 */
+		public function setShowInsecure($showInsecure) {
+			$this->showInsecure = (bool) $showInsecure;
+		}
+
+		/**
 		 * Get all versions where media was not created for
 		 *
 		 * @param integer $offset Offset to start with
@@ -85,9 +100,14 @@
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 
 			if (!empty($skipLatest)) {
+				if ($this->showInsecure) {
+					$insecureConstraint = $query->greaterThan('reviewState', -2);
+				} else {
+					$insecureConstraint = $query->greaterThan('reviewState', -1);
+				}
 				$query->matching(
 					$query->logicalAnd(
-						$query->greaterThan('reviewState', -1),
+						$insecureConstraint,
 						$query->equals('extension', $extension),
 						$query->logicalNot(
 							$query->equals('uid', (int) $extension->getLastVersion()->getUid())
