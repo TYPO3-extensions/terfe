@@ -437,12 +437,15 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			$this->redirect('index');
 		}
 
+		$redirectToIndexAction = FALSE;
+
 		// Deleted in ter, then delete the version (and probably the extension) in the ter_fe2 extension table
 		if ($this->terConnection->deleteExtensionVersion($version->getExtension()->getExtKey(), $version->getVersionString())) {
 			$version->getExtension()->removeVersion($version);
 			$this->versionRepository->remove($version);
 			if ($version->getExtension()->getLastVersion() === NULL) {
 				$this->extensionRepository->remove($version->getExtension());
+				$redirectToIndexAction = TRUE;
 			}
 			$this->flashMessageContainer->add(
 					'', $this->translate('registerkey.version_deleted', array($version->getVersionString(), $version->getExtension()->getExtKey())), t3lib_FlashMessage::OK
@@ -452,8 +455,11 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 					$this->resolveWSErrorMessage('extensioncannotbedeleted.message', array($version->getExtension()->getExtKey())), $this->resolveWSErrorMessage('extensioncannotbedeleted.title', array($version->getExtension()->getExtKey())), t3lib_FlashMessage::ERROR
 			);
 		}
-
-		$this->redirect('admin', 'Registerkey', NULL, array('extensionKey' => $version->getExtension()->getExtKey()));
+		if ($redirectToIndexAction) {
+			$this->redirect('index', 'Registerkey', NULL);
+		} else {
+			$this->redirect('admin', 'Registerkey', NULL, array('extensionKey' => $version->getExtension()->getExtKey()));
+		}
 	}
 
 	/**
