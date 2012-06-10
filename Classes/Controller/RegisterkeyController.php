@@ -453,7 +453,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			);
 		}
 
-		$this->redirect('admin', 'Registerkey', NULL, array('extKey'=>$version->getExtension()->getExtKey()));
+		$this->redirect('admin', 'Registerkey', NULL, array('extensionKey' => $version->getExtension()->getExtKey()));
 	}
 
 	/**

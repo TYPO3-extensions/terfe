@@ -193,8 +193,8 @@
 		 */
 		public function deleteExtensionVersion($extensionKey, $versionString) {
 			$result = $this->soapService->deleteExtension($this->userData, $extensionKey, $versionString);
-				// 10000 = TX_TER_RESULT_GENERAL_OK
-			return (!empty($result['resultCode']) && $result['resultCode'] === '10000');
+				// 10505 = TX_TER_RESULT_EXTENSIONSUCCESSFULLYDELETED
+			return (!empty($result['resultCode']) && $result['resultCode'] === '10505');
 		}
 
 
