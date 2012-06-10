@@ -32,7 +32,7 @@
 									</numIndex>
 									<numIndex index="3" type="array">
 										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.switchableControllerActions.3</numIndex>
-										<numIndex index="1">Registerkey->index;Registerkey->admin;Registerkey->deleteExtensionVersion;Registerkey->edit;Registerkey->update;Registerkey->delete;Registerkey->transfer;</numIndex>
+										<numIndex index="1">Registerkey->index;Registerkey->admin;Registerkey->deleteExtensionVersion;Registerkey->create;Registerkey->edit;Registerkey->manage;Registerkey->update;Registerkey->delete;Registerkey->transfer;Registerkey->salvage</numIndex>
 									</numIndex>
 								</items>
 							</config>
