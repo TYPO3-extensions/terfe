@@ -44,6 +44,24 @@
 		}
 
 		/**
+		 * Build basis constraint
+		 *
+		 * @param Tx_Extbase_Persistence_QueryInterface $query
+		 * @param Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint
+		 * @return Tx_Extbase_Persistence_QueryInterface
+		 */
+		protected function match(Tx_Extbase_Persistence_QueryInterface $query, Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint) {
+			if ($this->showInsecure) {
+				$query->matching($constraint);
+				return;
+			}
+
+			$query->matching($query->logicalAnd(
+							$query->greaterThanOrEqual('reviewState', 0), $constraint
+					));
+		}
+
+		/**
 		 * Get all versions where media was not created for
 		 *
 		 * @param integer $offset Offset to start with
@@ -100,14 +118,8 @@
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 
 			if (!empty($skipLatest)) {
-				if ($this->showInsecure) {
-					$insecureConstraint = $query->greaterThan('reviewState', -2);
-				} else {
-					$insecureConstraint = $query->greaterThan('reviewState', -1);
-				}
-				$query->matching(
+				$this->match($query,
 					$query->logicalAnd(
-						$insecureConstraint,
 						$query->equals('extension', $extension),
 						$query->logicalNot(
 							$query->equals('uid', (int) $extension->getLastVersion()->getUid())

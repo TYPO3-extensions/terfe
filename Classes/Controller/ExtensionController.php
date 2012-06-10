@@ -89,28 +89,10 @@
 			$this->session             = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
 			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 
-				// Show insecure extensions only for reviewers
-			$this->extensionRepository->setShowInsecure($this->isReviewer());
-			$this->versionRepository->setShowInsecure($this->isReviewer());
+			// Show insecure extensions only for reviewers
+			$this->extensionRepository->setShowInsecure($this->securityRole->isReviewer());
+			$this->versionRepository->setShowInsecure($this->securityRole->isReviewer());
 		}
-
-
-		/**
-		 * Checks wether FE User is reviewer or not
-		 *
-		 * @return boolean
-		 */
-		protected function isReviewer() {
-			if (!empty($this->settings['reviewerGroupUid']) && $GLOBALS['TSFE']->loginUser) {
-				$reviewerGroupUid = (int) $this->settings['reviewerGroupUid'];
-				$currentGroupUids = $GLOBALS['TSFE']->fe_user->user['usergroup'];
-				if (t3lib_div::inList($currentGroupUids, $reviewerGroupUid)) {
-					return TRUE;
-				}
-			}
-			return FALSE;
-		}
-
 
 		/**
 		 * Index action, displays extension list (USER)
@@ -208,13 +190,12 @@
 
 			if ($extension !== NULL &&
 				$extension instanceof Tx_TerFe2_Domain_Model_Extension &&
-				($this->isReviewer() || $extension->getLastVersion()->getReviewState() > -1)
+				($this->securityRole->isReviewer() || $extension->getLastVersion()->getReviewState() > -1)
 			) {
 				$versionHistory = $this->versionRepository->getVersionHistory($extension, $versionHistoryCount, $skipLatestVersion);
 				$this->view->assign('owner', $owner);
 				$this->view->assign('extension', $extension);
 				$this->view->assign('versionHistory', $versionHistory);
-				$this->view->assign('isReviewer', $this->isReviewer());
 			}
 		}
 

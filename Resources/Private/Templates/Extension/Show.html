@@ -63,7 +63,7 @@
 								<th><f:translate key="author"/></th>
 								<td>{extension.lastVersion.author.name}</td>
 							</tr>
-							<f:if condition="{isReviewer}">
+							<f:security.ifHasRole role="{settings.reviewerGroupUid}">
 							<tr>
 								<th>Owner:</th>
 								<td> Name: {owner.name}
@@ -71,7 +71,7 @@
 									<br />Username: {owner.username}
 								</td>
 							</tr>
-							</f:if>
+							</f:security.ifHasRole>
 							<tr>
 								<th><f:translate key="category"/></th>
 								<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
@@ -130,7 +130,7 @@
 						</div>
 					</f:then>
 					<f:else>
-						<f:if condition="{settings.show.reviewForm}">
+						<f:security.ifHasRole role="{settings.reviewerGroupUid}">
 							<f:if condition="{extension.reverseVersionsByVersionNumber->f:count()} > 4">
 								<div class="ter-toggle-showMore ter-toggle ter-toggle-hide">
 									<span><f:translate key="expand_details" /></span>
@@ -141,7 +141,7 @@
 									<hr/>
 								</div>
 							</f:if>
-						</f:if>
+						</f:security.ifHasRole>
 					</f:else>
 					</f:if>
 
@@ -149,14 +149,14 @@
 						<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory, extension: extension}" />
 					</div>
 					<div class="ter-ext-single-versionhistory ter-toggle-show">
-						<f:if condition="{settings.show.reviewForm}">
+						<f:security.ifHasRole role="{settings.reviewerGroupUid}">
 						<f:then>
 							<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber, extension: extension}" />
 						</f:then>
 						<f:else>
 							<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsWithPositiveReviewsByVersionNumber, extension: extension}" />
 						</f:else>
-						</f:if>
+						</f:security.ifHasRole>
 					</div>
 
 				</f:if>
@@ -164,9 +164,9 @@
 				<f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey" arguments="{restoreSearch: 1}"><f:translate key="back_to_extension_list" /></f:link.action>
 
 				<f:if condition="{settings.show.reviewForm}">
-					<f:if condition="{isReviewer}">
+					<f:security.ifHasRole role="{settings.reviewerGroupUid}">
 						<f:render partial="ReviewForm" arguments="{extension: extension}"/>
-					</f:if>
+					</f:security.ifHasRole>
 				</f:if>
 
 			</div>

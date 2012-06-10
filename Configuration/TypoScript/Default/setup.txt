@@ -18,6 +18,7 @@ plugin.tx_terfe2 {
 		skipLatestVersion     = {$plugin.tx_terfe2.settings.skipLatestVersion}
 		onlyLatestVersionZip  = {$plugin.tx_terfe2.settings.onlyLatestVersionZip}
 		reviewerGroupUid      = {$plugin.tx_ter_pi1.reviewersFrontendUsergroupUid}
+		terAdminGroupUid      = {$plugin.tx_ter_pi1.adminFrontendUsergroupUid}
 
 		terConnection {
 			wsdl                = {$plugin.tx_terfe2.settings.terConnection.wsdl}

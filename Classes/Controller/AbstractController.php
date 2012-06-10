@@ -29,6 +29,18 @@
 	abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Controller_ActionController {
 
 		/**
+		 * @var Tx_TerFe2_Security_Role
+		 */
+		protected $securityRole;
+
+		/**
+		 * @param Tx_TerFe2_Security_Role $security
+		 */
+		public function injectSecurityRole(Tx_TerFe2_Security_Role $securityRole) {
+			$this->securityRole = $securityRole;
+		}
+
+		/**
 		 * Pre-parse TypoScript setup
 		 *
 		 * @return void
