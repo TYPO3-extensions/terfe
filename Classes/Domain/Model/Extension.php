@@ -358,6 +358,27 @@
 
 
 		/**
+		 * Removes a Version
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Version $version
+		 */
+		public function removeVersion(Tx_TerFe2_Domain_Model_Version $version) {
+			if (!$this->versions->contains($version)) {
+				throw new UnexpectedValueException('Tried to remove a version which is not part of the extension.', 1339359060);
+			}
+
+			$versionCount = $this->getVersionCount();
+			$this->versions->detach($version);
+			if ($version == $this->lastVersion) {
+				if ($versionCount === 1) {
+					$this->lastVersion = NULL;
+				} else {
+					$this->lastVersion = array_shift($this->getReverseVersionsByVersionNumber());
+				}
+			}
+		}
+
+		/**
 		 * Setter for lastVersion, will only set if given version is newer than existing one
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $lastVersion lastVersion

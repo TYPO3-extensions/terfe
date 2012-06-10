@@ -153,6 +153,7 @@
 		 * @param string $methodName Method name
 		 * @param array $params Parameters
 		 * @return array Result of the SOAP call
+		 * @throws Exception
 		 */
 		public function __call($methodName, array $params = array()) {
 

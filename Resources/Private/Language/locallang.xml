@@ -15,9 +15,9 @@
 			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
 			<label index="tx_terfe2_domain_model_extension.tags">Tags</label>
 			<label index="tx_terfe2_domain_model_extension.versions">Versions</label>
-            <label index="tx_terfe2_domain_model_extension.versions.no">no versions</label>
-            <label index="tx_terfe2_domain_model_extension.versions.one">1 version</label>
-            <label index="tx_terfe2_domain_model_extension.versions.multiple">%d versions</label>
+			<label index="tx_terfe2_domain_model_extension.versions.no">no versions</label>
+			<label index="tx_terfe2_domain_model_extension.versions.one">1 version</label>
+			<label index="tx_terfe2_domain_model_extension.versions.multiple">%d versions</label>
 			<label index="tx_terfe2_domain_model_extension.downloads">Downloads of all versions</label>
 
 			<label index="tx_terfe2_domain_model_category">Frontend category of the extension</label>
@@ -211,32 +211,35 @@
 
 			<label index="registerkey.notloggedin">Please log in to manage your extension or to register a new extension key.</label>
 			<label index="registerkey.key_registered">Extension key registered</label>
-            <label index="registerkey.newuserempty">The name of the new user must not be empty.</label>
+			<label index="registerkey.newuserempty">The name of the new user must not be empty.</label>
 			<label index="registerkey.notyourextension">This extension does not belong to you.</label>
 			<label index="registerkey.key_exists">Extension Key exists</label>
 			<label index="registerkey.key_update_failed">Could not update extension.</label>
 			<label index="registerkey.key_updated">Extension updated.</label>
-            <label index="registerkey.cannotbedeleted.title">Unknown error</label>
-			<label index="registerkey.cannotbedeleted.message">Extension %s could not be deleted.</label>
 			<label index="registerkey.deleted">Extension %s deleted.</label>
+			<label index="registerkey.version_deleted">Version %s of Extension %s deleted.</label>
 			<label index="registerkey.noWsdl">No WSDL URI configured to connect to TER server</label>
 			<label index="registerkey.transferError.title">Error transfering the extension %s</label>
-            <label index="registerkey.transferError.message">Error: %s</label>
+			<label index="registerkey.transferError.message">Error: %s</label>
 			<label index="registerkey.keyTransfered">Transfered the extension %s to %s</label>
-            <label index="registerkey.deleting_prohibited">You can't delete extension key with versions.</label>
+			<label index="registerkey.deleting_prohibited">You can't delete extension key with versions.</label>
 
+			<label index="registerkey.error.cannotbedeleted.title">Unknown error</label>
+			<label index="registerkey.error.cannotbedeleted.message">Extension Key %s could not be deleted.</label>
+			<label index="registerkey.error.extensioncannotbedeleted.title">Unknown error</label>
+			<label index="registerkey.error.extensioncannotbedeleted.message">Extension %s could not be deleted.</label>
 			<label index="registerkey.error.user_not_found">The given user could not be found.</label>
-            <label index="registerkey.error.key_not_found">The given extension could not be found.</label>
+			<label index="registerkey.error.key_not_found">The given extension could not be found.</label>
 			<label index="registerkey.error.key_invalid.title">Extension key is invalid.</label>
-            <label index="registerkey.error.key_invalid.message"> Please pay attention to the rules below the form.</label>
+			<label index="registerkey.error.key_invalid.message"> Please pay attention to the rules below the form.</label>
 			<label index="registerkey.error.key_exists.title">An extension with this key already exists.</label>
-            <label index="registerkey.error.key_exists.message"></label>
+			<label index="registerkey.error.key_exists.message"></label>
 			<label index="registerkey.error.result_empty.title">An unknown error occured.</label>
-            <label index="registerkey.error.result_empty.message">Please try again later.</label>
-            <label index="registerkey.error.not_register.title">An unknown error occured.</label>
-            <label index="registerkey.error.not_register.message">Your key could not be registered.</label>
+			<label index="registerkey.error.result_empty.message">Please try again later.</label>
+			<label index="registerkey.error.not_register.title">An unknown error occured.</label>
+			<label index="registerkey.error.not_register.message">Your key could not be registered.</label>
 			<label index="registerkey.error.no_admin.title">Permission denied.</label>
-            <label index="registerkey.error.no_admin.message">You must be an admin to call this action.</label>
+			<label index="registerkey.error.no_admin.message">You must be an admin to call this action.</label>
 
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>
@@ -252,14 +255,14 @@
 			<label index="manage-extension-keys">Manage extension keys</label>
 			<label index="modifiy-extension-key">Modifiy extension keys</label>
 
-            <label index="registerkey.error.not_register.title">An unknown error occured.</label>
-            <label index="registerkey.error.not_register.message">Your key could not be registered.</label>
-            <label index="registerkey.error.nothing_found">No extension keys for your account have been found.</label>
+			<label index="registerkey.error.not_register.title">An unknown error occured.</label>
+			<label index="registerkey.error.not_register.message">Your key could not be registered.</label>
+			<label index="registerkey.error.nothing_found">No extension keys for your account have been found.</label>
 
-            <label index="registerkey.salvage.success">%d extension keys have been salvaged.</label>
-            <label index="registerkey.salvage.pass.title">No extension keys could be salvaged.</label>
-            <label index="registerkey.salvage.pass.message">%d extensions have been found, but all of them were already migrated.</label>
-            <label index="registerkey.salvage.pass.message">One extension has been found, but it was already migrated.</label>
+			<label index="registerkey.salvage.success">%d extension keys have been salvaged.</label>
+			<label index="registerkey.salvage.pass.title">No extension keys could be salvaged.</label>
+			<label index="registerkey.salvage.pass.message">%d extensions have been found, but all of them were already migrated.</label>
+			<label index="registerkey.salvage.pass.message">One extension has been found, but it was already migrated.</label>
 
 
 		</languageKey>

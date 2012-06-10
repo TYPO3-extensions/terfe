@@ -36,6 +36,11 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	protected $extensionRepository;
 
 	/**
+	 * @var Tx_TerFe2_Domain_Repository_VersionRepository
+	 */
+	protected $versionRepository;
+
+	/**
 	 * @var Tx_TerFe2_Domain_Repository_CategoryRepository
 	 */
 	protected $categoryRepository;
@@ -47,6 +52,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	 */
 	protected function initializeController() {
 		$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+		$this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 		$this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
 	}
 
@@ -406,7 +412,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 				);
 			} else {
 				$this->flashMessageContainer->add(
-						$this->translate('registerkey.cannotbedeleted.message', array($extension->getExtKey())), $this->translate('registerkey.cannotbedeleted.title', array($extension->getExtKey())), t3lib_FlashMessage::ERROR
+						$this->resolveWSErrorMessage('cannotbedeleted.message', array($extension->getExtKey())), $this->resolveWSErrorMessage('cannotbedeleted.title', array($extension->getExtKey())), t3lib_FlashMessage::ERROR
 				);
 			}
 		} else {
@@ -417,12 +423,48 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	}
 
 	/**
-	 * Show all extensions for fe admins
+	 * Delete an extension version from ter server
+	 *
+	 * @param Tx_TerFe2_Domain_Model_Version $version Extension to delete
+	 * @dontvalidate $version
+	 * @return void
 	 */
-	public function adminAction() {
-		if (!$this->isReviewer()) {
+	public function deleteExtensionVersionAction(Tx_TerFe2_Domain_Model_Version $version) {
+		if (!$this->securityRole->isAdmin()) {
 			$this->flashMessageContainer->add(
 					$this->resolveWSErrorMessage('not_admin.message'), $this->resolveWSErrorMessage('not_admin.title'), t3lib_FlashMessage::ERROR
+			);
+			$this->redirect('index');
+		}
+
+		// Deleted in ter, then delete the version (and probably the extension) in the ter_fe2 extension table
+		if ($this->terConnection->deleteExtension($version->getExtension()->getExtKey(), $version->getVersionString())) {
+			$version->getExtension()->removeVersion($version);
+			$this->versionRepository->remove($version);
+			if ($version->getExtension()->getLastVersion() === NULL) {
+				$this->extensionRepository->remove($version->getExtension());
+			}
+			$this->flashMessageContainer->add(
+					'', $this->translate('registerkey.version_deleted', array($version->getVersionString(), $version->getExtension()->getExtKey())), t3lib_FlashMessage::OK
+			);
+		} else {
+			$this->flashMessageContainer->add(
+					$this->resolveWSErrorMessage('extensioncannotbedeleted.message', array($version->getExtension()->getExtKey())), $this->resolveWSErrorMessage('extensioncannotbedeleted.title', array($version->getExtension()->getExtKey())), t3lib_FlashMessage::ERROR
+			);
+		}
+
+		$this->redirect('admin', 'Registerkey', NULL, array('extKey'=>$version->getExtension()->getExtKey()));
+	}
+
+	/**
+	 * Show all extensions for ter admins
+	 *
+	 * @param string $extensionKey
+	 */
+	public function adminAction($extensionKey = '') {
+		if (!$this->securityRole->isAdmin()) {
+			$this->flashMessageContainer->add(
+					$this->resolveWSErrorMessage('no_admin.message'), $this->resolveWSErrorMessage('no_admin.title'), t3lib_FlashMessage::ERROR
 			);
 			$this->redirect('index');
 		}
@@ -430,10 +472,10 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 		$this->extensionRepository->setDefaultOrderings(
 				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
 		);
-		if (!$searchTerm) {
+		if (!$extensionKey) {
 			$this->view->assign('adminExtensions', $this->extensionRepository->findAllAdmin());
 		} else {
-			$this->view->assign('adminExtensions', $this->extensionRepository->findExtKey($searchTerm));
+			$this->view->assign('adminExtensions', $this->extensionRepository->findByExtKey($extensionKey));
 		}
 	}
 
@@ -441,19 +483,11 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	 * resolve the error key and get the corresponding translation
 	 *
 	 * @param string $error
+	 * @param array $arguments
 	 * @return string $message already translated
 	 */
-	protected function resolveWSErrorMessage($error) {
-		return $this->translate('registerkey.error.' . $error);
-	}
-
-	/**
-	 * check wether fe user is in the reviewer group oder not
-	 * 
-	 * @return bool
-	 */
-	protected function isReviewer() {
-		return (is_array($GLOBALS['TSFE']->fe_user->groupData['uid']) && in_array($this->settings['reviewerGroupUid'], $GLOBALS['TSFE']->fe_user->groupData['uid']));
+	protected function resolveWSErrorMessage($error, $arguments = array()) {
+		return $this->translate('registerkey.error.' . $error, $arguments);
 	}
 
 }

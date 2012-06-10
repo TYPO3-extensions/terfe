@@ -351,36 +351,53 @@ div.ter-ext-single-versions td.ter-ext-single-versions-input input {
 /**
  * Registerkeys
  */
-table.manage-keys .tr-even td {
+.manage-keys .tr-even td,
+.key-admin .tr-even td {
 	background: none repeat scroll 0 0 #F3F3F3;
 }
 
-table.manage-keys td.no-borders {
+.manage-keys td.no-borders,
+.key-admin td.no-borders {
 	border-right: 0;
-	border-left: 0;
-	width:40px;
-}
-table.manage-keys td.no-border-left {
 	border-left: 0;
 	width: 40px;
 }
 
-table.manage-keys td div.b-form-inputs {
+.key-admin td.no-border-right {
+	border-right: 0;
+}
+
+.manage-keys td.no-border-left,
+.key-admin td.no-border-left {
+	border-left: 0;
+	width: 40px;
+}
+
+.manage-keys td div.b-form-inputs,
+.key-admin td div.b-form-inputs {
 	margin: 0;
 }
 
-table.manage-keys td div.b-form-inputs input.manage-keys-input {
+div.b-form-inputs input.manage-keys-input {
 	float: left;
 	width: 130px;
 	height: 12px;
 }
-table.manage-keys td div.b-form-inputs input.manage-keys-submit {
+input.manage-keys-submit {
 	margin-left: 5px;
 	height: 22px !important;
 }
 
-table.manage-keys thead tr th.transfer-colum {
+.manage-keys th.transfer-colum {
 	width: 33%;
+}
+
+.key-admin th.transfer-colum {
+	width: 40%;
+}
+
+.key-admin th.colA4 {
+	width: 60%;
 }
 
 div.tx_terfe2 div.register-wrapper {

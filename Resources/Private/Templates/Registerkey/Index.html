@@ -14,6 +14,13 @@
 					<f:translate key="register-extension-key" />
 				</a>
 			</li>
+			<f:security.ifHasRole role="{settings.terAdminGroupUid}">
+			<li>
+				<a href="#tx_terfe2_tab_registerkey">
+					Admin
+				</a>
+			</li>
+			</f:security.ifHasRole>
 		</ul>
 
 		<div class="tab-panes">
@@ -141,7 +148,30 @@
 
 			</div>
 			<!-- closing register tab -->
+			<!-- open admin tab -->
+			<f:security.ifHasRole role="{settings.terAdminGroupUid}">
+			<div class="tab-content lite-tab-panes-black">
+				<f:form action="admin" controller="Registerkey" method="post">
+					<div class="register-wrapper">
 
+						<div class="registerkey-label">
+							<label><f:translate key="extensionKey" /></label>
+						</div>
+
+						<div class="register-input b-form-inputs">
+							<f:form.textfield name="extensionKey" value="" />
+						</div>
+					</div>
+
+					<hr />
+
+					<div class="registerkey-label">
+						<label>&nbsp;</label>
+					</div>
+					<f:form.submit class="bu bu-mini" value="{f:translate(key: 'search')}" />
+				</f:form>
+			</div>
+			</f:security.ifHasRole>
 		</div>
 	</div>
 

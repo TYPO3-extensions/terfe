@@ -24,7 +24,7 @@
  ******************************************************************/
 
 /**
- * Service to handle securityRoles
+ * Service to handle security roles
  */
 class Tx_TerFe2_Security_Role implements t3lib_Singleton {
 
