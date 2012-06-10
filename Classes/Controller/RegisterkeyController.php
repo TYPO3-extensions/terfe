@@ -438,7 +438,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 		}
 
 		// Deleted in ter, then delete the version (and probably the extension) in the ter_fe2 extension table
-		if ($this->terConnection->deleteExtension($version->getExtension()->getExtKey(), $version->getVersionString())) {
+		if ($this->terConnection->deleteExtensionVersion($version->getExtension()->getExtKey(), $version->getVersionString())) {
 			$version->getExtension()->removeVersion($version);
 			$this->versionRepository->remove($version);
 			if ($version->getExtension()->getLastVersion() === NULL) {
