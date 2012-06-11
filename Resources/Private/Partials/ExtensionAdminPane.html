@@ -1,4 +1,4 @@
-<f:security.ifHasRole role="{settings.reviewerGroupUid}">
+<f:security.ifHasRole role="{settings.terAdminGroupUid}">
 	<div class="tab-content lite-tab-panes-black">
 		<f:widget.paginate objects="{adminExtensions}" as="paginatedExtensions" configuration="{itemsPerPage: 25, insertAbove: 1, insertBelow: 1}">
 			<table class="key-admin">
