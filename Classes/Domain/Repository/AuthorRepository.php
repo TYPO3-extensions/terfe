@@ -61,5 +61,27 @@
 			return $query->execute();
 		}
 
+		/**
+		 * Returns all matching records by combination of email and name
+		 *
+		 * @param string $email
+		 * @param string $name
+		 *
+		 * @return matching records
+		 */
+		public function findByEmailAndName($email, $name) {
+			$query = $this->createQuery();
+			$query->matching(
+				$query->logicalAnd(
+					array(
+						$query->equals('email', $email),
+						$query->equals('name', $name)
+					)
+				)
+			);
+
+			return $query->execute();
+		}
+
 	}
 ?>
