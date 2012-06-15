@@ -38,29 +38,15 @@
 		 * Renders filesize in given format
 		 *
 		 * @param integer $filesize Filesize in bytes
-		 * @param string $format Output format
 		 * @return string New file size in given format
 		 */
-		public function render($filesize = NULL, $format = 'kb') {
+		public function render($filesize = NULL) {
 			if ($filesize === NULL) {
 				$filesize = $this->renderChildren();
 			}
 
 			$filesize = (int) $filesize;
-			if (empty($format) || empty($filesize)) {
-				return $filesize;
-			}
-
-			switch (strtolower($format)) {
-				case 'kb' :
-					return round($filesize / 1024);
-				case 'mb' :
-					return round(($filesize / 1024) / 1024);
-				case 'gb' :
-					return round((($filesize / 1024) / 1024) / 1024);
-				default :
-					return $filesize;
-			}
+			return t3lib_div::formatSize($filesize, 'B|kB|MB|GB');
 		}
 
 	}
