@@ -164,8 +164,8 @@
 					// Author
 				if (!empty($versionRow['author'])) {
 					$authorRow = $versionRow['author'];
-					if (!empty($authorRow['email']) && $this->authorRepository->findOneByEmailAndName($authorRow['email'], $authorRow['name'])->count() == 1) {
-						$author = $this->authorRepository->findOneByEmailAndName($authorRow['email'], $authorRow['name']);
+					if (!empty($authorRow['email']) && $this->authorRepository->findByEmailAndName($authorRow['email'], $authorRow['name'])->count() == 1) {
+						$author = $this->authorRepository->findByEmailAndName($authorRow['email'], $authorRow['name']);
 					} else {
 						$author = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Author', $authorRow);
 						$this->persistenceManager->getSession()->registerReconstitutedObject($author);
