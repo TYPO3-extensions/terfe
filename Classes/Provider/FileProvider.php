@@ -108,7 +108,7 @@
 				// Check if file exists
 			if (!Tx_TerFe2_Utility_File::fileExists($filename)) {
 				if ($fileType === 't3x' || $fileType === 'zip') {
-					throw new Exception('File "' . $filename . '" not found');
+					#throw new Exception('File "' . $filename . '" not found');
 				}
 
 				Tx_TerFe2_Utility_Log::addMessage('File "' . $filename . '" not found', 'ter_fe2', 2);
