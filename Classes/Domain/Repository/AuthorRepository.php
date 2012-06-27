@@ -83,5 +83,24 @@
 			return $query->execute();
 		}
 
+		/**
+		 * Returns author with matching email, name and username
+		 *
+		 * @param array $authorRow
+		 * @return array|Tx_Extbase_Persistence_QueryResultInterface
+		 */
+		public function findByAuthorData($authorRow) {
+			$query = $this->createQuery();
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$query->matching(
+				$query->logicalAnd(
+					$query->equals('email', $authorRow['email']),
+					$query->equals('name', $authorRow['name']),
+					$query->equals('username', $authorRow['username'])
+				)
+			);
+			return $query->execute();
+		}
 	}
 ?>

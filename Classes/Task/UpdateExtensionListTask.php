@@ -164,8 +164,8 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 				// Author
 			if (!empty($versionRow['author'])) {
 				$authorRow = $versionRow['author'];
-				if (!empty($authorRow['email']) && $this->authorRepository->findByEmailAndName($authorRow['email'], $authorRow['name'])->count() == 1) {
-					$author = $this->authorRepository->findByEmailAndName($authorRow['email'], $authorRow['name']);
+				if ($this->authorRepository->findByAuthorData($authorRow)->count() == 1) {
+					$author = $this->authorRepository->findByAuthorData($authorRow)->getFirst();
 				} else {
 					$author = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Author', $authorRow);
 					$this->persistenceManager->getSession()->registerReconstitutedObject($author);
