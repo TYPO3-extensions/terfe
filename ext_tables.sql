@@ -121,7 +121,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	title tinytext,
 	description text,
 	file_hash varchar(50) DEFAULT '' NOT NULL,
-	author int(11) unsigned DEFAULT '0' NOT NULL,
+	author tinytext,
 	version_number int(11) DEFAULT '0' NOT NULL,
 	version_string tinytext,
 	upload_date int(11) DEFAULT '0' NOT NULL,
