@@ -47,6 +47,11 @@
 		 */
 		protected $rating;
 
+		/**
+		 * Frontend user
+		 * @var Tx_Extbase_Domain_Model_FrontendUser
+		 */
+		protected $frontendUser;
 
 		/**
 		 * Setter for dateTime
@@ -110,5 +115,22 @@
 			return $this->rating;
 		}
 
+		/**
+		 * Getter for frontendUser
+		 *
+		 * @return Tx_Extbase_Persistence_ObjectStorage
+		 */
+		public function getFrontendUser() {
+			return $this->frontendUser;
+		}
+
+		/**
+		 * Setter for frontendUser
+		 *
+		 * @param Tx_Extbase_Persistence_ObjectStorage $frontendUser
+		 */
+		public function setFrontendUser($frontendUser) {
+			$this->frontendUser = $frontendUser;
+		}
 	}
 ?>

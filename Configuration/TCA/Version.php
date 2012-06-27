@@ -6,10 +6,10 @@
 	$GLOBALS['TCA']['tx_terfe2_domain_model_version'] = array(
 		'ctrl'      => $GLOBALS['TCA']['tx_terfe2_domain_model_version']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,frontend_download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,author,file_hash,extension_provider,has_zip_file,has_images',
+			'showRecordFieldList' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,frontend_download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,has_manual,media,experiences,software_relations,author,file_hash,extension_provider,has_zip_file,has_images',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,frontend_download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,media,experiences,software_relations,author,file_hash,extension_provider,has_zip_file,has_images'),
+			'1' => array('showitem' => 'title,description,version_number,version_string,upload_date,upload_comment,download_counter,frontend_download_counter,state,em_category,load_order,priority,shy,internal,do_not_load_in_fe,uploadfolder,clear_cache_on_load,module,create_dirs,modify_tables,lock_type,cgl_compliance,cgl_compliance_note,review_state,manual,has_manual,media,experiences,software_relations,author,file_hash,extension_provider,has_zip_file,has_images'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -310,6 +310,13 @@
 					'eval' => 'trim',
 				),
 			),
+			'has_manual' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.has_manual',
+				'config'  => array(
+					'type' => 'check',
+				),
+			),
 			'media' => array(
 				'exclude' => 0,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.media',
@@ -358,7 +365,8 @@
 				'config' => array(
 					'type'          => 'inline',
 					'foreign_table' => 'tx_terfe2_domain_model_author',
-					'maxitems'      => 1,
+					'minitems'      => 1,
+					'maxitems'		=> 20
 				),
 			),
 			'extension' => array(

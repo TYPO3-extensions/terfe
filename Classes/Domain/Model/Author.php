@@ -66,6 +66,23 @@
 		 */
 		protected $versions;
 
+		/**
+		 * Frontend user
+		 * @var Tx_Extbase_Domain_Model_FrontendUser
+		 */
+		protected $frontendUser;
+
+		/**
+		 * Author type
+		 *
+		 * 0 = Maintainer (has uploaded)
+		 * 1 = Project leader
+		 * 2 = Developer
+		 * 3 = Support
+		 *
+		 * @var integer
+		 */
+		protected $authorType;
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -209,6 +226,44 @@
 		 */
 		public function removeVersion(Tx_TerFe2_Domain_Model_Version $version) {
 			$this->versions->detach($version);
+		}
+
+		/**
+		 * Getter for frontendUser
+		 *
+		 * @return Tx_Extbase_Domain_Model_FrontendUser
+		 */
+		public function getFrontendUser() {
+			return $this->frontendUser;
+		}
+
+		/**
+		 * Setter for frontendUser
+		 *
+		 * @param Tx_Extbase_Domain_Model_FrontendUser $frontendUser
+		 */
+		public function setFrontendUser($frontendUser) {
+			$this->frontendUser = $frontendUser;
+		}
+
+		/**
+		 * Setter for authorType
+		 *
+		 * @param integer $authorType Type of the author
+		 * @return void
+		 */
+		public function setAuthorType($type) {
+			$this->authorType = $type;
+		}
+
+
+		/**
+		 * Getter for authorType
+		 *
+		 * @return integer Type of the author
+		 */
+		public function getAuthorType() {
+			return $this->authorType;
 		}
 
 	}

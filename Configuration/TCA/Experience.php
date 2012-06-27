@@ -6,10 +6,10 @@
 	$GLOBALS['TCA']['tx_terfe2_domain_model_experience'] = array(
 		'ctrl'      => $GLOBALS['TCA']['tx_terfe2_domain_model_experience']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'date_time,comment,rating',
+			'showRecordFieldList' => 'date_time,comment,rating,frontend_user',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'date_time,comment,rating'),
+			'1' => array('showitem' => 'date_time,comment,rating,frontend_user'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -94,6 +94,15 @@
 			'version' => array(
 				'config' => array(
 					'type' => 'passthrough',
+				),
+			),
+			'frontend_user' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.frontend_user',
+				'config'  => array(
+					'type'          => 'inline',
+					'foreign_table' => 'fe_users',
+					'maxitems'      => 1,
 				),
 			),
 		),

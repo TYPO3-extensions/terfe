@@ -198,6 +198,12 @@
 		protected $manual;
 
 		/**
+		 * Check if a manual is existing in this version
+		 * @var boolean
+		 */
+		protected $hasManual;
+
+		/**
 		 * Media references
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Media>
 		 */
@@ -854,6 +860,26 @@
 		 */
 		public function getManual() {
 			return $this->manual;
+		}
+
+		/**
+		 * Setter for has_manual
+		 *
+		 * @param boolean $hasManual Check if version has manual
+		 * @return void
+		 */
+		public function setHasManual($hasManual) {
+			$this->hasManual = $hasManual;
+		}
+
+
+		/**
+		 * Getter for has_manual
+		 *
+		 * @return boolean $hasManual Check if version has manual
+		 */
+		public function getHasManual() {
+			return $this->hasManual;
 		}
 
 

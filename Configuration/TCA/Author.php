@@ -6,10 +6,10 @@
 	$GLOBALS['TCA']['tx_terfe2_domain_model_author'] = array(
 		'ctrl'      => $GLOBALS['TCA']['tx_terfe2_domain_model_author']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'name,email,company,forge_link,username,versions',
+			'showRecordFieldList' => 'name,email,company,forge_link,username,versions,frontend_user,author_type',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'name,email,company,forge_link,username,versions'),
+			'1' => array('showitem' => 'name,email,company,forge_link,username,versions,frontend_user,author_type'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -117,6 +117,28 @@
 					'appearance'    => array(
 						'collapse'              => 0,
 						'newRecordLinkPosition' => 'bottom',
+					),
+				),
+			),
+			'frontend_user' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.frontend_user',
+				'config'  => array(
+					'type'          => 'inline',
+					'foreign_table' => 'fe_users',
+					'maxitems'      => 1,
+				),
+			),
+			'author_type' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_author.author_type',
+				'config'  => array(
+					'type'		=> 'select',
+					'items'		=> array(
+						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_author.author_type.0', 0),
+						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_author.author_type.1', 1),
+						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_author.author_type.2', 2),
+						array('LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_author.author_type.3', 3),
 					),
 				),
 			),

@@ -305,7 +305,8 @@ CREATE TABLE tx_terfe2_domain_model_author (
 	forge_link tinytext,
 	username tinytext,
 	versions int(11) unsigned DEFAULT '0' NOT NULL,
-	frontend_user tinytext,
+	frontend_user int(11) unsigned DEFAULT '0' NOT NULL,
+	author_type int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

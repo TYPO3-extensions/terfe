@@ -72,6 +72,7 @@
 			<label index="tx_terfe2_domain_model_version.cgl_compliance_note">CGL compliance note</label>
 			<label index="tx_terfe2_domain_model_version.review_state">Review state</label>
 			<label index="tx_terfe2_domain_model_version.manual">Manual</label>
+			<label index="tx_terfe2_domain_model_version.has_manual">Version has manual?</label>
 			<label index="tx_terfe2_domain_model_version.media">Media</label>
 			<label index="tx_terfe2_domain_model_version.experiences">Experiences</label>
 			<label index="tx_terfe2_domain_model_version.software_relations">Software Relations</label>
@@ -110,6 +111,11 @@
 			<label index="tx_terfe2_domain_model_author.forge_link">Link to forge</label>
 			<label index="tx_terfe2_domain_model_author.username">Username</label>
 			<label index="tx_terfe2_domain_model_author.versions">Versions</label>
+			<label index="tx_terfe2_domain_model_author.author_type">Type of author</label>
+			<label index="tx_terfe2_domain_model_author.author_type.0">Maintainer (has uploaded)</label>
+			<label index="tx_terfe2_domain_model_author.author_type.1">Project leader</label>
+			<label index="tx_terfe2_domain_model_author.author_type.2">Developer</label>
+			<label index="tx_terfe2_domain_model_author.author_type.3">Support</label>
 
 			<label index="tx_terfe2_task_elementsPerRun">Element count to process at once</label>
 			<label index="tx_terfe2_task_clearCachePages">Clear cache of these pages after run</label>
