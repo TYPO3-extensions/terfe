@@ -145,6 +145,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	cgl_compliance_note text,
 	review_state int(11) DEFAULT '0' NOT NULL,
 	manual tinytext,
+	has_manual tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	media int(11) unsigned DEFAULT '0' NOT NULL,
 	experiences int(11) unsigned DEFAULT '0' NOT NULL,
 	software_relations int(11) unsigned DEFAULT '0' NOT NULL,
@@ -227,6 +228,8 @@ CREATE TABLE tx_terfe2_domain_model_experience (
 	date_time int(11) DEFAULT '0' NOT NULL,
 	comment text,
 	rating int(11) DEFAULT '0' NOT NULL,
+	frontend_user int(11) DEFAULT '0' NOT NULL,
+
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -302,6 +305,7 @@ CREATE TABLE tx_terfe2_domain_model_author (
 	forge_link tinytext,
 	username tinytext,
 	versions int(11) unsigned DEFAULT '0' NOT NULL,
+	frontend_user tinytext,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
