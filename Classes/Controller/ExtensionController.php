@@ -184,7 +184,10 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
 			}
 			$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
 		}
-		$owner = $this->ownerRepository->findOneByUsername($extension->getFrontendUser());
+		$owner = array();
+		if ($extension instanceof Tx_TerFe2_Domain_Model_Extension and $extension->getFrontendUser()) {
+			$owner = $this->ownerRepository->findOneByUsername($extension->getFrontendUser());
+		}
 		$versionHistoryCount = (!empty($this->settings['versionHistoryCount']) ? $this->settings['versionHistoryCount'] : 5);
 		$skipLatestVersion   = (isset($this->settings['skipLatestVersion'])    ? $this->settings['skipLatestVersion']   : TRUE);
 
