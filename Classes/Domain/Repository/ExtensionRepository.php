@@ -1,6 +1,5 @@
 <?php
-
-/* * *****************************************************************
+/*******************************************************************
  *  Copyright notice
  *
  *  (c) 2011 Kai Vogel <kai.vogel@speedprogs.de>, Speedprogs.de
@@ -22,7 +21,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * **************************************************************** */
+ ******************************************************************/
 
 /**
  * Repository for Tx_TerFe2_Domain_Model_Extension
@@ -192,7 +191,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
 	}
 
 	/**
-	 * 
+	 *
 	 * @param string $frontendUser
 	 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 	 */
