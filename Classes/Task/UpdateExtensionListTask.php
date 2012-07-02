@@ -181,16 +181,11 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 			$this->persistenceManager->getSession()->registerReconstitutedObject($extension);
 			$this->persistenceManager->persistAll();
 
-			if ($modified) {
-				$this->persistenceManager->getSession()->registerReconstitutedObject($extension);
-				$this->persistenceManager->persistAll();
-
-					// patch sent by Ingo to update solr index queue
-				if (t3lib_extMgm::isLoaded('solr')) {
-					$indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
-					$indexQueue->updateItem('tx_terfe2_domain_model_extension', $extensionRow['uid']);
-				}
-	 		}
+				// update the EXT:solr Index Queue
+			if (t3lib_extMgm::isLoaded('solr')) {
+				$indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
+				$indexQueue->updateItem('tx_terfe2_domain_model_extension', $extension->getUid());
+			}
 		}
 	}
 
