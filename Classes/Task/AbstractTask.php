@@ -181,7 +181,7 @@ abstract class Tx_TerFe2_Task_AbstractTask extends tx_scheduler_Task {
 		$lastRun = (int) $registry->get('lastRun');
 		$offset  = (int) $registry->get('offset');
 
-		return ' Last run: ' . Tx_TerFe2_Utility_Datetime::getDateFromTimestamp($lastRun) . ' | Offset: ' . $offset . ' ';
+		return 'Offset: ' . $offset . ' ';
 	}
 
 }
