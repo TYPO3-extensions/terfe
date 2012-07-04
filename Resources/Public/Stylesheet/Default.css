@@ -118,15 +118,7 @@ span.ter-ext-list-search-sorting {
 }
 
 span.ter-ext-list-search-sorting select {
-	border: 1px solid #CCCCCC;
-	border-top: 1px solid #AAAAAA;
-	background: none;
-	cursor: pointer;
-	display: inline-block;
 	font-size: 11px;
-	text-decoration: none;
-	vertical-align: middle;
-	outline: none;
 }
 
 
