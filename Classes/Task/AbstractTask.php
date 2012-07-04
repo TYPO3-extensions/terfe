@@ -31,7 +31,7 @@ abstract class Tx_TerFe2_Task_AbstractTask extends tx_scheduler_Task {
 	/**
 	 * @var integer
 	 */
-	public $elementsPerRun = 10;
+	public $elementsPerRun = 100;
 
 	/**
 	 * @var string
