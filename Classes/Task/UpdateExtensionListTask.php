@@ -230,7 +230,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 		$lastRun = (int) $registry->get('lastRun');
 		$offset  = (int) $registry->get('offset');
 
-		return ' Provider: ' . $title . ' | Last run: ' . Tx_TerFe2_Utility_Datetime::getDateFromTimestamp($lastRun) . ' | Offset: ' . $offset . ' ';
+		return ' Provider: ' . $title . ' | Offset: ' . $offset . ' ';
 	}
 
 }
