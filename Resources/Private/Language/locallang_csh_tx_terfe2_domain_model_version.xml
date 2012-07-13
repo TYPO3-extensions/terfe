@@ -33,6 +33,7 @@
 			<label index="cgl_compliance_note.description">Note for the CGL compliance</label>
 			<label index="review_state.description">Review state</label>
 			<label index="manual.description">Relation to manual object of ter_doc extension</label>
+			<label index="has_manual.description">Check if manual is included in version</label>
 			<label index="media.description">Media references</label>
 			<label index="experiences.description">Experiences</label>
 			<label index="software_relations.description">Software relations</label>
