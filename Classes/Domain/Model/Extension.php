@@ -489,6 +489,7 @@
 		 * @return integer All downloads
 		 */
 		public function getDownloads() {
+			$this->recalculateDownloads();
 			return (int) $this->downloads;
 		}
 
