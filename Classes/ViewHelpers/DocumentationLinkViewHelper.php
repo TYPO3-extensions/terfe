@@ -38,6 +38,14 @@
 		 */
 		protected $documentationService;
 
+		/**
+		 * Initialize the arguments.
+		 *
+		 * @return void
+		 */
+		public function initializeArguments() {
+			parent::initializeArguments();
+		}
 
 		/**
 		 * Inject the documentation service
@@ -54,9 +62,10 @@
 		 * Renders the documentation link for a version object
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Version $version Version object
+		 * @param string $format Output format
 		 * @return string Rendered image tag
 		 */
-		public function render(Tx_TerFe2_Domain_Model_Version $version = NULL) {
+		public function render(Tx_TerFe2_Domain_Model_Version $version = NULL, $format = '') {
 			if ($version === NULL) {
 				$version = $this->renderChildren();
 			}
@@ -64,7 +73,7 @@
 			$extensionKey = $version->getExtension()->getExtKey();
 			$versionString = $version->getVersionString();
 
-			return $this->documentationService->getDocumentationUrl($extensionKey, $versionString);
+			return $this->documentationService->getDocumentationUrl($extensionKey, $versionString, $format);
 		}
 
 	}

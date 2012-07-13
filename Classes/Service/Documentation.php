@@ -52,15 +52,16 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 	 *
 	 * @param string $extension Extension key
 	 * @param string $version Version string
+	 * @param string $format Output format (e.g. sxw)
 	 * @return string Url to documentation
 	 */
-	public function getDocumentationUrl($extensionKey, $versionString) {
+	public function getDocumentationUrl($extensionKey, $versionString, $format='') {
 		if (empty($extensionKey) || empty($versionString)) {
 			throw new Exception('Extension key and version string are required to build a documentation url');
 		}
 
 		if (!empty($this->terDocApi)) {
-			return $this->terDocApi->getDocumentationLink($extensionKey, $versionString);
+			return $this->terDocApi->getDocumentationLink($extensionKey, $versionString, $format);
 		}
 
 		return '';
