@@ -1,0 +1,58 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
+<div class="ter-ext-single-info ter-ext-info">
+	<table>
+		<tr class="ter-ext-single-info-key">
+			<th><f:translate key="extensionKey"/></th>
+			<td><strong>{extension.extKey}</strong></td>
+		</tr>
+		<tr>
+			<th><f:translate key="version"/></th>
+			<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
+		</tr>
+		<tr>
+			<th><f:translate key="last_uploaded"/></th>
+			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
+		</tr>
+		<tr>
+			<th><f:translate key="downloads"/></th>
+			<td><f:format.number decimals="0" thousandsSeparator="," decimalSeparator=".">{extension.downloads}</f:format.number></td>
+		</tr>
+		<tr>
+			<th><f:translate key="author"/></th>
+			<td>{extension.lastVersion.author.name}</td>
+		</tr>
+		<f:security.ifHasRole role="{settings.reviewerGroupUid}">
+			<tr>
+				<th>Owner:</th>
+				<td> Name: {owner.name}
+					<br />Email: {owner.email}
+					<br />Username: {owner.username}
+				</td>
+			</tr>
+		</f:security.ifHasRole>
+		<tr>
+			<th><f:translate key="category"/></th>
+			<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
+		</tr>
+		<tr class="ter-ext-single-info-relations">
+			<th><f:translate key="dependencies"/></th>
+			<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations, relationType: 'depends'}"/></td>
+		</tr>
+		<tr class="ter-ext-single-info-relations">
+			<th><f:translate key="conflicts"/>
+			</th>
+			<td>
+				<f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations, relationType: 'conflicts'}"/>
+			</td>
+		</tr>
+		<tr class="ter-ext-single-info-manual">
+			<th><f:translate key="manual"/></th>
+			<td>
+				<terfe2:documentationLink version="{extension.lastVersion}"></terfe2:documentationLink>
+				<br />
+				<terfe2:documentationLink version="{extension.lastVersion}" format="sxw"></terfe2:documentationLink>
+			</td>
+		</tr>
+	</table>
+</div>
