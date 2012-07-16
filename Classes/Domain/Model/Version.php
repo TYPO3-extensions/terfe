@@ -460,6 +460,7 @@
 			} else {
 				$this->downloadCounter += (int) $downloads;
 			}
+			$this->extension->recalculateDownloads();
 		}
 
 
