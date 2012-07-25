@@ -54,5 +54,13 @@
 				<terfe2:documentationLink version="{extension.lastVersion}" format="sxw"></terfe2:documentationLink>
 			</td>
 		</tr>
+		<f:if condition="{flattr}">
+			<tr class="ter-ext-single-flattr">
+				<th><f:translate key="donate" /></th>
+				<td>
+					<terfe2:flattr flattrData="{flattr}" />
+				</td>
+			</tr>
+		</f:if>
 	</table>
 </div>

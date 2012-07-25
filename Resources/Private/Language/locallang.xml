@@ -198,6 +198,7 @@
 			<label index="review">Review form</label>
 			<label index="comments">Comments</label>
 			<label index="add_comment">Add comment</label>
+			<label index="donate">Donate</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_extension_list">Back to Extension List</label>

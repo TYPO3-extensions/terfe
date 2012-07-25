@@ -154,6 +154,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	has_images tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	t3x_file_size bigint(15) unsigned DEFAULT '0' NOT NULL,
 	zip_file_size bigint(15) unsigned DEFAULT '0' NOT NULL,
+	flattr_username varchar(100) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -267,6 +268,7 @@ CREATE TABLE tx_terfe2_domain_model_relation (
 	relation_key tinytext,
 	minimum_version int(11) unsigned DEFAULT '0' NOT NULL,
 	maximum_version int(11) unsigned DEFAULT '0' NOT NULL,
+	related_extension int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

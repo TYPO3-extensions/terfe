@@ -56,6 +56,9 @@
 						<li class="">
 							<a href="#"><f:translate key="documentation" /></a>
 						</li>
+						<!--<li class="">
+							<a href="#"><f:translate key="experiences" /></a>
+						</li>-->
 						<f:if condition="{extension.lastVersion.media}">
 							<li class="">
 								<a href="#"><f:translate key="media" /></a>
@@ -87,7 +90,7 @@
 									<terfe2:chart object="{extension}" method="downloadsByVersion" height="200" width="340" pointCount="{settings.defaultPointCount}" renderOnLoad="1"/></td>
 
 								</div>
-								<f:render partial="ExtensionSingleInfo" arguments="{extension:extension, settings:settings, owner:owner}" />
+								<f:render partial="ExtensionSingleInfo" arguments="{extension:extension, settings:settings, owner:owner, flattr:flattr}" />
 							</div>
 						</div>
 						<div class="hide-tab">
@@ -135,6 +138,10 @@
 								</p>
 							</div>
 						</div>
+						<!--<div class="hide-tab">
+							<div class="ter-ext-single" style="padding-top: 10px;">
+							</div>
+						</div>-->
 						<f:if condition="{extension.lastVersion.media}">
 							<div class="hide-tab">
 								<div class="ter-ext-single" style="padding-top: 10px;">

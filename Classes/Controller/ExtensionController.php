@@ -88,6 +88,7 @@
 			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
 			$this->session             = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
 			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+			$this->securityRole        = $this->objectManager->get('Tx_TerFe2_Security_Role');
 
 				// Show insecure extensions only for reviewers
 			$this->extensionRepository->setShowInsecure($this->securityRole->isReviewer());
@@ -191,6 +192,8 @@
 			$versionHistoryCount = (!empty($this->settings['versionHistoryCount']) ? $this->settings['versionHistoryCount'] : 5);
 			$skipLatestVersion   = (isset($this->settings['skipLatestVersion'])    ? $this->settings['skipLatestVersion']   : TRUE);
 
+			$loggedInUser = $this->ownerRepository->findCurrent();
+
 			if ($extension !== NULL &&
 				$extension instanceof Tx_TerFe2_Domain_Model_Extension &&
 				($this->securityRole->isReviewer() || $extension->getLastVersion()->getReviewState() > -1)
@@ -199,6 +202,16 @@
 				$this->view->assign('owner', $owner);
 				$this->view->assign('extension', $extension);
 				$this->view->assign('versionHistory', $versionHistory);
+				$this->view->assign('loggedInUser', $loggedInUser);
+			}
+
+				// flattr check
+			if ($flattrUsername = $extension->getLastVersion()->getFlattrUsername()) {
+					/* @var Tx_TerFe2_Service_FLattr $flattrService */
+				$flattrService = $this->objectManager->get('Tx_TerFe2_Service_Flattr');
+				if ($result = $flattrService->checkForThing(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL')) and $result->owner->username == $flattrUsername) {
+					$this->view->assign('flattr', $result);
+				}
 			}
 		}
 
@@ -415,5 +428,15 @@
 			return $this->extensionRepository->findBySearchWordsAndFilters($options['needle'], array(), $ordering);
 		}
 
+
+		/**
+		 * gets the number of extensions in TER (for ajax call)
+		 *
+		 * @return int $number of extensions
+		 */
+		public function getExtensionNumberAction() {
+			$number = $this->extensionRepository->findAll()->count();
+			return (int) $number;
+		}
 	}
 ?>

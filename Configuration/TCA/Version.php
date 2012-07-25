@@ -418,6 +418,15 @@
 					'type' => 'passthrough',
 				),
 			),
+			'flattr_username' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_version.flattr_username',
+				'config'  => array(
+					'type' => 'input',
+					'size' => 30,
+					'eval' => 'trim',
+				),
+			),
 		),
 	);
 ?>
