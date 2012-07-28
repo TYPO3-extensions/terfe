@@ -259,13 +259,6 @@
 		protected $zipFileSize;
 
 		/**
-		 * Flattr username
-		 * @var string
-		 */
-		protected $flattrUsername;
-
-
-		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
 		 */
 		public function __construct() {
@@ -1169,29 +1162,6 @@
 		 */
 		public function getZipFileSize() {
 			return (int) $this->zipFileSize;
-		}
-
-
-		/**
-		 * Setter for flattrUsername
-		 *
-		 * @param string $flattrUsername
-		 * @return void
-		 */
-		public function setFlattrUsername($flattrUsername) {
-			$this->flattrUsername = $flattrUsername;
-		}
-
-
-		/**
-		 * Getter for flattrUsername
-		 *
-		 * @return string flattr username
-		 */
-		public function getFlattrUsername() {
-			// TODO: remove test account
-			return 'SpoonerWeb';
-			return $this->flattrUsername;
 		}
 
 	}

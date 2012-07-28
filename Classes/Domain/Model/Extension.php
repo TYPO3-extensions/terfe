@@ -90,6 +90,12 @@
 		 */
 		protected $downloads;
 
+		/**
+		 * Flattr username
+		 * @var string
+		 */
+		protected $flattrUsername;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -480,6 +486,27 @@
 		 */
 		public function addDownloads($downloads) {
 			$this->downloads += (int) $downloads;
+		}
+
+
+		/**
+		 * Setter for flattrUsername
+		 *
+		 * @param string $flattrUsername
+		 * @return void
+		 */
+		public function setFlattrUsername($flattrUsername) {
+			$this->flattrUsername = $flattrUsername;
+		}
+
+
+		/**
+		 * Getter for flattrUsername
+		 *
+		 * @return string flattr username
+		 */
+		public function getFlattrUsername() {
+			return $this->flattrUsername;
 		}
 
 

@@ -19,6 +19,7 @@
 			<label index="tx_terfe2_domain_model_extension.last_version">Last Version</label>
 			<label index="tx_terfe2_domain_model_extension.frontend_user">Frontend User</label>
 			<label index="tx_terfe2_domain_model_extension.downloads">Downloads of all versions</label>
+			<label index="tx_terfe2_domain_model_extension.flattr_username">Username flattr</label>
 
 			<label index="tx_terfe2_domain_model_category">Category</label>
 			<label index="tx_terfe2_domain_model_category.title">Title</label>

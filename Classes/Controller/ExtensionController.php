@@ -206,7 +206,7 @@
 			}
 
 				// flattr check
-			if ($flattrUsername = $extension->getLastVersion()->getFlattrUsername()) {
+			if ($flattrUsername = $extension->getFlattrUsername()) {
 					/* @var Tx_TerFe2_Service_FLattr $flattrService */
 				$flattrService = $this->objectManager->get('Tx_TerFe2_Service_Flattr');
 				if ($result = $flattrService->checkForThing(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL')) and $result->owner->username == $flattrUsername) {
