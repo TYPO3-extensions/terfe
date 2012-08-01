@@ -251,6 +251,7 @@ class Tx_TerFe2_Provider_FileProvider extends Tx_TerFe2_Provider_AbstractProvide
 			$extensions[$extension['extkey']]['ext_key'] = $extension['extkey'];
 			$extensions[$extension['extkey']]['downloads'] = (int) $extension['alldownloadcounter'];
 			$extensions[$extension['extkey']]['frontend_user'] = $extension['ownerusername'];
+			$extensions[$extension['extkey']]['flattr_username'] = trim($extension['flattr_username']);
 
 				// Versions
 			$versionString = $extension['version'];

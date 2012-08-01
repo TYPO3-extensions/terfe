@@ -133,6 +133,10 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 			// Extension
 		if ($this->extensionRepository->countByExtKey($extensionRow['ext_key'])) {
 			$extension = $this->extensionRepository->findOneByExtKey($extensionRow['ext_key']);
+			if ($extensionRow['flattr_username'] !== '') {
+				$extension->setFlattrUsername($extensionRow['flattr_username']);
+				$modified = TRUE;
+			}
 		} else if (!empty($this->createExtensions)) {
 			$extension = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Extension', $extensionRow);
 			$extension->setLastUpload(new DateTime());
