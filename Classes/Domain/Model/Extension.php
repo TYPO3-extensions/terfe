@@ -96,6 +96,12 @@
 		 */
 		protected $flattrUsername;
 
+		/**
+		 * Creation date
+		 * @var DateTime
+		 */
+		protected $crdate;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -188,6 +194,27 @@
 		 */
 		public function getLastUpload() {
 			return $this->lastUpload;
+		}
+
+
+		/**
+		 * Setter for crdate
+		 *
+		 * @param DateTime $crdate creation date
+		 * @return void
+		 */
+		public function setCrdate(DateTime $crdate) {
+			$this->crdate = $crdate;
+		}
+
+
+		/**
+		 * Getter for crdate
+		 *
+		 * @return DateTime crdate
+		 */
+		public function getCrdate() {
+			return $this->crdate;
 		}
 
 

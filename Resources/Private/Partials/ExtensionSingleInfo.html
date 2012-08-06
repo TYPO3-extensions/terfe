@@ -1,7 +1,13 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
-<div class="ter-ext-single-info ter-ext-info">
+<div class="ter-ext-single-info ter-ext-info" xmlns:f="http://www.w3.org/1999/html">
 	<table>
+		<tr class="ter-ext-single-info-key">
+			<th><f:translate key="add_to_favorites"/></th>
+			<td>
+				<f:if condition="{extension."
+			</td>
+		</tr>
 		<tr class="ter-ext-single-info-key">
 			<th><f:translate key="extensionKey"/></th>
 			<td><strong>{extension.extKey}</strong></td>
@@ -9,6 +15,10 @@
 		<tr>
 			<th><f:translate key="version"/></th>
 			<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
+		</tr>
+		<tr>
+			<th><f:translate key="first_upload"/></th>
+			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.crdate}</terfe2:dateTime></td>
 		</tr>
 		<tr>
 			<th><f:translate key="last_uploaded"/></th>
@@ -33,7 +43,7 @@
 		</f:security.ifHasRole>
 		<tr>
 			<th><f:translate key="category"/></th>
-			<td><f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/></td>
+			<td><f:translate key="category_{extension.lastVersion.emCategory}" /></td>
 		</tr>
 		<tr class="ter-ext-single-info-relations">
 			<th><f:translate key="dependencies"/></th>

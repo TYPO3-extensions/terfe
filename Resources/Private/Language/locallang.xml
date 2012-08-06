@@ -199,6 +199,8 @@
 			<label index="comments">Comments</label>
 			<label index="add_comment">Add comment</label>
 			<label index="donate">Donate</label>
+			<label index="add_to_favorites">Add to favorites</label>
+			<label index="first_upload">First upload</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_extension_list">Back to Extension List</label>
@@ -273,6 +275,15 @@
 			<label index="registerkey.salvage.pass.message">%d extensions have been found, but all of them were already migrated.</label>
 			<label index="registerkey.salvage.pass.message">One extension has been found, but it was already migrated.</label>
 
+			<label index="category_be">Backend</label>
+			<label index="category_be_modules">Backend Modules</label>
+			<label index="category_fe">Frontend</label>
+			<label index="category_fe_plugins">Frontend Plugins</label>
+			<label index="category_miscellanous">Miscellaneous</label>
+			<label index="category_services">Services</label>
+			<label index="category_templates">Templates</label>
+			<label index="category_examples">Examples</label>
+			<label index="category_documentation">Documentation</label>
 
 		</languageKey>
 	</data>

@@ -61,6 +61,14 @@
 					'type' => 'check',
 				),
 			),
+			'crdate' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.crdate',
+				'config'  => array(
+					'type' => 'input',
+					'eval' => 'date'
+				),
+			),
 			'ext_key' => array(
 				'exclude' => 1,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.ext_key',
