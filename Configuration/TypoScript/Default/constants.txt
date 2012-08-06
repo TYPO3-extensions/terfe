@@ -31,7 +31,7 @@ plugin.tx_terfe2 {
 		countDownloads = 1
 
 		# cat=TER Frontend/settings/1090; type=int+; label=Default point count: Count of points to show in chart
-		defaultPointCount = 5
+		defaultPointCount = 8
 
 		# cat=TER Frontend/settings/1100; type=int+; label=Version history count: Count of versions to show in history
 		versionHistoryCount = 3
