@@ -297,6 +297,10 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
 	float: right;
 }
 
+.ter-ext-single-header .ter-ext-icon {
+	float: left;
+}
+
 
 /**
  * Review form
