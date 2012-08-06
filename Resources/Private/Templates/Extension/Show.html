@@ -7,46 +7,25 @@
 		<f:then>
 			<div id="ter-ext-single" class="ter-toggle-from-here">
 
-				<div class="extension-header-image">
-					<div class="image">
-						<f:if condition="{extension.lastVersion.headerImage}">
-							<f:then>
-								No header image
-							</f:then>
-							<f:else>
+				<div class="ter-ext-single-header">
+					<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" class="ter-ext-icon" />
+					<h1>
+						{extension.lastVersion.title}
+					</h1>
+				</div>
 
-							</f:else>
-						</f:if>
+
+				<div class="extension-header-image">
+					<div class="extension-description" style="width: 400px; float: left;">
+						<p>{extension.lastVersion.description}</p>
 					</div>
-					<f:if condition="{extension.lastVersion.headerImage}">
-						<f:then>
-							<div class="title" style="background-color: black; display: inline; float: left; padding: 5px 10px; border-radius: 8px 8px 8px 8px; opacity: 0.5; position: relative; bottom: 10px;">
-								<div class="ter-ext-single-header">
-									<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" class="ter-ext-icon" />
-									<h2 style="color: white;">
-										{extension.lastVersion.title}
-									</h2>
-								</div>
-							</div>
-						</f:then>
-						<f:else>
-							<div class="title" style="display: inline; float: left; position: relative; bottom: 5px;">
-								<div class="ter-ext-single-header">
-									<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" class="ter-ext-icon" />
-									<h2>
-										{extension.lastVersion.title}
-									</h2>
-								</div>
-							</div>
-						</f:else>
-					</f:if>
-					<div class="download-button" style="position: relative; float: right; bottom: 7px;">
+					<div class="download-button" style="position: relative; float: right;">
 						<f:link.action class="bu" controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_header"/> version {extension.lastVersion.versionString}</f:link.action>
 					</div>
 				</div>
 				<div style="clear: both;">&nbsp;</div>
 				<div class="b-tabs">
-					<ul class="tabs orange-tabs">
+					<ul class="tabs">
 						<li class="act">
 							<a href="#"><f:translate key="description" /></a>
 						</li>
@@ -56,9 +35,9 @@
 						<li class="">
 							<a href="#"><f:translate key="documentation" /></a>
 						</li>
-						<!--<li class="">
+						<li class="">
 							<a href="#"><f:translate key="experiences" /></a>
-						</li>-->
+						</li>
 						<f:if condition="{extension.lastVersion.media}">
 							<li class="">
 								<a href="#"><f:translate key="media" /></a>
@@ -138,10 +117,11 @@
 								</p>
 							</div>
 						</div>
-						<!--<div class="hide-tab">
+						<div class="hide-tab">
 							<div class="ter-ext-single" style="padding-top: 10px;">
+								<f:cObject typoscriptObjectPath="lib.terComments" data="{extension.lastVersion.uid}" />
 							</div>
-						</div>-->
+						</div>
 						<f:if condition="{extension.lastVersion.media}">
 							<div class="hide-tab">
 								<div class="ter-ext-single" style="padding-top: 10px;">

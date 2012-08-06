@@ -201,6 +201,8 @@
 			<label index="donate">Donate</label>
 			<label index="add_to_favorites">Add to favorites</label>
 			<label index="first_upload">First upload</label>
+			<label index="favorite_added">Added</label>
+			<label index="favor">Add to favorites</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_extension_list">Back to Extension List</label>

@@ -1,11 +1,18 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
-<div class="ter-ext-single-info ter-ext-info" xmlns:f="http://www.w3.org/1999/html">
+<div class="ter-ext-single-info ter-ext-info">
 	<table>
-		<tr class="ter-ext-single-info-key">
+		<tr class="ter-ext-single-favorites">
 			<th><f:translate key="add_to_favorites"/></th>
 			<td>
-				<f:if condition="{extension."
+				<f:if condition="{extension.favorited}">
+					<f:then>
+						<div class="favor"><f:translate key="favorite_added" /></div>
+					</f:then>
+					<f:else>
+						<div class="no-favor">&nbsp;</div>
+					</f:else>
+				</f:if>
 			</td>
 		</tr>
 		<tr class="ter-ext-single-info-key">

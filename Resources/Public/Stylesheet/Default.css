@@ -273,6 +273,20 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
 	text-align: right;
 }
 
+.ter-ext-single-favorites .favor,
+.ter-ext-single-favorites .no-favor:hover {
+	background: url(../Images/fav-star.png) no-repeat top left;
+	padding-left: 25px;
+	cursor: pointer;
+}
+
+.ter-ext-single-favorites .no-favor,
+.ter-ext-single-favorites .favor:hover {
+	background: url(../Images/fav-star_grey.png) no-repeat top left;
+	padding-left: 25px;
+	cursor: pointer;
+}
+
 
 /**
  * Review form
