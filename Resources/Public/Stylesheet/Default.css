@@ -287,6 +287,16 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
 	cursor: pointer;
 }
 
+#ter-ext-single .extension-description {
+	width: 400px;
+	float: left;
+}
+
+#ter-ext-single .download-button {
+	position: relative;
+	float: right;
+}
+
 
 /**
  * Review form
