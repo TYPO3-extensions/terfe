@@ -162,6 +162,12 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 				// Relations
 			foreach ($versionRow['relations'] as $relationRow) {
 				$relation = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Relation', $relationRow);
+				if (strtolower($relationRow['relation_key']) != 'typo3') {
+					$extension = $this->extensionRepository->findOneByExtKey($relationRow['relation_key']);
+					if ($extension instanceof Tx_TerFe2_Domain_Model_Extension) {
+						$relation->setRelatedExtension($extension);
+					}
+				}
 				$version->addSoftwareRelation($relation);
 			}
 

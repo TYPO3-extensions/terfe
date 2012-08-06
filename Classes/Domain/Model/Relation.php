@@ -54,6 +54,12 @@
 		 */
 		protected $maximumVersion;
 
+		/**
+		 * Related extension if in TER
+		 * @var Tx_TerFe2_Domain_Model_Extension $relatedExtension
+		 */
+		protected $relatedExtension;
+
 
 		/**
 		 * Setter for relationType
@@ -139,6 +145,27 @@
 		 */
 		public function getMaximumVersion() {
 			return (int) $this->maximumVersion;
+		}
+
+
+		/**
+		 * Setter for relatedExtension
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $relatedExtension
+		 * @return void
+		 */
+		public function setRelatedExtension($relatedExtension) {
+			$this->relatedExtension = $relatedExtension;
+		}
+
+
+		/**
+		 * Getter for relatedExtension
+		 *
+		 * @return Tx_TerFe2_Domain_Model_Extension
+		 */
+		public function getRelatedExtension() {
+			return $this->relatedExtension;
 		}
 
 

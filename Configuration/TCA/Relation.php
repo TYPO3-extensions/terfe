@@ -97,6 +97,15 @@
 					'eval'    => 'int',
 				),
 			),
+			'related_extension' => array(
+				'exclude'    => 1,
+				'label'      => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_relation.related_extension',
+				'config'     => array(
+					'type'          => 'inline',
+					'foreign_table' => 'tx_terfe2_domain_model_extension',
+					'maxitems'      => 1,
+				),
+			),
 			'version' => array(
 				'config' => array(
 					'type' => 'passthrough',
