@@ -35,10 +35,6 @@
 			<th><f:translate key="downloads"/></th>
 			<td><f:format.number decimals="0" thousandsSeparator="," decimalSeparator=".">{extension.downloads}</f:format.number></td>
 		</tr>
-		<tr>
-			<th><f:translate key="author"/></th>
-			<td>{extension.lastVersion.author.name}</td>
-		</tr>
 		<f:security.ifHasRole role="{settings.reviewerGroupUid}">
 			<tr>
 				<th>Owner:</th>
@@ -77,6 +73,26 @@
 				<td>
 					<terfe2:flattr flattrData="{flattr}" />
 				</td>
+			</tr>
+		</f:if>
+		<tr>
+			<th><f:translate key="author"/></th>
+			<td><f:if condition="{extension.lastVersion.author.frontendUser}"><f:then>&nbsp;</f:then><f:else>{extension.lastVersion.author.name}</f:else></f:if></td>
+		</tr>
+		<f:if condition="{extension.lastVersion.author.frontendUser}">
+			<tr>
+				<th colspan="2">
+					<div id="randomUserProfiles">
+						<ul>
+							<li>
+								<f:image src="uploads/pics/{extension.lastVersion.author.frontendUser.image}" alt="{extension.lastVersion.author.frontendUser.name}" title="{extension.lastVersion.author.frontendUser.name}" />
+							</li>
+						</ul>
+					</div>
+					<div class="userName">
+						{extension.lastVersion.author.name}
+					</div>
+				</th>
 			</tr>
 		</f:if>
 	</table>

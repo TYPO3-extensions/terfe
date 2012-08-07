@@ -25,7 +25,7 @@
 				</div>
 				<div style="clear: both;">&nbsp;</div>
 				<div class="b-tabs">
-					<ul class="tabs">
+					<ul class="tabs lite-tabs">
 						<li class="act">
 							<a href="#"><f:translate key="description" /></a>
 						</li>
@@ -52,7 +52,7 @@
 						</f:if>
 					</ul>
 					<div class="tab-panes">
-						<div class="show-tab">
+						<div class="show-tab tab-content lite-tab-panes-black">
 							<div class="ter-ext-single-content cl">
 								<div class="ter-ext-single-description">
 									<p>{extension.lastVersion.description}</p>
@@ -72,7 +72,7 @@
 								<f:render partial="ExtensionSingleInfo" arguments="{extension:extension, settings:settings, owner:owner, flattr:flattr}" />
 							</div>
 						</div>
-						<div class="hide-tab">
+						<div class="hide-tab tab-content lite-tab-panes-black">
 							<div class="ter-ext-single" style="padding-top: 10px;">
 								<h2><f:translate key="download_current"/> {extension.lastVersion.versionString}</h2>
 								<div class="ter-ext-single-download" style="padding-top: 8px;">
@@ -107,7 +107,7 @@
 								</f:if>
 							</div>
 						</div>
-						<div class="hide-tab">
+						<div class="hide-tab tab-content lite-tab-panes-black">
 							<div class="ter-ext-single" style="padding-top: 10px;">
 								<h2><f:translate key="documentation" /></h2>
 								<p>
@@ -117,13 +117,13 @@
 								</p>
 							</div>
 						</div>
-						<div class="hide-tab">
+						<div class="hide-tab tab-content lite-tab-panes-black">
 							<div class="ter-ext-single" style="padding-top: 10px;">
 								<f:cObject typoscriptObjectPath="lib.terComments" data="{extension.lastVersion.uid}" />
 							</div>
 						</div>
 						<f:if condition="{extension.lastVersion.media}">
-							<div class="hide-tab">
+							<div class="hide-tab tab-content lite-tab-panes-black">
 								<div class="ter-ext-single" style="padding-top: 10px;">
 										<!-- Images and other media -->
 									<div class="ter-ext-single-images">
@@ -142,7 +142,7 @@
 						</f:if>
 						<f:if condition="{settings.show.reviewForm}">
 							<f:security.ifHasRole role="{settings.reviewerGroupUid}">
-								<div class="hide-tab">
+								<div class="hide-tab tab-content lite-tab-panes-black">
 									<div class="ter-ext-single" style="padding-top: 10px;">
 										<f:render partial="ReviewForm" arguments="{extension: extension}"/>
 									</div>
