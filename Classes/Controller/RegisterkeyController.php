@@ -365,7 +365,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			$this->flashMessageContainer->add(
 					'', $this->translate('registerkey.newuserempty'), t3lib_FlashMessage::ERROR
 			);
-		} elseif ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+		} elseif (($extension->getFrontendUser() === $GLOBALS['TSFE']->fe_user->user['username']) || $this->securityRole->isAdmin()) {
 
 			// check if the extension belongs to the current user
 
@@ -402,7 +402,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			$this->flashMessageContainer->add(
 					$this->translate('registerkey.deleting_prohibited', array($extension->getExtKey())), '', t3lib_FlashMessage::ERROR
 			);
-		} elseif ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+		} elseif (($extension->getFrontendUser() === $GLOBALS['TSFE']->fe_user->user['username']) || $this->securityRole->isAdmin())  {
 
 			// Deleted in ter, then delete the key in the ter_fe2 extension table
 			if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {

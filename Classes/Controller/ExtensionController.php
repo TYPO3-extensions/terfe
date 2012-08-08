@@ -88,7 +88,6 @@
 			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
 			$this->session             = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
 			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
-			$this->securityRole        = $this->objectManager->get('Tx_TerFe2_Security_Role');
 
 				// Show insecure extensions only for reviewers
 			$this->extensionRepository->setShowInsecure($this->securityRole->isReviewer());

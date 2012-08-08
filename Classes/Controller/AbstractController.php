@@ -34,7 +34,7 @@
 		protected $securityRole;
 
 		/**
-		 * @param Tx_TerFe2_Security_Role $security
+		 * @param Tx_TerFe2_Security_Role $securityRole
 		 */
 		public function injectSecurityRole(Tx_TerFe2_Security_Role $securityRole) {
 			$this->securityRole = $securityRole;
