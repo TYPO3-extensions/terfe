@@ -77,9 +77,9 @@
 		</f:if>
 		<tr>
 			<th><f:translate key="author"/></th>
-			<td><f:if condition="{extension.lastVersion.author.frontendUser}"><f:then>&nbsp;</f:then><f:else>{extension.lastVersion.author.name}</f:else></f:if></td>
+			<td><f:if condition="{extension.lastVersion.author.frontendUser.image}"><f:then>&nbsp;</f:then><f:else>{extension.lastVersion.author.name}</f:else></f:if></td>
 		</tr>
-		<f:if condition="{extension.lastVersion.author.frontendUser}">
+		<f:if condition="{extension.lastVersion.author.frontendUser.image}">
 			<tr>
 				<th colspan="2">
 					<div id="randomUserProfiles">
