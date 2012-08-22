@@ -29,6 +29,21 @@
 	class Tx_TerFe2_View_Extension_ShowJson extends Tx_Extbase_MVC_View_AbstractView {
 
 		/**
+		 * @var array
+		 */
+		protected $internalKeys = array(
+			'frontendUser',
+			'flattrUsername',
+			'crdate',
+			'reverseVersionsWithPositiveReviewsByVersionNumber',
+			'reverseVersionsByVersionNumber',
+			'extensionProvider',
+			'uid',
+			'pid',
+			'value',
+		);
+
+		/**
 		 * Render method, returns details about an extension
 		 *
 		 * @return string JSON content
@@ -38,24 +53,35 @@
 
 			if (!empty($this->variables['extension']) && $this->variables['extension'] instanceof Tx_TerFe2_Domain_Model_Extension) {
 				$extension = $this->variables['extension']->toArray();
-				unset(
-					$extension['versions'],
-					$extension['lastVersion'],
-					$extension['frontendUser'],
-					$extension['flattrUsername'],
-					$extension['crdate']
-				);
-
-				$version = array();
 				$lastVersion = $this->variables['extension']->getLastVersion();
+				$version = array();
+
 				if (!empty($lastVersion)) {
 					$version = $lastVersion->toArray();
 				}
 
 				$jsonArray = array_merge($extension, $version);
+				$jsonArray = $this->cleanupInternalKeys($jsonArray);
 			}
 
-			return json_encode($jsonArray);
+			exit(json_encode($jsonArray));
+		}
+
+		/**
+		 * Remove internal fields recursive
+		 * 
+		 * @param array $values Reference to the values array
+		 * @return array Cleaned array
+		 */
+		protected function cleanupInternalKeys(array $values) {
+			foreach ($values as $key => $value) {
+				if (in_array($key, $this->internalKeys) || $value === '__lazy__') {
+					unset($values[$key]);
+				} else if (!empty($value) && is_array($value)) {
+					$values[$key] = $this->cleanupInternalKeys($value);
+				}
+			}
+			return $values;
 		}
 
 	}

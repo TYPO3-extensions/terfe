@@ -47,7 +47,7 @@
 				}
 			}
 
-			return json_encode($jsonArray);
+			exit(json_encode($jsonArray));
 		}
 
 	}
