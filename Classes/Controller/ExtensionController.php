@@ -205,13 +205,19 @@
 			}
 
 				// flattr check
-			if ($flattrUsername = $extension->getFlattrUsername()) {
-					/* @var Tx_TerFe2_Service_FLattr $flattrService */
-				$flattrService = $this->objectManager->get('Tx_TerFe2_Service_Flattr');
-				if ($result = $flattrService->checkForThing(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL')) and $result->owner->username == $flattrUsername) {
-					$this->view->assign('flattr', $result);
-				}
-			}
+			/**
+			 * Christian Zenker:
+			 *
+			 * doing a subrequest that blocks the page loading seems not to be
+			 * a good idea.
+			 */
+//			if ($flattrUsername = $extension->getFlattrUsername()) {
+//					/* @var Tx_TerFe2_Service_FLattr $flattrService */
+//				$flattrService = $this->objectManager->get('Tx_TerFe2_Service_Flattr');
+//				if ($result = $flattrService->checkForThing(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL')) and $result->owner->username == $flattrUsername) {
+//					$this->view->assign('flattr', $result);
+//				}
+//			}
 		}
 
 
