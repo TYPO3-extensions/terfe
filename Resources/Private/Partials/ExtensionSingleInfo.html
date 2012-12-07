@@ -1,7 +1,9 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
+{namespace fed=Tx_Fed_ViewHelpers}
 
 <div class="ter-ext-single-info ter-ext-info">
 	<table>
+<fed:comment>
 		<tr class="ter-ext-single-favorites">
 			<th><f:translate key="add_to_favorites"/></th>
 			<td>
@@ -15,6 +17,7 @@
 				</f:if>
 			</td>
 		</tr>
+</fed:comment>
 		<tr class="ter-ext-single-info-key">
 			<th><f:translate key="extensionKey"/></th>
 			<td><strong>{extension.extKey}</strong></td>
