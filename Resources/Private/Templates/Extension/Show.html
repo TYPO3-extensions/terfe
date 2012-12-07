@@ -1,4 +1,5 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
+{namespace fed=Tx_Fed_ViewHelpers}
 
 <f:layout name="Default"/>
 
@@ -35,9 +36,11 @@
 						<li class="">
 							<a href="#"><f:translate key="documentation" /></a>
 						</li>
+<fed:comment>
 						<li class="">
 							<a href="#"><f:translate key="experiences" /></a>
 						</li>
+</fed:comment>
 						<f:if condition="{extension.lastVersion.media}">
 							<li class="">
 								<a href="#"><f:translate key="media" /></a>
@@ -117,11 +120,13 @@
 								</p>
 							</div>
 						</div>
+<fed:comment>
 						<div class="hide-tab tab-content lite-tab-panes-black">
 							<div class="ter-ext-single" style="padding-top: 10px;">
 								<f:cObject typoscriptObjectPath="lib.terComments" data="{extension.lastVersion.uid}" />
 							</div>
 						</div>
+</fed:comment>
 						<f:if condition="{extension.lastVersion.media}">
 							<div class="hide-tab tab-content lite-tab-panes-black">
 								<div class="ter-ext-single" style="padding-top: 10px;">
