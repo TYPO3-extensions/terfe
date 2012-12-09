@@ -42,13 +42,13 @@
 			if (!empty($extensions)) {
 				foreach ($extensions as $ext) {
 					$downloads = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-						'SUM(download_counter) AS downloads',
+						'SUM(download_counter) AS downloads, SUM(frontend_download_counter) AS fe_downloads',
 						'tx_terfe2_domain_model_version',
 						'deleted = 0 AND hidden = 0 AND extension = ' . $ext['uid'],
 						'extension'
 					);
 					$update = array(
-						'downloads' => $downloads['downloads']
+						'downloads' => $downloads['downloads'] + $downloads['fe_downloads']
 					);
 					$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 						'tx_terfe2_domain_model_extension',
