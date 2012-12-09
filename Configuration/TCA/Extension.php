@@ -198,6 +198,16 @@
 					'eval' => 'trim',
 				),
 			),
+			'flattr_data' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.flattr_data',
+				'config'  => array(
+					'type' => 'text',
+					'rows' => 10,
+					'cols' => 40,
+					'eval' => 'trim',
+				),
+			),
 		),
 	);
 ?>

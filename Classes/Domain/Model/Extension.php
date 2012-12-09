@@ -97,6 +97,12 @@
 		protected $flattrUsername;
 
 		/**
+		 * Flattr data from result
+		 * @var string
+		 */
+		protected $flattrData;
+
+		/**
 		 * Creation date
 		 * @var DateTime
 		 */
@@ -504,6 +510,14 @@
 			$this->downloads = (int) $downloads;
 		}
 
+		/**
+		 * Get sum of all version downloads
+		 *
+		 * @return integer All downloads
+		 */
+		public function getDownloads() {
+			return (int) $this->downloads;
+		}
 
 		/**
 		 * Add downloads to all downloads sum
@@ -536,14 +550,24 @@
 			return $this->flattrUsername;
 		}
 
+		/**
+		 * Setter for flattrData
+		 *
+		 * @param string $flattrData
+		 * @return void
+		 */
+		public function setFlattrData($flattrData) {
+			$this->flattrData = $flattrData;
+		}
+
 
 		/**
-		 * Get sum of all version downloads
+		 * Getter for flattrData
 		 *
-		 * @return integer All downloads
+		 * @return string flattr button added
 		 */
-		public function getDownloads() {
-			return (int) $this->downloads;
+		public function getFlattrData() {
+			return $this->flattrData;
 		}
 
 
