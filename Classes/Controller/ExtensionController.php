@@ -205,7 +205,7 @@
 			}
 
 				// flattr check
-			if ($flattrUsername = $extension->getFlattrUsername()) {
+			if ($extension instanceof Tx_TerFe2_Domain_Model_Extension and $flattrUsername = $extension->getFlattrUsername()) {
 				if ($extension->getFlattrData()) {
 					$result = unserialize($extension->getFlattrData());
 				} else {
