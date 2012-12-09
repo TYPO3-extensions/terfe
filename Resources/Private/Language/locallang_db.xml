@@ -136,6 +136,8 @@
 			<label index="tx_terfe2_task_createextensionfilestask.description">Create extension related files like zip file or images</label>
 			<label index="tx_terfe2_task_searchindextask.name">Update search index</label>
 			<label index="tx_terfe2_task_searchindextask.description">Update search index with new versions</label>
+			<label index="tx_terfe2_task_downloadcountertask.name">Updates download counter of extension</label>
+			<label index="tx_terfe2_task_downloadcountertask.description">Sums up the downloads of each version of each extension</label>
 
 			<label index="tx_terfe2_provider_mirrorprovider.name">Mirror Servers</label>
 			<label index="tx_terfe2_provider_fileprovider.name">Local Filesystem</label>
