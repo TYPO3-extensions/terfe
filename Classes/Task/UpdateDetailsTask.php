@@ -77,26 +77,28 @@ class Tx_TerFe2_Task_UpdateDetailsTask extends Tx_TerFe2_Task_AbstractTask {
 		}
 
 		foreach ($versions as $version) {
-			$provider = $version->getExtensionProvider();
-			$persist = FALSE;
+			if ($version instanceof Tx_TerFe2_Domain_Model_Version) {
+				$provider = $version->getExtensionProvider();
+				$persist = FALSE;
 
-			$attributes = array();
-			if (!empty($provider)) {
-				$attributes = $this->providerManager->getProvider($provider)->getVersionDetails($version);
-			}
+				$attributes = array();
+				if (!empty($provider)) {
+					$attributes = $this->providerManager->getProvider($provider)->getVersionDetails($version);
+				}
 
-			if (!empty($attributes)) {
-				$version = $this->objectBuilder->update($version, $attributes);
-				$persist = TRUE;
-			}
+				if (!empty($attributes)) {
+					$version = $this->objectBuilder->update($version, $attributes);
+					$persist = TRUE;
+				}
 
-			if (!empty($this->recalculateDownloads)) {
-				$version->getExtension()->recalculateDownloads();
-				$persist = TRUE;
-			}
+				if (!empty($this->recalculateDownloads) and $version->getExtension() instanceof Tx_TerFe2_Domain_Model_Extension) {
+					$version->getExtension()->recalculateDownloads();
+					$persist = TRUE;
+				}
 
-			if ($persist) {
-				$this->persistenceManager->persistAll();
+				if ($persist) {
+					$this->persistenceManager->persistAll();
+				}
 			}
 		}
 
