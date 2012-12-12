@@ -197,7 +197,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 		}
 
 			// Persist objects
-		if ($modified) {
+		if ($modified and $extension instanceof Tx_TerFe2_Domain_Model_Extension) {
 			$this->persistenceManager->getSession()->registerReconstitutedObject($extension);
 			$this->persistenceManager->persistAll();
 
