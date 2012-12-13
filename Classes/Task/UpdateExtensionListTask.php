@@ -36,7 +36,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 	/**
 	 * @var boolean
 	 */
-	public $createExtensions = FALSE;
+	public $createExtensions = TRUE;
 
 	/**
 	 * @var Tx_TerFe2_Provider_ProviderManager
@@ -136,7 +136,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 			return;
 		}
 
-			// Extension
+			// Get extension model
 		if ($this->extensionRepository->countByExtKey($extensionRow['ext_key'])) {
 			$extension = $this->extensionRepository->findOneByExtKey($extensionRow['ext_key']);
 			if ($extensionRow['flattr_username'] !== '') {
@@ -160,6 +160,14 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 				continue;
 			}
 
+				// Extension model does not exist, so do nothing
+			if (!$extension or !($extension instanceof Tx_TerFe2_Domain_Model_Extension)) {
+				$extension = $this->extensionRepository->findOneByExtKey($extensionRow['ext_key']);
+				if (!($extension instanceof Tx_TerFe2_Domain_Model_Extension)) {
+					continue;
+				}
+			}
+
 			$version = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Version', $versionRow);
 			$version->setExtension($extension);
 			$version->setExtensionProvider($this->providerName);
@@ -169,9 +177,9 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 			foreach ($versionRow['relations'] as $relationRow) {
 				$relation = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Relation', $relationRow);
 				if (strtolower($relationRow['relation_key']) != 'typo3') {
-					$extension = $this->extensionRepository->findOneByExtKey($relationRow['relation_key']);
-					if ($extension instanceof Tx_TerFe2_Domain_Model_Extension) {
-						$relation->setRelatedExtension($extension);
+					$relatedExtension = $this->extensionRepository->findOneByExtKey($relationRow['relation_key']);
+					if ($relatedExtension instanceof Tx_TerFe2_Domain_Model_Extension) {
+						$relation->setRelatedExtension($relatedExtension);
 					}
 				}
 				$version->addSoftwareRelation($relation);
