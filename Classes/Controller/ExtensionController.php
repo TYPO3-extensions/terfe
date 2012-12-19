@@ -195,7 +195,10 @@
 
 			if ($extension !== NULL &&
 				$extension instanceof Tx_TerFe2_Domain_Model_Extension &&
-				($this->securityRole->isReviewer() || $extension->getLastVersion()->getReviewState() > -1)
+				(
+					$this->securityRole->isReviewer() ||
+					($extension->getLastVersion() and $extension->getLastVersion()->getReviewState() > -1)
+				)
 			) {
 				$versionHistory = $this->versionRepository->getVersionHistory($extension, $versionHistoryCount, $skipLatestVersion);
 				$this->view->assign('owner', $owner);
