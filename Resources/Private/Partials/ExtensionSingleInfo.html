@@ -1,7 +1,7 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 {namespace fed=Tx_Fed_ViewHelpers}
 
-<div class="ter-ext-single-info ter-ext-info">
+<div class="ter-ext-single-info ter-ext-info" xmlns:f="http://www.w3.org/1999/html">
 	<table>
 <fed:comment>
 		<tr class="ter-ext-single-favorites">
@@ -49,17 +49,26 @@
 		</f:security.ifHasRole>
 		<tr>
 			<th><f:translate key="category"/></th>
-			<td><f:translate key="category_{extension.lastVersion.emCategory}" /></td>
+			<td>
+				<f:if condition="{extension.lastVersion.emCategory}">
+					<f:then>
+						<f:translate key="category_{extension.lastVersion.emCategory}" />
+					</f:then>
+					<f:else>
+						<f:translate key="none" />
+					</f:else>
+				</f:if>
+			</td>
 		</tr>
 		<tr class="ter-ext-single-info-relations">
 			<th><f:translate key="dependencies"/></th>
-			<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations, relationType: 'depends'}"/></td>
+			<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.dependencies}"/></td>
 		</tr>
 		<tr class="ter-ext-single-info-relations">
 			<th><f:translate key="conflicts"/>
 			</th>
 			<td>
-				<f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.filteredSoftwareRelations, relationType: 'conflicts'}"/>
+				<f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.conflicts}"/>
 			</td>
 		</tr>
 		<tr class="ter-ext-single-info-manual">

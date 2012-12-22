@@ -1040,6 +1040,41 @@
 
 
 		/**
+		 * Returns all software relations which are conflicts
+		 *
+		 * @return Tx_Extbase_Persistence_ObjectStorage $conflicts
+		 */
+		public function getConflicts() {
+			$conflicts = new Tx_Extbase_Persistence_ObjectStorage();
+			foreach ($this->getSoftwareRelations() as $softwareRelation) {
+				/** @var Tx_TerFe2_Domain_Model_Relation $softwareRelation */
+				$relationKey = $softwareRelation->getRelationKey();
+				if ($softwareRelation->getRelationType() == 'conflicts' and !empty($relationKey)) {
+					$conflicts->attach($softwareRelation);
+				}
+			}
+			return $conflicts;
+		}
+
+		/**
+		 * Returns all software relations which are dependencies
+		 *
+		 * @return Tx_Extbase_Persistence_ObjectStorage $dependencies
+		 */
+		public function getDependencies() {
+			$dependencies = new Tx_Extbase_Persistence_ObjectStorage();
+			foreach ($this->getSoftwareRelations() as $softwareRelation) {
+				/** @var Tx_TerFe2_Domain_Model_Relation $softwareRelation */
+				$relationKey = $softwareRelation->getRelationKey();
+				if ($softwareRelation->getRelationType() == 'depends' and !empty($relationKey)) {
+					$dependencies->attach($softwareRelation);
+				}
+			}
+			return $dependencies;
+		}
+
+
+		/**
 		 * Setter for extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension extension
