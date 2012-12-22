@@ -7,35 +7,19 @@
 				<f:if condition="{relation.relatedExtension}">
 					<f:then>
 						<f:link.action controller="Extension" action="show" arguments="{extension : relation.relatedExtension}">{relation.relationKey}</f:link.action>
-						<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if>
-						<f:if condition="{relationIteration.isLast}">
-							<f:then></f:then>
-							<f:else>, </f:else>
-						</f:if>
+						<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if><f:if condition="{relationIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
 					</f:then>
 					<f:else>
-						{relation.relationKey}<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if>
-						<f:if condition="{relationIteration.isLast}">
-							<f:then></f:then>
-							<f:else>, </f:else>
-						</f:if>
+						{relation.relationKey}<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if><f:if condition="{relationIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
 					</f:else>
 				</f:if>
 			</f:if>
 			<f:if condition="{relation.isSystem}">
 				<terfe2:format function="strtoupper">{relation.relationKey}</terfe2:format>
-				<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if>
-				<f:if condition="{relationIteration.isLast}">
-					<f:then></f:then>
-					<f:else>, </f:else>
-				</f:if>
+				<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if><f:if condition="{relationIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
 			</f:if>
 			<f:if condition="{relation.isCore}">
-				TYPO3<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if>
-				<f:if condition="{relationIteration.isLast}">
-					<f:then></f:then>
-					<f:else>, </f:else>
-				</f:if>
+				TYPO3<f:if condition="{relation.versionString}"> ({relation.versionString})</f:if><f:if condition="{relationIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
 			</f:if>
 		</f:for>
 	</f:then>
