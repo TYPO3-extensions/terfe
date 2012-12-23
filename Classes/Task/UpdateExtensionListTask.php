@@ -64,7 +64,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 	protected $authorRepository;
 
 	/**
-	 * @var Tx_Ajaxlogin_Domain_Repository_UserRepository
+	 * @var Tx_Extbase_Domain_Repository_FrontendUserRepository
 	 */
 	protected $ownerRepository;
 
@@ -80,7 +80,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 		$this->persistenceManager        = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 		$this->extensionRepository       = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 		$this->authorRepository          = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
-		$this->ownerRepository           = $this->objectManager->get('Tx_Ajaxlogin_Domain_Repository_UserRepository');
+		$this->ownerRepository           = $this->objectManager->get('Tx_Extbase_Domain_Repository_FrontendUserRepository');
 
 		// Set registry name to current provider name
 		$this->registry->setName(get_class($this) . '_' . $this->providerName);
@@ -194,8 +194,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
 					$author = $this->objectBuilder->create('Tx_TerFe2_Domain_Model_Author', $authorRow);
 					$this->persistenceManager->getSession()->registerReconstitutedObject($author);
 				}
-				if ($this->ownerRepository->findOneByUsername($authorRow['username'])) {
-					$frontendUser = $this->ownerRepository->findOneByUsername($authorRow['username']);
+				if ($frontendUser = $this->ownerRepository->findOneByUsername(trim($authorRow['username']))) {
 					$author->setFrontendUser($frontendUser);
 				}
 				$version->setAuthor($author);
