@@ -264,6 +264,7 @@
 			<label index="delete">Delete extension key</label>
 			<label index="modifiy-button">Modifiy</label>
 			<label index="delete-button">Delete</label>
+			<label index="edit-button">Edit</label>
 			<label index="register-extension-key">Register extension key</label>
 			<label index="manage-extension-keys">Manage extension keys</label>
 			<label index="modifiy-extension-key">Modifiy extension keys</label>
@@ -279,8 +280,10 @@
 
 			<label index="category_be">Backend</label>
 			<label index="category_be_modules">Backend Modules</label>
+			<label index="category_module">Backend Modules</label>
 			<label index="category_fe">Frontend</label>
 			<label index="category_fe_plugins">Frontend Plugins</label>
+			<label index="category_plugin">Frontend Plugins</label>
 			<label index="category_miscellanous">Miscellaneous</label>
 			<label index="category_services">Services</label>
 			<label index="category_templates">Templates</label>
