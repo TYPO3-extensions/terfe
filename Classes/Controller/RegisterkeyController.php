@@ -46,6 +46,11 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	protected $categoryRepository;
 
 	/**
+	 * @var Tx_Ajaxlogin_Domain_Repository_UserRepository
+	 */
+	protected $userRepository;
+
+	/**
 	 * Initializes the controller
 	 *
 	 * @return void
@@ -54,6 +59,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 		$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
 		$this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 		$this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
+		$this->userRepository = $this->objectManager->get('Tx_Ajaxlogin_Domain_Repository_UserRepository');
 	}
 
 	/**
@@ -249,7 +255,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 
 		// check if the extension belongs to the current user
-		if ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+		if ($this->securityRole->isReviewer() or $extension->getFrontendUser() == $this->userRepository->findCurrent()) {
 
 			// Remove categories that are already set
 			$setCategories = $extension->getCategories();
@@ -267,6 +273,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 
 			$this->view->assign('categories', $categoryArray);
 			$this->view->assign('extension', $extension);
+			$this->view->assign('loggedIn', $this->userRepository->findCurrent());
 		} else {
 			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
 			$this->redirect('index', 'Registerkey');
@@ -283,7 +290,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $categories) {
 
 		// check if the extension belongs to the current user
-		if ($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+		if ($this->securityRole->isReviewer() or $extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
 
 			/**
 			 * TODO: Modification of the extension key is currently not allowed
@@ -365,7 +372,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			$this->flashMessageContainer->add(
 					'', $this->translate('registerkey.newuserempty'), t3lib_FlashMessage::ERROR
 			);
-		} elseif (($extension->getFrontendUser() === $GLOBALS['TSFE']->fe_user->user['username']) || $this->securityRole->isAdmin()) {
+		} elseif (($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) || $this->securityRole->isAdmin()) {
 
 			// check if the extension belongs to the current user
 
@@ -402,7 +409,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			$this->flashMessageContainer->add(
 					$this->translate('registerkey.deleting_prohibited', array($extension->getExtKey())), '', t3lib_FlashMessage::ERROR
 			);
-		} elseif (($extension->getFrontendUser() === $GLOBALS['TSFE']->fe_user->user['username']) || $this->securityRole->isAdmin())  {
+		} elseif (($extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) || $this->securityRole->isAdmin())  {
 
 			// Deleted in ter, then delete the key in the ter_fe2 extension table
 			if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {
