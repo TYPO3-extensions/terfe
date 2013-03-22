@@ -59,6 +59,7 @@ return array(
 	'tx_terfe2_task_searchindextask'                                   => $extensionClassesPath . 'Task/SearchIndexTask.php',
 	'tx_terfe2_task_searchindextaskadditionalfieldprovider'            => $extensionClassesPath . 'Task/SearchIndexTaskAdditionalFieldProvider.php',
 	'tx_terfe2_task_downloadcountertask'                               => $extensionClassesPath . 'Task/DownloadCounterTask.php',
+	'tx_terfe2_task_importextensionsfromqueuetask'                     => $extensionClassesPath . 'Task/ImportExtensionsFromQueueTask.php',
 	'tx_terfe2_utility_archive'                                        => $extensionClassesPath . 'Utility/Archive.php',
 	'tx_terfe2_utility_array'                                          => $extensionClassesPath . 'Utility/Array.php',
 	'tx_terfe2_utility_datetime'                                       => $extensionClassesPath . 'Utility/Datetime.php',
