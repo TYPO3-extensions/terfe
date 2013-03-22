@@ -262,7 +262,7 @@
 			foreach ($dependencies as $relation) {
 				$relationType = $relation['kind'];
 				$relationKey = $relation['extensionKey'];
-				$version = $this->getVersionByRange($relation['version']);
+				$version = $this->getVersionByRange($relation['versionRange']);
 				if ($relationKey) {
 					$insertRelation = array(
 						'relation_type'   => $relationType,
