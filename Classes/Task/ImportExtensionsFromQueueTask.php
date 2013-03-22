@@ -52,9 +52,10 @@
 				if (!$this->versionExists($extensionData)) {
 					$extUid = $this->extensionExists($extensionData);
 					$this->saveExtension($extUid, $extensionData);
-					$this->removeExtensionFromQueue($ext['extensionuid']);
-					t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '" saved in ter_fe2', 'ter_fe2', 1);
+					t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '", version ' . $extensionData['version'] . ' saved in ter_fe2', 'ter_fe2', 1);
 				}
+				t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '" still exists with version ' . $extensionData['version'] . ' in ter_fe2', 'ter_fe2', 1);
+				$this->removeExtensionFromQueue($ext['extensionuid']);
 			}
 
 			return TRUE;
