@@ -65,7 +65,7 @@
 				'tstamp' => time(),
 				'imported_to_fe' => 1
 			);
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_ter_extensionqueue', 'uid = ' . $extUid, $updateQueue);
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_ter_extensionqueue', 'extensionuid = ' . $extUid, $updateQueue);
 		}
 
 		/**
