@@ -53,6 +53,12 @@
 					$extUid = $this->extensionExists($extensionData);
 					$this->saveExtension($extUid, $extensionData);
 					t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '", version ' . $extensionData['version'] . ' saved in ter_fe2', 'ter_fe2', 1);
+
+					// update the EXT:solr Index Queue
+					if (t3lib_extMgm::isLoaded('solr')) {
+						$indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
+						$indexQueue->updateItem('tx_terfe2_domain_model_extension', $extUid);
+					}
 				}
 				t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '" still exists with version ' . $extensionData['version'] . ' in ter_fe2', 'ter_fe2', 1);
 				$this->removeExtensionFromQueue($ext['extensionuid']);
