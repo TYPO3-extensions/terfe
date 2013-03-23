@@ -128,19 +128,19 @@
 			<label index="tx_terfe2_task_extensionFilePath">Relative path to extension files directory</label>
 			<label index="tx_terfe2_task_recalculateDownloads">Recalculate extension downloads</label>
 			<label index="tx_terfe2_task_validityTime">Entries are valid for this time (seconds)</label>
-			<label index="tx_terfe2_task_updateextensionlisttask.name">Get new extensions</label>
+			<label index="tx_terfe2_task_updateextensionlisttask.name">[TER FE2] Get new extensions</label>
 			<label index="tx_terfe2_task_updateextensionlisttask.description">Get new extensions in ter directory</label>
-			<label index="tx_terfe2_task_updatedetailstask.name">Update extension details</label>
+			<label index="tx_terfe2_task_updatedetailstask.name">[TER FE2] Update extension details</label>
 			<label index="tx_terfe2_task_updatedetailstask.description">Update the attributes of each version of an extension</label>
-			<label index="tx_terfe2_task_createextensionfilestask.name">Create extension related files</label>
+			<label index="tx_terfe2_task_createextensionfilestask.name">[TER FE2] Create extension related files</label>
 			<label index="tx_terfe2_task_createextensionfilestask.description">Create extension related files like zip file or images</label>
-			<label index="tx_terfe2_task_searchindextask.name">Update search index</label>
+			<label index="tx_terfe2_task_searchindextask.name">[TER FE2] Update search index</label>
 			<label index="tx_terfe2_task_searchindextask.description">Update search index with new versions</label>
-			<label index="tx_terfe2_task_downloadcountertask.name">Updates download counter of extension</label>
+			<label index="tx_terfe2_task_downloadcountertask.name">[TER FE2] Updates download counter of extension</label>
 			<label index="tx_terfe2_task_downloadcountertask.description">Sums up the downloads of each version of each extension</label>
-			<label index="tx_terfe2_task_importextensionsfromqueuetask.name">Import extensions from queue</label>
+			<label index="tx_terfe2_task_importextensionsfromqueuetask.name">[TER FE2] Import extensions from queue</label>
 			<label index="tx_terfe2_task_importextensionsfromqueuetask.description">Imports extensions out of the queue table of TER</label>
-			<label index="tx_terfe2_task_importallextensionstask.name">Import all extensions</label>
+			<label index="tx_terfe2_task_importallextensionstask.name">[TER FE2] Import all extensions</label>
 			<label index="tx_terfe2_task_importallextensionstask.description">Import all extensions from TER tables (use it only for maintenance purposes)</label>
 
 			<label index="tx_terfe2_provider_mirrorprovider.name">Mirror Servers</label>
