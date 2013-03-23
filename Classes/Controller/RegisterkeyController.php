@@ -275,7 +275,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			$this->view->assign('extension', $extension);
 			$this->view->assign('loggedIn', $this->userRepository->findCurrent());
 		} else {
-			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
+			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', t3lib_FlashMessage::ERROR);
 			$this->redirect('index', 'Registerkey');
 		}
 	}
@@ -307,11 +307,11 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 					if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $this->frontendUser['username'], $error)) {
 						// Update categories
 						$this->extensionRepository->update($extension);
-						$this->flashMessageContainer->add($this->translate('registerkey.key_updated'));
+						$this->flashMessageContainer->add($this->translate('registerkey.key_updated', '', t3lib_FlashMessage::OK));
 						$this->redirect('index', 'Registerkey');
 					} else {
 						// TODO: Show different message by $error code
-						$this->flashMessageContainer->add($this->translate('registerkey.key_update_failed'));
+						$this->flashMessageContainer->add($this->translate('registerkey.key_update_failed', '', t3lib_FlashMessage::ERROR));
 					}
 				} else {
 					$this->flashMessageContainer->add(
@@ -322,13 +322,13 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 				// Update categories
 				$extension = $this->updateCategories($extension, $categories);
 				$this->extensionRepository->update($extension);
-				$this->flashMessageContainer->add($this->translate('registerkey.key_updated'));
+				$this->flashMessageContainer->add($this->translate('registerkey.key_updated', '', t3lib_FlashMessage::OK));
 				$this->redirect('index', 'Registerkey');
 			}
 
 			$this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
 		} else {
-			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
+			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension', '', t3lib_FlashMessage::ERROR));
 			$this->redirect('index', 'Registerkey');
 		}
 	}
@@ -382,7 +382,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $newUser, $error)) {
 				$extension->setFrontendUser($newUser);
 				$this->extensionRepository->update($extension);
-				$this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)));
+				$this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)), '', t3lib_FlashMessage::OK);
 			} else {
 				$this->flashMessageContainer->add(
 						$this->resolveWSErrorMessage($error), $this->translate('registerkey.transferError.title', array($extension->getExtKey())), t3lib_FlashMessage::ERROR
@@ -423,7 +423,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 				);
 			}
 		} else {
-			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'));
+			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', t3lib_FlashMessage::ERROR);
 		}
 
 		$this->redirect('index', 'Registerkey');
