@@ -55,6 +55,13 @@
 						'uid = ' . $ext['uid'],
 						$update
 					);
+
+					// update the EXT:solr Index Queue
+					if (t3lib_extMgm::isLoaded('solr')) {
+						$indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
+						$indexQueue->updateItem('tx_terfe2_domain_model_extension', $ext['uid']);
+					}
+
 				}
 			}
 
