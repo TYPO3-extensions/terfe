@@ -18,7 +18,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Review'      => 'update',
 	),
 	array(
-		'Extension'   => 'search, create, update, delete, download',
+		'Extension'   => 'search, create, update, edit, delete, download',
 		'Category'    => 'create, update, delete',
 		'Tag'         => 'create, delete',
 		'Author'      => 'update',
@@ -106,5 +106,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_
 	'extension'        => $_EXTKEY,
 	'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_importextensionsfromqueuetask.name',
 	'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_importextensionsfromqueuetask.description',
+);
+
+	// Register import all extensions
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_ImportAllExtensionsTask'] = array(
+	'extension'        => $_EXTKEY,
+	'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_importallextensionstask.name',
+	'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_importallextensionstask.description',
 );
 ?>

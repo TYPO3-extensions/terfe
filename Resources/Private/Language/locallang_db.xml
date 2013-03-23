@@ -140,6 +140,8 @@
 			<label index="tx_terfe2_task_downloadcountertask.description">Sums up the downloads of each version of each extension</label>
 			<label index="tx_terfe2_task_importextensionsfromqueuetask.name">Import extensions from queue</label>
 			<label index="tx_terfe2_task_importextensionsfromqueuetask.description">Imports extensions out of the queue table of TER</label>
+			<label index="tx_terfe2_task_importallextensionstask.name">Import all extensions</label>
+			<label index="tx_terfe2_task_importallextensionstask.description">Import all extensions from TER tables (use it only for maintenance purposes)</label>
 
 			<label index="tx_terfe2_provider_mirrorprovider.name">Mirror Servers</label>
 			<label index="tx_terfe2_provider_fileprovider.name">Local Filesystem</label>
