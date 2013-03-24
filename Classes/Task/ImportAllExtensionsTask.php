@@ -69,7 +69,7 @@
 			$extData = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 				'uid,extensionkey,version',
 				'tx_ter_extensions',
-				'extensionkey = "static_info_tables"'
+				'1'
 			);
 			return $extData;
 		}
