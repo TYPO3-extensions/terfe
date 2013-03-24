@@ -43,6 +43,7 @@
 
 			foreach ($extensionsFromTer as $extensionData) {
 				if (!$this->versionExists($extensionData)) {
+					$extensionData = $this->getExtensionDataOfExtUid($extensionData['uid']);
 					$extUid = $this->extensionExists($extensionData);
 					$this->saveExtension($extUid, $extensionData);
 					t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '" saved in ter_fe2', 'ter_fe2', 1);
@@ -66,10 +67,24 @@
 		 */
 		public function getAllExtensionsFromTer() {
 			$extData = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				'uid,extensionkey,version',
+				'tx_ter_extensions',
+				'extensionkey = "static_info_tables"'
+			);
+			return $extData;
+		}
+
+		/**
+		 * Gets the extension data out of ter tables
+		 *
+		 * @return array $extData
+		 */
+		public function getExtensionDataOfExtUid($extUid) {
+			$extData = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
 				'tx_ter_extensions.*, tx_ter_extensiondetails.*',
 				'tx_ter_extensions
 				LEFT JOIN tx_ter_extensiondetails ON tx_ter_extensions.uid = tx_ter_extensiondetails.extensionuid',
-				'1'
+				'tx_ter_extensiondetails.extensionuid = ' . $extUid
 			);
 			return $extData;
 		}
@@ -130,7 +145,8 @@
 			);
 
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_terfe2_domain_model_extension', $insertExtension);
-			return $GLOBALS['TYPO3_DB']->sql_insert_id();
+			$extUid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+			return $extUid;
 		}
 
 		/**
@@ -231,21 +247,23 @@
 		public function addRelations($versionUid, $dependencies) {
 			$countRelations = 0;
 			$dependencies = unserialize($dependencies);
-			foreach ($dependencies as $relation) {
-				$relationType = $relation['kind'];
-				$relationKey = $relation['extensionKey'];
-				$version = $this->getVersionByRange($relation['version']);
-				if ($relationKey) {
-					$insertRelation = array(
-						'relation_type'   => $relationType,
-						'relation_key'    => $relationKey,
-						'minimum_version' => $version[0],
-						'maximum_version' => $version[1],
-						'version'         => $versionUid,
-						'related_extension' => $this->getUidOfRelatedExtension($relationKey)
-					);
-					$countRelations++;
-					$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_terfe2_domain_model_relation', $insertRelation);
+			if (!empty($dependencies)) {
+				foreach ($dependencies as $relation) {
+					$relationType = $relation['kind'];
+					$relationKey = $relation['extensionKey'];
+					$version = $this->getVersionByRange($relation['version']);
+					if ($relationKey) {
+						$insertRelation = array(
+							'relation_type'   => $relationType,
+							'relation_key'    => $relationKey,
+							'minimum_version' => $version[0],
+							'maximum_version' => $version[1],
+							'version'         => $versionUid,
+							'related_extension' => $this->getUidOfRelatedExtension($relationKey)
+						);
+						$countRelations++;
+						$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_terfe2_domain_model_relation', $insertRelation);
+					}
 				}
 			}
 
