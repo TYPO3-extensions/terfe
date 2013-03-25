@@ -42,6 +42,7 @@
 			$extensionsFromTer = $this->getAllExtensionsFromTer();
 
 			foreach ($extensionsFromTer as $extensionData) {
+				$this->updateState($extensionData);
 				if (!$this->versionExists($extensionData)) {
 					$extensionData = $this->getExtensionDataOfExtUid($extensionData['uid']);
 					$extUid = $this->extensionExists($extensionData);
@@ -60,6 +61,21 @@
 			return TRUE;
 		}
 
+		public function updateState($extData) {
+			$versionRec = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+				'tx_terfe2_domain_model_version.uid AS versionUid, state',
+				'tx_terfe2_domain_model_version
+				LEFT JOIN tx_terfe2_domain_model_extension ON tx_terfe2_domain_model_extension.uid = tx_terfe2_domain_model_version.extension',
+				'ext_key = "' . $extData['extensionkey'].'" AND version_string = "' . $extData['version'] .'" AND tx_terfe2_domain_model_extension.deleted = 0 AND tx_terfe2_domain_model_version.deleted = 0'
+			);
+			if ($versionRec['state'] != $extData['state']) {
+				$updateVersion = array(
+					'state' => $extData['state']
+				);
+				$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'uid = ' . $versionRec['versionUid'], $updateVersion);
+			}
+		}
+
 		/**
 		 * Gets the extension data out of ter tables
 		 *
@@ -67,9 +83,9 @@
 		 */
 		public function getAllExtensionsFromTer() {
 			$extData = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'uid,extensionkey,version',
+				'uid,extensionkey,version,state',
 				'tx_ter_extensions',
-				'1'
+				'extensionkey = "be_secure_pw"'
 			);
 			return $extData;
 		}
