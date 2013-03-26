@@ -51,7 +51,7 @@
 				$extensionData = $this->getExtensionData($ext['extensionuid']);
 				if (!$this->versionExists($extensionData)) {
 					$extUid = $this->extensionExists($extensionData);
-					$this->saveExtension($extUid, $extensionData);
+					$this->saveExtension($extUid, $extensionData, $ext['crdate']);
 					t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '", version ' . $extensionData['version'] . ' saved in ter_fe2', 'ter_fe2', 1);
 
 					// update the EXT:solr Index Queue
@@ -83,9 +83,11 @@
 		 */
 		public function getExtensionsFromQueue() {
 			$extensions = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'extensionuid',
+				'extensionuid,crdate',
 				'tx_ter_extensionqueue',
-				'NOT deleted AND NOT imported_to_fe'
+				'NOT deleted AND NOT imported_to_fe',
+				FALSE,
+				'crdate'
 			);
 
 			return $extensions;
@@ -170,9 +172,10 @@
 		/**
 		 * @param int $extUid
 		 * @param array $extData
+		 * @param int $crdate
 		 */
-		public function saveExtension($extUid, $extData) {
-			$versionUid = $this->createVersion($extUid, $extData);
+		public function saveExtension($extUid, $extData, $crdate) {
+			$versionUid = $this->createVersion($extUid, $extData, $crdate);
 			if ($versionUid) {
 				$this->addRelations($versionUid, $extData['dependencies']);
 				$this->updateExtension($versionUid, $extUid);
@@ -182,10 +185,11 @@
 		/**
 		 * @param int $extUid
 		 * @param array $extData
+		 * @param int $crdate
 		 *
 		 * @return int $versionUid
 		 */
-		public function createVersion($extUid, $extData) {
+		public function createVersion($extUid, $extData, $crdate) {
 			$states = tx_em_Tools::getDefaultState(NULL);
 			$categories = tx_em_Tools::getDefaultCategory(NULL);
 
@@ -197,7 +201,7 @@
 				'author' => $this->createAuthor($extData),
 				'version_number' => t3lib_div::int_from_ver($extData['version']),
 				'version_string' => $extData['version'],
-				'upload_date' => time(),
+				'upload_date' => $crdate,
 				'upload_comment' => $extData['uploadcomment'],
 				'file_hash' => $extData['t3xfilemd5'],
 				'download_counter' => 0,
