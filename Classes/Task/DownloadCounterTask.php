@@ -66,14 +66,14 @@
 			}
 
 				// set state as string
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = 0', array('state' => 'alpha'));
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = 1', array('state' => 'beta'));
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = 2', array('state' => 'stable'));
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = 3', array('state' => 'experimental'));
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = 4', array('state' => 'test'));
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = 5', array('state' => 'obsolete'));
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = 6', array('state' => 'excludeFromUpdates'));
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = 999', array('state' => 'n/a'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "0"', array('state' => 'alpha'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "1"', array('state' => 'beta'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "2"', array('state' => 'stable'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "3"', array('state' => 'experimental'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "4"', array('state' => 'test'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "5"', array('state' => 'obsolete'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "6"', array('state' => 'excludeFromUpdates'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "999"', array('state' => 'n/a'));
 
 			return TRUE;
 		}
