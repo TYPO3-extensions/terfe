@@ -89,7 +89,9 @@
 			$extData = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 				'uid,extensionkey,version,state',
 				'tx_ter_extensions',
-				'extensionkey = "be_secure_pw"'
+				'1',
+				FALSE,
+				'crdate'
 			);
 			return $extData;
 		}
