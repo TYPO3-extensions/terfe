@@ -69,7 +69,7 @@
 				'ext_key = "' . $extData['extensionkey'].'" AND version_string = "' . $extData['version'] .'" AND tx_terfe2_domain_model_extension.deleted = 0 AND tx_terfe2_domain_model_version.deleted = 0'
 			);
 			$states = tx_em_Tools::getDefaultState(NULL);
-			if ($versionRec['state'] != $extData['state']) {
+			if ($versionRec['versionUid'] && $versionRec['state'] != $extData['state']) {
 				if (!array_key_exists($extData['state'], $states)) {
 					$extData['state'] = 'n/a';
 				}
