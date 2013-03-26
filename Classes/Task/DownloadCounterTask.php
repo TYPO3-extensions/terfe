@@ -66,7 +66,7 @@
 					$versions = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 						'uid',
 						'tx_terfe2_domain_model_version',
-						'delete = 0 AND hidden = 0 AND extension = ' . $ext['uid'],
+						'deleted = 0 AND hidden = 0 AND extension = ' . $ext['uid'],
 						FALSE,
 						'upload_date DESC'
 					);
