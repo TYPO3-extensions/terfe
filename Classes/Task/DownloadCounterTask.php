@@ -35,7 +35,7 @@
 		 */
 		public function execute() {
 			$extensions = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'uid',
+				'uid, last_version',
 				'tx_terfe2_domain_model_extension',
 				'deleted = 0 AND hidden = 0 AND versions > 0'
 			);
@@ -60,6 +60,24 @@
 					if (t3lib_extMgm::isLoaded('solr')) {
 						$indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
 						$indexQueue->updateItem('tx_terfe2_domain_model_extension', $ext['uid']);
+					}
+
+					// check if latest version is right (upload_date, not version)
+					$versions = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+						'uid',
+						'tx_terfe2_domain_model_version',
+						'delete = 0 AND hidden = 0 AND extension = ' . $ext['uid'],
+						FALSE,
+						'upload_date DESC'
+					);
+					$latestVersion = $versions[0];
+
+					if ($latestVersion['uid'] != $ext['last_version']) {
+						$updateExtension = array(
+							'tstamp' => time(),
+							'last_version' => $latestVersion['uid']
+						);
+						$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_extension', 'uid = ' . $ext['uid'], $updateExtension);
 					}
 
 				}
