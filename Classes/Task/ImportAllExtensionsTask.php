@@ -224,10 +224,10 @@
 				'media' => 0,
 				'experiences' => 0,
 				'software_relations' => 0,
-				'extension_provider' => '',
+				'extension_provider' => 'file',
 				'has_zip_file' => 0,
 				'has_images' => 0,
-				't3x_file_size' => 0,
+				't3x_file_size' => @filesize(PATH_site . 'fileadmin/ter/' . $extData['extensionkey'] . '_' . $extData['version_string'] . '.t3x'),
 				'zip_file_size' => 0
 			);
 

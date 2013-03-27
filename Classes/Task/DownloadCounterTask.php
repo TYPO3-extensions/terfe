@@ -54,12 +54,28 @@
 
 					// check if latest version is right (upload_date, not version)
 					$versions = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-						'uid',
+						'uid,extension_provider,t3x_file_size,version_string',
 						'tx_terfe2_domain_model_version',
 						'deleted = 0 AND hidden = 0 AND extension = ' . $ext['uid'],
 						FALSE,
 						'upload_date DESC'
 					);
+
+					foreach ($versions as $version) {
+						$updateVersion = array();
+						if ($version['extension_provider'] == '') {
+							$updateVersion['extension_provider'] = 'file';
+						}
+						$fileName = PATH_site . 'fileadmin/ter/' . $ext['ext_key'] . '_' . $version['version_string'] . '.t3x';
+						if ($version['t3x_file_size'] == 0 && file_exists($fileName)) {
+							$updateVersion['t3x_file_size'] = filesize($fileName);
+						}
+
+						if (!empty($updateVersion)) {
+							$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'uid = ' . $version['uid'], $updateVersion);
+						}
+					}
+
 					$latestVersion = $versions[0];
 
 					// fix for first upload
