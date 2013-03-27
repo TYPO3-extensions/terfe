@@ -35,7 +35,7 @@
 		 */
 		public function execute() {
 			$extensions = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'uid, last_version',
+				'uid, last_version, ext_key',
 				'tx_terfe2_domain_model_extension',
 				'deleted = 0 AND hidden = 0 AND versions > 0'
 			);
@@ -72,14 +72,29 @@
 					);
 					$latestVersion = $versions[0];
 
+					// fix for first upload
+					$extensions = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+						'crdate',
+						'tx_ter_extensions',
+						'extensionkey = "' . $ext['ext_key'] . '"',
+						FALSE,
+						'crdate ASC'
+					);
+					$firstUpload = $extensions[0];
+
+					$updateExtension = array();
 					if ($latestVersion['uid'] != $ext['last_version']) {
-						$updateExtension = array(
-							'tstamp' => time(),
-							'last_version' => $latestVersion['uid']
-						);
-						$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_extension', 'uid = ' . $ext['uid'], $updateExtension);
+						$updateExtension['tstamp'] = time();
+						$updateExtension['last_version'] = $latestVersion['uid'];
 					}
 
+					if ($firstUpload['crdate'] > 0) {
+						$updateExtension['crdate'] = $firstUpload['crdate'];
+					}
+
+					if (!empty($updateExtension)) {
+						$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_extension', 'uid = ' . $ext['uid'], $updateExtension);
+					}
 				}
 			}
 
