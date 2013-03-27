@@ -204,7 +204,7 @@
 				'upload_date' => $extData['lastuploaddate'],
 				'upload_comment' => $extData['uploadcomment'],
 				'file_hash' => $extData['t3xfilemd5'],
-				'download_counter' => 0,
+				'download_counter' => $extData['downloadcounter'],
 				'frontend_download_counter' => 0,
 				'state' => isset($states[(string) $extData['state']]) ? (string) $extData['state'] : 'n/a',
 				'em_category' => isset($categories[(string) $extData['category']]) ? (string) $extData['category'] : '',
