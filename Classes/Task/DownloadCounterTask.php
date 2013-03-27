@@ -41,26 +41,16 @@
 			);
 			if (!empty($extensions)) {
 				foreach ($extensions as $ext) {
+					$updateExtension = array();
+
+					// get the downloads of all versions
 					$downloads = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
 						'SUM(download_counter) AS downloads, SUM(frontend_download_counter) AS fe_downloads',
 						'tx_terfe2_domain_model_version',
 						'deleted = 0 AND hidden = 0 AND extension = ' . $ext['uid'],
 						'extension'
 					);
-					$update = array(
-						'downloads' => $downloads['downloads'] + $downloads['fe_downloads']
-					);
-					$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-						'tx_terfe2_domain_model_extension',
-						'uid = ' . $ext['uid'],
-						$update
-					);
-
-					// update the EXT:solr Index Queue
-					if (t3lib_extMgm::isLoaded('solr')) {
-						$indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
-						$indexQueue->updateItem('tx_terfe2_domain_model_extension', $ext['uid']);
-					}
+					$updateExtension['downloads'] = $downloads['downloads'] + $downloads['fe_downloads'];
 
 					// check if latest version is right (upload_date, not version)
 					$versions = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -82,7 +72,6 @@
 					);
 					$firstUpload = $extensions[0];
 
-					$updateExtension = array();
 					if ($latestVersion['uid'] != $ext['last_version']) {
 						$updateExtension['tstamp'] = time();
 						$updateExtension['last_version'] = $latestVersion['uid'];
@@ -94,6 +83,12 @@
 
 					if (!empty($updateExtension)) {
 						$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_extension', 'uid = ' . $ext['uid'], $updateExtension);
+
+						// update the EXT:solr Index Queue
+						if (t3lib_extMgm::isLoaded('solr')) {
+							$indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
+							$indexQueue->updateItem('tx_terfe2_domain_model_extension', $ext['uid']);
+						}
 					}
 				}
 			}
@@ -107,6 +102,7 @@
 			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "5"', array('state' => 'obsolete'));
 			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "6"', array('state' => 'excludeFromUpdates'));
 			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = "999"', array('state' => 'n/a'));
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_version', 'state = ""', array('state' => 'n/a'));
 
 			return TRUE;
 		}
