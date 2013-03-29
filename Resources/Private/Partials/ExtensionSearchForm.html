@@ -1,7 +1,7 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
 <div class="ter-ext-list-search">
-	<form method="get" action="{f:uri.action(controller:'Extension', action:'search', noCacheHash: 1)}">
+	<form method="post" action="{f:uri.action(controller:'Extension', action:'search', noCacheHash: 1)}">
 		<f:form.textfield name="tx_terfe2_pi1[search][needle]" id="ter-ext-list-search-needle" value="{search.needle}" />
 		<f:form.submit value="{f:translate(key: 'search')}" class="bu" />
 
