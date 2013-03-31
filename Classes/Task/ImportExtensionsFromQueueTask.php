@@ -193,8 +193,14 @@
 			$states = tx_em_Tools::getDefaultState(NULL);
 			$categories = tx_em_Tools::getDefaultCategory(NULL);
 
+			$folder1 = substr($extData['extensionkey'], 0, 1);
+			$folder2 = substr($extData['extensionkey'], 1, 1);
+			$t3xFile = PATH_site . 'fileadmin/ter/' . $folder1 . '/' . $folder2 . '/' . $extData['extensionkey'] . '_' . $extData['version'] . '.t3x';
+
 			$insertVersion = array(
 				'pid' => $this->pid,
+				'crdate' => $crdate,
+				'tstamp' => time(),
 				'extension' => $extUid,
 				'title' => $extData['title'],
 				'description' => $extData['description'],
@@ -227,7 +233,7 @@
 				'extension_provider' => 'file',
 				'has_zip_file' => 0,
 				'has_images' => 0,
-				't3x_file_size' => @filesize(PATH_site . 'fileadmin/ter/' . $extData['extensionkey'] . '_' . $extData['version_string'] . '.t3x'),
+				't3x_file_size' => @filesize($t3xFile),
 				'zip_file_size' => 0
 			);
 

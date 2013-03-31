@@ -66,7 +66,10 @@
 						if ($version['extension_provider'] == '') {
 							$updateVersion['extension_provider'] = 'file';
 						}
-						$fileName = PATH_site . 'fileadmin/ter/' . $ext['ext_key'] . '_' . $version['version_string'] . '.t3x';
+
+						$folder1 = substr($ext['ext_key'], 0, 1);
+						$folder2 = substr($ext['ext_key'], 1, 1);
+						$fileName = PATH_site . 'fileadmin/ter/' . $folder1 . '/' . $folder2 . '/' . $ext['ext_key'] . '_' . $version['version_string'] . '.t3x';
 						if ($version['t3x_file_size'] == 0 && file_exists($fileName)) {
 							$updateVersion['t3x_file_size'] = filesize($fileName);
 						}
