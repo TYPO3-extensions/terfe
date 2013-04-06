@@ -266,7 +266,7 @@
 		 *
 		 * @param string $filename Path to zip file
 		 * @param array $files Reference to files
-		 * @return stdObj Extension information
+		 * @return stdClass Extension information
 		 * @see tx_em_Extensions_Details::uploadToTER
 		 */
 		public static function getExtensionDetailsFromZipArchive($filename, array &$files = array()) {

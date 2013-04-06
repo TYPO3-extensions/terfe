@@ -437,6 +437,7 @@
 				$this->forwardWithError($this->translate('msg.createVersionVersionExists'), 'uploadVersion');
 			}
 			$extensionInfo->extensionKey = $extensionKey;
+			$extensionInfo->infoData->uploadComment = $form['comment'];
 			$filesData = (object) array('fileData' => $files);
 			try {
 				$result = tx_ter_api::uploadExtensionWithoutSoap($this->frontendUser['username'], $extensionInfo, $filesData);

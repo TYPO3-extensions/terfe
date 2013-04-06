@@ -1,0 +1,39 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+
+	<h2><f:translate key="header.uploadExtensionVersion" arguments="{0: extension.extKey}"/></h2>
+
+	<hr />
+
+	<f:form method="post" action="createVersion" controller="Extension" enctype="multipart/form-data">
+		<f:form.hidden name="extension" value="{extension}" />
+
+		<br />
+
+		<div class="register-wrapper">
+			<div class="registerkey-label">
+				<label for="comment"><f:translate key="uploadExtensionVersion.comment" /></label>
+			</div>
+			<div class="register-input b-form-inputs">
+				<f:form.textarea rows="5" cols="40" name="form[comment]" value="{form.comment}" />
+			</div>
+			<div class="registerkey-label">
+				<label for="file"><f:translate key="uploadExtensionVersion.file" /></label>
+			</div>
+			<div class="register-input b-form-inputs">
+				<f:form.upload name="form[file]" />
+			</div>
+		</div>
+
+		<hr />
+
+		<div class="a-r">
+			<f:form.submit value="{f:translate(key:'uploadExtensionVersion.uploadVersion')}" class="bu bu-mini" />
+		</div>
+
+		<br />
+
+	</f:form>
+
+</f:section>
