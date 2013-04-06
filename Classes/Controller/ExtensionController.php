@@ -74,6 +74,11 @@
 		protected $ownerRepository;
 
 		/**
+		 * @var array
+		 */
+		protected $frontendUser;
+
+		/**
 		 * Initializes the controller
 		 *
 		 * @return void
@@ -92,6 +97,8 @@
 				// Show insecure extensions only for reviewers
 			$this->extensionRepository->setShowInsecure($this->securityRole->isReviewer());
 			$this->versionRepository->setShowInsecure($this->securityRole->isReviewer());
+
+			$this->frontendUser = (!empty($GLOBALS['TSFE']->fe_user->user) ? $GLOBALS['TSFE']->fe_user->user : array());
 		}
 
 		/**
@@ -365,6 +372,85 @@
 
 
 		/**
+		 * Show upload form for a new extension version
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
+		 * @param array $form Form information for the new version
+		 * @return void
+		 * @dontvalidate $extension
+		 * @dontvalidate $form
+		 */
+		public function uploadVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, array $form = array()) {
+			if (!t3lib_extMgm::isLoaded('ter')) {
+				$this->flashMessageContainer->add($this->translate('msq.createVersionTerNotLoaded'));
+			}
+			$this->view->assign('extension', $extension);
+			$this->view->assign('form', $form);
+		}
+
+
+		/**
+		 * Create new version of an extension
+		 *
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
+		 * @param array $form Form information for the new version
+		 * @return void
+		 * @dontvalidate $extension
+		 * @dontvalidate $form
+		 */
+		public function createVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, array $form) {
+			if (!t3lib_extMgm::isLoaded('ter')) {
+				$this->forwardWithError($this->translate('msg.createVersionTerNotLoaded'), 'uploadVersion');
+			}
+			if (empty($this->frontendUser['username'])) {
+				$this->forwardWithError($this->translate('msg.createVersionNotLoggedIn'), 'uploadVersion');
+			}
+			if (empty($form['comment'])) {
+				$this->forwardWithError($this->translate('msg.createVersionCommentEmpty'), 'uploadVersion');
+			}
+			$fileInfo = Tx_TerFe2_Utility_File::getFileInfo('tx_terfe2_pi1.form.file');
+			if (empty($fileInfo) || empty($fileInfo['tmp_name']) || $fileInfo['error'] != UPLOAD_ERR_OK) {
+				$this->forwardWithError($this->translate('msg.createVersionFileEmpty'), 'uploadVersion');
+			}
+			if (empty($fileInfo['name']) || substr($fileInfo['name'], -3) !== 'zip') {
+				$this->forwardWithError($this->translate('msg.createVersionFileNoZip'), 'uploadVersion');
+			}
+			$files = array();
+			try {
+				$extensionInfo = Tx_TerFe2_Utility_Archive::getExtensionDetailsFromZipArchive($fileInfo['tmp_name'], $files);
+			} catch (Exception $exception) {
+				$this->forwardWithError($exception->getMessage(), 'uploadVersion');
+			}
+			unlink($fileInfo['tmp_name']);
+			if (empty($extensionInfo->version)) {
+				$this->forwardWithError($this->translate('msg.createVersionVersionEmpty'), 'uploadVersion');
+			}
+			$extensionKey = preg_replace('/_(\d+)(\.|\-)(\d+)(\.|\-)(\d+)/i', '', strtolower($fileInfo['name']));
+			$extensionKey = substr($extensionKey, 0, strrpos($extensionKey, '.'));
+			if ($extensionKey !== $extension->getExtKey()) {
+				$this->forwardWithError($this->translate('msg.createVersionFilenameNotValid'), 'uploadVersion');
+			}
+			if (!$this->userIsAllowedToUploadExtension($extensionKey)) {
+				$this->forwardWithError($this->translate('msg.createVersionUploadNotAllowed'), 'uploadVersion');
+			}
+			if (!$this->versionIsPossibleForExtension($extensionKey, $extensionInfo->version)) {
+				$this->forwardWithError($this->translate('msg.createVersionVersionExists'), 'uploadVersion');
+			}
+			$extensionInfo->extensionKey = $extensionKey;
+			$filesData = (object) array('fileData' => $files);
+			try {
+				$result = tx_ter_api::uploadExtensionWithoutSoap($this->frontendUser['username'], $extensionInfo, $filesData);
+				if ($result) {
+					$this->redirect('index', 'Registerkey', NULL, array('uploaded' => TRUE), $this->settings['pages']['manageKeysPID']);
+				}
+			} catch(Exception $exception) {
+				$this->forwardWithError($exception->getMessage(), 'uploadVersion');
+			}
+			$this->forwardWithError($this->translate('msg.createVersionUploadFailed'), 'uploadVersion');
+		}
+
+
+		/**
 		 * Returns all / filtered extensions
 		 *
 		 * @param array $options Options for extension list
@@ -449,5 +535,51 @@
 			$number = $this->extensionRepository->findAll()->count();
 			return (int) $number;
 		}
+
+
+		/**
+		 * Check if current frontend user can upload given extension
+		 *
+		 * There is no better (and faster) way to do this at the momement.
+		 *
+		 * @param string $extensionKey The extension key
+		 * @return boolean TRUE if upload is allowed
+		 */
+		protected function userIsAllowedToUploadExtension($extensionKey) {
+			if (empty($this->frontendUser['username'])) {
+				return FALSE;
+			}
+			$isAllowedToUploadKey = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
+				'uid',
+				'tx_ter_extensionkeys',
+				'ownerusername LIKE "' . $GLOBALS['TYPO3_DB']->quoteStr($this->frontendUser['username'], 'foo') . '"
+				AND extensionkey LIKE "' . $GLOBALS['TYPO3_DB']->quoteStr($extensionKey, 'foo') . '"'
+			);
+			return !empty($isAllowedToUploadKey);
+		}
+
+
+		/**
+		 * Check if an version does not exist for extension
+		 *
+		 * There is no better (and faster) way to do this at the momement.
+		 *
+		 * @param string $extensionKey The extension key
+		 * @param string $versionString The extension version
+		 * @return boolean TRUE if version already exists
+		 */
+		protected function versionIsPossibleForExtension($extensionKey, $versionString) {
+			if (empty($extensionKey) || empty($versionString)) {
+				return FALSE;
+			}
+			$versionExistsForExtension = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
+				'uid',
+				'tx_ter_extensions',
+				'extensionkey = "' . $GLOBALS['TYPO3_DB']->quoteStr($extensionKey, 'foo') . '"
+				AND version LIKE "' . $GLOBALS['TYPO3_DB']->quoteStr($versionString, 'foo') . '"'
+			);
+			return empty($versionExistsForExtension);
+		}
+
 	}
 ?>

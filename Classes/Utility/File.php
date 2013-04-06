@@ -381,6 +381,25 @@
 
 
 		/**
+		 * Move uploaded file to given directory
+		 *
+		 * @param string $tempname Temporary file name
+		 * @param string $filename Original file name
+		 * @param string $directory Directory path
+		 * @return New file name
+		 */
+		static public function moveUploadedFile($tempname, $filename, $directory = 'uploads/') {
+			$basicFileFunctions = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+			$newFilename = $basicFileFunctions->getUniqueName($filename, self::getAbsoluteDirectory($directory));
+			if (t3lib_div::upload_copy_move($tempname, $newFilename)) {
+				return basename($newFilename);
+			}
+
+			return '';
+		}
+
+
+		/**
 		 * Remove a file
 		 *
 		 * @param string $filename Path to the file
@@ -488,6 +507,48 @@ $EM_CONF[$_EXTKEY] = ' . tx_em_Tools::arrayToCode($emConfArray, 0) . ';
 ?>';
 
 			return str_replace(CR, '', $content);
+		}
+
+
+		/**
+		 * Returns information about uploaded file
+		 *
+		 * @param string $field Path to field (e.g. tx_myext_pi1.myObject.myAttribute)
+		 * @return array File information
+		 */
+		public static function getFileInfo($field) {
+			$arrayKeys = t3lib_div::trimExplode('.', $field, TRUE);
+
+				// No information found
+			if (empty($_FILES[$arrayKeys[0]]['tmp_name'])) {
+				return array();
+			}
+
+				// Single file structure
+			if (is_string($_FILES[$arrayKeys[0]]['tmp_name'])) {
+				return $_FILES[$arrayKeys[0]];
+			}
+
+				// Multi file structure
+			if (is_array($_FILES[$arrayKeys[0]]['tmp_name'])) {
+				$fileInfo = array();
+				$fileArray = $_FILES[$arrayKeys[0]];
+				array_shift($arrayKeys);
+
+				foreach ($fileArray as $key => $values) {
+					$info = $values;
+					foreach ($arrayKeys as $arrayKey) {
+						if (isset($info[$arrayKey])) {
+							$info = $info[$arrayKey];
+						}
+					}
+					$fileInfo[$key] = (!is_array($info) ? $info : NULL);
+				}
+
+				return $fileInfo;
+			}
+
+			return array();
 		}
 
 	}

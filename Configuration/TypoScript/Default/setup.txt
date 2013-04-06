@@ -52,7 +52,9 @@ plugin.tx_terfe2 {
 		}
 
 		pages {
-			extensionDetailPID	= {$plugin.tx_terfe2.settings.pages.extensionDetailPID}
+			extensionDetailPID  = {$plugin.tx_terfe2.settings.pages.extensionDetailPID}
+			manageKeysPID       = {$plugin.tx_terfe2.settings.pages.manageKeysPID}
+			uploadVersionPID    = {$plugin.tx_terfe2.settings.pages.uploadVersionPID}
 		}
 	}
 

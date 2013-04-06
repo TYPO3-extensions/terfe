@@ -65,9 +65,11 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	/**
 	 * Initialize all actions
 	 *
+	 * @param boolean $uploaded TRUE if an extension version was successfully uploaded
 	 * @return void
+	 * @dontvalidate $uploaded
 	 */
-	public function indexAction() {
+	public function indexAction($uploaded = FALSE) {
 		// get categories for register key
 //			$categories = $this->categoryRepository->findAll();
 //			$this->view->assign('categories', $categories);
@@ -75,6 +77,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 		if (!empty($this->frontendUser)) {
 			$extensions = $this->extensionRepository->findByFrontendUser($this->frontendUser['username']);
 			$this->view->assign('extensions', $extensions);
+			$this->view->assign('uploaded', $uploaded);
 		}
 	}
 

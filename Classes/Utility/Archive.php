@@ -73,7 +73,7 @@
 
 
 		/**
-		 * Returns the content of a zip archive
+		 * Writes a zip archive to filesystem
 		 *
 		 * @param string $filename File name
 		 * @param string $path Path to extract into
@@ -113,6 +113,55 @@
 			}
 
 			return TRUE;
+		}
+
+
+		/**
+		 * Returns the content of a zip archive
+		 *
+		 * @param string $filename File name
+		 * @return array File informations
+		 */
+		public static function getZipArchiveContent($filename) {
+			if (!class_exists('ZipArchive')) {
+				throw new Exception('Please make sure that php zip extension is installed');
+			}
+
+				// Check if file exists
+			if (!Tx_TerFe2_Utility_File::fileExists($filename)) {
+				throw new Exception('File "' . $filename . '" not found to extract');
+			}
+
+				// Load zip archive
+			$zipArchive = new ZipArchive();
+			if (empty($zipArchive) || !$zipArchive->open($filename)) {
+				throw new Exception('Could not open zip file to read');
+			}
+
+				// Get all files
+			$files = array();
+			for($i = 0; $i < $zipArchive->numFiles; $i++){
+				$fileInfo = $zipArchive->statIndex($i);
+				$filePointer = $zipArchive->getStream($fileInfo['name']);
+				if (!$filePointer) {
+					continue;
+				}
+				$content = '';
+				while (!feof($filePointer)) {
+					$content .= fread($filePointer, 1024);
+				}
+				fclose($filePointer);
+				$files[$fileInfo['name']] = (object) array(
+					'name' => $fileInfo['name'],
+					'size' => $fileInfo['size'],
+					'modificationTime' => $fileInfo['mtime'],
+					'isExecutable' => (substr($fileInfo['name'], -3) === 'php'),
+					'content' => base64_encode($content),
+					'contentMD5' => md5($content),
+				);
+			}
+
+			return $files;
 		}
 
 
@@ -209,6 +258,98 @@
 
 				// Unserialize files array
 			return unserialize($files);
+		}
+
+
+		/**
+		 * Load extension information from zip file
+		 *
+		 * @param string $filename Path to zip file
+		 * @param array $files Reference to files
+		 * @return stdObj Extension information
+		 * @see tx_em_Extensions_Details::uploadToTER
+		 */
+		public static function getExtensionDetailsFromZipArchive($filename, array &$files = array()) {
+			$files = self::getZipArchiveContent($filename);
+			if (empty($files) || empty($files['ext_emconf.php'])) {
+				return NULL;
+			}
+			$extEmconf = str_replace(array('<?php', '<?', '?>'), '', base64_decode($files['ext_emconf.php']->content));
+			eval($extEmconf);
+			if (empty($EM_CONF) || !is_array($EM_CONF)) {
+				return NULL;
+			}
+			$extEmconf = reset($EM_CONF);
+			// Dependencies / conflicts
+			$dependencies = array();
+			$extKeysArr = $extEmconf['dependencies'];
+			if (is_array($extKeysArr)) {
+				foreach ($extKeysArr as $extKey => $version) {
+					if (strlen($extKey)) {
+						$dependenciesArr[] = array(
+							'kind' => 'depends',
+							'extensionKey' => $extKey,
+							'versionRange' => $version,
+						);
+					}
+				}
+			}
+			$extKeysArr = $extEmconf['conflicts'];
+			if (is_array($extKeysArr)) {
+				foreach ($extKeysArr as $extKey => $version) {
+					if (strlen($extKey)) {
+						$dependenciesArr[] = array(
+							'kind' => 'conflicts',
+							'extensionKey' => $extKey,
+							'versionRange' => $version,
+						);
+					}
+				}
+			}
+			if (count($dependenciesArr) == 1) {
+				$dependenciesArr[] = array(
+					'kind' => 'depends',
+					'extensionKey' => '',
+					'versionRange' => '',
+				);
+			}
+			$clearCacheOnLoad = (isset($extEmconf['clearCacheOnLoad']) ? $extEmconf['clearCacheOnLoad'] : $extEmconf['clearcacheonload']);
+			// Build extension information
+			return (object) array(
+				'extensionKey' => '',
+				'version' => $extEmconf['version'],
+				'metaData' => (object) array(
+					'title' => $extEmconf['title'],
+					'description' => $extEmconf['description'],
+					'category' => $extEmconf['category'],
+					'state' => $extEmconf['state'],
+					'authorName' => $extEmconf['author'],
+					'authorEmail' => $extEmconf['author_email'],
+					'authorCompany' => $extEmconf['author_company'],
+				),
+				'technicalData' => (object) array(
+					'dependencies' => (object) $dependenciesArr,
+					'loadOrder' => $extEmconf['loadOrder'],
+					'uploadFolder' => (bool) $extEmconf['uploadfolder'],
+					'createDirs' => $extEmconf['createDirs'],
+					'shy' => (bool) $extEmconf['shy'],
+					'modules' => $extEmconf['module'],
+					'modifyTables' => $extEmconf['modify_tables'],
+					'priority' => $extEmconf['priority'],
+					'clearCacheOnLoad' => (bool) $clearCacheOnLoad,
+					'lockType' => $extEmconf['lockType'],
+					'doNotLoadInFEe' => $extEmconf['doNotLoadInFE'],
+					'docPath' => $extEmconf['docPath'],
+				),
+				'infoData' => (object) array(
+					'codeLines' => 0,
+					'codeBytes' => 0,
+					'codingGuidelinesCompliance' => $extEmconf['CGLcompliance'],
+					'codingGuidelinesComplianceNotes' => $extEmconf['CGLcompliance_note'],
+					'uploadComment' => '',
+					'techInfo' => '',
+				),
+			);
 		}
 
 	}

@@ -39,12 +39,12 @@
 		protected $authenticationHeader;
 
 
-        protected
-            $wsdlUrl,
-            $username,
-            $password,
-            $returnExceptions
-        ;
+		protected
+			$wsdlUrl,
+			$username,
+			$password,
+			$returnExceptions
+		;
 
 		/**
 		 * Setup connection
@@ -57,58 +57,57 @@
 		 */
 		public function connect($wsdlUrl, $username = '', $password = '', $returnExceptions = FALSE) {
 
-            if (empty($wsdlUrl)) {
-                throw new Exception('No valid wsdl URL given');
-            }
+			if (empty($wsdlUrl)) {
+				throw new Exception('No valid wsdl URL given');
+			}
 
-            if (!class_exists('SoapClient')) {
-                throw new Exception('PHP SOAP extension not available');
-            }
+			if (!class_exists('SoapClient')) {
+				throw new Exception('PHP SOAP extension not available');
+			}
 
-            $this->wsdlUrl = $wsdlUrl;
-            $this->username = $username;
-            $this->password = $password;
-            $this->returnExceptions = $returnExceptions;
+			$this->wsdlUrl = $wsdlUrl;
+			$this->username = $username;
+			$this->password = $password;
+			$this->returnExceptions = $returnExceptions;
 
-            return $this->resetConnection();
-
-
-
+			return $this->resetConnection();
 		}
 
-        /**
-         * creates a new connection
-         *
-         * A new SoapClient has to be used to prevent unexpected behavior.
-         * The bug occured when registering an extension key. The response to the second request to the server (createExtensionKey)
-         * just returned pure jibberish and caused an exception.
-         * This seems to be a bug in PHP (@see https://bugs.php.net/bug.php?id=42191) and the easiest way to fix it, is
-         * to reset the connection.
-         * Maybe this bug was fixed in a newer version of PHP (don't know), but it is a real issue on my local PHP
-         * installation (5.2.10). So this *might* be reverted later on.
-         *
-         * @author Christian Zenker <christian.zenker@599media.de>
-         */
-        public function resetConnection() {
-            // Create connection
-            $this->soapConnection = new SoapClient($this->wsdlUrl, array(
-                'trace'      => 1,
-                'exceptions' => (int) $this->returnExceptions,
-            ));
+		/**
+		 * creates a new connection
+		 *
+		 * A new SoapClient has to be used to prevent unexpected behavior.
+		 * The bug occured when registering an extension key. The response to the second request to the server (createExtensionKey)
+		 * just returned pure jibberish and caused an exception.
+		 * This seems to be a bug in PHP (@see https://bugs.php.net/bug.php?id=42191) and the easiest way to fix it, is
+		 * to reset the connection.
+		 * Maybe this bug was fixed in a newer version of PHP (don't know), but it is a real issue on my local PHP
+		 * installation (5.2.10). So this *might* be reverted later on.
+		 *
+		 * @author Christian Zenker <christian.zenker@599media.de>
+		 */
+		public function resetConnection() {
+			// Create connection
+			$this->soapConnection = new SoapClient($this->wsdlUrl, array(
+				'trace'        => 1,
+				'exceptions'   => (bool) $this->returnExceptions,
+				'encoding'     => 'UTF-8',
+				'soap_version' => SOAP_1_2,
+			));
 
-            // Get authentication header
-            if (!empty($this->username) && !empty($this->password)) {
-                $headerData = array('username' => $this->username, 'password' => $this->password);
-                $this->authenticationHeader = new SoapHeader('', 'HeaderLogin', (object) $headerData, TRUE);
-            }
-        }
+			// Get authentication header
+			if (!empty($this->username) && !empty($this->password)) {
+				$headerData = array('username' => $this->username, 'password' => $this->password);
+				$this->authenticationHeader = new SoapHeader('', 'HeaderLogin', (object) $headerData, TRUE);
+			}
+		}
 
 
 		/**
 		 * Set connection object
 		 *
 		 * @param SoapClient $soapConnection SOAP connection object
-         * @deprecated Christian Zenker: Seems not to be used anywhere on typo3.org and the method is useless if the connection is reset for each call
+		 * @deprecated Christian Zenker: Seems not to be used anywhere on typo3.org and the method is useless if the connection is reset for each call
 		 * @return void
 		 */
 		public function setConnection(SoapClient $soapConnection) {
@@ -157,7 +156,7 @@
 		 */
 		public function __call($methodName, array $params = array()) {
 
-            $this->resetConnection();
+			$this->resetConnection();
 
 //				// Check for existing connection
 //			if (empty($this->soapConnection)) {

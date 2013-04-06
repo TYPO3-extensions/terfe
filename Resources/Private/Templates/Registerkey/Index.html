@@ -2,6 +2,16 @@
 
 <f:section name="main">
 
+	<f:if condition="{uploaded}">
+		<div class="tx_terfe2_messages">
+			<div class="typo3-messages">
+				<div class="typo3-message message-ok">
+					<div class="message-body"><f:translate key="LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:msg.createVersionUploadSuccess" /></div>
+				</div>
+			</div>
+		</div>
+	</f:if>
+
 	<div class="b-tabs">
 		<ul class="tabs lite-tabs">
 			<li>
@@ -55,23 +65,24 @@
 												</f:else>
 											</f:if>
 											<br />
-                                            <span class="b-comment-date"><f:if condition="{extension.versionCount} < 1"><f:then>
-                                                <f:translate key="tx_terfe2_domain_model_extension.versions.no" />
-                                            </f:then><f:else><f:if condition="{extension.versionCount} > 1"><f:then>
-                                                <f:translate key="tx_terfe2_domain_model_extension.versions.multiple" arguments="{0: extension.versionCount}" />
-                                            </f:then><f:else>
-                                                <f:translate key="tx_terfe2_domain_model_extension.versions.one" />
-                                            </f:else></f:if></f:else></f:if>
-                                            <f:if condition="{extension.lastVersion}">
-                                                ({extension.lastVersion.versionString})
-                                            </f:if>
-                                            </span>
+											<span class="b-comment-date"><f:if condition="{extension.versionCount} < 1"><f:then>
+												<f:translate key="tx_terfe2_domain_model_extension.versions.no" />
+											</f:then><f:else><f:if condition="{extension.versionCount} > 1"><f:then>
+												<f:translate key="tx_terfe2_domain_model_extension.versions.multiple" arguments="{0: extension.versionCount}" />
+											</f:then><f:else>
+												<f:translate key="tx_terfe2_domain_model_extension.versions.one" />
+											</f:else></f:if></f:else></f:if>
+											<f:if condition="{extension.lastVersion}">
+												({extension.lastVersion.versionString})
+											</f:if>
+											</span>
 										</td>
 										<td class="no-border-left a-r">
-                                            <f:if condition="{extension.versionCount} < 1"><f:then>
-											    <f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
-                                            </f:then><f:else>&nbsp;</f:else>
-                                            </f:if>
+											<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion" controller="Extension" arguments="{extension: extension}" pageUid="{settings.pages.uploadVersionPID}"><f:translate key="uploadVersion-button" /></f:link.action>
+											<f:if condition="{extension.versionCount} < 1"><f:then>
+												&nbsp;<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
+											</f:then><f:else>&nbsp;</f:else>
+											</f:if>
 										</td>
 										<td>
 											<div class="b-form-inputs">
@@ -89,14 +100,14 @@
 							</tbody>
 						</table>
 
-                        <h4>Missing some of your keys?</h4>
-                        <p>
-                            Extension keys without any uploaded version have not been migrated from the old typo3.org.
-                        </p>
-                        <p>
-                            If you still wish to use these keys you can recover them by using the button below.
-                        </p>
-                        <div class="a-r"><f:link.action class="bu bu-mini" action="salvage" controller="Registerkey">Salvage Extension Keys</f:link.action></div>
+						<h4>Missing some of your keys?</h4>
+						<p>
+							Extension keys without any uploaded version have not been migrated from the old typo3.org.
+						</p>
+						<p>
+							If you still wish to use these keys you can recover them by using the button below.
+						</p>
+						<div class="a-r"><f:link.action class="bu bu-mini" action="salvage" controller="Registerkey">Salvage Extension Keys</f:link.action></div>
 
 					</f:then>
 					<f:else>
@@ -127,19 +138,19 @@
 
 							<hr />
 
-                            <div class="registerkey-label">
-                                <label>&nbsp;</label>
-                            </div>
+							<div class="registerkey-label">
+								<label>&nbsp;</label>
+							</div>
 							<f:form.submit class="bu bu-mini" value="{f:translate(key: 'save')}" />
 						</f:form>
 
-                        <h4>Please make sure that the extension key you register follows the following rules</h4>
-                        <ul>
-                            <li>Allowed characters are: a-z (lowercase), 0-9 and '_' (underscore)</li>
-                            <li>The key must not being with one of the following prefixes: tx,user_,pages,tt_,sys_,ts_language_,csh_</li>
-                            <li>Extension keys cannot start or end with 0-9 and '_' (underscore)</li>
-                            <li>An extension key must have minimum 3, maximum 30 characters (not counting underscores)</li>
-                        </ul>
+						<h4>Please make sure that the extension key you register follows the following rules</h4>
+						<ul>
+							<li>Allowed characters are: a-z (lowercase), 0-9 and '_' (underscore)</li>
+							<li>The key must not being with one of the following prefixes: tx,user_,pages,tt_,sys_,ts_language_,csh_</li>
+							<li>Extension keys cannot start or end with 0-9 and '_' (underscore)</li>
+							<li>An extension key must have minimum 3, maximum 30 characters (not counting underscores)</li>
+						</ul>
 					</f:then>
 					<f:else>
 						<f:translate key="registerkey.notloggedin" />

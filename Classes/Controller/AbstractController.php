@@ -112,6 +112,40 @@
 
 
 		/**
+		 * Send flash message and redirect to given action
+		 *
+		 * @param string $message Identifier of the message to send
+		 * @param string $action Name of the action
+		 * @param string $controller Unqualified object name of the controller
+		 * @param string $extension Name of the extension containing the controller
+		 * @param array $arguments Arguments to pass to the target action
+		 * @return void
+		 */
+		protected function redirectWithError($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL) {
+			$this->flashMessageContainer->add($message, '', t3lib_FlashMessage::ERROR);
+			$this->clearPageCache($GLOBALS['TSFE']->id);
+			$this->redirect($action, $controller, $extension, $arguments);
+		}
+
+
+		/**
+		 * Send flash message and forward to given action
+		 *
+		 * @param string $message Identifier of the message to send
+		 * @param string $action Name of the action
+		 * @param string $controller Unqualified object name of the controller
+		 * @param string $extension Name of the extension containing the controller
+		 * @param array $arguments Arguments to pass to the target action
+		 * @return void
+		 */
+		protected function forwardWithError($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL) {
+			$this->flashMessageContainer->add($message, '', t3lib_FlashMessage::ERROR);
+			$this->clearPageCache($GLOBALS['TSFE']->id);
+			$this->forward($action, $controller, $extension, $arguments);
+		}
+
+
+		/**
 		 * Clear cache of given pages
 		 *
 		 * @param string $pages List of page ids

@@ -8,7 +8,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	$_EXTKEY,
 	'Pi1',
 	array(
-		'Extension'   => 'index, search, show, new, create, edit, update, delete, download, list, listLatest',
+		'Extension'   => 'index, search, show, new, create, edit, update, delete, download, list, listLatest, uploadVersion, createVersion',
 		'Category'    => 'list, new, create, edit, update, delete, show',
 		'Tag'         => 'list, new, create, edit, update, delete, show',
 		'Author'      => 'list, edit, update, show',
@@ -18,7 +18,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Review'      => 'update',
 	),
 	array(
-		'Extension'   => 'search, create, update, edit, delete, download',
+		'Extension'   => 'search, create, update, edit, delete, download, uploadVersion, createVersion',
 		'Category'    => 'create, update, delete',
 		'Tag'         => 'create, delete',
 		'Author'      => 'update',

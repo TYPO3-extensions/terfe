@@ -110,6 +110,12 @@ plugin.tx_terfe2 {
 		pages {
 			# cat=TER Frontend/settings/5500; type=int+; label=Detail PID: PID of extension detail view
 			extensionDetailPID = 23
+
+			# cat=TER Frontend/settings/5510; type=int+; label=Manage Keys PID: PID of manage keys view
+			manageKeysPID = 118
+
+			# cat=TER Frontend/settings/5520; type=int+; label=Upload Version PID: PID of version upload view
+			uploadVersionPID = 602
 		}
 	}
 

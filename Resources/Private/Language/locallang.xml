@@ -96,6 +96,17 @@
 			<label index="msg.reviewstate_enabled">The review state has been set</label>
 			<label index="msg.reviewstate_not_enabled">The review state could not be set for version "%s". Message: "%s"</label>
 			<label index="msg.reviewstate_not_changed">The review state has not changed</label>
+			<label index="msg.createVersionTerNotLoaded">Could not find TER installation, please contact support.</label>
+			<label index="msg.createVersionNotLoggedIn">Please log in to upload an extension.</label>
+			<label index="msg.createVersionCommentEmpty">Please enter a description for this version.</label>
+			<label index="msg.createVersionFileEmpty">Please select an extension ZIP file.</label>
+			<label index="msg.createVersionFileNoZip">Selected ZIP file is not a valid extension archive.</label>
+			<label index="msg.createVersionVersionEmpty">Selected ZIP file containes no version information.</label>
+			<label index="msg.createVersionVersionExists">This version already exists. Increase version in ext_emconf.php and upload again.</label>
+			<label index="msg.createVersionFilenameNotValid">The filename must be of the format [extkey]_[version].zip" (e.g. news_1.2.3.zip).</label>
+			<label index="msg.createVersionUploadNotAllowed">You are not allowed to upload this extension.</label>
+			<label index="msg.createVersionUploadSuccess"><![CDATA[Thank you for the upload of your new extension version.<br />It may take up to 24 hours until it appears in TER.]]></label>
+			<label index="msg.createVersionUploadFailed">Extension upload failed.</label>
 
 			<label index="header.latest_extensions">Latest Extensions</label>
 			<label index="header.top_rated_extensions">Top rated Extensions</label>
@@ -106,6 +117,7 @@
 			<label index="header.json_output">JSON Output</label>
 			<label index="header.rss_output">RSS Output</label>
 			<label index="header.review_form">Extension review</label>
+			<label index="header.uploadExtensionVersion">Upload new version of the extension "%s"</label>
 
 			<label index="link.latest_extensions">Latest Extensions</label>
 			<label index="link.latest_extensions.rss">Latest Extensions (RSS)</label>
@@ -254,6 +266,10 @@
 			<label index="registerkey.error.no_admin.title">Permission denied.</label>
 			<label index="registerkey.error.no_admin.message">You must be an admin to call this action.</label>
 
+			<label index="uploadExtensionVersion.comment">Description for this version</label>
+			<label index="uploadExtensionVersion.file">Extension file (.zip)</label>
+			<label index="uploadExtensionVersion.uploadVersion">Upload extension</label>
+
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>
 			<label index="save">Save</label>
@@ -265,6 +281,7 @@
 			<label index="modifiy-button">Modifiy</label>
 			<label index="delete-button">Delete</label>
 			<label index="edit-button">Edit</label>
+			<label index="uploadVersion-button">Upload version</label>
 			<label index="register-extension-key">Register extension key</label>
 			<label index="manage-extension-keys">Manage extension keys</label>
 			<label index="modifiy-extension-key">Modifiy extension keys</label>
