@@ -103,11 +103,12 @@
 					if (!empty($updateExtension)) {
 						$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_extension', 'uid = ' . $ext['uid'], $updateExtension);
 
+						/** @var Tx_TerFe2_Service_Notification $notificationService */
+						$notificationService = t3lib_div::makeInstance('Tx_TerFe2_Service_Notification');
+						// notify documentation server for new extension upload
+						$notificationService->notifyDocsTeam($ext['ext_key'], $version['version_string']);
 						// update the EXT:solr Index Queue
-						if (t3lib_extMgm::isLoaded('solr')) {
-							$indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
-							$indexQueue->updateItem('tx_terfe2_domain_model_extension', $ext['uid']);
-						}
+						$notificationService->notifySolrIndexQueue($ext['uid']);
 					}
 				}
 			}
