@@ -390,6 +390,17 @@
 
 
 		/**
+		 * Disable HMAC validation for createVersionAction to prevent validation
+		 * errors with modified form fields
+		 *
+		 * @return void
+		 */
+		public function initializeCreateVersionAction() {
+			$this->request->setHmacVerified(TRUE);
+		}
+
+
+		/**
 		 * Create new version of an extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object

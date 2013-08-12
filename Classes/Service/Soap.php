@@ -93,6 +93,7 @@
 				'exceptions'   => (bool) $this->returnExceptions,
 				'encoding'     => 'UTF-8',
 				'soap_version' => SOAP_1_2,
+				'cache_wsdl'   => WSDL_CACHE_NONE,
 			));
 
 			// Get authentication header

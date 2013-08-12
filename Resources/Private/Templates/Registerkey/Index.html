@@ -78,7 +78,7 @@
 											</span>
 										</td>
 										<td class="no-border-left a-r">
-											<!--<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion" controller="Extension" arguments="{extension: extension}" pageUid="{settings.pages.uploadVersionPID}"><f:translate key="uploadVersion-button" /></f:link.action>-->
+											<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion" controller="Extension" arguments="{extension: extension}" pageUid="{settings.pages.uploadVersionPID}"><f:translate key="uploadVersion-button" /></f:link.action>
 											<f:if condition="{extension.versionCount} < 1"><f:then>
 												&nbsp;<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
 											</f:then><f:else>&nbsp;</f:else>
