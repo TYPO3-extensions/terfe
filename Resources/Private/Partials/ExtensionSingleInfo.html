@@ -80,6 +80,42 @@
 				</fed:comment>
 			</td>
 		</tr>
+		<tr>
+			<th>Code quality</th>
+			<td><f:link.external uri="https://metrics.typo3.org/dashboard/index/org.typo3:extension-{extension.extKey}" target="_blank">Check it</f:link.external></td>
+		</tr>
+		<f:if condition="{extension.forgeLink}">
+			<tr class="ter-ext-single-info-key">
+				<th><f:translate key="bugtracker" /></th>
+				<td>
+					<f:link.external rel="nofollow" uri="{extension.forgeLink}" target="_blank"><f:translate key="found_a_bug" /></f:link.external>
+				</td>
+			</tr>
+		</f:if>
+		<f:if condition="{extension.repositoryUrl}">
+			<tr class="ter-ext-single-info-key">
+				<th><f:translate key="repository_url" /></th>
+				<td>
+					<f:link.external rel="nofollow" uri="{extension.repositoryUrl}" target="_blank"><f:translate key="repository_url" /></f:link.external>
+				</td>
+			</tr>
+		</f:if>
+		<f:if condition="{extension.externalManual}">
+			<tr class="ter-ext-single-info-key">
+				<th><f:translate key="external_manual" /></th>
+				<td>
+					<f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="external_manual" /></f:link.external>
+				</td>
+			</tr>
+		</f:if>
+		<f:if condition="{extension.paypalUrl}">
+			<tr class="ter-ext-single-info-key">
+				<th><f:translate key="like_it" /></th>
+				<td>
+					<f:link.external rel="nofollow" uri="{extension.paypalUrl}" target="_blank"><f:translate key="donate_url" /></f:link.external>
+				</td>
+			</tr>
+		</f:if>
 		<f:if condition="{flattr}">
 			<tr class="ter-ext-single-flattr">
 				<th><f:translate key="donate" /></th>
@@ -92,21 +128,23 @@
 			<th><f:translate key="author"/></th>
 			<td><f:if condition="{extension.lastVersion.author.frontendUser.image}"><f:then>&nbsp;</f:then><f:else>{extension.lastVersion.author.name}</f:else></f:if></td>
 		</tr>
-		<f:if condition="{extension.lastVersion.author.frontendUser.image}">
+		<fed:comment>
+		<f:if condition="{owner.image}">
 			<tr>
 				<th colspan="2">
 					<div id="randomUserProfiles">
 						<ul>
 							<li>
-								<f:image src="uploads/pics/{extension.lastVersion.author.frontendUser.image}" alt="{extension.lastVersion.author.frontendUser.name}" title="{extension.lastVersion.author.frontendUser.name}" />
+								<f:image src="uploads/pics/{owner.image}" width="40" alt="{owner.name}" title="{owner.name}" />
 							</li>
 						</ul>
 					</div>
 					<div class="userName">
-						{extension.lastVersion.author.name}
+						{owner.name}
 					</div>
 				</th>
 			</tr>
 		</f:if>
+		</fed:comment>
 	</table>
 </div>

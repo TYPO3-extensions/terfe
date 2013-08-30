@@ -31,7 +31,6 @@
 		/**
 		 * Extension key
 		 * @var string
-		 * @validate NotEmpty
 		 */
 		protected $extKey;
 
@@ -107,6 +106,30 @@
 		 * @var DateTime
 		 */
 		protected $crdate;
+
+		/**
+		 * Link to an external repository
+		 * @var string
+		 */
+		protected $repositoryUrl;
+
+		/**
+		 * Link to an external manual
+		 * @var string
+		 */
+		protected $externalManual;
+
+		/**
+		 * Link to paypal donation
+		 * @var string
+		 */
+		protected $paypalUrl;
+
+		/**
+		 * ID for Google+ author relation
+		 * @var string
+		 */
+		protected $googleAuthorId;
 
 
 		/**
@@ -467,6 +490,78 @@
 		 */
 		public function getFrontendUser() {
 			return $this->frontendUser;
+		}
+
+		/**
+		 * Sets externalManual
+		 *
+		 * @param string $externalManual
+		 */
+		public function setExternalManual($externalManual) {
+			$this->externalManual = $externalManual;
+		}
+
+		/**
+		 * Gets externalManual
+		 *
+		 * @return string
+		 */
+		public function getExternalManual() {
+			return $this->externalManual;
+		}
+
+		/**
+		 * Sets paypalUrl
+		 *
+		 * @param string $paypalUrl
+		 */
+		public function setPaypalUrl($paypalUrl) {
+			$this->paypalUrl = $paypalUrl;
+		}
+
+		/**
+		 * Gets paypalUrl
+		 *
+		 * @return string
+		 */
+		public function getPaypalUrl() {
+			return $this->paypalUrl;
+		}
+
+		/**
+		 * Sets repositoryUrl
+		 *
+		 * @param string $repositoryUrl
+		 */
+		public function setRepositoryUrl($repositoryUrl) {
+			$this->repositoryUrl = $repositoryUrl;
+		}
+
+		/**
+		 * Gets repositoryUrl
+		 *
+		 * @return string
+		 */
+		public function getRepositoryUrl() {
+			return $this->repositoryUrl;
+		}
+
+		/**
+		 * Sets googleAuthorId
+		 *
+		 * @param string $googleAuthorId
+		 */
+		public function setGoogleAuthorId($googleAuthorId) {
+			$this->googleAuthorId = $googleAuthorId;
+		}
+
+		/**
+		 * Gets googleAuthorId
+		 *
+		 * @return string
+		 */
+		public function getGoogleAuthorId() {
+			return $this->googleAuthorId;
 		}
 
 

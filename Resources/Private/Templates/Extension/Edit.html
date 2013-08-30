@@ -1,24 +1,75 @@
+{namespace fed=Tx_Fed_ViewHelpers}
 <f:layout name="Default" />
 
 <f:section name="main">
-	<h2><f:translate key="edit_extension"/></h2>
+	<f:if condition="{isLoggedIn}">
+		<f:then>
+			<h2><f:translate key="edit_extension"/> {extension.extKey}</h2>
 
-	<f:form method="post" action="update" controller="Extension" name="extension" object="{extension}">
+			<f:form method="post" action="update" controller="Extension" name="extension" object="{extension}">
 
-		<label for="title"><f:translate key="tx_terfe2_domain_model_version.title" /></label><br />
-		<f:form.textbox size="40" property="lastVersion.title" /><br /><br />
+				<f:render partial="FormErrors" />
 
-		<label for="description"><f:translate key="tx_terfe2_domain_model_version.description" /></label><br />
-		<f:form.textarea rows="5" cols="40" property="lastVersion.description" /><br /><br />
+				<div class="b-form">
 
-		<label for="forgeLink"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></label><br />
-		<f:form.textbox size="40" property="forgeLink" /><br />
+					<div class="b-form-row">
+						<label for="forgeLink"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></label>
+						<div class="b-form-inputs">
+							<f:form.textbox size="40" id="forgeLink" property="forgeLink" />
+						</div>
+					</div>
 
-		<label for="hudsonLink"><f:translate key="tx_terfe2_domain_model_extension.hudson_link" /></label><br />
-		<f:form.textbox size="40" property="hudsonLink" /><br /><br />
 
-		<f:form.submit value="{f:translate(key:'edit')}" />
-	</f:form>
+					<div class="b-form-row">
+						<label for="repositoryUrl"><f:translate key="tx_terfe2_domain_model_extension.repository_url" /></label>
+						<div class="b-form-inputs">
+							<f:form.textbox size="40" id="repositoryUrl" property="repositoryUrl" />
+						</div>
+					</div>
 
-	<f:link.action controller="Extension" action="show" arguments="{extension : extension}"><f:translate key="back_to_detail"/></f:link.action>
+					<div class="b-form-row">
+						<label for="externalManual"><f:translate key="tx_terfe2_domain_model_extension.external_manual" /></label>
+						<div class="b-form-inputs">
+							<f:form.textbox size="40" id="externalManual" property="externalManual" />
+						</div>
+					</div>
+
+					<div class="b-form-row">
+						<label for="paypalUrl"><f:translate key="tx_terfe2_domain_model_extension.donate_url" /></label>
+						<div class="b-form-inputs">
+							<f:form.textbox size="40" id="paypalUrl" property="paypalUrl" />
+						</div>
+					</div>
+
+					<div class="b-form-row">
+						<label for="flattrUsername">flattr username<br />
+						<span class="small"><f:link.external uri="http://wiki.typo3.org/How_to_add_flattr_to_TER" target="_blank">[How to set up flattr]</f:link.external></span></label>
+						<div class="b-form-inputs">
+							<f:form.textbox size="40" id="flattrUsername" property="flattrUsername" />
+						</div>
+					</div>
+
+					<div class="b-form-row">
+						<label for="googleAuthorId">Google+ Profile ID<br />
+						<span class="small"><f:link.external uri="http://support.google.com/webmasters/bin/answer.py?hl=en&answer=1408986" target="_blank">[Why Google+ Profile ID?]</f:link.external></span></label>
+						<div class="b-form-inputs">
+							<f:form.textbox size="40" id="googleAuthorId" property="googleAuthorId" />
+						</div>
+					</div>
+
+					<div class="b-form-row">
+						<div class="b-form-inputs">
+							<f:form.submit class="bu bu-mini" value="Save" />
+						</div>
+					</div>
+
+				</div>
+			</f:form>
+
+			<f:link.action controller="Registerkey" class="bu bu-mini dark-grey" action="index">Back to extension overview</f:link.action>
+		</f:then>
+		<f:else>
+			You must be the owner of the extension to edit it.
+		</f:else>
+	</f:if>
 </f:section>

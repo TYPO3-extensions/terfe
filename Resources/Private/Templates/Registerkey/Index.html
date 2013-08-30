@@ -46,6 +46,7 @@
 								<tr>
 									<th colspan="2" class="colA4"><f:translate key="extensionKey" /></th>
 									<th class="transfer-colum" class="colC1"><f:translate key="transferToUser" /></th>
+									<th>&nbsp;</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -77,14 +78,11 @@
 											</f:if>
 											</span>
 										</td>
-										<td class="no-border-left a-r">
+										<td class="no-border-left a-r" style="padding: 6px 6px 5px;">
 											<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion" controller="Extension" arguments="{extension: extension}" pageUid="{settings.pages.uploadVersionPID}"><f:translate key="uploadVersion-button" /></f:link.action>
-											<f:if condition="{extension.versionCount} < 1"><f:then>
-												&nbsp;<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
-											</f:then><f:else>&nbsp;</f:else>
-											</f:if>
+											<f:link.action class="bu bu-mini" action="edit" controller="Extension" arguments="{extension: extension}"><f:translate key="editExtension-button" /></f:link.action>
 										</td>
-										<td>
+										<td style="padding: 6px 6px 5px;">
 											<div class="b-form-inputs">
 												<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST" onsubmit="if (confirm('Are you sure? You might not be able to get your transfered key back.')) return true; else return false;">
 													<f:form.hidden name="extension" value="{extension}" />
@@ -92,6 +90,11 @@
 													<f:form.submit class="bu bu-mini manage-keys-submit" value="Transfer" />
 												</f:form>
 											</div>
+										</td>
+										<td>
+											<f:if condition="{extension.versionCount} < 1">
+												<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
+											</f:if>
 										</td>
 									</tr>
 

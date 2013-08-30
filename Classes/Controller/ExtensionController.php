@@ -212,6 +212,12 @@
 				$this->view->assign('extension', $extension);
 				$this->view->assign('versionHistory', $versionHistory);
 				$this->view->assign('loggedInUser', $loggedInUser);
+
+				if ($extension->getGoogleAuthorId()) {
+					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<link href="https://plus.google.com/' . $extension->getGoogleAuthorId() . '/" rel="author" />');
+					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<link href="https://plus.google.com/' . $extension->getGoogleAuthorId() . '/" rel="publisher" />');
+				}
+				$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<meta name="description" content="' . $extension->getLastVersion()->getDescription() . '" />');
 			}
 
 				// flattr check
@@ -264,11 +270,14 @@
 		 * Displays a form to edit an existing extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension to display
-		 * @return void
 		 * @dontvalidate $extension
+		 * @return void
 		 */
 		public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
-			$this->view->assign('extension', $extension);
+			if ($this->securityRole->isAdmin() || $extension->getFrontendUser() == $this->ownerRepository->findCurrent()->getUsername()) {
+				$this->view->assign('isLoggedIn', 1);
+				$this->view->assign('extension', $extension);
+			}
 		}
 
 
@@ -276,12 +285,12 @@
 		 * Updates an existing extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension extension to update
+		 * @dontvalidate $extension
 		 * @return void
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->update($extension);
-			$actionParameters = array('extension' => $extension);
-			$this->redirectWithMessage($this->translate('msg.extension_updated'), 'show', NULL, NULL, $actionParameters);
+			$this->redirectWithMessage($this->translate('msg.extension_updated'), 'index', 'Registerkey');
 		}
 
 
@@ -328,6 +337,7 @@
 				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($extensionMediaPath . $extKey);
 				$fileUrl = $extensionMediaPath . basename($provider->getFileName($version, $format));
 			}
+
 
 				// Check if file exists
 			if (empty($fileUrl) || !Tx_TerFe2_Utility_File::fileExists($fileUrl)) {

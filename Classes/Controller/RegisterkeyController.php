@@ -253,6 +253,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 	 * Display the edit form
 	 *
 	 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to modify
+	 * @dontvalidate $extension
 	 * @return void
 	 */
 	public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
