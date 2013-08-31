@@ -274,7 +274,9 @@
 		 * @return void
 		 */
 		public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
-			if ($this->securityRole->isAdmin() || $extension->getFrontendUser() == $this->ownerRepository->findCurrent()->getUsername()) {
+			$extensionOwner = $this->ownerRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+			if ($this->securityRole->isAdmin()
+				|| $extension->getFrontendUser() == $extensionOwner->getUsername()) {
 				$this->view->assign('isLoggedIn', 1);
 				$this->view->assign('extension', $extension);
 			}
