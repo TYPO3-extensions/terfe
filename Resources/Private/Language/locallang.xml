@@ -108,7 +108,7 @@
 			<label index="msg.createVersionVersionExists">This version already exists. Increase version in ext_emconf.php and upload again.</label>
 			<label index="msg.createVersionFilenameNotValid">The filename must be of the format [extkey]_[version].zip" (e.g. news_1.2.3.zip).</label>
 			<label index="msg.createVersionUploadNotAllowed">You are not allowed to upload this extension.</label>
-			<label index="msg.createVersionUploadSuccess"><![CDATA[Thank you for the upload of your new extension version.<br />It may take up to 24 hours until it appears in TER.]]></label>
+			<label index="msg.createVersionUploadSuccess"><![CDATA[Thank you for the upload of your new extension version. It may take up to 15 minutes until it appears in TER.]]></label>
 			<label index="msg.createVersionUploadFailed">Extension upload failed.</label>
 
 			<label index="header.latest_extensions">Latest Extensions</label>
