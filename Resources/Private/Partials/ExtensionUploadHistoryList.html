@@ -6,7 +6,9 @@
 			<f:if condition="{version.reviewState} > -1">
 			<f:then>
 				<tr>
-					<td class="col1"><strong>{version.versionString}</strong></td>
+					<td class="col1">
+						<strong>{version.versionString}</strong><br /><small><f:format.date format="F d, Y">{version.uploadDate}</f:format.date></small>
+					</td>
 					<td class="col2">{version.uploadComment}</td>
 					<td class="col3">
 						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 't3x'}" title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
@@ -19,7 +21,9 @@
 			<f:else>
 				<f:security.ifHasRole role="{settings.reviewerGroupUid}">
 					<tr>
-						<td class="col1"><strong>{version.versionString}</strong></td>
+						<td class="col1">
+							<strong>{version.versionString}</strong><br /><small><f:format.date format="F d, Y">{version.uploadDate}</f:format.date></small>
+						</td>
 						<td class="col2">{version.uploadComment}</td>
 						<td class="col3">
 							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x" title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}"><f:translate key="download_t3x"/></f:link.action>

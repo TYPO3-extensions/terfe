@@ -218,13 +218,17 @@
 			<label index="first_upload">First upload</label>
 			<label index="favorite_added">Added</label>
 			<label index="favor">Add to favorites</label>
-			<label index="bugtracker">Bugtracker</label>
-			<label index="found_a_bug">Found a bug? Report!</label>
+			<label index="bugtracker">Ideas or problems?</label>
+			<label index="found_a_bug">Get in touch</label>
 			<label index="donate_url">Sponsor development</label>
 			<label index="repository">Repository</label>
 			<label index="link">Link</label>
 			<label index="external_manual">External manual</label>
 			<label index="like_it">Like it?</label>
+			<label index="repository_url">External repository</label>
+			<label index="repository_url_value">Take a look into the code</label>
+			<label index="quality_label">Interested in code?</label>
+			<label index="quality_value">Check quality</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_extension_list">Back to Extension List</label>
