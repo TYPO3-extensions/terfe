@@ -73,7 +73,7 @@
 									<terfe2:chart object="{extension}" method="downloadsByVersion" height="220" width="375" pointCount="{settings.defaultPointCount}" renderOnLoad="1"/>
 
 								</div>
-								<f:render partial="ExtensionSingleInfo" arguments="{extension:extension, settings:settings, owner:owner, flattr:flattr}" />
+								<f:render partial="ExtensionSingleInfo" arguments="{extension:extension, settings:settings, owner:owner, flattr:flattr, docsUrl:docsUrl}" />
 							</div>
 						</div>
 						<div class="hide-tab tab-content lite-tab-panes-black">
@@ -115,8 +115,14 @@
 							<div class="ter-ext-single" style="padding-top: 10px;">
 								<h2><f:translate key="documentation" /></h2>
 								<p>
-									<terfe2:documentationLink version="{extension.lastVersion}"></terfe2:documentationLink>
+									<f:link.external uri="{docsUrl}" target="_blank">Extension Manual</f:link.external>
+									<f:if condition="{extension.externalManual}">
+										<br />
+										<f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="external_manual" /></f:link.external>
+									</f:if>
+
 									<fed:comment>
+										<terfe2:documentationLink version="{extension.lastVersion}"></terfe2:documentationLink>
 										<br />
 										Download OpenOffice file (sxw): <terfe2:documentationLink version="{extension.lastVersion}" format="sxw"></terfe2:documentationLink>
 									</fed:comment>

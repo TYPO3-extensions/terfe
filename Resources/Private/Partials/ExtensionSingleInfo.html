@@ -74,10 +74,12 @@
 		<tr class="ter-ext-single-info-manual">
 			<th><f:translate key="manual"/></th>
 			<td>
+				<fed:comment>
 				<terfe2:documentationLink version="{extension.lastVersion}"></terfe2:documentationLink>
-				<fed:comment><br />
+				<br />
 				<terfe2:documentationLink version="{extension.lastVersion}" format="sxw"></terfe2:documentationLink>
 				</fed:comment>
+				<f:link.external uri="{docsUrl}" target="_blank">Extension Manual</f:link.external>
 				<f:if condition="{extension.externalManual}">
 					<br />
 					<f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="external_manual" /></f:link.external>

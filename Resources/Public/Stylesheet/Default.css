@@ -262,8 +262,8 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
 	margin: 0;
 }
 .ter-ext-single-versionhistory table td {
-	border: none;
-	padding: 0 0 6px 0;
+/*	border: none;
+	padding: 0 0 6px 0;*/
 }
 .ter-ext-single-versionhistory .col1 {
 	width: 85px;
@@ -508,4 +508,11 @@ div.jqplot-highlighter-tooltip {
 	-webkit-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
 	-moz-box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
 	box-shadow: 1px 1px 3px rgba(120,120,120,0.75);
+}
+
+
+/* th_rating stuff */
+
+.thRating-RObj2-stars, .thRating-RObj2-stars a:hover, .thRating-RObj2-stars a:active, .thRating-RObj2-stars a:focus, .thRating-RObj2-stars .current-rating {
+	background: url(/typo3conf/ext/th_rating/Resources/Public/Css/stars.gif) 0 0 repeat-x;
 }

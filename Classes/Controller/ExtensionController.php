@@ -79,6 +79,11 @@
 		protected $frontendUser;
 
 		/**
+		 * @var string
+		 */
+		protected $docsUrlBasic = 'http://docs.typo3.org/typo3cms/extensions/';
+
+		/**
 		 * Initializes the controller
 		 *
 		 * @return void
@@ -212,6 +217,9 @@
 				$this->view->assign('extension', $extension);
 				$this->view->assign('versionHistory', $versionHistory);
 				$this->view->assign('loggedInUser', $loggedInUser);
+
+				$docsUrl = $this->docsUrlBasic . $extension->getExtKey() . '/' . $extension->getLastVersion()->getVersionString();
+				$this->view->assign('docsUrl', $docsUrl);
 
 				if ($extension->getGoogleAuthorId()) {
 					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<link href="https://plus.google.com/' . $extension->getGoogleAuthorId() . '/" rel="author" />');
