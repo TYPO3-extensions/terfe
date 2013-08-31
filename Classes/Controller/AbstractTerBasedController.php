@@ -110,7 +110,6 @@
 
 				// Create connection
 			$wsdl = $this->terSettings['wsdl'];
-			$wsdl = 'http://t3org.dev/wsdl/tx_ter_wsdl.php';
 			return $this->objectManager->get('Tx_TerFe2_Service_Ter', $wsdl, $this->terAccount['username'], $this->terAccount['password']);
 		}
 
