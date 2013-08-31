@@ -122,8 +122,21 @@
 		</f:if>
 		<tr>
 			<th><f:translate key="author"/></th>
-			<td><f:if condition="{extension.lastVersion.author.frontendUser.image}"><f:then>&nbsp;</f:then><f:else>{extension.lastVersion.author.name}</f:else></f:if></td>
+			<td><f:if condition="{extension.lastVersion.author.frontendUser.image}">
+				<f:then>&nbsp;</f:then>
+				<f:else>
+					{extension.lastVersion.author.name}
+				</f:else>
+			</f:if></td>
 		</tr>
+		<f:if condition="{extension.lastVersion.author.username}">
+			<tr>	
+				<th>Username:</th>
+				<td>
+					{extension.lastVersion.author.username}
+				</td>
+			</tr>
+		</f:if>
 		<fed:comment>
 		<f:if condition="{owner.image}">
 			<tr>
