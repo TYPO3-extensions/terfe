@@ -268,7 +268,7 @@
 			<label index="registerkey.error.key_invalid.title">Extension key is invalid.</label>
 			<label index="registerkey.error.key_invalid.message"> Please pay attention to the rules below the form.</label>
 			<label index="registerkey.error.key_exists.title">An extension with this key already exists.</label>
-			<label index="registerkey.error.key_exists.message"></label>
+			<label index="registerkey.error.key_exists.message">You can contact the extension owner: %s</label>
 			<label index="registerkey.error.result_empty.title">An unknown error occured.</label>
 			<label index="registerkey.error.result_empty.message">Please try again later.</label>
 			<label index="registerkey.error.not_register.title">An unknown error occured.</label>

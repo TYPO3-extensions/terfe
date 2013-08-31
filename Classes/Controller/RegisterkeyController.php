@@ -128,8 +128,25 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 				);
 			}
 		} else {
+			/** @var Tx_TerFe2_Domain_Model_Extension $extension */
+			$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
+			$message = '';
+			if ($extension instanceof Tx_TerFe2_Domain_Model_Extension && $extension->getFrontendUser()) {
+				/** @var Tx_Ajaxlogin_Domain_Model_User $frontendUser */
+				$frontendUser = $this->userRepository->findOneByUsername($extension->getFrontendUser());
+				if ($frontendUser instanceof Tx_Ajaxlogin_Domain_Model_User) {
+					$message = $this->resolveWSErrorMessage(
+						$error . '.message',
+						array(
+							'<a href="mailto:' . htmlspecialchars($frontendUser->getEmail()) . '">' . htmlspecialchars($frontendUser->getName()) . '</a>'
+						)
+					);
+				}
+			}
 			$this->flashMessageContainer->add(
-					$this->resolveWSErrorMessage($error . '.message'), $this->resolveWSErrorMessage($error . '.title'), t3lib_FlashMessage::ERROR
+				$message,
+				$this->resolveWSErrorMessage($error . '.title'),
+				t3lib_FlashMessage::ERROR
 			);
 		}
 
