@@ -79,11 +79,6 @@
 		protected $frontendUser;
 
 		/**
-		 * @var string
-		 */
-		protected $docsUrlBasic = 'http://docs.typo3.org/typo3cms/extensions/';
-
-		/**
 		 * Initializes the controller
 		 *
 		 * @return void
@@ -218,7 +213,9 @@
 				$this->view->assign('versionHistory', $versionHistory);
 				$this->view->assign('loggedInUser', $loggedInUser);
 
-				$docsUrl = $this->docsUrlBasic . $extension->getExtKey() . '/' . $extension->getLastVersion()->getVersionString();
+				/** @var Tx_TerFe2_Service_Documentation $documentationService */
+				$documentationService = t3lib_div::makeInstance('Tx_TerFe2_Service_Documentation');
+				$docsUrl = $documentationService->getDocumentationUrl($extension->getExtKey(), $extension->getLastVersion()->getVersionString());
 				$this->view->assign('docsUrl', $docsUrl);
 
 				if ($extension->getGoogleAuthorId()) {

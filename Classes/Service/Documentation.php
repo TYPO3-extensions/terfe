@@ -25,33 +25,42 @@
 
 /**
  * Service to handle documentations
+ *
+ * @package TerFe2
+ * @author Thomas Löffler <thomas.loeffler@typo3.org>
  */
 class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 
 	/**
-	 * @var tx_terdoc_api
+	 * @var string
 	 */
-	protected $terDocApi;
+	protected $baseUrl = '';
+
+	/**
+	 * @var array
+	 */
+	protected $availableFormats = array();
 
 
 	/**
 	 * Initialize the service
-	 *
-	 * @return void
 	 */
 	public function __construct() {
-		if (t3lib_extMgm::isLoaded('ter_doc')) {
-			require_once(t3lib_extMgm::extPath('ter_doc') . 'class.tx_terdoc_api.php');
-			$this->terDocApi = tx_terdoc_api::getInstance();
-		}
+		$this->baseUrl = 'http://docs.typo3.org/typo3cms/extensions/';
+		$this->availableFormats = array(
+			'sxw',
+			'html',
+			'rst'
+		);
 	}
 
 
 	/**
 	 * Get documentation url
 	 *
-	 * @param string $extension Extension key
-	 * @param string $version Version string
+	 * @throws Exception
+	 * @param string $extensionKey Extension key
+	 * @param string $versionString Version string
 	 * @param string $format Output format (e.g. sxw)
 	 * @return string Url to documentation
 	 */
@@ -60,11 +69,14 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 			throw new Exception('Extension key and version string are required to build a documentation url');
 		}
 
-		if (!empty($this->terDocApi)) {
-			return $this->terDocApi->getDocumentationLink($extensionKey, $versionString, $format);
+		$formatString = '';
+		if (in_array($format, $this->availableFormats)) {
+			$formatString = '/manual.' . $format;
 		}
 
-		return '';
+		$urlToDocumentation = $this->baseUrl . $extensionKey . '/' . $versionString . $formatString;
+
+		return $urlToDocumentation;
 	}
 
 }
