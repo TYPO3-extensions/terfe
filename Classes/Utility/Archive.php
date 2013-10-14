@@ -281,28 +281,23 @@
 			}
 			$extEmconf = reset($EM_CONF);
 			// Dependencies / conflicts
-			$dependencies = array();
-			$extKeysArr = $extEmconf['dependencies'];
-			if (is_array($extKeysArr)) {
-				foreach ($extKeysArr as $extKey => $version) {
-					if (strlen($extKey)) {
-						$dependenciesArr[] = array(
-							'kind' => 'depends',
-							'extensionKey' => $extKey,
-							'versionRange' => $version,
-						);
-					}
-				}
-			}
-			$extKeysArr = $extEmconf['conflicts'];
-			if (is_array($extKeysArr)) {
-				foreach ($extKeysArr as $extKey => $version) {
-					if (strlen($extKey)) {
-						$dependenciesArr[] = array(
-							'kind' => 'conflicts',
-							'extensionKey' => $extKey,
-							'versionRange' => $version,
-						);
+			$possibleConstraints = array(
+				'depends',
+				'conflicts',
+				'suggests'
+			);
+			if (is_array($extEmconf['constraints'])) {
+				foreach ($extEmconf['constraints'] as $kind => $data) {
+					if (in_array($kind, $possibleConstraints)) {
+						foreach ($data as $extKey => $version) {
+							if (strlen($extKey)) {
+								$dependenciesArr[] = array(
+									'kind' => $kind,
+									'extensionKey' => $extKey,
+									'versionRange' => $version
+								);
+							}
+						}
 					}
 				}
 			}
@@ -328,7 +323,7 @@
 					'authorCompany' => $extEmconf['author_company'],
 				),
 				'technicalData' => (object) array(
-					'dependencies' => (object) $dependenciesArr,
+					'dependencies' => $dependenciesArr,
 					'loadOrder' => $extEmconf['loadOrder'],
 					'uploadFolder' => (bool) $extEmconf['uploadfolder'],
 					'createDirs' => $extEmconf['createDirs'],
