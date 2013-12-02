@@ -1,0 +1,14 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+	<h2><f:translate key="new_media"/> {extension.extKey}</h2>
+
+	<f:form method="post" action="create" name="newMedia" arguments="{extension : extension}" object="{newMedia}">
+		<label for="title"><f:translate key="tx_terfe2_domain_model_media.title" /></label><br />
+		<f:form.textbox property="title" /><br /><br />
+
+		<f:form.submit value="{f:translate(key:'create')}" />
+	</f:form>
+
+	<f:link.action controller="Media" action="list"><f:translate key="back_to_list"/></f:link.action>
+</f:section>

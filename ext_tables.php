@@ -1,25 +1,96 @@
 <?php
-if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
-
-t3lib_div::loadTCA('tt_content');
-$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1']='layout,select_key,pages,recursive';
-$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_pi1']='pi_flexform';
-
-t3lib_extMgm::addPiFlexFormValue($_EXTKEY.'_pi1', 'FILE:EXT:ter_fe/flexform_ds_pluginmode_pi1.xml');
-t3lib_extMgm::addPlugin(Array('LLL:EXT:ter_fe/locallang_db.xml:tt_content.list_type_pi1', $_EXTKEY.'_pi1'),'list_type');
-
-$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi2']='layout,select_key,pages,recursive';
-t3lib_extMgm::addPlugin(Array('LLL:EXT:ter_fe/locallang_db.xml:tt_content.list_type_pi2', $_EXTKEY.'_pi2'),'list_type');
-
-$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi3']='layout,select_key,pages,recursive';
-t3lib_extMgm::addPlugin(Array('LLL:EXT:ter_fe/locallang_db.xml:tt_content.list_type_pi3', $_EXTKEY.'_pi3'),'list_type');
-
-if (TYPO3_MODE=='BE') {
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_terfe_pi1_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi1/class.tx_terfe_pi1_wizicon.php';
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_terfe_pi2_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi2/class.tx_terfe_pi2_wizicon.php';
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_terfe_pi3_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi3/class.tx_terfe_pi3_wizicon.php';
+if (!defined ('TYPO3_MODE')) {
+	die ('Access denied.');
 }
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'res/static/', 'TER Frontend');
+	// Add plugin to list
+Tx_Extbase_Utility_Extension::registerPlugin(
+	$_EXTKEY,
+	'Pi1',
+	'TER Frontend Index'
+);
 
+	// Add static TypoScript files
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Default/', 'TER Frontend - Default Configuration');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Rss/',     'TER Frontend - RSS Output');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Json/',    'TER Frontend - JSON Output');
+
+	// Add flexform to field list of the Backend form
+$extIdent = strtolower(t3lib_div::underscoredToUpperCamelCase($_EXTKEY)) . '_pi1';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$extIdent] = 'layout,select_key,recursive';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$extIdent] = 'pi_flexform';
+t3lib_extMgm::addPiFlexFormValue($extIdent, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_list.xml');
+
+	// Domain models and their label / search fields
+$models = array(
+	'extension'  => array('ext_key', 'ext_key'),
+	'category'   => array('title', 'title,description'),
+	'tag'        => array('title', 'title'),
+	'version'    => array('title', 'title,description,state,em_category'),
+	'media'      => array('title', 'title,type,language,source,description'),
+	'experience' => array('date_time', 'comment'),
+	'relation'   => array('relation_key', 'relation_type,relation_key'),
+	'author'     => array('name', 'name,email,username'),
+);
+
+	// Add entities and value objects
+foreach ($models as $modelName => $modelConfiguration) {
+		// Add help text to the Backend form
+	t3lib_extMgm::addLLrefForTCAdescr(
+		'tx_terfe2_domain_model_' . $modelName,
+		'EXT:ter_fe2/Resources/Private/Language/locallang_csh_tx_terfe2_domain_model_' . $modelName . '.xml'
+	);
+
+		// Allow datasets on standard pages
+	t3lib_extMgm::allowTableOnStandardPages('tx_terfe2_domain_model_' . $modelName);
+
+		// Add table configuration
+	$GLOBALS['TCA']['tx_terfe2_domain_model_' . $modelName] = array (
+		'ctrl' => array (
+			'title'                    => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_' . $modelName,
+			'label'                    => $modelConfiguration[0],
+			'searchFields'             => $modelConfiguration[1],
+			'tstamp'                   => 'tstamp',
+			'crdate'                   => 'crdate',
+			'versioningWS'             => 2,
+			'versioning_followPages'   => TRUE,
+			'origUid'                  => 't3_origuid',
+			'languageField'            => 'sys_language_uid',
+			'transOrigPointerField'    => 'l18n_parent',
+			'transOrigDiffSourceField' => 'l18n_diffsource',
+			'delete'                   => 'deleted',
+			'enablecolumns'            => array(
+				'disabled'                 => 'hidden'
+			),
+			'dynamicConfigFile'        => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/' . ucfirst($modelName) . '.php',
+			'iconfile'                 => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/' . $modelName . '.gif',
+		),
+	);
+}
+
+	// Add table configuration for the search index table
+$GLOBALS['TCA']['tx_terfe2_domain_model_search'] = array (
+	'ctrl' => array (
+		'hideTable'         => TRUE,
+		'tstamp'            => 'tstamp',
+		'crdate'            => 'crdate',
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Search.php',
+	),
+);
+
+	// Add plugin to new content element wizard
+t3lib_extMgm::addPageTSConfig("
+	mod.wizards.newContentElement.wizardItems.special {\n
+		elements." . $extIdent . " {\n
+			icon        = " . t3lib_extMgm::extRelPath($_EXTKEY) . "Resources/Public/Images/Wizard.gif\n
+			title       = LLL:EXT:" . $_EXTKEY . "/Resources/Private/Language/locallang_db.xml:newContentElement.wizardItem.title\n
+			description = LLL:EXT:" . $_EXTKEY . "/Resources/Private/Language/locallang_db.xml:newContentElement.wizardItem.description\n\n
+			tt_content_defValues {\n
+				CType = list\n
+				list_type = " . $extIdent . "\n
+			}\n
+		}\n\n
+		show := addToList(" . $extIdent . ")\n
+	}
+");
 ?>

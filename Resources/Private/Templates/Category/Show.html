@@ -1,0 +1,36 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
+<f:layout name="Default" />
+
+<f:section name="main">
+	<h2><f:translate key="single_category"/></h2>
+
+	<div class="ter-category-info">
+		<table>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_category.title" />:</td>
+				<td>{category.title}</td>
+			</tr>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_category.description" />:</td>
+				<td><terfe2:raw>{category.description}</terfe2:raw></td>
+			</tr>
+		</table>
+	</div>
+
+	<f:if condition="{settings.show.categoryExtensions}">
+		<h3><f:translate key="category_extensions"/></h3>
+
+		<div class="ter-category-extensions">
+			<f:render partial="ExtensionList" arguments="{extensions : categoryExtensions}" />
+		</div>
+	</f:if>
+
+	<hr />
+
+	<div class="ter-category-single-links cl">
+		<div class="ter-category-single-back">
+			<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
+		</div>
+	</div>
+</f:section>

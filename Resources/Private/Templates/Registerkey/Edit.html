@@ -1,0 +1,40 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+
+	<h2><f:translate key="modifiy-extension-key" /></h2>
+
+	<hr />
+
+	<!-- check if a frontend user is logged in -->
+	<f:if condition="{loggedIn}">
+		<f:then>
+
+			<f:form action="update" controller="Registerkey" name="extension" object="{extension}">
+
+				<div class="register-wrapper">
+					<div class="registerkey-label">
+						<label><f:translate key="extensionKey" /></label>
+					</div>
+
+					<div class="register-input b-form-inputs">
+						<f:form.textbox readonly="readonly" property="extKey" />
+					</div>
+				</div>
+
+				<hr style="clear:both;" />
+				<div class="register-wrapper">
+					<div class="registerkey-label">
+						<label>&nbsp;</label>
+					</div>
+					<f:form.submit class="bu bu-mini" value="{f:translate(key: 'save')}" />
+				</div>
+
+			</f:form>
+
+		</f:then>
+		<f:else>
+			Please log in to manage your extension or to register a new extension key.
+		</f:else>
+	</f:if>
+</f:section>

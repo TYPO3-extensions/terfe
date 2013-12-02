@@ -1,0 +1,45 @@
+Listen
+------------------------------------------------------------------------
+- Extensions
+- Autoren
+- Kategorien
+x Tags
+
+
+Details
+------------------------------------------------------------------------
+- Extension-Details (Direktsprung, Relation anzeigen)
+- Autor-Details mit Liste seiner Extensions
+- Kategorie-Details mit Liste der Extensions
+x Datei-Ansicht (neues Fenster mit Target-Namen)
+
+
+Formulare
+------------------------------------------------------------------------
+- Extension registrieren
+  - Angemeldeter Benutzer wird verlinkt
+  x Kategorien können hinzugefügt werden (bestehende / neue)
+  - Kategorien sind nun vorgegeben
+- Extension-Daten ändern
+  - Änderung des Benutzers möglich (Übertragen)
+  - Kategorien hinzufügen / entfernen
+  x Tags entfernen
+  - Extension löschen
+- Version bearbeiten
+  - Medien hinzufügen / entfernen (Bilder, Videos)
+- Extension bewerten
+  - Extension-Version
+  - TYPO3-Version
+  - Evtl. weitere Infrastruktur
+  - Voting
+  - Kommentar
+x Extension taggen (bestehende / neue, nicht bearbeitbar)
+x Evtl. Author-Daten ändern
+
+
+Sonstiges
+------------------------------------------------------------------------
+- RSS-Feed Alle Extensions
+- RSS-Feed Neuste Extensions
+- JSON Alle Extensions
+- JSON Neue Extensions

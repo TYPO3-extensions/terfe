@@ -1,0 +1,14 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+
+<f:if condition="{categories}">
+	<f:then>
+		<ul>
+			<f:for each="{categories}" as="category">
+				<li><f:link.action controller="Category" action="show" arguments="{category : category}">{category.title}</f:link.action></li>
+			</f:for>
+		</ul>
+	</f:then>
+	<f:else>
+		<f:translate key="msg.no_entries_found"/>
+	</f:else>
+</f:if>

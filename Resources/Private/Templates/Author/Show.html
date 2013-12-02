@@ -1,0 +1,44 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+	<h2><f:translate key="single_author"/></h2>
+
+	<div class="ter-author-info">
+		<table>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_author.name" />:</th>
+				<td>{author.name}</td>
+			</tr>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_author.email" />:</th>
+				<td><f:link.email email="{author.email}" /></td>
+			</tr>
+			<tr>
+				<th><f:translate key="tx_terfe2_domain_model_author.company" />:</th>
+				<td>{author.company}</td>
+			</tr>
+			<f:if condition="{author.forgeLink}">
+				<tr>
+					<th><f:translate key="tx_terfe2_domain_model_author.forge_link" />:</th>
+					<td><f:link.external uri="{author.forgeLink}" target="_blank">{author.forgeLink}</f:link.external></td>
+				</tr>
+			</f:if>
+		</table>
+	</div>
+
+	<f:if condition="{settings.show.authorExtensions}">
+		<h3><f:translate key="author_extensions"/></h3>
+
+		<div class="ter-author-extensions">
+			<f:render partial="ExtensionList" arguments="{extensions : authorExtensions}" />
+		</div>
+	</f:if>
+
+	<hr />
+
+	<div class="ter-author-single-links cl">
+		<div class="ter-author-single-back">
+			<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
+		</div>
+	</div>
+</f:section>

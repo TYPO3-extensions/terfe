@@ -1,0 +1,161 @@
+{namespace terfe2=Tx_TerFe2_ViewHelpers}
+{namespace fed=Tx_Fed_ViewHelpers}
+
+<div class="ter-ext-single-info ter-ext-info">
+	<table>
+<fed:comment>
+		<tr class="ter-ext-single-favorites">
+			<th><f:translate key="add_to_favorites"/></th>
+			<td>
+				<f:if condition="{extension.favorited}">
+					<f:then>
+						<div class="favor"><f:translate key="favorite_added" /></div>
+					</f:then>
+					<f:else>
+						<div class="no-favor">&nbsp;</div>
+					</f:else>
+				</f:if>
+			</td>
+		</tr>
+</fed:comment>
+		<tr class="ter-ext-single-info-key">
+			<th><f:translate key="extensionKey"/></th>
+			<td><strong>{extension.extKey}</strong></td>
+		</tr>
+		<tr>
+			<th><f:translate key="version"/></th>
+			<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
+		</tr>
+		<tr>
+			<th><f:translate key="first_upload"/></th>
+			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.crdate}</terfe2:dateTime></td>
+		</tr>
+		<tr>
+			<th><f:translate key="last_uploaded"/></th>
+			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
+		</tr>
+		<tr>
+			<th><f:translate key="downloads"/></th>
+			<td><f:format.number decimals="0" thousandsSeparator="," decimalSeparator=".">{extension.downloads}</f:format.number></td>
+		</tr>
+		<f:security.ifHasRole role="{settings.reviewerGroupUid}">
+			<tr>
+				<th>Owner:</th>
+				<td> Name: {owner.name}
+					<br />Email: {owner.email}
+					<br />Username: {owner.username}
+				</td>
+			</tr>
+		</f:security.ifHasRole>
+		<tr>
+			<th><f:translate key="category"/></th>
+			<td>
+				<f:if condition="{extension.lastVersion.emCategory}">
+					<f:then>
+						<f:translate key="category_{extension.lastVersion.emCategory}" />
+					</f:then>
+					<f:else>
+						<f:translate key="none" />
+					</f:else>
+				</f:if>
+			</td>
+		</tr>
+		<tr class="ter-ext-single-info-relations">
+			<th><f:translate key="dependencies"/></th>
+			<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.dependencies}"/></td>
+		</tr>
+		<tr class="ter-ext-single-info-relations">
+			<th><f:translate key="conflicts"/>
+			</th>
+			<td>
+				<f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.conflicts}"/>
+			</td>
+		</tr>
+		<tr class="ter-ext-single-info-manual">
+			<th><f:translate key="manual"/></th>
+			<td>
+				<fed:comment>
+				<terfe2:documentationLink version="{extension.lastVersion}"></terfe2:documentationLink>
+				<br />
+				<terfe2:documentationLink version="{extension.lastVersion}" format="sxw"></terfe2:documentationLink>
+				</fed:comment>
+				<f:link.external uri="{docsUrl}" target="_blank">Extension Manual</f:link.external>
+				<f:if condition="{extension.externalManual}">
+					<br />
+					<f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="external_manual" /></f:link.external>
+				</f:if>
+			</td>
+		</tr>
+		<tr>
+			<th><f:translate key="quality_label" /></th>
+			<td><f:link.external uri="https://metrics.typo3.org/dashboard/index/org.typo3:extension-{extension.extKey}" target="_blank"><f:translate key="quality_value" /></f:link.external></td>
+		</tr>
+		<f:if condition="{extension.forgeLink}">
+			<tr class="ter-ext-single-info-key">
+				<th><f:translate key="bugtracker" /></th>
+				<td>
+					<f:link.external rel="nofollow" uri="{extension.forgeLink}" target="_blank"><f:translate key="found_a_bug" /></f:link.external>
+				</td>
+			</tr>
+		</f:if>
+		<f:if condition="{extension.repositoryUrl}">
+			<tr class="ter-ext-single-info-key">
+				<th><f:translate key="repository_url" /></th>
+				<td>
+					<f:link.external rel="nofollow" uri="{extension.repositoryUrl}" target="_blank"><f:translate key="repository_url_value" /></f:link.external>
+				</td>
+			</tr>
+		</f:if>
+		<f:if condition="{flattr}">
+			<tr class="ter-ext-single-flattr">
+				<th><f:translate key="donate" /></th>
+				<td>
+					<terfe2:flattr flattrData="{flattr}" />
+				</td>
+			</tr>
+		</f:if>
+		<f:if condition="{extension.paypalUrl}">
+			<tr class="ter-ext-single-info-key">
+				<th><f:translate key="like_it" /></th>
+				<td>
+					<f:link.external rel="nofollow" uri="{extension.paypalUrl}" target="_blank"><f:translate key="donate_url" /></f:link.external>
+				</td>
+			</tr>
+		</f:if>
+		<tr>
+			<th><f:translate key="author"/></th>
+			<td><f:if condition="{extension.lastVersion.author.frontendUser.image}">
+				<f:then>&nbsp;</f:then>
+				<f:else>
+					{extension.lastVersion.author.name}
+				</f:else>
+			</f:if></td>
+		</tr>
+		<f:if condition="{extension.lastVersion.author.username}">
+			<tr>	
+				<th>Username:</th>
+				<td>
+					{extension.lastVersion.author.username}
+				</td>
+			</tr>
+		</f:if>
+		<fed:comment>
+		<f:if condition="{owner.image}">
+			<tr>
+				<th colspan="2">
+					<div id="randomUserProfiles">
+						<ul>
+							<li>
+								<f:image src="uploads/pics/{owner.image}" width="40" alt="{owner.name}" title="{owner.name}" />
+							</li>
+						</ul>
+					</div>
+					<div class="userName">
+						{owner.name}
+					</div>
+				</th>
+			</tr>
+		</f:if>
+		</fed:comment>
+	</table>
+</div>

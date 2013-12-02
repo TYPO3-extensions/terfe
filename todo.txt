@@ -1,0 +1,15 @@
+- Caching
+- RSS-Feed einbinden
+- Donation
+- Tags
+- ExtensionKey verändern
+  - Verzeichnis verschieben
+  - Relationen anpassen
+- ExtensionKey löschen
+  - Verzeichnis löschen
+- Merkliste
+- Datei-Ansicht
+- Autor verwalten
+- Votings
+- Liste mit zu bewertenden Extensions
+- TODOs im Quelltext
