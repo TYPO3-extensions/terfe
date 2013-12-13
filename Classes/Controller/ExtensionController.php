@@ -215,8 +215,8 @@
 
 				/** @var Tx_TerFe2_Service_Documentation $documentationService */
 				$documentationService = t3lib_div::makeInstance('Tx_TerFe2_Service_Documentation');
-				$docsUrl = $documentationService->getDocumentationUrl($extension->getExtKey(), $extension->getLastVersion()->getVersionString());
-				$this->view->assign('docsUrl', $docsUrl);
+				$documentationLink = $documentationService->getDocumentationLink($extension->getExtKey(), $extension->getLastVersion()->getVersionString());
+				$this->view->assign('documentationLink', $documentationLink);
 
 				if ($extension->getGoogleAuthorId()) {
 					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<link href="https://plus.google.com/' . $extension->getGoogleAuthorId() . '/" rel="author" />');

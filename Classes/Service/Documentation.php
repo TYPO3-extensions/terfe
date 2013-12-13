@@ -41,6 +41,10 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 	 */
 	protected $availableFormats = array();
 
+	/**
+	 * @var string
+	 */
+	protected $docsInformation = NULL;
 
 	/**
 	 * Initialize the service
@@ -50,34 +54,36 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 		$this->availableFormats = array(
 			'sxw',
 			'html',
-			'rst'
+			'rst',
+			'pdf'
 		);
+		$this->docsInformation = json_decode(file_get_contents('http://docs.typo3.org/typo3cms/extensions/manuals.json'));
 	}
 
 
 	/**
-	 * Get documentation url
+	 * Get documentation link
 	 *
 	 * @throws Exception
 	 * @param string $extensionKey Extension key
 	 * @param string $versionString Version string
-	 * @param string $format Output format (e.g. sxw)
-	 * @return string Url to documentation
+	 * @return array Url and label to documentation
 	 */
-	public function getDocumentationUrl($extensionKey, $versionString, $format='') {
+	public function getDocumentationLink($extensionKey, $versionString) {
 		if (empty($extensionKey) || empty($versionString)) {
 			throw new Exception('Extension key and version string are required to build a documentation url');
 		}
 
-		$formatString = '';
-		if (in_array($format, $this->availableFormats)) {
-			$formatString = '/manual.' . $format;
+		$documentationLink = '';
+
+		if (isset($this->docsInformation->$extensionKey)) {
+			$url = $this->baseUrl . $extensionKey . '/' . $versionString;
+			$documentationLink = '<a href="' . $url . '">Extension Manual</a>';
+		} else {
+			$documentationLink = 'Not available';
 		}
 
-		$urlToDocumentation = $this->baseUrl . $extensionKey . '/' . $versionString . $formatString;
-
-		return $urlToDocumentation;
+		return $documentationLink;
 	}
-
 }
 ?>
