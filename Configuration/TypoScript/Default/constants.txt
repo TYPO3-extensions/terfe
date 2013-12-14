@@ -7,7 +7,7 @@ plugin.tx_terfe2 {
 		listCount = 20
 
 		# cat=TER Frontend/settings/1010; type=int+; label=Latest count: Count of latest Extensions
-		latestCount = 10
+		latestCount = 50
 
 		# cat=TER Frontend/settings/1020; type=int+; label=Author list count: Count of entries in author list
 		authorListCount = 25
