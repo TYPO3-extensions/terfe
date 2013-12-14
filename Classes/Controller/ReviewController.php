@@ -76,19 +76,17 @@
 					$persist = TRUE;
 				} else {
 					$message = $this->translate('msg.reviewstate_not_enabled', array($versionString, $error));
-					$this->flashMessageContainer->add('', $message, t3lib_FlashMessage::ERROR);
-					$this->redirect('show', 'Extension', NULL, $actionParameters);
+					$this->redirectWithMessage($message, 'show', '', t3lib_FlashMessage::ERROR, 'Extension', NULL, $actionParameters);
 				}
 			}
 
 			if ($persist) {
 				$this->persistenceManager->persistAll();
-				$this->redirectWithMessage($this->translate('msg.reviewstate_enabled'), 'show', 'Extension', NULL, $actionParameters);
+				$this->redirectWithMessage($this->translate('msg.reviewstate_enabled'), 'show', '', t3lib_FlashMessage::OK, 'Extension', NULL, $actionParameters);
 			}
 
 			$message = $this->translate('msg.reviewstate_not_changed');
-			$this->flashMessageContainer->add('', $message, t3lib_FlashMessage::WARNING);
-			$this->redirect('show', 'Extension', NULL, $actionParameters);
+			$this->redirectWithMessage($message, 'show', '', t3lib_FlashMessage::WARNING, 'Extension', NULL, $actionParameters);
 		}
 	}
 ?>

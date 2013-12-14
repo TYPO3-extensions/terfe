@@ -297,7 +297,7 @@
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
 			$this->extensionRepository->update($extension);
-			$this->redirectWithMessage($this->translate('msg.extension_updated'), 'index', 'Registerkey');
+			$this->redirectWithMessage($this->translate('msg.extension_updated'), 'index', '', t3lib_FlashMessage::OK, 'Registerkey');
 		}
 
 
@@ -328,7 +328,7 @@
 
 			$version = $this->versionRepository->findOneByExtensionAndVersionString($extension, $versionString);
 			if (!$version) {
-				$this->redirectWithMessage($this->translate('msg.version_not_found'), 'show', NULL, NULL, array('extension' => $extension));
+				$this->redirectWithMessage($this->translate('msg.version_not_found'), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
 			}
 
 				// Get file path
@@ -351,7 +351,7 @@
 				if (Tx_TerFe2_Utility_File::isAbsolutePath($fileUrl)) {
 					$fileUrl = Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($fileUrl);
 				}
-				$this->redirectWithMessage($this->translate('msg.file_not_found') . ': ' . $fileUrl, 'index');
+				$this->redirectWithMessage($this->translate('msg.file_not_found') . ': ' . $fileUrl, 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
 				// $this->redirectWithMessage($this->translate('msg.file_not_found'), 'index');
 			}
 
@@ -359,7 +359,7 @@
 			if ($format === 't3x') {
 				$fileHash = Tx_TerFe2_Utility_File::getFileHash($fileUrl);
 				if ($fileHash != $version->getFileHash()) {
-					$this->redirectWithMessage($this->translate('msg.file_hash_not_equal'), 'index');
+					$this->redirectWithMessage($this->translate('msg.file_hash_not_equal'), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
 				}
 			}
 
@@ -380,7 +380,7 @@
 
 				// Send file to browser
 			if (!Tx_TerFe2_Utility_File::transferFile($fileUrl)) {
-				$this->redirectWithMessage($this->translate('msg.could_not_transfer_file'), 'index');
+				$this->redirectWithMessage($this->translate('msg.could_not_transfer_file'), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
 			}
 
 				// Fallback

@@ -82,13 +82,16 @@
 		 *
 		 * @param string $message Identifier of the message to send
 		 * @param string $action Name of the action
+		 * @param string $title Title for the flash message
+		 * @param int $severity Severity for the flash message
 		 * @param string $controller Unqualified object name of the controller
 		 * @param string $extension Name of the extension containing the controller
 		 * @param array $arguments Arguments to pass to the target action
 		 * @return void
 		 */
-		protected function redirectWithMessage($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL) {
-			$this->flashMessageContainer->add($message);
+		protected function redirectWithMessage($message, $action, $title = '', $severity = t3lib_FlashMessage::OK,
+												$controller = NULL, $extension = NULL, array $arguments = NULL) {
+			$this->flashMessageContainer->add($message, $title, $severity);
 			$this->clearPageCache($GLOBALS['TSFE']->id);
 			$this->redirect($action, $controller, $extension, $arguments);
 		}

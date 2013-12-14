@@ -100,7 +100,7 @@
 				$extension->addMedia($newMedia);
 			}
 			$actionParameters = array('extension' => $extension);
-			$this->redirectWithMessage($this->translate('msg.media_created'), 'show', 'Extension', NULL, $actionParameters);
+			$this->redirectWithMessage($this->translate('msg.media_created'), 'show', '', t3lib_FlashMessage::OK, 'Extension', NULL, $actionParameters);
 		}
 
 
