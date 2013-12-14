@@ -69,7 +69,7 @@
 		 * @param string $fileType File type
 		 * @return string Rendered image tag
 		 */
-		public function render(Tx_TerFe2_Domain_Model_Version $version = NULL, $fileType = 'gif') {
+		public function render(Tx_TerFe2_Domain_Model_Version $version = NULL, $fileType = 'png') {
 			if ($version === NULL) {
 				$version = $this->renderChildren();
 			}
@@ -78,6 +78,9 @@
 			$provider = $version->getExtensionProvider();
 			if (!empty($provider)) {
 				$imageUrl = $this->providerManager->getProvider($provider)->getIconUrl($version, $fileType);
+				if (empty($imageUrl) || !file_exists(Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($imageUrl))) {
+					$imageUrl = $this->providerManager->getProvider($provider)->getIconUrl($version, 'gif');
+				}
 			}
 
 			if (empty($imageUrl) || !file_exists(Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($imageUrl))) {
