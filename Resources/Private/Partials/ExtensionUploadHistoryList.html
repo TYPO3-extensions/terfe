@@ -2,10 +2,11 @@
 
 <table>
 	<f:for each="{versionHistory}" as="version">
-		<f:if condition="{version} != {version.extension.lastVersion}">
-			<f:if condition="{version.reviewState} > -1">
+		<f:if condition="{version.reviewState} > -1">
 			<f:then>
-				<tr>
+                <tr
+                    <f:if condition="{version} == {version.extension.lastVersion}">class="latest-version-row"</f:if>
+                >
 					<td class="col1">
 						<strong>{version.versionString}</strong><br /><small><f:format.date format="F d, Y">{version.uploadDate}</f:format.date></small>
 					</td>
@@ -35,6 +36,5 @@
 				</f:security.ifHasRole>
 			</f:else>
 			</f:if>
-		</f:if>
 	</f:for>
 </table>

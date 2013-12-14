@@ -266,11 +266,16 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
 	padding: 0 0 6px 0;*/
 }
 .ter-ext-single-versionhistory .col1 {
-	width: 85px;
+	width: 95px;
 }
 .ter-ext-single-versionhistory .col3 {
-	width: 100px;
+	width: 90px;
 	text-align: right;
+}
+
+.ter-ext-single-versionhistory .latest-version-row {
+    background-color: #EEEEEE;
+    border-bottom: 2px solid #A0A0A0;
 }
 
 .ter-ext-single-favorites .favor,
