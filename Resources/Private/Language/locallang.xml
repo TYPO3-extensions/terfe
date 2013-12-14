@@ -321,6 +321,7 @@
 			<label index="category_templates">Templates</label>
 			<label index="category_examples">Examples</label>
 			<label index="category_documentation">Documentation</label>
+			<label index="category_distribution">Distribution</label>
 
 			<label index="none">none</label>
 

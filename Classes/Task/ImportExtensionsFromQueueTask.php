@@ -191,7 +191,7 @@
 		 */
 		public function createVersion($extUid, $extData, $crdate) {
 			$states = tx_em_Tools::getDefaultState(NULL);
-			$categories = tx_em_Tools::getDefaultCategory(NULL);
+			$categories = Tx_TerFe2_Utility_Category::getDefaultCategories();
 
 			$folder1 = substr($extData['extensionkey'], 0, 1);
 			$folder2 = substr($extData['extensionkey'], 1, 1);
