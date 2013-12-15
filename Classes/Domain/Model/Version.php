@@ -218,6 +218,7 @@
 		/**
 		 * Software relations
 		 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation>
+		 * @lazy
 		 */
 		protected $softwareRelations;
 
