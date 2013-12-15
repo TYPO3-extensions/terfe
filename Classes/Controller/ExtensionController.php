@@ -453,8 +453,7 @@
 			if (empty($extensionInfo->version)) {
 				$this->forwardWithError($this->translate('msg.createVersionVersionEmpty'), 'uploadVersion');
 			}
-			$extensionKey = preg_replace('/_(\d+)(\.|\-)(\d+)(\.|\-)(\d+)/i', '', strtolower($fileInfo['name']));
-			$extensionKey = substr($extensionKey, 0, strrpos($extensionKey, '.'));
+			$extensionKey = preg_replace('/_(\d+)(\.|\-)(\d+)(\.|\-)(\d+).*/i', '', strtolower($fileInfo['name']));
 			if ($extensionKey !== $extension->getExtKey()) {
 				$this->forwardWithError($this->translate('msg.createVersionFilenameNotValid'), 'uploadVersion');
 			}
