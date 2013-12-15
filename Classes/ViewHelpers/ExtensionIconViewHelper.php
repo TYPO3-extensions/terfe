@@ -85,11 +85,11 @@
 
 			if (empty($imageUrl) || !file_exists(Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($imageUrl))) {
 				$imageUrl = t3lib_div::locationHeaderUrl('typo3/clear.gif');
-				$this->tag->addAttribute('height', 16);
-				$this->tag->addAttribute('width', 16);
 			}
 
 			$this->tag->addAttribute('src', $imageUrl);
+			$this->tag->addAttribute('height', 16);
+			$this->tag->addAttribute('width', 16);
 			return $this->tag->render();
 		}
 
