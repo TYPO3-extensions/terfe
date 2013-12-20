@@ -229,14 +229,20 @@
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
 		public function findBySearchWordsAndFilters($searchWords = NULL, array $filters = NULL, array $ordering = NULL) {
-			$uids = $this->searchRepository->findUidsBySearchWordsAndFilters($searchWords, $filters);
-
-				// Workaround to enable paginate
 			$query = $this->createQuery();
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->setOrderings($ordering);
-			$this->match($query, $query->in('uid', $uids));
+			$constraints = array(
+				$query->equals('extKey', $searchWords),
+				$query->like('extKey', '%' . $searchWords . '%'),
+				$query->like('lastVersion.title', '%' . $searchWords . '%'),
+				$query->like('lastVersion.description', '%' . $searchWords . '%'),
+				$query->like('lastVersion.author.name', '%' . $searchWords . '%'),
+				$query->equals('lastVersion.author.username', $searchWords),
+				$query->equals('lastVersion.author.email', $searchWords),
+			);
+			$query->matching($query->logicalOr($constraints));
 
 			return $query->execute();
 		}
