@@ -5,7 +5,7 @@
 		<f:render partial="ExtensionSearchForm" arguments="{search : search}" />
 	</f:if>
 
-	<f:render partial="ExtensionList" arguments="{extensions : extensions}" />
+	<f:render partial="ExtensionList" arguments="{extensions : extensions, documentationLink : documentationLink}" />
 
 	<f:if condition="{settings.show.categoryOverview}">
 		<f:render partial="CategoryList" arguments="{categories : categories}" />
