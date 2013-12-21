@@ -503,6 +503,21 @@ div.ter-category-info table th {
 	padding: 2px 0;
 }
 
+div#ter-ext-single .tags {
+	line-height: 2.5em;
+}
+
+div#ter-ext-single .taglabel {
+	background-color: #C8C8C8;
+	border-radius: 4px;
+	color: #FFFFFF;
+	padding: 4px 10px;
+}
+
+div#ter-ext-single .tags a {
+	text-decoration: none;
+}
+
 
 /**
  * jqPlot styles

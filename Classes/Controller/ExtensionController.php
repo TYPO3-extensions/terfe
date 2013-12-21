@@ -225,7 +225,11 @@
 					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<link href="https://plus.google.com/' . $extension->getGoogleAuthorId() . '/" rel="author" />');
 					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<link href="https://plus.google.com/' . $extension->getGoogleAuthorId() . '/" rel="publisher" />');
 				}
-				$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<meta name="description" content="' . $extension->getLastVersion()->getDescription() . '" />');
+
+				$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<meta name="description" content="' . htmlspecialchars($extension->getLastVersion()->getDescription()) . '" />');
+				if ($extension->getTags()->count() > 0) {
+					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<meta name="keywords" content="' . htmlspecialchars(implode(',', $extension->getTags()->toArray())) . '" />');
+				}
 
 				// checks if link to quality sonar server is not broken
 				$urlToQualityServer = 'https://metrics.typo3.org/dashboard/index/org.typo3:extension-' . $extension->getExtKey();
@@ -310,12 +314,80 @@
 		 * Updates an existing extension
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension extension to update
+		 * @param string $tag
+		 * @param string $save
 		 * @dontvalidate $extension
 		 * @return void
 		 */
-		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $tag = '', $save = '') {
+			if (!empty($tag)) {
+				$tags = array();
+				$intermediateTags = t3lib_div::trimExplode(' ', $tag, TRUE);
+				foreach ($intermediateTags as $tag) {
+					$tag = trim($tag, ',');
+					if (!empty($tag)) {
+						$tags[] = $tag;
+					}
+				}
+				$tags = array_unique($tags);
+				foreach ($tags as $tag) {
+					/** @var Tx_TerFe2_Domain_Model_Tag $newTag */
+					$newTag = $this->tagRepository->findByTitle($tag)->getFirst();
+					if ($newTag !== NULL) {
+						if (!$extension->getTags()->contains($newTag)) {
+							$extension->addTag($newTag);
+						} else {
+							continue;
+						}
+					} else {
+						$newTag = $this->objectManager->get('Tx_TerFe2_Domain_Model_Tag');
+						$newTag->setTitle($tag);
+						$extension->addTag($newTag);
+					}
+					$this->flashMessageContainer->add('Tag "' . htmlspecialchars($tag) . '" added to extension');
+				}
+			}
 			$this->extensionRepository->update($extension);
-			$this->redirectWithMessage($this->translate('msg.extension_updated'), 'index', '', t3lib_FlashMessage::OK, 'Registerkey');
+			if (!empty($save)) {
+				$this->redirectWithMessage(
+					$this->translate('msg.extension_updated'),
+					'edit',
+					'',
+					t3lib_FlashMessage::OK,
+					'Extension',
+					NULL,
+					array('extension' => $extension)
+				);
+			} else {
+				$this->redirectWithMessage(
+					$this->translate('msg.extension_updated'),
+					'index',
+					'',
+					t3lib_FlashMessage::OK,
+					'Registerkey'
+				);
+			}
+		}
+
+		/**
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension
+		 * @param Tx_TerFe2_Domain_Model_Tag       $tag
+		 *
+		 * @return void
+		 */
+		public function removeTagAction(Tx_TerFe2_Domain_Model_Extension $extension, Tx_TerFe2_Domain_Model_Tag $tag) {
+			if ($extension->getTags()->contains($tag)) {
+				$extension->removeTag($tag);
+			}
+			$this->redirectWithMessage(
+				'Tag "' . htmlspecialchars($tag->getTitle()) . '" was removed',
+				'edit',
+				'',
+				t3lib_FlashMessage::OK,
+				'Extension',
+				NULL,
+				array('extension' => $extension)
+			);
 		}
 
 

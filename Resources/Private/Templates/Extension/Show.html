@@ -67,6 +67,11 @@
 										</div>
 									</f:if>
 
+									<f:if condition="{extension.tags}">
+										<h3>Tags</h3>
+										<p class="tags"><f:for each="{extension.tags}" as="tag"> <f:link.page additionalParams="{q: '{tag.title}'}"><span class="taglabel">#{tag.title}</span></f:link.page></f:for></p>
+									</f:if>
+
 									<h3><f:translate key="downloads_by_version"/></h3>
 									<terfe2:chart object="{extension}" method="downloadsByVersion" height="220" width="375" pointCount="{settings.defaultPointCount}" renderOnLoad="1"/>
 
