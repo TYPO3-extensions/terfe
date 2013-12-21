@@ -220,10 +220,7 @@
 		/**
 		 * Search extensions by search words and filters
 		 *
-		 * TODO:
-		 * - Use real relevance ordering from uid order
-		 *
-		 * @param string $needle Search string
+		 * @param string $searchWords Search string
 		 * @param array $filters Filter extension list
 		 * @param array $ordering $ordering Ordering <-> Direction
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
@@ -233,12 +230,33 @@
 			$query->getQuerySettings()->setRespectStoragePage(FALSE);
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$query->setOrderings($ordering);
+			$searchWordsForExtensionModel = $GLOBALS['TYPO3_DB']->escapeStrForLike(
+				$GLOBALS['TYPO3_DB']->quoteStr(
+					$searchWords,
+					'tx_terfe2_domain_model_extension'
+				),
+				'tx_terfe2_domain_model_extension'
+			);
+			$searchWordsForVersionModel = $GLOBALS['TYPO3_DB']->escapeStrForLike(
+				$GLOBALS['TYPO3_DB']->quoteStr(
+					$searchWords,
+					'tx_terfe2_domain_model_version'
+				),
+				'tx_terfe2_domain_model_version'
+			);
+			$searchWordsForAuthorModel = $GLOBALS['TYPO3_DB']->escapeStrForLike(
+				$GLOBALS['TYPO3_DB']->quoteStr(
+					$searchWords,
+					'tx_terfe2_domain_model_author'
+				),
+				'tx_terfe2_domain_model_author'
+			);
 			$constraints = array(
 				$query->equals('extKey', $searchWords),
-				$query->like('extKey', '%' . $searchWords . '%'),
-				$query->like('lastVersion.title', '%' . $searchWords . '%'),
-				$query->like('lastVersion.description', '%' . $searchWords . '%'),
-				$query->like('lastVersion.author.name', '%' . $searchWords . '%'),
+				$query->like('extKey', '%' . $searchWordsForExtensionModel . '%'),
+				$query->like('lastVersion.title', '%' . $searchWordsForVersionModel . '%'),
+				$query->like('lastVersion.description', '%' . $searchWordsForVersionModel . '%'),
+				$query->like('lastVersion.author.name', '%' . $searchWordsForAuthorModel . '%'),
 				$query->equals('lastVersion.author.username', $searchWords),
 				$query->equals('lastVersion.author.email', $searchWords),
 			);
