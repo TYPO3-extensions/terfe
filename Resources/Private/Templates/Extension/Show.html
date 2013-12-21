@@ -72,6 +72,19 @@
 									<h3><f:translate key="downloads_by_version"/></h3>
 									<terfe2:chart object="{extension}" method="downloadsByVersion" height="220" width="375" pointCount="{settings.defaultPointCount}" renderOnLoad="1"/>
 
+									<f:if condition="{extensionsByUser}">
+										<h3><f:translate key="other_extensions_by_user" /></h3>
+										<ul>
+											<f:for each="{extensionsByUser}" as="extByUser">
+												<li>
+													<f:link.action action="show" arguments="{extension : extByUser}">
+														{extByUser.lastVersion.title} ({extByUser.lastVersion.versionString}, {extByUser.lastVersion.state})
+													</f:link.action>
+												</li>
+											</f:for>
+										</ul>
+									</f:if>
+
 								</div>
 								<f:render partial="ExtensionSingleInfo" arguments="{extension:extension, settings:settings, owner:owner, flattr:flattr, documentationLink:documentationLink}" />
 							</div>

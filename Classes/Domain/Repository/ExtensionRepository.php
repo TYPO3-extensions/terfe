@@ -278,5 +278,27 @@
 
 			return $query->execute();
 		}
+
+		/**
+		 * @param Tx_TerFe2_Domain_Model_Extension $extension
+		 * @param string $frontendUser
+		 *
+		 * @return array|Tx_Extbase_Persistence_QueryResultInterface
+		 */
+		public function findAllOtherFromFrontendUser(Tx_TerFe2_Domain_Model_Extension $extension, $frontendUser) {
+			$query = $this->createQuery();
+			$query->getQuerySettings()->setRespectStoragePage(FALSE);
+			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$constraints = array(
+				$query->equals('frontendUser', $frontendUser),
+				$query->logicalNot(
+					$query->equals('uid', $extension->getUid())
+				),
+				$query->greaterThanOrEqual('versions', '1')
+			);
+			$query->matching($query->logicalAnd($constraints));
+
+			return $query->execute();
+		}
 	}
 ?>

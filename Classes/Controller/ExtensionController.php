@@ -242,6 +242,15 @@
 					$this->view->assign('flattr', $result);
 				}
 			}
+
+			// other extensions from this user
+			$this->extensionRepository->setDefaultOrderings(
+				array(
+					'lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+				)
+			);
+			$otherExtensionsByUser = $this->extensionRepository->findAllOtherFromFrontendUser($extension, $extension->getFrontendUser());
+			$this->view->assign('extensionsByUser', $otherExtensionsByUser);
 		}
 
 

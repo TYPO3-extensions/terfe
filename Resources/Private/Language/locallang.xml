@@ -229,6 +229,7 @@
 			<label index="repository_url_value">Take a look into the code</label>
 			<label index="quality_label">Interested in code?</label>
 			<label index="quality_value">Check quality</label>
+			<label index="other_extensions_by_user">Other extensions from extension owner</label>
 
 			<label index="back_to_list">Back to list</label>
 			<label index="back_to_extension_list">Back to Extension List</label>
