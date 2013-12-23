@@ -2,11 +2,11 @@
 
 <f:for each="{extensions}" as="extension">
 	<item>
-		<title>{extension.lastVersion.title}</title>
-		<link><terfe2:cdata><f:uri.action action="show" arguments="{extension : extension}" absolute="1"></f:uri.action></terfe2:cdata></link>
-		<guid><terfe2:cdata><f:uri.action action="download" arguments="{extension : extension, version : extension.lastVersion}" absolute="1"></f:uri.action></terfe2:cdata></guid>
+		<title>{extension.lastVersion.title} (v{extension.lastVersion.versionString})</title>
+		<link><terfe2:cdata><f:uri.action pageUid="{settings.pages.extensionDetailPID}" action="show" arguments="{extension : extension}" absolute="1"></f:uri.action></terfe2:cdata></link>
+		<guid><terfe2:cdata><f:uri.action pageUid="{settings.pages.extensionDetailPID}" action="download" arguments="{extension : extension, version : extension.lastVersion}" absolute="1"></f:uri.action></terfe2:cdata></guid>
 		<description><terfe2:cdata>{extension.lastVersion.description}</terfe2:cdata></description>
-		<content:encoded><terfe2:cdata></terfe2:cdata></content:encoded>
+		<content:encoded><terfe2:cdata>{extension.lastVersion.uploadComment}</terfe2:cdata></content:encoded>
 		<pubDate><terfe2:dateTime format="{settings.rssOutput.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></pubDate>
 	</item>
 </f:for>
