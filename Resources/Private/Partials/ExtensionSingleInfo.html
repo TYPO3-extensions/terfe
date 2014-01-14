@@ -1,23 +1,7 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
-{namespace fed=Tx_Fed_ViewHelpers}
 
 <div class="ter-ext-single-info ter-ext-info">
 	<table>
-<fed:comment>
-		<tr class="ter-ext-single-favorites">
-			<th><f:translate key="add_to_favorites"/></th>
-			<td>
-				<f:if condition="{extension.favorited}">
-					<f:then>
-						<div class="favor"><f:translate key="favorite_added" /></div>
-					</f:then>
-					<f:else>
-						<div class="no-favor">&nbsp;</div>
-					</f:else>
-				</f:if>
-			</td>
-		</tr>
-</fed:comment>
 		<tr class="ter-ext-single-info-key">
 			<th><f:translate key="extensionKey"/></th>
 			<td><strong>{extension.extKey}</strong></td>
@@ -134,23 +118,5 @@
 				</td>
 			</tr>
 		</f:if>
-		<fed:comment>
-		<f:if condition="{owner.image}">
-			<tr>
-				<th colspan="2">
-					<div id="randomUserProfiles">
-						<ul>
-							<li>
-								<f:image src="uploads/pics/{owner.image}" width="40" alt="{owner.name}" title="{owner.name}" />
-							</li>
-						</ul>
-					</div>
-					<div class="userName">
-						{owner.name}
-					</div>
-				</th>
-			</tr>
-		</f:if>
-		</fed:comment>
 	</table>
 </div>
