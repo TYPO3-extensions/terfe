@@ -4,21 +4,23 @@
 		{namespace terfe2=Tx_TerFe2_ViewHelpers}
 
 		<title>{settings.rssOutput.title}</title>
-		<link>{settings.rssOutput.link}</link>
-		<description>{settings.rssOutput.description}</description>
-		<language>{settings.rssOutput.language}</language>
+		<f:if condition="{settings.rssOutput.link}"><link>{settings.rssOutput.link}</link></f:if>
+		<f:if condition="{settings.rssOutput.description}"><description>{settings.rssOutput.description}</description></f:if>
+		<f:if condition="{settings.rssOutput.language}"><language>{settings.rssOutput.language}</language></f:if>
+		<f:if condition="{settings.rssOutput.image}">
 		<image>
 			<title>{settings.rssOutput.title}</title>
 			<url>{settings.rssOutput.image}</url>
-			<link>{settings.rssOutput.link}</link>
-			<width>{settings.rssOutput.imageWidth}</width>
-			<height>{settings.rssOutput.imageHeight}</height>
-			<description>{settings.rssOutput.description}</description>
+			<f:if condition="{settings.rssOutput.link}"><link>{settings.rssOutput.link}</link></f:if>
+			<f:if condition="{settings.rssOutput.imageWidth}"><width>{settings.rssOutput.imageWidth}</width></f:if>
+			<f:if condition="{settings.rssOutput.imageHeight}"><height>{settings.rssOutput.imageHeight}</height></f:if>
+			<f:if condition="{settings.rssOutput.description}"><description>{settings.rssOutput.description}</description></f:if>
 		</image>
+		</f:if>
 		<generator>TYPO3</generator>
-		<docs>{settings.rssOutput.docs}</docs>
-		<webMaster>{settings.rssOutput.webmaster}</webMaster>
-		<lastBuildDate><terfe2:dateTime format="{settings.rssOutput.dateFormat}"></terfe2:dateTime></lastBuildDate>
+		<f:if condition="{settings.rssOutput.docs}"><docs>{settings.rssOutput.docs}</docs></f:if>
+		<f:if condition="{settings.rssOutput.webmaster}"><webMaster>{settings.rssOutput.webmaster}</webMaster></f:if>
+		<lastBuildDate><terfe2:dateTime dateTime="{extensions.0.lastVersion.uploadDate}" format="{settings.rssOutput.dateFormat}"></terfe2:dateTime></lastBuildDate>
 
 		<f:render section="items" />
 
