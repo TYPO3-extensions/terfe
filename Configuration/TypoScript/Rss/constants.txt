@@ -12,7 +12,7 @@ plugin.tx_terfe2.rssOutput {
   link = http://typo3.org/extensions/repository
 
   # cat=TER Frontend - RSS/rss/130; type=string; label=Description
-  description =
+  description = latest 50 extensions on typo3.org
 
   # cat=TER Frontend - RSS/rss/140; type=string; label=Language
   language = en
