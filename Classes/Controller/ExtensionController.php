@@ -171,6 +171,9 @@
 		public function listLatestAction() {
 			$latestCount = (!empty($this->settings['latestCount']) ? $this->settings['latestCount'] : 20);
 			$extensions  = $this->extensionRepository->findLatest($latestCount);
+			if($extensions->count() > 0) {
+				$this->updateSysLastChanged($extensions[0]->getLastVersion()->getUploadDate());
+			}
 			$this->view->assign('extensions', $extensions);
 		}
 
@@ -616,6 +619,19 @@
 				AND version LIKE "' . $GLOBALS['TYPO3_DB']->quoteStr($versionString, 'foo') . '"'
 			);
 			return empty($versionExistsForExtension);
+		}
+
+		/**
+		 * sets SYS_LASTCHANGED to this date if it is newer than the currently set
+		 * @param integer $dateTime
+		 */
+		protected function updateSysLastChanged($dateTime) {
+			if($dateTime instanceof \DateTime) {
+				$dateTime = $dateTime->getTimestamp();
+			}
+			if($GLOBALS['TSFE']->register['SYS_LASTCHANGED'] < $dateTime) {
+				$GLOBALS['TSFE']->register['SYS_LASTCHANGED'] = $dateTime;
+			}
 		}
 
 	}
