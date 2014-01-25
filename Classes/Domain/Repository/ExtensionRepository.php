@@ -315,8 +315,12 @@
 			$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 			$constraints = array(
 				$query->equals('frontendUser', $frontendUser),
-				$query->logicalNot(
-					$query->equals('uid', $extension->getUid())
+				$query->logicalAnd(
+					$query->logicalNot(
+						$query->equals('uid', $extension->getUid())
+					), $query->logicalNot(
+						$query->equals('lastVersion.state', 'obsolete')
+					)
 				),
 				$query->greaterThanOrEqual('versions', '1')
 			);
