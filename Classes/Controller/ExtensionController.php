@@ -329,11 +329,14 @@
 		 * Check file hash, increment download counter and send file to client browser
 		 *
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
-		 * @param String $versionString An existing version string
+		 * @param string $versionString An existing version string
 		 * @param string $format Format of the file output
 		 * @return void
 		 */
-		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, $versionString, $format = 't3x') {
+		public function downloadAction(Tx_TerFe2_Domain_Model_Extension $extension, $versionString, $format) {
+			if (!$format) {
+				$format = 't3x';
+			}
 			if ($format !== 't3x' && $format !== 'zip') {
 				throw new Exception('A download action for the format "' . $format . '" is not implemented');
 			}
