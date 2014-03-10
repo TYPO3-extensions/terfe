@@ -84,7 +84,7 @@
 			}
 
 			$query->matching($query->logicalAnd(
-				$query->greaterThanOrEqual('lastVersion.reviewState', 0),
+				$query->logicalNot($query->equals('lastVersion.reviewState', -1)),
 				$constraint
 			));
 		}
@@ -141,7 +141,6 @@
 			$ordering = array('lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
 			return $this->findAll(0, $latestCount, $ordering);
 		}
-
 
 		/**
 		 * Returns top rated extensions

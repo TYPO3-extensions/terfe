@@ -204,27 +204,23 @@
 			return $this->hudsonLink;
 		}
 
-
 		/**
-		 * Setter for lastUpload
+		 * Sets lastUpdate
 		 *
-		 * @param DateTime $lastUpload lastUpload
-		 * @return void
+		 * @param \DateTime $lastUpdate
 		 */
-		public function setLastUpload(DateTime $lastUpload) {
-			$this->lastUpload = $lastUpload;
+		public function setLastUpdate($lastUpdate) {
+			$this->lastUpdate = $lastUpdate;
 		}
 
-
 		/**
-		 * Getter for lastUpdate
+		 * Gets lastUpdate
 		 *
-		 * @return DateTime lastUpload
+		 * @return \DateTime
 		 */
-		public function getLastUpload() {
-			return $this->lastUpload;
+		public function getLastUpdate() {
+			return $this->lastUpdate;
 		}
-
 
 		/**
 		 * Setter for crdate
@@ -470,7 +466,6 @@
 		public function getLastVersion() {
 			return $this->lastVersion;
 		}
-
 
 		/**
 		 * Setter for frontendUser

@@ -145,6 +145,10 @@
 			<label index="tx_terfe2_task_importextensionsfromqueuetask.description">Imports extensions out of the queue table of TER</label>
 			<label index="tx_terfe2_task_importallextensionstask.name">[TER FE2] Import all extensions</label>
 			<label index="tx_terfe2_task_importallextensionstask.description">Import all extensions from TER tables (use it only for maintenance purposes)</label>
+			<label index="tx_terfe2_task_checkforoutdatedextensions.name">[TER FE2] Check for outdated extensions</label>
+			<label index="tx_terfe2_task_checkforoutdatedextensions.description">Check for outdated extensions, if extension is outdated the outdated flag is set.</label>
+
+
 
 			<label index="tx_terfe2_provider_mirrorprovider.name">Mirror Servers</label>
 			<label index="tx_terfe2_provider_fileprovider.name">Local Filesystem</label>

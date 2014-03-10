@@ -68,6 +68,9 @@ plugin.tx_terfe2 {
 				mapping {
 					tableName = cache_extensions
 					recordType = Tx_TerFe2_Domain_Model_ExtensionManagerCacheEntry
+					columns {
+						crdate.mapOnProperty = creationDate
+					}
 				}
 			}
 		}
@@ -81,6 +84,15 @@ plugin.tx_terfe2 {
 	}
 }
 
+config.tx_extbase.persistence.classes {
+	Tx_TerFe2_Domain_Model_Version {
+		mapping {
+			columns {
+				crdate.mapOnProperty = creationDate
+			}
+		}
+	}
+}
 
 # ======================================================================
 # Page object configuration of the extension "ter_fe2"

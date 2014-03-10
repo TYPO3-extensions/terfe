@@ -16,6 +16,7 @@
 			<label index="tags.description">All tags</label>
 			<label index="versions.description">All versions</label>
 			<label index="last_version.description">Last version</label>
+			<label index="outdated.description">Outdated</label>
 			<label index="frontend_user.description">Frontend user</label>
 		</languageKey>
 	</data>

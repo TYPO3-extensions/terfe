@@ -186,7 +186,7 @@
 		protected $cglComplianceNote;
 
 		/**
-		 * Review state (-1=insecure, 0=standard, 1=reviewed)
+		 * Review state (-2=outdated, -1=insecure, 0=standard, 1=reviewed)
 		 * @var integer
 		 */
 		protected $reviewState;
@@ -258,6 +258,12 @@
 		 * @var integer
 		 */
 		protected $zipFileSize;
+
+		/**
+		 * Crdate from database
+		 * @var DateTime
+		 */
+		protected $creationDate;
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -527,6 +533,22 @@
 			return $this->state;
 		}
 
+		/**
+		 * @param \DateTime $creationDate
+		 * @return void
+		 */
+		public function setCreationDate($creationDate)
+		{
+			$this->creationDate = $creationDate;
+		}
+
+		/**
+		 * @return \DateTime
+		 */
+		public function getCreationDate()
+		{
+			return $this->creationDate;
+		}
 
 		/**
 		 * Setter for emCategory
