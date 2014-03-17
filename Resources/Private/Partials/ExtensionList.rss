@@ -2,7 +2,7 @@
 
 <f:for each="{extensions}" as="extension">
 	<item>
-		<title><terfe2:cdata>{extension.lastVersion.title} (v{extension.lastVersion.versionString})</terfe2:cdata></title>
+		<title><terfe2:cdata>{extension.lastVersion.title} [{extension.extKey}] (v{extension.lastVersion.versionString})</terfe2:cdata></title>
 		<link><terfe2:cdata><f:uri.action pageUid="{settings.pages.extensionDetailPID}" action="show" arguments="{extension : extension}" absolute="1"></f:uri.action></terfe2:cdata></link>
 		<guid><terfe2:cdata><f:uri.action pageUid="{settings.pages.extensionDetailPID}" action="show" arguments="{extension : extension}" absolute="1"></f:uri.action></terfe2:cdata></guid>
 		<description><terfe2:cdata>{extension.lastVersion.description}</terfe2:cdata></description>
