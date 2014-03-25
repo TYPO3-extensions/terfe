@@ -1,4 +1,5 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
+{namespace userimage=Tx_T3oAjaxlogin_ViewHelpers}
 
 <div class="ter-ext-single-info ter-ext-info">
 	<table>
@@ -103,22 +104,21 @@
 				</td>
 			</tr>
 		</f:if>
-		<tr>
-			<th><f:translate key="author"/></th>
-			<td><f:if condition="{extension.lastVersion.author.frontendUser.image}">
-				<f:then>&nbsp;</f:then>
-				<f:else>
-					{extension.lastVersion.author.name}
-				</f:else>
-			</f:if></td>
-		</tr>
-		<f:if condition="{extension.lastVersion.author.username}">
+		<f:if condition="{owner.username}">
 			<tr>	
-				<th>Username:</th>
+				<th>Username</th>
 				<td>
-					{extension.lastVersion.author.username}
+					{owner.username}
 				</td>
 			</tr>
 		</f:if>
+		<tr>
+			<th><f:translate key="author"/></th>
+			<td>
+				{owner.name}
+				<br />
+				<userimage:userImage user="{owner}" alt="{owner.name}" size="mid" />
+			</td>
+		</tr>
 	</table>
 </div>

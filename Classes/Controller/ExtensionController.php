@@ -69,7 +69,7 @@
 		protected $persistenceManager;
 
 		/**
-		 * @var Tx_Ajaxlogin_Domain_Repository_UserRepository
+		 * @var Tx_T3oAjaxlogin_Domain_Repository_UserRepository
 		 */
 		protected $ownerRepository;
 
@@ -89,7 +89,7 @@
 			$this->tagRepository       = $this->objectManager->get('Tx_TerFe2_Domain_Repository_TagRepository');
 			$this->versionRepository   = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 			$this->authorRepository    = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
-			$this->ownerRepository     = $this->objectManager->get('Tx_Ajaxlogin_Domain_Repository_UserRepository');
+			$this->ownerRepository     = $this->objectManager->get('Tx_T3oAjaxlogin_Domain_Repository_UserRepository');
 			$this->providerManager     = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
 			$this->session             = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
 			$this->persistenceManager  = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
