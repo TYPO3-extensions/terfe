@@ -51,6 +51,14 @@
 							<div class="ter-ext-single-content cl">
 								<div class="ter-ext-single-description">
 
+									<f:if condition="{extension.lastVersion.typo3Dependency}">
+										<h3>TYPO3 version support</h3>
+										<p>
+											This version works for <strong>TYPO3 {extension.lastVersion.typo3Dependency.versionString}</strong><br />
+											If you look for other TYPO3 versions, click the "Download" tab to get a history of all extension versions.
+										</p>
+									</f:if>
+
 									<!-- Comments / changelog -->
 									<f:if condition="{extension.lastVersion.uploadComment}">
 										<div class="ter-ext-single-lastUploadComment">
