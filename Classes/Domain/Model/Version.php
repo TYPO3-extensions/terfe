@@ -1200,5 +1200,26 @@
 			return (int) $this->zipFileSize;
 		}
 
+
+		/** Helper functions */
+
+		/**
+		 * @return Tx_TerFe2_Domain_Model_Relation
+		 */
+		public function getTypo3Dependency() {
+			$typo3Dependency = '';
+			foreach ($this->softwareRelations as $relation) {
+				/** @var Tx_TerFe2_Domain_Model_Relation $relation */
+				if ($relation->getRelationType() === 'depends'
+					&& $relation->getRelationKey() === 'typo3'
+					&& ($relation->getMinimumVersion() > 0 || $relation->getMaximumVersion() > 0)) {
+					$typo3Dependency = $relation;
+					break;
+				}
+			}
+
+			return $typo3Dependency;
+		}
+
 	}
 ?>

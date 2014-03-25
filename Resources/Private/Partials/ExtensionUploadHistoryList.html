@@ -8,9 +8,19 @@
                     <f:if condition="{version} == {version.extension.lastVersion}">class="latest-version-row"</f:if>
                 >
 					<td class="col1">
-						<strong>{version.versionString}</strong><br /><small><f:format.date format="F d, Y">{version.uploadDate}</f:format.date></small>
+						<strong>{version.versionString}</strong>
+						<br />
+						<small><f:format.date format="F d, Y">{version.uploadDate}</f:format.date></small>
 					</td>
-					<td class="col2">{version.uploadComment}</td>
+					<td class="col2">
+						{version.uploadComment}
+						<f:if condition="{version.typo3Dependency}">
+							<then>
+								<br />
+								<strong>Supports TYPO3 version {version.typo3Dependency.versionString}</strong>
+							</then>
+						</f:if>
+					</td>
 					<td class="col3">
 						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 't3x'}" title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
 						<f:if condition="{version.hasZipFile}">
