@@ -11,12 +11,12 @@
 			<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
 		</tr>
 		<tr>
-			<th><f:translate key="first_upload"/></th>
-			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.crdate}</terfe2:dateTime></td>
+			<th><f:translate key="last_updated"/></th>
+			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
 		</tr>
 		<tr>
-			<th><f:translate key="last_uploaded"/></th>
-			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
+			<th><f:translate key="first_upload"/></th>
+			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.crdate}</terfe2:dateTime></td>
 		</tr>
 		<tr>
 			<th><f:translate key="downloads"/></th>
