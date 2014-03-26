@@ -110,14 +110,7 @@
 										<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory, extension: extension}" />
 									</div>
 									<div class="ter-ext-single-versionhistory ter-toggle-hide">
-										<f:security.ifHasRole role="{settings.reviewerGroupUid}">
-											<f:then>
-												<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber, extension: extension}" />
-											</f:then>
-											<f:else>
-												<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsWithPositiveReviewsByVersionNumber, extension: extension}" />
-											</f:else>
-										</f:security.ifHasRole>
+										<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber, extension: extension}" />
 									</div>
 								</f:if>
 							</div>

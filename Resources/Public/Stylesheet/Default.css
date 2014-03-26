@@ -278,6 +278,10 @@ div.ter-ext-info table tr.ter-ext-single-info-key td {
     border-bottom: 2px solid #A0A0A0;
 }
 
+.ter-ext-single-versionhistory .insecure-version-row {
+    background-color: #FFF3F3;
+}
+
 .ter-ext-single-favorites .favor,
 .ter-ext-single-favorites .no-favor:hover {
 	background: url(../Images/fav-star.png) no-repeat top left;
