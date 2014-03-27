@@ -74,13 +74,16 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 			throw new Exception('Extension key and version string are required to build a documentation url');
 		}
 
-		$documentationLink = '';
+		$manualExists = isset($this->docsInformation->$extensionKey);
+		$documentationLink = 'Not available';
 
-		if (isset($this->docsInformation->$extensionKey)) {
-			$url = $this->baseUrl . $extensionKey . '/' . $versionString;
-			$documentationLink = '<a href="' . $url . '">Extension Manual</a>';
-		} else {
-			$documentationLink = 'Not available';
+		if ($manualExists) {
+			// link to extension to get the latest manual
+			$url = $this->baseUrl . $extensionKey;
+			// check if link is not broken
+			if (t3lib_div::getURL($url, TRUE) !== FALSE) {
+				$documentationLink = '<a href="' . $url . '">Extension Manual</a>';
+			}
 		}
 
 		return $documentationLink;
