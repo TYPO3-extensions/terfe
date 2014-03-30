@@ -65,10 +65,12 @@
 				</f:if>
 			</td>
 		</tr>
-		<tr>
-			<th><f:translate key="quality_label" /></th>
-			<td><f:link.external uri="https://metrics.typo3.org/dashboard/index/org.typo3:extension-{extension.extKey}" target="_blank"><f:translate key="quality_value" /></f:link.external></td>
-		</tr>
+		<f:if condition="{qualityLinkNotBroken}">
+			<tr>
+				<th><f:translate key="quality_label" /></th>
+				<td><f:link.external uri="{urlToQualityServer}" target="_blank"><f:translate key="quality_value" /></f:link.external></td>
+			</tr>
+		</f:if>
 		<f:if condition="{extension.forgeLink}">
 			<tr class="ter-ext-single-info-key">
 				<th><f:translate key="bugtracker" /></th>
