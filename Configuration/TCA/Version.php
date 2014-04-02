@@ -366,7 +366,7 @@
 					'type'          => 'inline',
 					'foreign_table' => 'tx_terfe2_domain_model_author',
 					'minitems'      => 1,
-					'maxitems'		=> 20
+					'maxitems'		=> 1
 				),
 			),
 			'extension' => array(

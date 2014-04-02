@@ -127,7 +127,7 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	title tinytext,
 	description text,
 	file_hash varchar(50) DEFAULT '' NOT NULL,
-	author tinytext,
+	author int(11) DEFAULT '0' NOT NULL,
 	version_number int(11) DEFAULT '0' NOT NULL,
 	version_string tinytext,
 	upload_date int(11) DEFAULT '0' NOT NULL,
@@ -181,7 +181,8 @@ CREATE TABLE tx_terfe2_domain_model_version (
 	l18n_diffsource mediumblob NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY author (author)
 );
 
 
