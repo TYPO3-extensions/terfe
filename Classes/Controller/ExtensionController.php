@@ -231,6 +231,15 @@
 				$urlToQualityServer = 'https://metrics.typo3.org/dashboard/index/org.typo3:extension-' . $extension->getExtKey();
 				$this->view->assign('qualityLinkNotBroken', t3lib_div::getURL($urlToQualityServer, TRUE));
 				$this->view->assign('urlToQualityServer', $urlToQualityServer);
+
+				// gets all other extensions from the owner
+				$this->extensionRepository->setDefaultOrderings(
+					array(
+						'lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+					)
+				);
+				$otherExtensionsByUser = $this->extensionRepository->findAllOtherFromFrontendUser($extension, $extension->getFrontendUser());
+				$this->view->assign('extensionsByUser', $otherExtensionsByUser);
 			}
 
 				// flattr check
@@ -251,14 +260,6 @@
 				}
 			}
 
-			// other extensions from this user
-			$this->extensionRepository->setDefaultOrderings(
-				array(
-					'lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
-				)
-			);
-			$otherExtensionsByUser = $this->extensionRepository->findAllOtherFromFrontendUser($extension, $extension->getFrontendUser());
-			$this->view->assign('extensionsByUser', $otherExtensionsByUser);
 		}
 
 
