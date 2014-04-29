@@ -79,9 +79,9 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 
 		if ($manualExists) {
 			// link to extension to get the latest manual
-			$url = $this->baseUrl . $extensionKey;
+			$url = $this->baseUrl . $extensionKey . '/';
 			// check if link is not broken
-			if (t3lib_div::getURL($url, TRUE) !== FALSE) {
+			if (strpos(t3lib_div::getURL($url, TRUE), 'HTTP/1.1 200 OK') !== FALSE) {
 				$documentationLink = '<a href="' . $url . '">Extension Manual</a>';
 			}
 		}
