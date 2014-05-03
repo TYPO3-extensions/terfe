@@ -148,7 +148,7 @@ class Tx_TerFe2_Task_CreateExtensionFilesTask extends Tx_TerFe2_Task_AbstractTas
 			// Check file hash
 		$fileHash = Tx_TerFe2_Utility_File::getFileHash($t3xFileName);
 		if ($fileHash != $version->getFileHash()) {
-			throw new Exception('File was changed and is therefore corrupt');
+			return '';
 		}
 
 			// Create zip file
