@@ -73,6 +73,10 @@ class Tx_TerFe2_Task_SearchIndexTask extends Tx_TerFe2_Task_AbstractTask {
 	protected function executeTask($lastRun, $offset, $count) {
 		$versions = $this->versionRepository->findAll($offset, $count);
 
+		if ($versions->count() === 0) {
+			return FALSE;
+		}
+
 		foreach ($versions as $version) {
 			$extension  = $version->getExtension();
 			$author     = $version->getAuthor();

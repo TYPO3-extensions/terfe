@@ -82,7 +82,7 @@ class Tx_TerFe2_Task_CreateExtensionFilesTask extends Tx_TerFe2_Task_AbstractTas
 	protected function executeTask($lastRun, $offset, $count) {
 			// Get all unprocessed versions
 		$versions = $this->versionRepository->findForMediaCreation($offset, $count);
-		if (empty($versions)) {
+		if ($versions->count() === 0) {
 			return FALSE;
 		}
 
