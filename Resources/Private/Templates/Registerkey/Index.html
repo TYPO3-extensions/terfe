@@ -1,3 +1,4 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <f:layout name="Default" />
 
 <f:section name="main">
@@ -24,12 +25,19 @@
 					<f:translate key="register-extension-key" />
 				</a>
 			</li>
+			<f:if condition="{extensions}">
+				<li>
+					<a href="#tx_terfe2_tab_transferkey">
+						<f:translate key="transfer-extension-key" />
+					</a>
+				</li>
+			</f:if>
 			<f:security.ifHasRole role="{settings.terAdminGroupUid}">
-			<li>
-				<a href="#tx_terfe2_tab_registerkey">
-					Admin
-				</a>
-			</li>
+				<li>
+					<a href="#tx_terfe2_tab_registerkey">
+						Admin
+					</a>
+				</li>
 			</f:security.ifHasRole>
 		</ul>
 
@@ -44,9 +52,7 @@
 						<table class="manage-keys">
 							<thead>
 								<tr>
-									<th colspan="2" class="colA4"><f:translate key="extensionKey" /></th>
-									<th class="transfer-colum" class="colC1"><f:translate key="transferToUser" /></th>
-									<th>&nbsp;</th>
+									<th><f:translate key="extensionKey" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -56,7 +62,14 @@
 									<f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
 
 									<tr class="{columCycle}">
-										<td style="border-right: 0;">
+										<td>
+											<div class="terfe-buttons">
+												<f:if condition="{extension.versionCount} < 1">
+													<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
+												</f:if>
+												<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion" controller="Extension" arguments="{extension: extension}" pageUid="{settings.pages.uploadVersionPID}"><f:translate key="uploadVersion-button" /></f:link.action>
+												<f:link.action class="bu bu-mini" action="edit" controller="Extension" arguments="{extension: extension}"><f:translate key="editExtension-button" /></f:link.action>
+											</div>
 											<f:if condition="{extension.versionCount} < 1">
 												<f:then>
 													{extension.extKey}
@@ -77,24 +90,6 @@
 												({extension.lastVersion.versionString})
 											</f:if>
 											</span>
-										</td>
-										<td class="no-border-left a-r" style="padding: 6px 6px 5px;">
-											<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion" controller="Extension" arguments="{extension: extension}" pageUid="{settings.pages.uploadVersionPID}"><f:translate key="uploadVersion-button" /></f:link.action>
-											<f:link.action class="bu bu-mini" action="edit" controller="Extension" arguments="{extension: extension}"><f:translate key="editExtension-button" /></f:link.action>
-										</td>
-										<td style="padding: 6px 6px 5px;">
-											<div class="b-form-inputs">
-												<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST" onsubmit="if (confirm('Are you sure? You might not be able to get your transfered key back.')) return true; else return false;">
-													<f:form.hidden name="extension" value="{extension}" />
-													<f:form.textbox class="manage-keys-input" style="width: 100px;" name="newUser" value="" />
-													<f:form.submit class="bu bu-mini manage-keys-submit" value="Transfer" />
-												</f:form>
-											</div>
-										</td>
-										<td>
-											<f:if condition="{extension.versionCount} < 1">
-												<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
-											</f:if>
 										</td>
 									</tr>
 
@@ -162,29 +157,66 @@
 
 			</div>
 			<!-- closing register tab -->
+
+			<!-- open transfer tab -->
+			<f:if condition="{extensions}">
+				<div class="tab-content lite-tab-panes-black">
+					<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST" onsubmit="if (confirm('Are you sure? You might not be able to get your transfered key back.')) return true; else return false;">
+						<div class="register-wrapper">
+							<div class="registerkey-label">
+								<label><f:translate key="extensionKey" /></label>
+							</div>
+							<div class="register-input b-form-inputs">
+								<f:form.select name="extension" options="{extensions}" optionLabelField="extKey" sortByOptionLabel="1"/>
+							</div>
+						</div>
+
+						<div class="register-wrapper">
+
+							<div class="registerkey-label">
+								<label><f:translate key="transferToUser" /></label>
+							</div>
+
+							<div class="register-input b-form-inputs">
+								<f:form.textbox name="newUser" value="" />
+							</div>
+						</div>
+
+						<hr />
+						<div class="registerkey-label">
+							<label>&nbsp;</label>
+						</div>
+						<f:form.submit class="bu bu-mini" value="{f:translate(key: 'transfer-extension-key')}" />
+					</f:form>
+
+					<h4>Please check twice!</h4>
+					<p>Are you sure? You might not be able to get your transfered key back.</p>
+				</div>
+			</f:if>
+			<!-- closing transfer tab -->
 			<!-- open admin tab -->
 			<f:security.ifHasRole role="{settings.terAdminGroupUid}">
-			<div class="tab-content lite-tab-panes-black">
-				<f:form action="admin" controller="Registerkey" method="post">
-					<div class="register-wrapper">
+				<div class="tab-content lite-tab-panes-black">
+					<f:form action="admin" controller="Registerkey" method="post">
+						<div class="register-wrapper">
+
+							<div class="registerkey-label">
+								<label><f:translate key="extensionKey" /></label>
+							</div>
+
+							<div class="register-input b-form-inputs">
+								<f:form.textfield name="extensionKey" value="" />
+							</div>
+						</div>
+
+						<hr />
 
 						<div class="registerkey-label">
-							<label><f:translate key="extensionKey" /></label>
+							<label>&nbsp;</label>
 						</div>
-
-						<div class="register-input b-form-inputs">
-							<f:form.textfield name="extensionKey" value="" />
-						</div>
-					</div>
-
-					<hr />
-
-					<div class="registerkey-label">
-						<label>&nbsp;</label>
-					</div>
-					<f:form.submit class="bu bu-mini" value="{f:translate(key: 'search')}" />
-				</f:form>
-			</div>
+						<f:form.submit class="bu bu-mini" value="{f:translate(key: 'search')}" />
+					</f:form>
+				</div>
 			</f:security.ifHasRole>
 		</div>
 	</div>

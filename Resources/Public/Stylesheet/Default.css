@@ -429,6 +429,11 @@ input.manage-keys-submit {
 	width: 60%;
 }
 
+div.terfe-buttons {
+	display: inline-block;
+	float: right;
+}
+
 div.tx_terfe2 div.register-wrapper {
 	clear: both;
 	display: block;

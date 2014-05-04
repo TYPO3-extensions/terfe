@@ -301,6 +301,7 @@
 			<label index="register-extension-key">Register extension key</label>
 			<label index="manage-extension-keys">Manage extension keys</label>
 			<label index="modifiy-extension-key">Modifiy extension keys</label>
+			<label index="transfer-extension-key">Transfer extension key</label>
 
 			<label index="registerkey.error.not_register.title">An unknown error occured.</label>
 			<label index="registerkey.error.not_register.message">Your key could not be registered.</label>
