@@ -129,10 +129,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid',
 			'tx_terfe2_domain_model_version',
-			'NOT deleted AND NOT hidden AND review_state >= 0',
-			'',
-			'',
-			100
+			'NOT deleted AND NOT hidden AND review_state >= 0'
 		);
 
 		return $rows;
