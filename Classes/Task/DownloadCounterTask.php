@@ -105,8 +105,6 @@
 
 						/** @var Tx_TerFe2_Service_Notification $notificationService */
 						$notificationService = t3lib_div::makeInstance('Tx_TerFe2_Service_Notification');
-						// notify documentation server for new extension upload
-						$notificationService->notifyDocsTeam($ext['ext_key'], $version['version_string']);
 						// update the EXT:solr Index Queue
 						$notificationService->notifySolrIndexQueue($ext['uid']);
 					}

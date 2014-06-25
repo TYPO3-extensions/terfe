@@ -29,19 +29,6 @@
 	class Tx_TerFe2_Service_Notification implements t3lib_Singleton {
 
 		/**
-		 * notifies docs.typo3.org about new ext version
-		 *
-		 * @param string $extensionName
-		 * @param string $version
-		 */
-		public function notifyDocsTeam($extensionName, $version) {
-			$pathToScript = t3lib_extMgm::extPath('ter_fe2') . 'Resources/Private/Scripts/trigger-docstypo3org-ter.phpsh';
-			if (file_exists($pathToScript)) {
-				exec($pathToScript . ' --extension ' . $extensionName . ' --version '  . $version);
-			}
-		}
-
-		/**
 		 * notifies the solr index queue about ext changes
 		 *
 		 * @param int $extensionUid
