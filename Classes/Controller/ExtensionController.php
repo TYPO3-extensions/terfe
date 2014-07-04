@@ -244,25 +244,44 @@
 				);
 				$otherExtensionsByUser = $this->extensionRepository->findAllOtherFromFrontendUser($extension, $extension->getFrontendUser());
 				$this->view->assign('extensionsByUser', $otherExtensionsByUser);
+
+					// flattr check
+				if ($extension->getFlattrUsername() !== '') {
+					// build flattr url with "auto-submit"
+					$url = 'https://flattr.com/submit/auto?';
+					// adds username
+					$url .= '&user_id=' . urlencode($extension->getFlattrUsername());
+					// adds current url
+					/** @var Tx_Extbase_MVC_Web_Routing_UriBuilder $uriBuilder */
+					$uriBuilder = $this->controllerContext->getUriBuilder();
+					$uriBuilder->setArguments(
+						array(
+							'tx_terfe2_pi1' => array(
+								'action' => 'show',
+								'extension' => $extension->getUid()
+							)
+						)
+					);
+					$uriBuilder->setCreateAbsoluteUri(TRUE);
+					$url .= '&url=' . urlencode($uriBuilder->buildFrontendUri());
+					// adds title
+					$url .= '&title=' . urlencode($extension->getLastVersion()->getTitle());
+					// adds description
+					$url .= '&description=' . urlencode($extension->getLastVersion()->getDescription());
+					// adds language
+					$url .= '&language=en_GB';
+					// adds tags
+					// @todo maybe add extension tags from user?
+					$url .= '&tags=';
+					// adds hidden tag
+					$url .= '&hidden=0';
+					// adds category
+					$url .= '&category=software';
+
+					$this->view->assign('flattrUrl', $url);
+				}
 			}
 
-				// flattr check
-			if ($extension instanceof Tx_TerFe2_Domain_Model_Extension and $flattrUsername = $extension->getFlattrUsername()) {
-				if ($extension->getFlattrData()) {
-					$result = unserialize($extension->getFlattrData());
-				} else {
-					/* @var Tx_TerFe2_Service_FLattr $flattrService */
-					$flattrService = $this->objectManager->get('Tx_TerFe2_Service_Flattr');
-					if ($result = $flattrService->checkForThing(t3lib_div::getIndpEnv('TYPO3_REQUEST_URL')) and $result->owner->username == $flattrUsername) {
-						$extension->setFlattrData(serialize($result));
-						$this->extensionRepository->update($extension);
-						$this->persistenceManager->persistAll();
-					}
-				}
-				if ($result) {
-					$this->view->assign('flattr', $result);
-				}
-			}
 
 		}
 
@@ -723,6 +742,5 @@
 				$GLOBALS['TSFE']->register['SYS_LASTCHANGED'] = $dateTime;
 			}
 		}
-
 	}
 ?>

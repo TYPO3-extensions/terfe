@@ -88,11 +88,11 @@
 				</td>
 			</tr>
 		</f:if>
-		<f:if condition="{flattr}">
+		<f:if condition="{flattrUrl}">
 			<tr class="ter-ext-single-flattr">
 				<th><f:translate key="donate" /></th>
 				<td>
-					<terfe2:flattr flattrData="{flattr}" />
+					<f:link.external uri="{flattrUrl}" target="_blank"><img src="https://api.flattr.com/button/flattr-badge-large.png" alt="{f:translate(key:'donate')}" /></f:link.external>
 				</td>
 			</tr>
 		</f:if>
