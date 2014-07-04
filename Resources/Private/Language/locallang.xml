@@ -104,7 +104,7 @@
 			<label index="msg.createVersionCommentEmpty">Please enter a description for this version.</label>
 			<label index="msg.createVersionFileEmpty">Please select an extension ZIP file.</label>
 			<label index="msg.createVersionFileNoZip">Selected ZIP file is not a valid extension archive.</label>
-			<label index="msg.createVersionVersionEmpty">Selected ZIP file containes no version information.</label>
+			<label index="msg.createVersionVersionEmpty">Selected ZIP file contains no version information.</label>
 			<label index="msg.createVersionVersionExists">This version already exists. Increase version in ext_emconf.php and upload again.</label>
 			<label index="msg.createVersionFilenameNotValid">The filename must be of the format [extkey]_[version].zip" (e.g. news_1.2.3.zip).</label>
 			<label index="msg.createVersionUploadNotAllowed">You are not allowed to upload this extension.</label>
