@@ -96,6 +96,7 @@
 			<label index="msg.could_not_transfer_file">File download is broken</label>
 			<label index="msg.sorting_manipulated">Sorting form was manipulated</label>
 			<label index="msg.extension_not_found">Extension not found</label>
+			<label index="msg.version_not_found">Extension version not found</label>
 			<label index="msg.reviewstate_enabled">The review state has been set</label>
 			<label index="msg.reviewstate_not_enabled">The review state could not be set for version "%s". Message: "%s"</label>
 			<label index="msg.reviewstate_not_changed">The review state has not changed</label>
