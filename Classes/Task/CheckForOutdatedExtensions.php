@@ -80,7 +80,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 
 		$this->getLatestAndOldestSupportedTypo3Versions();
 
-		$releaseDateOfOldestSupportedTypo3Version = $this->getReleaseDateOfOldestSupportedTypo3Version($supportedCoreVersions);
+		$releaseDateOfOldestSupportedTypo3Version = $this->getReleaseDateOfOldestSupportedTypo3Version();
 
 		// Foreach extension
 		foreach ($versions as $version) {
