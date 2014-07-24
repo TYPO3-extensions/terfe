@@ -221,8 +221,14 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 			foreach ($this->supportedCoreVersions['all'] as $version) {
 				// gets core version x.x.0
 				$supportedMinimumVersion = t3lib_utility_VersionNumber::convertVersionNumberToInteger($version . '.0');
+				$extensionMinimumVersionAsString = Tx_TerFe2_Utility_Version::versionFromInteger($extensionMinimumVersion);
 
-				if ($supportedMinimumVersion >= $extensionMinimumVersion && $supportedMinimumVersion <= $extensionMaximumVersion) {
+				/*
+				 * checks if extension dependency lies within the first release of the main release version
+				 * or extension minimum version begins with main release version
+				 */
+				if (($supportedMinimumVersion >= $extensionMinimumVersion || strpos($extensionMinimumVersionAsString, $version) === 0)
+						&& $supportedMinimumVersion <= $extensionMaximumVersion) {
 					$result = TRUE;
 					break;
 				}

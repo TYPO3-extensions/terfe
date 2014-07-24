@@ -112,6 +112,10 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
 				$this->buildRelation('6.2.0', '6.2.99'),
 				$supportedCoreVersions
 			),
+			'Extension version greater than 6.2.0 is valid' => array(
+				$this->buildRelation('6.2.2', '6.2.99'),
+				$supportedCoreVersions
+			),
 		);
 	}
 
