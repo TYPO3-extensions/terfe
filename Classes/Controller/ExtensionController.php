@@ -320,6 +320,15 @@
 		 * @return void
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $tag = '', $save = '') {
+			/** @var Tx_T3oAjaxlogin_Domain_Model_User $currentUser */
+			$currentUser = $this->ownerRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);
+			if ($extension->getFrontendUser() !== $currentUser->getUsername()) {
+				$this->redirectWithError(
+					'You are not the owner of the extension you wanted to update.',
+					'index',
+					'Registerkey'
+				);
+			}
 			if (!empty($tag)) {
 				$tags = array();
 				$intermediateTags = t3lib_div::trimExplode(' ', $tag, TRUE);
