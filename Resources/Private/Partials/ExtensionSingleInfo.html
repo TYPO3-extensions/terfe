@@ -112,13 +112,15 @@
 				</td>
 			</tr>
 		</f:if>
-		<tr>
-			<th><f:translate key="author"/></th>
-			<td>
-				{owner.name}
-				<br />
-				<userimage:userImage user="{owner}" alt="{owner.name}" size="mid" />
-			</td>
-		</tr>
+		<f:if condition="{owner}">
+			<tr>
+				<th><f:translate key="author"/></th>
+				<td>
+					{owner.name}
+					<br />
+					<userimage:userImage user="{owner}" alt="{owner.name}" size="mid" />
+				</td>
+			</tr>
+		</f:if>
 	</table>
 </div>
