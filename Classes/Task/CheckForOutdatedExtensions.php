@@ -50,9 +50,24 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 	protected $objectManager;
 
 	/**
+	 * @var Tx_Extbase_Persistence_IdentityMap
+	 */
+	protected $identityMap;
+
+	/**
+	 * @var Tx_Extbase_Persistence_Session
+	 */
+	protected $session;
+
+	/**
 	 * @var array
 	 */
 	protected $supportedCoreVersions = array();
+
+	/**
+	 * @var int
+	 */
+	protected $releaseDateOfOldestSupportedTypo3Version;
 
 	/**
 	 * Initialize Task
@@ -62,6 +77,8 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 	public function initializeTask() {
 		$this->objectManager        = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 		$this->persistenceManager   = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+		$this->identityMap          = $this->objectManager->get('Tx_Extbase_Persistence_IdentityMap');
+		$this->session              = $this->objectManager->get('Tx_Extbase_Persistence_Session');
 		$this->versionRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 		$this->coreVersions         = json_decode(t3lib_div::getUrl(PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentcoredata.json'), TRUE);
 	}
@@ -80,41 +97,11 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 
 		$this->getLatestAndOldestSupportedTypo3Versions();
 
-		$releaseDateOfOldestSupportedTypo3Version = $this->getReleaseDateOfOldestSupportedTypo3Version();
+		$this->releaseDateOfOldestSupportedTypo3Version = $this->getReleaseDateOfOldestSupportedTypo3Version();
 
 		// Foreach extension
 		foreach ($versions as $version) {
-			/** @var Tx_TerFe2_Domain_Model_Version $version */
-			$version = $this->versionRepository->findByUid($version['uid']);
-
-			if(!$version instanceof Tx_TerFe2_Domain_Model_Version) {
-				continue;
-			}
-
-			$isOutdated = FALSE;
-
-			if ($version->getUploadDate() === NULL) {
-				$isOutdated = TRUE;
-				// Check if date is set
-			} elseif ($version->getUploadDate() < $releaseDateOfOldestSupportedTypo3Version) {
-				$isOutdated = TRUE;
-				// Check upload date against oldestActiveTYPO3Version first release date.
-			} elseif (!$this->isVersionDependingOnAnActiveSupportedTypo3Version($version->getTypo3Dependency())) {
-				$isOutdated = TRUE;
-				// Check against dependency against TYPO3 not actively supported
-			}
-
-
-			if ($isOutdated) {
-				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-					'tx_terfe2_domain_model_version',
-					'uid = ' . $version->getUid(),
-					array(
-						'review_state' => -2
-					)
-				);
-			}
-
+			$this->checkVersion($version, $i);
 		}
 
 		return TRUE;
@@ -236,5 +223,66 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * check if the given version is outdated and mark it in database
+	 *
+	 * @param integer $version
+	 */
+	protected function checkVersion($version) {
+		/** @var Tx_TerFe2_Domain_Model_Version $version */
+		$version = $this->versionRepository->findByUid($version['uid']);
+
+		if(!$version instanceof Tx_TerFe2_Domain_Model_Version) {
+			return;
+		}
+
+		$isOutdated = FALSE;
+
+		if ($version->getUploadDate() === NULL) {
+			$isOutdated = TRUE;
+			// Check if date is set
+		} elseif ($version->getUploadDate() < $this->releaseDateOfOldestSupportedTypo3Version) {
+			$isOutdated = TRUE;
+			// Check upload date against oldestActiveTYPO3Version first release date.
+		} elseif (!$this->isVersionDependingOnAnActiveSupportedTypo3Version($version->getTypo3Dependency())) {
+			$isOutdated = TRUE;
+			// Check against dependency against TYPO3 not actively supported
+		}
+
+
+		if ($isOutdated) {
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+				'tx_terfe2_domain_model_version',
+				'uid = ' . $version->getUid(),
+				array(
+					'review_state' => -2
+				)
+			);
+		}
+
+		$this->cleanupMemory($version);
+	}
+
+	/**
+	 * free some memory after checking a version
+	 *
+	 * prevent memory leaks on the long running scheduler task
+	 *
+	 * @param Tx_TerFe2_Domain_Model_Version $version
+	 */
+	public function cleanupMemory($version) {
+		if ($this->identityMap->hasObject($version)) {
+			$this->identityMap->unregisterObject($version);
+		}
+		$this->session->unregisterReconstitutedObject($version);
+		foreach ($version->getSoftwareRelations() as $relation) {
+			/** @var $relation Tx_TerFe2_Domain_Model_Relation */
+			if ($this->identityMap->hasObject($relation)) {
+				$this->identityMap->unregisterObject($relation);
+			}
+			$this->session->unregisterReconstitutedObject($relation);
+		}
 	}
 }

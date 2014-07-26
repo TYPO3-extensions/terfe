@@ -56,6 +56,7 @@
 
 		/**
 		 * Related extension if in TER
+		 * @lazy
 		 * @var Tx_TerFe2_Domain_Model_Extension $relatedExtension
 		 */
 		protected $relatedExtension;
