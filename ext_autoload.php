@@ -85,5 +85,6 @@ return array(
 	'tx_terfe2_viewhelpers_formatviewhelper'                           => $extensionClassesPath . 'ViewHelpers/FormatViewHelper.php',
 	'tx_terfe2_viewhelpers_rawviewhelper'                              => $extensionClassesPath . 'ViewHelpers/RawViewHelper.php',
 	'tx_terfe2_validation_validator_urlvalidator'                      => $extensionClassesPath . 'Validation/Validator/UrlValidator.php',
+	'tx_terfe2_visitor_arrayassurer'                                   => $extensionClassesPath . 'Visitor/ArrayAssurer.php',
 );
 ?>

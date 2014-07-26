@@ -274,12 +274,12 @@
 			if (empty($files) || empty($files['ext_emconf.php'])) {
 				return NULL;
 			}
-			$extEmconf = str_replace(array('<?php', '<?', '?>'), '', base64_decode($files['ext_emconf.php']->content));
-			eval($extEmconf);
-			if (empty($EM_CONF) || !is_array($EM_CONF)) {
+			$extEmconf = base64_decode($files['ext_emconf.php']->content);
+			$extEmconf = self::extractEmConf($extEmconf);
+			if (empty($extEmconf) || !is_array($extEmconf)) {
 				return NULL;
 			}
-			$extEmconf = reset($EM_CONF);
+
 			// Dependencies / conflicts
 			$possibleConstraints = array(
 				'depends',
@@ -345,6 +345,41 @@
 					'techInfo' => '',
 				),
 			);
+		}
+
+
+		/**
+		 * Extract the ext_emconf.php data array safely
+		 *
+		 * @param $extEmConfCode
+		 * @return null
+		 */
+		protected static function extractEmConf($extEmConfCode) {
+			$EM_CONF = NULL;
+
+			include_once(t3lib_extMgm::extPath('ter_fe2') . 'Resources/Private/Php/PHP-Parser/lib/bootstrap.php');
+			$parser = new PhpParser\Parser(new PhpParser\Lexer);
+
+			try {
+				$statements = $parser->parse($extEmConfCode);
+
+				$traverser = new PhpParser\NodeTraverser;
+				$prettyPrinter = new PhpParser\PrettyPrinter\Standard;
+
+				// We will need to resolved names
+				$traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver);
+				// Our own node visitor
+				$traverser->addVisitor(t3lib_div::makeInstance('Tx_TerFe2_Visitor_ArrayAssurer'));
+
+				$statements = $traverser->traverse($statements);
+				$code = $prettyPrinter->prettyPrint($statements);
+
+				eval($code);
+
+				return reset($EM_CONF);
+			} catch (Exception $e) {
+				return NULL;
+			}
 		}
 
 	}
