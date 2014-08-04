@@ -321,6 +321,7 @@
 						$query->equals('lastVersion.state', 'obsolete')
 					)
 				),
+				$query->greaterThanOrEqual('lastVersion.review_state', '0'),
 				$query->greaterThanOrEqual('versions', '1')
 			);
 			$query->matching($query->logicalAnd($constraints));
