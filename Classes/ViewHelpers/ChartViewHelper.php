@@ -112,7 +112,7 @@
 		 */
 		protected function getDownloadsByVersion(Tx_TerFe2_Domain_Model_Extension $extension, $pointCount = 10) {
 			$points = array();
-			$versions = $extension->getReverseVersionsWithPositiveReviewsByVersionNumber();
+			$versions = $extension->getReverseVersionsByVersionNumber();
 			$counter = 0;
 
 			foreach ($versions as $version) {
