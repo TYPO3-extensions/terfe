@@ -56,9 +56,12 @@ class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Rep
 			return;
 		}
 
-		$query->matching($query->logicalAnd(
-						$query->greaterThanOrEqual('reviewState', 0), $constraint
-				));
+		$query->matching(
+			$query->logicalAnd(
+				$query->greaterThanOrEqual('reviewState', 0),
+				$constraint
+			)
+		);
 	}
 
 	/**
@@ -118,7 +121,7 @@ class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Rep
 		$query->getQuerySettings()->setRespectSysLanguage(FALSE);
 
 		if (!empty($skipLatest)) {
-			$this->match($query,
+			$query->matching(
 				$query->logicalAnd(
 					$query->equals('extension', $extension),
 					$query->logicalNot(
