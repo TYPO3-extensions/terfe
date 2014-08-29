@@ -98,6 +98,7 @@ div.ter-ext-list-search {
 	background: none repeat scroll 0 0 #FCFCFC;
 	border: 1px solid #DADADA;
 	padding: 8px 10px;
+	margin-bottom: 18px;
 	position: relative;
 }
 
@@ -128,7 +129,7 @@ span.ter-ext-list-search-sorting select {
 div.ter-ext-list-count {
 	color: #B9B9B9;
 	font-size: 11px;
-	padding: 18px 0 9px 0;
+	padding: 0 0 9px 0;
 }
 
 div.ter-ext-list-row {
