@@ -70,6 +70,11 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 	protected $releaseDateOfOldestSupportedTypo3Version;
 
 	/**
+	 * @var tx_solr_indexqueue_Queue
+	 */
+	protected $solrIndexQueue;
+
+	/**
 	 * Initialize Task
 	 *
 	 * @return void
@@ -81,6 +86,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 		$this->session              = $this->objectManager->get('Tx_Extbase_Persistence_Session');
 		$this->versionRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
 		$this->coreVersions         = json_decode(t3lib_div::getUrl(PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentcoredata.json'), TRUE);
+		$this->solrIndexQueue       = $this->objectManager->get('tx_solr_indexqueue_Queue');
 	}
 
 	/**
@@ -101,7 +107,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 
 		// Foreach extension
 		foreach ($versions as $version) {
-			$this->checkVersion($version, $i);
+			$this->checkVersion($version);
 		}
 
 		return TRUE;
@@ -260,6 +266,17 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 					'review_state' => -2
 				)
 			);
+
+			if ($version->getExtension() instanceof Tx_TerFe2_Domain_Model_Extension) {
+				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+					'tx_terfe2_domain_model_extension',
+					'uid = ' . $version->getExtension()->getUid(),
+					array(
+						'tstamp' => time()
+					)
+				);
+				$this->solrIndexQueue->updateItem('tx_terfe2_domain_model_extension', $version->getExtension()->getUid());
+			}
 		}
 
 		$this->cleanupMemory($version);
@@ -283,6 +300,10 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 				$this->identityMap->unregisterObject($relation);
 			}
 			$this->session->unregisterReconstitutedObject($relation);
+		}
+		if ($this->identityMap->hasObject($version->getExtension())) {
+			$this->identityMap->unregisterObject($version->getExtension());
+			$this->session->unregisterReconstitutedObject($version->getExtension());
 		}
 	}
 }
