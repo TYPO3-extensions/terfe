@@ -249,6 +249,8 @@
 			<label index="version_history">Version history</label>
 			<label index="versions">Versions</label>
 			<label index="review_versions">Insecure versions</label>
+			<label index="extension_manual">Extension Manual</label>
+			<label index="extension_manual_not_available">Not available</label>
 
 			<label index="registerkey.notloggedin">Please log in to manage your extension or to register a new extension key.</label>
 			<label index="registerkey.key_registered">Extension key registered</label>

@@ -67,7 +67,7 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 	 * @throws Exception
 	 * @param string $extensionKey Extension key
 	 * @param string $versionString Version string
-	 * @return array Url and label to documentation
+	 * @return string|NULL HTML link to the documentation
 	 */
 	public function getDocumentationLink($extensionKey, $versionString) {
 		if (empty($extensionKey) || empty($versionString)) {
@@ -75,7 +75,7 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 		}
 
 		$manualExists = isset($this->docsInformation->$extensionKey);
-		$documentationLink = 'Not available';
+		$documentationLink = NULL;
 
 		if ($manualExists) {
 			// link to extension to get the latest manual

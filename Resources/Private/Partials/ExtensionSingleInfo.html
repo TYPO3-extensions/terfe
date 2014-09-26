@@ -59,10 +59,20 @@
 		<tr class="ter-ext-single-info-manual">
 			<th><f:translate key="manual"/></th>
 			<td>
-				<terfe2:raw>{documentationLink}</terfe2:raw>
-				<f:if condition="{extension.externalManual}">
-					<br />
-					<f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="external_manual" /></f:link.external>
+				<f:if condition="{documentationLink}">
+					<f:then>
+						<terfe2:raw>{documentationLink}</terfe2:raw>
+						<f:if condition="{extension.externalManual}">
+							<br />
+							<f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="external_manual" /></f:link.external>
+						</f:if>
+					</f:then>
+					<f:else>
+						<f:if condition="{extension.externalManual}">
+							<f:then><f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="extension_manual" /></f:link.external></f:then>
+							<f:else><f:translate key="extension_manual_not_available" /></f:else>
+						</f:if>
+					</f:else>
 				</f:if>
 			</td>
 		</tr>
