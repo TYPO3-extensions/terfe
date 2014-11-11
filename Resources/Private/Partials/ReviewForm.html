@@ -8,7 +8,7 @@
 				<f:for each="{extension.reverseVersionsByVersionNumber}" as="version" iteration="versionIterator">
 					<tr class="{f:if(condition:'{versionIterator.isOdd}', then: 'odd', else: 'even')}">
 						<td class="ter-ext-single-versions-input">
-							<f:form.checkbox name="unsecureVersions[]" id="version-{version.uid}" value="{version.uid}" checked="{version.reviewState} < 0" />
+							<f:form.checkbox name="unsecureVersions[]" id="version-{version.uid}" value="{version.uid}" checked="{version.reviewState} == -1" />
 						</td>
 						<td class="ter-ext-single-versions-label">
 							<label for="version-{version.uid}">{version.versionString}</label>
