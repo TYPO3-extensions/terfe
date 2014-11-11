@@ -19,9 +19,11 @@
 					<div class="extension-description">
 						<p>{extension.lastVersion.description}</p>
 					</div>
-					<div class="download-button">
-						<f:link.action class="bu large" controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_header"/> version {extension.lastVersion.versionString}</f:link.action>
-					</div>
+					<f:if condition="{extension.lastVersion.reviewState} != -1">
+						<div class="download-button">
+							<f:link.action class="bu large" controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_header"/> version {extension.lastVersion.versionString}</f:link.action>
+						</div>
+					</f:if>
 				</div>
 				<div style="clear: both;">&nbsp;</div>
 				<div class="b-tabs">
