@@ -76,12 +76,6 @@
 				</f:if>
 			</td>
 		</tr>
-		<f:if condition="{qualityLinkNotBroken}">
-			<tr>
-				<th><f:translate key="quality_label" /></th>
-				<td><f:link.external uri="{urlToQualityServer}" target="_blank"><f:translate key="quality_value" /></f:link.external></td>
-			</tr>
-		</f:if>
 		<f:if condition="{extension.forgeLink}">
 			<tr class="ter-ext-single-info-key">
 				<th><f:translate key="bugtracker" /></th>
@@ -115,7 +109,7 @@
 			</tr>
 		</f:if>
 		<f:if condition="{owner.username}">
-			<tr>	
+			<tr>
 				<th>Username</th>
 				<td>
 					{owner.username}
