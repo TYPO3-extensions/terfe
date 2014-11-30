@@ -57,7 +57,8 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 			'rst',
 			'pdf'
 		);
-		$this->docsInformation = json_decode(file_get_contents('http://docs.typo3.org/typo3cms/extensions/manuals.json'));
+		$documentationFile = PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentdocumentationdata.json';
+		$this->docsInformation = json_decode(file_get_contents($documentationFile));
 	}
 
 
