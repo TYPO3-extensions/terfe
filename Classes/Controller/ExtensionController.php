@@ -475,7 +475,7 @@
 				if (Tx_TerFe2_Utility_File::isAbsolutePath($fileUrl)) {
 					$fileUrl = Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($fileUrl);
 				}
-				$this->redirectWithMessage($this->translate('msg.file_not_found') . ': ' . $fileUrl, 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
+				$this->redirectWithMessage($this->translate('msg.file_not_found') . ': ' . basename($fileUrl), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
 				// $this->redirectWithMessage($this->translate('msg.file_not_found'), 'index');
 			}
 
