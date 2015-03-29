@@ -168,6 +168,7 @@
 		/**
 		 * Creates a zip file from given extension T3X file
 		 *
+		 * @throws Exception
 		 * @param string $t3xFile Path to the t3x file
 		 * @param string $zipFile Path to the zip file
 		 * @return boolean TRUE if success
@@ -194,15 +195,15 @@
 				}
 			}
 
-				// Create ext_emconf.php
-			if (!empty($content['extKey']) && !empty($content['EM_CONF']) && is_array($content['EM_CONF'])) {
+			// Create ext_emconf.php if it doesn't exist
+			if (!isset($files['ext_emconf.php']) && !empty($content['extKey']) && !empty($content['EM_CONF']) && is_array($content['EM_CONF'])) {
 				$files['ext_emconf.php'] = Tx_TerFe2_Utility_File::createExtEmconfFile(
 					$content['extKey'],
 					$content['EM_CONF']
 				);
 			}
 
-				// Create ZIP archive
+			// Create ZIP archive
 			self::createZipArchive($zipFile, $files);
 
 			return TRUE;

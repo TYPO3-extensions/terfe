@@ -24,17 +24,13 @@
 				<f:if condition="{version.reviewState} != -1">
 					<f:then>
 						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 't3x'}" title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
-						<f:if condition="{version.hasZipFile}">
-							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 'zip'}" title="{f:translate(key:'filesize')}: {version.zipFileSize -> terfe2:filesize()}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
-						</f:if>
+						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 'zip'}" title="{f:translate(key:'filesize')}: {version.zipFileSize -> terfe2:filesize()}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
 					</f:then>
 					<f:else>
 						<f:security.ifHasRole role="{settings.reviewerGroupUid}">
 							<f:then>
 								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x" title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}"><f:translate key="download_t3x"/></f:link.action>
-								<f:if condition="{version.hasZipFile}">
-									<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip" title="{f:translate(key:'filesize')}: {version.zipFileSize -> terfe2:filesize()}"><f:translate key="download_zip"/></f:link.action>
-								</f:if>
+								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip" title="{f:translate(key:'filesize')}: {version.zipFileSize -> terfe2:filesize()}"><f:translate key="download_zip"/></f:link.action>
 							</f:then>
 							<f:else>
 								&nbsp;
