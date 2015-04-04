@@ -267,7 +267,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 				)
 			);
 
-			if ($version->getExtension() instanceof Tx_TerFe2_Domain_Model_Extension) {
+			if ($version->getExtension() && $version->getExtension()->getUid()) {
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 					'tx_terfe2_domain_model_extension',
 					'uid = ' . $version->getExtension()->getUid(),
