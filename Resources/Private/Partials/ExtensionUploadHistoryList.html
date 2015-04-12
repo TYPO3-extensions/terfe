@@ -12,7 +12,7 @@
 				<small><f:format.date format="F d, Y">{version.uploadDate}</f:format.date></small>
 			</td>
 			<td class="col2">
-				{version.uploadComment}
+				<f:format.nl2br>{version.uploadComment}</f:format.nl2br>
 				<f:if condition="{version.typo3Dependency}">
 					<f:then>
 						<br />
