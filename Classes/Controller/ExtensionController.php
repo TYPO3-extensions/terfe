@@ -221,11 +221,6 @@
 				$documentationLink = $documentationService->getDocumentationLink($extension->getExtKey(), $extension->getLastVersion()->getVersionString());
 				$this->view->assign('documentationLink', $documentationLink);
 
-				if ($extension->getGoogleAuthorId()) {
-					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<link href="https://plus.google.com/' . $extension->getGoogleAuthorId() . '/" rel="author" />');
-					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<link href="https://plus.google.com/' . $extension->getGoogleAuthorId() . '/" rel="publisher" />');
-				}
-
 				$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<meta name="description" content="' . htmlspecialchars($extension->getLastVersion()->getDescription()) . '" />');
 				if ($extension->getTags()->count() > 0) {
 					$GLOBALS['TSFE']->getPageRenderer()->addMetaTag('<meta name="keywords" content="' . htmlspecialchars(implode(',', $extension->getTags()->toArray())) . '" />');

@@ -21,7 +21,6 @@ CREATE TABLE tx_terfe2_domain_model_extension (
 	repository_url varchar(255) DEFAULT '' NOT NULL,
 	external_manual varchar(255) DEFAULT '' NOT NULL,
 	paypal_url varchar(255) DEFAULT '' NOT NULL,
-	google_author_id varchar(100) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

@@ -238,16 +238,6 @@
 					'eval' => 'trim',
 				),
 			),
-			'google_author_id' => array(
-				'exclude' => 1,
-				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.google_author_id',
-				'config'  => array(
-					'type' => 'text',
-					'rows' => 10,
-					'cols' => 40,
-					'eval' => 'trim',
-				),
-			),
 		),
 	);
 ?>

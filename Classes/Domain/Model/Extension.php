@@ -125,12 +125,6 @@
 		 */
 		protected $paypalUrl;
 
-		/**
-		 * ID for Google+ author relation
-		 * @var string
-		 */
-		protected $googleAuthorId;
-
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -540,25 +534,6 @@
 		public function getRepositoryUrl() {
 			return $this->repositoryUrl;
 		}
-
-		/**
-		 * Sets googleAuthorId
-		 *
-		 * @param string $googleAuthorId
-		 */
-		public function setGoogleAuthorId($googleAuthorId) {
-			$this->googleAuthorId = $googleAuthorId;
-		}
-
-		/**
-		 * Gets googleAuthorId
-		 *
-		 * @return string
-		 */
-		public function getGoogleAuthorId() {
-			return $this->googleAuthorId;
-		}
-
 
 		/**
 		 * Returns all votes for the extension
