@@ -115,6 +115,7 @@
 			<label index="msg.createVersionUploadNotAllowed">You are not allowed to upload this extension.</label>
 			<label index="msg.createVersionUploadSuccess"><![CDATA[Thank you for the upload of your new extension version. It may take up to 15 minutes until it appears in TER.]]></label>
 			<label index="msg.createVersionUploadFailed">Extension upload failed.</label>
+			<label index="msg.acceptGPL">Please confirm, that your extension is GPL v2 or any later version compliant!</label>
 
 			<label index="header.latest_extensions">Latest Extensions</label>
 			<label index="header.top_rated_extensions">Top rated Extensions</label>
@@ -291,6 +292,8 @@
 			<label index="uploadExtensionVersion.comment">Description for this version</label>
 			<label index="uploadExtensionVersion.file">Extension file (.zip)</label>
 			<label index="uploadExtensionVersion.uploadVersion">Upload extension</label>
+			<label index="uploadExtensionVersion.gplHint">I confirm that my extension contains only GPL v2 or any later version compliant code</label>
+
 
 			<label index="extensionKey">Extension key</label>
 			<label index="submit">Submit</label>

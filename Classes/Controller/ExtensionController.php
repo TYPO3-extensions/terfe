@@ -551,6 +551,10 @@
 		 * @dontvalidate $form
 		 */
 		public function createVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, array $form) {
+			if (!$form['gplCompliant']) {
+				$this->forwardWithError($this->translate('msg.acceptGPL'), 'uploadVersion');
+			}
+
 			if (!t3lib_extMgm::isLoaded('ter')) {
 				$this->forwardWithError($this->translate('msg.createVersionTerNotLoaded'), 'uploadVersion');
 			}
