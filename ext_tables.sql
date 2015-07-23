@@ -19,6 +19,7 @@ CREATE TABLE tx_terfe2_domain_model_extension (
 	flattr_username varchar(100) DEFAULT '' NOT NULL,
 	flattr_data text DEFAULT '' NOT NULL,
 	repository_url varchar(255) DEFAULT '' NOT NULL,
+	repository_clone_url varchar(255) DEFAULT '' NOT NULL,
 	external_manual varchar(255) DEFAULT '' NOT NULL,
 	paypal_url varchar(255) DEFAULT '' NOT NULL,
 

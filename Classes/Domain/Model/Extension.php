@@ -114,6 +114,12 @@
 		protected $repositoryUrl;
 
 		/**
+		 * External repository clone url
+		 * @var string
+		 */
+		protected $repositoryCloneUrl;
+
+		/**
 		 * Link to an external manual
 		 * @var string
 		 */
@@ -533,6 +539,24 @@
 		 */
 		public function getRepositoryUrl() {
 			return $this->repositoryUrl;
+		}
+
+		/**
+		 * Sets repositoryCloneUrl
+		 *
+		 * @param string $repositoryCloneUrl
+		 */
+		public function setRepositoryCloneUrl($repositoryCloneUrl) {
+			$this->repositoryCloneUrl = trim($repositoryCloneUrl);
+		}
+
+		/**
+		 * Gets repositoryCloneUrl
+		 *
+		 * @return string
+		 */
+		public function getRepositoryCloneUrl() {
+			return $this->repositoryCloneUrl;
 		}
 
 		/**

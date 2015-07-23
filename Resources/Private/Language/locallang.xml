@@ -20,6 +20,10 @@
 			<label index="tx_terfe2_domain_model_extension.versions.multiple">%d versions</label>
 			<label index="tx_terfe2_domain_model_extension.downloads">Downloads of all versions</label>
 			<label index="tx_terfe2_domain_model_extension.repository_url">Link to repository</label>
+			<label index="tx_terfe2_domain_model_extension.repository_clone_url">Publicly accessible clone url</label>
+			<label index="tx_terfe2_domain_model_extension.repository_clone_url.description"><![CDATA[
+				The publicly accessible clone url will be used to fetch your repository for http://composer.typo3.org from the given url instead of the uploaded TER codebase. Therefore double check that the url is available for everyone. Otherwise your extension might disappear from http://composer.typo3.org.
+			]]></label>
 			<label index="tx_terfe2_domain_model_extension.external_manual">External manual</label>
 			<label index="tx_terfe2_domain_model_extension.donate_url">Sponsoring link</label>
 

@@ -6,10 +6,10 @@
 	$GLOBALS['TCA']['tx_terfe2_domain_model_extension'] = array(
 		'ctrl'      => $GLOBALS['TCA']['tx_terfe2_domain_model_extension']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'ext_key,forge_link,hudson_link,last_update,last_maintained,categories,tags,versions,last_version,frontend_user,downloads,repository_url,paypal_url,external_manual',
+			'showRecordFieldList' => 'ext_key,forge_link,hudson_link,last_update,last_maintained,categories,tags,versions,last_version,frontend_user,downloads,repository_url,repository_clone_url,paypal_url,external_manual',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'ext_key,forge_link,hudson_link,last_update,last_maintained,categories,tags,versions,last_version,frontend_user,downloads,repository_url,paypal_url,external_manual'),
+			'1' => array('showitem' => 'ext_key,forge_link,hudson_link,last_update,last_maintained,categories,tags,versions,last_version,frontend_user,downloads,repository_url,repository_clone_url,paypal_url,external_manual'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -211,6 +211,16 @@
 			'repository_url' => array(
 				'exclude' => 1,
 				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.repository_url',
+				'config'  => array(
+					'type' => 'text',
+					'rows' => 10,
+					'cols' => 40,
+					'eval' => 'trim',
+				),
+			),
+			'repository_clone_url' => array(
+				'exclude' => 1,
+				'label'   => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.repository_clone_url',
 				'config'  => array(
 					'type' => 'text',
 					'rows' => 10,
