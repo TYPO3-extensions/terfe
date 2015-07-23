@@ -123,5 +123,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_
 );
 
 
+$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['ter_fe2:extension'] = 'EXT:ter_fe2/Classes/Controller/Eid/ExtensionController.php';
 
 ?>
