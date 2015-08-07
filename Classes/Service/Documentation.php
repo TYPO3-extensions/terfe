@@ -50,7 +50,7 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
 	 * Initialize the service
 	 */
 	public function __construct() {
-		$this->baseUrl = 'http://docs.typo3.org/typo3cms/extensions/';
+		$this->baseUrl = 'https://docs.typo3.org/typo3cms/extensions/';
 		$this->availableFormats = array(
 			'sxw',
 			'html',
