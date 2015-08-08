@@ -448,35 +448,26 @@
 
 			if ($format === 'zip') {
 				// If ZIP does not exist, create it
-				if (!Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
+				if ($fileUrl === '') {
+					$t3xFileUrl = $provider->getFileUrl($version, 't3x');
+					$zipFileUrl = str_replace('.t3x', '.zip', $t3xFileUrl);
 					Tx_TerFe2_Utility_Archive::convertT3xToZip(
-						Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($provider->getFileUrl($version, 't3x')),
-						$fileUrl
+						Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($t3xFileUrl),
+						Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($zipFileUrl)
 					);
 
 					// update ZIP filesize
-					$version->setZipFileSize(filesize($fileUrl));
+					$version->setZipFileSize(filesize(Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($zipFileUrl)));
 					$this->versionRepository->update($version);
 					$this->persistenceManager->persistAll();
-				}
 
-
-				if (empty($this->settings['mediaRootPath'])) {
-					throw new Exception('No directory for extension media files configured');
+					$fileUrl = $zipFileUrl;
 				}
-				$extKey = $extension->getExtKey();
-				$extensionMediaPath = rtrim($this->settings['mediaRootPath'], '/') . '/';
-				$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($extensionMediaPath . $extKey);
-				$fileUrl = $extensionMediaPath . basename($provider->getFileName($version, $format));
 			}
 
 			// Check if file exists
 			if (empty($fileUrl) || !Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
-				if (Tx_TerFe2_Utility_File::isAbsolutePath($fileUrl)) {
-					$fileUrl = Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($fileUrl);
-				}
 				$this->redirectWithMessage($this->translate('msg.file_not_found') . ': ' . basename($fileUrl), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
-				// $this->redirectWithMessage($this->translate('msg.file_not_found'), 'index');
 			}
 
 				// Check file hash of t3x packages
