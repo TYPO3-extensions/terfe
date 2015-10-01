@@ -1,6 +1,6 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
-<f:layout name="Default"/>
+<f:layout name="Default" />
 
 <f:section name="main">
 	<f:if condition="{extension}">
@@ -14,6 +14,18 @@
 					</h1>
 				</div>
 
+				<f:if condition="{extension.lastVersion.reviewState} == -2">
+					<div class="tx-extbase-flash-message">
+						<div class="typo3-message message-notice">
+							<p>
+								<strong>Outdated extension</strong><br />
+								This extension supports none of the currently supported TYPO3 core versions or was uploaded before the release of the oldest TYPO3 core version.<br />
+								It may no longer be maintained or supported by the extension owner.<br />
+								Please be careful using this extension for your up-to-date TYPO3 instance.
+							</p>
+						</div>
+					</div>
+				</f:if>
 
 				<div class="extension-header-image">
 					<div class="extension-description">
