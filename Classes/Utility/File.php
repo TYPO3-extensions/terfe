@@ -469,11 +469,23 @@
 		 * @return string Url to file
 		 */
 		public static function getUrlFromAbsolutePath($path) {
-			if(isset($GLOBALS['TSFE']->baseUrl) && $GLOBALS['TSFE']->baseUrl != "") {
-				return $GLOBALS['TSFE']->baseUrl . str_replace(PATH_site, '', $path);
+			if (isset($GLOBALS['TSFE']->baseUrl) && $GLOBALS['TSFE']->baseUrl != "") {
+				return PATH_site . str_ireplace($GLOBALS['TSFE']->baseUrl, '', $url);
 			}
 			$hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
+
 			return $hostUrl . str_replace(PATH_site, '', $path);
+		}
+
+		/**
+		 * Returns relative url from an absolute path on local file system
+		 *
+		 * @param string $path Absolute path to file
+		 * @return string Relative url to file
+		 */
+		public static function getRelativeUrlFromAbsolutePath($path) {
+
+			return str_replace(PATH_site, '/', $path);
 		}
 
 
