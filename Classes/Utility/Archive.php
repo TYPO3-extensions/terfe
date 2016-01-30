@@ -355,7 +355,7 @@
 		 * @param $extEmConfCode
 		 * @return null
 		 */
-		protected static function extractEmConf($extEmConfCode) {
+		public static function extractEmConf($extEmConfCode) {
 			$EM_CONF = NULL;
 
 			include_once(t3lib_extMgm::extPath('ter_fe2') . 'Resources/Private/Php/PHP-Parser/lib/bootstrap.php');
