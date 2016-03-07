@@ -25,7 +25,11 @@
 				<f:form.upload name="form[file]" />
 			</div>
 			<div class="register-input b-form-inputs">
-				<input type="checkbox" name="gplCompliant" value="{f:translate(key:'uploadExtensionVersion.gplHint')}" />
+				<label>
+					<f:form.checkbox name="form[gplCompliant]" value="1" />
+					<f:translate key="uploadExtensionVersion.gplHint" />
+				</label>
+
 			</div>
 		</div>
 
