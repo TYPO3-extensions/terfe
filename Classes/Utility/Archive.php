@@ -302,13 +302,6 @@
 					}
 				}
 			}
-			if (count($dependenciesArr) == 1) {
-				$dependenciesArr[] = array(
-					'kind' => 'depends',
-					'extensionKey' => '',
-					'versionRange' => '',
-				);
-			}
 			$clearCacheOnLoad = (isset($extEmconf['clearCacheOnLoad']) ? $extEmconf['clearCacheOnLoad'] : $extEmconf['clearcacheonload']);
 			// Build extension information
 			return (object) array(
