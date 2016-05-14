@@ -32,6 +32,22 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
 	 */
 	protected $subject = NULL;
 
+	/**
+	 * @var array
+	 */
+	protected $supportedCoreVersions = array(
+		'latest' => '8.1.0',
+		'oldest' => '4.5.0beta1',
+		'all' => array(
+			'4.5',
+			'4.7',
+			'6.0',
+			'6.1',
+			'6.2',
+			'7',
+			'8'
+		)
+	);
 
 	/**
 	 * @return void
@@ -57,12 +73,11 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
 	/**
 	 * @test
 	 * @param Tx_TerFe2_Domain_Model_Relation $dependency
-	 * @param array $supportedCoreVersions
 	 * @dataProvider isVersionDependingOnAnActiveSupportedTypo3VersionReturnsTrueForSupportedVersionsDataProvider
 	 * @return void
 	 */
-	public function isVersionDependingOnAnActiveSupportedTypo3VersionReturnsTrueForSupportedVersions($dependency, $supportedCoreVersions) {
-		$this->subject->_set('supportedCoreVersions', $supportedCoreVersions);
+	public function isVersionDependingOnAnActiveSupportedTypo3VersionReturnsTrueForSupportedVersions($dependency) {
+		$this->subject->_set('supportedCoreVersions', $this->supportedCoreVersions);
 		$this->assertTrue(
 			$this->subject->isVersionDependingOnAnActiveSupportedTypo3Version($dependency)
 		);
@@ -75,46 +90,39 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
 	 */
 	public function isVersionDependingOnAnActiveSupportedTypo3VersionReturnsTrueForSupportedVersionsDataProvider() {
 
-		$supportedCoreVersions = array(
-			'latest' => '6.2.1',
-			'oldest' => '4.5.0beta1',
-			'all' => array(
-				'4.5',
-				'4.7',
-				'6.0',
-				'6.1',
-				'6.2'
-			)
-		);
-
 		return array(
 			'Extension version 4.5 only is valid' => array(
-				$this->buildRelation('4.5.0', '4.5.99'),
-				$supportedCoreVersions
+				$this->buildRelation('4.5.0', '4.5.99')
 			),
 			'Extension version 4.3 - 4.6 is valid because of supported 4.5' => array(
-				$this->buildRelation('4.3.0', '4.6.99'),
-				$supportedCoreVersions
+				$this->buildRelation('4.3.0', '4.6.99')
 			),
 			'Extension version 4.7 only is valid' => array(
-				$this->buildRelation('4.7.0', '4.7.99'),
-				$supportedCoreVersions
+				$this->buildRelation('4.7.0', '4.7.99')
 			),
 			'Extension version 6.0 only is valid' => array(
-				$this->buildRelation('6.0.0', '6.0.99'),
-				$supportedCoreVersions
+				$this->buildRelation('6.0.0', '6.0.99')
 			),
 			'Extension version 6.1 only is valid' => array(
-				$this->buildRelation('6.1.0', '6.1.99'),
-				$supportedCoreVersions
+				$this->buildRelation('6.1.0', '6.1.99')
 			),
 			'Extension version 6.2 only is valid' => array(
-				$this->buildRelation('6.2.0', '6.2.99'),
-				$supportedCoreVersions
+				$this->buildRelation('6.2.0', '6.2.99')
 			),
 			'Extension version greater than 6.2.0 is valid' => array(
-				$this->buildRelation('6.2.2', '6.2.99'),
-				$supportedCoreVersions
+				$this->buildRelation('6.2.2', '6.2.99')
+			),
+			'Extension version up to 7 is valid' => array(
+				$this->buildRelation('6.2.2', '7.6.99')
+			),
+			'Extension version up to 8 is valid' => array(
+				$this->buildRelation('6.2.2', '8.99.99')
+			),
+			'Extension version 7 only is valid' => array(
+				$this->buildRelation('7.6.0', '7.6.99')
+			),
+			'Extension version greater than 7 only is valid' => array(
+				$this->buildRelation('7.6.2', '7.6.99')
 			),
 		);
 	}
@@ -122,12 +130,11 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
 	/**
 	 * @test
 	 * @param Tx_TerFe2_Domain_Model_Relation $dependency
-	 * @param array $supportedCoreVersions
 	 * @dataProvider isVersionDependingOnAnActiveSupportedTypo3VersionReturnsFalseForUnsupportedVersionsDataProvider
 	 * @return void
 	 */
-	public function isVersionDependingOnAnActiveSupportedTypo3VersionReturnsFalseForUnsupportedVersions($dependency, $supportedCoreVersions) {
-		$this->subject->_set('supportedCoreVersions', $supportedCoreVersions);
+	public function isVersionDependingOnAnActiveSupportedTypo3VersionReturnsFalseForUnsupportedVersions($dependency) {
+		$this->subject->_set('supportedCoreVersions', $this->supportedCoreVersions);
 		$this->assertFalse(
 			$this->subject->isVersionDependingOnAnActiveSupportedTypo3Version($dependency)
 		);
@@ -140,26 +147,12 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
 	 */
 	public function isVersionDependingOnAnActiveSupportedTypo3VersionReturnsFalseForUnsupportedVersionsDataProvider() {
 
-		$supportedCoreVersions = array(
-			'latest' => '6.2.1',
-			'oldest' => '4.5.0beta1',
-			'all' => array(
-				'4.5',
-				'4.7',
-				'6.0',
-				'6.1',
-				'6.2'
-			)
-		);
-
 		return array(
 			'Extension version 4.3 only is invalid' => array(
-				$this->buildRelation('4.3.0', '4.3.99'),
-				$supportedCoreVersions
+				$this->buildRelation('4.3.0', '4.3.99')
 			),
 			'Extension version 4.6 only is invalid' => array(
-				$this->buildRelation('4.6.0', '4.6.99'),
-				$supportedCoreVersions
+				$this->buildRelation('4.6.0', '4.6.99')
 			),
 		);
 	}
