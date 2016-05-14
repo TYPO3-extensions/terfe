@@ -39,13 +39,14 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
 		'latest' => '8.1.0',
 		'oldest' => '4.5.0beta1',
 		'all' => array(
-			'4.5',
-			'4.7',
-			'6.0',
-			'6.1',
+			8,
+			7,
 			'6.2',
-			'7',
-			'8'
+			'6.1',
+			'6.0',
+			'4.7',
+			'4.5',
+
 		)
 	);
 
@@ -122,7 +123,7 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
 				$this->buildRelation('7.6.0', '7.6.99')
 			),
 			'Extension version greater than 7 only is valid' => array(
-				$this->buildRelation('7.6.2', '7.6.99')
+				$this->buildRelation('7.4.0', '7.5.99')
 			),
 		);
 	}
