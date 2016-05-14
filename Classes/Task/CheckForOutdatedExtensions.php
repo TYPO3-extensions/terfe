@@ -122,7 +122,10 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'uid',
 			'tx_terfe2_domain_model_version',
-			'NOT deleted AND NOT hidden AND review_state >= 0'
+			'NOT deleted AND NOT hidden AND review_state >= 0',
+			'',
+			'crdate DESC',
+			'3000'
 		);
 
 		return $rows;
@@ -161,7 +164,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 
 		foreach ($this->coreVersions as $version => $coreInfo) {
 			// Only use keys that represent a branch number
-			if (preg_match('/^\d+\.\d+$/', $version)) {
+			if (preg_match('/^\d+\.\d+$/', $version) || preg_match('/^\d+$/', $version)) {
 				if ($coreInfo['active'] == TRUE) {
 
 					$allSupportedCoreVersions[] = $version;
@@ -212,6 +215,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 			$extensionMaximumVersion = $dependency->getMaximumVersion();
 
 			foreach ($this->supportedCoreVersions['all'] as $version) {
+				$version = (string)$version;
 				// gets core version x.x.0
 				$supportedMinimumVersion = t3lib_utility_VersionNumber::convertVersionNumberToInteger($version . '.0');
 				$extensionMinimumVersionAsString = Tx_TerFe2_Utility_Version::versionFromInteger($extensionMinimumVersion);
