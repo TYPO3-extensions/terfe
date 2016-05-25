@@ -18,7 +18,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Review'      => 'update',
 	),
 	array(
-		'Extension'   => 'search, create, update, edit, delete, download, uploadVersion, createVersion, removeTag',
+		'Extension'   => 'search, create, update, edit, delete, download, list, listLatest, uploadVersion, createVersion, removeTag',
 		'Category'    => 'create, update, delete',
 		'Tag'         => 'create, delete',
 		'Author'      => 'update',
