@@ -36,7 +36,9 @@
 
 		/**
 		 * Link to forge project
+		 *
 		 * @var string
+		 * @validate Tx_Terfe2_Validation_Validator_UrlValidator
 		 */
 		protected $forgeLink;
 
@@ -109,25 +111,33 @@
 
 		/**
 		 * Link to an external repository
+		 *
 		 * @var string
+		 * @validate Tx_Terfe2_Validation_Validator_UrlValidator
 		 */
 		protected $repositoryUrl;
 
 		/**
 		 * External repository clone url
+		 *
 		 * @var string
+		 * @validate Tx_Terfe2_Validation_Validator_UrlValidator
 		 */
 		protected $repositoryCloneUrl;
 
 		/**
 		 * Link to an external manual
+		 *
 		 * @var string
+		 * @validate Tx_Terfe2_Validation_Validator_UrlValidator
 		 */
 		protected $externalManual;
 
 		/**
 		 * Link to paypal donation
+		 *
 		 * @var string
+		 * @validate Tx_Terfe2_Validation_Validator_UrlValidator
 		 */
 		protected $paypalUrl;
 

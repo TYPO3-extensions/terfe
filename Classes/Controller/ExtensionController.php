@@ -325,7 +325,6 @@
 		 * @param Tx_TerFe2_Domain_Model_Extension $extension extension to update
 		 * @param string $tag
 		 * @param string $save
-		 * @dontvalidate $extension
 		 * @return void
 		 */
 		public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $tag = '', $save = '') {

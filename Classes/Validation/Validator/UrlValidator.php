@@ -44,11 +44,19 @@
 		 */
 		public function isValid($value) {
 			$this->errors = array();
-			if ($value !== filter_var($value, FILTER_SANITIZE_URL) || $value === '') {
+			if ($value !== '' && ($value !== filter_var($value, FILTER_SANITIZE_URL) || !$this->hasValidScheme($value))) {
 				$this->addError('The given subject was not a valid url.', 1364118054);
 				return FALSE;
 			}
 			return TRUE;
+		}
+
+		/**
+		 * @param string $url
+		 * @return boolean
+		 */
+		private function hasValidScheme($url) {
+			return in_array(parse_url($url, PHP_URL_SCHEME), array('http', 'https'), TRUE);
 		}
 	}
 
