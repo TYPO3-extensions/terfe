@@ -35,7 +35,7 @@
 	class Tx_Terfe2_Validation_Validator_UrlValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
 
 		/**
-		 * Returns TRUE, if the given property ($propertyValue) is a valid url.
+		 * Returns TRUE, if the given property ($propertyValue) is a valid url and has a HTTP(S) scheme.
 		 *
 		 * If at least one error occurred, the result is FALSE.
 		 *
@@ -44,6 +44,7 @@
 		 */
 		public function isValid($value) {
 			$this->errors = array();
+			$value = (string)$value;
 			if ($value !== '' && ($value !== filter_var($value, FILTER_SANITIZE_URL) || !$this->hasValidScheme($value))) {
 				$this->addError('The given subject was not a valid url.', 1364118054);
 				return FALSE;
