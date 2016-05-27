@@ -121,7 +121,6 @@
 		 * External repository clone url
 		 *
 		 * @var string
-		 * @validate Tx_Terfe2_Validation_Validator_UrlValidator
 		 */
 		protected $repositoryCloneUrl;
 
