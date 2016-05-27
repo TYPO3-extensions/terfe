@@ -43,12 +43,6 @@
 		protected $forgeLink;
 
 		/**
-		 * Link to hudson
-		 * @var string
-		 */
-		protected $hudsonLink;
-
-		/**
 		 * Last update
 		 * @var DateTime
 		 */
@@ -190,27 +184,6 @@
 		 */
 		public function getForgeLink() {
 			return $this->forgeLink;
-		}
-
-
-		/**
-		 * Setter for hudsonLink
-		 *
-		 * @param string $hudsonLink hudsonLink
-		 * @return void
-		 */
-		public function setHudsonLink($hudsonLink) {
-			$this->hudsonLink = $hudsonLink;
-		}
-
-
-		/**
-		 * Getter for hudsonLink
-		 *
-		 * @return string hudsonLink
-		 */
-		public function getHudsonLink() {
-			return $this->hudsonLink;
 		}
 
 		/**

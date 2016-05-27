@@ -9,7 +9,6 @@
 		<languageKey index="default" type="array">
 			<label index="ext_key.description">Extension key</label>
 			<label index="forge_link.description">Link to forge</label>
-			<label index="hudson_link.description">Link to hudson</label>
 			<label index="last_upload.description">Date of last upload</label>
 			<label index="last_maintained.description">Date of last maintainence</label>
 			<label index="categories.description">All categories</label>

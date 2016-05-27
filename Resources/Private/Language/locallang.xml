@@ -9,7 +9,6 @@
 			<label index="tx_terfe2_domain_model_extension">Extension container</label>
 			<label index="tx_terfe2_domain_model_extension.ext_key">Extension key</label>
 			<label index="tx_terfe2_domain_model_extension.forge_link">Link to forge</label>
-			<label index="tx_terfe2_domain_model_extension.hudson_link">Link to hudson</label>
 			<label index="tx_terfe2_domain_model_extension.last_update">Last update</label>
 			<label index="tx_terfe2_domain_model_extension.last_maintained">Last maintained</label>
 			<label index="tx_terfe2_domain_model_extension.categories">Categories</label>
