@@ -76,7 +76,9 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 		// get extensions by user if a user is logged in
 		if (!empty($this->frontendUser)) {
 			$extensions = $this->extensionRepository->findByFrontendUser($this->frontendUser['username']);
+			$expiringExtensions = $this->extensionRepository->findByFrontendUserAndExpiring($this->frontendUser['username']);
 			$this->view->assign('extensions', $extensions);
+			$this->view->assign('expiringExtensions', $expiringExtensions);
 			$this->view->assign('uploaded', $uploaded);
 		}
 	}
@@ -447,6 +449,21 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', t3lib_FlashMessage::ERROR);
 		}
 
+		$this->redirect('index', 'Registerkey');
+	}
+
+	/**
+	 * Sets the expire back to zero and touches the extension
+	 * The process for getting expiring extensions will be back in 1 year
+	 *
+	 * @param \Tx_TerFe2_Domain_Model_Extension $extension
+	 * @dontvalidate $extension
+	 * @return void
+	 * @throws \Tx_Extbase_MVC_Exception_UnsupportedRequestType
+	 */
+	public function keepAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+		$extension->setExpire(0);
+		$this->extensionRepository->update($extension);
 		$this->redirect('index', 'Registerkey');
 	}
 

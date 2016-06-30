@@ -22,6 +22,7 @@
 			<label index="tx_terfe2_domain_model_extension.repository_clone_url">Publicly accessible clone url</label>
 			<label index="tx_terfe2_domain_model_extension.external_manual">External manual</label>
 			<label index="tx_terfe2_domain_model_extension.donate_url">Sponsoring link</label>
+			<label index="tx_terfe2_domain_model_extension.expire">Extension key expires at</label>
 
 			<label index="tx_terfe2_domain_model_category">Category</label>
 			<label index="tx_terfe2_domain_model_category.title">Title</label>
@@ -146,6 +147,8 @@
 			<label index="tx_terfe2_task_importallextensionstask.description">Import all extensions from TER tables (use it only for maintenance purposes)</label>
 			<label index="tx_terfe2_task_checkforoutdatedextensions.name">[TER FE2] Check for outdated extensions</label>
 			<label index="tx_terfe2_task_checkforoutdatedextensions.description">Check for outdated extensions, if extension is outdated the outdated flag is set.</label>
+			<label index="tx_terfe2_task_checkforexpiredextensions.name">[TER FE2] Check for expired extensions</label>
+			<label index="tx_terfe2_task_checkforexpiredextensions.description">Check for expired extensions, if extension is expired a mail to the owner is sent.</label>
 
 
 

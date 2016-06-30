@@ -1,0 +1,23 @@
+Dear extension owner,
+
+You have {extensions -> f:count()} extension key[s] in your repository which have never had an upload or weren't touched for one year.
+Due to cleanup process we want to inform you that these extension keys will expire in 30 days unless you take action (see below):
+
+<f:for each="{extensions}" as="extension"># {extension.ext_key}
+</f:for>
+
+Log into typo3.org and visit the page https://typo3.org/extensions/extension-keys/ to get a list of these keys and available actions:
+
+* Releasing the extension key to the public, so another developer can use this key
+* Keep the extension key (the process of expiration will be started again in one year)
+* Upload a version of this extension to the TER
+
+Warning: If no action is taken the extension keys listed above will be released to the community (deleted from the list of registered keys). Extension keys with publicly released extension versions in the TER won't be affected.
+
+Best regards,
+
+Your typo3.org maintenance and Extension Coordination team
+
+-- 
+This is an automatic message from the typo3.org system
+Contact us: https://typo3.org/teams-committees/typo3org/ or just reply to this email

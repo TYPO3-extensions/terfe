@@ -107,7 +107,7 @@
 			$this->match($query, $query->logicalNot($query->equals('lastVersion.title', '')));
 			return $query->execute();
 		}
-	
+
 		/**
 		 * Returns all objects of this repository
 		 *
@@ -202,7 +202,7 @@
 		}
 
 		/**
-		 * 
+		 *
 		 * @param string $frontendUser
 		 * @return Tx_Extbase_Persistence_ObjectStorage Objects
 		 */
@@ -211,8 +211,34 @@
 			$query->setOrderings(
 				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
 			);
-			
+
 			$this->match($query, $query->like('frontendUser', $frontendUser));
+			return $query->execute();
+		}
+
+		/**
+		 *
+		 * @param string $frontendUser
+		 * @return Tx_Extbase_Persistence_QueryResult|NULL
+		 */
+		public function findByFrontendUserAndExpiring($frontendUser) {
+			$query = $this->createQuery();
+			$query->setOrderings(
+				array('expire' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+			);
+
+			$olderThanOneYear = strtotime('-1 year');
+			$query->matching(
+				$query->logicalAnd(
+					array(
+						$query->equals('frontendUser', $frontendUser),
+						$query->equals('versions', 0),
+						$query->greaterThan('expire', 0),
+						$query->lessThanOrEqual('tstamp', $olderThanOneYear)
+					)
+				)
+			);
+
 			return $query->execute();
 		}
 

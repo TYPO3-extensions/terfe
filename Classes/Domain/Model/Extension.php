@@ -134,6 +134,11 @@
 		 */
 		protected $paypalUrl;
 
+		/**
+		 * @var \DateTime
+		 */
+		protected $expire;
+
 
 		/**
 		 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
@@ -641,6 +646,19 @@
 			return $this->flattrData;
 		}
 
+		/**
+		 * @return \DateTime
+		 */
+		public function getExpire() {
+			return $this->expire;
+		}
+
+		/**
+		 * @param \DateTime $expire
+		 */
+		public function setExpire($expire) {
+			$this->expire = $expire;
+		}
 
 		/**
 		 * Recalculate sum of all downloads

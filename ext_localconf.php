@@ -14,7 +14,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Author'      => 'list, edit, update, show',
 		'Media'       => 'list, new, create, edit, update, delete, show',
 #		'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
-		'Registerkey' => 'index, admin, deleteExtensionVersion, create, manage, transfer, delete, salvage',
+		'Registerkey' => 'index, admin, deleteExtensionVersion, create, manage, transfer, delete, salvage, keep',
 		'Review'      => 'update',
 	),
 	array(
@@ -24,7 +24,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Author'      => 'update',
 		'Media'       => 'create, delete',
 #		'Registerkey' => 'index, create, manage, update, edit, transfer, delete',
-		'Registerkey' => 'index, admin, deleteExtensionVersion, create, manage, transfer, delete, salvage',
+		'Registerkey' => 'index, admin, deleteExtensionVersion, create, manage, transfer, delete, salvage, keep',
 		'Review'      => 'update',
 	)
 );
@@ -120,6 +120,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_
 	'extension'        => $_EXTKEY,
 	'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_checkforoutdatedextensions.name',
 	'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_checkforoutdatedextensions.description',
+);
+
+	// Register check for expired extensions tassk
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_TerFe2_Task_CheckForExpiredExtensions'] = array(
+	'extension'        => $_EXTKEY,
+	'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_checkforexpiredextensions.name',
+	'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xml:tx_terfe2_task_checkforexpiredextensions.description',
 );
 
 

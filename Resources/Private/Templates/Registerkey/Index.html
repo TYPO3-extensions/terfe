@@ -15,6 +15,13 @@
 
 	<div class="b-tabs">
 		<ul class="tabs lite-tabs">
+			<f:if condition="{expiringExtensions}">
+				<li>
+					<a href="#tx_terfe2_tab_manageexpiringkeys">
+						<f:translate key="manage-expiring-extension-keys" />
+					</a>
+				</li>
+			</f:if>
 			<li>
 				<a href="#tx_terfe2_tab_managekeys">
 					<f:translate key="manage-extension-keys" />
@@ -42,6 +49,80 @@
 		</ul>
 
 		<div class="tab-panes">
+
+			<!-- open expiring tab -->
+			<f:if condition="{expiringExtensions}">
+				<div class="tab-content lite-tab-panes-black">
+					<f:if condition="{loggedIn}">
+						<f:then>
+							<div class="tx_terfe2_messages">
+								<div class="typo3-messages">
+									<div class="typo3-message message-notice">
+										<div class="message-body">
+											<f:translate key="LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:msg.expiringExtensions" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<p>
+								<strong>In this list there are only extension keys which have not been used for an extension yet!</strong><br />
+								The following actions are available for your expiring extension keys:
+							</p>
+							<ul>
+								<li><strong>Release to community</strong>: Extension key will be deleted and set free for re-registration.</li>
+								<li><strong>Keep</strong>: You'll keep the extension key for one more year. If there is no upload within this time then the expiry process will repeat.</li>
+								<li><strong>Upload</strong>: You may upload a new version for this extension.</li>
+							</ul>
+							<table class="manage-keys">
+								<thead>
+								<tr>
+									<th>
+										<f:translate key="extensionKey" />
+									</th>
+								</tr>
+								</thead>
+								<tbody>
+								<f:for each="{expiringExtensions}" as="extension">
+
+									<!-- cycle values for rows -->
+									<f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
+
+										<tr class="{columCycle}">
+											<td>
+												<div class="terfe-buttons">
+													<f:link.action class="bu bu-mini dark-grey"
+																   onclick="if (confirm('Really release?')) return true; else return false;"
+																   action="delete" controller="Registerkey"
+																   arguments="{extension: extension}">
+														<f:translate key="release-button" />
+													</f:link.action>
+													<f:link.action class="bu bu-mini" action="keep" controller="Registerkey"
+																   arguments="{extension: extension}">
+														<f:translate key="keepExtension-button" />
+													</f:link.action>
+													<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion"
+																   controller="Extension" arguments="{extension: extension}"
+																   pageUid="{settings.pages.uploadVersionPID}">
+														<f:translate key="uploadVersion-button" />
+													</f:link.action>
+												</div>
+												{extension.extKey}
+												<br />
+												<span class="b-comment-date">Expires: {extension.expire -> f:format.date(format:'d.m.Y H:i (T)')}</span>
+											</td>
+										</tr>
+
+									</f:cycle>
+								</f:for>
+								</tbody>
+							</table>
+						</f:then>
+						<f:else>
+							<f:translate key="registerkey.notloggedin" />
+						</f:else>
+					</f:if>
+				</div>
+			</f:if>
 
 			<!-- open manage tab -->
 			<div class="tab-content lite-tab-panes-black">

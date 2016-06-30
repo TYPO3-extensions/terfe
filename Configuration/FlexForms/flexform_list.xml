@@ -24,7 +24,7 @@
 									</numIndex>
 									<numIndex index="1" type="array">
 										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.switchableControllerActions.1</numIndex>
-										<numIndex index="1">Registerkey->index;Registerkey->admin;Registerkey->create;Registerkey->edit;Registerkey->manage;Registerkey->update;Registerkey->delete;Registerkey->deleteExtensionVersion;Registerkey->transfer;Registerkey->salvage;Extension->uploadVersion;Extension->createVersion;Extension->edit;Extension->update;Extension->removeTag</numIndex>
+										<numIndex index="1">Registerkey->index;Registerkey->admin;Registerkey->create;Registerkey->edit;Registerkey->manage;Registerkey->update;Registerkey->delete;Registerkey->deleteExtensionVersion;Registerkey->transfer;Registerkey->salvage;Extension->uploadVersion;Extension->createVersion;Extension->edit;Extension->update;Extension->removeTag;Registerkey->keep</numIndex>
 									</numIndex>
 									<numIndex index="2" type="array">
 										<numIndex index="0">LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tt_content.flexform_pi1.s_def.switchableControllerActions.2</numIndex>

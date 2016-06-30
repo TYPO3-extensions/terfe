@@ -6,10 +6,10 @@
 	$GLOBALS['TCA']['tx_terfe2_domain_model_extension'] = array(
 		'ctrl'      => $GLOBALS['TCA']['tx_terfe2_domain_model_extension']['ctrl'],
 		'interface' => array(
-			'showRecordFieldList' => 'ext_key,forge_link,last_update,last_maintained,categories,tags,versions,last_version,frontend_user,downloads,repository_url,repository_clone_url,paypal_url,external_manual',
+			'showRecordFieldList' => 'ext_key,forge_link,last_update,last_maintained,categories,tags,versions,last_version,frontend_user,downloads,repository_url,repository_clone_url,paypal_url,external_manual,expire',
 		),
 		'types' => array(
-			'1' => array('showitem' => 'ext_key,forge_link,last_update,last_maintained,categories,tags,versions,last_version,frontend_user,downloads,repository_url,repository_clone_url,paypal_url,external_manual'),
+			'1' => array('showitem' => 'ext_key,forge_link,last_update,last_maintained,categories,tags,versions,last_version,frontend_user,downloads,repository_url,repository_clone_url,paypal_url,external_manual,expire'),
 		),
 		'palettes' => array(
 			'1' => array('showitem' => ''),
@@ -237,6 +237,14 @@
 					'rows' => 10,
 					'cols' => 40,
 					'eval' => 'trim',
+				),
+			),
+			'expire' => array(
+				'exclude' => 1,
+				'label' => 'LLL:EXT:ter_fe2/Resources/Private/Language/locallang_db.xml:tx_terfe2_domain_model_extension.expire',
+				'config' => array(
+					'type' => 'none',
+					'format' => 'datetime'
 				),
 			),
 		),

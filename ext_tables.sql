@@ -21,6 +21,7 @@ CREATE TABLE tx_terfe2_domain_model_extension (
 	repository_clone_url varchar(255) DEFAULT '' NOT NULL,
 	external_manual varchar(255) DEFAULT '' NOT NULL,
 	paypal_url varchar(255) DEFAULT '' NOT NULL,
+	expire int(11) unsigned default '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

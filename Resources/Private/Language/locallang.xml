@@ -114,6 +114,7 @@
 			<label index="msg.createVersionUploadNotAllowed">You are not allowed to upload this extension.</label>
 			<label index="msg.createVersionUploadSuccess"><![CDATA[Thank you for the upload of your new extension version. It may take up to 15 minutes until it appears in TER.]]></label>
 			<label index="msg.createVersionUploadFailed">Extension upload failed.</label>
+			<label index="msg.expiringExtensions">These extension keys will expire within 30 days. If no action is taken on your part the extension key will be released for reuse.</label>
 			<label index="msg.acceptGPL">Please confirm, that your extension is GPL v2 or any later version compliant!</label>
 
 			<label index="header.latest_extensions">Latest Extensions</label>
@@ -305,10 +306,13 @@
 			<label index="modifiy-button">Modifiy</label>
 			<label index="delete-button">Delete</label>
 			<label index="edit-button">Edit</label>
+			<label index="release-button">Release to community</label>
 			<label index="uploadVersion-button">Upload</label>
 			<label index="editExtension-button">Edit</label>
+			<label index="keepExtension-button">Keep</label>
 			<label index="register-extension-key">Register extension key</label>
 			<label index="manage-extension-keys">Manage extension keys</label>
+			<label index="manage-expiring-extension-keys">Expiring extension keys</label>
 			<label index="modifiy-extension-key">Modifiy extension keys</label>
 			<label index="transfer-extension-key">Transfer extension key</label>
 
