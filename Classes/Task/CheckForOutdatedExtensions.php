@@ -85,7 +85,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 		$this->identityMap          = $this->objectManager->get('Tx_Extbase_Persistence_IdentityMap');
 		$this->session              = $this->objectManager->get('Tx_Extbase_Persistence_Session');
 		$this->versionRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
-		$this->coreVersions         = json_decode(t3lib_div::getUrl(PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentcoredata.json'), TRUE);
+		$this->coreVersions         = json_decode(t3lib_div::getURL(PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentcoredata.json'), TRUE);
 		$this->solrIndexQueue       = $this->objectManager->get('tx_solr_indexqueue_Queue');
 	}
 
