@@ -124,8 +124,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task {
 			'tx_terfe2_domain_model_version',
 			'NOT deleted AND NOT hidden AND review_state >= 0',
 			'',
-			'crdate DESC',
-			'3000'
+			'upload_date ASC'
 		);
 
 		return $rows;
