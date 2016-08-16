@@ -30,7 +30,8 @@ class Tx_TerFe2_Task_CheckForExpiredExtensions extends tx_scheduler_Task {
 	public function execute() {
 		$this->blacklistUsers = array(
 			'abandoned_extensions',
-			'typo3v4'
+			'typo3v4',
+			'docteam'
 		);
 		$expiringExtensions = $this->getDatabaseConnection()->exec_SELECTgetRows(
 			'uid, ext_key, frontend_user',
