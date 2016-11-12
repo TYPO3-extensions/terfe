@@ -1,23 +1,39 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<h2><f:translate key="edit_author"/></h2>
+    <h2>
+        <f:translate key="edit_author"/>
+    </h2>
 
-	<f:form method="post" action="update" name="author" object="{author}">
-		<label for="name"><f:translate key="tx_terfe2_domain_model_author.name" /></label><br />
-		<f:form.textfield property="name" /><br />
+    <f:form method="post" action="update" name="author" object="{author}">
+        <label for="name">
+            <f:translate key="tx_terfe2_domain_model_author.name"/>
+        </label><br/>
+        <f:form.textfield property="name"/>
+        <br/>
 
-		<label for="email"><f:translate key="tx_terfe2_domain_model_author.email" /></label><br />
-		<f:form.textfield property="email" /><br />
+        <label for="email">
+            <f:translate key="tx_terfe2_domain_model_author.email"/>
+        </label><br/>
+        <f:form.textfield property="email"/>
+        <br/>
 
-		<label for="company"><f:translate key="tx_terfe2_domain_model_author.company" /></label><br />
-		<f:form.textfield property="company" /><br />
+        <label for="company">
+            <f:translate key="tx_terfe2_domain_model_author.company"/>
+        </label><br/>
+        <f:form.textfield property="company"/>
+        <br/>
 
-		<label for="forge_link"><f:translate key="tx_terfe2_domain_model_author.forge_link" /></label><br />
-		<f:form.textfield property="forgeLink" /><br /><br />
+        <label for="forge_link">
+            <f:translate key="tx_terfe2_domain_model_author.forge_link"/>
+        </label><br/>
+        <f:form.textfield property="forgeLink"/>
+        <br/><br/>
 
-		<f:form.submit value="{f:translate(key:'edit')}" />
-	</f:form>
+        <f:form.submit value="{f:translate(key:'edit')}"/>
+    </f:form>
 
-	<f:link.action controller="Author" action="list"><f:translate key="back_to_list"/></f:link.action>
+    <f:link.action controller="Author" action="list">
+        <f:translate key="back_to_list"/>
+    </f:link.action>
 </f:section>

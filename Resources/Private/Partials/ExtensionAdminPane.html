@@ -1,65 +1,88 @@
 <f:security.ifHasRole role="{settings.terAdminGroupUid}">
-	<div class="tab-content lite-tab-panes-black">
-		<f:widget.paginate objects="{adminExtensions}" as="paginatedExtensions" configuration="{itemsPerPage: 25, insertAbove: 1, insertBelow: 1}">
-			<table class="key-admin">
-				<thead>
-					<tr>
-						<th colspan="2" class="colA4"><f:translate key="extensionKey" /></th>
-				<th>User</th>
-				<th class="transfer-colum" class="colC1"><f:translate key="transferToUser" /></th>
-				</tr>
-				</thead>
-				<tbody>
-				<f:for each="{paginatedExtensions}" as="extension">
-					<!-- cycle values for rows -->
-					<f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
-						<tr class="{columCycle}">
-							<td class="no-border-right">
-								{extension.extKey} <f:if condition="{extension.lastVersion}">({extension.lastVersion.title})</f:if><br />
-								<span class="b-comment-date"><f:if condition="{extension.versionCount} < 1"><f:then>
-											<f:translate key="tx_terfe2_domain_model_extension.versions.no" />
+    <div class="tab-content lite-tab-panes-black">
+        <f:widget.paginate objects="{adminExtensions}" as="paginatedExtensions"
+                           configuration="{itemsPerPage: 25, insertAbove: 1, insertBelow: 1}">
+            <table class="key-admin">
+                <thead>
+                <tr>
+                    <th colspan="2" class="colA4">
+                        <f:translate key="extensionKey"/>
+                    </th>
+                    <th>User</th>
+                    <th class="transfer-colum" class="colC1">
+                        <f:translate key="transferToUser"/>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <f:for each="{paginatedExtensions}" as="extension">
+                    <!-- cycle values for rows -->
+                    <f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
+                        <tr class="{columCycle}">
+                            <td class="no-border-right">
+                                {extension.extKey}
+                                <f:if condition="{extension.lastVersion}">({extension.lastVersion.title})</f:if>
+                                <br/>
+                                <span class="b-comment-date"><f:if condition="{extension.versionCount} < 1"><f:then>
+											<f:translate key="tx_terfe2_domain_model_extension.versions.no"/>
 										</f:then><f:else><f:if condition="{extension.versionCount} > 1"><f:then>
-													<f:translate key="tx_terfe2_domain_model_extension.versions.multiple" arguments="{0: extension.versionCount}" />
+													<f:translate
+                                                            key="tx_terfe2_domain_model_extension.versions.multiple"
+                                                            arguments="{0: extension.versionCount}"/>
 													({extension.lastVersion.versionString})
 												</f:then><f:else>
-													<f:translate key="tx_terfe2_domain_model_extension.versions.one" />
+													<f:translate key="tx_terfe2_domain_model_extension.versions.one"/>
 												</f:else></f:if></f:else></f:if>
 									<f:if condition="{extension.lastVersion}">
 									</f:if>
 								</span>
-							</td>
-							<td class="no-border-left a-r">
-						<f:if condition="{extension.versionCount} < 1">
-							<f:then>
-								<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
-							</f:then>
-							<f:else>&nbsp;</f:else>
-						</f:if>
-						</td>
-						<td>{extension.frontendUser}</td>
-						<td>
-							<div class="b-form-inputs">
-								<f:form action="transfer" controller="Registerkey" name="transferKey" class="admin-transfer-key" method="POST" onsubmit="if (confirm('Are you sure? You might not be able to get your transfered key back.')) return true; else return false;">
-									<f:form.hidden name="extension" value="{extension}" />
-									<f:form.textfield class="admin-manage-keys-input manage-keys-input" name="newUser" value="" />
-									<f:form.submit class="bu bu-mini admin-manage-keys-submit manage-keys-submit" value="Transfer" />
-								</f:form>
-							</div>
-						</td>
-						</tr>
-						<f:for each="{extension.reverseVersionsByVersionNumber}" as="version">
-							<tr class="{columCycle}">
-								<td><span class="b-comment-date">{version.versionString}</span></td>
-								<td>
-									<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="deleteExtensionVersion" controller="Registerkey" arguments="{version : version}"><f:translate key="delete-button" /></f:link.action>
-								</td>
-								<td colspan="2">&nbsp;</td>
-							</tr>
-						</f:for>
-					</f:cycle>
-				</f:for>
-				</tbody>
-			</table>
-		</f:widget.paginate>
-	</div>
+                            </td>
+                            <td class="no-border-left a-r">
+                                <f:if condition="{extension.versionCount} < 1">
+                                    <f:then>
+                                        <f:link.action class="bu bu-mini dark-grey"
+                                                       onclick="if (confirm('Really delete!!')) return true; else return false;"
+                                                       action="delete" controller="Registerkey"
+                                                       arguments="{extension: extension}">
+                                            <f:translate key="delete-button"/>
+                                        </f:link.action>
+                                    </f:then>
+                                    <f:else>&nbsp;</f:else>
+                                </f:if>
+                            </td>
+                            <td>{extension.frontendUser}</td>
+                            <td>
+                                <div class="b-form-inputs">
+                                    <f:form action="transfer" controller="Registerkey" name="transferKey"
+                                            class="admin-transfer-key" method="POST"
+                                            onsubmit="if (confirm('Are you sure? You might not be able to get your transfered key back.')) return true; else return false;">
+                                        <f:form.hidden name="extension" value="{extension}"/>
+                                        <f:form.textfield class="admin-manage-keys-input manage-keys-input"
+                                                          name="newUser" value=""/>
+                                        <f:form.submit class="bu bu-mini admin-manage-keys-submit manage-keys-submit"
+                                                       value="Transfer"/>
+                                    </f:form>
+                                </div>
+                            </td>
+                        </tr>
+                        <f:for each="{extension.reverseVersionsByVersionNumber}" as="version">
+                            <tr class="{columCycle}">
+                                <td><span class="b-comment-date">{version.versionString}</span></td>
+                                <td>
+                                    <f:link.action class="bu bu-mini dark-grey"
+                                                   onclick="if (confirm('Really delete!!')) return true; else return false;"
+                                                   action="deleteExtensionVersion" controller="Registerkey"
+                                                   arguments="{version : version}">
+                                        <f:translate key="delete-button"/>
+                                    </f:link.action>
+                                </td>
+                                <td colspan="2">&nbsp;</td>
+                            </tr>
+                        </f:for>
+                    </f:cycle>
+                </f:for>
+                </tbody>
+            </table>
+        </f:widget.paginate>
+    </div>
 </f:security.ifHasRole>

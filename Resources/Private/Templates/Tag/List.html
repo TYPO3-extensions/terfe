@@ -1,8 +1,10 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<f:render partial="TagList" arguments="{tags: tags}"/>
-	<br />
+    <f:render partial="TagList" arguments="{tags: tags}"/>
+    <br/>
 
-	<f:link.action controller="Tag" action="new"><f:translate key="create_tag"/></f:link.action>
+    <f:link.action controller="Tag" action="new">
+        <f:translate key="create_tag"/>
+    </f:link.action>
 </f:section>

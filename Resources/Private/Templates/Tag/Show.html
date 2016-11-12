@@ -1,32 +1,41 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<h2><f:translate key="single_tag"/></h2>
+    <h2>
+        <f:translate key="single_tag"/>
+    </h2>
 
-	<div class="ter-tag-info">
-		<table>
-			<tr>
-				<th><f:translate key="tx_terfe2_domain_model_tag.title" />:</td>
-				<td>{tag.title}</td>
-			</tr>
-		</table>
-	</div>
+    <div class="ter-tag-info">
+        <table>
+            <tr>
+                <th>
+                    <f:translate key="tx_terfe2_domain_model_tag.title"/>
+                    :
+                </td>
+                <td>{tag.title}</td>
+            </tr>
+        </table>
+    </div>
 
-	<f:if condition="{settings.show.tagExtensions}">
-		<h3><f:translate key="tag_extensions"/></h3>
+    <f:if condition="{settings.show.tagExtensions}">
+        <h3>
+            <f:translate key="tag_extensions"/>
+        </h3>
 
-		<div class="ter-tag-extensions">
-			<f:render partial="ExtensionList" arguments="{extensions : tagExtensions}" />
-		</div>
-	</f:if>
+        <div class="ter-tag-extensions">
+            <f:render partial="ExtensionList" arguments="{extensions : tagExtensions}"/>
+        </div>
+    </f:if>
 
-	<hr />
+    <hr/>
 
-	<div class="ter-tag-single-links cl">
-		<div class="ter-tag-single-back">
-			<f:link.action controller="Extension" action="index" class="bu dark-grey"><f:translate key="back_to_extension_list" /></f:link.action>
-		</div>
-	</div>
+    <div class="ter-tag-single-links cl">
+        <div class="ter-tag-single-back">
+            <f:link.action controller="Extension" action="index" class="bu dark-grey">
+                <f:translate key="back_to_extension_list"/>
+            </f:link.action>
+        </div>
+    </div>
 </f:section>

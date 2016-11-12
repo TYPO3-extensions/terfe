@@ -1,8 +1,10 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<f:render partial="MediaList" arguments="{media: media}"/>
-	<br />
+    <f:render partial="MediaList" arguments="{media: media}"/>
+    <br/>
 
-	<f:link.action controller="Media" action="new"><f:translate key="create_media"/></f:link.action>
+    <f:link.action controller="Media" action="new">
+        <f:translate key="create_media"/>
+    </f:link.action>
 </f:section>

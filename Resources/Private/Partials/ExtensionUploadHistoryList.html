@@ -1,44 +1,66 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
 <table>
-	<f:for each="{versionHistory}" as="version">
-		<tr
-			<f:if condition="{version} == {version.extension.lastVersion}">class="latest-version-row"</f:if>
-			<f:if condition="{version.reviewState} == -1">class="insecure-version-row"</f:if>
-		>
-			<td class="col1">
-				<strong>{version.versionString}</strong>
-				<br />
-				<small><f:format.date format="F d, Y">{version.uploadDate}</f:format.date></small>
-			</td>
-			<td class="col2">
-				<f:format.nl2br>{version.uploadComment}</f:format.nl2br>
-				<f:if condition="{version.typo3Dependency}">
-					<f:then>
-						<br />
-						<strong>Supports TYPO3 version {version.typo3Dependency.versionString}</strong>
-					</f:then>
-				</f:if>
-			</td>
-			<td class="col3">
-				<f:if condition="{version.reviewState} != -1">
-					<f:then>
-						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 't3x'}" title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
-						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 'zip'}" title="{f:translate(key:'filesize')}: {version.zipFileSize -> terfe2:filesize()}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
-					</f:then>
-					<f:else>
-						<f:security.ifHasRole role="{settings.reviewerGroupUid}">
-							<f:then>
-								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x" title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}"><f:translate key="download_t3x"/></f:link.action>
-								<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : version.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip" title="{f:translate(key:'filesize')}: {version.zipFileSize -> terfe2:filesize()}"><f:translate key="download_zip"/></f:link.action>
-							</f:then>
-							<f:else>
-								&nbsp;
-							</f:else>
-						</f:security.ifHasRole>
-					</f:else>
-				</f:if>
-			</td>
-		</tr>
-	</f:for>
+    <f:for each="{versionHistory}" as="version">
+        <tr
+        <f:if condition="{version} == {version.extension.lastVersion}">class="latest-version-row"</f:if>
+        <f:if condition="{version.reviewState} == -1">class="insecure-version-row"</f:if>
+        >
+        <td class="col1">
+            <strong>{version.versionString}</strong>
+            <br/>
+            <small>
+                <f:format.date format="F d, Y">{version.uploadDate}</f:format.date>
+            </small>
+        </td>
+        <td class="col2">
+            <f:format.nl2br>{version.uploadComment}</f:format.nl2br>
+            <f:if condition="{version.typo3Dependency}">
+                <f:then>
+                    <br/>
+                    <strong>Supports TYPO3 version {version.typo3Dependency.versionString}</strong>
+                </f:then>
+            </f:if>
+        </td>
+        <td class="col3">
+            <f:if condition="{version.reviewState} != -1">
+                <f:then>
+                    <f:link.action controller="Extension" action="download"
+                                   arguments="{extension : extension, versionString : version.versionString, format : 't3x'}"
+                                   title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}"
+                                   class="ter-download-icon ter-download-icon-t3x">
+                        <f:translate key="download_t3x"/>
+                    </f:link.action>
+                    <f:link.action controller="Extension" action="download"
+                                   arguments="{extension : extension, versionString : version.versionString, format : 'zip'}"
+                                   title="{f:translate(key:'filesize')}: {version.zipFileSize -> terfe2:filesize()}"
+                                   class="ter-download-icon ter-download-icon-zip">
+                        <f:translate key="download_zip"/>
+                    </f:link.action>
+                </f:then>
+                <f:else>
+                    <f:security.ifHasRole role="{settings.reviewerGroupUid}">
+                        <f:then>
+                            <f:link.action controller="Extension" action="download"
+                                           arguments="{extension : extension, versionString : version.versionString, format : 't3x'}"
+                                           class="ter-download-icon ter-download-icon-t3x"
+                                           title="{f:translate(key:'filesize')}: {version.t3xFileSize -> terfe2:filesize()}">
+                                <f:translate key="download_t3x"/>
+                            </f:link.action>
+                            <f:link.action controller="Extension" action="download"
+                                           arguments="{extension : extension, versionString : version.versionString, format : 'zip'}"
+                                           class="ter-download-icon ter-download-icon-zip"
+                                           title="{f:translate(key:'filesize')}: {version.zipFileSize -> terfe2:filesize()}">
+                                <f:translate key="download_zip"/>
+                            </f:link.action>
+                        </f:then>
+                        <f:else>
+                            &nbsp;
+                        </f:else>
+                    </f:security.ifHasRole>
+                </f:else>
+            </f:if>
+        </td>
+        </tr>
+    </f:for>
 </table>

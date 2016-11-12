@@ -1,5 +1,10 @@
 <f:if condition="{categories}">
-	<f:for each="{categories}" as="category" iteration="categoryIteration">
-		<f:link.action controller="Category" action="show" arguments="{category : category}">{category.title}</f:link.action><f:if condition="{categoryIteration.isLast}"><f:then></f:then><f:else>, </f:else></f:if>
-	</f:for>
+    <f:for each="{categories}" as="category" iteration="categoryIteration">
+        <f:link.action controller="Category" action="show" arguments="{category : category}">{category.title}
+        </f:link.action>
+        <f:if condition="{categoryIteration.isLast}">
+            <f:then></f:then>
+            <f:else>,</f:else>
+        </f:if>
+    </f:for>
 </f:if>

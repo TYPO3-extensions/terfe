@@ -1,8 +1,10 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<f:render partial="AuthorList" arguments="{authors: authors}"/>
-	<br />
+    <f:render partial="AuthorList" arguments="{authors: authors}"/>
+    <br/>
 
-	<f:link.action controller="Author" action="new"><f:translate key="create_author"/></f:link.action>
+    <f:link.action controller="Author" action="new">
+        <f:translate key="create_author"/>
+    </f:link.action>
 </f:section>

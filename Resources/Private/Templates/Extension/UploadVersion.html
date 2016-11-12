@@ -1,46 +1,52 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
 
-	<h2><f:translate key="header.uploadExtensionVersion" arguments="{0: extension.extKey}"/></h2>
+    <h2>
+        <f:translate key="header.uploadExtensionVersion" arguments="{0: extension.extKey}"/>
+    </h2>
 
-	<hr />
+    <hr/>
 
-	<f:form method="post" action="createVersion" controller="Extension" enctype="multipart/form-data">
-		<f:form.hidden name="extension" value="{extension}" />
+    <f:form method="post" action="createVersion" controller="Extension" enctype="multipart/form-data">
+        <f:form.hidden name="extension" value="{extension}"/>
 
-		<br />
+        <br/>
 
-		<div class="register-wrapper">
-			<div class="registerkey-label">
-				<label for="comment"><f:translate key="uploadExtensionVersion.comment" /></label>
-			</div>
-			<div class="register-input b-form-inputs">
-				<f:form.textarea rows="5" cols="40" name="form[comment]" value="{form.comment}" />
-			</div>
-			<div class="registerkey-label">
-				<label for="file"><f:translate key="uploadExtensionVersion.file" /></label>
-			</div>
-			<div class="register-input b-form-inputs">
-				<f:form.upload name="form[file]" />
-			</div>
-			<div class="register-input b-form-inputs">
-				<label>
-					<f:form.checkbox name="form[gplCompliant]" value="1" />
-					<f:translate key="uploadExtensionVersion.gplHint" />
-				</label>
+        <div class="register-wrapper">
+            <div class="registerkey-label">
+                <label for="comment">
+                    <f:translate key="uploadExtensionVersion.comment"/>
+                </label>
+            </div>
+            <div class="register-input b-form-inputs">
+                <f:form.textarea rows="5" cols="40" name="form[comment]" value="{form.comment}"/>
+            </div>
+            <div class="registerkey-label">
+                <label for="file">
+                    <f:translate key="uploadExtensionVersion.file"/>
+                </label>
+            </div>
+            <div class="register-input b-form-inputs">
+                <f:form.upload name="form[file]"/>
+            </div>
+            <div class="register-input b-form-inputs">
+                <label>
+                    <f:form.checkbox name="form[gplCompliant]" value="1"/>
+                    <f:translate key="uploadExtensionVersion.gplHint"/>
+                </label>
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<hr />
+        <hr/>
 
-		<div class="a-r">
-			<f:form.submit value="{f:translate(key:'uploadExtensionVersion.uploadVersion')}" class="bu bu-mini" />
-		</div>
+        <div class="a-r">
+            <f:form.submit value="{f:translate(key:'uploadExtensionVersion.uploadVersion')}" class="bu bu-mini"/>
+        </div>
 
-		<br />
+        <br/>
 
-	</f:form>
+    </f:form>
 
 </f:section>

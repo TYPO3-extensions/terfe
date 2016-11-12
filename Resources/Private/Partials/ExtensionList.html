@@ -1,72 +1,102 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
 <f:if condition="{extensions}">
-	<f:then>
-		<div class="ter-ext-list-count">
-			<f:translate key="extensions_found" arguments="{0: '{f:count(subject : extensions)}'}" />
-		</div>
+    <f:then>
+        <div class="ter-ext-list-count">
+            <f:translate key="extensions_found" arguments="{0: '{f:count(subject : extensions)}'}"/>
+        </div>
 
-		<f:widget.paginate objects="{extensions}" as="paginateExtensions" configuration="{itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
-			<f:for each="{paginateExtensions}" as="extension">
-				<div class="ter-ext-list-row cl">
+        <f:widget.paginate objects="{extensions}" as="paginateExtensions"
+                           configuration="{itemsPerPage: settings.listCount, insertAbove: 0, insertBelow: 1}">
+            <f:for each="{paginateExtensions}" as="extension">
+                <div class="ter-ext-list-row cl">
 
-					<!-- Headline -->
-					<div class="ter-ext-list-row-head">
-						<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" class="ter-ext-icon" />
-						<f:link.action controller="Extension" action="show" arguments="{extension : extension}">{extension.lastVersion.title}</f:link.action>
-						<span class="ter-ext-list-row-key">{extension.extKey}</span>
-					</div>
+                    <!-- Headline -->
+                    <div class="ter-ext-list-row-head">
+                        <terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}"
+                                              class="ter-ext-icon"/>
+                        <f:link.action controller="Extension" action="show" arguments="{extension : extension}">
+                            {extension.lastVersion.title}
+                        </f:link.action>
+                        <span class="ter-ext-list-row-key">{extension.extKey}</span>
+                    </div>
 
-					<!-- Content area -->
-					<div class="ter-ext-list-row-regular cl">
+                    <!-- Content area -->
+                    <div class="ter-ext-list-row-regular cl">
 
-						<!-- Description -->
-						<div class="ter-ext-list-row-description">
-							<div class="ter-ext-list-meta">
-								<f:translate key="by"/> {extension.lastVersion.author.name}
-								<f:if condition="{extension.categories}">
-									| <f:render partial="InlineCategoryList" arguments="{categories: extension.categories}"/>
-								</f:if>
-							</div>
-							<terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}</terfe2:crop>
-						</div>
+                        <!-- Description -->
+                        <div class="ter-ext-list-row-description">
+                            <div class="ter-ext-list-meta">
+                                <f:translate key="by"/>
+                                {extension.lastVersion.author.name}
+                                <f:if condition="{extension.categories}">
+                                    |
+                                    <f:render partial="InlineCategoryList"
+                                              arguments="{categories: extension.categories}"/>
+                                </f:if>
+                            </div>
+                            <terfe2:crop length="{settings.descriptionLength}">{extension.lastVersion.description}
+                            </terfe2:crop>
+                        </div>
 
-						<!-- General information -->
-						<div class="ter-ext-list-row-info ter-ext-info">
-							<table>
-								<tr>
-									<th><f:translate key="version"/></th>
-									<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
-								</tr>
-								<tr>
-									<th><f:translate key="last_updated"/></th>
-									<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
-								</tr>
-								<tr>
-									<th><f:translate key="downloads"/></th>
-									<td>{extension.downloads}</td>
-								</tr>
-								<tr>
-									<th><f:translate key="manual"/></th>
-									<td>{documentationLink}</td>
-								</tr>
-							</table>
-						</div>
+                        <!-- General information -->
+                        <div class="ter-ext-list-row-info ter-ext-info">
+                            <table>
+                                <tr>
+                                    <th>
+                                        <f:translate key="version"/>
+                                    </th>
+                                    <td>{extension.lastVersion.versionString} <span
+                                            class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <f:translate key="last_updated"/>
+                                    </th>
+                                    <td>
+                                        <terfe2:dateTime format="{settings.dateFormat}">
+                                            {extension.lastVersion.uploadDate}
+                                        </terfe2:dateTime>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <f:translate key="downloads"/>
+                                    </th>
+                                    <td>{extension.downloads}</td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <f:translate key="manual"/>
+                                    </th>
+                                    <td>{documentationLink}</td>
+                                </tr>
+                            </table>
+                        </div>
 
-					</div>
+                    </div>
 
-					<div class="ter-ext-list-row-downloads">
-						<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
-						<f:if condition="{extension.lastVersion.hasZipFile}">
-							<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
-						</f:if>
-					</div>
+                    <div class="ter-ext-list-row-downloads">
+                        <f:link.action controller="Extension" action="download"
+                                       arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"
+                                       class="ter-download-icon ter-download-icon-t3x">
+                            <f:translate key="download_t3x"/>
+                        </f:link.action>
+                        <f:if condition="{extension.lastVersion.hasZipFile}">
+                            <f:link.action controller="Extension" action="download"
+                                           arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"
+                                           class="ter-download-icon ter-download-icon-zip">
+                                <f:translate key="download_zip"/>
+                            </f:link.action>
+                        </f:if>
+                    </div>
 
-				</div>
-			</f:for>
-		</f:widget.paginate>
-	</f:then>
-	<f:else>
-		<f:translate key="msg.no_entries_found" />
-	</f:else>
+                </div>
+            </f:for>
+        </f:widget.paginate>
+    </f:then>
+    <f:else>
+        <f:translate key="msg.no_entries_found"/>
+    </f:else>
 </f:if>

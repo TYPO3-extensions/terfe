@@ -1,17 +1,18 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
 <div class="ter-ext-list-search">
-	<form method="post" action="{f:uri.action(controller:'Extension', action:'search', noCacheHash: 1)}">
-		<f:form.textfield name="tx_terfe2_pi1[search][needle]" id="ter-ext-list-search-needle" value="{search.needle}" />
-		<f:form.submit value="{f:translate(key: 'search')}" class="bu" />
+    <form method="post" action="{f:uri.action(controller:'Extension', action:'search', noCacheHash: 1)}">
+        <f:form.textfield name="tx_terfe2_pi1[search][needle]" id="ter-ext-list-search-needle" value="{search.needle}"/>
+        <f:form.submit value="{f:translate(key: 'search')}" class="bu"/>
 
-		<span class="ter-ext-list-search-sorting cl">
-			<label for="ter-ext-list-search-sorting"><f:translate key="sorting" />: </label>
-			<f:form.select name="tx_terfe2_pi1[search][sorting]" id="ter-ext-list-search-sorting" class="jsSubmit" value="{search.sorting}" options="{
+        <span class="ter-ext-list-search-sorting cl">
+			<label for="ter-ext-list-search-sorting"><f:translate key="sorting"/>: </label>
+			<f:form.select name="tx_terfe2_pi1[search][sorting]" id="ter-ext-list-search-sorting" class="jsSubmit"
+                           value="{search.sorting}" options="{
 				updated: '{f:translate(key:\'sorting.updated\')}',
 				downloads: '{f:translate(key:\'sorting.downloads\')}',
 				title: '{f:translate(key:\'sorting.title\')}'
-			}" />
+			}"/>
 		</span>
-	</form>
+    </form>
 </div>

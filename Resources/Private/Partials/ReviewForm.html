@@ -1,22 +1,27 @@
-<h3><f:translate key="header.review_form"/></h3>
+<h3>
+    <f:translate key="header.review_form"/>
+</h3>
 
 <div class="ter-ext-single-review">
-	<f:form method="post" action="update" controller="Review" name="extension" object="{extension}">
-		<label for="versionReview"><f:translate key="review_versions" />:</label>
-		<div class="ter-ext-single-versions" id="versionReview">
-			<table cellpadding="0" cellspacing="0" border="0">
-				<f:for each="{extension.reverseVersionsByVersionNumber}" as="version" iteration="versionIterator">
-					<tr class="{f:if(condition:'{versionIterator.isOdd}', then: 'odd', else: 'even')}">
-						<td class="ter-ext-single-versions-input">
-							<f:form.checkbox name="unsecureVersions[]" id="version-{version.uid}" value="{version.uid}" checked="{version.reviewState} == -1" />
-						</td>
-						<td class="ter-ext-single-versions-label">
-							<label for="version-{version.uid}">{version.versionString}</label>
-						</td>
-					</tr>
-				</f:for>
-			</table>
-		</div>
-		<f:form.submit value="{f:translate(key:'update_review')}" class="bu" />
-	</f:form>
+    <f:form method="post" action="update" controller="Review" name="extension" object="{extension}">
+        <label for="versionReview">
+            <f:translate key="review_versions"/>
+            :</label>
+        <div class="ter-ext-single-versions" id="versionReview">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <f:for each="{extension.reverseVersionsByVersionNumber}" as="version" iteration="versionIterator">
+                    <tr class="{f:if(condition:'{versionIterator.isOdd}', then: 'odd', else: 'even')}">
+                        <td class="ter-ext-single-versions-input">
+                            <f:form.checkbox name="unsecureVersions[]" id="version-{version.uid}" value="{version.uid}"
+                                             checked="{version.reviewState} == -1"/>
+                        </td>
+                        <td class="ter-ext-single-versions-label">
+                            <label for="version-{version.uid}">{version.versionString}</label>
+                        </td>
+                    </tr>
+                </f:for>
+            </table>
+        </div>
+        <f:form.submit value="{f:translate(key:'update_review')}" class="bu"/>
+    </f:form>
 </div>

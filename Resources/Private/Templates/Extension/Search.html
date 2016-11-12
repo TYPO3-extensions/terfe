@@ -1,21 +1,21 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<f:if condition="{settings.show.extensionSearch}">
-		<f:render partial="ExtensionSearchForm" arguments="{search : search}" />
-	</f:if>
+    <f:if condition="{settings.show.extensionSearch}">
+        <f:render partial="ExtensionSearchForm" arguments="{search : search}"/>
+    </f:if>
 
-	<f:render partial="ExtensionList" arguments="{extensions : extensions}" />
+    <f:render partial="ExtensionList" arguments="{extensions : extensions}"/>
 
-	<f:if condition="{settings.show.categoryOverview}">
-		<f:render partial="CategoryList" arguments="{categories : categories}" />
-	</f:if>
+    <f:if condition="{settings.show.categoryOverview}">
+        <f:render partial="CategoryList" arguments="{categories : categories}"/>
+    </f:if>
 
-	<f:if condition="{settings.show.tagOverview}">
-		<f:render partial="TagList" arguments="{tags : tags}" />
-	</f:if>
+    <f:if condition="{settings.show.tagOverview}">
+        <f:render partial="TagList" arguments="{tags : tags}"/>
+    </f:if>
 
-	<f:if condition="{settings.show.authorOverview}">
-		<f:render partial="AuthorList" arguments="{authors: authors}" />
-	</f:if>
+    <f:if condition="{settings.show.authorOverview}">
+        <f:render partial="AuthorList" arguments="{authors: authors}"/>
+    </f:if>
 </f:section>

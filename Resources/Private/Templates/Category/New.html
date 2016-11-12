@@ -1,17 +1,27 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<h2><f:translate key="new_category"/></h2>
+    <h2>
+        <f:translate key="new_category"/>
+    </h2>
 
-	<f:form method="post" action="create" name="newCategory" object="{newCategory}">
-		<label for="title"><f:translate key="tx_terfe2_domain_model_category.title" /></label><br />
-		<f:form.textfield property="title" /><br />
+    <f:form method="post" action="create" name="newCategory" object="{newCategory}">
+        <label for="title">
+            <f:translate key="tx_terfe2_domain_model_category.title"/>
+        </label><br/>
+        <f:form.textfield property="title"/>
+        <br/>
 
-		<label for="description"><f:translate key="tx_terfe2_domain_model_category.description" /></label><br />
-		<f:form.textfield property="description" /><br /><br />
+        <label for="description">
+            <f:translate key="tx_terfe2_domain_model_category.description"/>
+        </label><br/>
+        <f:form.textfield property="description"/>
+        <br/><br/>
 
-		<f:form.submit value="{f:translate(key:'create')}" />
-	</f:form>
+        <f:form.submit value="{f:translate(key:'create')}"/>
+    </f:form>
 
-	<f:link.action controller="Category" action="list"><f:translate key="back_to_list"/></f:link.action>
+    <f:link.action controller="Category" action="list">
+        <f:translate key="back_to_list"/>
+    </f:link.action>
 </f:section>

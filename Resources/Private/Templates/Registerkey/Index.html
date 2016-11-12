@@ -1,306 +1,355 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
 
-	<f:if condition="{uploaded}">
-		<div class="tx_terfe2_messages">
-			<div class="typo3-messages">
-				<div class="typo3-message message-ok">
-					<div class="message-body"><f:translate key="LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:msg.createVersionUploadSuccess" /></div>
-				</div>
-			</div>
-		</div>
-	</f:if>
+    <f:if condition="{uploaded}">
+        <div class="tx_terfe2_messages">
+            <div class="typo3-messages">
+                <div class="typo3-message message-ok">
+                    <div class="message-body">
+                        <f:translate
+                                key="LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:msg.createVersionUploadSuccess"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </f:if>
 
-	<div class="b-tabs">
-		<ul class="tabs lite-tabs">
-			<f:if condition="{expiringExtensions}">
-				<li>
-					<a href="#tx_terfe2_tab_manageexpiringkeys">
-						<f:translate key="manage-expiring-extension-keys" />
-					</a>
-				</li>
-			</f:if>
-			<li>
-				<a href="#tx_terfe2_tab_managekeys">
-					<f:translate key="manage-extension-keys" />
-				</a>
-			</li>
-			<li>
-				<a href="#tx_terfe2_tab_registerkey">
-					<f:translate key="register-extension-key" />
-				</a>
-			</li>
-			<f:if condition="{extensions}">
-				<li>
-					<a href="#tx_terfe2_tab_transferkey">
-						<f:translate key="transfer-extension-key" />
-					</a>
-				</li>
-			</f:if>
-			<f:security.ifHasRole role="{settings.terAdminGroupUid}">
-				<li>
-					<a href="#tx_terfe2_tab_registerkey">
-						Admin
-					</a>
-				</li>
-			</f:security.ifHasRole>
-		</ul>
+    <div class="b-tabs">
+        <ul class="tabs lite-tabs">
+            <f:if condition="{expiringExtensions}">
+                <li>
+                    <a href="#tx_terfe2_tab_manageexpiringkeys">
+                        <f:translate key="manage-expiring-extension-keys"/>
+                    </a>
+                </li>
+            </f:if>
+            <li>
+                <a href="#tx_terfe2_tab_managekeys">
+                    <f:translate key="manage-extension-keys"/>
+                </a>
+            </li>
+            <li>
+                <a href="#tx_terfe2_tab_registerkey">
+                    <f:translate key="register-extension-key"/>
+                </a>
+            </li>
+            <f:if condition="{extensions}">
+                <li>
+                    <a href="#tx_terfe2_tab_transferkey">
+                        <f:translate key="transfer-extension-key"/>
+                    </a>
+                </li>
+            </f:if>
+            <f:security.ifHasRole role="{settings.terAdminGroupUid}">
+                <li>
+                    <a href="#tx_terfe2_tab_registerkey">
+                        Admin
+                    </a>
+                </li>
+            </f:security.ifHasRole>
+        </ul>
 
-		<div class="tab-panes">
+        <div class="tab-panes">
 
-			<!-- open expiring tab -->
-			<f:if condition="{expiringExtensions}">
-				<div class="tab-content lite-tab-panes-black">
-					<f:if condition="{loggedIn}">
-						<f:then>
-							<div class="tx_terfe2_messages">
-								<div class="typo3-messages">
-									<div class="typo3-message message-notice">
-										<div class="message-body">
-											<f:translate key="LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:msg.expiringExtensions" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<p>
-								<strong>In this list there are only extension keys which have not been used for an extension yet!</strong><br />
-								The following actions are available for your expiring extension keys:
-							</p>
-							<ul>
-								<li><strong>Release to community</strong>: Extension key will be deleted and set free for re-registration.</li>
-								<li><strong>Keep</strong>: You'll keep the extension key for one more year. If there is no upload within this time then the expiry process will repeat.</li>
-								<li><strong>Upload</strong>: You may upload a new version for this extension.</li>
-							</ul>
-							<table class="manage-keys">
-								<thead>
-								<tr>
-									<th>
-										<f:translate key="extensionKey" />
-									</th>
-								</tr>
-								</thead>
-								<tbody>
-								<f:for each="{expiringExtensions}" as="extension">
+            <!-- open expiring tab -->
+            <f:if condition="{expiringExtensions}">
+                <div class="tab-content lite-tab-panes-black">
+                    <f:if condition="{loggedIn}">
+                        <f:then>
+                            <div class="tx_terfe2_messages">
+                                <div class="typo3-messages">
+                                    <div class="typo3-message message-notice">
+                                        <div class="message-body">
+                                            <f:translate
+                                                    key="LLL:EXT:ter_fe2/Resources/Private/Language/locallang.xml:msg.expiringExtensions"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                <strong>In this list there are only extension keys which have not been used for an
+                                    extension yet!</strong><br/>
+                                The following actions are available for your expiring extension keys:
+                            </p>
+                            <ul>
+                                <li><strong>Release to community</strong>: Extension key will be deleted and set free
+                                    for re-registration.
+                                </li>
+                                <li><strong>Keep</strong>: You'll keep the extension key for one more year. If there is
+                                    no upload within this time then the expiry process will repeat.
+                                </li>
+                                <li><strong>Upload</strong>: You may upload a new version for this extension.</li>
+                            </ul>
+                            <table class="manage-keys">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <f:translate key="extensionKey"/>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <f:for each="{expiringExtensions}" as="extension">
 
-									<!-- cycle values for rows -->
-									<f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
+                                    <!-- cycle values for rows -->
+                                    <f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
 
-										<tr class="{columCycle}">
-											<td>
-												<div class="terfe-buttons">
-													<f:link.action class="bu bu-mini dark-grey"
-																   onclick="if (confirm('Really release?')) return true; else return false;"
-																   action="delete" controller="Registerkey"
-																   arguments="{extension: extension}">
-														<f:translate key="release-button" />
-													</f:link.action>
-													<f:link.action class="bu bu-mini" action="keep" controller="Registerkey"
-																   arguments="{extension: extension}">
-														<f:translate key="keepExtension-button" />
-													</f:link.action>
-													<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion"
-																   controller="Extension" arguments="{extension: extension}"
-																   pageUid="{settings.pages.uploadVersionPID}">
-														<f:translate key="uploadVersion-button" />
-													</f:link.action>
-												</div>
-												{extension.extKey}
-												<br />
-												<span class="b-comment-date">Expires: {extension.expire -> f:format.date(format:'d.m.Y H:i (T)')}</span>
-											</td>
-										</tr>
+                                        <tr class="{columCycle}">
+                                            <td>
+                                                <div class="terfe-buttons">
+                                                    <f:link.action class="bu bu-mini dark-grey"
+                                                                   onclick="if (confirm('Really release?')) return true; else return false;"
+                                                                   action="delete" controller="Registerkey"
+                                                                   arguments="{extension: extension}">
+                                                        <f:translate key="release-button"/>
+                                                    </f:link.action>
+                                                    <f:link.action class="bu bu-mini" action="keep"
+                                                                   controller="Registerkey"
+                                                                   arguments="{extension: extension}">
+                                                        <f:translate key="keepExtension-button"/>
+                                                    </f:link.action>
+                                                    <f:link.action class="bu bu-mini manage-keys-submit"
+                                                                   action="uploadVersion"
+                                                                   controller="Extension"
+                                                                   arguments="{extension: extension}"
+                                                                   pageUid="{settings.pages.uploadVersionPID}">
+                                                        <f:translate key="uploadVersion-button"/>
+                                                    </f:link.action>
+                                                </div>
+                                                {extension.extKey}
+                                                <br/>
+                                                <span class="b-comment-date">Expires: {extension.expire -> f:format.date(format:'d.m.Y H:i (T)')}</span>
+                                            </td>
+                                        </tr>
 
-									</f:cycle>
-								</f:for>
-								</tbody>
-							</table>
-						</f:then>
-						<f:else>
-							<f:translate key="registerkey.notloggedin" />
-						</f:else>
-					</f:if>
-				</div>
-			</f:if>
+                                    </f:cycle>
+                                </f:for>
+                                </tbody>
+                            </table>
+                        </f:then>
+                        <f:else>
+                            <f:translate key="registerkey.notloggedin"/>
+                        </f:else>
+                    </f:if>
+                </div>
+            </f:if>
 
-			<!-- open manage tab -->
-			<div class="tab-content lite-tab-panes-black">
+            <!-- open manage tab -->
+            <div class="tab-content lite-tab-panes-black">
 
-				<f:if condition="{loggedIn}">
-					<f:then>
+                <f:if condition="{loggedIn}">
+                    <f:then>
 
-						<table class="manage-keys">
-							<thead>
-								<tr>
-									<th><f:translate key="extensionKey" /></th>
-								</tr>
-							</thead>
-							<tbody>
-								<f:for each="{extensions}" as="extension">
+                        <table class="manage-keys">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <f:translate key="extensionKey"/>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <f:for each="{extensions}" as="extension">
 
-									<!-- cycle values for rows -->
-									<f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
+                                <!-- cycle values for rows -->
+                                <f:cycle values="{0: 'tr-odd', 1: 'tr-even'}" as="columCycle">
 
-									<tr class="{columCycle}">
-										<td>
-											<div class="terfe-buttons">
-												<f:if condition="{extension.versionCount} < 1">
-													<f:link.action class="bu bu-mini dark-grey" onclick="if (confirm('Really delete!!')) return true; else return false;" action="delete" controller="Registerkey" arguments="{extension: extension}"><f:translate key="delete-button" /></f:link.action>
-												</f:if>
-												<f:link.action class="bu bu-mini manage-keys-submit" action="uploadVersion" controller="Extension" arguments="{extension: extension}" pageUid="{settings.pages.uploadVersionPID}"><f:translate key="uploadVersion-button" /></f:link.action>
-												<f:link.action class="bu bu-mini" action="edit" controller="Extension" arguments="{extension: extension}"><f:translate key="editExtension-button" /></f:link.action>
-											</div>
-											<f:if condition="{extension.versionCount} < 1">
-												<f:then>
-													{extension.extKey}
-												</f:then>
-												<f:else>
-													<f:link.action pageUid="{settings.pages.extensionDetailPID}" controller="Extension" action="show" arguments="{extension : extension}">{extension.extKey}</f:link.action>
-												</f:else>
-											</f:if>
-											<br />
-											<span class="b-comment-date"><f:if condition="{extension.versionCount} < 1"><f:then>
-												<f:translate key="tx_terfe2_domain_model_extension.versions.no" />
+                                    <tr class="{columCycle}">
+                                        <td>
+                                            <div class="terfe-buttons">
+                                                <f:if condition="{extension.versionCount} < 1">
+                                                    <f:link.action class="bu bu-mini dark-grey"
+                                                                   onclick="if (confirm('Really delete!!')) return true; else return false;"
+                                                                   action="delete" controller="Registerkey"
+                                                                   arguments="{extension: extension}">
+                                                        <f:translate key="delete-button"/>
+                                                    </f:link.action>
+                                                </f:if>
+                                                <f:link.action class="bu bu-mini manage-keys-submit"
+                                                               action="uploadVersion" controller="Extension"
+                                                               arguments="{extension: extension}"
+                                                               pageUid="{settings.pages.uploadVersionPID}">
+                                                    <f:translate key="uploadVersion-button"/>
+                                                </f:link.action>
+                                                <f:link.action class="bu bu-mini" action="edit" controller="Extension"
+                                                               arguments="{extension: extension}">
+                                                    <f:translate key="editExtension-button"/>
+                                                </f:link.action>
+                                            </div>
+                                            <f:if condition="{extension.versionCount} < 1">
+                                                <f:then>
+                                                    {extension.extKey}
+                                                </f:then>
+                                                <f:else>
+                                                    <f:link.action pageUid="{settings.pages.extensionDetailPID}"
+                                                                   controller="Extension" action="show"
+                                                                   arguments="{extension : extension}">
+                                                        {extension.extKey}
+                                                    </f:link.action>
+                                                </f:else>
+                                            </f:if>
+                                            <br/>
+                                            <span class="b-comment-date"><f:if condition="{extension.versionCount} < 1"><f:then>
+												<f:translate key="tx_terfe2_domain_model_extension.versions.no"/>
 											</f:then><f:else><f:if condition="{extension.versionCount} > 1"><f:then>
-												<f:translate key="tx_terfe2_domain_model_extension.versions.multiple" arguments="{0: extension.versionCount}" />
+												<f:translate key="tx_terfe2_domain_model_extension.versions.multiple"
+                                                             arguments="{0: extension.versionCount}"/>
 											</f:then><f:else>
-												<f:translate key="tx_terfe2_domain_model_extension.versions.one" />
+												<f:translate key="tx_terfe2_domain_model_extension.versions.one"/>
 											</f:else></f:if></f:else></f:if>
 											<f:if condition="{extension.lastVersion}">
 												({extension.lastVersion.versionString})
 											</f:if>
 											</span>
-										</td>
-									</tr>
+                                        </td>
+                                    </tr>
 
-									</f:cycle>
-								</f:for>
-							</tbody>
-						</table>
+                                </f:cycle>
+                            </f:for>
+                            </tbody>
+                        </table>
 
-						<h4>Missing some of your keys?</h4>
-						<p>
-							Extension keys without any uploaded version have not been migrated from the old typo3.org.
-						</p>
-						<p>
-							If you still wish to use these keys you can recover them by using the button below.
-						</p>
-						<div class="a-r"><f:link.action class="bu bu-mini" action="salvage" controller="Registerkey">Salvage Extension Keys</f:link.action></div>
+                        <h4>Missing some of your keys?</h4>
+                        <p>
+                            Extension keys without any uploaded version have not been migrated from the old typo3.org.
+                        </p>
+                        <p>
+                            If you still wish to use these keys you can recover them by using the button below.
+                        </p>
+                        <div class="a-r">
+                            <f:link.action class="bu bu-mini" action="salvage" controller="Registerkey">Salvage
+                                Extension Keys
+                            </f:link.action>
+                        </div>
 
-					</f:then>
-					<f:else>
-						<f:translate key="registerkey.notloggedin" />
-					</f:else>
-				</f:if>
-			</div>
-			<!-- closing manage tab -->
+                    </f:then>
+                    <f:else>
+                        <f:translate key="registerkey.notloggedin"/>
+                    </f:else>
+                </f:if>
+            </div>
+            <!-- closing manage tab -->
 
-			<!-- opening register tab -->
-			<div class="tab-content lite-tab-panes-black">
+            <!-- opening register tab -->
+            <div class="tab-content lite-tab-panes-black">
 
-				<!-- check if a frontend user is logged in -->
-				<f:if condition="{loggedIn}">
-					<f:then>
+                <!-- check if a frontend user is logged in -->
+                <f:if condition="{loggedIn}">
+                    <f:then>
 
-						<f:form action="create" controller="Registerkey" method="post">
-							<div class="register-wrapper">
+                        <f:form action="create" controller="Registerkey" method="post">
+                            <div class="register-wrapper">
 
-								<div class="registerkey-label">
-									<label><f:translate key="extensionKey" /></label>
-								</div>
+                                <div class="registerkey-label">
+                                    <label>
+                                        <f:translate key="extensionKey"/>
+                                    </label>
+                                </div>
 
-								<div class="register-input b-form-inputs">
-									<f:form.textfield name="extensionKey" value="" />
-								</div>
-							</div>
+                                <div class="register-input b-form-inputs">
+                                    <f:form.textfield name="extensionKey" value=""/>
+                                </div>
+                            </div>
 
-							<hr />
+                            <hr/>
 
-							<div class="registerkey-label">
-								<label>&nbsp;</label>
-							</div>
-							<f:form.submit class="bu bu-mini" value="{f:translate(key: 'save')}" />
-						</f:form>
+                            <div class="registerkey-label">
+                                <label>&nbsp;</label>
+                            </div>
+                            <f:form.submit class="bu bu-mini" value="{f:translate(key: 'save')}"/>
+                        </f:form>
 
-						<h4>Please make sure that the extension key you register follows the following rules</h4>
-						<ul>
-							<li>Allowed characters are: a-z (lowercase), 0-9 and '_' (underscore)</li>
-							<li>The key must not being with one of the following prefixes: tx,user_,pages,tt_,sys_,ts_language_,csh_</li>
-							<li>Extension keys cannot start or end with 0-9 and '_' (underscore)</li>
-							<li>An extension key must have minimum 3, maximum 30 characters (not counting underscores)</li>
-							<li>Do not use an '_' (underscore) before a number (0-9), e.g. myextension_2015</li>
-						</ul>
-					</f:then>
-					<f:else>
-						<f:translate key="registerkey.notloggedin" />
-					</f:else>
-				</f:if>
+                        <h4>Please make sure that the extension key you register follows the following rules</h4>
+                        <ul>
+                            <li>Allowed characters are: a-z (lowercase), 0-9 and '_' (underscore)</li>
+                            <li>The key must not being with one of the following prefixes:
+                                tx,user_,pages,tt_,sys_,ts_language_,csh_
+                            </li>
+                            <li>Extension keys cannot start or end with 0-9 and '_' (underscore)</li>
+                            <li>An extension key must have minimum 3, maximum 30 characters (not counting underscores)
+                            </li>
+                            <li>Do not use an '_' (underscore) before a number (0-9), e.g. myextension_2015</li>
+                        </ul>
+                    </f:then>
+                    <f:else>
+                        <f:translate key="registerkey.notloggedin"/>
+                    </f:else>
+                </f:if>
 
-			</div>
-			<!-- closing register tab -->
+            </div>
+            <!-- closing register tab -->
 
-			<!-- open transfer tab -->
-			<f:if condition="{extensions}">
-				<div class="tab-content lite-tab-panes-black">
-					<f:form action="transfer" controller="Registerkey" name="transferKey" method="POST" onsubmit="if (confirm('Are you sure? You might not be able to get your transfered key back.')) return true; else return false;">
-						<div class="register-wrapper">
-							<div class="registerkey-label">
-								<label><f:translate key="extensionKey" /></label>
-							</div>
-							<div class="register-input b-form-inputs">
-								<f:form.select name="extension" options="{extensions}" optionLabelField="extKey" sortByOptionLabel="1"/>
-							</div>
-						</div>
+            <!-- open transfer tab -->
+            <f:if condition="{extensions}">
+                <div class="tab-content lite-tab-panes-black">
+                    <f:form action="transfer" controller="Registerkey" name="transferKey" method="POST"
+                            onsubmit="if (confirm('Are you sure? You might not be able to get your transfered key back.')) return true; else return false;">
+                        <div class="register-wrapper">
+                            <div class="registerkey-label">
+                                <label>
+                                    <f:translate key="extensionKey"/>
+                                </label>
+                            </div>
+                            <div class="register-input b-form-inputs">
+                                <f:form.select name="extension" options="{extensions}" optionLabelField="extKey"
+                                               sortByOptionLabel="1"/>
+                            </div>
+                        </div>
 
-						<div class="register-wrapper">
+                        <div class="register-wrapper">
 
-							<div class="registerkey-label">
-								<label><f:translate key="transferToUser" /></label>
-							</div>
+                            <div class="registerkey-label">
+                                <label>
+                                    <f:translate key="transferToUser"/>
+                                </label>
+                            </div>
 
-							<div class="register-input b-form-inputs">
-								<f:form.textfield name="newUser" value="" />
-							</div>
-						</div>
+                            <div class="register-input b-form-inputs">
+                                <f:form.textfield name="newUser" value=""/>
+                            </div>
+                        </div>
 
-						<hr />
-						<div class="registerkey-label">
-							<label>&nbsp;</label>
-						</div>
-						<f:form.submit class="bu bu-mini" value="{f:translate(key: 'transfer-extension-key')}" />
-					</f:form>
+                        <hr/>
+                        <div class="registerkey-label">
+                            <label>&nbsp;</label>
+                        </div>
+                        <f:form.submit class="bu bu-mini" value="{f:translate(key: 'transfer-extension-key')}"/>
+                    </f:form>
 
-					<h4>Please check twice!</h4>
-					<p>Are you sure? You might not be able to get your transfered key back.</p>
-				</div>
-			</f:if>
-			<!-- closing transfer tab -->
-			<!-- open admin tab -->
-			<f:security.ifHasRole role="{settings.terAdminGroupUid}">
-				<div class="tab-content lite-tab-panes-black">
-					<f:form action="admin" controller="Registerkey" method="post">
-						<div class="register-wrapper">
+                    <h4>Please check twice!</h4>
+                    <p>Are you sure? You might not be able to get your transfered key back.</p>
+                </div>
+            </f:if>
+            <!-- closing transfer tab -->
+            <!-- open admin tab -->
+            <f:security.ifHasRole role="{settings.terAdminGroupUid}">
+                <div class="tab-content lite-tab-panes-black">
+                    <f:form action="admin" controller="Registerkey" method="post">
+                        <div class="register-wrapper">
 
-							<div class="registerkey-label">
-								<label><f:translate key="extensionKey" /></label>
-							</div>
+                            <div class="registerkey-label">
+                                <label>
+                                    <f:translate key="extensionKey"/>
+                                </label>
+                            </div>
 
-							<div class="register-input b-form-inputs">
-								<f:form.textfield name="extensionKey" value="" />
-							</div>
-						</div>
+                            <div class="register-input b-form-inputs">
+                                <f:form.textfield name="extensionKey" value=""/>
+                            </div>
+                        </div>
 
-						<hr />
+                        <hr/>
 
-						<div class="registerkey-label">
-							<label>&nbsp;</label>
-						</div>
-						<f:form.submit class="bu bu-mini" value="{f:translate(key: 'search')}" />
-					</f:form>
-				</div>
-			</f:security.ifHasRole>
-		</div>
-	</div>
+                        <div class="registerkey-label">
+                            <label>&nbsp;</label>
+                        </div>
+                        <f:form.submit class="bu bu-mini" value="{f:translate(key: 'search')}"/>
+                    </f:form>
+                </div>
+            </f:security.ifHasRole>
+        </div>
+    </div>
 
 </f:section>

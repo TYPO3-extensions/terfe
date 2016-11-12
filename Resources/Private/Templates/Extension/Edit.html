@@ -1,87 +1,112 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<f:if condition="{isLoggedIn}">
-		<f:then>
-			<h2><f:translate key="edit_extension"/> {extension.extKey}</h2>
+    <f:if condition="{isLoggedIn}">
+        <f:then>
+            <h2>
+                <f:translate key="edit_extension"/>
+                {extension.extKey}
+            </h2>
 
-			<f:form method="post" action="update" controller="Extension" name="extension" object="{extension}">
+            <f:form method="post" action="update" controller="Extension" name="extension" object="{extension}">
 
-				<f:render partial="FormErrors" />
+                <f:render partial="FormErrors"/>
 
-				<div class="b-form">
+                <div class="b-form">
 
-					<div class="b-form-row">
-						<label for="forgeLink"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></label>
-						<div class="b-form-inputs">
-							<f:form.textfield size="40" id="forgeLink" property="forgeLink" additionalAttributes="{placeholder:'http://forge.typo3.org/projects/your-project'}" />
-						</div>
-					</div>
+                    <div class="b-form-row">
+                        <label for="forgeLink">
+                            <f:translate key="tx_terfe2_domain_model_extension.forge_link"/>
+                        </label>
+                        <div class="b-form-inputs">
+                            <f:form.textfield size="40" id="forgeLink" property="forgeLink"
+                                              additionalAttributes="{placeholder:'http://forge.typo3.org/projects/your-project'}"/>
+                        </div>
+                    </div>
 
 
-					<div class="b-form-row">
-						<label for="repositoryUrl"><f:translate key="tx_terfe2_domain_model_extension.repository_url" /></label>
-						<div class="b-form-inputs">
-							<f:form.textfield size="40" id="repositoryUrl" property="repositoryUrl" additionalAttributes="{placeholder:'http://external.repository.org/your-project'}" />
-						</div>
-					</div>
+                    <div class="b-form-row">
+                        <label for="repositoryUrl">
+                            <f:translate key="tx_terfe2_domain_model_extension.repository_url"/>
+                        </label>
+                        <div class="b-form-inputs">
+                            <f:form.textfield size="40" id="repositoryUrl" property="repositoryUrl"
+                                              additionalAttributes="{placeholder:'http://external.repository.org/your-project'}"/>
+                        </div>
+                    </div>
 
-					<div class="b-form-row">
-						<label for="externalManual"><f:translate key="tx_terfe2_domain_model_extension.external_manual" /></label>
-						<div class="b-form-inputs">
-							<f:form.textfield size="40" id="externalManual" property="externalManual" additionalAttributes="{placeholder:'http://external.domain.org/external-manual'}" />
-						</div>
-					</div>
+                    <div class="b-form-row">
+                        <label for="externalManual">
+                            <f:translate key="tx_terfe2_domain_model_extension.external_manual"/>
+                        </label>
+                        <div class="b-form-inputs">
+                            <f:form.textfield size="40" id="externalManual" property="externalManual"
+                                              additionalAttributes="{placeholder:'http://external.domain.org/external-manual'}"/>
+                        </div>
+                    </div>
 
-					<div class="b-form-row">
-						<label for="paypalUrl"><f:translate key="tx_terfe2_domain_model_extension.donate_url" /></label>
-						<div class="b-form-inputs">
-							<f:form.textfield size="40" id="paypalUrl" property="paypalUrl" additionalAttributes="{placeholder:'http://paypal.com/your-url'}" />
-						</div>
-					</div>
+                    <div class="b-form-row">
+                        <label for="paypalUrl">
+                            <f:translate key="tx_terfe2_domain_model_extension.donate_url"/>
+                        </label>
+                        <div class="b-form-inputs">
+                            <f:form.textfield size="40" id="paypalUrl" property="paypalUrl"
+                                              additionalAttributes="{placeholder:'http://paypal.com/your-url'}"/>
+                        </div>
+                    </div>
 
-					<div class="b-form-row">
-						<label for="flattrUsername">flattr username<br />
-						<span class="small"><f:link.external uri="http://wiki.typo3.org/How_to_add_flattr_to_TER" target="_blank">[How to set up flattr]</f:link.external></span></label>
-						<div class="b-form-inputs">
-							<f:form.textfield size="40" id="flattrUsername" property="flattrUsername" additionalAttributes="{placeholder:'Put in your flattr username'}" />
-						</div>
-					</div>
+                    <div class="b-form-row">
+                        <label for="flattrUsername">flattr username<br/>
+                            <span class="small"><f:link.external uri="http://wiki.typo3.org/How_to_add_flattr_to_TER"
+                                                                 target="_blank">[How to set up flattr]</f:link.external></span></label>
+                        <div class="b-form-inputs">
+                            <f:form.textfield size="40" id="flattrUsername" property="flattrUsername"
+                                              additionalAttributes="{placeholder:'Put in your flattr username'}"/>
+                        </div>
+                    </div>
 
-					<div class="b-form-row">
-						<label for="tags">Tags</label>
-						<div class="b-form-inputs">
-							<f:form.textfield size="20" id="tags" name="tag" additionalAttributes="{placeholder:'Add tags for this extension (divided by spaces)'}" />
-							<f:if condition="{extension.tags}">
-								<ul>
-									<f:for each="{extension.tags}" as="tag">
-										<li>{tag.title} (<f:link.action action="removeTag" controller="Extension" arguments="{extension : extension, tag : tag}">remove</f:link.action>)</li>
-									</f:for>
-								</ul>
-							</f:if>
-						</div>
-					</div>
+                    <div class="b-form-row">
+                        <label for="tags">Tags</label>
+                        <div class="b-form-inputs">
+                            <f:form.textfield size="20" id="tags" name="tag"
+                                              additionalAttributes="{placeholder:'Add tags for this extension (divided by spaces)'}"/>
+                            <f:if condition="{extension.tags}">
+                                <ul>
+                                    <f:for each="{extension.tags}" as="tag">
+                                        <li>{tag.title} (
+                                            <f:link.action action="removeTag" controller="Extension"
+                                                           arguments="{extension : extension, tag : tag}">remove
+                                            </f:link.action>
+                                            )
+                                        </li>
+                                    </f:for>
+                                </ul>
+                            </f:if>
+                        </div>
+                    </div>
 
-					<div class="b-form-row">
-						<div class="b-form-inputs">
-							<f:form.submit class="bu bu-mini" name="save" value="Save" />
-							<f:form.submit class="bu bu-mini" name="close" value="Save and close" />
-						</div>
-					</div>
+                    <div class="b-form-row">
+                        <div class="b-form-inputs">
+                            <f:form.submit class="bu bu-mini" name="save" value="Save"/>
+                            <f:form.submit class="bu bu-mini" name="close" value="Save and close"/>
+                        </div>
+                    </div>
 
-				</div>
-			</f:form>
+                </div>
+            </f:form>
 
-			<div class="b-form-row">
-				<p>
-					* {f:translate( key:'tx_terfe2_domain_model_extension.repository_clone_url.description' )}
-				</p>
-			</div>
+            <div class="b-form-row">
+                <p>
+                    * {f:translate( key:'tx_terfe2_domain_model_extension.repository_clone_url.description' )}
+                </p>
+            </div>
 
-			<f:link.action controller="Registerkey" class="bu bu-mini dark-grey" action="index">Back to extension overview</f:link.action>
-		</f:then>
-		<f:else>
-			You must be the owner of the extension to edit it.
-		</f:else>
-	</f:if>
+            <f:link.action controller="Registerkey" class="bu bu-mini dark-grey" action="index">Back to extension
+                overview
+            </f:link.action>
+        </f:then>
+        <f:else>
+            You must be the owner of the extension to edit it.
+        </f:else>
+    </f:if>
 </f:section>

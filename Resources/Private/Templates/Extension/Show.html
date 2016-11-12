@@ -1,173 +1,245 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<f:if condition="{extension}">
-		<f:then>
-			<div id="ter-ext-single" class="ter-toggle-from-here">
+    <f:if condition="{extension}">
+        <f:then>
+            <div id="ter-ext-single" class="ter-toggle-from-here">
 
-				<div class="ter-ext-single-header">
-					<terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}" class="ter-ext-icon" />
-					<h1>
-						{extension.lastVersion.title}
-					</h1>
-				</div>
+                <div class="ter-ext-single-header">
+                    <terfe2:extensionIcon version="{extension.lastVersion}" alt="{extension.lastVersion.title}"
+                                          class="ter-ext-icon"/>
+                    <h1>
+                        {extension.lastVersion.title}
+                    </h1>
+                </div>
 
-				<f:if condition="{extension.lastVersion.reviewState} == -2">
-					<div class="tx-extbase-flash-message">
-						<div class="typo3-message message-notice">
-							<p>
-								<strong>Outdated extension</strong><br />
-								This extension supports none of the currently supported TYPO3 core versions or was uploaded before the release of the oldest TYPO3 core version.<br />
-								It may no longer be maintained or supported by the extension owner.<br />
-								Please be careful using this extension for your up-to-date TYPO3 instance.<br /><br />
-								If you are sure this extension is flagged as outdated by mistake, please contact the <f:link.page pageUid="90">t3o team</f:link.page>
-							</p>
-						</div>
-					</div>
-				</f:if>
+                <f:if condition="{extension.lastVersion.reviewState} == -2">
+                    <div class="tx-extbase-flash-message">
+                        <div class="typo3-message message-notice">
+                            <p>
+                                <strong>Outdated extension</strong><br/>
+                                This extension supports none of the currently supported TYPO3 core versions or was
+                                uploaded before the release of the oldest TYPO3 core version.<br/>
+                                It may no longer be maintained or supported by the extension owner.<br/>
+                                Please be careful using this extension for your up-to-date TYPO3 instance.<br/><br/>
+                                If you are sure this extension is flagged as outdated by mistake, please contact the
+                                <f:link.page pageUid="90">t3o team</f:link.page>
+                            </p>
+                        </div>
+                    </div>
+                </f:if>
 
-				<div class="extension-header-image">
-					<div class="extension-description">
-						<p>{extension.lastVersion.description}</p>
-					</div>
-					<f:if condition="{extension.lastVersion.reviewState} != -1">
-						<div class="download-button">
-							<f:link.action class="bu large" controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_header"/> version {extension.lastVersion.versionString}</f:link.action>
-						</div>
-					</f:if>
-				</div>
-				<div style="clear: both;">&nbsp;</div>
-				<div class="b-tabs">
-					<ul class="tabs lite-tabs">
-						<li class="act">
-							<a href="#"><f:translate key="description" /></a>
-						</li>
-						<li class="">
-							<a href="#"><f:translate key="download" /></a>
-						</li>
+                <div class="extension-header-image">
+                    <div class="extension-description">
+                        <p>{extension.lastVersion.description}</p>
+                    </div>
+                    <f:if condition="{extension.lastVersion.reviewState} != -1">
+                        <div class="download-button">
+                            <f:link.action class="bu large" controller="Extension" action="download"
+                                           arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}">
+                                <f:translate key="download_header"/>
+                                version {extension.lastVersion.versionString}
+                            </f:link.action>
+                        </div>
+                    </f:if>
+                </div>
+                <div style="clear: both;">&nbsp;</div>
+                <div class="b-tabs">
+                    <ul class="tabs lite-tabs">
+                        <li class="act">
+                            <a href="#">
+                                <f:translate key="description"/>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <f:translate key="download"/>
+                            </a>
+                        </li>
 
-						<f:if condition="{extension.lastVersion.media}">
-							<li class="">
-								<a href="#"><f:translate key="media" /></a>
-							</li>
-						</f:if>
-						<f:if condition="{settings.show.reviewForm}">
-							<f:security.ifHasRole role="{settings.reviewerGroupUid}">
-								<li class="">
-									<a href="#"><f:translate key="review" /></a>
-								</li>
-							</f:security.ifHasRole>
-						</f:if>
-					</ul>
-					<div class="tab-panes">
-						<div class="show-tab tab-content lite-tab-panes-black">
-							<div class="ter-ext-single-content cl">
-								<div class="ter-ext-single-description">
+                        <f:if condition="{extension.lastVersion.media}">
+                            <li class="">
+                                <a href="#">
+                                    <f:translate key="media"/>
+                                </a>
+                            </li>
+                        </f:if>
+                        <f:if condition="{settings.show.reviewForm}">
+                            <f:security.ifHasRole role="{settings.reviewerGroupUid}">
+                                <li class="">
+                                    <a href="#">
+                                        <f:translate key="review"/>
+                                    </a>
+                                </li>
+                            </f:security.ifHasRole>
+                        </f:if>
+                    </ul>
+                    <div class="tab-panes">
+                        <div class="show-tab tab-content lite-tab-panes-black">
+                            <div class="ter-ext-single-content cl">
+                                <div class="ter-ext-single-description">
 
-									<f:if condition="{extension.lastVersion.typo3Dependency}">
-										<h3>TYPO3 version support</h3>
-										<p>
-											This version works for <strong>TYPO3 {extension.lastVersion.typo3Dependency.versionString}</strong><br />
-											If you look for other TYPO3 versions, click the "Download" tab to get a history of all extension versions.
-										</p>
-									</f:if>
+                                    <f:if condition="{extension.lastVersion.typo3Dependency}">
+                                        <h3>TYPO3 version support</h3>
+                                        <p>
+                                            This version works for <strong>TYPO3
+                                            {extension.lastVersion.typo3Dependency.versionString}</strong><br/>
+                                            If you look for other TYPO3 versions, click the "Download" tab to get a
+                                            history of all extension versions.
+                                        </p>
+                                    </f:if>
 
-									<!-- Comments / changelog -->
-									<f:if condition="{extension.lastVersion.uploadComment}">
-										<div class="ter-ext-single-lastUploadComment">
-											<h3><f:translate key="last_upload_comment"/></h3>
-											<p><f:format.nl2br>{extension.lastVersion.uploadComment}</f:format.nl2br></p>
-										</div>
-									</f:if>
+                                    <!-- Comments / changelog -->
+                                    <f:if condition="{extension.lastVersion.uploadComment}">
+                                        <div class="ter-ext-single-lastUploadComment">
+                                            <h3>
+                                                <f:translate key="last_upload_comment"/>
+                                            </h3>
+                                            <p>
+                                                <f:format.nl2br>{extension.lastVersion.uploadComment}</f:format.nl2br>
+                                            </p>
+                                        </div>
+                                    </f:if>
 
-									<f:if condition="{extension.tags}">
-										<h3>Tags</h3>
-										<p class="tags"><f:for each="{extension.tags}" as="tag"> <f:link.page additionalParams="{q: '{tag.title}'}"><span class="taglabel">#{tag.title}</span></f:link.page></f:for></p>
-									</f:if>
+                                    <f:if condition="{extension.tags}">
+                                        <h3>Tags</h3>
+                                        <p class="tags">
+                                            <f:for each="{extension.tags}" as="tag">
+                                                <f:link.page additionalParams="{q: '{tag.title}'}"><span
+                                                        class="taglabel">#{tag.title}</span></f:link.page>
+                                            </f:for>
+                                        </p>
+                                    </f:if>
 
-									<h3><f:translate key="downloads_by_version"/></h3>
-									<terfe2:chart object="{extension}" method="downloadsByVersion" height="220" width="375" pointCount="{settings.defaultPointCount}" renderOnLoad="1"/>
+                                    <h3>
+                                        <f:translate key="downloads_by_version"/>
+                                    </h3>
+                                    <terfe2:chart object="{extension}" method="downloadsByVersion" height="220"
+                                                  width="375" pointCount="{settings.defaultPointCount}"
+                                                  renderOnLoad="1"/>
 
-									<f:if condition="{extensionsByUser}">
-										<h3><f:translate key="other_extensions_by_user" /></h3>
-										<ul>
-											<f:for each="{extensionsByUser}" as="extByUser">
-												<li>
-													<f:link.action action="show" arguments="{extension : extByUser}">
-														{extByUser.lastVersion.title} ({extByUser.lastVersion.versionString}, {extByUser.lastVersion.state})
-													</f:link.action>
-												</li>
-											</f:for>
-										</ul>
-									</f:if>
+                                    <f:if condition="{extensionsByUser}">
+                                        <h3>
+                                            <f:translate key="other_extensions_by_user"/>
+                                        </h3>
+                                        <ul>
+                                            <f:for each="{extensionsByUser}" as="extByUser">
+                                                <li>
+                                                    <f:link.action action="show" arguments="{extension : extByUser}">
+                                                        {extByUser.lastVersion.title}
+                                                        ({extByUser.lastVersion.versionString},
+                                                        {extByUser.lastVersion.state})
+                                                    </f:link.action>
+                                                </li>
+                                            </f:for>
+                                        </ul>
+                                    </f:if>
 
-								</div>
-								<f:render partial="ExtensionSingleInfo" arguments="{extension:extension, settings:settings, owner:owner, flattrUrl:flattrUrl, documentationLink:documentationLink, qualityLinkNotBroken:qualityLinkNotBroken, urlToQualityServer:urlToQualityServer}" />
-							</div>
-						</div>
-						<div class="hide-tab tab-content lite-tab-panes-black">
-							<div class="ter-ext-single" style="padding-top: 10px;">
-								<h2><f:translate key="download_current"/> {extension.lastVersion.versionString}</h2>
-								<div class="ter-ext-single-download" style="padding-top: 8px;">
-									<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}" class="ter-download-icon ter-download-icon-t3x"><f:translate key="download_t3x"/></f:link.action>
-									<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"><f:translate key="download_t3x"/></f:link.action>
-									<div class="ter-ext-single-filesize"><f:translate key="filesize"/>: <terfe2:filesize filesize="{extension.lastVersion.t3xFileSize}" /></div>
-								</div>
-								<div class="ter-ext-single-download">
-									<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}" class="ter-download-icon ter-download-icon-zip"><f:translate key="download_zip"/></f:link.action>
-									<f:link.action controller="Extension" action="download" arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"><f:translate key="download_zip"/></f:link.action>
-									<div class="ter-ext-single-filesize"><f:translate key="filesize"/>: <terfe2:filesize filesize="{extension.lastVersion.zipFileSize}" /></div>
-								</div>
+                                </div>
+                                <f:render partial="ExtensionSingleInfo"
+                                          arguments="{extension:extension, settings:settings, owner:owner, flattrUrl:flattrUrl, documentationLink:documentationLink, qualityLinkNotBroken:qualityLinkNotBroken, urlToQualityServer:urlToQualityServer}"/>
+                            </div>
+                        </div>
+                        <div class="hide-tab tab-content lite-tab-panes-black">
+                            <div class="ter-ext-single" style="padding-top: 10px;">
+                                <h2>
+                                    <f:translate key="download_current"/>
+                                    {extension.lastVersion.versionString}
+                                </h2>
+                                <div class="ter-ext-single-download" style="padding-top: 8px;">
+                                    <f:link.action controller="Extension" action="download"
+                                                   arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}"
+                                                   class="ter-download-icon ter-download-icon-t3x">
+                                        <f:translate key="download_t3x"/>
+                                    </f:link.action>
+                                    <f:link.action controller="Extension" action="download"
+                                                   arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 't3x'}">
+                                        <f:translate key="download_t3x"/>
+                                    </f:link.action>
+                                    <div class="ter-ext-single-filesize">
+                                        <f:translate key="filesize"/>
+                                        :
+                                        <terfe2:filesize filesize="{extension.lastVersion.t3xFileSize}"/>
+                                    </div>
+                                </div>
+                                <div class="ter-ext-single-download">
+                                    <f:link.action controller="Extension" action="download"
+                                                   arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}"
+                                                   class="ter-download-icon ter-download-icon-zip">
+                                        <f:translate key="download_zip"/>
+                                    </f:link.action>
+                                    <f:link.action controller="Extension" action="download"
+                                                   arguments="{extension : extension, versionString : extension.lastVersion.versionString, format : 'zip'}">
+                                        <f:translate key="download_zip"/>
+                                    </f:link.action>
+                                    <div class="ter-ext-single-filesize">
+                                        <f:translate key="filesize"/>
+                                        :
+                                        <terfe2:filesize filesize="{extension.lastVersion.zipFileSize}"/>
+                                    </div>
+                                </div>
 
-								<f:if condition="{versionHistory->f:count()} >= 1">
+                                <f:if condition="{versionHistory->f:count()} >= 1">
 
-									<h3><f:translate key="version_history" /></h3>
-									<div class="ter-ext-single-versionhistory ter-toggle-show">
-										<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: versionHistory, extension: extension}" />
-									</div>
-									<div class="ter-ext-single-versionhistory ter-toggle-hide">
-										<f:render partial="ExtensionUploadHistoryList" arguments="{versionHistory: extension.reverseVersionsByVersionNumber, extension: extension}" />
-									</div>
-								</f:if>
-							</div>
-						</div>
-						<f:if condition="{extension.lastVersion.media}">
-							<div class="hide-tab tab-content lite-tab-panes-black">
-								<div class="ter-ext-single" style="padding-top: 10px;">
-										<!-- Images and other media -->
-									<div class="ter-ext-single-images">
-										<f:for each="{extension.lastVersion.media}" as="media">
-											<!-- display only images in the list view -->
-											<f:if condition="{media.type} == 0">
-												<!-- add shadowbox effect to images -->
-												<a href="{settings.mediaRootPath}{extension.extKey}/{media.source}" rel="shadowbox[{extension.extKey}]">
-													<f:image src="{settings.mediaRootPath}{extension.extKey}/{media.source}" width="150" maxHeight="120" alt="{media.title}" />
-												</a>
-											</f:if>
-										</f:for>
-									</div>
-								</div>
-							</div>
-						</f:if>
-						<f:if condition="{settings.show.reviewForm}">
-							<f:security.ifHasRole role="{settings.reviewerGroupUid}">
-								<div class="hide-tab tab-content lite-tab-panes-black">
-									<div class="ter-ext-single" style="padding-top: 10px;">
-										<f:render partial="ReviewForm" arguments="{extension: extension}"/>
-									</div>
-								</div>
-							</f:security.ifHasRole>
-						</f:if>
-					</div>
-				</div>
-				<div class="socialshareprivacy"></div>
-				<f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey" arguments="{restoreSearch: 1}"><f:translate key="back_to_extension_list" /></f:link.action>
-			</div>
-		</f:then>
-		<f:else>
-			<p><f:translate key="msg.extension_not_found" /></p>
-		</f:else>
-	</f:if>
+                                    <h3>
+                                        <f:translate key="version_history"/>
+                                    </h3>
+                                    <div class="ter-ext-single-versionhistory ter-toggle-show">
+                                        <f:render partial="ExtensionUploadHistoryList"
+                                                  arguments="{versionHistory: versionHistory, extension: extension}"/>
+                                    </div>
+                                    <div class="ter-ext-single-versionhistory ter-toggle-hide">
+                                        <f:render partial="ExtensionUploadHistoryList"
+                                                  arguments="{versionHistory: extension.reverseVersionsByVersionNumber, extension: extension}"/>
+                                    </div>
+                                </f:if>
+                            </div>
+                        </div>
+                        <f:if condition="{extension.lastVersion.media}">
+                            <div class="hide-tab tab-content lite-tab-panes-black">
+                                <div class="ter-ext-single" style="padding-top: 10px;">
+                                    <!-- Images and other media -->
+                                    <div class="ter-ext-single-images">
+                                        <f:for each="{extension.lastVersion.media}" as="media">
+                                            <!-- display only images in the list view -->
+                                            <f:if condition="{media.type} == 0">
+                                                <!-- add shadowbox effect to images -->
+                                                <a href="{settings.mediaRootPath}{extension.extKey}/{media.source}"
+                                                   rel="shadowbox[{extension.extKey}]">
+                                                    <f:image
+                                                            src="{settings.mediaRootPath}{extension.extKey}/{media.source}"
+                                                            width="150" maxHeight="120" alt="{media.title}"/>
+                                                </a>
+                                            </f:if>
+                                        </f:for>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:if>
+                        <f:if condition="{settings.show.reviewForm}">
+                            <f:security.ifHasRole role="{settings.reviewerGroupUid}">
+                                <div class="hide-tab tab-content lite-tab-panes-black">
+                                    <div class="ter-ext-single" style="padding-top: 10px;">
+                                        <f:render partial="ReviewForm" arguments="{extension: extension}"/>
+                                    </div>
+                                </div>
+                            </f:security.ifHasRole>
+                        </f:if>
+                    </div>
+                </div>
+                <div class="socialshareprivacy"></div>
+                <f:link.action controller="Extension" action="index" class="bu bu-mini dark-grey"
+                               arguments="{restoreSearch: 1}">
+                    <f:translate key="back_to_extension_list"/>
+                </f:link.action>
+            </div>
+        </f:then>
+        <f:else>
+            <p>
+                <f:translate key="msg.extension_not_found"/>
+            </p>
+        </f:else>
+    </f:if>
 </f:section>

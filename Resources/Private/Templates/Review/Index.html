@@ -1,9 +1,9 @@
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
 <f:section name="main">
-	<f:render partial="ExtensionSearchForExtKey" arguments="{search : search}" />
+    <f:render partial="ExtensionSearchForExtKey" arguments="{search : search}"/>
 
-	<f:if condition="{search}">
-		<f:render partial="ExtensionList" arguments="{extensions : extensions}" />
-	</f:if>
+    <f:if condition="{search}">
+        <f:render partial="ExtensionList" arguments="{extensions : extensions}"/>
+    </f:if>
 </f:section>

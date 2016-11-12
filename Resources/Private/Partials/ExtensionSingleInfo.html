@@ -1,129 +1,183 @@
 {namespace terfe2=Tx_TerFe2_ViewHelpers}
 
 <div class="ter-ext-single-info ter-ext-info">
-	<table>
-		<tr class="ter-ext-single-info-key">
-			<th><f:translate key="extensionKey"/></th>
-			<td><strong>{extension.extKey}</strong></td>
-		</tr>
-		<tr>
-			<th><f:translate key="version"/></th>
-			<td>{extension.lastVersion.versionString} <span class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span></td>
-		</tr>
-		<tr>
-			<th><f:translate key="last_updated"/></th>
-			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime></td>
-		</tr>
-		<tr>
-			<th><f:translate key="first_upload"/></th>
-			<td><terfe2:dateTime format="{settings.dateFormat}">{extension.crdate}</terfe2:dateTime></td>
-		</tr>
-		<tr>
-			<th><f:translate key="downloads"/></th>
-			<td><f:format.number decimals="0" thousandsSeparator="," decimalSeparator=".">{extension.downloads}</f:format.number></td>
-		</tr>
-		<f:security.ifHasRole role="{settings.reviewerGroupUid}">
-			<tr>
-				<th>Owner:</th>
-				<td> Name: {owner.name}
-					<br />Email: {owner.email}
-					<br />Username: {owner.username}
-				</td>
-			</tr>
-		</f:security.ifHasRole>
-		<tr>
-			<th><f:translate key="category"/></th>
-			<td>
-				<f:if condition="{extension.lastVersion.emCategory}">
-					<f:then>
-						<f:translate key="category_{extension.lastVersion.emCategory}" />
-					</f:then>
-					<f:else>
-						<f:translate key="none" />
-					</f:else>
-				</f:if>
-			</td>
-		</tr>
-		<tr class="ter-ext-single-info-relations">
-			<th><f:translate key="dependencies"/></th>
-			<td><f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.dependencies}"/></td>
-		</tr>
-		<tr class="ter-ext-single-info-relations">
-			<th><f:translate key="conflicts"/>
-			</th>
-			<td>
-				<f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.conflicts}"/>
-			</td>
-		</tr>
-		<tr class="ter-ext-single-info-manual">
-			<th><f:translate key="manual"/></th>
-			<td>
-				<f:if condition="{documentationLink}">
-					<f:then>
-						<terfe2:raw>{documentationLink}</terfe2:raw>
-						<f:if condition="{extension.externalManual}">
-							<br />
-							<f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="external_manual" /></f:link.external>
-						</f:if>
-					</f:then>
-					<f:else>
-						<f:if condition="{extension.externalManual}">
-							<f:then><f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank"><f:translate key="extension_manual" /></f:link.external></f:then>
-							<f:else><f:translate key="extension_manual_not_available" /></f:else>
-						</f:if>
-					</f:else>
-				</f:if>
-			</td>
-		</tr>
-		<f:if condition="{extension.forgeLink}">
-			<tr class="ter-ext-single-info-key">
-				<th><f:translate key="bugtracker" /></th>
-				<td>
-					<f:link.external rel="nofollow" uri="{extension.forgeLink}" target="_blank"><f:translate key="found_a_bug" /></f:link.external>
-				</td>
-			</tr>
-		</f:if>
-		<f:if condition="{extension.repositoryUrl}">
-			<tr class="ter-ext-single-info-key">
-				<th><f:translate key="repository_url" /></th>
-				<td>
-					<f:link.external rel="nofollow" uri="{extension.repositoryUrl}" target="_blank"><f:translate key="repository_url_value" /></f:link.external>
-				</td>
-			</tr>
-		</f:if>
-		<f:if condition="{flattrUrl}">
-			<tr class="ter-ext-single-flattr">
-				<th><f:translate key="donate" /></th>
-				<td>
-					<f:link.external uri="{flattrUrl}" target="_blank"><img src="https://api.flattr.com/button/flattr-badge-large.png" alt="{f:translate(key:'donate')}" /></f:link.external>
-				</td>
-			</tr>
-		</f:if>
-		<f:if condition="{extension.paypalUrl}">
-			<tr class="ter-ext-single-info-key">
-				<th><f:translate key="like_it" /></th>
-				<td>
-					<f:link.external rel="nofollow" uri="{extension.paypalUrl}" target="_blank"><f:translate key="donate_url" /></f:link.external>
-				</td>
-			</tr>
-		</f:if>
-		<f:if condition="{owner.username}">
-			<tr>
-				<th>Username</th>
-				<td>
-					{owner.username}
-				</td>
-			</tr>
-		</f:if>
-		<f:if condition="{owner}">
-			<tr>
-				<th><f:translate key="author"/></th>
-				<td>
-					{owner.name}
-					<br />
-					<terfe2:userImage user="{owner}" alt="{owner.name}" size="mid" />
-				</td>
-			</tr>
-		</f:if>
-	</table>
+    <table>
+        <tr class="ter-ext-single-info-key">
+            <th>
+                <f:translate key="extensionKey"/>
+            </th>
+            <td><strong>{extension.extKey}</strong></td>
+        </tr>
+        <tr>
+            <th>
+                <f:translate key="version"/>
+            </th>
+            <td>{extension.lastVersion.versionString} <span
+                    class="ter-ext-state ter-ext-state-{extension.lastVersion.state}">{extension.lastVersion.state}</span>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <f:translate key="last_updated"/>
+            </th>
+            <td>
+                <terfe2:dateTime format="{settings.dateFormat}">{extension.lastVersion.uploadDate}</terfe2:dateTime>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <f:translate key="first_upload"/>
+            </th>
+            <td>
+                <terfe2:dateTime format="{settings.dateFormat}">{extension.crdate}</terfe2:dateTime>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <f:translate key="downloads"/>
+            </th>
+            <td>
+                <f:format.number decimals="0" thousandsSeparator="," decimalSeparator=".">{extension.downloads}
+                </f:format.number>
+            </td>
+        </tr>
+        <f:security.ifHasRole role="{settings.reviewerGroupUid}">
+            <tr>
+                <th>Owner:</th>
+                <td> Name: {owner.name}
+                    <br/>Email: {owner.email}
+                    <br/>Username: {owner.username}
+                </td>
+            </tr>
+        </f:security.ifHasRole>
+        <tr>
+            <th>
+                <f:translate key="category"/>
+            </th>
+            <td>
+                <f:if condition="{extension.lastVersion.emCategory}">
+                    <f:then>
+                        <f:translate key="category_{extension.lastVersion.emCategory}"/>
+                    </f:then>
+                    <f:else>
+                        <f:translate key="none"/>
+                    </f:else>
+                </f:if>
+            </td>
+        </tr>
+        <tr class="ter-ext-single-info-relations">
+            <th>
+                <f:translate key="dependencies"/>
+            </th>
+            <td>
+                <f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.dependencies}"/>
+            </td>
+        </tr>
+        <tr class="ter-ext-single-info-relations">
+            <th>
+                <f:translate key="conflicts"/>
+            </th>
+            <td>
+                <f:render partial="InlineRelationList" arguments="{relations: extension.lastVersion.conflicts}"/>
+            </td>
+        </tr>
+        <tr class="ter-ext-single-info-manual">
+            <th>
+                <f:translate key="manual"/>
+            </th>
+            <td>
+                <f:if condition="{documentationLink}">
+                    <f:then>
+                        <terfe2:raw>{documentationLink}</terfe2:raw>
+                        <f:if condition="{extension.externalManual}">
+                            <br/>
+                            <f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank">
+                                <f:translate key="external_manual"/>
+                            </f:link.external>
+                        </f:if>
+                    </f:then>
+                    <f:else>
+                        <f:if condition="{extension.externalManual}">
+                            <f:then>
+                                <f:link.external rel="nofollow" uri="{extension.externalManual}" target="_blank">
+                                    <f:translate key="extension_manual"/>
+                                </f:link.external>
+                            </f:then>
+                            <f:else>
+                                <f:translate key="extension_manual_not_available"/>
+                            </f:else>
+                        </f:if>
+                    </f:else>
+                </f:if>
+            </td>
+        </tr>
+        <f:if condition="{extension.forgeLink}">
+            <tr class="ter-ext-single-info-key">
+                <th>
+                    <f:translate key="bugtracker"/>
+                </th>
+                <td>
+                    <f:link.external rel="nofollow" uri="{extension.forgeLink}" target="_blank">
+                        <f:translate key="found_a_bug"/>
+                    </f:link.external>
+                </td>
+            </tr>
+        </f:if>
+        <f:if condition="{extension.repositoryUrl}">
+            <tr class="ter-ext-single-info-key">
+                <th>
+                    <f:translate key="repository_url"/>
+                </th>
+                <td>
+                    <f:link.external rel="nofollow" uri="{extension.repositoryUrl}" target="_blank">
+                        <f:translate key="repository_url_value"/>
+                    </f:link.external>
+                </td>
+            </tr>
+        </f:if>
+        <f:if condition="{flattrUrl}">
+            <tr class="ter-ext-single-flattr">
+                <th>
+                    <f:translate key="donate"/>
+                </th>
+                <td>
+                    <f:link.external uri="{flattrUrl}" target="_blank"><img
+                            src="https://api.flattr.com/button/flattr-badge-large.png"
+                            alt="{f:translate(key:'donate')}"/></f:link.external>
+                </td>
+            </tr>
+        </f:if>
+        <f:if condition="{extension.paypalUrl}">
+            <tr class="ter-ext-single-info-key">
+                <th>
+                    <f:translate key="like_it"/>
+                </th>
+                <td>
+                    <f:link.external rel="nofollow" uri="{extension.paypalUrl}" target="_blank">
+                        <f:translate key="donate_url"/>
+                    </f:link.external>
+                </td>
+            </tr>
+        </f:if>
+        <f:if condition="{owner.username}">
+            <tr>
+                <th>Username</th>
+                <td>
+                    {owner.username}
+                </td>
+            </tr>
+        </f:if>
+        <f:if condition="{owner}">
+            <tr>
+                <th>
+                    <f:translate key="author"/>
+                </th>
+                <td>
+                    {owner.name}
+                    <br/>
+                    <terfe2:userImage user="{owner}" alt="{owner.name}" size="mid"/>
+                </td>
+            </tr>
+        </f:if>
+    </table>
 </div>
