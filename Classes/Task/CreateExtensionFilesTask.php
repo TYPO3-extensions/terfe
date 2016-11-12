@@ -26,179 +26,185 @@
 /**
  * Create zip archives from t3x files and generate images
  */
-class Tx_TerFe2_Task_CreateExtensionFilesTask extends Tx_TerFe2_Task_AbstractTask {
+class Tx_TerFe2_Task_CreateExtensionFilesTask extends Tx_TerFe2_Task_AbstractTask
+{
 
-	/**
-	 * @var Tx_TerFe2_Domain_Repository_VersionRepository
-	 */
-	protected $versionRepository;
+    /**
+     * @var Tx_TerFe2_Domain_Repository_VersionRepository
+     */
+    protected $versionRepository;
 
-	/**
-	 * @var Tx_TerFe2_Provider_ProviderManager
-	 */
-	protected $providerManager;
+    /**
+     * @var Tx_TerFe2_Provider_ProviderManager
+     */
+    protected $providerManager;
 
-	/**
-	 * @var Tx_Extbase_Persistence_Manager
-	 */
-	protected $persistenceManager;
+    /**
+     * @var Tx_Extbase_Persistence_Manager
+     */
+    protected $persistenceManager;
 
-	/**
-	 * @var string
-	 */
-	protected $mediaRootPath = '';
+    /**
+     * @var string
+     */
+    protected $mediaRootPath = '';
 
-	/**
-	 * @var array
-	 */
-	protected $imageSizes = array('small', 'large');
-
-
-	/**
-	 * Initialize task
-	 *
-	 * @return void
-	 */
-	public function initializeTask() {
-		$this->versionRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
-		$this->providerManager    = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
-		$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
-
-		if (empty($this->setup['settings.']['mediaRootPath'])) {
-			throw new Exception('Please configure "plugin.tx_terfe2.settings.mediaRootPath" in TypoScript setup');
-		}
-		$this->mediaRootPath = $this->setup['settings.']['mediaRootPath'];
-	}
+    /**
+     * @var array
+     */
+    protected $imageSizes = array('small', 'large');
 
 
-	/**
-	 * Execute the task
-	 *
-	 * @param integer $lastRun Timestamp of the last run
-	 * @param integer $offset Starting point
-	 * @param integer $count Element count to process at once
-	 * @return boolean TRUE on success
-	 */
-	protected function executeTask($lastRun, $offset, $count) {
-			// Get all unprocessed versions
-		$versions = $this->versionRepository->findForMediaCreation($offset, $count);
-		if ($versions->count() === 0) {
-			return FALSE;
-		}
+    /**
+     * Initialize task
+     *
+     * @return void
+     */
+    public function initializeTask()
+    {
+        $this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
+        $this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
+        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 
-			// Simulate working directory "htdocs", required for file_exists check
-			// in t3lib_stdGraphic::getImageDimensions
-		$currentDir = getcwd();
-		chdir(PATH_site);
-
-			// Create ZIP file only for last version
-		$lastVersionOnly = !empty($this->setup['settings.']['onlyLatestVersionZip']);
-
-		foreach ($versions as $version) {
-				// Get media path for the extension
-			$extKey = $version->getExtension()->getExtKey();
-			$lastVersion = $version->getExtension()->getLastVersion();
-			$extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->mediaRootPath . $extKey);
-
-				// Create zip file
-			if (!$lastVersionOnly || ($lastVersion === $version)) {
-				$zipFile = $this->createZipFile($version, $extensionMediaPath);
-				if (!empty($zipFile)) {
-					$version->setZipFileSize(filesize($zipFile));
-					$version->setHasZipFile(TRUE);
-				}
-			}
-
-				// Create images
-			if ($this->createImages($version, $extensionMediaPath)) {
-				$version->setHasImages(TRUE);
-			}
-
-			$this->persistenceManager->persistAll();
-		}
-
-			// Revert working directory
-		chdir($currentDir);
-
-		return TRUE;
-	}
+        if (empty($this->setup['settings.']['mediaRootPath'])) {
+            throw new Exception('Please configure "plugin.tx_terfe2.settings.mediaRootPath" in TypoScript setup');
+        }
+        $this->mediaRootPath = $this->setup['settings.']['mediaRootPath'];
+    }
 
 
-	/**
-	 * Create a zip file for given version
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Version $version Path to t3x file
-	 * @param string $extensionMediaPath Path to media files
-	 * @return string Name of the zip file
-	 */
-	protected function createZipFile(Tx_TerFe2_Domain_Model_Version $version, $extensionMediaPath) {
-		if (empty($extensionMediaPath)) {
-			return '';
-		}
+    /**
+     * Execute the task
+     *
+     * @param integer $lastRun Timestamp of the last run
+     * @param integer $offset Starting point
+     * @param integer $count Element count to process at once
+     * @return boolean TRUE on success
+     */
+    protected function executeTask($lastRun, $offset, $count)
+    {
+        // Get all unprocessed versions
+        $versions = $this->versionRepository->findForMediaCreation($offset, $count);
+        if ($versions->count() === 0) {
+            return FALSE;
+        }
 
-		$provider = $this->providerManager->getProvider($version->getExtensionProvider());
-		$t3xFileName = $provider->getFileUrl($version, 't3x');
-		$zipFileName = $extensionMediaPath . basename($provider->getFileName($version, 'zip'));
+        // Simulate working directory "htdocs", required for file_exists check
+        // in t3lib_stdGraphic::getImageDimensions
+        $currentDir = getcwd();
+        chdir(PATH_site);
 
-			// Check if zip file already exists
-		if (Tx_TerFe2_Utility_File::fileExists($zipFileName)) {
-			return $zipFileName;
-		}
+        // Create ZIP file only for last version
+        $lastVersionOnly = !empty($this->setup['settings.']['onlyLatestVersionZip']);
 
-			// Check file hash
-		$fileHash = Tx_TerFe2_Utility_File::getFileHash($t3xFileName);
-		if ($fileHash != $version->getFileHash()) {
-			return '';
-		}
+        foreach ($versions as $version) {
+            // Get media path for the extension
+            $extKey = $version->getExtension()->getExtKey();
+            $lastVersion = $version->getExtension()->getLastVersion();
+            $extensionMediaPath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->mediaRootPath . $extKey);
 
-			// Create zip file
-		$result = Tx_TerFe2_Utility_Archive::convertT3xToZip($t3xFileName, $zipFileName);
-		if (!empty($result)) {
-			return $zipFileName;
-		}
+            // Create zip file
+            if (!$lastVersionOnly || ($lastVersion === $version)) {
+                $zipFile = $this->createZipFile($version, $extensionMediaPath);
+                if (!empty($zipFile)) {
+                    $version->setZipFileSize(filesize($zipFile));
+                    $version->setHasZipFile(TRUE);
+                }
+            }
 
-		return '';
-	}
+            // Create images
+            if ($this->createImages($version, $extensionMediaPath)) {
+                $version->setHasImages(TRUE);
+            }
+
+            $this->persistenceManager->persistAll();
+        }
+
+        // Revert working directory
+        chdir($currentDir);
+
+        return TRUE;
+    }
 
 
-	/**
-	 * Create images for given version
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Version $version Path to t3x file
-	 * @param string $extensionMediaPath Path to media files
-	 * @return boolean TRUE if success
-	 */
-	protected function createImages(Tx_TerFe2_Domain_Model_Version $version, $extensionMediaPath) {
-		if (empty($extensionMediaPath)) {
-			return FALSE;
-		}
+    /**
+     * Create a zip file for given version
+     *
+     * @param Tx_TerFe2_Domain_Model_Version $version Path to t3x file
+     * @param string $extensionMediaPath Path to media files
+     * @return string Name of the zip file
+     */
+    protected function createZipFile(Tx_TerFe2_Domain_Model_Version $version, $extensionMediaPath)
+    {
+        if (empty($extensionMediaPath)) {
+            return '';
+        }
 
-			// Get image files
-		$imageFiles = array();
-		$mediaObjects = $version->getMedia();
-		foreach ($mediaObjects as $media) {
-			if ($media->getType() === 'image') {
-					// Source must contains only image file name without path
-				$imageFiles[] = $extensionMediaPath . $media->getSource();
-			}
-		}
+        $provider = $this->providerManager->getProvider($version->getExtensionProvider());
+        $t3xFileName = $provider->getFileUrl($version, 't3x');
+        $zipFileName = $extensionMediaPath . basename($provider->getFileName($version, 'zip'));
 
-		if (empty($imageFiles)) {
-			return TRUE;
-		}
+        // Check if zip file already exists
+        if (Tx_TerFe2_Utility_File::fileExists($zipFileName)) {
+            return $zipFileName;
+        }
 
-		foreach ($this->imageSizes as $imageSize) {
-			if (empty($this->setup['settings.'][$imageSize . 'Image'])) {
-				continue;
-			}
-			$images = Tx_TerFe2_Service_Image::processImages($imageFiles, $this->setup['settings.'][$imageSize . 'Image']);
-			if (empty($images)) {
-				throw new Exception('Could not create image files');
-			}
-		}
+        // Check file hash
+        $fileHash = Tx_TerFe2_Utility_File::getFileHash($t3xFileName);
+        if ($fileHash != $version->getFileHash()) {
+            return '';
+        }
 
-		return TRUE;
-	}
+        // Create zip file
+        $result = Tx_TerFe2_Utility_Archive::convertT3xToZip($t3xFileName, $zipFileName);
+        if (!empty($result)) {
+            return $zipFileName;
+        }
+
+        return '';
+    }
+
+
+    /**
+     * Create images for given version
+     *
+     * @param Tx_TerFe2_Domain_Model_Version $version Path to t3x file
+     * @param string $extensionMediaPath Path to media files
+     * @return boolean TRUE if success
+     */
+    protected function createImages(Tx_TerFe2_Domain_Model_Version $version, $extensionMediaPath)
+    {
+        if (empty($extensionMediaPath)) {
+            return FALSE;
+        }
+
+        // Get image files
+        $imageFiles = array();
+        $mediaObjects = $version->getMedia();
+        foreach ($mediaObjects as $media) {
+            if ($media->getType() === 'image') {
+                // Source must contains only image file name without path
+                $imageFiles[] = $extensionMediaPath . $media->getSource();
+            }
+        }
+
+        if (empty($imageFiles)) {
+            return TRUE;
+        }
+
+        foreach ($this->imageSizes as $imageSize) {
+            if (empty($this->setup['settings.'][$imageSize . 'Image'])) {
+                continue;
+            }
+            $images = Tx_TerFe2_Service_Image::processImages($imageFiles, $this->setup['settings.'][$imageSize . 'Image']);
+            if (empty($images)) {
+                throw new Exception('Could not create image files');
+            }
+        }
+
+        return TRUE;
+    }
 
 }
+
 ?>

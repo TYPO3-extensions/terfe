@@ -26,163 +26,169 @@
 /**
  * Abstract task
  */
-abstract class Tx_TerFe2_Task_AbstractTask extends tx_scheduler_Task {
+abstract class Tx_TerFe2_Task_AbstractTask extends tx_scheduler_Task
+{
 
-	/**
-	 * @var integer
-	 */
-	public $elementsPerRun = 100;
+    /**
+     * @var integer
+     */
+    public $elementsPerRun = 100;
 
-	/**
-	 * @var string
-	 */
-	public $clearCachePages = 0;
+    /**
+     * @var string
+     */
+    public $clearCachePages = 0;
 
-	/**
-	 * @var string
-	 */
-	public $forceLastRun = '';
+    /**
+     * @var string
+     */
+    public $forceLastRun = '';
 
-	/**
-	 * @var integer
-	 */
-	public $forceOffset = NULL;
+    /**
+     * @var integer
+     */
+    public $forceOffset = NULL;
 
-	/**
-	 * @var integer
-	 */
-	public $ignoreEmptyUntil = NULL;
+    /**
+     * @var integer
+     */
+    public $ignoreEmptyUntil = NULL;
 
-	/**
-	 * @var array
-	 */
-	protected $setup;
+    /**
+     * @var array
+     */
+    protected $setup;
 
-	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManager
-	 */
-	protected $configurationManager;
+    /**
+     * @var Tx_Extbase_Configuration_ConfigurationManager
+     */
+    protected $configurationManager;
 
-	/**
-	 * @var Tx_Extbase_Object_ObjectManager
-	 */
-	protected $objectManager;
+    /**
+     * @var Tx_Extbase_Object_ObjectManager
+     */
+    protected $objectManager;
 
-	/**
-	 * @var Tx_TerFe2_Persistence_Registry
-	 */
-	protected $registry;
-
-
-	/**
-	 * Public method, usually called by scheduler
-	 *
-	 * @return boolean TRUE on success
-	 */
-	public function execute() {
-			// Load object manager
-		$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-
-			// Configuration is required to be loaded in object manager for persistence mapping
-		$this->setup = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2');
-		$this->configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
-		$this->configurationManager->setConfiguration($this->setup);
-
-			// Load registry
-		$this->registry = $this->objectManager->get('Tx_TerFe2_Persistence_Registry');
-		$this->registry->setName(get_class($this));
-
-			// Initialize task
-		$this->initializeTask();
-
-			// Get process information
-		// temporary fix to get a consitent state on preview.typo3.org
-		$lastRun = 0;//(int) $this->registry->get('lastRun');
-		$offset  = (int) $this->registry->get('offset');
-		$count   = (int) $this->elementsPerRun;
-
-			// Force values
-		if (!empty($this->forceLastRun)) {
-			$lastRun = Tx_TerFe2_Utility_Datetime::getTimestampFromDate($this->forceLastRun);
-		}
-		if (is_numeric($this->forceOffset)) {
-			$offset = (int) $this->forceOffset;
-		}
-
-			// Run task
-		$result = $this->executeTask($lastRun, $offset, $count);
-
-			// Add new values to registry
-		if (!empty($result) || (!empty($this->ignoreEmptyUntil) && $offset < (int) $this->ignoreEmptyUntil)) {
-			$offset += $count;
-		} else {
-			$offset = 0;
-		}
-		$this->registry->add('lastRun', $GLOBALS['EXEC_TIME']);
-		$this->registry->add('offset', $offset);
-
-			// Clear page cache
-		if (!empty($result) && !empty($this->clearCachePages)) {
-			$this->clearPageCache($this->clearCachePages);
-		}
+    /**
+     * @var Tx_TerFe2_Persistence_Registry
+     */
+    protected $registry;
 
 
-		return TRUE;
-	}
+    /**
+     * Public method, usually called by scheduler
+     *
+     * @return boolean TRUE on success
+     */
+    public function execute()
+    {
+        // Load object manager
+        $this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+
+        // Configuration is required to be loaded in object manager for persistence mapping
+        $this->setup = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2');
+        $this->configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
+        $this->configurationManager->setConfiguration($this->setup);
+
+        // Load registry
+        $this->registry = $this->objectManager->get('Tx_TerFe2_Persistence_Registry');
+        $this->registry->setName(get_class($this));
+
+        // Initialize task
+        $this->initializeTask();
+
+        // Get process information
+        // temporary fix to get a consitent state on preview.typo3.org
+        $lastRun = 0;//(int) $this->registry->get('lastRun');
+        $offset = (int)$this->registry->get('offset');
+        $count = (int)$this->elementsPerRun;
+
+        // Force values
+        if (!empty($this->forceLastRun)) {
+            $lastRun = Tx_TerFe2_Utility_Datetime::getTimestampFromDate($this->forceLastRun);
+        }
+        if (is_numeric($this->forceOffset)) {
+            $offset = (int)$this->forceOffset;
+        }
+
+        // Run task
+        $result = $this->executeTask($lastRun, $offset, $count);
+
+        // Add new values to registry
+        if (!empty($result) || (!empty($this->ignoreEmptyUntil) && $offset < (int)$this->ignoreEmptyUntil)) {
+            $offset += $count;
+        } else {
+            $offset = 0;
+        }
+        $this->registry->add('lastRun', $GLOBALS['EXEC_TIME']);
+        $this->registry->add('offset', $offset);
+
+        // Clear page cache
+        if (!empty($result) && !empty($this->clearCachePages)) {
+            $this->clearPageCache($this->clearCachePages);
+        }
 
 
-	/**
-	 * Initialize task, override in concrete task
-	 *
-	 * @return void
-	 */
-	public function initializeTask() {
-
-	}
+        return TRUE;
+    }
 
 
-	/**
-	 * Execute the task, implement in concrete task
-	 *
-	 * @param integer $lastRun Timestamp of the last run
-	 * @param integer $offset Starting point
-	 * @param integer $count Element count to process at once
-	 * @return boolean TRUE on success
-	 */
-	abstract protected function executeTask($lastRun, $offset, $count);
+    /**
+     * Initialize task, override in concrete task
+     *
+     * @return void
+     */
+    public function initializeTask()
+    {
+
+    }
 
 
-	/**
-	 * Clear cache of given pages
-	 *
-	 * @param string $pages List of page ids
-	 * @return void
-	 */
-	protected function clearPageCache($pages) {
-		if (!empty($pages)) {
-			$pages = t3lib_div::intExplode(',', $pages, TRUE);
-			Tx_Extbase_Utility_Cache::clearPageCache($pages);
-		}
-	}
+    /**
+     * Execute the task, implement in concrete task
+     *
+     * @param integer $lastRun Timestamp of the last run
+     * @param integer $offset Starting point
+     * @param integer $count Element count to process at once
+     * @return boolean TRUE on success
+     */
+    abstract protected function executeTask($lastRun, $offset, $count);
 
 
-	/**
-	 * Returns additional information
-	 *
-	 * @return string
-	 */
-	public function getAdditionalInformation() {
-			// Load registry
-		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-		$registry = $objectManager->get('Tx_TerFe2_Persistence_Registry');
-		$registry->setName(get_class($this));
+    /**
+     * Clear cache of given pages
+     *
+     * @param string $pages List of page ids
+     * @return void
+     */
+    protected function clearPageCache($pages)
+    {
+        if (!empty($pages)) {
+            $pages = t3lib_div::intExplode(',', $pages, TRUE);
+            Tx_Extbase_Utility_Cache::clearPageCache($pages);
+        }
+    }
 
-			// Get process information
-		$lastRun = (int) $registry->get('lastRun');
-		$offset  = (int) $registry->get('offset');
 
-		return 'Offset: ' . $offset . ' ';
-	}
+    /**
+     * Returns additional information
+     *
+     * @return string
+     */
+    public function getAdditionalInformation()
+    {
+        // Load registry
+        $objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+        $registry = $objectManager->get('Tx_TerFe2_Persistence_Registry');
+        $registry->setName(get_class($this));
+
+        // Get process information
+        $lastRun = (int)$registry->get('lastRun');
+        $offset = (int)$registry->get('offset');
+
+        return 'Offset: ' . $offset . ' ';
+    }
 
 }
+
 ?>

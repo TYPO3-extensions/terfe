@@ -26,27 +26,31 @@
 /**
  * Additional field provider for the update downloads task
  */
-class Tx_TerFe2_Task_UpdateDetailsTaskAdditionalFieldProvider extends Tx_TerFe2_Task_AbstractAdditionalFieldProvider {
+class Tx_TerFe2_Task_UpdateDetailsTaskAdditionalFieldProvider extends Tx_TerFe2_Task_AbstractAdditionalFieldProvider
+{
 
-	/**
-	 * Add some input fields to configure the task
-	 *
-	 * @return void
-	 */
-	protected function addAdditionalFields() {
-		$this->addCheckboxField('recalculateDownloads', FALSE);
-	}
+    /**
+     * Add some input fields to configure the task
+     *
+     * @return void
+     */
+    protected function addAdditionalFields()
+    {
+        $this->addCheckboxField('recalculateDownloads', FALSE);
+    }
 
 
-	/**
-	 * Checks the given values
-	 *
-	 * @param array $submittedData Submitted user data
-	 * @return boolean TRUE if validation was ok
-	 */
-	protected function checkAdditionalFields(array $submittedData) {
-		return TRUE;
-	}
+    /**
+     * Checks the given values
+     *
+     * @param array $submittedData Submitted user data
+     * @return boolean TRUE if validation was ok
+     */
+    protected function checkAdditionalFields(array $submittedData)
+    {
+        return TRUE;
+    }
 
 }
+
 ?>

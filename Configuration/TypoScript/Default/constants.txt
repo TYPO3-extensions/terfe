@@ -2,145 +2,144 @@
 # Default configuration of the extension "ter_fe2"
 # ======================================================================
 plugin.tx_terfe2 {
-	settings {
-		# cat=TER Frontend/settings/1000; type=int+; label=List count: Count of Extensions per page in list view
-		listCount = 20
+    settings {
+        # cat=TER Frontend/settings/1000; type=int+; label=List count: Count of Extensions per page in list view
+        listCount = 20
 
-		# cat=TER Frontend/settings/1010; type=int+; label=Latest count: Count of latest Extensions
-		latestCount = 50
+        # cat=TER Frontend/settings/1010; type=int+; label=Latest count: Count of latest Extensions
+        latestCount = 50
 
-		# cat=TER Frontend/settings/1020; type=int+; label=Author list count: Count of entries in author list
-		authorListCount = 25
+        # cat=TER Frontend/settings/1020; type=int+; label=Author list count: Count of entries in author list
+        authorListCount = 25
 
-		# cat=TER Frontend/settings/1030; type=int+; label=Top rated count: Count of top rated Extensions
-		topRatedCount = 10
+        # cat=TER Frontend/settings/1030; type=int+; label=Top rated count: Count of top rated Extensions
+        topRatedCount = 10
 
-		# cat=TER Frontend/settings/1040; type=int+; label=Random author count: Count of random Authors
-		randomAuthorCount = 10
+        # cat=TER Frontend/settings/1040; type=int+; label=Random author count: Count of random Authors
+        randomAuthorCount = 10
 
-		# cat=TER Frontend/settings/1050; type=int+; label=Description length: Crop description at this count of signs
-		descriptionLength = 350
+        # cat=TER Frontend/settings/1050; type=int+; label=Description length: Crop description at this count of signs
+        descriptionLength = 350
 
-		# cat=TER Frontend/settings/1060; type=string; label=Date format: Date format
-		dateFormat = F j, Y
+        # cat=TER Frontend/settings/1060; type=string; label=Date format: Date format
+        dateFormat = F j, Y
 
-		# cat=TER Frontend/settings/1070; type=string; label=Media root path: Media root path for zip files and images
-		mediaRootPath = fileadmin/extensionFiles/
+        # cat=TER Frontend/settings/1070; type=string; label=Media root path: Media root path for zip files and images
+        mediaRootPath = fileadmin/extensionFiles/
 
-		# cat=TER Frontend/settings/1080; type=boolean; label=Count downloads: Count extension downloads via download action
-		countDownloads = 1
+        # cat=TER Frontend/settings/1080; type=boolean; label=Count downloads: Count extension downloads via download action
+        countDownloads = 1
 
-		# cat=TER Frontend/settings/1090; type=int+; label=Default point count: Count of points to show in chart
-		defaultPointCount = 8
+        # cat=TER Frontend/settings/1090; type=int+; label=Default point count: Count of points to show in chart
+        defaultPointCount = 8
 
-		# cat=TER Frontend/settings/1100; type=int+; label=Version history count: Count of versions to show in history
-		versionHistoryCount = 3
+        # cat=TER Frontend/settings/1100; type=int+; label=Version history count: Count of versions to show in history
+        versionHistoryCount = 3
 
-		# cat=TER Frontend/settings/1110; type=boolean; label=Skip latest version: Skip latest version in version history
-		skipLatestVersion = 1
+        # cat=TER Frontend/settings/1110; type=boolean; label=Skip latest version: Skip latest version in version history
+        skipLatestVersion = 1
 
-		# cat=TER Frontend/settings/1120; type=boolean; label=Only latest version zip: Create ZIP file only for latest version
-		onlyLatestVersionZip = 1
+        # cat=TER Frontend/settings/1120; type=boolean; label=Only latest version zip: Create ZIP file only for latest version
+        onlyLatestVersionZip = 1
 
-		terConnection {
-			# cat=TER Frontend/settings/2000; type=string; label=TER WSDL URI: WSDL URI to connect TER server
-			wsdl = http://typo3.org/wsdl/tx_ter_wsdl.php
+        terConnection {
+            # cat=TER Frontend/settings/2000; type=string; label=TER WSDL URI: WSDL URI to connect TER server
+            wsdl = http://typo3.org/wsdl/tx_ter_wsdl.php
 
-			# cat=TER Frontend/settings/2010; type=string; label=TER Username: Username to connect TER server
-			username =
+            # cat=TER Frontend/settings/2010; type=string; label=TER Username: Username to connect TER server
+            username =
 
-			# cat=TER Frontend/settings/2020; type=string; label=TER Password: Password to connect TER server
-			password =
-		}
+            # cat=TER Frontend/settings/2020; type=string; label=TER Password: Password to connect TER server
+            password =
+        }
 
-		smallImage {
-			# cat=TER Frontend/settings/3000; type=int+; label=Small image maxW: Maximal width for small images
-			maxW = 200
+        smallImage {
+            # cat=TER Frontend/settings/3000; type=int+; label=Small image maxW: Maximal width for small images
+            maxW = 200
 
-			# cat=TER Frontend/settings/3010; type=int+; label=Small image maxH: Maximal height for small images
-			maxH = 160
+            # cat=TER Frontend/settings/3010; type=int+; label=Small image maxH: Maximal height for small images
+            maxH = 160
 
-			# cat=TER Frontend/settings/3020; type=int+; label=Small image quality: Quality of small images
-			quality = 70
+            # cat=TER Frontend/settings/3020; type=int+; label=Small image quality: Quality of small images
+            quality = 70
 
-			# cat=TER Frontend/settings/3030; type=string; label=Small image format: Output format of small images
-			ext = jpg
-		}
+            # cat=TER Frontend/settings/3030; type=string; label=Small image format: Output format of small images
+            ext = jpg
+        }
 
-		largeImage {
-			# cat=TER Frontend/settings/4000; type=int+; label=Large image maxW: Maximal width for large images in fullscreen mode
-			maxW = 1024
+        largeImage {
+            # cat=TER Frontend/settings/4000; type=int+; label=Large image maxW: Maximal width for large images in fullscreen mode
+            maxW = 1024
 
-			# cat=TER Frontend/settings/4010; type=int+; label=Large image maxH: Maximal height for large images in fullscreen mode
-			maxH = 768
+            # cat=TER Frontend/settings/4010; type=int+; label=Large image maxH: Maximal height for large images in fullscreen mode
+            maxH = 768
 
-			# cat=TER Frontend/settings/4020; type=int+; label=Large image quality: Quality of large images
-			quality = 70
+            # cat=TER Frontend/settings/4020; type=int+; label=Large image quality: Quality of large images
+            quality = 70
 
-			# cat=TER Frontend/settings/4030; type=string; label=Large image format: Output format of large images
-			ext = jpg
-		}
+            # cat=TER Frontend/settings/4030; type=string; label=Large image format: Output format of large images
+            ext = jpg
+        }
 
-		show {
-			# cat=TER Frontend/settings/5000; type=boolean; label=Show extension search: Show extension search above extension list
-			extensionSearch = 1
+        show {
+            # cat=TER Frontend/settings/5000; type=boolean; label=Show extension search: Show extension search above extension list
+            extensionSearch = 1
 
-			# cat=TER Frontend/settings/5010; type=boolean; label=Show author extensions: Show all extensions of an author on detail view
-			authorExtensions = 0
+            # cat=TER Frontend/settings/5010; type=boolean; label=Show author extensions: Show all extensions of an author on detail view
+            authorExtensions = 0
 
-			# cat=TER Frontend/settings/5020; type=boolean; label=Show author overview: Show all authors in index list
-			authorOverview = 0
+            # cat=TER Frontend/settings/5020; type=boolean; label=Show author overview: Show all authors in index list
+            authorOverview = 0
 
-			# cat=TER Frontend/settings/5030; type=boolean; label=Show category extensions: Show all extensions of a category on detail view
-			categoryExtensions = 0
+            # cat=TER Frontend/settings/5030; type=boolean; label=Show category extensions: Show all extensions of a category on detail view
+            categoryExtensions = 0
 
-			# cat=TER Frontend/settings/5040; type=boolean; label=Show category overview: Show all categories in index list
-			categoryOverview = 0
+            # cat=TER Frontend/settings/5040; type=boolean; label=Show category overview: Show all categories in index list
+            categoryOverview = 0
 
-			# cat=TER Frontend/settings/5050; type=boolean; label=Show tag extensions: Show all extensions of a tag on detail view
-			tagExtensions = 0
+            # cat=TER Frontend/settings/5050; type=boolean; label=Show tag extensions: Show all extensions of a tag on detail view
+            tagExtensions = 0
 
-			# cat=TER Frontend/settings/5060; type=boolean; label=Show tag overview: Show all tags in index list
-			tagOverview = 0
+            # cat=TER Frontend/settings/5060; type=boolean; label=Show tag overview: Show all tags in index list
+            tagOverview = 0
 
-			# cat=TER Frontend/settings/5070; type=boolean; label=Show review form: Show review form in detail view
-			reviewForm = 0
-		}
+            # cat=TER Frontend/settings/5070; type=boolean; label=Show review form: Show review form in detail view
+            reviewForm = 0
+        }
 
-		pages {
-			# cat=TER Frontend/settings/5500; type=int+; label=Detail PID: PID of extension detail view
-			extensionDetailPID = 23
+        pages {
+            # cat=TER Frontend/settings/5500; type=int+; label=Detail PID: PID of extension detail view
+            extensionDetailPID = 23
 
-			# cat=TER Frontend/settings/5510; type=int+; label=Manage Keys PID: PID of manage keys view
-			manageKeysPID = 118
+            # cat=TER Frontend/settings/5510; type=int+; label=Manage Keys PID: PID of manage keys view
+            manageKeysPID = 118
 
-			# cat=TER Frontend/settings/5520; type=int+; label=Upload Version PID: PID of version upload view
-			uploadVersionPID = 602
-		}
-	}
+            # cat=TER Frontend/settings/5520; type=int+; label=Upload Version PID: PID of version upload view
+            uploadVersionPID = 602
+        }
+    }
 
-	persistence {
-		# cat=TER Frontend/persistence/6000; type=int+; label=Storage PID: General storage PID for the TER Frontend Index
-		storagePid = 0
-	}
+    persistence {
+        # cat=TER Frontend/persistence/6000; type=int+; label=Storage PID: General storage PID for the TER Frontend Index
+        storagePid = 0
+    }
 
-	view {
-		# cat=TER Frontend/view/7000; type=string; label=Template root path: Path to template root
-		templateRootPath = EXT:ter_fe2/Resources/Private/Templates/
+    view {
+        # cat=TER Frontend/view/7000; type=string; label=Template root path: Path to template root
+        templateRootPath = EXT:ter_fe2/Resources/Private/Templates/
 
-		# cat=TER Frontend/view/7010; type=string; label=Partial root path: Path to template partials
-		partialRootPath = EXT:ter_fe2/Resources/Private/Partials/
+        # cat=TER Frontend/view/7010; type=string; label=Partial root path: Path to template partials
+        partialRootPath = EXT:ter_fe2/Resources/Private/Partials/
 
-		# cat=TER Frontend/view/7020; type=string; label=Layout root path: Path to template layouts
-		layoutRootPath = EXT:ter_fe2/Resources/Private/Layouts/
-	}
+        # cat=TER Frontend/view/7020; type=string; label=Layout root path: Path to template layouts
+        layoutRootPath = EXT:ter_fe2/Resources/Private/Layouts/
+    }
 
-	libraries {
-		# cat=TER Frontend/libraries/8000; type=string; label=Load jQuery: Load jQuery libraray into footer
-		jquery.load = 1
+    libraries {
+        # cat=TER Frontend/libraries/8000; type=string; label=Load jQuery: Load jQuery libraray into footer
+        jquery.load = 1
 
-		# cat=TER Frontend/libraries/8010; type=string; label=Load jqPlot: Load jqPlot libraray into footer
-		jqplot.load = 1
-	}
-
+        # cat=TER Frontend/libraries/8010; type=string; label=Load jqPlot: Load jqPlot libraray into footer
+        jqplot.load = 1
+    }
 }

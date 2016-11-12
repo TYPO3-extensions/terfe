@@ -26,69 +26,74 @@
 /**
  * Abstract repository
  */
-abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase_Persistence_Repository {
+abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase_Persistence_Repository
+{
 
-	/**
-	 * Returns a query for objects of this repository
-	 *
-	 * @param string $offset Offset to start with
-	 * @param string $count Count of result
-	 * @param array $ordering Ordering <-> Direction
-	 * @return Tx_Extbase_Persistence_QueryInterface
-	 */
-	public function createQuery($offset = 0, $count = 0, array $ordering = array()) {
-		$query = parent::createQuery();
+    /**
+     * Returns a query for objects of this repository
+     *
+     * @param string $offset Offset to start with
+     * @param string $count Count of result
+     * @param array $ordering Ordering <-> Direction
+     * @return Tx_Extbase_Persistence_QueryInterface
+     */
+    public function createQuery($offset = 0, $count = 0, array $ordering = array())
+    {
+        $query = parent::createQuery();
 
-		if (!empty($offset)) {
-			$query->setOffset((int) $offset);
-		}
+        if (!empty($offset)) {
+            $query->setOffset((int)$offset);
+        }
 
-		if (!empty($count)) {
-			$query->setLimit((int) $count);
-		}
+        if (!empty($count)) {
+            $query->setLimit((int)$count);
+        }
 
-		if (!empty($ordering)) {
-			$query->setOrderings($ordering);
-		}
+        if (!empty($ordering)) {
+            $query->setOrderings($ordering);
+        }
 
-		return $query;
-	}
-
-
-	/**
-	 * Returns random objects from db
-	 *
-	 * @param integer $limit Limit of the results
-	 * @return Tx_Extbase_Persistence_ObjectStorage Objects
-	 */
-	public function findRandom($limit) {
-		$query = $this->createQuery(0, $limit);
-
-			// Workaround for random ordering while Extbase doesn't support this
-			// See: http://lists.typo3.org/pipermail/typo3-project-typo3v4mvc/2010-July/005870.html
-		$backend = $this->objectManager->get('Tx_Extbase_Persistence_Storage_Typo3DbBackend');
-		$parameters = array();
-		$statementParts = $backend->parseQuery($query, $parameters);
-		$statementParts['orderings'][] = ' RAND()';
-		$statement = $backend->buildQuery($statementParts, $parameters);
-		$query->statement($statement, $parameters);
-
-		return $query->execute();
-	}
+        return $query;
+    }
 
 
-	/**
-	 * Returns all objects
-	 *
-	 * @param string $offset Offset to start with
-	 * @param string $count Count of result
-	 * @param string $ordering Ordering <-> Direction
-	 * @return Tx_Extbase_Persistence_ObjectStorage Objects
-	 */
-	public function findAll($offset = 0, $count = 0, array $ordering = array()) {
-		$query = $this->createQuery($offset, $count, $ordering);
-		return $query->execute();
-	}
+    /**
+     * Returns random objects from db
+     *
+     * @param integer $limit Limit of the results
+     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     */
+    public function findRandom($limit)
+    {
+        $query = $this->createQuery(0, $limit);
+
+        // Workaround for random ordering while Extbase doesn't support this
+        // See: http://lists.typo3.org/pipermail/typo3-project-typo3v4mvc/2010-July/005870.html
+        $backend = $this->objectManager->get('Tx_Extbase_Persistence_Storage_Typo3DbBackend');
+        $parameters = array();
+        $statementParts = $backend->parseQuery($query, $parameters);
+        $statementParts['orderings'][] = ' RAND()';
+        $statement = $backend->buildQuery($statementParts, $parameters);
+        $query->statement($statement, $parameters);
+
+        return $query->execute();
+    }
+
+
+    /**
+     * Returns all objects
+     *
+     * @param string $offset Offset to start with
+     * @param string $count Count of result
+     * @param string $ordering Ordering <-> Direction
+     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     */
+    public function findAll($offset = 0, $count = 0, array $ordering = array())
+    {
+        $query = $this->createQuery($offset, $count, $ordering);
+        return $query->execute();
+    }
 
 }
+
 ?>

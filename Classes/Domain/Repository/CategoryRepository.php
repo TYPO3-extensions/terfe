@@ -26,7 +26,9 @@
 /**
  * Repository for Tx_TerFe2_Domain_Model_Category
  */
-class Tx_TerFe2_Domain_Repository_CategoryRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
+class Tx_TerFe2_Domain_Repository_CategoryRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository
+{
 
 }
+
 ?>

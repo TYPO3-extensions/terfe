@@ -26,84 +26,88 @@
 /**
  * Update version details
  */
-class Tx_TerFe2_Task_UpdateDetailsTask extends Tx_TerFe2_Task_AbstractTask {
+class Tx_TerFe2_Task_UpdateDetailsTask extends Tx_TerFe2_Task_AbstractTask
+{
 
-	/**
-	 * @var boolean
-	 */
-	public $recalculateDownloads = TRUE;
+    /**
+     * @var boolean
+     */
+    public $recalculateDownloads = TRUE;
 
-	/**
-	 * @var Tx_TerFe2_Domain_Repository_VersionRepository
-	 */
-	protected $versionRepository;
+    /**
+     * @var Tx_TerFe2_Domain_Repository_VersionRepository
+     */
+    protected $versionRepository;
 
-	/**
-	 * @var Tx_TerFe2_Provider_ProviderManager
-	 */
-	protected $providerManager;
+    /**
+     * @var Tx_TerFe2_Provider_ProviderManager
+     */
+    protected $providerManager;
 
-	/**
-	 * @var Tx_Extbase_Persistence_Manager
-	 */
-	protected $persistenceManager;
-
-
-	/**
-	 * Initialize task
-	 *
-	 * @return void
-	 */
-	public function initializeTask() {
-		$this->providerManager    = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
-		$this->objectBuilder      = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
-		$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
-		$this->versionRepository  = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
-	}
+    /**
+     * @var Tx_Extbase_Persistence_Manager
+     */
+    protected $persistenceManager;
 
 
-	/**
-	 * Execute the task
-	 *
-	 * @param integer $lastRun Timestamp of the last run
-	 * @param integer $offset Starting point
-	 * @param integer $count Element count to process at once
-	 * @return boolean TRUE on success
-	 */
-	protected function executeTask($lastRun, $offset, $count) {
-		$versions = $this->versionRepository->findAll($offset, $count);
-		if ($versions->count() === 0) {
-			return FALSE;
-		}
+    /**
+     * Initialize task
+     *
+     * @return void
+     */
+    public function initializeTask()
+    {
+        $this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
+        $this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
+        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        $this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
+    }
 
-		foreach ($versions as $version) {
-			if ($version instanceof Tx_TerFe2_Domain_Model_Version) {
-				$provider = $version->getExtensionProvider();
-				$persist = FALSE;
 
-				$attributes = array();
-				if (!empty($provider)) {
-					$attributes = $this->providerManager->getProvider($provider)->getVersionDetails($version);
-				}
+    /**
+     * Execute the task
+     *
+     * @param integer $lastRun Timestamp of the last run
+     * @param integer $offset Starting point
+     * @param integer $count Element count to process at once
+     * @return boolean TRUE on success
+     */
+    protected function executeTask($lastRun, $offset, $count)
+    {
+        $versions = $this->versionRepository->findAll($offset, $count);
+        if ($versions->count() === 0) {
+            return FALSE;
+        }
 
-				if (!empty($attributes)) {
-					$version = $this->objectBuilder->update($version, $attributes);
-					$persist = TRUE;
-				}
+        foreach ($versions as $version) {
+            if ($version instanceof Tx_TerFe2_Domain_Model_Version) {
+                $provider = $version->getExtensionProvider();
+                $persist = FALSE;
 
-				if (!empty($this->recalculateDownloads) and $version->getExtension() instanceof Tx_TerFe2_Domain_Model_Extension) {
-					$version->getExtension()->recalculateDownloads();
-					$persist = TRUE;
-				}
+                $attributes = array();
+                if (!empty($provider)) {
+                    $attributes = $this->providerManager->getProvider($provider)->getVersionDetails($version);
+                }
 
-				if ($persist) {
-					$this->persistenceManager->persistAll();
-				}
-			}
-		}
+                if (!empty($attributes)) {
+                    $version = $this->objectBuilder->update($version, $attributes);
+                    $persist = TRUE;
+                }
 
-		return TRUE;
-	}
+                if (!empty($this->recalculateDownloads) and $version->getExtension() instanceof Tx_TerFe2_Domain_Model_Extension) {
+                    $version->getExtension()->recalculateDownloads();
+                    $persist = TRUE;
+                }
+
+                if ($persist) {
+                    $this->persistenceManager->persistAll();
+                }
+            }
+        }
+
+        return TRUE;
+    }
 
 }
+
 ?>

@@ -26,85 +26,87 @@
 /**
  * Interface for extension providers
  */
-interface Tx_TerFe2_Provider_ProviderInterface extends t3lib_Singleton {
+interface Tx_TerFe2_Provider_ProviderInterface extends t3lib_Singleton
+{
 
-	/*
-	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager);
-
-
-	/**
-	 * @param Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory
-	 * @return void
-	 */
-	public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory);
+    /*
+     * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+     * @return void
+     */
+    public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager);
 
 
-	/**
-	 * @param Tx_Extbase_Reflection_Service $reflectionService
-	 * @return void
-	 */
-	public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService);
+    /**
+     * @param Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory
+     * @return void
+     */
+    public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory);
 
 
-	/**
-	 * Set configuration for the DataProvider
-	 *
-	 * @param array $configuration TypoScript configuration
-	 * @return void
-	 */
-	public function setConfiguration(array $configuration);
+    /**
+     * @param Tx_Extbase_Reflection_Service $reflectionService
+     * @return void
+     */
+    public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService);
 
 
-	/**
-	 * Returns all extensions since last run
-	 *
-	 * @param integer $lastRun Timestamp of last update
-	 * @param integer $offset Offset to start with
-	 * @param integer $count Extension count to load
-	 * @return array Extension rows
-	 */
-	public function getExtensions($lastRun, $offset, $count);
+    /**
+     * Set configuration for the DataProvider
+     *
+     * @param array $configuration TypoScript configuration
+     * @return void
+     */
+    public function setConfiguration(array $configuration);
 
 
-	/**
-	 * Returns the url to an extension related icon
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Version $version Version object
-	 * @param string $fileType File type
-	 * @return string Url to icon file
-	 */
-	public function getIconUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType);
+    /**
+     * Returns all extensions since last run
+     *
+     * @param integer $lastRun Timestamp of last update
+     * @param integer $offset Offset to start with
+     * @param integer $count Extension count to load
+     * @return array Extension rows
+     */
+    public function getExtensions($lastRun, $offset, $count);
 
 
-	/**
-	 * Returns the url to an extension related file
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Version $version Version object
-	 * @param string $fileType File type
-	 * @return string Url to file
-	 */
-	public function getFileUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType);
+    /**
+     * Returns the url to an extension related icon
+     *
+     * @param Tx_TerFe2_Domain_Model_Version $version Version object
+     * @param string $fileType File type
+     * @return string Url to icon file
+     */
+    public function getIconUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType);
 
 
-	/**
-	 * Returns name of an extension related file
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Version $version Version object
-	 * @param string $fileType File type
-	 * @return string File name
-	 */
-	public function getFileName(Tx_TerFe2_Domain_Model_Version $version, $fileType);
+    /**
+     * Returns the url to an extension related file
+     *
+     * @param Tx_TerFe2_Domain_Model_Version $version Version object
+     * @param string $fileType File type
+     * @return string Url to file
+     */
+    public function getFileUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType);
 
-	/**
-	 * Returns all information about an extension version
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Version $version Version object
-	 * @return array Version details
-	 */
-	public function getVersionDetails(Tx_TerFe2_Domain_Model_Version $version);
+
+    /**
+     * Returns name of an extension related file
+     *
+     * @param Tx_TerFe2_Domain_Model_Version $version Version object
+     * @param string $fileType File type
+     * @return string File name
+     */
+    public function getFileName(Tx_TerFe2_Domain_Model_Version $version, $fileType);
+
+    /**
+     * Returns all information about an extension version
+     *
+     * @param Tx_TerFe2_Domain_Model_Version $version Version object
+     * @return array Version details
+     */
+    public function getVersionDetails(Tx_TerFe2_Domain_Model_Version $version);
 
 }
+
 ?>

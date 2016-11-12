@@ -26,79 +26,87 @@
 /**
  * Tests for the Extension Model
  */
-class Tx_TerFe2_Domain_Model_ExtensionTest extends Tx_Phpunit_TestCase {
+class Tx_TerFe2_Domain_Model_ExtensionTest extends Tx_Phpunit_TestCase
+{
 
-	/**
-	 * @var Tx_TerFe2_Domain_Model_Extension
-	 */
-	protected $fixture;
+    /**
+     * @var Tx_TerFe2_Domain_Model_Extension
+     */
+    protected $fixture;
 
-	public function setUp() {
-		$this->fixture = new Tx_TerFe2_Domain_Model_Extension();
-		$this->addVersionsToExtension($this->fixture);
-	}
+    public function setUp()
+    {
+        $this->fixture = new Tx_TerFe2_Domain_Model_Extension();
+        $this->addVersionsToExtension($this->fixture);
+    }
 
-	public function tearDown() {
-		unset($this->fixture);
-	}
+    public function tearDown()
+    {
+        unset($this->fixture);
+    }
 
-	protected function addVersionsToExtension($extension, $amount = 4){
-		for ($index=1; $index <= $amount; $index++) {
-			$version = new Tx_TerFe2_Domain_Model_Version();
-			$version->setExtension($this->fixture);
-			$version->setVersionNumber($index);
-			$version->setVersionString('0.0.' . (string)$index);
-			$extension->addVersion($version);
-		}
-	}
+    protected function addVersionsToExtension($extension, $amount = 4)
+    {
+        for ($index = 1; $index <= $amount; $index++) {
+            $version = new Tx_TerFe2_Domain_Model_Version();
+            $version->setExtension($this->fixture);
+            $version->setVersionNumber($index);
+            $version->setVersionString('0.0.' . (string)$index);
+            $extension->addVersion($version);
+        }
+    }
 
-	/**
-	 * @test
-	 */
-	public function removeLastVersionOfExtensionSetsTheNextExtensionAsLastVersion() {
-		$lastVersion = $this->fixture->getLastVersion();
-		$allVersions = $this->fixture->getReverseVersionsByVersionNumber();
-		array_shift($allVersions);
-		$previousLastVersion = array_shift($allVersions);
+    /**
+     * @test
+     */
+    public function removeLastVersionOfExtensionSetsTheNextExtensionAsLastVersion()
+    {
+        $lastVersion = $this->fixture->getLastVersion();
+        $allVersions = $this->fixture->getReverseVersionsByVersionNumber();
+        array_shift($allVersions);
+        $previousLastVersion = array_shift($allVersions);
 
-		$this->fixture->removeVersion($lastVersion);
+        $this->fixture->removeVersion($lastVersion);
 
-		$this->assertSame($previousLastVersion, $this->fixture->getLastVersion());
-	}
+        $this->assertSame($previousLastVersion, $this->fixture->getLastVersion());
+    }
 
-	/**
-	 * @test
-	 */
-	public function removeNotLastVersionOfExtensionDoesNotAffectLastVersion() {
-		$lastVersion = $this->fixture->getLastVersion();
-		$allVersions = $this->fixture->getReverseVersionsByVersionNumber();
-		array_shift($allVersions);
-		$previousLastVersion = array_shift($allVersions);
+    /**
+     * @test
+     */
+    public function removeNotLastVersionOfExtensionDoesNotAffectLastVersion()
+    {
+        $lastVersion = $this->fixture->getLastVersion();
+        $allVersions = $this->fixture->getReverseVersionsByVersionNumber();
+        array_shift($allVersions);
+        $previousLastVersion = array_shift($allVersions);
 
-		$this->fixture->removeVersion($previousLastVersion);
+        $this->fixture->removeVersion($previousLastVersion);
 
-		$this->assertSame($lastVersion, $this->fixture->getLastVersion());
-	}
+        $this->assertSame($lastVersion, $this->fixture->getLastVersion());
+    }
 
-	/**
-	 * @test
-	 * @expectedException UnexpectedValueException
-	 */
-	public function tryingToRemoveAVersionWhichDoesNotBelongToTheExtensionThrowsException() {
-		$version = new Tx_TerFe2_Domain_Model_Version();
-		$this->fixture->removeVersion($version);
-	}
+    /**
+     * @test
+     * @expectedException UnexpectedValueException
+     */
+    public function tryingToRemoveAVersionWhichDoesNotBelongToTheExtensionThrowsException()
+    {
+        $version = new Tx_TerFe2_Domain_Model_Version();
+        $this->fixture->removeVersion($version);
+    }
 
-	/**
-	 * @test
-	 */
-	public function removingTheLastVersionSetsLastVersionToNull() {
-		$extension = new Tx_TerFe2_Domain_Model_Extension();
-		$this->addVersionsToExtension($extension, 1);
-		$extension->removeVersion($extension->getLastVersion());
+    /**
+     * @test
+     */
+    public function removingTheLastVersionSetsLastVersionToNull()
+    {
+        $extension = new Tx_TerFe2_Domain_Model_Extension();
+        $this->addVersionsToExtension($extension, 1);
+        $extension->removeVersion($extension->getLastVersion());
 
-		$this->assertNull($extension->getLastVersion());
-	}
+        $this->assertNull($extension->getLastVersion());
+    }
 }
 
 ?>

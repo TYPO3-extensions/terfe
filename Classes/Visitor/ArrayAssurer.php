@@ -15,49 +15,51 @@
 include_once(t3lib_extMgm::extPath('ter_fe2') . '/Resources/Private/Php/PHP-Parser/lib/bootstrap.php');
 use PhpParser\Node;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Stmt;
 
 /**
  * Class ArrayAssurer
  *
  * Used to parse the ext_emconf.php and remove any illegal statements
  */
-class Tx_TerFe2_Visitor_ArrayAssurer extends PhpParser\NodeVisitorAbstract {
+class Tx_TerFe2_Visitor_ArrayAssurer extends PhpParser\NodeVisitorAbstract
+{
 
-	/**
-	 * @var bool
-	 */
-	protected $assignmentFound = FALSE;
+    /**
+     * @var bool
+     */
+    protected $assignmentFound = FALSE;
 
-	/**
-	 * Checks all nodes and returns FALSE to remove not wanted notes
-	 *
-	 * @param Node $node
-	 * @return bool|void
-	 */
-	public function leaveNode(Node $node) {
+    /**
+     * Checks all nodes and returns FALSE to remove not wanted notes
+     *
+     * @param Node $node
+     * @return bool|void
+     */
+    public function leaveNode(Node $node)
+    {
 
-		if ($node instanceof Expr\Assign) {
-			if (!$this->assignmentFound) {
-				$this->assignmentFound = TRUE;
-				// Check the name of the assigned variable to
-				if ($node->__get('var')->__get('var')->__get('name') === 'EM_CONF') {
-					return;
-				}
-			}
-			// We must not have another assignment
-			throw new UnexpectedValueException();
-		} elseif (!( $node instanceof Node\Name
-			|| $node instanceof Node\Scalar
-			|| $node instanceof Expr\Array_
-			|| $node instanceof Expr\ArrayDimFetch
-			|| $node instanceof Expr\ArrayItem
-			|| $node instanceof Expr\ConstFetch
-			|| $node instanceof Expr\Variable
-		)) {
-			return FALSE;
-		}
-	}
+        if ($node instanceof Expr\Assign) {
+            if (!$this->assignmentFound) {
+                $this->assignmentFound = TRUE;
+                // Check the name of the assigned variable to
+                if ($node->__get('var')->__get('var')->__get('name') === 'EM_CONF') {
+                    return;
+                }
+            }
+            // We must not have another assignment
+            throw new UnexpectedValueException();
+        } elseif (!($node instanceof Node\Name
+            || $node instanceof Node\Scalar
+            || $node instanceof Expr\Array_
+            || $node instanceof Expr\ArrayDimFetch
+            || $node instanceof Expr\ArrayItem
+            || $node instanceof Expr\ConstFetch
+            || $node instanceof Expr\Variable
+        )
+        ) {
+            return FALSE;
+        }
+    }
 }
 
 ?>

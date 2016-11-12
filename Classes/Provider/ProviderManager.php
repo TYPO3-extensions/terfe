@@ -26,67 +26,71 @@
 /**
  * Manager for extension providers
  */
-class Tx_TerFe2_Provider_ProviderManager implements t3lib_Singleton {
+class Tx_TerFe2_Provider_ProviderManager implements t3lib_Singleton
+{
 
-	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
-	 */
-	protected $objectManager;
+    /**
+     * @var Tx_Extbase_Object_ObjectManagerInterface
+     */
+    protected $objectManager;
 
-	/**
-	 * @var array
-	 */
-	protected $providers;
-
-
-	/*
-	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * @var array
+     */
+    protected $providers;
 
 
-	/**
-	 * Get an instance of a concrete extension provider
-	 *
-	 * @param string $name Name of the provider
-	 * @return Tx_TerFe2_Provider_ProviderInterface Extension provider
-	 */
-	public function getProvider($name) {
-		if (empty($name)) {
-			throw new Exception('No empty name allowed for an extension provider');
-		}
+    /*
+     * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+     * @return void
+     */
+    public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-		$name = strtolower(trim($name));
 
-		if (!empty($this->providers[$name])) {
-			return $this->providers[$name];
-		}
+    /**
+     * Get an instance of a concrete extension provider
+     *
+     * @param string $name Name of the provider
+     * @return Tx_TerFe2_Provider_ProviderInterface Extension provider
+     */
+    public function getProvider($name)
+    {
+        if (empty($name)) {
+            throw new Exception('No empty name allowed for an extension provider');
+        }
 
-		if (empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$name])) {
-			throw new Exception('No configuration found for an extension provider with name "' . $name . '"');
-		}
+        $name = strtolower(trim($name));
 
-		$configuration = $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$name];
-		if (empty($configuration['class'])) {
-			throw new Exception('No class name found in configuration for the extension provider with name "' . $name . '"');
-		}
+        if (!empty($this->providers[$name])) {
+            return $this->providers[$name];
+        }
 
-		$provider = $this->objectManager->get($configuration['class']);
-		if (!($provider instanceof Tx_TerFe2_Provider_ProviderInterface)) {
-			throw new Exception('Provider "' . $name . '" does not implement the interface "Tx_TerFe2_Provider_ProviderInterface"');
-		}
-		if (!empty($configuration['configuration']) && method_exists($provider, 'setConfiguration')) {
-			$provider->setConfiguration($configuration['configuration']);
-		}
-		if (method_exists($provider, 'initializeProvider')) {
-			$provider->initializeProvider();
-		}
+        if (empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$name])) {
+            throw new Exception('No configuration found for an extension provider with name "' . $name . '"');
+        }
 
-		return $this->providers[$name] = $provider;
-	}
+        $configuration = $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$name];
+        if (empty($configuration['class'])) {
+            throw new Exception('No class name found in configuration for the extension provider with name "' . $name . '"');
+        }
+
+        $provider = $this->objectManager->get($configuration['class']);
+        if (!($provider instanceof Tx_TerFe2_Provider_ProviderInterface)) {
+            throw new Exception('Provider "' . $name . '" does not implement the interface "Tx_TerFe2_Provider_ProviderInterface"');
+        }
+        if (!empty($configuration['configuration']) && method_exists($provider, 'setConfiguration')) {
+            $provider->setConfiguration($configuration['configuration']);
+        }
+        if (method_exists($provider, 'initializeProvider')) {
+            $provider->initializeProvider();
+        }
+
+        return $this->providers[$name] = $provider;
+    }
 
 }
+
 ?>

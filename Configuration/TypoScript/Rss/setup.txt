@@ -2,29 +2,29 @@
 # RSS output configuration ot the extension "ter_fe2"
 # ======================================================================
 plugin.tx_terfe2.settings.rssOutput {
-  typeNum     = {$plugin.tx_terfe2.rssOutput.typeNum}
-  title       = {$plugin.tx_terfe2.rssOutput.title}
-  link        = {$plugin.tx_terfe2.rssOutput.link}
-  description = {$plugin.tx_terfe2.rssOutput.description}
-  language    = {$plugin.tx_terfe2.rssOutput.language}
-  image       = {$plugin.tx_terfe2.rssOutput.image}
-  imageWidth  = {$plugin.tx_terfe2.rssOutput.imageWidth}
-  imageHeight = {$plugin.tx_terfe2.rssOutput.imageHeight}
-  docs        = {$plugin.tx_terfe2.rssOutput.docs}
-  webmaster   = {$plugin.tx_terfe2.rssOutput.webmaster}
-  dateFormat  = {$plugin.tx_terfe2.rssOutput.dateFormat}
+    typeNum = {$plugin.tx_terfe2.rssOutput.typeNum}
+    title = {$plugin.tx_terfe2.rssOutput.title}
+    link = {$plugin.tx_terfe2.rssOutput.link}
+    description = {$plugin.tx_terfe2.rssOutput.description}
+    language = {$plugin.tx_terfe2.rssOutput.language}
+    image = {$plugin.tx_terfe2.rssOutput.image}
+    imageWidth = {$plugin.tx_terfe2.rssOutput.imageWidth}
+    imageHeight = {$plugin.tx_terfe2.rssOutput.imageHeight}
+    docs = {$plugin.tx_terfe2.rssOutput.docs}
+    webmaster = {$plugin.tx_terfe2.rssOutput.webmaster}
+    dateFormat = {$plugin.tx_terfe2.rssOutput.dateFormat}
 }
 
 rssOutput = PAGE
 rssOutput {
-  typeNum = {$plugin.tx_terfe2.rssOutput.typeNum}
+    typeNum = {$plugin.tx_terfe2.rssOutput.typeNum}
 
-  10 =< tt_content.list.20.terfe2_pi1
+    10 =< tt_content.list.20.terfe2_pi1
 
-  config {
-    disableAllHeaderCode = 1
-    additionalHeaders = Content-type:application/xml
-    xhtml_cleaning = 0
-    admPanel = 0
-  }
+    config {
+        disableAllHeaderCode = 1
+        additionalHeaders = Content-type:application/xml
+        xhtml_cleaning = 0
+        admPanel = 0
+    }
 }

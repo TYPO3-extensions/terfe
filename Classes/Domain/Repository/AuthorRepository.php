@@ -26,81 +26,86 @@
 /**
  * Repository for Tx_TerFe2_Domain_Model_Author
  */
-class Tx_TerFe2_Domain_Repository_AuthorRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository {
+class Tx_TerFe2_Domain_Repository_AuthorRepository extends Tx_TerFe2_Domain_Repository_AbstractRepository
+{
 
-	/**
-	 * Returns the authors from latest extension versions
-	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage Author objects
-	 */
-	public function findByLatestExtensionVersion() {
-		$statement = '
+    /**
+     * Returns the authors from latest extension versions
+     *
+     * @return Tx_Extbase_Persistence_ObjectStorage Author objects
+     */
+    public function findByLatestExtensionVersion()
+    {
+        $statement = '
 			SELECT author FROM tx_terfe2_domain_model_version RIGHT JOIN tx_terfe2_domain_model_extension ON (
 				tx_terfe2_domain_model_version.uid = tx_terfe2_domain_model_extension.last_version
 			)
 		';
 
-			// Workaround while extbase doesn't support JOIN
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
-		$query->statement($statement, array());
-		$rows = $query->execute();
-		unset($query);
+        // Workaround while extbase doesn't support JOIN
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setReturnRawQueryResult(TRUE);
+        $query->statement($statement, array());
+        $rows = $query->execute();
+        unset($query);
 
-			// Workaround to enable paginate
-		$uids = array();
-		foreach ($rows as $row) {
-			$uids[] = (int) $row['author'];
-		}
-		$query = $this->createQuery();
-		$query->setOrderings(
-			array('name' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
-		);
-		$query->matching($query->in('uid', $uids));
+        // Workaround to enable paginate
+        $uids = array();
+        foreach ($rows as $row) {
+            $uids[] = (int)$row['author'];
+        }
+        $query = $this->createQuery();
+        $query->setOrderings(
+            array('name' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+        );
+        $query->matching($query->in('uid', $uids));
 
-		return $query->execute();
-	}
+        return $query->execute();
+    }
 
-	/**
-	 * Returns all matching records by combination of email and name
-	 *
-	 * @param string $email
-	 * @param string $name
-	 *
-	 * @return matching records
-	 */
-	public function findByEmailAndName($email, $name) {
-		$query = $this->createQuery();
-		$query->matching(
-			$query->logicalAnd(
-				array(
-					$query->equals('email', $email),
-					$query->equals('name', $name)
-				)
-			)
-		);
+    /**
+     * Returns all matching records by combination of email and name
+     *
+     * @param string $email
+     * @param string $name
+     *
+     * @return matching records
+     */
+    public function findByEmailAndName($email, $name)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd(
+                array(
+                    $query->equals('email', $email),
+                    $query->equals('name', $name)
+                )
+            )
+        );
 
-		return $query->execute();
-	}
+        return $query->execute();
+    }
 
-	/**
-	 * Returns author with matching email, name and username
-	 *
-	 * @param array $authorRow
-	 * @return array|Tx_Extbase_Persistence_QueryResultInterface
-	 */
-	public function findByAuthorData($authorRow) {
-		$query = $this->createQuery();
-		$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		$query->getQuerySettings()->setRespectSysLanguage(FALSE);
-		$query->matching(
-			$query->logicalAnd(
-				$query->equals('email', $authorRow['email']),
-				$query->equals('name', $authorRow['name']),
-				$query->equals('username', $authorRow['username'])
-			)
-		);
-		return $query->execute();
-	}
+    /**
+     * Returns author with matching email, name and username
+     *
+     * @param array $authorRow
+     * @return array|Tx_Extbase_Persistence_QueryResultInterface
+     */
+    public function findByAuthorData($authorRow)
+    {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(FALSE);
+        $query->getQuerySettings()->setRespectSysLanguage(FALSE);
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('email', $authorRow['email']),
+                $query->equals('name', $authorRow['name']),
+                $query->equals('username', $authorRow['username'])
+            )
+        );
+        return $query->execute();
+    }
 }
+
 ?>

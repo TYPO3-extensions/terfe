@@ -28,88 +28,92 @@
 /**
  * Controller for the extension key registration
  */
-class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_AbstractTerBasedController {
+class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_AbstractTerBasedController
+{
 
-	/**
-	 * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
-	 */
-	protected $extensionRepository;
+    /**
+     * @var Tx_TerFe2_Domain_Repository_ExtensionRepository
+     */
+    protected $extensionRepository;
 
-	/**
-	 * @var Tx_TerFe2_Domain_Repository_VersionRepository
-	 */
-	protected $versionRepository;
+    /**
+     * @var Tx_TerFe2_Domain_Repository_VersionRepository
+     */
+    protected $versionRepository;
 
-	/**
-	 * @var Tx_TerFe2_Domain_Repository_CategoryRepository
-	 */
-	protected $categoryRepository;
+    /**
+     * @var Tx_TerFe2_Domain_Repository_CategoryRepository
+     */
+    protected $categoryRepository;
 
-	/**
-	 * @var Tx_Ajaxlogin_Domain_Repository_UserRepository
-	 */
-	protected $userRepository;
+    /**
+     * @var Tx_Ajaxlogin_Domain_Repository_UserRepository
+     */
+    protected $userRepository;
 
-	/**
-	 * Initializes the controller
-	 *
-	 * @return void
-	 */
-	protected function initializeController() {
-		$this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
-		$this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
-		$this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
-		$this->userRepository = $this->objectManager->get('Tx_Ajaxlogin_Domain_Repository_UserRepository');
-	}
+    /**
+     * Initializes the controller
+     *
+     * @return void
+     */
+    protected function initializeController()
+    {
+        $this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
+        $this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
+        $this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
+        $this->userRepository = $this->objectManager->get('Tx_Ajaxlogin_Domain_Repository_UserRepository');
+    }
 
-	/**
-	 * Initialize all actions
-	 *
-	 * @param boolean $uploaded TRUE if an extension version was successfully uploaded
-	 * @return void
-	 * @dontvalidate $uploaded
-	 */
-	public function indexAction($uploaded = FALSE) {
-		// get categories for register key
+    /**
+     * Initialize all actions
+     *
+     * @param boolean $uploaded TRUE if an extension version was successfully uploaded
+     * @return void
+     * @dontvalidate $uploaded
+     */
+    public function indexAction($uploaded = FALSE)
+    {
+        // get categories for register key
 //			$categories = $this->categoryRepository->findAll();
 //			$this->view->assign('categories', $categories);
-		// get extensions by user if a user is logged in
-		if (!empty($this->frontendUser)) {
-			$extensions = $this->extensionRepository->findByFrontendUser($this->frontendUser['username']);
-			$expiringExtensions = $this->extensionRepository->findByFrontendUserAndExpiring($this->frontendUser['username']);
-			$this->view->assign('extensions', $extensions);
-			$this->view->assign('expiringExtensions', $expiringExtensions);
-			$this->view->assign('uploaded', $uploaded);
-		}
-	}
+        // get extensions by user if a user is logged in
+        if (!empty($this->frontendUser)) {
+            $extensions = $this->extensionRepository->findByFrontendUser($this->frontendUser['username']);
+            $expiringExtensions = $this->extensionRepository->findByFrontendUserAndExpiring($this->frontendUser['username']);
+            $this->view->assign('extensions', $extensions);
+            $this->view->assign('expiringExtensions', $expiringExtensions);
+            $this->view->assign('uploaded', $uploaded);
+        }
+    }
 
-	/**
-	 * Register a new extension
-	 *
-	 * @param string $extensionKey Extension key
-	 * @return void
-	 */
-	public function createAction($extensionKey/* , $categories */) {
+    /**
+     * Register a new extension
+     *
+     * @param string $extensionKey Extension key
+     * @return void
+     */
+    public function createAction($extensionKey/* , $categories */)
+    {
 
-		// Remove spaces from extensionKey if there are some
-		$extensionKey = trim($extensionKey);
+        // Remove spaces from extensionKey if there are some
+        $extensionKey = trim($extensionKey);
 
-		// Check if the extension exists in the ter
-		if ($this->terConnection->checkExtensionKey($extensionKey, $error)) {
-			$extensionData = array(
-				'extensionKey' => $extensionKey,
-				'title' => $extensionKey,
-				'description' => '',
-			);
+        // Check if the extension exists in the ter
+        if ($this->terConnection->checkExtensionKey($extensionKey, $error)) {
+            $extensionData = array(
+                'extensionKey' => $extensionKey,
+                'title' => $extensionKey,
+                'description' => '',
+            );
 
-			// Register the extension key at ter server, if successfull, add it to the extension table
-			if ($this->terConnection->registerExtension($extensionData)) {
-				// Create extension model
-				$extension = $this->objectManager->create('Tx_TerFe2_Domain_Model_Extension');
-				$extension->setExtKey($extensionKey);
-				$extension->setFrontendUser($this->frontendUser['username']);
+            // Register the extension key at ter server, if successfull, add it to the extension table
+            if ($this->terConnection->registerExtension($extensionData)) {
+                // Create extension model
+                $extension = $this->objectManager->create('Tx_TerFe2_Domain_Model_Extension');
+                $extension->setExtKey($extensionKey);
+                $extension->setFrontendUser($this->frontendUser['username']);
 
-				// Add categories
+                // Add categories
 //					foreach ($categories as $category) {
 //						if (isset($category['__identity']) && is_numeric($category['__identity'])) {
 //							$myCat = $this->categoryRepository->findByUid((int) $category['__identity']);
@@ -119,427 +123,438 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 //						}
 //					}
 
-				$this->extensionRepository->add($extension);
-				$this->flashMessageContainer->add(
-						'', $this->translate('registerkey.key_registered'), t3lib_FlashMessage::OK
-				);
-				$this->redirect('index', 'Registerkey');
-			} else {
-				$this->flashMessageContainer->add(
-						$this->resolveWSErrorMessage('not_register.message'), $this->resolveWSErrorMessage('not_register.title'), t3lib_FlashMessage::ERROR
-				);
-			}
-		} else {
-			/** @var Tx_TerFe2_Domain_Model_Extension $extension */
-			$extension = $this->extensionRepository->findOneByExtKey($extensionKey);
-			$message = '';
-			if ($extension instanceof Tx_TerFe2_Domain_Model_Extension && $extension->getFrontendUser()) {
-				/** @var Tx_Ajaxlogin_Domain_Model_User $frontendUser */
-				$frontendUser = $this->userRepository->findOneByUsername($extension->getFrontendUser());
-				if ($frontendUser instanceof Tx_Ajaxlogin_Domain_Model_User) {
-					$message = $this->resolveWSErrorMessage(
-						$error . '.message',
-						array(
-							'<a href="mailto:' . htmlspecialchars($frontendUser->getEmail()) . '">' . htmlspecialchars($frontendUser->getName()) . '</a>'
-						)
-					);
-				}
-			}
-			$this->flashMessageContainer->add(
-				$message,
-				$this->resolveWSErrorMessage($error . '.title'),
-				t3lib_FlashMessage::ERROR
-			);
-		}
+                $this->extensionRepository->add($extension);
+                $this->flashMessageContainer->add(
+                    '', $this->translate('registerkey.key_registered'), t3lib_FlashMessage::OK
+                );
+                $this->redirect('index', 'Registerkey');
+            } else {
+                $this->flashMessageContainer->add(
+                    $this->resolveWSErrorMessage('not_register.message'), $this->resolveWSErrorMessage('not_register.title'), t3lib_FlashMessage::ERROR
+                );
+            }
+        } else {
+            /** @var Tx_TerFe2_Domain_Model_Extension $extension */
+            $extension = $this->extensionRepository->findOneByExtKey($extensionKey);
+            $message = '';
+            if ($extension instanceof Tx_TerFe2_Domain_Model_Extension && $extension->getFrontendUser()) {
+                /** @var Tx_Ajaxlogin_Domain_Model_User $frontendUser */
+                $frontendUser = $this->userRepository->findOneByUsername($extension->getFrontendUser());
+                if ($frontendUser instanceof Tx_Ajaxlogin_Domain_Model_User) {
+                    $message = $this->resolveWSErrorMessage(
+                        $error . '.message',
+                        array(
+                            '<a href="mailto:' . htmlspecialchars($frontendUser->getEmail()) . '">' . htmlspecialchars($frontendUser->getName()) . '</a>'
+                        )
+                    );
+                }
+            }
+            $this->flashMessageContainer->add(
+                $message,
+                $this->resolveWSErrorMessage($error . '.title'),
+                t3lib_FlashMessage::ERROR
+            );
+        }
 
-		$this->redirect('index', 'Registerkey', NULL, array());
-	}
+        $this->redirect('index', 'Registerkey', NULL, array());
+    }
 
-	/**
-	 * an action to salvage the keys that were registered on the old TYPO3.org, but never had uploads
-	 *
-	 * @author Christian Zenker <christian.zenker@599media.de>
-	 */
-	public function salvageAction() {
-		$error = null;
-		$registeredExtensions = $this->terConnection->getExtensionKeysByUser($error);
-		if ($error) {
-			$this->flashMessageContainer->add(
-					$this->resolveWSErrorMessage($error), '', t3lib_FlashMessage::ERROR
-			);
-		} elseif (!is_array($registeredExtensions)) {
-			$this->flashMessageContainer->add(
-					$this->resolveWSErrorMessage('result_empty.message'), $this->resolveWSErrorMessage('result_empty.title'), t3lib_FlashMessage::ERROR
-			);
-		} elseif (empty($registeredExtensions)) {
-			$this->flashMessageContainer->add(
-					$this->resolveWSErrorMessage('nothing_found'), '', t3lib_FlashMessage::WARNING
-			);
-		} else {
+    /**
+     * an action to salvage the keys that were registered on the old TYPO3.org, but never had uploads
+     *
+     * @author Christian Zenker <christian.zenker@599media.de>
+     */
+    public function salvageAction()
+    {
+        $error = null;
+        $registeredExtensions = $this->terConnection->getExtensionKeysByUser($error);
+        if ($error) {
+            $this->flashMessageContainer->add(
+                $this->resolveWSErrorMessage($error), '', t3lib_FlashMessage::ERROR
+            );
+        } elseif (!is_array($registeredExtensions)) {
+            $this->flashMessageContainer->add(
+                $this->resolveWSErrorMessage('result_empty.message'), $this->resolveWSErrorMessage('result_empty.title'), t3lib_FlashMessage::ERROR
+            );
+        } elseif (empty($registeredExtensions)) {
+            $this->flashMessageContainer->add(
+                $this->resolveWSErrorMessage('nothing_found'), '', t3lib_FlashMessage::WARNING
+            );
+        } else {
 
-			$countSkipped = 0;
-			$countSalvaged = 0;
+            $countSkipped = 0;
+            $countSalvaged = 0;
 
-			// get an array of the already existent extension keys
-			$existingExtensionKeys = $this->getExistingExtensionsByList($registeredExtensions);
+            // get an array of the already existent extension keys
+            $existingExtensionKeys = $this->getExistingExtensionsByList($registeredExtensions);
 
-			foreach ($registeredExtensions as $extension) {
-				$extensionKey = $extension['extensionkey'];
-				if (in_array($extensionKey, $existingExtensionKeys)) {
-					// if: key already exists
+            foreach ($registeredExtensions as $extension) {
+                $extensionKey = $extension['extensionkey'];
+                if (in_array($extensionKey, $existingExtensionKeys)) {
+                    // if: key already exists
 //                        $this->flashMessageContainer->add(
 //                            sprintf('%s already exists.', $extensionKey),
 //                            '',
 //                            t3lib_FlashMessage::NOTICE
 //                        );
-					$countSkipped++;
-				} else {
-					$extensionModel = $this->objectManager->create('Tx_TerFe2_Domain_Model_Extension');
-					$extensionModel->setExtKey($extensionKey);
-					$extensionModel->setFrontendUser($extension['ownerusername']);
+                    $countSkipped++;
+                } else {
+                    $extensionModel = $this->objectManager->create('Tx_TerFe2_Domain_Model_Extension');
+                    $extensionModel->setExtKey($extensionKey);
+                    $extensionModel->setFrontendUser($extension['ownerusername']);
 
-					$this->extensionRepository->add($extensionModel);
+                    $this->extensionRepository->add($extensionModel);
 //                        $this->flashMessageContainer->add(
 //                            '',
 //                            sprintf('%s salvaged.', $extensionKey ),
 //                            t3lib_FlashMessage::OK
 //                        );
 
-					$countSalvaged++;
-				}
-			}
-			if ($countSalvaged > 0) {
-				$this->flashMessageContainer->add(
-						$this->translate('registerkey.salvage.success', array($countSalvaged)), '', t3lib_FlashMessage::OK
-				);
-			} elseif ($countSkipped == 1) {
-				$this->flashMessageContainer->add(
-						$this->translate('registerkey.salvage.pass1.message'), $this->translate('registerkey.salvage.pass.title'), t3lib_FlashMessage::WARNING
-				);
-			} elseif ($countSkipped > 1) {
-				$this->flashMessageContainer->add(
-						$this->translate('registerkey.salvage.pass.message', array($countSkipped)), $this->translate('registerkey.salvage.pass.title'), t3lib_FlashMessage::WARNING
-				);
-			} else {
-				$this->flashMessageContainer->add(
-						$this->resolveWSErrorMessage('nothing_found'), '', t3lib_FlashMessage::WARNING
-				);
-			}
-		}
+                    $countSalvaged++;
+                }
+            }
+            if ($countSalvaged > 0) {
+                $this->flashMessageContainer->add(
+                    $this->translate('registerkey.salvage.success', array($countSalvaged)), '', t3lib_FlashMessage::OK
+                );
+            } elseif ($countSkipped == 1) {
+                $this->flashMessageContainer->add(
+                    $this->translate('registerkey.salvage.pass1.message'), $this->translate('registerkey.salvage.pass.title'), t3lib_FlashMessage::WARNING
+                );
+            } elseif ($countSkipped > 1) {
+                $this->flashMessageContainer->add(
+                    $this->translate('registerkey.salvage.pass.message', array($countSkipped)), $this->translate('registerkey.salvage.pass.title'), t3lib_FlashMessage::WARNING
+                );
+            } else {
+                $this->flashMessageContainer->add(
+                    $this->resolveWSErrorMessage('nothing_found'), '', t3lib_FlashMessage::WARNING
+                );
+            }
+        }
 
 
+        $this->redirect('index', 'Registerkey');
+    }
 
-		$this->redirect('index', 'Registerkey');
-	}
+    protected function getExistingExtensionsByList($extensions)
+    {
+        /**
+         * @var array that just holds the given extensionkeys and no meta data
+         */
+        $keys = array();
+        foreach ($extensions as $extension) {
+            $keys[] = $extension['extensionkey'];
+        }
 
-	protected function getExistingExtensionsByList($extensions) {
-		/**
-		 * @var array that just holds the given extensionkeys and no meta data
-		 */
-		$keys = array();
-		foreach ($extensions as $extension) {
-			$keys[] = $extension['extensionkey'];
-		}
-
-		if (empty($keys)) {
-			return array();
-		}
+        if (empty($keys)) {
+            return array();
+        }
 
 
-		// query database for existing keys
-		$e = $this->extensionRepository->findByExtKeys($keys);
-		// strip only the keys from the model
-		$existingExtensionKeys = array();
-		foreach ($e as $extension) {
-			$existingExtensionKeys[] = $extension->getExtKey();
-		}
+        // query database for existing keys
+        $e = $this->extensionRepository->findByExtKeys($keys);
+        // strip only the keys from the model
+        $existingExtensionKeys = array();
+        foreach ($e as $extension) {
+            $existingExtensionKeys[] = $extension->getExtKey();
+        }
 
-		return $existingExtensionKeys;
-	}
+        return $existingExtensionKeys;
+    }
 
-	/**
-	 * Manage registered extensions
-	 *
-	 * @obsolete
-	 * @return void
-	 */
-	public function manageAction() {
-		$extensions = $this->extensionRepository->findByFrontendUser($this->frontendUser['username']);
-		$this->view->assign('extensions', $extensions);
-	}
+    /**
+     * Manage registered extensions
+     *
+     * @obsolete
+     * @return void
+     */
+    public function manageAction()
+    {
+        $extensions = $this->extensionRepository->findByFrontendUser($this->frontendUser['username']);
+        $this->view->assign('extensions', $extensions);
+    }
 
-	/**
-	 * Display the edit form
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to modify
-	 * @dontvalidate $extension
-	 * @return void
-	 */
-	public function editAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+    /**
+     * Display the edit form
+     *
+     * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to modify
+     * @dontvalidate $extension
+     * @return void
+     */
+    public function editAction(Tx_TerFe2_Domain_Model_Extension $extension)
+    {
 
-		// check if the extension belongs to the current user
-		if ($this->securityRole->isReviewer() or $extension->getFrontendUser() == $this->userRepository->findCurrent()) {
+        // check if the extension belongs to the current user
+        if ($this->securityRole->isReviewer() or $extension->getFrontendUser() == $this->userRepository->findCurrent()) {
 
-			// Remove categories that are already set
-			$setCategories = $extension->getCategories();
+            // Remove categories that are already set
+            $setCategories = $extension->getCategories();
 
-			// Get all categories
-			$categories = $this->categoryRepository->findAll();
+            // Get all categories
+            $categories = $this->categoryRepository->findAll();
 
-			$categoryArray = array();
-			foreach ($categories as $key => $category) {
-				$categoryArray[] = array(
-					'object' => $category,
-					'isChecked' => $setCategories->contains($category),
-				);
-			}
+            $categoryArray = array();
+            foreach ($categories as $key => $category) {
+                $categoryArray[] = array(
+                    'object' => $category,
+                    'isChecked' => $setCategories->contains($category),
+                );
+            }
 
-			$this->view->assign('categories', $categoryArray);
-			$this->view->assign('extension', $extension);
-			$this->view->assign('loggedIn', $this->userRepository->findCurrent());
-		} else {
-			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', t3lib_FlashMessage::ERROR);
-			$this->redirect('index', 'Registerkey');
-		}
-	}
+            $this->view->assign('categories', $categoryArray);
+            $this->view->assign('extension', $extension);
+            $this->view->assign('loggedIn', $this->userRepository->findCurrent());
+        } else {
+            $this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', t3lib_FlashMessage::ERROR);
+            $this->redirect('index', 'Registerkey');
+        }
+    }
 
-	/**
-	 * Update an existing extension
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to modify
-	 * @param mixed $categories Categories to add / remove
-	 * @return void
-	 */
-	public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $categories) {
+    /**
+     * Update an existing extension
+     *
+     * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to modify
+     * @param mixed $categories Categories to add / remove
+     * @return void
+     */
+    public function updateAction(Tx_TerFe2_Domain_Model_Extension $extension, $categories)
+    {
 
-		// check if the extension belongs to the current user
-		if ($this->securityRole->isReviewer() or $extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
+        // check if the extension belongs to the current user
+        if ($this->securityRole->isReviewer() or $extension->getFrontendUser() == $GLOBALS['TSFE']->fe_user->user['username']) {
 
-			/**
-			 * TODO: Modification of the extension key is currently not allowed
-			 */
-			if ($extension->_isDirty('extKey')) {
-				$this->redirect('index', 'Registerkey');
-			}
+            /**
+             * TODO: Modification of the extension key is currently not allowed
+             */
+            if ($extension->_isDirty('extKey')) {
+                $this->redirect('index', 'Registerkey');
+            }
 
-			// Check if the extension key has changed
-			if ($extension->_isDirty('extKey')) {
-				// If extension key has changed, check if the new one is in the ter
-				if ($this->terConnection->checkExtensionKey($extension->getExtKey(), $error)) {
-					$error = '';
-					if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $this->frontendUser['username'], $error)) {
-						// Update categories
-						$this->extensionRepository->update($extension);
-						$this->flashMessageContainer->add($this->translate('registerkey.key_updated', '', t3lib_FlashMessage::OK));
-						$this->redirect('index', 'Registerkey');
-					} else {
-						// TODO: Show different message by $error code
-						$this->flashMessageContainer->add($this->translate('registerkey.key_update_failed', '', t3lib_FlashMessage::ERROR));
-					}
-				} else {
-					$this->flashMessageContainer->add(
-							$this->resolveWSErrorMessage($error . '.message'), $this->resolveWSErrorMessage($error . '.title'), t3lib_FlashMessage::ERROR
-					);
-				}
-			} else {
-				// Update categories
-				$extension = $this->updateCategories($extension, $categories);
-				$this->extensionRepository->update($extension);
-				$this->flashMessageContainer->add($this->translate('registerkey.key_updated', '', t3lib_FlashMessage::OK));
-				$this->redirect('index', 'Registerkey');
-			}
+            // Check if the extension key has changed
+            if ($extension->_isDirty('extKey')) {
+                // If extension key has changed, check if the new one is in the ter
+                if ($this->terConnection->checkExtensionKey($extension->getExtKey(), $error)) {
+                    $error = '';
+                    if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $this->frontendUser['username'], $error)) {
+                        // Update categories
+                        $this->extensionRepository->update($extension);
+                        $this->flashMessageContainer->add($this->translate('registerkey.key_updated', '', t3lib_FlashMessage::OK));
+                        $this->redirect('index', 'Registerkey');
+                    } else {
+                        // TODO: Show different message by $error code
+                        $this->flashMessageContainer->add($this->translate('registerkey.key_update_failed', '', t3lib_FlashMessage::ERROR));
+                    }
+                } else {
+                    $this->flashMessageContainer->add(
+                        $this->resolveWSErrorMessage($error . '.message'), $this->resolveWSErrorMessage($error . '.title'), t3lib_FlashMessage::ERROR
+                    );
+                }
+            } else {
+                // Update categories
+                $extension = $this->updateCategories($extension, $categories);
+                $this->extensionRepository->update($extension);
+                $this->flashMessageContainer->add($this->translate('registerkey.key_updated', '', t3lib_FlashMessage::OK));
+                $this->redirect('index', 'Registerkey');
+            }
 
-			$this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
-		} else {
-			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension', '', t3lib_FlashMessage::ERROR));
-			$this->redirect('index', 'Registerkey');
-		}
-	}
+            $this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
+        } else {
+            $this->flashMessageContainer->add($this->translate('registerkey.notyourextension', '', t3lib_FlashMessage::ERROR));
+            $this->redirect('index', 'Registerkey');
+        }
+    }
 
-	/**
-	 * Update the categories of an existing extension
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Extension $extension
-	 * @param mixed $categories Categories to update
-	 * @return Tx_TerFe2_Domain_Model_Extension
-	 */
-	protected function updateCategories(Tx_TerFe2_Domain_Model_Extension $extension, $categories) {
+    /**
+     * Update the categories of an existing extension
+     *
+     * @param Tx_TerFe2_Domain_Model_Extension $extension
+     * @param mixed $categories Categories to update
+     * @return Tx_TerFe2_Domain_Model_Extension
+     */
+    protected function updateCategories(Tx_TerFe2_Domain_Model_Extension $extension, $categories)
+    {
 
-		// Remove all categories
-		$extension->removeAllCategories();
+        // Remove all categories
+        $extension->removeAllCategories();
 
-		// Add selected categories
-		foreach ($categories as $category) {
-			if (isset($category['__identity']) && is_numeric($category['__identity'])) {
-				$myCat = $this->categoryRepository->findByUid((int) $category['__identity']);
-				if ($myCat != NULL) {
-					$extension->addCategory($myCat);
-				}
-			}
-		}
+        // Add selected categories
+        foreach ($categories as $category) {
+            if (isset($category['__identity']) && is_numeric($category['__identity'])) {
+                $myCat = $this->categoryRepository->findByUid((int)$category['__identity']);
+                if ($myCat != NULL) {
+                    $extension->addCategory($myCat);
+                }
+            }
+        }
 
-		return $extension;
-	}
+        return $extension;
+    }
 
-	/**
-	 * Transfer an extension key to another user
-	 *
-	 * @param string $newUser Username of the assignee
-	 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to transfer
-	 * @return void
-	 */
-	public function transferAction($newUser, Tx_TerFe2_Domain_Model_Extension $extension) {
+    /**
+     * Transfer an extension key to another user
+     *
+     * @param string $newUser Username of the assignee
+     * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to transfer
+     * @return void
+     */
+    public function transferAction($newUser, Tx_TerFe2_Domain_Model_Extension $extension)
+    {
 
-		$newUser = trim($newUser);
-		if ($newUser == '') {
-			$this->flashMessageContainer->add(
-					'', $this->translate('registerkey.newuserempty'), t3lib_FlashMessage::ERROR
-			);
-		} elseif ((strtolower($extension->getFrontendUser()) == strtolower($GLOBALS['TSFE']->fe_user->user['username'])) || $this->securityRole->isAdmin()) {
+        $newUser = trim($newUser);
+        if ($newUser == '') {
+            $this->flashMessageContainer->add(
+                '', $this->translate('registerkey.newuserempty'), t3lib_FlashMessage::ERROR
+            );
+        } elseif ((strtolower($extension->getFrontendUser()) == strtolower($GLOBALS['TSFE']->fe_user->user['username'])) || $this->securityRole->isAdmin()) {
 
-			// check if the extension belongs to the current user
+            // check if the extension belongs to the current user
 
-			$error = '';
+            $error = '';
 
-			// Is it possible to assign the key to a new user
-			if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $newUser, $error)) {
-				$extension->setFrontendUser($newUser);
-				$this->extensionRepository->update($extension);
-				$this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)), '', t3lib_FlashMessage::OK);
-			} else {
-				$this->flashMessageContainer->add(
-						$this->resolveWSErrorMessage($error), $this->translate('registerkey.transferError.title', array($extension->getExtKey())), t3lib_FlashMessage::ERROR
-				);
-			}
-		} else {
-			$this->flashMessageContainer->add(
-					'', $this->translate('registerkey.notyourextension'), t3lib_FlashMessage::ERROR
-			);
-		}
+            // Is it possible to assign the key to a new user
+            if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $newUser, $error)) {
+                $extension->setFrontendUser($newUser);
+                $this->extensionRepository->update($extension);
+                $this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)), '', t3lib_FlashMessage::OK);
+            } else {
+                $this->flashMessageContainer->add(
+                    $this->resolveWSErrorMessage($error), $this->translate('registerkey.transferError.title', array($extension->getExtKey())), t3lib_FlashMessage::ERROR
+                );
+            }
+        } else {
+            $this->flashMessageContainer->add(
+                '', $this->translate('registerkey.notyourextension'), t3lib_FlashMessage::ERROR
+            );
+        }
 
-		$this->redirect('index', 'Registerkey');
-	}
+        $this->redirect('index', 'Registerkey');
+    }
 
-	/**
-	 * Delete an extension key from ter server
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to delete
-	 * @return void
-	 */
-	public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension) {
+    /**
+     * Delete an extension key from ter server
+     *
+     * @param Tx_TerFe2_Domain_Model_Extension $extension Extension to delete
+     * @return void
+     */
+    public function deleteAction(Tx_TerFe2_Domain_Model_Extension $extension)
+    {
 
-		if ($extension->getVersionCount() > 0) {
-			$this->flashMessageContainer->add(
-					$this->translate('registerkey.deleting_prohibited', array($extension->getExtKey())), '', t3lib_FlashMessage::ERROR
-			);
-		} elseif ((strtolower($extension->getFrontendUser()) == strtolower($GLOBALS['TSFE']->fe_user->user['username'])) || $this->securityRole->isAdmin())  {
+        if ($extension->getVersionCount() > 0) {
+            $this->flashMessageContainer->add(
+                $this->translate('registerkey.deleting_prohibited', array($extension->getExtKey())), '', t3lib_FlashMessage::ERROR
+            );
+        } elseif ((strtolower($extension->getFrontendUser()) == strtolower($GLOBALS['TSFE']->fe_user->user['username'])) || $this->securityRole->isAdmin()) {
 
-			// Deleted in ter, then delete the key in the ter_fe2 extension table
-			if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {
-				$this->extensionRepository->remove($extension);
-				$this->flashMessageContainer->add(
-						'', $this->translate('registerkey.deleted', array($extension->getExtKey())), t3lib_FlashMessage::OK
-				);
-			} else {
-				$this->flashMessageContainer->add(
-						$this->resolveWSErrorMessage('cannotbedeleted.message', array($extension->getExtKey())), $this->resolveWSErrorMessage('cannotbedeleted.title', array($extension->getExtKey())), t3lib_FlashMessage::ERROR
-				);
-			}
-		} else {
-			$this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', t3lib_FlashMessage::ERROR);
-		}
+            // Deleted in ter, then delete the key in the ter_fe2 extension table
+            if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {
+                $this->extensionRepository->remove($extension);
+                $this->flashMessageContainer->add(
+                    '', $this->translate('registerkey.deleted', array($extension->getExtKey())), t3lib_FlashMessage::OK
+                );
+            } else {
+                $this->flashMessageContainer->add(
+                    $this->resolveWSErrorMessage('cannotbedeleted.message', array($extension->getExtKey())), $this->resolveWSErrorMessage('cannotbedeleted.title', array($extension->getExtKey())), t3lib_FlashMessage::ERROR
+                );
+            }
+        } else {
+            $this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', t3lib_FlashMessage::ERROR);
+        }
 
-		$this->redirect('index', 'Registerkey');
-	}
+        $this->redirect('index', 'Registerkey');
+    }
 
-	/**
-	 * Sets the expire back to zero and touches the extension
-	 * The process for getting expiring extensions will be back in 1 year
-	 *
-	 * @param \Tx_TerFe2_Domain_Model_Extension $extension
-	 * @dontvalidate $extension
-	 * @return void
-	 * @throws \Tx_Extbase_MVC_Exception_UnsupportedRequestType
-	 */
-	public function keepAction(Tx_TerFe2_Domain_Model_Extension $extension) {
-		$extension->setExpire(0);
-		$this->extensionRepository->update($extension);
-		$this->redirect('index', 'Registerkey');
-	}
+    /**
+     * Sets the expire back to zero and touches the extension
+     * The process for getting expiring extensions will be back in 1 year
+     *
+     * @param \Tx_TerFe2_Domain_Model_Extension $extension
+     * @dontvalidate $extension
+     * @return void
+     * @throws \Tx_Extbase_MVC_Exception_UnsupportedRequestType
+     */
+    public function keepAction(Tx_TerFe2_Domain_Model_Extension $extension)
+    {
+        $extension->setExpire(0);
+        $this->extensionRepository->update($extension);
+        $this->redirect('index', 'Registerkey');
+    }
 
-	/**
-	 * Delete an extension version from ter server
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Version $version Extension to delete
-	 * @dontvalidate $version
-	 * @return void
-	 */
-	public function deleteExtensionVersionAction(Tx_TerFe2_Domain_Model_Version $version) {
-		if (!$this->securityRole->isAdmin()) {
-			$this->flashMessageContainer->add(
-					$this->resolveWSErrorMessage('not_admin.message'), $this->resolveWSErrorMessage('not_admin.title'), t3lib_FlashMessage::ERROR
-			);
-			$this->redirect('index');
-		}
+    /**
+     * Delete an extension version from ter server
+     *
+     * @param Tx_TerFe2_Domain_Model_Version $version Extension to delete
+     * @dontvalidate $version
+     * @return void
+     */
+    public function deleteExtensionVersionAction(Tx_TerFe2_Domain_Model_Version $version)
+    {
+        if (!$this->securityRole->isAdmin()) {
+            $this->flashMessageContainer->add(
+                $this->resolveWSErrorMessage('not_admin.message'), $this->resolveWSErrorMessage('not_admin.title'), t3lib_FlashMessage::ERROR
+            );
+            $this->redirect('index');
+        }
 
-		$redirectToIndexAction = FALSE;
+        $redirectToIndexAction = FALSE;
 
-		// Deleted in ter, then delete the version (and probably the extension) in the ter_fe2 extension table
-		if ($this->terConnection->deleteExtensionVersion($version->getExtension()->getExtKey(), $version->getVersionString())) {
-			$version->getExtension()->removeVersion($version);
-			$this->versionRepository->remove($version);
-			if ($version->getExtension()->getLastVersion() === NULL) {
-				$this->extensionRepository->remove($version->getExtension());
-				$redirectToIndexAction = TRUE;
-			}
-			$this->flashMessageContainer->add(
-					'', $this->translate('registerkey.version_deleted', array($version->getVersionString(), $version->getExtension()->getExtKey())), t3lib_FlashMessage::OK
-			);
-		} else {
-			$this->flashMessageContainer->add(
-					$this->resolveWSErrorMessage('extensioncannotbedeleted.message', array($version->getExtension()->getExtKey())), $this->resolveWSErrorMessage('extensioncannotbedeleted.title', array($version->getExtension()->getExtKey())), t3lib_FlashMessage::ERROR
-			);
-		}
-		if ($redirectToIndexAction) {
-			$this->redirect('index', 'Registerkey', NULL);
-		} else {
-			$this->redirect('admin', 'Registerkey', NULL, array('extensionKey' => $version->getExtension()->getExtKey()));
-		}
-	}
+        // Deleted in ter, then delete the version (and probably the extension) in the ter_fe2 extension table
+        if ($this->terConnection->deleteExtensionVersion($version->getExtension()->getExtKey(), $version->getVersionString())) {
+            $version->getExtension()->removeVersion($version);
+            $this->versionRepository->remove($version);
+            if ($version->getExtension()->getLastVersion() === NULL) {
+                $this->extensionRepository->remove($version->getExtension());
+                $redirectToIndexAction = TRUE;
+            }
+            $this->flashMessageContainer->add(
+                '', $this->translate('registerkey.version_deleted', array($version->getVersionString(), $version->getExtension()->getExtKey())), t3lib_FlashMessage::OK
+            );
+        } else {
+            $this->flashMessageContainer->add(
+                $this->resolveWSErrorMessage('extensioncannotbedeleted.message', array($version->getExtension()->getExtKey())), $this->resolveWSErrorMessage('extensioncannotbedeleted.title', array($version->getExtension()->getExtKey())), t3lib_FlashMessage::ERROR
+            );
+        }
+        if ($redirectToIndexAction) {
+            $this->redirect('index', 'Registerkey', NULL);
+        } else {
+            $this->redirect('admin', 'Registerkey', NULL, array('extensionKey' => $version->getExtension()->getExtKey()));
+        }
+    }
 
-	/**
-	 * Show all extensions for ter admins
-	 *
-	 * @param string $extensionKey
-	 */
-	public function adminAction($extensionKey = '') {
-		if (!$this->securityRole->isAdmin()) {
-			$this->flashMessageContainer->add(
-					$this->resolveWSErrorMessage('no_admin.message'), $this->resolveWSErrorMessage('no_admin.title'), t3lib_FlashMessage::ERROR
-			);
-			$this->redirect('index');
-		}
+    /**
+     * Show all extensions for ter admins
+     *
+     * @param string $extensionKey
+     */
+    public function adminAction($extensionKey = '')
+    {
+        if (!$this->securityRole->isAdmin()) {
+            $this->flashMessageContainer->add(
+                $this->resolveWSErrorMessage('no_admin.message'), $this->resolveWSErrorMessage('no_admin.title'), t3lib_FlashMessage::ERROR
+            );
+            $this->redirect('index');
+        }
 
-		$this->extensionRepository->setDefaultOrderings(
-				array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
-		);
-		if (!$extensionKey) {
-			$this->view->assign('adminExtensions', $this->extensionRepository->findAllAdmin());
-		} else {
-			$this->view->assign('adminExtensions', $this->extensionRepository->findByExtKey($extensionKey));
-		}
-	}
+        $this->extensionRepository->setDefaultOrderings(
+            array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+        );
+        if (!$extensionKey) {
+            $this->view->assign('adminExtensions', $this->extensionRepository->findAllAdmin());
+        } else {
+            $this->view->assign('adminExtensions', $this->extensionRepository->findByExtKey($extensionKey));
+        }
+    }
 
-	/**
-	 * resolve the error key and get the corresponding translation
-	 *
-	 * @param string $error
-	 * @param array $arguments
-	 * @return string $message already translated
-	 */
-	protected function resolveWSErrorMessage($error, $arguments = array()) {
-		return $this->translate('registerkey.error.' . $error, $arguments);
-	}
+    /**
+     * resolve the error key and get the corresponding translation
+     *
+     * @param string $error
+     * @param array $arguments
+     * @return string $message already translated
+     */
+    protected function resolveWSErrorMessage($error, $arguments = array())
+    {
+        return $this->translate('registerkey.error.' . $error, $arguments);
+    }
 
 }
 

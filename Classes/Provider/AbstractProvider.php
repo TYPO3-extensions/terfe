@@ -26,123 +26,132 @@
 /**
  * Abstract extension provider
  */
-abstract class Tx_TerFe2_Provider_AbstractProvider implements Tx_TerFe2_Provider_ProviderInterface {
+abstract class Tx_TerFe2_Provider_AbstractProvider implements Tx_TerFe2_Provider_ProviderInterface
+{
 
-	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
-	 */
-	protected $objectManager;
+    /**
+     * @var Tx_Extbase_Object_ObjectManagerInterface
+     */
+    protected $objectManager;
 
-	/**
-	 * @var Tx_Extbase_Persistence_Mapper_DataMapFactory
-	 */
-	protected $dataMapFactory;
+    /**
+     * @var Tx_Extbase_Persistence_Mapper_DataMapFactory
+     */
+    protected $dataMapFactory;
 
-	/**
-	 * @var Tx_Extbase_Reflection_Service
-	 */
-	protected $reflectionService;
+    /**
+     * @var Tx_Extbase_Reflection_Service
+     */
+    protected $reflectionService;
 
-	/**
-	 * @var array Configuration array
-	 */
-	protected $configuration;
+    /**
+     * @var array Configuration array
+     */
+    protected $configuration;
 
-	/**
-	 * @var string
-	 */
-	protected $imageCachePath = 'typo3temp/tx_terfe2/images/';
-
-
-	/**
-	 * Get or create absolute path to image cache directory
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-		$this->imageCachePath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->imageCachePath);
-	}
+    /**
+     * @var string
+     */
+    protected $imageCachePath = 'typo3temp/tx_terfe2/images/';
 
 
-	/*
-	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * Get or create absolute path to image cache directory
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->imageCachePath = Tx_TerFe2_Utility_File::getAbsoluteDirectory($this->imageCachePath);
+    }
 
 
-	/**
-	 * @param Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory
-	 * @return void
-	 */
-	public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory) {
-		$this->dataMapFactory = $dataMapFactory;
-	}
+    /*
+     * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+     * @return void
+     */
+    public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
 
-	/**
-	 * @param Tx_Extbase_Reflection_Service $reflectionService
-	 * @return void
-	 */
-	public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService) {
-		$this->reflectionService = $reflectionService;
-	}
+    /**
+     * @param Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory
+     * @return void
+     */
+    public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory)
+    {
+        $this->dataMapFactory = $dataMapFactory;
+    }
 
 
-	/**
-	 * Set configuration for the DataProvider
-	 *
-	 * @param array $configuration TypoScript configuration
-	 * @return void
-	 */
-	public function setConfiguration(array $configuration) {
-		$this->configuration = $configuration;
-	}
+    /**
+     * @param Tx_Extbase_Reflection_Service $reflectionService
+     * @return void
+     */
+    public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService)
+    {
+        $this->reflectionService = $reflectionService;
+    }
 
 
-	/**
-	 * Returns the url to an extension related icon
-	 *
-	 * @param Tx_TerFe2_Domain_Model_Version $version Version object
-	 * @param string $fileType File type
-	 * @return string Url to icon file
-	 */
-	public function getIconUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType) {
-		$filename = $this->getFileName($version, $fileType);
-		$localName = $this->imageCachePath . basename($filename);
-
-			// Check local cache first
-		if (Tx_TerFe2_Utility_File::fileExists($localName)) {
-			return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($localName);
-		}
-
-			// Get icon from concrete extension provider
-		$iconUrl = $this->getFileUrl($version, $fileType);
-
-			// Copy icon to local cache
-		if (!empty($iconUrl)) {
-			Tx_TerFe2_Utility_File::copyFile($iconUrl, $localName);
-		}
-
-		return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($localName);
-	}
+    /**
+     * Set configuration for the DataProvider
+     *
+     * @param array $configuration TypoScript configuration
+     * @return void
+     */
+    public function setConfiguration(array $configuration)
+    {
+        $this->configuration = $configuration;
+    }
 
 
-	/**
-	 * Returns an array with minimum and maximum version number from range
-	 *
-	 * @param string $version Range of versions
-	 * @return array Minumum and maximum version number
-	 */
-	protected function getVersionByRange($version) {
-		$version = Tx_Extbase_Utility_Arrays::trimExplode('-', $version);
-		$minimum = (!empty($version[0]) ? t3lib_div::int_from_ver($version[0]) : 0);
-		$maximum = (!empty($version[1]) ? t3lib_div::int_from_ver($version[1]) : 0);
+    /**
+     * Returns the url to an extension related icon
+     *
+     * @param Tx_TerFe2_Domain_Model_Version $version Version object
+     * @param string $fileType File type
+     * @return string Url to icon file
+     */
+    public function getIconUrl(Tx_TerFe2_Domain_Model_Version $version, $fileType)
+    {
+        $filename = $this->getFileName($version, $fileType);
+        $localName = $this->imageCachePath . basename($filename);
 
-		return array($minimum, $maximum);
-	}
+        // Check local cache first
+        if (Tx_TerFe2_Utility_File::fileExists($localName)) {
+            return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($localName);
+        }
+
+        // Get icon from concrete extension provider
+        $iconUrl = $this->getFileUrl($version, $fileType);
+
+        // Copy icon to local cache
+        if (!empty($iconUrl)) {
+            Tx_TerFe2_Utility_File::copyFile($iconUrl, $localName);
+        }
+
+        return Tx_TerFe2_Utility_File::getUrlFromAbsolutePath($localName);
+    }
+
+
+    /**
+     * Returns an array with minimum and maximum version number from range
+     *
+     * @param string $version Range of versions
+     * @return array Minumum and maximum version number
+     */
+    protected function getVersionByRange($version)
+    {
+        $version = Tx_Extbase_Utility_Arrays::trimExplode('-', $version);
+        $minimum = (!empty($version[0]) ? t3lib_div::int_from_ver($version[0]) : 0);
+        $maximum = (!empty($version[1]) ? t3lib_div::int_from_ver($version[1]) : 0);
+
+        return array($minimum, $maximum);
+    }
 
 }
+
 ?>

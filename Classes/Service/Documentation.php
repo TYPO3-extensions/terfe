@@ -29,65 +29,69 @@
  * @package TerFe2
  * @author Thomas Löffler <thomas.loeffler@typo3.org>
  */
-class Tx_TerFe2_Service_Documentation implements t3lib_Singleton {
+class Tx_TerFe2_Service_Documentation implements t3lib_Singleton
+{
 
-	/**
-	 * @var string
-	 */
-	protected $baseUrl = '';
+    /**
+     * @var string
+     */
+    protected $baseUrl = '';
 
-	/**
-	 * @var array
-	 */
-	protected $availableFormats = array();
+    /**
+     * @var array
+     */
+    protected $availableFormats = array();
 
-	/**
-	 * @var string
-	 */
-	protected $docsInformation = NULL;
+    /**
+     * @var string
+     */
+    protected $docsInformation = NULL;
 
-	/**
-	 * Initialize the service
-	 */
-	public function __construct() {
-		$this->baseUrl = 'https://docs.typo3.org/typo3cms/extensions/';
-		$this->availableFormats = array(
-			'sxw',
-			'html',
-			'rst',
-			'pdf'
-		);
-		$documentationFile = PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentdocumentationdata.json';
-		$this->docsInformation = json_decode(file_get_contents($documentationFile));
-	}
+    /**
+     * Initialize the service
+     */
+    public function __construct()
+    {
+        $this->baseUrl = 'https://docs.typo3.org/typo3cms/extensions/';
+        $this->availableFormats = array(
+            'sxw',
+            'html',
+            'rst',
+            'pdf'
+        );
+        $documentationFile = PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentdocumentationdata.json';
+        $this->docsInformation = json_decode(file_get_contents($documentationFile));
+    }
 
 
-	/**
-	 * Get documentation link
-	 *
-	 * @throws Exception
-	 * @param string $extensionKey Extension key
-	 * @param string $versionString Version string
-	 * @return string|NULL HTML link to the documentation
-	 */
-	public function getDocumentationLink($extensionKey, $versionString) {
-		if (empty($extensionKey) || empty($versionString)) {
-			throw new Exception('Extension key and version string are required to build a documentation url');
-		}
+    /**
+     * Get documentation link
+     *
+     * @throws Exception
+     * @param string $extensionKey Extension key
+     * @param string $versionString Version string
+     * @return string|NULL HTML link to the documentation
+     */
+    public function getDocumentationLink($extensionKey, $versionString)
+    {
+        if (empty($extensionKey) || empty($versionString)) {
+            throw new Exception('Extension key and version string are required to build a documentation url');
+        }
 
-		$manualExists = isset($this->docsInformation->$extensionKey);
-		$documentationLink = NULL;
+        $manualExists = isset($this->docsInformation->$extensionKey);
+        $documentationLink = NULL;
 
-		if ($manualExists) {
-			// link to extension to get the latest manual
-			$url = $this->baseUrl . $extensionKey . '/';
-			// check if link is not broken
-			if (strpos(t3lib_div::getURL($url, 2), 'HTTP/1.1 200 OK') !== FALSE) {
-				$documentationLink = '<a href="' . $url . '">Extension Manual</a>';
-			}
-		}
+        if ($manualExists) {
+            // link to extension to get the latest manual
+            $url = $this->baseUrl . $extensionKey . '/';
+            // check if link is not broken
+            if (strpos(t3lib_div::getURL($url, 2), 'HTTP/1.1 200 OK') !== FALSE) {
+                $documentationLink = '<a href="' . $url . '">Extension Manual</a>';
+            }
+        }
 
-		return $documentationLink;
-	}
+        return $documentationLink;
+    }
 }
+
 ?>
