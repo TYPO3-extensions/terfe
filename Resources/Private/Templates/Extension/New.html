@@ -5,10 +5,10 @@
 
 	<f:form method="post" action="create" name="newExtension" object="{newExtension}">
 		<label for="extKey"><f:translate key="tx_terfe2_domain_model_extension.ext_key" /></label><br />
-		<f:form.textbox property="extKey" /><br />
+		<f:form.textfield property="extKey" /><br />
 
 		<label for="forgeLink"><f:translate key="tx_terfe2_domain_model_extension.forge_link" /></label><br />
-		<f:form.textbox property="forgeLink" /><br />
+		<f:form.textfield property="forgeLink" /><br />
 
 		<label for="categories"><f:translate key="tx_terfe2_domain_model_extension.categories" /></label><br />
 		<f:form.select property="categories" options="{categories}" optionValueField="uid" optionLabelField="title"></f:form.select><br />

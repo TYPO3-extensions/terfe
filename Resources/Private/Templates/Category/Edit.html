@@ -5,10 +5,10 @@
 
 	<f:form method="post" action="update" name="category" object="{category}">
 		<label for="title"><f:translate key="tx_terfe2_domain_model_category.title" /></label><br />
-		<f:form.textbox property="title" /><br />
+		<f:form.textfield property="title" /><br />
 
 		<label for="description"><f:translate key="tx_terfe2_domain_model_category.description" /></label><br />
-		<f:form.textbox property="description" /><br /><br />
+		<f:form.textfield property="description" /><br /><br />
 
 		<f:form.submit value="{f:translate(key:'edit')}" />
 	</f:form>
