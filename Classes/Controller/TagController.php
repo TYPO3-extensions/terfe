@@ -105,7 +105,7 @@ class Tx_TerFe2_Controller_TagController extends Tx_TerFe2_Controller_AbstractCo
             $this->tagRepository->add($newTag);
             $extension->addTag($newTag);
         }
-        $this->flashMessageContainer->add($this->translate('msg.tag_created'));
+        $this->addFlashMessage($this->translate('msg.tag_created'));
         $this->redirect('show', 'Extension', NULL, array('extension' => $extension));
     }
 
@@ -133,7 +133,7 @@ class Tx_TerFe2_Controller_TagController extends Tx_TerFe2_Controller_AbstractCo
     {
         $this->tagRepository->update($tag);
         // TODO: Update extension too
-        $this->flashMessageContainer->add($this->translate('msg.tag_updated'));
+        $this->addFlashMessage($this->translate('msg.tag_updated'));
         $this->redirect('list');
     }
 
@@ -148,7 +148,7 @@ class Tx_TerFe2_Controller_TagController extends Tx_TerFe2_Controller_AbstractCo
     {
         $this->tagRepository->remove($tag);
         // TODO: Remove from extension too
-        $this->flashMessageContainer->add($this->translate('msg.tag_deleted'));
+        $this->addFlashMessage($this->translate('msg.tag_deleted'));
         $this->redirect('list');
     }
 

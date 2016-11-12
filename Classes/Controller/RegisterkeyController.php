@@ -124,12 +124,12 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 //					}
 
                 $this->extensionRepository->add($extension);
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     '', $this->translate('registerkey.key_registered'), \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                 );
                 $this->redirect('index', 'Registerkey');
             } else {
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     $this->resolveWSErrorMessage('not_register.message'), $this->resolveWSErrorMessage('not_register.title'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
                 );
             }
@@ -149,7 +149,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
                     );
                 }
             }
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 $message,
                 $this->resolveWSErrorMessage($error . '.title'),
                 \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
@@ -169,15 +169,15 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
         $error = null;
         $registeredExtensions = $this->terConnection->getExtensionKeysByUser($error);
         if ($error) {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 $this->resolveWSErrorMessage($error), '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
         } elseif (!is_array($registeredExtensions)) {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 $this->resolveWSErrorMessage('result_empty.message'), $this->resolveWSErrorMessage('result_empty.title'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
         } elseif (empty($registeredExtensions)) {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 $this->resolveWSErrorMessage('nothing_found'), '', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING
             );
         } else {
@@ -192,7 +192,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
                 $extensionKey = $extension['extensionkey'];
                 if (in_array($extensionKey, $existingExtensionKeys)) {
                     // if: key already exists
-//                        $this->flashMessageContainer->add(
+//                        $this->addFlashMessage(
 //                            sprintf('%s already exists.', $extensionKey),
 //                            '',
 //                            \TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE
@@ -204,7 +204,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
                     $extensionModel->setFrontendUser($extension['ownerusername']);
 
                     $this->extensionRepository->add($extensionModel);
-//                        $this->flashMessageContainer->add(
+//                        $this->addFlashMessage(
 //                            '',
 //                            sprintf('%s salvaged.', $extensionKey ),
 //                            \TYPO3\CMS\Core\Messaging\FlashMessage::OK
@@ -214,19 +214,19 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
                 }
             }
             if ($countSalvaged > 0) {
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     $this->translate('registerkey.salvage.success', array($countSalvaged)), '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                 );
             } elseif ($countSkipped == 1) {
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     $this->translate('registerkey.salvage.pass1.message'), $this->translate('registerkey.salvage.pass.title'), \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING
                 );
             } elseif ($countSkipped > 1) {
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     $this->translate('registerkey.salvage.pass.message', array($countSkipped)), $this->translate('registerkey.salvage.pass.title'), \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING
                 );
             } else {
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     $this->resolveWSErrorMessage('nothing_found'), '', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING
                 );
             }
@@ -305,7 +305,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
             $this->view->assign('extension', $extension);
             $this->view->assign('loggedIn', $this->userRepository->findCurrent());
         } else {
-            $this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+            $this->addFlashMessage($this->translate('registerkey.notyourextension'), '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
             $this->redirect('index', 'Registerkey');
         }
     }
@@ -338,14 +338,14 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
                     if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $this->frontendUser['username'], $error)) {
                         // Update categories
                         $this->extensionRepository->update($extension);
-                        $this->flashMessageContainer->add($this->translate('registerkey.key_updated', '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK));
+                        $this->addFlashMessage($this->translate('registerkey.key_updated', '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK));
                         $this->redirect('index', 'Registerkey');
                     } else {
                         // TODO: Show different message by $error code
-                        $this->flashMessageContainer->add($this->translate('registerkey.key_update_failed', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR));
+                        $this->addFlashMessage($this->translate('registerkey.key_update_failed', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR));
                     }
                 } else {
-                    $this->flashMessageContainer->add(
+                    $this->addFlashMessage(
                         $this->resolveWSErrorMessage($error . '.message'), $this->resolveWSErrorMessage($error . '.title'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
                     );
                 }
@@ -353,13 +353,13 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
                 // Update categories
                 $extension = $this->updateCategories($extension, $categories);
                 $this->extensionRepository->update($extension);
-                $this->flashMessageContainer->add($this->translate('registerkey.key_updated', '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK));
+                $this->addFlashMessage($this->translate('registerkey.key_updated', '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK));
                 $this->redirect('index', 'Registerkey');
             }
 
             $this->redirect('edit', 'Registerkey', NULL, array('extension' => $extension));
         } else {
-            $this->flashMessageContainer->add($this->translate('registerkey.notyourextension', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR));
+            $this->addFlashMessage($this->translate('registerkey.notyourextension', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR));
             $this->redirect('index', 'Registerkey');
         }
     }
@@ -402,7 +402,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
 
         $newUser = trim($newUser);
         if ($newUser == '') {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 '', $this->translate('registerkey.newuserempty'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
         } elseif ((strtolower($extension->getFrontendUser()) == strtolower($GLOBALS['TSFE']->fe_user->user['username'])) || $this->securityRole->isAdmin()) {
@@ -415,14 +415,14 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
             if ($this->terConnection->assignExtensionKey($extension->getExtKey(), $newUser, $error)) {
                 $extension->setFrontendUser($newUser);
                 $this->extensionRepository->update($extension);
-                $this->flashMessageContainer->add($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)), '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK);
+                $this->addFlashMessage($this->translate('registerkey.keyTransfered', array($extension->getExtKey(), $newUser)), '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK);
             } else {
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     $this->resolveWSErrorMessage($error), $this->translate('registerkey.transferError.title', array($extension->getExtKey())), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
                 );
             }
         } else {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 '', $this->translate('registerkey.notyourextension'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
         }
@@ -440,7 +440,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
     {
 
         if ($extension->getVersionCount() > 0) {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 $this->translate('registerkey.deleting_prohibited', array($extension->getExtKey())), '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
         } elseif ((strtolower($extension->getFrontendUser()) == strtolower($GLOBALS['TSFE']->fe_user->user['username'])) || $this->securityRole->isAdmin()) {
@@ -448,16 +448,16 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
             // Deleted in ter, then delete the key in the ter_fe2 extension table
             if ($this->terConnection->deleteExtensionKey($extension->getExtKey())) {
                 $this->extensionRepository->remove($extension);
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     '', $this->translate('registerkey.deleted', array($extension->getExtKey())), \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                 );
             } else {
-                $this->flashMessageContainer->add(
+                $this->addFlashMessage(
                     $this->resolveWSErrorMessage('cannotbedeleted.message', array($extension->getExtKey())), $this->resolveWSErrorMessage('cannotbedeleted.title', array($extension->getExtKey())), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
                 );
             }
         } else {
-            $this->flashMessageContainer->add($this->translate('registerkey.notyourextension'), '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+            $this->addFlashMessage($this->translate('registerkey.notyourextension'), '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
         }
 
         $this->redirect('index', 'Registerkey');
@@ -489,7 +489,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
     public function deleteExtensionVersionAction(Tx_TerFe2_Domain_Model_Version $version)
     {
         if (!$this->securityRole->isAdmin()) {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 $this->resolveWSErrorMessage('not_admin.message'), $this->resolveWSErrorMessage('not_admin.title'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
             $this->redirect('index');
@@ -505,11 +505,11 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
                 $this->extensionRepository->remove($version->getExtension());
                 $redirectToIndexAction = TRUE;
             }
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 '', $this->translate('registerkey.version_deleted', array($version->getVersionString(), $version->getExtension()->getExtKey())), \TYPO3\CMS\Core\Messaging\FlashMessage::OK
             );
         } else {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 $this->resolveWSErrorMessage('extensioncannotbedeleted.message', array($version->getExtension()->getExtKey())), $this->resolveWSErrorMessage('extensioncannotbedeleted.title', array($version->getExtension()->getExtKey())), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
         }
@@ -528,7 +528,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
     public function adminAction($extensionKey = '')
     {
         if (!$this->securityRole->isAdmin()) {
-            $this->flashMessageContainer->add(
+            $this->addFlashMessage(
                 $this->resolveWSErrorMessage('no_admin.message'), $this->resolveWSErrorMessage('no_admin.title'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
             );
             $this->redirect('index');

@@ -373,7 +373,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
                     $newTag->setTitle($tag);
                     $extension->addTag($newTag);
                 }
-                $this->flashMessageContainer->add('Tag "' . htmlspecialchars($tag) . '" added to extension');
+                $this->addFlashMessage('Tag "' . htmlspecialchars($tag) . '" added to extension');
             }
         }
         $this->extensionRepository->update($extension);
@@ -529,7 +529,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
     public function uploadVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, array $form = array())
     {
         if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ter')) {
-            $this->flashMessageContainer->add($this->translate('msq.createVersionTerNotLoaded'));
+            $this->addFlashMessage($this->translate('msq.createVersionTerNotLoaded'));
         }
         $this->view->assign('extension', $extension);
         $this->view->assign('form', $form);

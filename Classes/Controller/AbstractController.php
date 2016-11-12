@@ -97,7 +97,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends \TYPO3\CMS\Extbas
     protected function redirectWithMessage($message, $action, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK,
                                            $controller = NULL, $extension = NULL, array $arguments = NULL)
     {
-        $this->flashMessageContainer->add($message, $title, $severity);
+        $this->addFlashMessage($message, $title, $severity);
         $this->clearPageCache($GLOBALS['TSFE']->id);
         $this->redirect($action, $controller, $extension, $arguments);
     }
@@ -115,7 +115,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends \TYPO3\CMS\Extbas
      */
     protected function forwardWithMessage($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL)
     {
-        $this->flashMessageContainer->add($message);
+        $this->addFlashMessage($message);
         $this->clearPageCache($GLOBALS['TSFE']->id);
         $this->forward($action, $controller, $extension, $arguments);
     }
@@ -133,7 +133,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends \TYPO3\CMS\Extbas
      */
     protected function redirectWithError($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL)
     {
-        $this->flashMessageContainer->add($message, '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+        $this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
         $this->clearPageCache($GLOBALS['TSFE']->id);
         $this->redirect($action, $controller, $extension, $arguments);
     }
@@ -151,7 +151,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends \TYPO3\CMS\Extbas
      */
     protected function forwardWithError($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL)
     {
-        $this->flashMessageContainer->add($message, '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+        $this->addFlashMessage($message, '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
         $this->clearPageCache($GLOBALS['TSFE']->id);
         $this->forward($action, $controller, $extension, $arguments);
     }
