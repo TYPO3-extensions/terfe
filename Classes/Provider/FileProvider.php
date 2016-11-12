@@ -47,11 +47,6 @@ class Tx_TerFe2_Provider_FileProvider extends Tx_TerFe2_Provider_AbstractProvide
      */
     public function initializeProvider()
     {
-        // Check if extension manager is loaded
-        if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('em')) {
-            throw new Exception('Required system extension "em" is not loaded');
-        }
-
         // Set extension root path
         if (!empty($this->configuration['extensionRootPath'])) {
             $this->extensionRootPath = $this->configuration['extensionRootPath'];

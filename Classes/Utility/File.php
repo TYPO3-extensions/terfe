@@ -520,10 +520,6 @@ class Tx_TerFe2_Utility_File
      */
     public static function createExtEmconfFile($extKey, array $emConfArray)
     {
-        if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('em')) {
-            throw new Exception('System extension "em" is required to generate ext_emconf.php');
-        }
-
         $content = '<?php
 
 /**
@@ -536,11 +532,29 @@ class Tx_TerFe2_Utility_File
  * writing. "version" and "dependencies" must not be touched!
  */
 
-$EM_CONF[$_EXTKEY] = ' . tx_em_Tools::arrayToCode($emConfArray, 0) . ';
+$EM_CONF[$_EXTKEY] = ' . self::arrayToCode($emConfArray, 0) . ';
 
 ';
 
         return str_replace(CR, '', $content);
+    }
+
+    private static function arrayToCode($array, $level = 0)
+    {
+        $lines = 'array(' . LF;
+        $level++;
+        foreach ($array as $k => $v) {
+            if (strlen($k) && is_array($v)) {
+                $lines .= str_repeat(TAB, $level) . "'" . $k . "' => " . self::arrayToCode($v, $level);
+            } elseif (strlen($k)) {
+                $lines .= str_repeat(TAB, $level) . "'" . $k . "' => "
+                    . (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($v) ? intval($v) : "'"
+                    . \TYPO3\CMS\Core\Utility\GeneralUtility::slashJS(trim($v), 1) . "'") . ',' . LF;
+            }
+        }
+
+        $lines .= str_repeat(TAB, $level - 1) . ')' . ($level - 1 == 0 ? '' : ',' . LF);
+        return $lines;
     }
 
 
