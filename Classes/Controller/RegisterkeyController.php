@@ -47,7 +47,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
     protected $categoryRepository;
 
     /**
-     * @var Tx_Ajaxlogin_Domain_Repository_UserRepository
+     * @var Tx_TerFe2_Domain_Repository_UserRepository
      */
     protected $userRepository;
 
@@ -61,7 +61,7 @@ class Tx_TerFe2_Controller_RegisterkeyController extends Tx_TerFe2_Controller_Ab
         $this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
         $this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
         $this->categoryRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_CategoryRepository');
-        $this->userRepository = $this->objectManager->get('Tx_Ajaxlogin_Domain_Repository_UserRepository');
+        $this->userRepository = $this->objectManager->get(Tx_TerFe2_Domain_Repository_UserRepository::class);
     }
 
     /**
