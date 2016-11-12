@@ -70,8 +70,9 @@ abstract class Tx_TerFe2_Controller_AbstractTerBasedController extends Tx_TerFe2
      *
      * @return void
      */
-    public function initializeView()
+    public function initializeView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {
+        $this->view = $view;
         $this->view->assign('loggedIn', FALSE);
         if (!empty($this->frontendUser)) {
             $this->view->assign('loggedIn', TRUE);
