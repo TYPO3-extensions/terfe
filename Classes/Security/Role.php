@@ -86,7 +86,7 @@ class Tx_TerFe2_Security_Role implements \TYPO3\CMS\Core\SingletonInterface
         if (empty($role) || !isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE']->loginUser) {
             return FALSE;
         }
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::testInt($role)) {
+        if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($role)) {
             return (is_array($GLOBALS['TSFE']->fe_user->groupData['uid']) && in_array($role, $GLOBALS['TSFE']->fe_user->groupData['uid']));
         } else {
             return (is_array($GLOBALS['TSFE']->fe_user->groupData['title']) && in_array($role, $GLOBALS['TSFE']->fe_user->groupData['title']));
