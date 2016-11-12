@@ -35,7 +35,7 @@ class Tx_TerFe2_Task_SearchIndexTask extends Tx_TerFe2_Task_AbstractTask
     protected $objectBuilder;
 
     /**
-     * @var Tx_Extbase_Persistence_Manager
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      */
     protected $persistenceManager;
 
@@ -58,7 +58,7 @@ class Tx_TerFe2_Task_SearchIndexTask extends Tx_TerFe2_Task_AbstractTask
     public function initializeTask()
     {
         $this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
-        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        $this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
         $this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
         $this->searchRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_SearchRepository');
     }
@@ -123,11 +123,11 @@ class Tx_TerFe2_Task_SearchIndexTask extends Tx_TerFe2_Task_AbstractTask
     /**
      * Returns the "$attribute" of each object in a storage
      *
-     * @param Tx_Extbase_Persistence_ObjectStorage $storage The storage object
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage The storage object
      * @param string $attribute The attribute name
      * @return array The resulting array
      */
-    protected function getStorageAttributes(Tx_Extbase_Persistence_ObjectStorage $storage, $attribute = 'uid')
+    protected function getStorageAttributes(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage, $attribute = 'uid')
     {
         $result = array();
 

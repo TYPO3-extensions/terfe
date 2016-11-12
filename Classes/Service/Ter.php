@@ -40,7 +40,7 @@ class Tx_TerFe2_Service_Ter
     protected $wsdlUrl;
 
     /**
-     * @var Tx_Extbase_Object_ObjectManager
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected $objectManager;
 
@@ -62,7 +62,7 @@ class Tx_TerFe2_Service_Ter
             'username' => $username,
             'password' => $password,
         );
-        $objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
         $this->soapService = $objectManager->get('Tx_TerFe2_Service_Soap');
         $this->soapService->connect($this->wsdlUrl, '', '', TRUE);
     }

@@ -75,11 +75,11 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
     /**
      * Build basis constraint
      *
-     * @param Tx_Extbase_Persistence_QueryInterface $query
-     * @param Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint
-     * @return Tx_Extbase_Persistence_QueryInterface
+     * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query
+     * @param \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $constraint
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryInterface
      */
-    protected function match(Tx_Extbase_Persistence_QueryInterface $query, Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint)
+    protected function match(\TYPO3\CMS\Extbase\Persistence\QueryInterface $query, \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $constraint)
     {
         if ($this->showInsecure) {
             $query->matching($constraint);
@@ -99,12 +99,12 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * @param int $offset
      * @param int $count
      * @param array $ordering
-     * @return array|Tx_Extbase_Persistence_QueryResultInterface
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findAll($offset = 0, $count = 0, array $ordering = array())
     {
         if (empty($ordering)) {
-            $ordering = array('lastVersion.title' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING);
+            $ordering = array('lastVersion.title' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING);
         }
         $query = $this->createQuery($offset, $count, $ordering);
         // Filter empty title
@@ -115,7 +115,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
     /**
      * Returns all objects of this repository
      *
-     * @return array|Tx_Extbase_Persistence_QueryResultInterface
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findAllAdmin()
     {
@@ -141,11 +141,11 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * Returns new and updated extensions
      *
      * @param integer $latestCount Count of extensions
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findLatest($latestCount = 0)
     {
-        $ordering = array('lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
+        $ordering = array('lastVersion.uploadDate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING);
         return $this->findAll(0, $latestCount, $ordering);
     }
 
@@ -153,11 +153,11 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * Returns top rated extensions
      *
      * @param integer $topRatedCount Count of extensions
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findTopRated($topRatedCount = 0)
     {
-        $ordering = array('lastVersion.experience.rating' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING);
+        $ordering = array('lastVersion.experience.rating' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING);
         return $this->findAll(0, $topRatedCount, $ordering);
     }
 
@@ -166,7 +166,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * Returns all extensions in a category
      *
      * @param Tx_TerFe2_Domain_Model_Category $category The Category to search in
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findByCategory(Tx_TerFe2_Domain_Model_Category $category)
     {
@@ -180,7 +180,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * Returns all extensions with a tag
      *
      * @param Tx_TerFe2_Domain_Model_Tag $tag The Tag to search for
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findByTag(Tx_TerFe2_Domain_Model_Tag $tag)
     {
@@ -194,7 +194,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * Returns all extensions by an author
      *
      * @param Tx_TerFe2_Domain_Model_Author $author The Author to search for
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findByAuthor(Tx_TerFe2_Domain_Model_Author $author)
     {
@@ -205,7 +205,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
         $query->getQuerySettings()->setRespectStoragePage(FALSE);
         $query->getQuerySettings()->setRespectSysLanguage(FALSE);
         $query->setOrderings(
-            array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+            array('extKey' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
         );
         $this->match($query, $query->in('uid', $uids));
 
@@ -215,13 +215,13 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
     /**
      *
      * @param string $frontendUser
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findByFrontendUser($frontendUser)
     {
         $query = $this->createQuery();
         $query->setOrderings(
-            array('extKey' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+            array('extKey' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
         );
 
         $this->match($query, $query->like('frontendUser', $frontendUser));
@@ -231,13 +231,13 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
     /**
      *
      * @param string $frontendUser
-     * @return Tx_Extbase_Persistence_QueryResult|NULL
+     * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult|NULL
      */
     public function findByFrontendUserAndExpiring($frontendUser)
     {
         $query = $this->createQuery();
         $query->setOrderings(
-            array('expire' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+            array('expire' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
         );
 
         $olderThanOneYear = strtotime('-1 year');
@@ -261,7 +261,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * @param string $searchWords Search string
      * @param array $filters Filter extension list
      * @param array $ordering $ordering Ordering <-> Direction
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findBySearchWordsAndFilters($searchWords = NULL, array $filters = NULL, array $ordering = NULL)
     {
@@ -329,7 +329,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * Unknown keys are silently ignored. So check later if you have all the models you need.
      *
      * @param array $extKeys
-     * @return Tx_Extbase_Persistence_QueryResultInterface
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findByExtKeys(array $extKeys)
     {
@@ -346,7 +346,7 @@ class Tx_TerFe2_Domain_Repository_ExtensionRepository extends Tx_TerFe2_Domain_R
      * @param Tx_TerFe2_Domain_Model_Extension $extension
      * @param string $frontendUser
      *
-     * @return array|Tx_Extbase_Persistence_QueryResultInterface
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findAllOtherFromFrontendUser(Tx_TerFe2_Domain_Model_Extension $extension, $frontendUser)
     {

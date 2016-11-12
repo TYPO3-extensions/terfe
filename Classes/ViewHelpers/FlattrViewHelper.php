@@ -28,7 +28,7 @@
  *
  * For documentation and examples visit http://www.jqplot.com
  */
-class Tx_TerFe2_ViewHelpers_FlattrViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
+class Tx_TerFe2_ViewHelpers_FlattrViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**

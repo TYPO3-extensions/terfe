@@ -12,7 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-include_once(t3lib_extMgm::extPath('ter_fe2') . '/Resources/Private/Php/PHP-Parser/lib/bootstrap.php');
+include_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('ter_fe2') . '/Resources/Private/Php/PHP-Parser/lib/bootstrap.php');
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 

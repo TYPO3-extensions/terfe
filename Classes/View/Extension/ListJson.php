@@ -26,7 +26,7 @@
 /**
  * Json output view for the list action of extension controller
  */
-class Tx_TerFe2_View_Extension_ListJson extends Tx_Extbase_MVC_View_AbstractView
+class Tx_TerFe2_View_Extension_ListJson extends \TYPO3\CMS\Extbase\Mvc\View\AbstractView
 {
 
     /**
@@ -40,7 +40,7 @@ class Tx_TerFe2_View_Extension_ListJson extends Tx_Extbase_MVC_View_AbstractView
         $extensions = array();
 
         // Get extensions from view data
-        if (!empty($this->variables['extensions']) && $this->variables['extensions'] instanceof Tx_Extbase_Persistence_QueryResult) {
+        if (!empty($this->variables['extensions']) && $this->variables['extensions'] instanceof \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult) {
             $extensions = $this->variables['extensions']->toArray();
         }
         if (!empty($extensions)) {

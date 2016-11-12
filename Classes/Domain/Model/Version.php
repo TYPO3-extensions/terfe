@@ -206,19 +206,19 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
 
     /**
      * Media references
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Media>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Media>
      */
     protected $media;
 
     /**
      * Experiences
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Experience>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Experience>
      */
     protected $experiences;
 
     /**
      * Software relations
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Relation>
      * @lazy
      */
     protected $softwareRelations;
@@ -267,13 +267,13 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     protected $creationDate;
 
     /**
-     * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
+     * Constructor. Initializes all ObjectStorage instances.
      */
     public function __construct()
     {
-        $this->media = new Tx_Extbase_Persistence_ObjectStorage();
-        $this->experiences = new Tx_Extbase_Persistence_ObjectStorage();
-        $this->softwareRelations = new Tx_Extbase_Persistence_ObjectStorage();
+        $this->media = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->experiences = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->softwareRelations = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
 
@@ -969,10 +969,10 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     /**
      * Setter for media
      *
-     * @param Tx_Extbase_Persistence_ObjectStorage <Tx_TerFe2_Domain_Model_Media> $media media
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage <Tx_TerFe2_Domain_Model_Media> $media media
      * @return void
      */
-    public function setMedia(Tx_Extbase_Persistence_ObjectStorage $media)
+    public function setMedia(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $media)
     {
         $this->media = $media;
     }
@@ -981,7 +981,7 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     /**
      * Getter for media
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Media> media
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Media> media
      */
     public function getMedia()
     {
@@ -1016,10 +1016,10 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     /**
      * Setter for experience
      *
-     * @param Tx_Extbase_Persistence_ObjectStorage <Tx_TerFe2_Domain_Model_Experience> $experiences Experiences
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage <Tx_TerFe2_Domain_Model_Experience> $experiences Experiences
      * @return void
      */
-    public function setExperiences(Tx_Extbase_Persistence_ObjectStorage $experiences)
+    public function setExperiences(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $experiences)
     {
         $this->experiences = $experiences;
     }
@@ -1028,7 +1028,7 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     /**
      * Getter for experience
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Experience> Experiences
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Experience> Experiences
      */
     public function getExperiences()
     {
@@ -1063,10 +1063,10 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     /**
      * Setter for softwareRelations
      *
-     * @param Tx_Extbase_Persistence_ObjectStorage <Tx_TerFe2_Domain_Model_Relation> $softwareRelations Relations
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage <Tx_TerFe2_Domain_Model_Relation> $softwareRelations Relations
      * @return void
      */
-    public function setSoftwareRelations(Tx_Extbase_Persistence_ObjectStorage $softwareRelations)
+    public function setSoftwareRelations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $softwareRelations)
     {
         $this->softwareRelations = $softwareRelations;
     }
@@ -1075,7 +1075,7 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     /**
      * Getter for softwareRelations
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Relation> Relations
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Relation> Relations
      */
     public function getSoftwareRelations()
     {
@@ -1138,11 +1138,11 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     /**
      * Returns all software relations which are conflicts
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage $conflicts
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $conflicts
      */
     public function getConflicts()
     {
-        $conflicts = new Tx_Extbase_Persistence_ObjectStorage();
+        $conflicts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         foreach ($this->getSoftwareRelations() as $softwareRelation) {
             /** @var Tx_TerFe2_Domain_Model_Relation $softwareRelation */
             $relationKey = $softwareRelation->getRelationKey();
@@ -1156,11 +1156,11 @@ class Tx_TerFe2_Domain_Model_Version extends Tx_TerFe2_Domain_Model_AbstractEnti
     /**
      * Returns all software relations which are dependencies
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage $dependencies
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage $dependencies
      */
     public function getDependencies()
     {
-        $dependencies = new Tx_Extbase_Persistence_ObjectStorage();
+        $dependencies = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         foreach ($this->getSoftwareRelations() as $softwareRelation) {
             /** @var Tx_TerFe2_Domain_Model_Relation $softwareRelation */
             $relationKey = $softwareRelation->getRelationKey();

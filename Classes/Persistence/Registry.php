@@ -30,7 +30,7 @@ class Tx_TerFe2_Persistence_Registry extends Tx_TerFe2_Persistence_AbstractPersi
 {
 
     /**
-     * @var t3lib_Registry
+     * @var \TYPO3\CMS\Core\Registry
      */
     protected $registry;
 
@@ -43,7 +43,7 @@ class Tx_TerFe2_Persistence_Registry extends Tx_TerFe2_Persistence_AbstractPersi
     public function load()
     {
         if (!$this->isLoaded()) {
-            $this->registry = t3lib_div::makeInstance('t3lib_Registry');
+            $this->registry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Registry::class);
             $this->content = $this->registry->get($this->getName(), 'content');
             $this->setIsLoaded(TRUE);
         }
@@ -58,7 +58,7 @@ class Tx_TerFe2_Persistence_Registry extends Tx_TerFe2_Persistence_AbstractPersi
     public function save()
     {
         if (empty($this->registry)) {
-            $this->registry = t3lib_div::makeInstance('t3lib_Registry');
+            $this->registry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Registry::class);
         }
         $this->registry->set($this->getName(), 'content', $this->content);
     }

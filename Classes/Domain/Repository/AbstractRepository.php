@@ -26,7 +26,7 @@
 /**
  * Abstract repository
  */
-abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase_Persistence_Repository
+abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
     /**
@@ -35,7 +35,7 @@ abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase
      * @param string $offset Offset to start with
      * @param string $count Count of result
      * @param array $ordering Ordering <-> Direction
-     * @return Tx_Extbase_Persistence_QueryInterface
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryInterface
      */
     public function createQuery($offset = 0, $count = 0, array $ordering = array())
     {
@@ -61,7 +61,7 @@ abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase
      * Returns random objects from db
      *
      * @param integer $limit Limit of the results
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findRandom($limit)
     {
@@ -69,7 +69,7 @@ abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase
 
         // Workaround for random ordering while Extbase doesn't support this
         // See: http://lists.typo3.org/pipermail/typo3-project-typo3v4mvc/2010-July/005870.html
-        $backend = $this->objectManager->get('Tx_Extbase_Persistence_Storage_Typo3DbBackend');
+        $backend = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\Storage\Typo3DbBackend::class);
         $parameters = array();
         $statementParts = $backend->parseQuery($query, $parameters);
         $statementParts['orderings'][] = ' RAND()';
@@ -86,7 +86,7 @@ abstract class Tx_TerFe2_Domain_Repository_AbstractRepository extends Tx_Extbase
      * @param string $offset Offset to start with
      * @param string $count Count of result
      * @param string $ordering Ordering <-> Direction
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findAll($offset = 0, $count = 0, array $ordering = array())
     {

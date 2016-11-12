@@ -26,7 +26,7 @@
 /**
  * Abstract entity
  */
-class Tx_TerFe2_Domain_Model_AbstractEntity extends Tx_Extbase_DomainObject_AbstractEntity
+class Tx_TerFe2_Domain_Model_AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**

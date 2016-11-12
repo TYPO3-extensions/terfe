@@ -45,7 +45,7 @@ class Tx_TerFe2_Task_UpdateDetailsTask extends Tx_TerFe2_Task_AbstractTask
     protected $providerManager;
 
     /**
-     * @var Tx_Extbase_Persistence_Manager
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      */
     protected $persistenceManager;
 
@@ -59,7 +59,7 @@ class Tx_TerFe2_Task_UpdateDetailsTask extends Tx_TerFe2_Task_AbstractTask
     {
         $this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
         $this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
-        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        $this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
         $this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
     }
 

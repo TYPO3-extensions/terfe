@@ -50,7 +50,7 @@ class Tx_TerFe2_Domain_Model_Experience extends Tx_TerFe2_Domain_Model_AbstractV
 
     /**
      * Frontend user
-     * @var Tx_Extbase_Domain_Model_FrontendUser
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     protected $frontendUser;
 
@@ -125,7 +125,7 @@ class Tx_TerFe2_Domain_Model_Experience extends Tx_TerFe2_Domain_Model_AbstractV
     /**
      * Getter for frontendUser
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
      */
     public function getFrontendUser()
     {
@@ -135,7 +135,7 @@ class Tx_TerFe2_Domain_Model_Experience extends Tx_TerFe2_Domain_Model_AbstractV
     /**
      * Setter for frontendUser
      *
-     * @param Tx_Extbase_Persistence_ObjectStorage $frontendUser
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $frontendUser
      */
     public function setFrontendUser($frontendUser)
     {

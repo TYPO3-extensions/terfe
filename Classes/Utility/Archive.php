@@ -233,7 +233,7 @@ class Tx_TerFe2_Utility_Archive
         }
 
         // Get file content
-        $content = t3lib_div::getURL($filename);
+        $content = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($filename);
         if (empty($content)) {
             return array();
         }
@@ -360,7 +360,7 @@ class Tx_TerFe2_Utility_Archive
     {
         $EM_CONF = NULL;
 
-        include_once(t3lib_extMgm::extPath('ter_fe2') . 'Resources/Private/Php/PHP-Parser/lib/bootstrap.php');
+        include_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('ter_fe2') . 'Resources/Private/Php/PHP-Parser/lib/bootstrap.php');
         $parser = new PhpParser\Parser(new PhpParser\Lexer);
 
         try {
@@ -372,7 +372,7 @@ class Tx_TerFe2_Utility_Archive
             // We will need to resolved names
             $traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver);
             // Our own node visitor
-            $traverser->addVisitor(t3lib_div::makeInstance('Tx_TerFe2_Visitor_ArrayAssurer'));
+            $traverser->addVisitor(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_TerFe2_Visitor_ArrayAssurer'));
 
             $statements = $traverser->traverse($statements);
             $code = $prettyPrinter->prettyPrint($statements);

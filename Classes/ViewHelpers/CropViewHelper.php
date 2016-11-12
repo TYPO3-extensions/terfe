@@ -26,7 +26,7 @@
 /**
  * Crop content view helper
  */
-class Tx_TerFe2_ViewHelpers_CropViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
+class Tx_TerFe2_ViewHelpers_CropViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
@@ -60,7 +60,7 @@ class Tx_TerFe2_ViewHelpers_CropViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
         if (isset($GLOBALS['LANG'])) {
             $languageObject = $GLOBALS['LANG'];
         } else {
-            $languageObject = t3lib_div::makeInstance('language');
+            $languageObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('language');
             $languageObject->init('en');
         }
 

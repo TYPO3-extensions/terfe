@@ -40,7 +40,7 @@ class Tx_TerFe2_Task_CreateExtensionFilesTask extends Tx_TerFe2_Task_AbstractTas
     protected $providerManager;
 
     /**
-     * @var Tx_Extbase_Persistence_Manager
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      */
     protected $persistenceManager;
 
@@ -64,7 +64,7 @@ class Tx_TerFe2_Task_CreateExtensionFilesTask extends Tx_TerFe2_Task_AbstractTas
     {
         $this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
         $this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
-        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        $this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
 
         if (empty($this->setup['settings.']['mediaRootPath'])) {
             throw new Exception('Please configure "plugin.tx_terfe2.settings.mediaRootPath" in TypoScript setup');
@@ -90,7 +90,7 @@ class Tx_TerFe2_Task_CreateExtensionFilesTask extends Tx_TerFe2_Task_AbstractTas
         }
 
         // Simulate working directory "htdocs", required for file_exists check
-        // in t3lib_stdGraphic::getImageDimensions
+        // in \TYPO3\CMS\Core\Imaging\GraphicalFunctions::getImageDimensions
         $currentDir = getcwd();
         chdir(PATH_site);
 

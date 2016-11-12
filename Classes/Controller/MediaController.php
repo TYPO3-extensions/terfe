@@ -106,7 +106,7 @@ class Tx_TerFe2_Controller_MediaController extends Tx_TerFe2_Controller_Abstract
             $extension->addMedia($newMedia);
         }
         $actionParameters = array('extension' => $extension);
-        $this->redirectWithMessage($this->translate('msg.media_created'), 'show', '', t3lib_FlashMessage::OK, 'Extension', NULL, $actionParameters);
+        $this->redirectWithMessage($this->translate('msg.media_created'), 'show', '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK, 'Extension', NULL, $actionParameters);
     }
 
 

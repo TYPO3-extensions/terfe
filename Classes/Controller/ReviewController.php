@@ -30,7 +30,7 @@ class Tx_TerFe2_Controller_ReviewController extends Tx_TerFe2_Controller_Abstrac
 {
 
     /**
-     * @var Tx_Extbase_Persistence_Manager
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      */
     protected $persistenceManager;
 
@@ -42,7 +42,7 @@ class Tx_TerFe2_Controller_ReviewController extends Tx_TerFe2_Controller_Abstrac
      */
     protected function initializeController()
     {
-        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        $this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
     }
 
 
@@ -79,17 +79,17 @@ class Tx_TerFe2_Controller_ReviewController extends Tx_TerFe2_Controller_Abstrac
                 $persist = TRUE;
             } else {
                 $message = $this->translate('msg.reviewstate_not_enabled', array($versionString, $error));
-                $this->redirectWithMessage($message, 'show', '', t3lib_FlashMessage::ERROR, 'Extension', NULL, $actionParameters);
+                $this->redirectWithMessage($message, 'show', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, 'Extension', NULL, $actionParameters);
             }
         }
 
         if ($persist) {
             $this->persistenceManager->persistAll();
-            $this->redirectWithMessage($this->translate('msg.reviewstate_enabled'), 'show', '', t3lib_FlashMessage::OK, 'Extension', NULL, $actionParameters);
+            $this->redirectWithMessage($this->translate('msg.reviewstate_enabled'), 'show', '', \TYPO3\CMS\Core\Messaging\FlashMessage::OK, 'Extension', NULL, $actionParameters);
         }
 
         $message = $this->translate('msg.reviewstate_not_changed');
-        $this->redirectWithMessage($message, 'show', '', t3lib_FlashMessage::WARNING, 'Extension', NULL, $actionParameters);
+        $this->redirectWithMessage($message, 'show', '', \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING, 'Extension', NULL, $actionParameters);
     }
 }
 

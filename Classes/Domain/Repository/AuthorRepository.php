@@ -32,7 +32,7 @@ class Tx_TerFe2_Domain_Repository_AuthorRepository extends Tx_TerFe2_Domain_Repo
     /**
      * Returns the authors from latest extension versions
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage Author objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Author objects
      */
     public function findByLatestExtensionVersion()
     {
@@ -56,7 +56,7 @@ class Tx_TerFe2_Domain_Repository_AuthorRepository extends Tx_TerFe2_Domain_Repo
         }
         $query = $this->createQuery();
         $query->setOrderings(
-            array('name' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING)
+            array('name' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING)
         );
         $query->matching($query->in('uid', $uids));
 
@@ -90,7 +90,7 @@ class Tx_TerFe2_Domain_Repository_AuthorRepository extends Tx_TerFe2_Domain_Repo
      * Returns author with matching email, name and username
      *
      * @param array $authorRow
-     * @return array|Tx_Extbase_Persistence_QueryResultInterface
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findByAuthorData($authorRow)
     {

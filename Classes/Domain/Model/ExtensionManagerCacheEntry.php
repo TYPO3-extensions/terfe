@@ -26,7 +26,7 @@
 /**
  * Extension manager cache entry
  */
-class Tx_TerFe2_Domain_Model_ExtensionManagerCacheEntry extends Tx_Extbase_DomainObject_AbstractEntity
+class Tx_TerFe2_Domain_Model_ExtensionManagerCacheEntry extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     // No attributes, getters and setters. Only required to get RAW result from respository
 }

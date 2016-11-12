@@ -26,7 +26,7 @@
 /**
  * CDATA wrapper view helper
  */
-class Tx_TerFe2_ViewHelpers_CdataViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
+class Tx_TerFe2_ViewHelpers_CdataViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**

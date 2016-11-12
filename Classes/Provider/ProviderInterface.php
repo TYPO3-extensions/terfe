@@ -26,28 +26,28 @@
 /**
  * Interface for extension providers
  */
-interface Tx_TerFe2_Provider_ProviderInterface extends t3lib_Singleton
+interface Tx_TerFe2_Provider_ProviderInterface extends \TYPO3\CMS\Core\SingletonInterface
 {
 
-    /*
-     * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
      * @return void
      */
-    public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager);
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager);
 
 
     /**
-     * @param Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory
+     * @param \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapFactory $dataMapFactory
      * @return void
      */
-    public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory);
+    public function injectDataMapFactory(\TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapFactory $dataMapFactory);
 
 
     /**
-     * @param Tx_Extbase_Reflection_Service $reflectionService
+     * @param \TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService
      * @return void
      */
-    public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService);
+    public function injectReflectionService(\TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService);
 
 
     /**

@@ -62,14 +62,14 @@ class Tx_TerFe2_Domain_Model_Author extends Tx_TerFe2_Domain_Model_AbstractEntit
 
     /**
      * versions
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Version>
      * @lazy
      */
     protected $versions;
 
     /**
      * Frontend user
-     * @var Tx_Extbase_Domain_Model_FrontendUser
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     protected $frontendUser;
 
@@ -86,11 +86,11 @@ class Tx_TerFe2_Domain_Model_Author extends Tx_TerFe2_Domain_Model_AbstractEntit
     protected $authorType;
 
     /**
-     * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
+     * Constructor. Initializes all ObjectStorage instances.
      */
     public function __construct()
     {
-        $this->versions = new Tx_Extbase_Persistence_ObjectStorage();
+        $this->versions = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
 
@@ -212,7 +212,7 @@ class Tx_TerFe2_Domain_Model_Author extends Tx_TerFe2_Domain_Model_AbstractEntit
     /**
      * Getter for versions
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version> versions
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Version> versions
      */
     public function getVersions()
     {
@@ -246,7 +246,7 @@ class Tx_TerFe2_Domain_Model_Author extends Tx_TerFe2_Domain_Model_AbstractEntit
     /**
      * Getter for frontendUser
      *
-     * @return Tx_Extbase_Domain_Model_FrontendUser
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function getFrontendUser()
     {
@@ -256,7 +256,7 @@ class Tx_TerFe2_Domain_Model_Author extends Tx_TerFe2_Domain_Model_AbstractEntit
     /**
      * Setter for frontendUser
      *
-     * @param Tx_Extbase_Domain_Model_FrontendUser $frontendUser
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $frontendUser
      */
     public function setFrontendUser($frontendUser)
     {

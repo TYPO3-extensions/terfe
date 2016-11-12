@@ -48,11 +48,11 @@ class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Rep
     /**
      * Build basis constraint
      *
-     * @param Tx_Extbase_Persistence_QueryInterface $query
-     * @param Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint
-     * @return Tx_Extbase_Persistence_QueryInterface
+     * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query
+     * @param \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $constraint
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryInterface
      */
-    protected function match(Tx_Extbase_Persistence_QueryInterface $query, Tx_Extbase_Persistence_QOM_ConstraintInterface $constraint)
+    protected function match(\TYPO3\CMS\Extbase\Persistence\QueryInterface $query, \TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface $constraint)
     {
         if ($this->showInsecure) {
             $query->matching($constraint);
@@ -72,7 +72,7 @@ class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Rep
      *
      * @param integer $offset Offset to start with
      * @param integer $count Extension count to load
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findForMediaCreation($offset = 0, $count = 0)
     {
@@ -117,11 +117,11 @@ class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Rep
      * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
      * @param integer $count Count of versions to return
      * @param boolean $skipLatest Skip latest version
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function getVersionHistory($extension, $count = 0, $skipLatest = TRUE)
     {
-        $ordering = array('versionNumber' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
+        $ordering = array('versionNumber' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING);
         $query = $this->createQuery(0, $count, $ordering);
         $query->getQuerySettings()->setRespectStoragePage(FALSE);
         $query->getQuerySettings()->setRespectSysLanguage(FALSE);
@@ -148,11 +148,11 @@ class Tx_TerFe2_Domain_Repository_VersionRepository extends Tx_TerFe2_Domain_Rep
      *
      * @param Tx_TerFe2_Domain_Model_Extension $extension The extension object
      * @param integer $versionNumber Version number
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     public function findAllBelowVersion($extension, $versionNumber)
     {
-        $ordering = array('uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
+        $ordering = array('uploadDate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING);
         $query = $this->createQuery(0, $count, $ordering);
         $query->getQuerySettings()->setRespectStoragePage(FALSE);
         $query->getQuerySettings()->setRespectSysLanguage(FALSE);

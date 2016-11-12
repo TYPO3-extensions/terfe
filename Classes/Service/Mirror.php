@@ -26,7 +26,7 @@
 /**
  * Service to handle mirrors
  */
-class Tx_TerFe2_Service_Mirror implements t3lib_Singleton
+class Tx_TerFe2_Service_Mirror implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**
@@ -156,9 +156,9 @@ class Tx_TerFe2_Service_Mirror implements t3lib_Singleton
             }
 
             // Get mirrors from repository object
-            $repository = t3lib_div::makeInstance('tx_em_Repository', $emSettings['selectedRepository']);
+            $repository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_em_Repository', $emSettings['selectedRepository']);
             if ($repository->getMirrorListUrl()) {
-                $repositoryUtility = t3lib_div::makeInstance('tx_em_Repository_Utility', $repository);
+                $repositoryUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_em_Repository_Utility', $repository);
                 $mirrors = $repositoryUtility->getMirrors(TRUE)->getMirrors();
                 unset($repositoryUtility);
                 if (!is_array($mirrors)) {
@@ -220,9 +220,9 @@ class Tx_TerFe2_Service_Mirror implements t3lib_Singleton
 
         if (Tx_TerFe2_Utility_File::isLocalUrl($url)) {
             $url = Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($url);
-            $content = t3lib_div::getURL($url);
+            $content = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($url);
         } else {
-            $content = t3lib_div::getURL($url, 0, array(TYPO3_user_agent));
+            $content = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($url, 0, array(TYPO3_user_agent));
         }
 
         if (empty($content)) {

@@ -48,7 +48,7 @@ class Tx_TerFe2_Provider_FileProvider extends Tx_TerFe2_Provider_AbstractProvide
     public function initializeProvider()
     {
         // Check if extension manager is loaded
-        if (!t3lib_extMgm::isLoaded('em')) {
+        if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('em')) {
             throw new Exception('Required system extension "em" is not loaded');
         }
 
@@ -194,7 +194,7 @@ class Tx_TerFe2_Provider_FileProvider extends Tx_TerFe2_Provider_AbstractProvide
         // Fetch file from extension root path
         $filename = $this->generateFileName($extension, $version, 't3x');
         $filename = $this->extensionRootPath . $filename;
-        $content = t3lib_div::getURL($filename);
+        $content = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($filename);
         $filesize = strlen($content);
         if (empty($content)) {
             Tx_TerFe2_Utility_Log::addMessage('File "' . $filename . '" could not be fetched', 'ter_fe2', 2);

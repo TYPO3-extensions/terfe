@@ -20,7 +20,7 @@ class Tx_TerFe2_Controller_Eid_ExtensionController
 {
 
     /**
-     * @var t3lib_DB
+     * @var \TYPO3\CMS\Core\Database\DatabaseConnection
      */
     protected $databaseConnection;
 
@@ -91,4 +91,4 @@ class Tx_TerFe2_Controller_Eid_ExtensionController
 }
 
 $controller = new Tx_TerFe2_Controller_Eid_ExtensionController();
-$controller->dispatch(t3lib_div::_GET('action'));
+$controller->dispatch(\TYPO3\CMS\Core\Utility\GeneralUtility::_GET('action'));

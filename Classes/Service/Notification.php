@@ -26,7 +26,7 @@
 /**
  * Service for notification
  */
-class Tx_TerFe2_Service_Notification implements t3lib_Singleton
+class Tx_TerFe2_Service_Notification implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**
@@ -36,9 +36,9 @@ class Tx_TerFe2_Service_Notification implements t3lib_Singleton
      */
     public function notifySolrIndexQueue($extensionUid)
     {
-        if (t3lib_extMgm::isLoaded('solr')) {
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('solr')) {
             /** @var tx_solr_indexqueue_Queue $indexQueue */
-            $indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
+            $indexQueue = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_solr_indexqueue_Queue');
             $indexQueue->updateItem('tx_terfe2_domain_model_extension', $extensionUid);
         }
     }

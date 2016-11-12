@@ -173,8 +173,8 @@ class Tx_TerFe2_Test_Task_CheckForOutdatedExtensionsTest extends tx_phpunit_test
     protected function buildRelation($minVersion, $maxVersion)
     {
         $relation = new Tx_TerFe2_Domain_Model_Relation();
-        $relation->setMinimumVersion(t3lib_utility_VersionNumber::convertVersionNumberToInteger($minVersion));
-        $relation->setMaximumVersion(t3lib_utility_VersionNumber::convertVersionNumberToInteger($maxVersion));
+        $relation->setMinimumVersion(\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($minVersion));
+        $relation->setMaximumVersion(\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($maxVersion));
 
         return $relation;
     }

@@ -26,7 +26,7 @@
 /**
  * Extension icon view helper
  */
-class Tx_TerFe2_ViewHelpers_ExtensionIconViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper
+class Tx_TerFe2_ViewHelpers_ExtensionIconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
 {
 
     /**
@@ -88,7 +88,7 @@ class Tx_TerFe2_ViewHelpers_ExtensionIconViewHelper extends Tx_Fluid_Core_ViewHe
         }
 
         if (empty($imageUrl) || !file_exists(Tx_TerFe2_Utility_File::getAbsolutePathFromUrl($imageUrl))) {
-            $imageUrl = t3lib_div::locationHeaderUrl('typo3/clear.gif');
+            $imageUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl('typo3/clear.gif');
         }
 
         $this->tag->addAttribute('src', $imageUrl);

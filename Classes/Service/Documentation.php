@@ -29,7 +29,7 @@
  * @package TerFe2
  * @author Thomas Löffler <thomas.loeffler@typo3.org>
  */
-class Tx_TerFe2_Service_Documentation implements t3lib_Singleton
+class Tx_TerFe2_Service_Documentation implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**
@@ -85,7 +85,7 @@ class Tx_TerFe2_Service_Documentation implements t3lib_Singleton
             // link to extension to get the latest manual
             $url = $this->baseUrl . $extensionKey . '/';
             // check if link is not broken
-            if (strpos(t3lib_div::getURL($url, 2), 'HTTP/1.1 200 OK') !== FALSE) {
+            if (strpos(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL($url, 2), 'HTTP/1.1 200 OK') !== FALSE) {
                 $documentationLink = '<a href="' . $url . '">Extension Manual</a>';
             }
         }

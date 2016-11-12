@@ -26,7 +26,7 @@
 /**
  * Abstract controller
  */
-abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Controller_ActionController
+abstract class Tx_TerFe2_Controller_AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
     /**
@@ -78,7 +78,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Co
     protected function translate($label, array $arguments = array())
     {
         $extensionKey = $this->request->getControllerExtensionKey();
-        return Tx_Extbase_Utility_Localization::translate($label, $extensionKey, $arguments);
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($label, $extensionKey, $arguments);
     }
 
 
@@ -94,7 +94,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Co
      * @param array $arguments Arguments to pass to the target action
      * @return void
      */
-    protected function redirectWithMessage($message, $action, $title = '', $severity = t3lib_FlashMessage::OK,
+    protected function redirectWithMessage($message, $action, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK,
                                            $controller = NULL, $extension = NULL, array $arguments = NULL)
     {
         $this->flashMessageContainer->add($message, $title, $severity);
@@ -133,7 +133,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Co
      */
     protected function redirectWithError($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL)
     {
-        $this->flashMessageContainer->add($message, '', t3lib_FlashMessage::ERROR);
+        $this->flashMessageContainer->add($message, '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
         $this->clearPageCache($GLOBALS['TSFE']->id);
         $this->redirect($action, $controller, $extension, $arguments);
     }
@@ -151,7 +151,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Co
      */
     protected function forwardWithError($message, $action, $controller = NULL, $extension = NULL, array $arguments = NULL)
     {
-        $this->flashMessageContainer->add($message, '', t3lib_FlashMessage::ERROR);
+        $this->flashMessageContainer->add($message, '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
         $this->clearPageCache($GLOBALS['TSFE']->id);
         $this->forward($action, $controller, $extension, $arguments);
     }
@@ -166,8 +166,8 @@ abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Co
     protected function clearPageCache($pages)
     {
         if (!empty($pages)) {
-            $pages = t3lib_div::intExplode(',', $pages, TRUE);
-            Tx_Extbase_Utility_Cache::clearPageCache($pages);
+            $pages = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pages, TRUE);
+            $this->cacheService->clearPageCache([$pages]);
         }
     }
 
@@ -182,7 +182,7 @@ abstract class Tx_TerFe2_Controller_AbstractController extends Tx_Extbase_MVC_Co
      */
     protected function addBaseUriIfNecessary($uri)
     {
-        return t3lib_div::locationHeaderUrl($uri);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl($uri);
     }
 
 }

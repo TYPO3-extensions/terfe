@@ -73,7 +73,7 @@ class Tx_TerFe2_Utility_File
         }
 
         if ($create && !self::fileExists(PATH_site . $path)) {
-            t3lib_div::mkdir_deep(PATH_site, $path);
+            \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir_deep(PATH_site, $path);
         }
 
         return PATH_site . rtrim($path, '/') . '/';
@@ -116,7 +116,7 @@ class Tx_TerFe2_Utility_File
         }
 
         // Get md5 from external file
-        $contents = t3lib_div::getURL($filename);
+        $contents = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($filename);
         if (!empty($contents)) {
             return md5($contents);
         }
@@ -223,7 +223,7 @@ class Tx_TerFe2_Utility_File
      */
     public static function getFiles($directory, $fileType = '', $timestamp = 0, $recursive = FALSE)
     {
-        $directory = t3lib_div::getFileAbsFileName($directory);
+        $directory = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($directory);
         if (!self::fileExists($directory)) {
             return array();
         }
@@ -296,7 +296,7 @@ class Tx_TerFe2_Utility_File
         }
 
         // Get file content
-        $fromFile = t3lib_div::getURL($fromFileName);
+        $fromFile = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($fromFileName);
         if ($fromFile === FALSE) {
             return FALSE;
         }
@@ -307,7 +307,7 @@ class Tx_TerFe2_Utility_File
         }
 
         // Copy file to new name
-        $result = t3lib_div::writeFile($toFileName, $fromFile);
+        $result = \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile($toFileName, $fromFile);
 
         return ($result !== FALSE);
     }
@@ -403,9 +403,9 @@ class Tx_TerFe2_Utility_File
      */
     static public function moveUploadedFile($tempname, $filename, $directory = 'uploads/')
     {
-        $basicFileFunctions = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+        $basicFileFunctions = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Utility\File\BasicFileUtility::class);
         $newFilename = $basicFileFunctions->getUniqueName($filename, self::getAbsoluteDirectory($directory));
-        if (t3lib_div::upload_copy_move($tempname, $newFilename)) {
+        if (\TYPO3\CMS\Core\Utility\GeneralUtility::upload_copy_move($tempname, $newFilename)) {
             return basename($newFilename);
         }
 
@@ -437,7 +437,7 @@ class Tx_TerFe2_Utility_File
      */
     public static function removeDirectory($directory, $removeNonEmpty = TRUE)
     {
-        return t3lib_div::rmdir($directory, (bool)$removeNonEmpty);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::rmdir($directory, (bool)$removeNonEmpty);
     }
 
 
@@ -449,7 +449,7 @@ class Tx_TerFe2_Utility_File
      */
     public static function isLocalUrl($url)
     {
-        return t3lib_div::isOnCurrentHost($url);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::isOnCurrentHost($url);
     }
 
 
@@ -476,7 +476,7 @@ class Tx_TerFe2_Utility_File
         if (isset($GLOBALS['TSFE']->baseUrl) && $GLOBALS['TSFE']->baseUrl != "") {
             return PATH_site . str_ireplace($GLOBALS['TSFE']->baseUrl, '', $url);
         }
-        $hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
+        $hostUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
         return PATH_site . str_ireplace($hostUrl, '', $url);
     }
 
@@ -492,7 +492,7 @@ class Tx_TerFe2_Utility_File
         if (isset($GLOBALS['TSFE']->baseUrl) && $GLOBALS['TSFE']->baseUrl != "") {
             return PATH_site . str_ireplace($GLOBALS['TSFE']->baseUrl, '', $url);
         }
-        $hostUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
+        $hostUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . '/';
 
         return $hostUrl . str_replace(PATH_site, '', $path);
     }
@@ -520,7 +520,7 @@ class Tx_TerFe2_Utility_File
      */
     public static function createExtEmconfFile($extKey, array $emConfArray)
     {
-        if (!t3lib_extMgm::isLoaded('em')) {
+        if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('em')) {
             throw new Exception('System extension "em" is required to generate ext_emconf.php');
         }
 
@@ -552,7 +552,7 @@ $EM_CONF[$_EXTKEY] = ' . tx_em_Tools::arrayToCode($emConfArray, 0) . ';
      */
     public static function getFileInfo($field)
     {
-        $arrayKeys = t3lib_div::trimExplode('.', $field, TRUE);
+        $arrayKeys = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('.', $field, TRUE);
 
         // No information found
         if (empty($_FILES[$arrayKeys[0]]['tmp_name'])) {

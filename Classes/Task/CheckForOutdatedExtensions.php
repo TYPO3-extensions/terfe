@@ -31,7 +31,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task
 {
 
     /**
-     * @var Tx_Extbase_Persistence_Manager
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      */
     protected $persistenceManager;
 
@@ -46,17 +46,12 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task
     protected $coreVersions;
 
     /**
-     * @var Tx_Extbase_Object_ObjectManager
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected $objectManager;
 
     /**
-     * @var Tx_Extbase_Persistence_IdentityMap
-     */
-    protected $identityMap;
-
-    /**
-     * @var Tx_Extbase_Persistence_Session
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\Session
      */
     protected $session;
 
@@ -82,12 +77,11 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task
      */
     public function initializeTask()
     {
-        $this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
-        $this->identityMap = $this->objectManager->get('Tx_Extbase_Persistence_IdentityMap');
-        $this->session = $this->objectManager->get('Tx_Extbase_Persistence_Session');
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
+        $this->session = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\Session::class);
         $this->versionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_VersionRepository');
-        $this->coreVersions = json_decode(t3lib_div::getURL(PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentcoredata.json'), TRUE);
+        $this->coreVersions = json_decode(\TYPO3\CMS\Core\Utility\GeneralUtility::getURL(PATH_site . $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] . 'currentcoredata.json'), TRUE);
         $this->solrIndexQueue = $this->objectManager->get('tx_solr_indexqueue_Queue');
     }
 
@@ -223,7 +217,7 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task
             foreach ($this->supportedCoreVersions['all'] as $version) {
                 $version = (string)$version;
                 // gets core version x.x.0
-                $supportedMinimumVersion = t3lib_utility_VersionNumber::convertVersionNumberToInteger($version . '.0');
+                $supportedMinimumVersion = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($version . '.0');
                 $extensionMinimumVersionAsString = Tx_TerFe2_Utility_Version::versionFromInteger($extensionMinimumVersion);
 
                 /*
@@ -303,20 +297,10 @@ class Tx_TerFe2_Task_CheckForOutdatedExtensions extends tx_scheduler_Task
      */
     public function cleanupMemory($version)
     {
-        if ($this->identityMap->hasObject($version)) {
-            $this->identityMap->unregisterObject($version);
-        }
         $this->session->unregisterReconstitutedObject($version);
         foreach ($version->getSoftwareRelations() as $relation) {
             /** @var $relation Tx_TerFe2_Domain_Model_Relation */
-            if ($this->identityMap->hasObject($relation)) {
-                $this->identityMap->unregisterObject($relation);
-            }
             $this->session->unregisterReconstitutedObject($relation);
-        }
-        if ($this->identityMap->hasObject($version->getExtension())) {
-            $this->identityMap->unregisterObject($version->getExtension());
-            $this->session->unregisterReconstitutedObject($version->getExtension());
         }
     }
 }

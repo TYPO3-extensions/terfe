@@ -186,7 +186,7 @@ abstract class Tx_TerFe2_Task_AbstractAdditionalFieldProvider implements tx_sche
         foreach ($options as $key => $option) {
             $selected = ($key === $defaultValue ? ' selected="selected"' : '');
             if ($key !== $option) {
-                $option = Tx_Extbase_Utility_Localization::translate($option, '');
+                $option = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($option, '');
             }
             $html[] = '<option value="' . htmlspecialchars($key) . '"' . $selected . '>' . htmlspecialchars($option) . '</option>';
         }
@@ -231,7 +231,7 @@ abstract class Tx_TerFe2_Task_AbstractAdditionalFieldProvider implements tx_sche
             $defaultValue = $this->values[$fieldName];
         }
 
-        $icon = t3lib_iconWorks::getSpriteIcon(
+        $icon = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon(
             'actions-edit-pick-date',
             array(
                 'style' => 'cursor:pointer;',

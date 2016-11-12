@@ -50,7 +50,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
     protected $objectBuilder;
 
     /**
-     * @var Tx_Extbase_Persistence_Manager
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      */
     protected $persistenceManager;
 
@@ -65,7 +65,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
     protected $authorRepository;
 
     /**
-     * @var Tx_Extbase_Domain_Repository_FrontendUserRepository
+     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
      */
     protected $ownerRepository;
 
@@ -79,10 +79,10 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
     {
         $this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
         $this->objectBuilder = $this->objectManager->get('Tx_TerFe2_Object_ObjectBuilder');
-        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        $this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
         $this->extensionRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_ExtensionRepository');
         $this->authorRepository = $this->objectManager->get('Tx_TerFe2_Domain_Repository_AuthorRepository');
-        $this->ownerRepository = $this->objectManager->get('Tx_Extbase_Domain_Repository_FrontendUserRepository');
+        $this->ownerRepository = $this->objectManager->get(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository::class);
 
         // Set registry name to current provider name
         $this->registry->setName(get_class($this) . '_' . $this->providerName);
@@ -213,8 +213,8 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
             $this->persistenceManager->persistAll();
 
             // update the EXT:solr Index Queue
-            if (t3lib_extMgm::isLoaded('solr')) {
-                $indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
+            if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('solr')) {
+                $indexQueue = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_solr_indexqueue_Queue');
                 $indexQueue->updateItem('tx_terfe2_domain_model_extension', $extension->getUid());
             }
         }
@@ -229,7 +229,7 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
     protected function storagePageConfigured()
     {
         $setup = Tx_TerFe2_Utility_TypoScript::getSetup('config.tx_extbase.persistence');
-        $setup = Tx_Extbase_Utility_Arrays::arrayMergeRecursiveOverrule($setup, $this->setup['persistence.'], FALSE, FALSE);
+        $setup = \TYPO3\CMS\Extbase\Utility\ArrayUtility::arrayMergeRecursiveOverrule($setup, $this->setup['persistence.'], FALSE, FALSE);
         if (!empty($setup['storagePid'])) {
             return TRUE;
         }
@@ -251,11 +251,11 @@ class Tx_TerFe2_Task_UpdateExtensionListTask extends Tx_TerFe2_Task_AbstractTask
         $title = ucfirst($this->providerName);
         if (!empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$this->providerName]['title'])) {
             $title = $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ter_fe2']['extensionProviders'][$this->providerName]['title'];
-            $title = Tx_Extbase_Utility_Localization::translate($title, '');
+            $title = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($title, '');
         }
 
         // Load registry
-        $objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
         $registry = $objectManager->get('Tx_TerFe2_Persistence_Registry');
         $registry->setName(get_class($this) . '_' . $this->providerName);
 

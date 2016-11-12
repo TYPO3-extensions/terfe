@@ -26,7 +26,7 @@
 /**
  * Format view helper
  */
-class Tx_TerFe2_ViewHelpers_FormatViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
+class Tx_TerFe2_ViewHelpers_FormatViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**

@@ -26,7 +26,7 @@
 /**
  * Cache for extension files
  */
-class Tx_TerFe2_Cache_FileCache implements t3lib_Singleton
+class Tx_TerFe2_Cache_FileCache implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**

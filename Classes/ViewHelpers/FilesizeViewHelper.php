@@ -26,7 +26,7 @@
 /**
  * Filesize view helper
  */
-class Tx_TerFe2_ViewHelpers_FilesizeViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
+class Tx_TerFe2_ViewHelpers_FilesizeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
@@ -48,7 +48,7 @@ class Tx_TerFe2_ViewHelpers_FilesizeViewHelper extends Tx_Fluid_Core_ViewHelper_
         }
 
         $filesize = (int)$filesize;
-        return t3lib_div::formatSize($filesize, 'B|kB|MB|GB');
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($filesize, 'B|kB|MB|GB');
     }
 
 }

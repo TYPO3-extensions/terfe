@@ -137,7 +137,7 @@ class Tx_TerFe2_Provider_MirrorProvider extends Tx_TerFe2_Provider_FileProvider
         // Write file to local cache
         if (!empty($this->fileCachePath)) {
             $localName = $this->fileCachePath . basename($filename);
-            t3lib_div::writeFile($localName, $content);
+            \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile($localName, $content);
         }
 
         // Get EM_CONF array

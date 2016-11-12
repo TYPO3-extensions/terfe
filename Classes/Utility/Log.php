@@ -45,7 +45,7 @@ class Tx_TerFe2_Utility_Log
         }
 
         $method = self::getCallingMethod();
-        t3lib_div::devLog($message . ' [' . $method . ']', $extensionKey, $severity);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::devLog($message . ' [' . $method . ']', $extensionKey, $severity);
     }
 
 
@@ -65,7 +65,7 @@ class Tx_TerFe2_Utility_Log
         }
 
         $method = self::getCallingMethod();
-        t3lib_div::sysLog($message . ' [' . $method . ']', $extensionKey, $severity);
+        \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog($message . ' [' . $method . ']', $extensionKey, $severity);
     }
 
 

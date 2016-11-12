@@ -59,18 +59,19 @@ class Tx_TerFe2_Task_CheckForExpiredExtensions extends tx_scheduler_Task
                 'uid, username, email',
                 'fe_users',
                 'username = ' . $this->getDatabaseConnection()->fullQuoteStr($username, 'fe_users')
-                . t3lib_BEfunc::BEenableFields('fe_users') . t3lib_BEfunc::deleteClause('fe_users')
+                . \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields('fe_users')
+                . \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('fe_users')
             );
-            if (!empty($frontendUser) && t3lib_div::validEmail($frontendUser['email'])) {
+            if (!empty($frontendUser) && \TYPO3\CMS\Core\Utility\GeneralUtility::validEmail($frontendUser['email'])) {
                 $to = $frontendUser['email'];
                 $subject = 'Your extension keys are going to expire!';
                 /** @var Tx_Fluid_View_StandaloneView $body */
-                $body = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
-                $body->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName('EXT:ter_fe2/Resources/Private/Templates/Mail/ExpiredExtensions.html'));
+                $body = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Fluid_View_StandaloneView');
+                $body->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:ter_fe2/Resources/Private/Templates/Mail/ExpiredExtensions.html'));
                 $body->assign('extensions', $extensions);
                 $body->assign('user', $frontendUser);
-                /** @var t3lib_mail_Message $mail */
-                $mail = t3lib_div::makeInstance('t3lib_mail_Message');
+                /** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
+                $mail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
                 $mail->addFrom('maintenance@typo3.org');
                 $mail->setTo($to);
                 $mail->setSubject($subject);
@@ -135,7 +136,7 @@ class Tx_TerFe2_Task_CheckForExpiredExtensions extends tx_scheduler_Task
     }
 
     /**
-     * @return t3lib_DB
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
      */
     protected function getDatabaseConnection()
     {

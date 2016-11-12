@@ -65,7 +65,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
     protected $session;
 
     /**
-     * @var Tx_Extbase_Persistence_Manager
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      */
     protected $persistenceManager;
 
@@ -94,7 +94,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
         $this->ownerRepository = $this->objectManager->get('Tx_T3oAjaxlogin_Domain_Repository_UserRepository');
         $this->providerManager = $this->objectManager->get('Tx_TerFe2_Provider_ProviderManager');
         $this->session = $this->objectManager->get('Tx_TerFe2_Persistence_Session');
-        $this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        $this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
 
         // Show insecure extensions only for reviewers
         $this->extensionRepository->setShowInsecure($this->securityRole->isReviewer());
@@ -224,7 +224,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
             $this->view->assign('loggedInUser', $loggedInUser);
 
             /** @var Tx_TerFe2_Service_Documentation $documentationService */
-            $documentationService = t3lib_div::makeInstance('Tx_TerFe2_Service_Documentation');
+            $documentationService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_TerFe2_Service_Documentation');
             $documentationLink = $documentationService->getDocumentationLink($extension->getExtKey(), $extension->getLastVersion()->getVersionString());
             $this->view->assign('documentationLink', $documentationLink);
 
@@ -236,7 +236,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
             // gets all other extensions from the owner
             $this->extensionRepository->setDefaultOrderings(
                 array(
-                    'lastVersion.uploadDate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+                    'lastVersion.uploadDate' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
                 )
             );
             $otherExtensionsByUser = $this->extensionRepository->findAllOtherFromFrontendUser($extension, $extension->getFrontendUser());
@@ -249,7 +249,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
                 // adds username
                 $url .= '&user_id=' . urlencode($extension->getFlattrUsername());
                 // adds current url
-                /** @var Tx_Extbase_MVC_Web_Routing_UriBuilder $uriBuilder */
+                /** @var \TYPO3\CMS\Backend\Routing\UriBuilder $uriBuilder */
                 $uriBuilder = $this->controllerContext->getUriBuilder();
                 $uriBuilder->setArguments(
                     array(
@@ -351,7 +351,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
         }
         if (!empty($tag)) {
             $tags = array();
-            $intermediateTags = t3lib_div::trimExplode(' ', $tag, TRUE);
+            $intermediateTags = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(' ', $tag, TRUE);
             foreach ($intermediateTags as $tag) {
                 $tag = trim($tag, ',');
                 if (!empty($tag)) {
@@ -382,7 +382,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
                 $this->translate('msg.extension_updated'),
                 'edit',
                 '',
-                t3lib_FlashMessage::OK,
+                \TYPO3\CMS\Core\Messaging\FlashMessage::OK,
                 'Extension',
                 NULL,
                 array('extension' => $extension)
@@ -392,7 +392,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
                 $this->translate('msg.extension_updated'),
                 'index',
                 '',
-                t3lib_FlashMessage::OK,
+                \TYPO3\CMS\Core\Messaging\FlashMessage::OK,
                 'Registerkey'
             );
         }
@@ -413,7 +413,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
             'Tag "' . htmlspecialchars($tag->getTitle()) . '" was removed',
             'edit',
             '',
-            t3lib_FlashMessage::OK,
+            \TYPO3\CMS\Core\Messaging\FlashMessage::OK,
             'Extension',
             NULL,
             array('extension' => $extension)
@@ -453,7 +453,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
 
         $version = $this->versionRepository->findOneByExtensionAndVersionString($extension, $versionString);
         if (!$version) {
-            $this->redirectWithMessage($this->translate('msg.version_not_found'), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
+            $this->redirectWithMessage($this->translate('msg.version_not_found'), 'show', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
         }
 
         // Get file path
@@ -481,14 +481,14 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
 
         // Check if file exists
         if (empty($fileUrl) || !Tx_TerFe2_Utility_File::fileExists($fileUrl)) {
-            $this->redirectWithMessage($this->translate('msg.file_not_found') . ': ' . basename($fileUrl), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
+            $this->redirectWithMessage($this->translate('msg.file_not_found') . ': ' . basename($fileUrl), 'show', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
         }
 
         // Check file hash of t3x packages
         if ($format === 't3x') {
             $fileHash = Tx_TerFe2_Utility_File::getFileHash($fileUrl);
             if ($fileHash != $version->getFileHash()) {
-                $this->redirectWithMessage($this->translate('msg.file_hash_not_equal'), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
+                $this->redirectWithMessage($this->translate('msg.file_hash_not_equal'), 'show', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
             }
         }
 
@@ -509,7 +509,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
 
         // Send file to browser
         if (!Tx_TerFe2_Utility_File::transferFile($fileUrl)) {
-            $this->redirectWithMessage($this->translate('msg.could_not_transfer_file'), 'show', '', t3lib_FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
+            $this->redirectWithMessage($this->translate('msg.could_not_transfer_file'), 'show', '', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, NULL, NULL, array('extension' => $extension));
         }
 
         // Fallback
@@ -528,7 +528,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
      */
     public function uploadVersionAction(Tx_TerFe2_Domain_Model_Extension $extension, array $form = array())
     {
-        if (!t3lib_extMgm::isLoaded('ter')) {
+        if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ter')) {
             $this->flashMessageContainer->add($this->translate('msq.createVersionTerNotLoaded'));
         }
         $this->view->assign('extension', $extension);
@@ -563,7 +563,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
             $this->forwardWithError($this->translate('msg.acceptGPL'), 'uploadVersion');
         }
 
-        if (!t3lib_extMgm::isLoaded('ter')) {
+        if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ter')) {
             $this->forwardWithError($this->translate('msg.createVersionTerNotLoaded'), 'uploadVersion');
         }
         if (empty($this->frontendUser['username'])) {
@@ -619,7 +619,7 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
      *
      * @param array $options Options for extension list
      * @param array $restoreSearch Restore last search from session
-     * @return Tx_Extbase_Persistence_ObjectStorage Objects
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage Objects
      */
     protected function getExtensions(array &$options, $restoreSearch = FALSE)
     {
@@ -633,8 +633,8 @@ class Tx_TerFe2_Controller_ExtensionController extends Tx_TerFe2_Controller_Abst
         }
 
         // Direction
-        $desc = Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING;
-        $asc = Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING;
+        $desc = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING;
+        $asc = \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING;
         $direction = $desc;
         if (!empty($options['direction'])) {
             $direction = ($options['direction'] === 'asc' ? $asc : $desc);

@@ -26,11 +26,11 @@
 /**
  * Service to handle security roles
  */
-class Tx_TerFe2_Security_Role implements t3lib_Singleton
+class Tx_TerFe2_Security_Role implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**
-     * @var Tx_Extbase_Configuration_ConfigurationManager
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
      */
     protected $configurationManager;
 
@@ -40,13 +40,13 @@ class Tx_TerFe2_Security_Role implements t3lib_Singleton
     protected $settings;
 
     /**
-     * @param Tx_Extbase_Configuration_ConfigurationManager $configurationManager
+     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManager $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManager $configurationManager)
+    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManager $configurationManager)
     {
         $this->configurationManager = $configurationManager;
-        $this->settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+        $this->settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
     }
 
     /**
@@ -86,7 +86,7 @@ class Tx_TerFe2_Security_Role implements t3lib_Singleton
         if (empty($role) || !isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE']->loginUser) {
             return FALSE;
         }
-        if (t3lib_div::testInt($role)) {
+        if (\TYPO3\CMS\Core\Utility\GeneralUtility::testInt($role)) {
             return (is_array($GLOBALS['TSFE']->fe_user->groupData['uid']) && in_array($role, $GLOBALS['TSFE']->fe_user->groupData['uid']));
         } else {
             return (is_array($GLOBALS['TSFE']->fe_user->groupData['title']) && in_array($role, $GLOBALS['TSFE']->fe_user->groupData['title']));

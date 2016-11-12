@@ -51,19 +51,19 @@ class Tx_TerFe2_Domain_Model_Extension extends Tx_TerFe2_Domain_Model_AbstractEn
 
     /**
      * Categories
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Category>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Category>
      */
     protected $categories;
 
     /**
      * Tags
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Tag>
      */
     protected $tags;
 
     /**
      * Versions
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Version>
      * @lazy
      */
     protected $versions;
@@ -142,13 +142,13 @@ class Tx_TerFe2_Domain_Model_Extension extends Tx_TerFe2_Domain_Model_AbstractEn
 
 
     /**
-     * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
+     * Constructor. Initializes all ObjectStorage instances.
      */
     public function __construct()
     {
-        $this->categories = new Tx_Extbase_Persistence_ObjectStorage();
-        $this->tags = new Tx_Extbase_Persistence_ObjectStorage();
-        $this->versions = new Tx_Extbase_Persistence_ObjectStorage();
+        $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->tags = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->versions = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
 
@@ -266,7 +266,7 @@ class Tx_TerFe2_Domain_Model_Extension extends Tx_TerFe2_Domain_Model_AbstractEn
     /**
      * Getter for categories
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Category> Categories
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Category> Categories
      */
     public function getCategories()
     {
@@ -322,7 +322,7 @@ class Tx_TerFe2_Domain_Model_Extension extends Tx_TerFe2_Domain_Model_AbstractEn
     /**
      * Getter for tags
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Tag> Tags
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Tag> Tags
      */
     public function getTags()
     {
@@ -357,7 +357,7 @@ class Tx_TerFe2_Domain_Model_Extension extends Tx_TerFe2_Domain_Model_AbstractEn
     /**
      * Getter for versions
      *
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_TerFe2_Domain_Model_Version> Versions
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_TerFe2_Domain_Model_Version> Versions
      */
     public function getVersions()
     {

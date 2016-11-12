@@ -60,12 +60,12 @@ abstract class Tx_TerFe2_Task_AbstractTask extends tx_scheduler_Task
     protected $setup;
 
     /**
-     * @var Tx_Extbase_Configuration_ConfigurationManager
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
      */
     protected $configurationManager;
 
     /**
-     * @var Tx_Extbase_Object_ObjectManager
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected $objectManager;
 
@@ -83,11 +83,11 @@ abstract class Tx_TerFe2_Task_AbstractTask extends tx_scheduler_Task
     public function execute()
     {
         // Load object manager
-        $this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 
         // Configuration is required to be loaded in object manager for persistence mapping
         $this->setup = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2');
-        $this->configurationManager = $this->objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
+        $this->configurationManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Configuration\ConfigurationManager::class);
         $this->configurationManager->setConfiguration($this->setup);
 
         // Load registry
@@ -164,8 +164,10 @@ abstract class Tx_TerFe2_Task_AbstractTask extends tx_scheduler_Task
     protected function clearPageCache($pages)
     {
         if (!empty($pages)) {
-            $pages = t3lib_div::intExplode(',', $pages, TRUE);
-            Tx_Extbase_Utility_Cache::clearPageCache($pages);
+            $pages = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pages, TRUE);
+            /** @var \TYPO3\CMS\Extbase\Service\CacheService $cacheService */
+            $cacheService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\CacheService::class);
+            $cacheService->clearPageCache($pages);
         }
     }
 
@@ -178,7 +180,7 @@ abstract class Tx_TerFe2_Task_AbstractTask extends tx_scheduler_Task
     public function getAdditionalInformation()
     {
         // Load registry
-        $objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
         $registry = $objectManager->get('Tx_TerFe2_Persistence_Registry');
         $registry->setName(get_class($this));
 

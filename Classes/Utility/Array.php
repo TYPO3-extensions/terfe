@@ -55,12 +55,12 @@ class Tx_TerFe2_Utility_Array
                 continue;
             }
 
-            if ($value instanceof Tx_Extbase_Persistence_LazyLoadingProxy) {
+            if ($value instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy) {
                 // TODO: Implement a clean way to get attributes from concrete object
                 $value = '__lazy__';
             }
 
-            if ($value instanceof Tx_Extbase_Persistence_ObjectStorage) {
+            if ($value instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage) {
                 $valueArray = array();
                 foreach ($value as $storedObject) {
                     $valueArray[] = self::objectToArray($storedObject, $excludeEmpty);

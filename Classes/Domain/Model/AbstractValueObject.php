@@ -26,7 +26,7 @@
 /**
  * Abstract value object
  */
-class Tx_TerFe2_Domain_Model_AbstractValueObject extends Tx_Extbase_DomainObject_AbstractValueObject
+class Tx_TerFe2_Domain_Model_AbstractValueObject extends \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject
 {
 
     /**

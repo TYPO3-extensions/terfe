@@ -35,12 +35,12 @@ class Tx_TerFe2_Utility_TypoScript
     protected static $frontend;
 
     /**
-     * @var tslib_cObj
+     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected static $contentObject;
 
     /**
-     * @var Tx_Extbase_Configuration_ConfigurationManager
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
      */
     protected static $configurationManager;
 
@@ -53,8 +53,8 @@ class Tx_TerFe2_Utility_TypoScript
     protected static function initialize()
     {
         // Get configuration manager
-        $objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-        self::$configurationManager = $objectManager->get('Tx_Extbase_Configuration_ConfigurationManager');
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        self::$configurationManager = $objectManager->get(\TYPO3\CMS\Extbase\Configuration\ConfigurationManager::class);
 
         // Simulate Frontend
         if (TYPO3_MODE != 'FE') {
@@ -65,7 +65,7 @@ class Tx_TerFe2_Utility_TypoScript
         // Get content object
         self::$contentObject = self::$configurationManager->getContentObject();
         if (empty(self::$contentObject)) {
-            self::$contentObject = t3lib_div::makeInstance('tslib_cObj');
+            self::$contentObject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         }
     }
 
@@ -73,10 +73,10 @@ class Tx_TerFe2_Utility_TypoScript
     /**
      * Simulate a frontend environment
      *
-     * @param tslib_cObj $cObj Instance of an content object
+     * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj Instance of an content object
      * @return void
      */
-    public static function simulateFrontend(tslib_cObj $cObj = NULL)
+    public static function simulateFrontend(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj = NULL)
     {
         // Make backup of current frontend
         self::$frontend = (!empty($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL);
@@ -84,24 +84,24 @@ class Tx_TerFe2_Utility_TypoScript
         // Create new frontend instance
         $GLOBALS['TSFE'] = new stdClass();
         $GLOBALS['TSFE']->cObjectDepthCounter = 100;
-        $GLOBALS['TSFE']->cObj = (!empty($cObj) ? $cObj : t3lib_div::makeInstance('tslib_cObj'));
+        $GLOBALS['TSFE']->cObj = (!empty($cObj) ? $cObj : \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class));
 
         if (empty($GLOBALS['TSFE']->sys_page)) {
-            $GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+            $GLOBALS['TSFE']->sys_page = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
         }
 
         if (empty($GLOBALS['TSFE']->tmpl)) {
-            $GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_TStemplate');
+            $GLOBALS['TSFE']->tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TemplateService::class);
             $GLOBALS['TSFE']->tmpl->getFileName_backPath = PATH_site;
             $GLOBALS['TSFE']->tmpl->init();
         }
 
         if (empty($GLOBALS['TT'])) {
-            $GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
+            $GLOBALS['TT'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\TimeTracker\NullTimeTracker::class);
         }
 
         if (empty($GLOBALS['TSFE']->config)) {
-            $GLOBALS['TSFE']->config = t3lib_div::removeDotsFromTS(self::getSetup());
+            $GLOBALS['TSFE']->config = \TYPO3\CMS\Core\Utility\GeneralUtility::removeDotsFromTS(self::getSetup());
         }
     }
 
@@ -134,7 +134,7 @@ class Tx_TerFe2_Utility_TypoScript
         }
 
         $setup = self::$configurationManager->getConfiguration(
-            Tx_Extbase_Configuration_ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+            \TYPO3\CMS\Extbase\Configuration\ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
         );
         if (empty($typoScriptPath)) {
             return $setup;
@@ -167,7 +167,9 @@ class Tx_TerFe2_Utility_TypoScript
 
         // Convert to classic TypoScript array
         if ($isPlain) {
-            $configuration = Tx_Extbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray($configuration);
+            /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
+            $typoScriptService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\TypoScriptService::class);
+            $configuration = $typoScriptService->convertPlainArrayToTypoScriptArray($configuration);
         }
 
         // Parse configuration

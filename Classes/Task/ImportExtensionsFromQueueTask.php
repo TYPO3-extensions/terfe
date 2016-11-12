@@ -44,7 +44,7 @@ class Tx_TerFe2_Task_ImportExtensionsFromQueueTask extends tx_scheduler_Task
 
         // finish task if no extensions in queue
         if (empty($extensionsFromQueue)) {
-            t3lib_div::sysLog('No new extensions in queue table', 'ter_fe2', 1);
+            \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog('No new extensions in queue table', 'ter_fe2', 1);
             return TRUE;
         }
 
@@ -53,15 +53,15 @@ class Tx_TerFe2_Task_ImportExtensionsFromQueueTask extends tx_scheduler_Task
             if (!$this->versionExists($extensionData)) {
                 $extUid = $this->extensionExists($extensionData);
                 $this->saveExtension($extUid, $extensionData, $ext['crdate']);
-                t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '", version ' . $extensionData['version'] . ' saved in ter_fe2', 'ter_fe2', 1);
+                \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog('Extension "' . $extensionData['extensionkey'] . '", version ' . $extensionData['version'] . ' saved in ter_fe2', 'ter_fe2', 1);
 
                 // update the EXT:solr Index Queue
-                if (t3lib_extMgm::isLoaded('solr')) {
-                    $indexQueue = t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
+                if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('solr')) {
+                    $indexQueue = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_solr_indexqueue_Queue');
                     $indexQueue->updateItem('tx_terfe2_domain_model_extension', $extUid);
                 }
             }
-            t3lib_div::sysLog('Extension "' . $extensionData['extensionkey'] . '" still exists with version ' . $extensionData['version'] . ' in ter_fe2', 'ter_fe2', 1);
+            \TYPO3\CMS\Core\Utility\GeneralUtility::sysLog('Extension "' . $extensionData['extensionkey'] . '" still exists with version ' . $extensionData['version'] . ' in ter_fe2', 'ter_fe2', 1);
             $this->removeExtensionFromQueue($ext['extensionuid']);
         }
 
@@ -214,7 +214,7 @@ class Tx_TerFe2_Task_ImportExtensionsFromQueueTask extends tx_scheduler_Task
             'title' => $extData['title'],
             'description' => $extData['description'],
             'author' => $this->createAuthor($extData),
-            'version_number' => t3lib_div::int_from_ver($extData['version']),
+            'version_number' => \TYPO3\CMS\Core\Utility\GeneralUtility::int_from_ver($extData['version']),
             'version_string' => $extData['version'],
             'upload_date' => $crdate,
             'upload_comment' => $extData['uploadcomment'],
@@ -407,9 +407,9 @@ class Tx_TerFe2_Task_ImportExtensionsFromQueueTask extends tx_scheduler_Task
      */
     protected function getVersionByRange($version)
     {
-        $version = Tx_Extbase_Utility_Arrays::trimExplode('-', $version);
-        $minimum = (!empty($version[0]) ? t3lib_div::int_from_ver($version[0]) : 0);
-        $maximum = (!empty($version[1]) ? t3lib_div::int_from_ver($version[1]) : 0);
+        $version = \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode('-', $version);
+        $minimum = (!empty($version[0]) ? \TYPO3\CMS\Core\Utility\GeneralUtility::int_from_ver($version[0]) : 0);
+        $maximum = (!empty($version[1]) ? \TYPO3\CMS\Core\Utility\GeneralUtility::int_from_ver($version[1]) : 0);
 
         return array($minimum, $maximum);
     }

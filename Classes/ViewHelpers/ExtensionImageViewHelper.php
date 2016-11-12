@@ -26,7 +26,7 @@
 /**
  * Extension image view helper
  */
-class Tx_TerFe2_ViewHelpers_ExtensionImageViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper
+class Tx_TerFe2_ViewHelpers_ExtensionImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
 {
 
     /**
@@ -40,16 +40,16 @@ class Tx_TerFe2_ViewHelpers_ExtensionImageViewHelper extends Tx_Fluid_Core_ViewH
     protected $settings;
 
     /**
-     * @var tslib_cObj
+     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected $contentObject;
 
 
     /**
-     * @param Tx_Extbase_Configuration_ConfigurationManager $configurationManager
+     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManager $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManager $configurationManager)
+    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManager $configurationManager)
     {
         /*$this->settings = Tx_TerFe2_Utility_TypoScript::getSetup('plugin.tx_terfe2.settings');
         $this->settings = Tx_TerFe2_Utility_TypoScript::parse($this->settings);

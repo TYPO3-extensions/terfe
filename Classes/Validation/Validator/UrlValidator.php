@@ -32,7 +32,7 @@
  * @subpackage Validation\Validator
  * @version $Id$
  */
-class Tx_Terfe2_Validation_Validator_UrlValidator extends Tx_Extbase_Validation_Validator_AbstractValidator
+class Tx_Terfe2_Validation_Validator_UrlValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator
 {
 
     /**

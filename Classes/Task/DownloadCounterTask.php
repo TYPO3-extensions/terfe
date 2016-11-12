@@ -104,7 +104,7 @@ class Tx_TerFe2_Task_DownloadCounterTask extends tx_scheduler_Task
                     $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_terfe2_domain_model_extension', 'uid = ' . $ext['uid'], $updateExtension);
 
                     /** @var Tx_TerFe2_Service_Notification $notificationService */
-                    $notificationService = t3lib_div::makeInstance('Tx_TerFe2_Service_Notification');
+                    $notificationService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_TerFe2_Service_Notification');
                     // update the EXT:solr Index Queue
                     $notificationService->notifySolrIndexQueue($ext['uid']);
                 }

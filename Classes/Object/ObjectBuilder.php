@@ -26,11 +26,11 @@
 /**
  * Builder for domain objects
  */
-class Tx_TerFe2_Object_ObjectBuilder implements t3lib_Singleton
+class Tx_TerFe2_Object_ObjectBuilder implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**
-     * @var Tx_Extbase_Reflection_Service
+     * @var \TYPO3\CMS\Extbase\Reflection\ReflectionService
      */
     protected $reflectionService;
 
@@ -48,10 +48,10 @@ class Tx_TerFe2_Object_ObjectBuilder implements t3lib_Singleton
     /**
      * Injects the reflection service
      *
-     * @param Tx_Extbase_Reflection_Service $reflectionService
+     * @param \TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService
      * @return void
      */
-    public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService)
+    public function injectReflectionService(\TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService)
     {
         $this->reflectionService = $reflectionService;
     }
@@ -62,7 +62,7 @@ class Tx_TerFe2_Object_ObjectBuilder implements t3lib_Singleton
      *
      * @param string $className Name of the class
      * @param array $attributes Array of all class attributes
-     * @return Tx_Extbase_DomainObject_DomainObjectInterface Stored object
+     * @return \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface Stored object
      */
     public function create($className, array $attributes)
     {
@@ -90,16 +90,16 @@ class Tx_TerFe2_Object_ObjectBuilder implements t3lib_Singleton
     /**
      * Update an object with given attributes
      *
-     * @param Tx_Extbase_DomainObject_DomainObjectInterface $object The object
+     * @param \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface $object The object
      * @param array $attributes Array of all class attributes
-     * @return Tx_Extbase_DomainObject_DomainObjectInterface Stored object
+     * @return \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface Stored object
      */
-    public function update(Tx_Extbase_DomainObject_DomainObjectInterface $object, array $attributes)
+    public function update(\TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface $object, array $attributes)
     {
         $classSchema = $this->getClassSchema(get_class($object));
 
         foreach ($attributes as $key => $value) {
-            $propertyName = t3lib_div::underscoredToLowerCamelCase($key);
+            $propertyName = \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($key);
             $protertyInfo = $classSchema->getProperty($propertyName);
             if (empty($protertyInfo) || stripos($protertyInfo['type'], 'Tx_') === 0) {
                 continue;
@@ -119,7 +119,7 @@ class Tx_TerFe2_Object_ObjectBuilder implements t3lib_Singleton
      * Returns the schema of a class
      *
      * @param string $className Name of the class
-     * @return Tx_Extbase_Reflection_ClassSchema Class schema
+     * @return \TYPO3\CMS\Extbase\Reflection\ClassSchema Class schema
      */
     protected function getClassSchema($className)
     {

@@ -26,20 +26,20 @@
 /**
  * Service for gallery images
  */
-class Tx_TerFe2_Service_Image implements t3lib_Singleton
+class Tx_TerFe2_Service_Image implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**
-     * @var tslib_cObj
+     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected $contentObject;
 
 
     /**
-     * @param Tx_Extbase_Configuration_ConfigurationManager $configurationManager
+     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManager $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManager $configurationManager)
+    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManager $configurationManager)
     {
         $this->contentObject = $configurationManager->getContentObject();
     }

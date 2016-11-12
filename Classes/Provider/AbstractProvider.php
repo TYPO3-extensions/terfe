@@ -30,17 +30,17 @@ abstract class Tx_TerFe2_Provider_AbstractProvider implements Tx_TerFe2_Provider
 {
 
     /**
-     * @var Tx_Extbase_Object_ObjectManagerInterface
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @var Tx_Extbase_Persistence_Mapper_DataMapFactory
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapFactory
      */
     protected $dataMapFactory;
 
     /**
-     * @var Tx_Extbase_Reflection_Service
+     * @var \TYPO3\CMS\Extbase\Reflection\ReflectionService
      */
     protected $reflectionService;
 
@@ -66,31 +66,31 @@ abstract class Tx_TerFe2_Provider_AbstractProvider implements Tx_TerFe2_Provider
     }
 
 
-    /*
-     * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
      * @return void
      */
-    public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager)
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }
 
 
     /**
-     * @param Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory
+     * @param \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapFactory $dataMapFactory
      * @return void
      */
-    public function injectDataMapFactory(Tx_Extbase_Persistence_Mapper_DataMapFactory $dataMapFactory)
+    public function injectDataMapFactory(\TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapFactory $dataMapFactory)
     {
         $this->dataMapFactory = $dataMapFactory;
     }
 
 
     /**
-     * @param Tx_Extbase_Reflection_Service $reflectionService
+     * @param \TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService
      * @return void
      */
-    public function injectReflectionService(Tx_Extbase_Reflection_Service $reflectionService)
+    public function injectReflectionService(\TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService)
     {
         $this->reflectionService = $reflectionService;
     }
@@ -145,9 +145,9 @@ abstract class Tx_TerFe2_Provider_AbstractProvider implements Tx_TerFe2_Provider
      */
     protected function getVersionByRange($version)
     {
-        $version = Tx_Extbase_Utility_Arrays::trimExplode('-', $version);
-        $minimum = (!empty($version[0]) ? t3lib_div::int_from_ver($version[0]) : 0);
-        $maximum = (!empty($version[1]) ? t3lib_div::int_from_ver($version[1]) : 0);
+        $version = \TYPO3\CMS\Extbase\Utility\ArrayUtility::trimExplode('-', $version);
+        $minimum = (!empty($version[0]) ? \TYPO3\CMS\Core\Utility\GeneralUtility::int_from_ver($version[0]) : 0);
+        $maximum = (!empty($version[1]) ? \TYPO3\CMS\Core\Utility\GeneralUtility::int_from_ver($version[1]) : 0);
 
         return array($minimum, $maximum);
     }

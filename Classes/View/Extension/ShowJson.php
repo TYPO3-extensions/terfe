@@ -26,7 +26,7 @@
 /**
  * Json output view for the show action of extension controller
  */
-class Tx_TerFe2_View_Extension_ShowJson extends Tx_Extbase_MVC_View_AbstractView
+class Tx_TerFe2_View_Extension_ShowJson extends \TYPO3\CMS\Extbase\Mvc\View\AbstractView
 {
 
     /**

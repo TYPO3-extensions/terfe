@@ -28,7 +28,7 @@
  *
  * For documentation and examples visit http://www.jqplot.com
  */
-class Tx_TerFe2_ViewHelpers_ChartViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
+class Tx_TerFe2_ViewHelpers_ChartViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
     /**
@@ -75,7 +75,7 @@ class Tx_TerFe2_ViewHelpers_ChartViewHelper extends Tx_Fluid_Core_ViewHelper_Abs
         }
 
         // Check object type
-        if (!$object instanceof Tx_Extbase_DomainObject_DomainObjectInterface) {
+        if (!$object instanceof \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface) {
             throw new Exception('Charts can only be rendered for domain objects yet');
         }
 

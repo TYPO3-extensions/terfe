@@ -26,7 +26,7 @@
 /**
  * Service for flattr buttons
  */
-class Tx_TerFe2_Service_Flattr implements t3lib_Singleton
+class Tx_TerFe2_Service_Flattr implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**
@@ -45,7 +45,7 @@ class Tx_TerFe2_Service_Flattr implements t3lib_Singleton
      */
     public function checkForThing($url)
     {
-        $jsonResult = t3lib_div::getURL($this->flattrThingCheck . urlencode($url));
+        $jsonResult = \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($this->flattrThingCheck . urlencode($url));
         $result = json_decode($jsonResult);
         if ($result->type == 'thing' and $result->id != 0) {
             return $result;

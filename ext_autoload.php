@@ -1,5 +1,5 @@
 <?php
-$extensionClassesPath = t3lib_extMgm::extPath('ter_fe2', 'Classes/');
+$extensionClassesPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('ter_fe2', 'Classes/');
 
 return array(
 	'tx_terfe2_controller_abstractcontroller'                          => $extensionClassesPath . 'Controller/AbstractController.php',

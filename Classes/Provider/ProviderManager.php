@@ -26,11 +26,11 @@
 /**
  * Manager for extension providers
  */
-class Tx_TerFe2_Provider_ProviderManager implements t3lib_Singleton
+class Tx_TerFe2_Provider_ProviderManager implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**
-     * @var Tx_Extbase_Object_ObjectManagerInterface
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -40,11 +40,11 @@ class Tx_TerFe2_Provider_ProviderManager implements t3lib_Singleton
     protected $providers;
 
 
-    /*
-     * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
      * @return void
      */
-    public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager)
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }
